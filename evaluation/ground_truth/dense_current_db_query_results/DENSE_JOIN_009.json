@@ -1,0 +1,126 @@
+{
+  "id": "DENSE_JOIN_009",
+  "question_pt": "Qual e o total de internacoes por UF de residencia mapeada?",
+  "executed_at": "2026-07-08T23:09:06.952276+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.SG_UF, COUNT(*) AS internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D GROUP BY 1 ORDER BY internacoes DESC",
+  "duration_seconds": 0.127444,
+  "performance_class": "fast",
+  "row_count": 27,
+  "columns": [
+    "SG_UF",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "SG_UF": "MG",
+      "internacoes": 19276203
+    },
+    {
+      "SG_UF": "BA",
+      "internacoes": 13272355
+    },
+    {
+      "SG_UF": "PR",
+      "internacoes": 12680323
+    },
+    {
+      "SG_UF": "RS",
+      "internacoes": 11831809
+    },
+    {
+      "SG_UF": "RJ",
+      "internacoes": 10926128
+    },
+    {
+      "SG_UF": "PE",
+      "internacoes": 8529411
+    },
+    {
+      "SG_UF": "PA",
+      "internacoes": 7934646
+    },
+    {
+      "SG_UF": "CE",
+      "internacoes": 7807633
+    },
+    {
+      "SG_UF": "SC",
+      "internacoes": 7215418
+    },
+    {
+      "SG_UF": "MA",
+      "internacoes": 6790650
+    },
+    {
+      "SG_UF": "GO",
+      "internacoes": 6115242
+    },
+    {
+      "SG_UF": "ES",
+      "internacoes": 3649682
+    },
+    {
+      "SG_UF": "PI",
+      "internacoes": 3335303
+    },
+    {
+      "SG_UF": "PB",
+      "internacoes": 3220803
+    },
+    {
+      "SG_UF": "MT",
+      "internacoes": 3007235
+    },
+    {
+      "SG_UF": "AM",
+      "internacoes": 2870550
+    },
+    {
+      "SG_UF": "AL",
+      "internacoes": 2721965
+    },
+    {
+      "SG_UF": "RN",
+      "internacoes": 2706882
+    },
+    {
+      "SG_UF": "MS",
+      "internacoes": 2679471
+    },
+    {
+      "SG_UF": "DF",
+      "internacoes": 2529580
+    },
+    {
+      "SG_UF": "RO",
+      "internacoes": 1725340
+    },
+    {
+      "SG_UF": "SE",
+      "internacoes": 1480990
+    },
+    {
+      "SG_UF": "AC",
+      "internacoes": 769095
+    },
+    {
+      "SG_UF": "RR",
+      "internacoes": 598101
+    },
+    {
+      "SG_UF": "AP",
+      "internacoes": 584648
+    },
+    {
+      "SG_UF": "SP",
+      "internacoes": 88884
+    },
+    {
+      "SG_UF": "TO",
+      "internacoes": 38425
+    }
+  ],
+  "result_hash": "0bde8c1824428bfc7509251796a302ee7b36775b51e50dccd879cfdf0e077596",
+  "semantic_disposition": "accepted"
+}

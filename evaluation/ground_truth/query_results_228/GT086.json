@@ -1,0 +1,49 @@
+{
+  "id": "GT086",
+  "question_pt": "Quais s\u00e3o os 3 CNES com maior custo m\u00e9dio de UTI entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+  "executed_at": "2026-07-09T00:36:43.971475+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT estado, \"CNES\", ROUND(custo_medio_uti, 2) AS custo_medio_uti FROM (SELECT mu.\"SG_UF\" AS estado, i.\"CNES\", AVG(i.\"VAL_UTI\") AS custo_medio_uti, ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_UTI\") DESC) AS rn FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"VAL_UTI\" > 0 AND mu.\"SG_UF\" IN ('MA', 'RS') GROUP BY mu.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 100) sub WHERE rn <= 3 ORDER BY estado, rn",
+  "duration_seconds": 0.040103,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "estado",
+    "CNES",
+    "custo_medio_uti"
+  ],
+  "preview_rows": [
+    {
+      "estado": "MA",
+      "CNES": 180637,
+      "custo_medio_uti": 12198.02
+    },
+    {
+      "estado": "MA",
+      "CNES": 9161449,
+      "custo_medio_uti": 10736.2
+    },
+    {
+      "estado": "MA",
+      "CNES": 2309475,
+      "custo_medio_uti": 9118.08
+    },
+    {
+      "estado": "RS",
+      "CNES": 9563873,
+      "custo_medio_uti": 18586.21
+    },
+    {
+      "estado": "RS",
+      "CNES": 9528792,
+      "custo_medio_uti": 18261.05
+    },
+    {
+      "estado": "RS",
+      "CNES": 2257815,
+      "custo_medio_uti": 17386.72
+    }
+  ],
+  "result_hash": "1b3b540040e0699ddf43091b3219b94a5c3dc648c5cc036df2cefc5b498312af",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,119 @@
+{
+  "id": "DENSE_JOIN_024",
+  "question_pt": "Quais UFs e sexos tiveram mais internacoes por residencia mapeada?",
+  "executed_at": "2026-07-08T23:09:08.275586+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.SG_UF, s.DESCRICAO AS sexo, COUNT(*) AS internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN sexo s ON i.SEXO = s.SEXO GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+  "duration_seconds": 0.149825,
+  "performance_class": "fast",
+  "row_count": 20,
+  "columns": [
+    "SG_UF",
+    "sexo",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "SG_UF": "MG",
+      "sexo": "Feminino",
+      "internacoes": 10985551
+    },
+    {
+      "SG_UF": "MG",
+      "sexo": "Masculino",
+      "internacoes": 8290652
+    },
+    {
+      "SG_UF": "BA",
+      "sexo": "Feminino",
+      "internacoes": 8117220
+    },
+    {
+      "SG_UF": "PR",
+      "sexo": "Feminino",
+      "internacoes": 7040668
+    },
+    {
+      "SG_UF": "RS",
+      "sexo": "Feminino",
+      "internacoes": 6611829
+    },
+    {
+      "SG_UF": "RJ",
+      "sexo": "Feminino",
+      "internacoes": 6481423
+    },
+    {
+      "SG_UF": "PR",
+      "sexo": "Masculino",
+      "internacoes": 5639655
+    },
+    {
+      "SG_UF": "RS",
+      "sexo": "Masculino",
+      "internacoes": 5219980
+    },
+    {
+      "SG_UF": "BA",
+      "sexo": "Masculino",
+      "internacoes": 5155135
+    },
+    {
+      "SG_UF": "PE",
+      "sexo": "Feminino",
+      "internacoes": 5154459
+    },
+    {
+      "SG_UF": "PA",
+      "sexo": "Feminino",
+      "internacoes": 4920902
+    },
+    {
+      "SG_UF": "CE",
+      "sexo": "Feminino",
+      "internacoes": 4708931
+    },
+    {
+      "SG_UF": "RJ",
+      "sexo": "Masculino",
+      "internacoes": 4444705
+    },
+    {
+      "SG_UF": "MA",
+      "sexo": "Feminino",
+      "internacoes": 4243421
+    },
+    {
+      "SG_UF": "SC",
+      "sexo": "Feminino",
+      "internacoes": 4057729
+    },
+    {
+      "SG_UF": "GO",
+      "sexo": "Feminino",
+      "internacoes": 3459299
+    },
+    {
+      "SG_UF": "PE",
+      "sexo": "Masculino",
+      "internacoes": 3374952
+    },
+    {
+      "SG_UF": "SC",
+      "sexo": "Masculino",
+      "internacoes": 3157689
+    },
+    {
+      "SG_UF": "CE",
+      "sexo": "Masculino",
+      "internacoes": 3098702
+    },
+    {
+      "SG_UF": "PA",
+      "sexo": "Masculino",
+      "internacoes": 3013744
+    }
+  ],
+  "result_hash": "d816ab1318906c3604c1d1eea9c29f8dfd0698851fcd0de9d8bdb45f8e73a991",
+  "semantic_disposition": "accepted"
+}

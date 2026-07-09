@@ -1,0 +1,17 @@
+{
+  "id": "DENSE_JOIN_020",
+  "question_pt": "Quantos hospitais existem por UF do municipio do hospital?",
+  "executed_at": "2026-07-08T23:09:07.978812+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.SG_UF, COUNT(*) AS hospitais FROM hospital h JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D GROUP BY 1 ORDER BY hospitais DESC",
+  "duration_seconds": 0.000566,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "SG_UF",
+    "hospitais"
+  ],
+  "preview_rows": [],
+  "result_hash": "2d8a33ebfe564ddb3886553f2220f8f2407b42f21a7a51af5b7acf78f666cd5e",
+  "semantic_disposition": "accepted"
+}

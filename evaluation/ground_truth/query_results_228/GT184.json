@@ -1,0 +1,106 @@
+{
+  "id": "GT184",
+  "question_pt": "Qual a permanencia media por ano de internacao?",
+  "executed_at": "2026-07-09T00:36:55.076452+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, ROUND(AVG(\"DIAS_PERM\"), 2) AS media_dias_permanencia FROM internacoes WHERE \"DIAS_PERM\" IS NOT NULL AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.118412,
+  "performance_class": "fast",
+  "row_count": 22,
+  "columns": [
+    "ano",
+    "media_dias_permanencia"
+  ],
+  "preview_rows": [
+    {
+      "ano": 1995,
+      "media_dias_permanencia": 5476.0
+    },
+    {
+      "ano": 1998,
+      "media_dias_permanencia": 4104.0
+    },
+    {
+      "ano": 2000,
+      "media_dias_permanencia": 2989.33
+    },
+    {
+      "ano": 2005,
+      "media_dias_permanencia": 1308.33
+    },
+    {
+      "ano": 2006,
+      "media_dias_permanencia": 791.75
+    },
+    {
+      "ano": 2007,
+      "media_dias_permanencia": 6.73
+    },
+    {
+      "ano": 2008,
+      "media_dias_permanencia": 5.37
+    },
+    {
+      "ano": 2009,
+      "media_dias_permanencia": 4.96
+    },
+    {
+      "ano": 2010,
+      "media_dias_permanencia": 5.0
+    },
+    {
+      "ano": 2011,
+      "media_dias_permanencia": 5.0
+    },
+    {
+      "ano": 2012,
+      "media_dias_permanencia": 5.06
+    },
+    {
+      "ano": 2013,
+      "media_dias_permanencia": 5.11
+    },
+    {
+      "ano": 2014,
+      "media_dias_permanencia": 5.07
+    },
+    {
+      "ano": 2015,
+      "media_dias_permanencia": 5.1
+    },
+    {
+      "ano": 2016,
+      "media_dias_permanencia": 5.11
+    },
+    {
+      "ano": 2017,
+      "media_dias_permanencia": 5.05
+    },
+    {
+      "ano": 2018,
+      "media_dias_permanencia": 5.01
+    },
+    {
+      "ano": 2019,
+      "media_dias_permanencia": 4.96
+    },
+    {
+      "ano": 2020,
+      "media_dias_permanencia": 5.08
+    },
+    {
+      "ano": 2021,
+      "media_dias_permanencia": 5.26
+    },
+    {
+      "ano": 2022,
+      "media_dias_permanencia": 5.05
+    },
+    {
+      "ano": 2023,
+      "media_dias_permanencia": 4.77
+    }
+  ],
+  "result_hash": "d9d046afd3ea0be14006c05c43e55fb663cb065a284c864e91ded46ac09e7e84",
+  "semantic_disposition": "accepted"
+}

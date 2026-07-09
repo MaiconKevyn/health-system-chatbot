@@ -1,0 +1,371 @@
+{
+  "id": "GT214",
+  "question_pt": "Quais CNES com mais de 5000 interna\u00e7\u00f5es t\u00eam custo m\u00e9dio e taxa de mortalidade acima da m\u00e9dia geral?",
+  "executed_at": "2026-07-09T00:36:59.450913+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH por_hospital AS (SELECT i.\"CNES\", COALESCE(h.\"NO_HOSPITAL\", 'Sem nome cadastrado') AS hospital, COUNT(*) AS total_internacoes, AVG(i.\"VAL_TOT\") AS custo_medio, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0) AS taxa_mortalidade FROM internacoes i LEFT JOIN hospital h ON i.\"CNES\" = h.\"CNES\" WHERE i.\"VAL_TOT\" IS NOT NULL AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\", h.\"NO_HOSPITAL\" HAVING COUNT(*) > 5000), medias AS (SELECT AVG(\"VAL_TOT\") AS custo_medio_geral, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0) AS taxa_mortalidade_geral FROM internacoes WHERE \"VAL_TOT\" IS NOT NULL) SELECT p.* FROM por_hospital p, medias m WHERE p.custo_medio > m.custo_medio_geral AND p.taxa_mortalidade > m.taxa_mortalidade_geral ORDER BY p.taxa_mortalidade DESC, p.custo_medio DESC",
+  "duration_seconds": 0.196786,
+  "performance_class": "fast",
+  "row_count": 471,
+  "columns": [
+    "CNES",
+    "hospital",
+    "total_internacoes",
+    "custo_medio",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "CNES": 5707234,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 10947,
+      "custo_medio": 10875.023514204808,
+      "taxa_mortalidade": 47.83959075545812
+    },
+    {
+      "CNES": 105805,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 5501,
+      "custo_medio": 23634.216842392292,
+      "taxa_mortalidade": 45.64624613706599
+    },
+    {
+      "CNES": 2649527,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 10463,
+      "custo_medio": 1494.5537216859398,
+      "taxa_mortalidade": 40.638440217910734
+    },
+    {
+      "CNES": 9074457,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 16996,
+      "custo_medio": 7340.712385267122,
+      "taxa_mortalidade": 35.637797128736175
+    },
+    {
+      "CNES": 103284,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 5170,
+      "custo_medio": 2483.985247582206,
+      "taxa_mortalidade": 30.889748549323016
+    },
+    {
+      "CNES": 679550,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 10675,
+      "custo_medio": 2657.8916889929747,
+      "taxa_mortalidade": 29.892271662763466
+    },
+    {
+      "CNES": 134252,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 17510,
+      "custo_medio": 10624.399224443183,
+      "taxa_mortalidade": 29.28612221587664
+    },
+    {
+      "CNES": 3791130,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 6385,
+      "custo_medio": 8838.869202819109,
+      "taxa_mortalidade": 27.517619420516837
+    },
+    {
+      "CNES": 6525296,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 5576,
+      "custo_medio": 7424.963665710185,
+      "taxa_mortalidade": 25.233142037302727
+    },
+    {
+      "CNES": 86126,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 7243,
+      "custo_medio": 15388.835616457272,
+      "taxa_mortalidade": 22.946292972525196
+    },
+    {
+      "CNES": 19445,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 35578,
+      "custo_medio": 1798.1070141660564,
+      "taxa_mortalidade": 22.471752206419698
+    },
+    {
+      "CNES": 9161449,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 12688,
+      "custo_medio": 5233.837362074408,
+      "taxa_mortalidade": 22.359709962168978
+    },
+    {
+      "CNES": 220027,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 7336,
+      "custo_medio": 4546.814743729554,
+      "taxa_mortalidade": 22.08287895310796
+    },
+    {
+      "CNES": 2458292,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 8155,
+      "custo_medio": 4143.617519313301,
+      "taxa_mortalidade": 21.81483752299203
+    },
+    {
+      "CNES": 2298724,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 5568,
+      "custo_medio": 5658.670402298851,
+      "taxa_mortalidade": 20.24066091954023
+    },
+    {
+      "CNES": 136581,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 13640,
+      "custo_medio": 4268.366085043997,
+      "taxa_mortalidade": 19.325513196480937
+    },
+    {
+      "CNES": 2515369,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 12665,
+      "custo_medio": 11898.851992104219,
+      "taxa_mortalidade": 18.144492696407422
+    },
+    {
+      "CNES": 3708926,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 14243,
+      "custo_medio": 3113.659905216595,
+      "taxa_mortalidade": 17.67183879800604
+    },
+    {
+      "CNES": 2151855,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 12763,
+      "custo_medio": 10975.98011831074,
+      "taxa_mortalidade": 17.61341377419102
+    },
+    {
+      "CNES": 105317,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 8366,
+      "custo_medio": 1766.5435225914391,
+      "taxa_mortalidade": 17.22448003825006
+    },
+    {
+      "CNES": 6633064,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 10389,
+      "custo_medio": 5572.101733564344,
+      "taxa_mortalidade": 16.825488497449225
+    },
+    {
+      "CNES": 2153025,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 24433,
+      "custo_medio": 2398.522398395612,
+      "taxa_mortalidade": 16.41222936192854
+    },
+    {
+      "CNES": 9467718,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 13463,
+      "custo_medio": 8009.921481839119,
+      "taxa_mortalidade": 15.813711654163262
+    },
+    {
+      "CNES": 2337800,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 11485,
+      "custo_medio": 11157.384454505887,
+      "taxa_mortalidade": 15.698737483674359
+    },
+    {
+      "CNES": 2334321,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 86396,
+      "custo_medio": 2979.224641997313,
+      "taxa_mortalidade": 15.479883327931848
+    },
+    {
+      "CNES": 2344858,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 12409,
+      "custo_medio": 5051.471697961149,
+      "taxa_mortalidade": 15.263115480699492
+    },
+    {
+      "CNES": 2479214,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 169337,
+      "custo_medio": 4440.905657416829,
+      "taxa_mortalidade": 15.016210278911283
+    },
+    {
+      "CNES": 9895124,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 10766,
+      "custo_medio": 5658.697484673977,
+      "taxa_mortalidade": 14.685119821660784
+    },
+    {
+      "CNES": 2589265,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 17338,
+      "custo_medio": 4192.915787864806,
+      "taxa_mortalidade": 14.638366593609414
+    },
+    {
+      "CNES": 2278162,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 11959,
+      "custo_medio": 3189.7183435069774,
+      "taxa_mortalidade": 14.608244836524793
+    },
+    {
+      "CNES": 7160488,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 17612,
+      "custo_medio": 4635.546718146717,
+      "taxa_mortalidade": 14.524188053599818
+    },
+    {
+      "CNES": 2270234,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 166073,
+      "custo_medio": 1821.1988593570477,
+      "taxa_mortalidade": 14.48880913815009
+    },
+    {
+      "CNES": 9141839,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 19500,
+      "custo_medio": 3905.4575646153858,
+      "taxa_mortalidade": 14.456410256410257
+    },
+    {
+      "CNES": 226491,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 7413,
+      "custo_medio": 5539.7038580871385,
+      "taxa_mortalidade": 14.434102252799137
+    },
+    {
+      "CNES": 2694778,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 54279,
+      "custo_medio": 1608.164172700307,
+      "taxa_mortalidade": 14.32782475727261
+    },
+    {
+      "CNES": 6568343,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 42652,
+      "custo_medio": 1500.410992919446,
+      "taxa_mortalidade": 14.238488230329176
+    },
+    {
+      "CNES": 5717256,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 156796,
+      "custo_medio": 2958.0054638510746,
+      "taxa_mortalidade": 14.086456287150183
+    },
+    {
+      "CNES": 2646536,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 50017,
+      "custo_medio": 2377.4270683967434,
+      "taxa_mortalidade": 13.945258612071896
+    },
+    {
+      "CNES": 6388671,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 67047,
+      "custo_medio": 4056.8929488269446,
+      "taxa_mortalidade": 13.788834698047639
+    },
+    {
+      "CNES": 9575936,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 6292,
+      "custo_medio": 8012.697315638906,
+      "taxa_mortalidade": 13.477431659249842
+    },
+    {
+      "CNES": 2292386,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 34299,
+      "custo_medio": 3218.4551628327313,
+      "taxa_mortalidade": 13.42604740662993
+    },
+    {
+      "CNES": 2332981,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 62055,
+      "custo_medio": 1544.2680109580158,
+      "taxa_mortalidade": 13.389734912577552
+    },
+    {
+      "CNES": 86673,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 23993,
+      "custo_medio": 6301.6112441128735,
+      "taxa_mortalidade": 13.345559121410412
+    },
+    {
+      "CNES": 7166494,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 33014,
+      "custo_medio": 1749.4162240261676,
+      "taxa_mortalidade": 13.218634518689042
+    },
+    {
+      "CNES": 2799758,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 154047,
+      "custo_medio": 1886.7637806643281,
+      "taxa_mortalidade": 13.098599777989834
+    },
+    {
+      "CNES": 2337339,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 135806,
+      "custo_medio": 1539.7850396889737,
+      "taxa_mortalidade": 13.05170611018659
+    },
+    {
+      "CNES": 2816210,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 228509,
+      "custo_medio": 2396.4995719643503,
+      "taxa_mortalidade": 12.939971729778696
+    },
+    {
+      "CNES": 2296306,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 141150,
+      "custo_medio": 1886.691596032567,
+      "taxa_mortalidade": 12.7778958554729
+    },
+    {
+      "CNES": 2308762,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 124557,
+      "custo_medio": 1673.624235410287,
+      "taxa_mortalidade": 12.613502251981021
+    },
+    {
+      "CNES": 2272784,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 98170,
+      "custo_medio": 2041.9016143424546,
+      "taxa_mortalidade": 12.542528267291432
+    }
+  ],
+  "result_hash": "079cbebbef16e406b165a4c354e54bd76c50e070fa723f9e02a5169916fce9a1",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,42 @@
+{
+  "id": "DENSE_JOIN_019",
+  "question_pt": "Como a tabela de staging se distribui por carater de internacao?",
+  "executed_at": "2026-07-08T23:09:07.977966+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.DESCRICAO AS carater, COUNT(*) AS registros_staging FROM _staging_internacoes s JOIN car_int c ON s.CAR_INT = c.CAR_INT GROUP BY 1 ORDER BY registros_staging DESC",
+  "duration_seconds": 0.019788,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "carater",
+    "registros_staging"
+  ],
+  "preview_rows": [
+    {
+      "carater": "Urg\u00eancia",
+      "registros_staging": 28290701
+    },
+    {
+      "carater": "Eletivo",
+      "registros_staging": 10606177
+    },
+    {
+      "carater": "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+      "registros_staging": 519112
+    },
+    {
+      "carater": "Outros tipo de acidente de tr\u00e2nsito",
+      "registros_staging": 205161
+    },
+    {
+      "carater": "Acidente no local trabalho ou a serv da empresa",
+      "registros_staging": 729
+    },
+    {
+      "carater": "Acidente no trajeto para o trabalho",
+      "registros_staging": 168
+    }
+  ],
+  "result_hash": "74f1f2ed78dda60104c4f67d913c7e8be2bec1d65c7780e91c82cef26227b599",
+  "semantic_disposition": "accepted"
+}

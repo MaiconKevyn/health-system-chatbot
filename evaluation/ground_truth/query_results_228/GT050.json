@@ -1,0 +1,26 @@
+{
+  "id": "GT050",
+  "question_pt": "Qual a taxa de mortalidade para faixa et\u00e1ria 30-45?",
+  "executed_at": "2026-07-09T00:36:40.138304+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT '30-45 anos' AS faixa_etaria, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes WHERE \"IDADE\" BETWEEN 30 AND 45",
+  "duration_seconds": 0.025584,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "faixa_etaria",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "faixa_etaria": "30-45 anos",
+      "total_internacoes": 28495709,
+      "total_mortes": 498996,
+      "taxa_mortalidade": 1.75
+    }
+  ],
+  "result_hash": "58dd7814cc1e929e7cfe5a440f763b3e582ce6201ce9f7844fa03bb7bb5a2f56",
+  "semantic_disposition": "accepted"
+}

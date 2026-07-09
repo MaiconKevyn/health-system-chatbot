@@ -1,0 +1,20 @@
+{
+  "id": "GT142",
+  "question_pt": "Quantas internacoes por hipertensao essencial foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.601070+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_hipertensao_essencial FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'I10%'",
+  "duration_seconds": 0.055469,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_hipertensao_essencial"
+  ],
+  "preview_rows": [
+    {
+      "total_hipertensao_essencial": 860044
+    }
+  ],
+  "result_hash": "c382791022a02dfb7406ed8f9c8616909ddffcf15047119849c7e98d828e4e14",
+  "semantic_disposition": "accepted"
+}

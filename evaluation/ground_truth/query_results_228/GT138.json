@@ -1,0 +1,20 @@
+{
+  "id": "GT138",
+  "question_pt": "Quantas internacoes tiveram valor total maior que zero?",
+  "executed_at": "2026-07-09T00:36:48.304310+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_com_valor_total FROM internacoes WHERE \"VAL_TOT\" > 0",
+  "duration_seconds": 0.050535,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_com_valor_total"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_com_valor_total": 144173949
+    }
+  ],
+  "result_hash": "e693a420dfe648b31ed7dcaac37e5351faf373c067a0b835444779a54bbf9298",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT017",
+  "question_pt": "Qual o tempo m\u00e9dio de perman\u00eancia hospitalar?",
+  "executed_at": "2026-07-09T00:36:37.672252+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT AVG(\"DIAS_PERM\") AS tempo_medio_permanencia FROM internacoes",
+  "duration_seconds": 0.068562,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "tempo_medio_permanencia"
+  ],
+  "preview_rows": [
+    {
+      "tempo_medio_permanencia": 5.063126419918855
+    }
+  ],
+  "result_hash": "61a52ddb563741bc7c5936326aa63df32cd411b31301d183a0e8d5d3c009b2c1",
+  "semantic_disposition": "accepted"
+}

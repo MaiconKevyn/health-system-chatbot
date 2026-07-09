@@ -1,0 +1,20 @@
+{
+  "id": "GT151",
+  "question_pt": "Qual a mediana da idade dos pacientes internados?",
+  "executed_at": "2026-07-09T00:36:50.379992+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MEDIAN(\"IDADE\") AS idade_mediana FROM internacoes WHERE \"IDADE\" IS NOT NULL",
+  "duration_seconds": 1.31347,
+  "performance_class": "medium",
+  "row_count": 1,
+  "columns": [
+    "idade_mediana"
+  ],
+  "preview_rows": [
+    {
+      "idade_mediana": 35.0
+    }
+  ],
+  "result_hash": "d5ef168bf3f525ae11426d9f399fb528f0cf7b17bb07cb7dd8e85f886c8f7cb8",
+  "semantic_disposition": "accepted"
+}

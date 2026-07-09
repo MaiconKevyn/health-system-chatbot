@@ -1,0 +1,50 @@
+{
+  "id": "GT179",
+  "question_pt": "Qual a taxa de mortalidade por raca/cor identificada?",
+  "executed_at": "2026-07-09T00:36:54.762182+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT r.\"DESCRICAO\" AS raca_cor, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes i JOIN raca_cor r ON i.\"RACA_COR\" = r.\"RACA_COR\" WHERE i.\"RACA_COR\" IN (1, 2, 3, 4, 5) GROUP BY r.\"DESCRICAO\" ORDER BY taxa_mortalidade DESC",
+  "duration_seconds": 0.300754,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "raca_cor",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "raca_cor": "Preta",
+      "total_internacoes": 4674252,
+      "total_mortes": 244473,
+      "taxa_mortalidade": 5.23
+    },
+    {
+      "raca_cor": "Branca",
+      "total_internacoes": 39187974,
+      "total_mortes": 1835812,
+      "taxa_mortalidade": 4.68
+    },
+    {
+      "raca_cor": "Amarela",
+      "total_internacoes": 1943127,
+      "total_mortes": 79264,
+      "taxa_mortalidade": 4.08
+    },
+    {
+      "raca_cor": "Parda",
+      "total_internacoes": 55944720,
+      "total_mortes": 1979782,
+      "taxa_mortalidade": 3.54
+    },
+    {
+      "raca_cor": "Ind\u00edgena",
+      "total_internacoes": 459272,
+      "total_mortes": 9268,
+      "taxa_mortalidade": 2.02
+    }
+  ],
+  "result_hash": "e0648e19df8ba4bb8216ef9f5740c182cb8cb3cd2eadfa2a632cfd1c5575b1ec",
+  "semantic_disposition": "accepted"
+}

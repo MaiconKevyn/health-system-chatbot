@@ -1,0 +1,20 @@
+{
+  "id": "GT153",
+  "question_pt": "Quantas internacoes possuem CID de morte preenchido?",
+  "executed_at": "2026-07-09T00:36:52.844241+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_cid_morte_preenchido FROM internacoes WHERE \"CID_MORTE\" IS NOT NULL AND \"CID_MORTE\" <> '0'",
+  "duration_seconds": 0.070995,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_cid_morte_preenchido"
+  ],
+  "preview_rows": [
+    {
+      "total_cid_morte_preenchido": 2088712
+    }
+  ],
+  "result_hash": "32dc82ff5db88250c78d74cedba4b1e4c252f7cce65f1725202b5f975c1ec834",
+  "semantic_disposition": "accepted"
+}

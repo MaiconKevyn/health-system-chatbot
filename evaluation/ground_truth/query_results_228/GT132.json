@@ -1,0 +1,49 @@
+{
+  "id": "GT132",
+  "question_pt": "Quais os 3 CNES com maior valor m\u00e9dio de servi\u00e7o hospitalar (VAL_SH) entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+  "executed_at": "2026-07-09T00:36:48.017206+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT estado, \"CNES\", avg_val_sh FROM (SELECT mu.\"SG_UF\" AS estado, i.\"CNES\", ROUND(AVG(i.\"VAL_SH\"), 2) AS avg_val_sh, ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_SH\") DESC) AS rn FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"VAL_SH\" IS NOT NULL AND i.\"CNES\" IS NOT NULL GROUP BY mu.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 500) sub WHERE rn <= 3 ORDER BY estado, rn",
+  "duration_seconds": 0.062701,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "estado",
+    "CNES",
+    "avg_val_sh"
+  ],
+  "preview_rows": [
+    {
+      "estado": "MA",
+      "CNES": 2561492,
+      "avg_val_sh": 14752.36
+    },
+    {
+      "estado": "MA",
+      "CNES": 2727005,
+      "avg_val_sh": 5713.11
+    },
+    {
+      "estado": "MA",
+      "CNES": 145602,
+      "avg_val_sh": 5118.02
+    },
+    {
+      "estado": "RS",
+      "CNES": 2237849,
+      "avg_val_sh": 5038.76
+    },
+    {
+      "estado": "RS",
+      "CNES": 2237121,
+      "avg_val_sh": 4175.01
+    },
+    {
+      "estado": "RS",
+      "CNES": 9575936,
+      "avg_val_sh": 3941.86
+    }
+  ],
+  "result_hash": "2eb0b43b2e81a62efd8e0c5d357c8ceaa137ebfa2722ec9039226b991a5277c4",
+  "semantic_disposition": "accepted"
+}

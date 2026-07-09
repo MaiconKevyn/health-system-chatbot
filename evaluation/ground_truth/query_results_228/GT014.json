@@ -1,0 +1,20 @@
+{
+  "id": "GT014",
+  "question_pt": "Quantas interna\u00e7\u00f5es por meningite ocasionaram em morte?",
+  "executed_at": "2026-07-09T00:36:37.602375+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE c.\"DESCRICAO\" ILIKE '%meningite%' AND i.\"MORTE\" = true",
+  "duration_seconds": 0.087521,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "count_star()"
+  ],
+  "preview_rows": [
+    {
+      "count_star()": 4861
+    }
+  ],
+  "result_hash": "9b8e5a87f5d2a93e5a89ebd41be9f29cc6614ae9c367d5511c5d0fcf012d81d9",
+  "semantic_disposition": "accepted"
+}

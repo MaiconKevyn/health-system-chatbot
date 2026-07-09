@@ -1,0 +1,20 @@
+{
+  "id": "GT094",
+  "question_pt": "Quantas nacionalidades est\u00e3o cadastradas?",
+  "executed_at": "2026-07-09T00:36:44.973318+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_nacionalidades FROM nacionalidade",
+  "duration_seconds": 0.00022,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_nacionalidades"
+  ],
+  "preview_rows": [
+    {
+      "total_nacionalidades": 333
+    }
+  ],
+  "result_hash": "35f833ec8d02fa270345baee97e6c1f47927f26de43314c9da6285773b7ad7e5",
+  "semantic_disposition": "accepted"
+}

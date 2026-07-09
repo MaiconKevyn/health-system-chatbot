@@ -1,0 +1,17 @@
+{
+  "id": "GT228",
+  "question_pt": "Quando houver cadastro de munic\u00edpio do hospital, quantas interna\u00e7\u00f5es ocorreram com estado de resid\u00eancia diferente do estado do hospital por ano?",
+  "executed_at": "2026-07-09T00:37:01.575932+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, mr.\"SG_UF\" AS uf_residencia, mh.\"SG_UF\" AS uf_hospital FROM internacoes i LEFT JOIN municipios mr ON i.\"MUNIC_RES\" = mr.\"CO_MUNICIPIO_6D\" JOIN hospital h ON i.\"CNES\" = h.\"CNES\" JOIN municipios mh ON h.\"MUNIC_MOV\" = mh.\"CO_MUNICIPIO_6D\" WHERE i.\"DT_INTER\" IS NOT NULL AND regexp_full_match(mr.\"SG_UF\", '^[A-Z]{2}$') AND regexp_full_match(mh.\"SG_UF\", '^[A-Z]{2}$')) SELECT ano, COUNT(*) AS internacoes_estado_diferente FROM base WHERE uf_residencia <> uf_hospital GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.001362,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "ano",
+    "internacoes_estado_diferente"
+  ],
+  "preview_rows": [],
+  "result_hash": "ce17c3fcb7d233c4406f432ef34809a42686686f012e8057e25c138cc6cdf5e1",
+  "semantic_disposition": "accepted"
+}

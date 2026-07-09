@@ -1,0 +1,86 @@
+{
+  "id": "DENSE_JOIN_022",
+  "question_pt": "Quantas mortes hospitalares com diagnostico principal CID C ocorreram por ano?",
+  "executed_at": "2026-07-08T23:09:08.055811+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT year(i.DT_INTER) AS ano, COUNT(*) AS mortes_cid_c FROM internacoes i JOIN cid c ON i.DIAG_PRINC = c.CID WHERE i.MORTE AND c.CID LIKE 'C%' GROUP BY 1 ORDER BY 1",
+  "duration_seconds": 0.07603,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "ano",
+    "mortes_cid_c"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2007,
+      "mortes_cid_c": 2096
+    },
+    {
+      "ano": 2008,
+      "mortes_cid_c": 27514
+    },
+    {
+      "ano": 2009,
+      "mortes_cid_c": 30455
+    },
+    {
+      "ano": 2010,
+      "mortes_cid_c": 32175
+    },
+    {
+      "ano": 2011,
+      "mortes_cid_c": 33936
+    },
+    {
+      "ano": 2012,
+      "mortes_cid_c": 36079
+    },
+    {
+      "ano": 2013,
+      "mortes_cid_c": 38105
+    },
+    {
+      "ano": 2014,
+      "mortes_cid_c": 39962
+    },
+    {
+      "ano": 2015,
+      "mortes_cid_c": 42546
+    },
+    {
+      "ano": 2016,
+      "mortes_cid_c": 44008
+    },
+    {
+      "ano": 2017,
+      "mortes_cid_c": 45566
+    },
+    {
+      "ano": 2018,
+      "mortes_cid_c": 47229
+    },
+    {
+      "ano": 2019,
+      "mortes_cid_c": 49314
+    },
+    {
+      "ano": 2020,
+      "mortes_cid_c": 46136
+    },
+    {
+      "ano": 2021,
+      "mortes_cid_c": 48045
+    },
+    {
+      "ano": 2022,
+      "mortes_cid_c": 50401
+    },
+    {
+      "ano": 2023,
+      "mortes_cid_c": 48415
+    }
+  ],
+  "result_hash": "50d2a99c4d44193098bf3ffc8f7e5e9cdd2a02eeac4af3f027ad5870628b64ee",
+  "semantic_disposition": "accepted"
+}

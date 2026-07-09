@@ -1,0 +1,20 @@
+{
+  "id": "GT136",
+  "question_pt": "Quantas internacoes eletivas foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.229437+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_internacoes_eletivas FROM internacoes WHERE \"CAR_INT\" = 1",
+  "duration_seconds": 0.015392,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_internacoes_eletivas"
+  ],
+  "preview_rows": [
+    {
+      "total_internacoes_eletivas": 26815763
+    }
+  ],
+  "result_hash": "af9815f68f8d4a52cde490e99d95c89dae8cbb561a7d3cf03c6c31b892f80a03",
+  "semantic_disposition": "accepted"
+}

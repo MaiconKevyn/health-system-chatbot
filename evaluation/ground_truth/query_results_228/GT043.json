@@ -1,0 +1,20 @@
+{
+  "id": "GT043",
+  "question_pt": "Quantas interna\u00e7\u00f5es tiveram tanto diagn\u00f3stico principal quanto secund\u00e1rio?",
+  "executed_at": "2026-07-09T00:36:39.856616+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS com_ambos_diagnosticos FROM internacoes WHERE \"DIAG_PRINC\" IS NOT NULL AND \"DIAG_SECUN\" IS NOT NULL",
+  "duration_seconds": 0.000441,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "com_ambos_diagnosticos"
+  ],
+  "preview_rows": [
+    {
+      "com_ambos_diagnosticos": 144386772
+    }
+  ],
+  "result_hash": "d987197d8ba2fcec4303f0fee78ec9083f5fdd26c241dd99184cf6b6cdafffe8",
+  "semantic_disposition": "accepted"
+}

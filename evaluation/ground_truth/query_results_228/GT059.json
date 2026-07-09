@@ -1,0 +1,20 @@
+{
+  "id": "GT059",
+  "question_pt": "Qual a maior idade registrada nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:40.689231+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MAX(\"IDADE\") FROM internacoes",
+  "duration_seconds": 0.004889,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "max(IDADE)"
+  ],
+  "preview_rows": [
+    {
+      "max(IDADE)": 130
+    }
+  ],
+  "result_hash": "508c43bb048f77258706c96126412d357e7ba388d42e10168ba1b236aca46955",
+  "semantic_disposition": "accepted"
+}

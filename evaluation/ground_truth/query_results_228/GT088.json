@@ -1,0 +1,38 @@
+{
+  "id": "GT088",
+  "question_pt": "Quais s\u00e3o os 5 munic\u00edpios com maior percentual de interna\u00e7\u00f5es em UTI (com mais de 5000 interna\u00e7\u00f5es)?",
+  "executed_at": "2026-07-09T00:36:44.232309+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT mu.\"NO_MUNICIPIO\" AS municipio, ROUND(SUM(CASE WHEN i.\"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS pct_uti FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" GROUP BY mu.\"NO_MUNICIPIO\" HAVING COUNT(*) > 5000 ORDER BY pct_uti DESC LIMIT 5",
+  "duration_seconds": 0.20011,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "municipio",
+    "pct_uti"
+  ],
+  "preview_rows": [
+    {
+      "municipio": "Lidian\u00f3polis",
+      "pct_uti": 23.06
+    },
+    {
+      "municipio": "Arapu\u00e3",
+      "pct_uti": 22.53
+    },
+    {
+      "municipio": "S\u00e3o Geraldo",
+      "pct_uti": 20.4
+    },
+    {
+      "municipio": "Guiricema",
+      "pct_uti": 20.37
+    },
+    {
+      "municipio": "Visconde do Rio Branco",
+      "pct_uti": 19.35
+    }
+  ],
+  "result_hash": "12dbf7bd666a33ea5e0b00df119f71448ccea9d1f08e0a49bedaf226deff1ac0",
+  "semantic_disposition": "accepted"
+}

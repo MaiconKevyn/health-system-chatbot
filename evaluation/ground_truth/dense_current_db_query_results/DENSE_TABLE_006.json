@@ -1,0 +1,20 @@
+{
+  "id": "DENSE_TABLE_006",
+  "question_pt": "Quantos tipos de contraceptivos existem no catalogo?",
+  "executed_at": "2026-07-08T23:09:05.348892+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_contraceptivos FROM contraceptivos",
+  "duration_seconds": 0.00012,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_contraceptivos"
+  ],
+  "preview_rows": [
+    {
+      "total_contraceptivos": 13
+    }
+  ],
+  "result_hash": "0561128ba9214a9f8e42c1ae191fe19ea8f27556057537deba931f8d1d69b7a1",
+  "semantic_disposition": "accepted"
+}

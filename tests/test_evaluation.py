@@ -25,6 +25,7 @@ def test_summarize_records_computes_rates():
             executed=False,
             result_match=False,
             latency_seconds=0.2,
+            error_category="sql_validation_error",
             errors=["bad"],
         ),
     ]
@@ -36,4 +37,5 @@ def test_summarize_records_computes_rates():
     assert summary["sql_execution_rate"] == 0.5
     assert summary["result_match_rate"] == 0.5
     assert summary["failure_by_difficulty"] == {"L2": 1}
+    assert summary["failure_by_category"] == {"sql_validation_error": 1}
     assert len(summary["failures"]) == 1

@@ -1,0 +1,20 @@
+{
+  "id": "GT111",
+  "question_pt": "Quantos hospitais registraram interna\u00e7\u00f5es mas nunca tiveram nenhum \u00f3bito registrado?",
+  "executed_at": "2026-07-09T00:36:45.710516+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS hospitais_sem_obito FROM (SELECT DISTINCT i.\"CNES\" FROM internacoes i WHERE NOT EXISTS (SELECT 1 FROM internacoes d WHERE d.\"CNES\" = i.\"CNES\" AND d.\"MORTE\" = true)) sub",
+  "duration_seconds": 0.230228,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "hospitais_sem_obito"
+  ],
+  "preview_rows": [
+    {
+      "hospitais_sem_obito": 840
+    }
+  ],
+  "result_hash": "4a43b78907a5f9a471ba8fe3fc39b27eefafc072944794c5fe7171de795825df",
+  "semantic_disposition": "accepted"
+}

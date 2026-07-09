@@ -1,0 +1,20 @@
+{
+  "id": "GT099",
+  "question_pt": "Qual o total gasto em interna\u00e7\u00f5es de UTI?",
+  "executed_at": "2026-07-09T00:36:44.989798+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT SUM(\"VAL_UTI\") AS total_gasto_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
+  "duration_seconds": 0.015558,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_gasto_uti"
+  ],
+  "preview_rows": [
+    {
+      "total_gasto_uti": 38882656377.93784
+    }
+  ],
+  "result_hash": "6ee97273a2d342b0a388b9fce856970423559e2e5bdb5393ef17f02ff752bdcc",
+  "semantic_disposition": "accepted"
+}

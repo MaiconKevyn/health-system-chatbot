@@ -1,0 +1,20 @@
+{
+  "id": "GT007",
+  "question_pt": "Quantos registros de interna\u00e7\u00e3o em UTI existem?",
+  "executed_at": "2026-07-09T00:36:37.393737+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
+  "duration_seconds": 0.057812,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_uti"
+  ],
+  "preview_rows": [
+    {
+      "total_uti": 9193933
+    }
+  ],
+  "result_hash": "d7954011af936e0f7a096ab066c5cc9a5474617e65a8c6e6d14fde90ffc47c16",
+  "semantic_disposition": "accepted"
+}

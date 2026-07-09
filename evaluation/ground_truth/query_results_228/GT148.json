@@ -1,0 +1,20 @@
+{
+  "id": "GT148",
+  "question_pt": "Quantas internacoes tiveram custo de UTI maior que zero?",
+  "executed_at": "2026-07-09T00:36:49.039697+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_com_custo_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
+  "duration_seconds": 0.015628,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_com_custo_uti"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_com_custo_uti": 9193933
+    }
+  ],
+  "result_hash": "a410d09b7faa00385c8e89b1fe7d2c760be55549dab0ac49f5d1e3b669193e68",
+  "semantic_disposition": "accepted"
+}

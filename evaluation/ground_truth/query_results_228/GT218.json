@@ -1,0 +1,80 @@
+{
+  "id": "GT218",
+  "question_pt": "Quais diagnosticos tiveram maior crescimento percentual de internacoes do periodo 2015-2019 para 2020-2023?",
+  "executed_at": "2026-07-09T00:37:00.160986+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH p1 AS (SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2015_2019 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2015 AND 2019 GROUP BY \"DIAG_PRINC\"), p2 AS (SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2020_2023 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2020 AND 2023 GROUP BY \"DIAG_PRINC\") SELECT c.\"DESCRICAO\" AS diagnostico, p1.total_2015_2019, p2.total_2020_2023, ROUND((p2.total_2020_2023 - p1.total_2015_2019) * 100.0 / NULLIF(p1.total_2015_2019, 0), 2) AS crescimento_percentual FROM p1 JOIN p2 ON p1.cid = p2.cid JOIN cid c ON p1.cid = c.\"CID\" WHERE p1.total_2015_2019 >= 1000 ORDER BY crescimento_percentual DESC LIMIT 10",
+  "duration_seconds": 0.102039,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "diagnostico",
+    "total_2015_2019",
+    "total_2020_2023",
+    "crescimento_percentual"
+  ],
+  "preview_rows": [
+    {
+      "diagnostico": "Colelitiase",
+      "total_2015_2019": 1647,
+      "total_2020_2023": 24049,
+      "crescimento_percentual": 1360.17
+    },
+    {
+      "diagnostico": "Dor abdominal e pelvica",
+      "total_2015_2019": 1187,
+      "total_2020_2023": 15113,
+      "crescimento_percentual": 1173.21
+    },
+    {
+      "diagnostico": "Esquizofrenia",
+      "total_2015_2019": 1088,
+      "total_2020_2023": 11547,
+      "crescimento_percentual": 961.31
+    },
+    {
+      "diagnostico": "Transt respirat NE",
+      "total_2015_2019": 1211,
+      "total_2020_2023": 10543,
+      "crescimento_percentual": 770.6
+    },
+    {
+      "diagnostico": "Pneumonia bacter NCOP",
+      "total_2015_2019": 1109,
+      "total_2020_2023": 9571,
+      "crescimento_percentual": 763.03
+    },
+    {
+      "diagnostico": "Laceracao perineo 2. grau durante o parto",
+      "total_2015_2019": 5008,
+      "total_2020_2023": 24443,
+      "crescimento_percentual": 388.08
+    },
+    {
+      "diagnostico": "Laceracao de perineo durante o parto NE",
+      "total_2015_2019": 3146,
+      "total_2020_2023": 11235,
+      "crescimento_percentual": 257.12
+    },
+    {
+      "diagnostico": "Lesao encefalica anoxica NCOP",
+      "total_2015_2019": 1201,
+      "total_2020_2023": 4227,
+      "crescimento_percentual": 251.96
+    },
+    {
+      "diagnostico": "Laceracao perineo 1. grau durante o parto",
+      "total_2015_2019": 4300,
+      "total_2020_2023": 14953,
+      "crescimento_percentual": 247.74
+    },
+    {
+      "diagnostico": "Influenza c/out manif resp dev virus n ident",
+      "total_2015_2019": 1142,
+      "total_2020_2023": 3557,
+      "crescimento_percentual": 211.47
+    }
+  ],
+  "result_hash": "baed3a0c359ecdac733da8fb28e1052422ff45236c0efb8af771f5dce4dca1a8",
+  "semantic_disposition": "accepted"
+}

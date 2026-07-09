@@ -1,0 +1,119 @@
+{
+  "id": "DENSE_JOIN_008",
+  "question_pt": "Quais diagnosticos principais foram mais frequentes com descricao CID?",
+  "executed_at": "2026-07-08T23:09:06.824453+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.CID, c.DESCRICAO, COUNT(*) AS internacoes FROM internacoes i JOIN cid c ON i.DIAG_PRINC = c.CID GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+  "duration_seconds": 0.453023,
+  "performance_class": "fast",
+  "row_count": 20,
+  "columns": [
+    "CID",
+    "DESCRICAO",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "CID": "O800",
+      "DESCRICAO": "Parto espontaneo cefalico",
+      "internacoes": 10289544
+    },
+    {
+      "CID": "J189",
+      "DESCRICAO": "Pneumonia NE",
+      "internacoes": 3293713
+    },
+    {
+      "CID": "O809",
+      "DESCRICAO": "Parto unico espontaneo NE",
+      "internacoes": 2459872
+    },
+    {
+      "CID": "A09",
+      "DESCRICAO": "Diarreia e gastroenterite orig infecc presum",
+      "internacoes": 2109464
+    },
+    {
+      "CID": "N390",
+      "DESCRICAO": "Infecc do trato urinario de localiz NE",
+      "internacoes": 1886373
+    },
+    {
+      "CID": "I64",
+      "DESCRICAO": "Acid vasc cerebr NE como hemorrag isquemico",
+      "internacoes": 1806376
+    },
+    {
+      "CID": "I500",
+      "DESCRICAO": "Insuf cardiaca congestiva",
+      "internacoes": 1459476
+    },
+    {
+      "CID": "B342",
+      "DESCRICAO": "Infecc p/coronavirus NE",
+      "internacoes": 1435980
+    },
+    {
+      "CID": "O821",
+      "DESCRICAO": "Parto p/cesariana de emergencia",
+      "internacoes": 1426340
+    },
+    {
+      "CID": "J459",
+      "DESCRICAO": "Asma NE",
+      "internacoes": 1402128
+    },
+    {
+      "CID": "I509",
+      "DESCRICAO": "Insuf cardiaca NE",
+      "internacoes": 1349673
+    },
+    {
+      "CID": "O829",
+      "DESCRICAO": "Parto p/cesariana NE",
+      "internacoes": 1261989
+    },
+    {
+      "CID": "K409",
+      "DESCRICAO": "Hernia inguinal unilat NE s/obstr gangrena",
+      "internacoes": 1173713
+    },
+    {
+      "CID": "Z302",
+      "DESCRICAO": "Esterilizacao",
+      "internacoes": 1042580
+    },
+    {
+      "CID": "O808",
+      "DESCRICAO": "Outr tipos de parto unico espontaneo",
+      "internacoes": 1031991
+    },
+    {
+      "CID": "K359",
+      "DESCRICAO": "Apendicite aguda SOE",
+      "internacoes": 1014859
+    },
+    {
+      "CID": "I200",
+      "DESCRICAO": "Angina instavel",
+      "internacoes": 1006320
+    },
+    {
+      "CID": "O034",
+      "DESCRICAO": "Incompleto s/complic",
+      "internacoes": 999328
+    },
+    {
+      "CID": "J158",
+      "DESCRICAO": "Outr pneumonias bacter",
+      "internacoes": 982129
+    },
+    {
+      "CID": "J180",
+      "DESCRICAO": "Broncopneumonia NE",
+      "internacoes": 933431
+    }
+  ],
+  "result_hash": "67a3756ca5dd22c491a55f7f7b552c9698eca4dcc878c17f370757951422a7e2",
+  "semantic_disposition": "accepted"
+}

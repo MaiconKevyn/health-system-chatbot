@@ -1,0 +1,20 @@
+{
+  "id": "GT150",
+  "question_pt": "Quantas internacoes tiveram permanencia de pelo menos 15 dias?",
+  "executed_at": "2026-07-09T00:36:49.066246+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_15_dias_ou_mais FROM internacoes WHERE \"DIAS_PERM\" >= 15",
+  "duration_seconds": 0.013272,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_15_dias_ou_mais"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_15_dias_ou_mais": 9997927
+    }
+  ],
+  "result_hash": "e861ded666a03306195528e7aee16c853d29e3ee3cf850a46df626764cb5e9af",
+  "semantic_disposition": "accepted"
+}

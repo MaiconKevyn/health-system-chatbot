@@ -53,6 +53,28 @@ def classify_question(question: str, ctx: Stage1Context | None = None) -> Questi
     ):
         ambiguities.append("Definir se producao significa internacoes, procedimentos, AIHs ou valor.")
 
+    if (
+        "contraceptivo" in normalized
+        and "catalogo" not in normalized
+        and "tipo" not in tokens
+        and "tipos" not in tokens
+        and not any(
+        term in normalized
+        for term in (
+            "contraceptivo 1",
+            "contraceptivo 2",
+            "contracep1",
+            "contracep2",
+            "codigo",
+            "valor",
+            "igual",
+        )
+        )
+    ):
+        ambiguities.append(
+            "Definir se contraceptivo se refere a coluna CONTRACEP1, CONTRACEP2 ou a um valor/codigo especifico."
+        )
+
     if "local" in normalized and not any(
         token in normalized
         for token in (

@@ -1,0 +1,107 @@
+{
+  "run_id": "pydantic_ai_reporting_no_llm_smoke",
+  "run_dir": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/pydantic_ai_reporting_no_llm_smoke",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/stage1_questions_v2.jsonl",
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "limit": 1,
+  "ids": [
+    "SIHRD5_Q001"
+  ],
+  "allow_llm": false,
+  "numeric_tolerance": 1e-06,
+  "max_rows": 10000,
+  "timeout_seconds": 60,
+  "trace_path": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/pydantic_ai_reporting_no_llm_smoke/trace.jsonl",
+  "summary": {
+    "total": 1,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 0.0,
+    "sql_validation_rate": 0.0,
+    "sql_valid_rate": 0.0,
+    "sql_execution_rate": 0.0,
+    "result_value_match_rate": null,
+    "result_match_rate": null,
+    "correction_success_rate": null,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "latency_p50": 0.04119383299985202,
+    "latency_p95": 0.04119383299985202,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 0,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "shape_mismatch_count": 0,
+    "value_mismatch_count": 0,
+    "error_category_counts": {
+      "provider_error": 1
+    },
+    "failures_by_difficulty": {
+      "L1": 1
+    }
+  },
+  "records": [
+    {
+      "id": "SIHRD5_Q001",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas internacoes existem na tabela principal?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q001",
+        "SIHRD5_Q047",
+        "SIHRD5_Q092",
+        "SIHRD5_Q009"
+      ],
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "skipped",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [],
+      "actual_columns": [],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "provider_error",
+      "error_message": "LLM generation is disabled. Runtime SQL generation no longer uses ground truth shortcuts.",
+      "latency_seconds": 0.04119383299985202
+    }
+  ]
+}

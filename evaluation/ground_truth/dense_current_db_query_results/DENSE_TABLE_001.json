@@ -1,0 +1,20 @@
+{
+  "id": "DENSE_TABLE_001",
+  "question_pt": "Quantos registros existem na tabela de staging de internacoes?",
+  "executed_at": "2026-07-08T23:09:05.346091+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_registros_staging FROM _staging_internacoes",
+  "duration_seconds": 0.001789,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_registros_staging"
+  ],
+  "preview_rows": [
+    {
+      "total_registros_staging": 39622048
+    }
+  ],
+  "result_hash": "022e13d8f3c7d3267c71aa7a74026e286a0015b4d04fc2dcf72442bbcb9b5d26",
+  "semantic_disposition": "accepted"
+}

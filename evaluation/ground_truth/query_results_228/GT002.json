@@ -1,0 +1,20 @@
+{
+  "id": "GT002",
+  "question_pt": "Quantas mortes foram registradas?",
+  "executed_at": "2026-07-09T00:36:37.334377+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_mortes FROM internacoes WHERE \"MORTE\" = true",
+  "duration_seconds": 0.088666,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "total_mortes": 5877536
+    }
+  ],
+  "result_hash": "a6c6335a28027808dd566c2a8ef59b005d4ed5ee53a9da941ae25d960691ff95",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "GT019",
+  "question_pt": "Quais os cinco munic\u00edpios com mais interna\u00e7\u00f5es obst\u00e9tricas registradas?",
+  "executed_at": "2026-07-09T00:36:37.773344+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT mu.\"NO_MUNICIPIO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"ESPEC\" = 2 GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 5",
+  "duration_seconds": 0.099689,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "NO_MUNICIPIO",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "NO_MUNICIPIO": "Rio de Janeiro",
+      "total_internacoes": 834766
+    },
+    {
+      "NO_MUNICIPIO": "Bras\u00edlia",
+      "total_internacoes": 561507
+    },
+    {
+      "NO_MUNICIPIO": "Manaus",
+      "total_internacoes": 513833
+    },
+    {
+      "NO_MUNICIPIO": "Salvador",
+      "total_internacoes": 467036
+    },
+    {
+      "NO_MUNICIPIO": "Fortaleza",
+      "total_internacoes": 460817
+    }
+  ],
+  "result_hash": "f73d0597ac5e94873eebc008cd289291121c8438b8ad8290ede34b1a5cb21047",
+  "semantic_disposition": "accepted"
+}

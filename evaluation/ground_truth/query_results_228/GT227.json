@@ -1,0 +1,147 @@
+{
+  "id": "GT227",
+  "question_pt": "Quais s\u00e3o os 3 procedimentos principais mais registrados por sexo e faixa et\u00e1ria?",
+  "executed_at": "2026-07-09T00:37:01.574182+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT s.\"DESCRICAO\" AS sexo, CASE WHEN i.\"IDADE\" < 18 THEN '<18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18-64' ELSE '65+' END AS faixa_etaria, p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"IDADE\" IS NOT NULL GROUP BY s.\"DESCRICAO\", faixa_etaria, p.\"PROC_REA\", p.\"NOME_PROC\"), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY sexo, faixa_etaria ORDER BY total_procedimentos DESC) AS rn FROM base) SELECT sexo, faixa_etaria, \"PROC_REA\", procedimento, total_procedimentos FROM ranked WHERE rn <= 3 ORDER BY sexo, faixa_etaria, rn",
+  "duration_seconds": 0.610602,
+  "performance_class": "fast",
+  "row_count": 18,
+  "columns": [
+    "sexo",
+    "faixa_etaria",
+    "PROC_REA",
+    "procedimento",
+    "total_procedimentos"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "18-64",
+      "PROC_REA": "0310010039",
+      "procedimento": "PARTO NORMAL",
+      "total_procedimentos": 11684218
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "18-64",
+      "PROC_REA": "0411010034",
+      "procedimento": "PARTO CESARIANO",
+      "total_procedimentos": 7617524
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "18-64",
+      "PROC_REA": "0411020013",
+      "procedimento": "CURETAGEM POS-ABORTAMENTO / PUERPERAL",
+      "total_procedimentos": 2108063
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "65+",
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 1346435
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "65+",
+      "PROC_REA": "0303060212",
+      "procedimento": "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+      "total_procedimentos": 898155
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "65+",
+      "PROC_REA": "0303040149",
+      "procedimento": "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+      "total_procedimentos": 718872
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "<18",
+      "PROC_REA": "0310010039",
+      "procedimento": "PARTO NORMAL",
+      "total_procedimentos": 1715172
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "<18",
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 1702230
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "<18",
+      "PROC_REA": "0303010061",
+      "procedimento": "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+      "total_procedimentos": 1123224
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "18-64",
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 1157503
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "18-64",
+      "PROC_REA": "0415010012",
+      "procedimento": "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+      "total_procedimentos": 945014
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "18-64",
+      "PROC_REA": "0407040102",
+      "procedimento": "HERNIOPLASTIA INGUINAL / CRURAL (UNILATERAL)",
+      "total_procedimentos": 806443
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "65+",
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 1255996
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "65+",
+      "PROC_REA": "0303060212",
+      "procedimento": "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+      "total_procedimentos": 866577
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "65+",
+      "PROC_REA": "0303040149",
+      "procedimento": "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+      "total_procedimentos": 717825
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "<18",
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 2043927
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "<18",
+      "PROC_REA": "0303010061",
+      "procedimento": "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+      "total_procedimentos": 1228441
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "<18",
+      "PROC_REA": "0303140046",
+      "procedimento": "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+      "total_procedimentos": 684172
+    }
+  ],
+  "result_hash": "2b854d58195507c10699d87beb6b1c029c2ab361bc01041bb4d021d109d2efa7",
+  "semantic_disposition": "accepted"
+}

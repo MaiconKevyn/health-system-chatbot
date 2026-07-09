@@ -1,0 +1,20 @@
+{
+  "id": "GT159",
+  "question_pt": "Quantas internacoes estao com valor total nulo?",
+  "executed_at": "2026-07-09T00:36:52.965428+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_valor_total_nulo FROM internacoes WHERE \"VAL_TOT\" IS NULL",
+  "duration_seconds": 0.000286,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_valor_total_nulo"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_valor_total_nulo": 0
+    }
+  ],
+  "result_hash": "3f90cd220da872821777c3541dfa6cfc279adcac5500cb20dbefdd324ee185f5",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT034",
+  "question_pt": "Quantas interna\u00e7\u00f5es duraram mais de 30 dias?",
+  "executed_at": "2026-07-09T00:36:39.132979+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) FROM internacoes WHERE \"DIAS_PERM\" > 30",
+  "duration_seconds": 0.011983,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "count_star()"
+  ],
+  "preview_rows": [
+    {
+      "count_star()": 2368922
+    }
+  ],
+  "result_hash": "e75f36340cfde661d6d7364f57d17698b82d61acc97ac065f0e85348ccd88b0c",
+  "semantic_disposition": "accepted"
+}

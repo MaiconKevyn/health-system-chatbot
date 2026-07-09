@@ -1,0 +1,140 @@
+{
+  "id": "GT210",
+  "question_pt": "Qual procedimento principal mais frequente em cada cap\u00edtulo CID?",
+  "executed_at": "2026-07-09T00:36:58.558074+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT c.\"DS_CAPITULO\" AS capitulo_cid, p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY c.\"DS_CAPITULO\", p.\"PROC_REA\", p.\"NOME_PROC\"), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY capitulo_cid ORDER BY total_procedimentos DESC) AS rn FROM agg) SELECT capitulo_cid, \"PROC_REA\", procedimento, total_procedimentos FROM ranked WHERE rn = 1 ORDER BY total_procedimentos DESC LIMIT 20",
+  "duration_seconds": 0.812288,
+  "performance_class": "fast",
+  "row_count": 20,
+  "columns": [
+    "capitulo_cid",
+    "PROC_REA",
+    "procedimento",
+    "total_procedimentos"
+  ],
+  "preview_rows": [
+    {
+      "capitulo_cid": "XV. Gravidez, parto e puerp\u00e9rio",
+      "PROC_REA": "0310010039",
+      "procedimento": "PARTO NORMAL",
+      "total_procedimentos": 13349747
+    },
+    {
+      "capitulo_cid": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 8366184
+    },
+    {
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "PROC_REA": "0303010061",
+      "procedimento": "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+      "total_procedimentos": 4194787
+    },
+    {
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "PROC_REA": "0303060212",
+      "procedimento": "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+      "total_procedimentos": 2922785
+    },
+    {
+      "capitulo_cid": "XI. Doen\u00e7as do aparelho digestivo",
+      "PROC_REA": "0407030026",
+      "procedimento": "COLECISTECTOMIA",
+      "total_procedimentos": 1654785
+    },
+    {
+      "capitulo_cid": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "PROC_REA": "0303150050",
+      "procedimento": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO URINARIO",
+      "total_procedimentos": 1650647
+    },
+    {
+      "capitulo_cid": "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+      "PROC_REA": "0303030038",
+      "procedimento": "TRATAMENTO DE DIABETES MELLITUS",
+      "total_procedimentos": 1401456
+    },
+    {
+      "capitulo_cid": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "PROC_REA": "0308010019",
+      "procedimento": "TRATAMENTO DE TRAUMATISMOS DE LOCALIZACAO ESPECIFICADA / NAO ESPECIFICADA",
+      "total_procedimentos": 1353941
+    },
+    {
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "PROC_REA": "0304100021",
+      "procedimento": "TRATAMENTO CLINICO DE PACIENTE ONCOLOGICO",
+      "total_procedimentos": 1292506
+    },
+    {
+      "capitulo_cid": "V. Transtornos mentais e comportamentais",
+      "PROC_REA": "0303170093",
+      "procedimento": "TRATAMENTO EM PSIQUIATRIA (POR DIA)",
+      "total_procedimentos": 1178615
+    },
+    {
+      "capitulo_cid": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "PROC_REA": "0303160039",
+      "procedimento": "TRATAMENTO DE OUTROS TRANSTORNOS ORIGINADOS NO PERIODO PERINATAL",
+      "total_procedimentos": 920719
+    },
+    {
+      "capitulo_cid": "VI. Doen\u00e7as do sistema nervoso",
+      "PROC_REA": "0303040165",
+      "procedimento": "TRATAMENTO DE CRISES EPILETICAS NAO CONTROLADAS",
+      "total_procedimentos": 496996
+    },
+    {
+      "capitulo_cid": "XXI. Fatores que influenciam o estado de sa\u00fade",
+      "PROC_REA": "0409060186",
+      "procedimento": "LAQUEADURA TUBARIA",
+      "total_procedimentos": 485895
+    },
+    {
+      "capitulo_cid": "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+      "PROC_REA": "0303080060",
+      "procedimento": "TRATAMENTO DE ESTAFILOCOCCIAS",
+      "total_procedimentos": 418106
+    },
+    {
+      "capitulo_cid": "III. Doen\u00e7as do sangue e dos \u00f3rg\u00e3os hematopo\u00e9ticos",
+      "PROC_REA": "0303020032",
+      "procedimento": "TRATAMENTO DE ANEMIA APLASTICA E OUTRAS ANEMIAS",
+      "total_procedimentos": 367403
+    },
+    {
+      "capitulo_cid": "XVIII. Sintomas, sinais e achados anormais",
+      "PROC_REA": "0301060088",
+      "procedimento": "DIAGNOSTICO E/OU ATENDIMENTO DE URGENCIA EM CLINICA MEDICA",
+      "total_procedimentos": 361327
+    },
+    {
+      "capitulo_cid": "VII. Doen\u00e7as do olho e anexos",
+      "PROC_REA": "0405050372",
+      "procedimento": "FACOEMULSIFICACAO C/ IMPLANTE DE LENTE INTRA-OCULAR DOBRAVEL",
+      "total_procedimentos": 260122
+    },
+    {
+      "capitulo_cid": "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+      "PROC_REA": "0303090316",
+      "procedimento": "TRATAMENTO DAS POLIARTROPATIAS INFLAMATORIAS",
+      "total_procedimentos": 252838
+    },
+    {
+      "capitulo_cid": "VIII. Doen\u00e7as do ouvido e da ap\u00f3fise mast\u00f3ide",
+      "PROC_REA": "0303140070",
+      "procedimento": "TRATAMENTO DE DOENCA DO OUVIDO EXTERNO MEDIO E DA MASTOIDE",
+      "total_procedimentos": 89364
+    },
+    {
+      "capitulo_cid": "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+      "PROC_REA": "0415010012",
+      "procedimento": "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+      "total_procedimentos": 72881
+    }
+  ],
+  "result_hash": "a87f42ec18d25df410bc35b9887caa7fc7e4dd564c2135db447ab2a22092598b",
+  "semantic_disposition": "accepted"
+}

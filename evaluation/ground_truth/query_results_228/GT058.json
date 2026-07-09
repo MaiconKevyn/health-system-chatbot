@@ -1,0 +1,20 @@
+{
+  "id": "GT058",
+  "question_pt": "Qual o total de dias de interna\u00e7\u00e3o registrados?",
+  "executed_at": "2026-07-09T00:36:40.684044+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT SUM(\"DIAS_PERM\") FROM internacoes",
+  "duration_seconds": 0.007972,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "sum(DIAS_PERM)"
+  ],
+  "preview_rows": [
+    {
+      "sum(DIAS_PERM)": 731048480
+    }
+  ],
+  "result_hash": "bebc144d7b770008da4408d6dd23f51d3e9d952217166aee8b5998ab8461e48d",
+  "semantic_disposition": "accepted"
+}

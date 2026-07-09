@@ -1,0 +1,24 @@
+{
+  "id": "DENSE_TABLE_013",
+  "question_pt": "Quantos municipios existem e quantas UFs validas aparecem na dimensao territorial?",
+  "executed_at": "2026-07-08T23:09:05.518493+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH valid_uf(sg_uf) AS (VALUES ('AC'), ('AL'), ('AP'), ('AM'), ('BA'), ('CE'), ('DF'), ('ES'), ('GO'), ('MA'), ('MT'), ('MS'), ('MG'), ('PA'), ('PB'), ('PR'), ('PE'), ('PI'), ('RJ'), ('RN'), ('RS'), ('RO'), ('RR'), ('SC'), ('SP'), ('SE'), ('TO')) SELECT COUNT(*) AS total_municipios, COUNT(DISTINCT m.SG_UF) FILTER (WHERE v.sg_uf IS NOT NULL) AS ufs_validas, COUNT(DISTINCT m.SG_UF) FILTER (WHERE v.sg_uf IS NULL) AS codigos_sg_uf_invalidos FROM municipios m LEFT JOIN valid_uf v ON m.SG_UF = v.sg_uf",
+  "duration_seconds": 0.001141,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_municipios",
+    "ufs_validas",
+    "codigos_sg_uf_invalidos"
+  ],
+  "preview_rows": [
+    {
+      "total_municipios": 5590,
+      "ufs_validas": 27,
+      "codigos_sg_uf_invalidos": 12
+    }
+  ],
+  "result_hash": "3ef0ed34239ddf759d5ce76b65d4badef097c0213c5c1b87ca45a8a4c842a7b4",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,91 @@
+{
+  "id": "GT215",
+  "question_pt": "Quais municipios tiveram crescimento de internacoes em todos os anos de 2019 a 2021?",
+  "executed_at": "2026-07-09T00:36:59.550227+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH anual AS (SELECT m.\"NO_MUNICIPIO\" AS municipio, m.\"SG_UF\" AS uf, EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2019 AND 2021 GROUP BY m.\"NO_MUNICIPIO\", m.\"SG_UF\", ano), piv AS (SELECT municipio, uf, SUM(CASE WHEN ano = 2019 THEN total_internacoes ELSE 0 END) AS total_2019, SUM(CASE WHEN ano = 2020 THEN total_internacoes ELSE 0 END) AS total_2020, SUM(CASE WHEN ano = 2021 THEN total_internacoes ELSE 0 END) AS total_2021 FROM anual GROUP BY municipio, uf) SELECT municipio, uf, total_2019, total_2020, total_2021 FROM piv WHERE total_2020 > total_2019 AND total_2021 > total_2020 ORDER BY total_2021 DESC LIMIT 10",
+  "duration_seconds": 0.098401,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "municipio",
+    "uf",
+    "total_2019",
+    "total_2020",
+    "total_2021"
+  ],
+  "preview_rows": [
+    {
+      "municipio": "Aparecida de Goi\u00e2nia",
+      "uf": "GO",
+      "total_2019": 25863,
+      "total_2020": 26428,
+      "total_2021": 27953
+    },
+    {
+      "municipio": "Belford Roxo",
+      "uf": "RJ",
+      "total_2019": 20809,
+      "total_2020": 25121,
+      "total_2021": 27418
+    },
+    {
+      "municipio": "Castanhal",
+      "uf": "PA",
+      "total_2019": 12208,
+      "total_2020": 12890,
+      "total_2021": 13447
+    },
+    {
+      "municipio": "Sobral",
+      "uf": "CE",
+      "total_2019": 12207,
+      "total_2020": 12226,
+      "total_2021": 12638
+    },
+    {
+      "municipio": "Valpara\u00edso de Goi\u00e1s",
+      "uf": "GO",
+      "total_2019": 8691,
+      "total_2020": 8825,
+      "total_2021": 10793
+    },
+    {
+      "municipio": "Maric\u00e1",
+      "uf": "RJ",
+      "total_2019": 8069,
+      "total_2020": 8221,
+      "total_2021": 10708
+    },
+    {
+      "municipio": "Colatina",
+      "uf": "ES",
+      "total_2019": 6813,
+      "total_2020": 7222,
+      "total_2021": 9940
+    },
+    {
+      "municipio": "S\u00e3o Mateus",
+      "uf": "ES",
+      "total_2019": 9714,
+      "total_2020": 9842,
+      "total_2021": 9877
+    },
+    {
+      "municipio": "Teixeira de Freitas",
+      "uf": "BA",
+      "total_2019": 8674,
+      "total_2020": 9028,
+      "total_2021": 9380
+    },
+    {
+      "municipio": "Barcarena",
+      "uf": "PA",
+      "total_2019": 7109,
+      "total_2020": 7332,
+      "total_2021": 8593
+    }
+  ],
+  "result_hash": "f6dc52f48da26fa19cc83feef40a62a5488b716a31dd5758313fd18799bcb009",
+  "semantic_disposition": "accepted"
+}

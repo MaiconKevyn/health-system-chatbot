@@ -1,0 +1,20 @@
+{
+  "id": "GT155",
+  "question_pt": "Quantas internacoes ocorreram no primeiro trimestre?",
+  "executed_at": "2026-07-09T00:36:52.915287+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_primeiro_trimestre FROM internacoes WHERE EXTRACT(QUARTER FROM \"DT_INTER\") = 1",
+  "duration_seconds": 0.048888,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_primeiro_trimestre"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_primeiro_trimestre": 35587586
+    }
+  ],
+  "result_hash": "950f95821c37bbb0130180d92a7738f5f6d5cdf044fa0c56bd31b11fa9b96694",
+  "semantic_disposition": "accepted"
+}

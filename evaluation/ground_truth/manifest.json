@@ -6,6 +6,8 @@
   "audit_table_count": 211,
   "ground_truth_count": 100,
   "ground_truth_v2_count": 100,
+  "ground_truth_228_validated_count": 228,
+  "ground_truth_228_validated_at": "2026-07-09T00:37:04.258184+00:00",
   "difficulty_distribution": {
     "L1": 15,
     "L2": 25,
@@ -39,7 +41,12 @@
     "evaluation/ground_truth/stage1_questions_v2.md",
     "evaluation/ground_truth/rejected_questions_v2.md",
     "evaluation/ground_truth/query_results_v2/",
-    "ground_truth_v2.json"
+    "ground_truth_v2.json",
+    "evaluation/ground_truth/ground_truth_228_validated.json",
+    "evaluation/ground_truth/ground_truth_228_validated.jsonl",
+    "evaluation/ground_truth/query_results_228/",
+    "evaluation/ground_truth/ground_truth_228_validation_report.json",
+    "evaluation/ground_truth/ground_truth_228_validation_report.md"
   ],
   "generated_artifacts": [
     "docs/generated/duckdb_runtime_metadata.json",

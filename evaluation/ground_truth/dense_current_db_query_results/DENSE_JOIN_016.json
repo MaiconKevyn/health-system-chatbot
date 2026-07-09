@@ -1,0 +1,22 @@
+{
+  "id": "DENSE_JOIN_016",
+  "question_pt": "Auditoria: quantas internacoes tem vinculo previdenciario sem correspondencia na dimensao?",
+  "executed_at": "2026-07-08T23:09:07.832295+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) FILTER (WHERE v.VINCPREV IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN vincprev v ON i.VINCPREV = v.VINCPREV",
+  "duration_seconds": 0.04914,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "sem_correspondencia",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "sem_correspondencia": 0,
+      "internacoes": 144386772
+    }
+  ],
+  "result_hash": "f1793d43ea8e067a4e6830588eb285459fb630978480159ca86dce4d73f88b67",
+  "semantic_disposition": "accepted"
+}

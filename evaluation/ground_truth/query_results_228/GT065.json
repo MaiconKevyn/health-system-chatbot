@@ -1,0 +1,38 @@
+{
+  "id": "GT065",
+  "question_pt": "Qual o n\u00edvel de instru\u00e7\u00e3o dos pacientes internados?",
+  "executed_at": "2026-07-09T00:36:40.817930+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT ins.\"DESCRICAO\", COUNT(*) AS total FROM internacoes i JOIN instrucao ins ON i.\"INSTRU\" = ins.\"INSTRU\" WHERE i.\"INSTRU\" IS NOT NULL AND i.\"INSTRU\" != 0 GROUP BY ins.\"INSTRU\", ins.\"DESCRICAO\" ORDER BY total DESC",
+  "duration_seconds": 0.016142,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "DESCRICAO",
+    "total"
+  ],
+  "preview_rows": [
+    {
+      "DESCRICAO": "1\u00ba grau",
+      "total": 561908
+    },
+    {
+      "DESCRICAO": "2\u00ba grau",
+      "total": 517048
+    },
+    {
+      "DESCRICAO": "Analfabeto",
+      "total": 71358
+    },
+    {
+      "DESCRICAO": "3\u00ba grau",
+      "total": 55281
+    },
+    {
+      "DESCRICAO": "Ignorado",
+      "total": 2
+    }
+  ],
+  "result_hash": "2bdc8ae4d852572b4b76075896bd2331b9da5739b0fcbe4d499c3bb74c8d32ce",
+  "semantic_disposition": "accepted"
+}

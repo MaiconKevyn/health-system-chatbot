@@ -1,0 +1,20 @@
+{
+  "id": "GT139",
+  "question_pt": "Quantas internacoes tiveram pneumonia como diagnostico principal?",
+  "executed_at": "2026-07-09T00:36:48.358360+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_pneumonia FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'J18%'",
+  "duration_seconds": 0.05373,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_pneumonia"
+  ],
+  "preview_rows": [
+    {
+      "total_pneumonia": 5013865
+    }
+  ],
+  "result_hash": "056404aa19ac2600eacfd0c07c63a1eba360e199b197a4414d1723460cd6565a",
+  "semantic_disposition": "accepted"
+}

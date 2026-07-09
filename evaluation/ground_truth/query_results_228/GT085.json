@@ -1,0 +1,116 @@
+{
+  "id": "GT085",
+  "question_pt": "Qual a taxa de mortalidade hospitalar por especialidade m\u00e9dica?",
+  "executed_at": "2026-07-09T00:36:43.931016+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT e.\"DESCRICAO\" AS especialidade, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" GROUP BY e.\"DESCRICAO\" ORDER BY taxa_mortalidade DESC",
+  "duration_seconds": 0.08355,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "especialidade",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "especialidade": "N\u00e3o Documentado",
+      "total_internacoes": 855,
+      "total_mortes": 503,
+      "taxa_mortalidade": 58.83
+    },
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "total_internacoes": 280162,
+      "total_mortes": 63773,
+      "taxa_mortalidade": 22.76
+    },
+    {
+      "especialidade": "Cl\u00ednico",
+      "total_internacoes": 52713972,
+      "total_mortes": 4619965,
+      "taxa_mortalidade": 8.76
+    },
+    {
+      "especialidade": "Pneumologia Sanit\u00e1ria",
+      "total_internacoes": 93409,
+      "total_mortes": 6237,
+      "taxa_mortalidade": 6.68
+    },
+    {
+      "especialidade": "Cir\u00fargico",
+      "total_internacoes": 44552780,
+      "total_mortes": 918886,
+      "taxa_mortalidade": 2.06
+    },
+    {
+      "especialidade": "Pedi\u00e1trico",
+      "total_internacoes": 16187236,
+      "total_mortes": 254474,
+      "taxa_mortalidade": 1.57
+    },
+    {
+      "especialidade": "Leito Dia / Intercorr\u00eancia P\u00f3s-Transplante",
+      "total_internacoes": 37271,
+      "total_mortes": 260,
+      "taxa_mortalidade": 0.7
+    },
+    {
+      "especialidade": "Sa\u00fade Mental - Longa Perman\u00eancia",
+      "total_internacoes": 207535,
+      "total_mortes": 763,
+      "taxa_mortalidade": 0.37
+    },
+    {
+      "especialidade": "Reabilita\u00e7\u00e3o",
+      "total_internacoes": 240826,
+      "total_mortes": 614,
+      "taxa_mortalidade": 0.25
+    },
+    {
+      "especialidade": "Psiquiatria",
+      "total_internacoes": 2079148,
+      "total_mortes": 3646,
+      "taxa_mortalidade": 0.18
+    },
+    {
+      "especialidade": "Leito Dia / AIDS",
+      "total_internacoes": 81615,
+      "total_mortes": 37,
+      "taxa_mortalidade": 0.05
+    },
+    {
+      "especialidade": "Leito Dia / Cir\u00fargico",
+      "total_internacoes": 340779,
+      "total_mortes": 125,
+      "taxa_mortalidade": 0.04
+    },
+    {
+      "especialidade": "Obst\u00e9trico",
+      "total_internacoes": 27397950,
+      "total_mortes": 8227,
+      "taxa_mortalidade": 0.03
+    },
+    {
+      "especialidade": "Leito Dia / Sa\u00fade Mental",
+      "total_internacoes": 173169,
+      "total_mortes": 26,
+      "taxa_mortalidade": 0.02
+    },
+    {
+      "especialidade": "Leito Dia / Geriatria",
+      "total_internacoes": 39,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "especialidade": "Leito Dia / Fibrose C\u00edstica",
+      "total_internacoes": 26,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    }
+  ],
+  "result_hash": "da58a8c8f95cc14c80616f2060795521af227399e973389b306e79b10df90c16",
+  "semantic_disposition": "accepted"
+}

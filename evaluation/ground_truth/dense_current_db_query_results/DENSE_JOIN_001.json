@@ -1,0 +1,26 @@
+{
+  "id": "DENSE_JOIN_001",
+  "question_pt": "Como as internacoes se distribuem por sexo?",
+  "executed_at": "2026-07-08T23:09:05.572358+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS internacoes FROM internacoes i JOIN sexo s ON i.SEXO = s.SEXO GROUP BY 1 ORDER BY internacoes DESC",
+  "duration_seconds": 0.051788,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "sexo",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Feminino",
+      "internacoes": 85419029
+    },
+    {
+      "sexo": "Masculino",
+      "internacoes": 58967743
+    }
+  ],
+  "result_hash": "d4eba4010edc697e5a94659dcee1bc9178b0dcc0b5aeeb875d47e00d0f1ad681",
+  "semantic_disposition": "accepted"
+}

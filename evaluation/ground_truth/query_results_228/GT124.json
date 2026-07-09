@@ -1,0 +1,99 @@
+{
+  "id": "GT124",
+  "question_pt": "Qual a m\u00e9dia m\u00f3vel de 3 anos de interna\u00e7\u00f5es no estado do RS por ano (2008-2023)?",
+  "executed_at": "2026-07-09T00:36:47.032832+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT ano, total_internacoes, ROUND(AVG(total_internacoes) OVER (ORDER BY ano ROWS BETWEEN 2 PRECEDING AND CURRENT ROW), 0) AS media_movel_3anos FROM (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL AND EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2008 AND 2023 GROUP BY ano) sub ORDER BY ano",
+  "duration_seconds": 0.02944,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "ano",
+    "total_internacoes",
+    "media_movel_3anos"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2008,
+      "total_internacoes": 718980,
+      "media_movel_3anos": 718980.0
+    },
+    {
+      "ano": 2009,
+      "total_internacoes": 729369,
+      "media_movel_3anos": 724175.0
+    },
+    {
+      "ano": 2010,
+      "total_internacoes": 722522,
+      "media_movel_3anos": 723624.0
+    },
+    {
+      "ano": 2011,
+      "total_internacoes": 710800,
+      "media_movel_3anos": 720897.0
+    },
+    {
+      "ano": 2012,
+      "total_internacoes": 723375,
+      "media_movel_3anos": 718899.0
+    },
+    {
+      "ano": 2013,
+      "total_internacoes": 738034,
+      "media_movel_3anos": 724070.0
+    },
+    {
+      "ano": 2014,
+      "total_internacoes": 764047,
+      "media_movel_3anos": 741819.0
+    },
+    {
+      "ano": 2015,
+      "total_internacoes": 759643,
+      "media_movel_3anos": 753908.0
+    },
+    {
+      "ano": 2016,
+      "total_internacoes": 750093,
+      "media_movel_3anos": 757928.0
+    },
+    {
+      "ano": 2017,
+      "total_internacoes": 752897,
+      "media_movel_3anos": 754211.0
+    },
+    {
+      "ano": 2018,
+      "total_internacoes": 747196,
+      "media_movel_3anos": 750062.0
+    },
+    {
+      "ano": 2019,
+      "total_internacoes": 769179,
+      "media_movel_3anos": 756424.0
+    },
+    {
+      "ano": 2020,
+      "total_internacoes": 664505,
+      "media_movel_3anos": 726960.0
+    },
+    {
+      "ano": 2021,
+      "total_internacoes": 719323,
+      "media_movel_3anos": 717669.0
+    },
+    {
+      "ano": 2022,
+      "total_internacoes": 771975,
+      "media_movel_3anos": 718601.0
+    },
+    {
+      "ano": 2023,
+      "total_internacoes": 745599,
+      "media_movel_3anos": 745632.0
+    }
+  ],
+  "result_hash": "3dab5318680e497903a9eafc2689b81b035389201a64e80ba679e0e686331422",
+  "semantic_disposition": "accepted"
+}

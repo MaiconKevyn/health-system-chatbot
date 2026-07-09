@@ -1,0 +1,20 @@
+{
+  "id": "GT144",
+  "question_pt": "Quantas internacoes por infarto agudo do miocardio foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.725712+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_infarto_agudo FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'I21%'",
+  "duration_seconds": 0.064496,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_infarto_agudo"
+  ],
+  "preview_rows": [
+    {
+      "total_infarto_agudo": 1205596
+    }
+  ],
+  "result_hash": "6fd5a732b9c4f7de8eeb21a5b7ee7a2c37ab49e3ff9527f64dd60080291f12cc",
+  "semantic_disposition": "accepted"
+}

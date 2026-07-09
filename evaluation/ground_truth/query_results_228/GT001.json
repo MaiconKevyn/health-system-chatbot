@@ -1,0 +1,20 @@
+{
+  "id": "GT001",
+  "question_pt": "Quantas interna\u00e7\u00f5es foram registradas no total?",
+  "executed_at": "2026-07-09T00:36:37.245234+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes",
+  "duration_seconds": 0.00591,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "total_internacoes": 144386772
+    }
+  ],
+  "result_hash": "5094efa3339c775bb5c2b9af6fc30553f48827b757161a6566128d243ae5a83f",
+  "semantic_disposition": "accepted"
+}

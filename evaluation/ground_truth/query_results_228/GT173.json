@@ -1,0 +1,54 @@
+{
+  "id": "GT173",
+  "question_pt": "Quais sao os 10 CIDs de infarto agudo do miocardio mais frequentes nas internacoes?",
+  "executed_at": "2026-07-09T00:36:53.587582+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"CID\", c.\"DESCRICAO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"DIAG_PRINC\" LIKE 'I21%' GROUP BY c.\"CID\", c.\"DESCRICAO\" ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.070094,
+  "performance_class": "fast",
+  "row_count": 7,
+  "columns": [
+    "CID",
+    "DESCRICAO",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "CID": "I219",
+      "DESCRICAO": "Infarto agudo do miocardio NE",
+      "total_internacoes": 834684
+    },
+    {
+      "CID": "I210",
+      "DESCRICAO": "Infarto agudo transmural parede ant miocard",
+      "total_internacoes": 188970
+    },
+    {
+      "CID": "I214",
+      "DESCRICAO": "Infarto agudo subendocardico do miocardio",
+      "total_internacoes": 62068
+    },
+    {
+      "CID": "I211",
+      "DESCRICAO": "Infarto agudo transmural parede inf miocard",
+      "total_internacoes": 53016
+    },
+    {
+      "CID": "I213",
+      "DESCRICAO": "Infarto agudo transmural miocardio loc NE",
+      "total_internacoes": 40622
+    },
+    {
+      "CID": "I212",
+      "DESCRICAO": "Infarto agudo transmural miocardio outr loc",
+      "total_internacoes": 18363
+    },
+    {
+      "CID": "I21",
+      "DESCRICAO": "Infarto agudo do miocardio",
+      "total_internacoes": 7873
+    }
+  ],
+  "result_hash": "854e0abfb59afaf7be00505a5b07dd4a7e7e59adb833625924064e11900b718b",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,86 @@
+{
+  "id": "GT183",
+  "question_pt": "Qual a evolucao anual das internacoes com uso de UTI?",
+  "executed_at": "2026-07-09T00:36:54.957673+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS internacoes_uti FROM internacoes WHERE \"MARCA_UTI\" <> 0 AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.02755,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "ano",
+    "internacoes_uti"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2007,
+      "internacoes_uti": 28150
+    },
+    {
+      "ano": 2008,
+      "internacoes_uti": 331807
+    },
+    {
+      "ano": 2009,
+      "internacoes_uti": 362123
+    },
+    {
+      "ano": 2010,
+      "internacoes_uti": 394811
+    },
+    {
+      "ano": 2011,
+      "internacoes_uti": 420710
+    },
+    {
+      "ano": 2012,
+      "internacoes_uti": 445141
+    },
+    {
+      "ano": 2013,
+      "internacoes_uti": 474558
+    },
+    {
+      "ano": 2014,
+      "internacoes_uti": 502873
+    },
+    {
+      "ano": 2015,
+      "internacoes_uti": 519327
+    },
+    {
+      "ano": 2016,
+      "internacoes_uti": 539253
+    },
+    {
+      "ano": 2017,
+      "internacoes_uti": 572198
+    },
+    {
+      "ano": 2018,
+      "internacoes_uti": 605050
+    },
+    {
+      "ano": 2019,
+      "internacoes_uti": 646056
+    },
+    {
+      "ano": 2020,
+      "internacoes_uti": 723741
+    },
+    {
+      "ano": 2021,
+      "internacoes_uti": 900662
+    },
+    {
+      "ano": 2022,
+      "internacoes_uti": 824615
+    },
+    {
+      "ano": 2023,
+      "internacoes_uti": 816122
+    }
+  ],
+  "result_hash": "4108d73951449b106e4cb4012962fddc41be7b2a8adef87f1793733e3b03393b",
+  "semantic_disposition": "accepted"
+}

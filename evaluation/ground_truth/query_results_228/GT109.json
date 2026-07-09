@@ -1,0 +1,20 @@
+{
+  "id": "GT109",
+  "question_pt": "Quantas interna\u00e7\u00f5es foram registradas para pacientes com menos de 1 ano de idade?",
+  "executed_at": "2026-07-09T00:36:45.454827+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_neonatos FROM internacoes WHERE \"IDADE\" = 0",
+  "duration_seconds": 0.014399,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_neonatos"
+  ],
+  "preview_rows": [
+    {
+      "total_neonatos": 7370829
+    }
+  ],
+  "result_hash": "616df10abb69b3f65f9770383e1a8b2a138a3f59772d4edf131a5db3a475e478",
+  "semantic_disposition": "accepted"
+}

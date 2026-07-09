@@ -1,0 +1,98 @@
+{
+  "id": "DENSE_JOIN_007",
+  "question_pt": "Quais nacionalidades tiveram mais internacoes?",
+  "executed_at": "2026-07-08T23:09:06.371111+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT n.DESCRICAO AS nacionalidade, COUNT(*) AS internacoes FROM internacoes i JOIN nacionalidade n ON i.NACIONAL = n.NACIONAL GROUP BY 1 ORDER BY internacoes DESC LIMIT 20",
+  "duration_seconds": 0.05302,
+  "performance_class": "fast",
+  "row_count": 20,
+  "columns": [
+    "nacionalidade",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "nacionalidade": "Brasil",
+      "internacoes": 144040090
+    },
+    {
+      "nacionalidade": "Republica dominicana",
+      "internacoes": 77902
+    },
+    {
+      "nacionalidade": "Venezuela",
+      "internacoes": 54914
+    },
+    {
+      "nacionalidade": "Reservado",
+      "internacoes": 26583
+    },
+    {
+      "nacionalidade": "Paraguai",
+      "internacoes": 21025
+    },
+    {
+      "nacionalidade": "Chile",
+      "internacoes": 19106
+    },
+    {
+      "nacionalidade": "Bolivia",
+      "internacoes": 15891
+    },
+    {
+      "nacionalidade": "Portugal",
+      "internacoes": 14104
+    },
+    {
+      "nacionalidade": "Republica do haiti",
+      "internacoes": 12539
+    },
+    {
+      "nacionalidade": "Argentina",
+      "internacoes": 10908
+    },
+    {
+      "nacionalidade": "Ilhas virgens britanicas",
+      "internacoes": 6728
+    },
+    {
+      "nacionalidade": "Uruguai",
+      "internacoes": 5321
+    },
+    {
+      "nacionalidade": "Escocia",
+      "internacoes": 4565
+    },
+    {
+      "nacionalidade": "Alemanha",
+      "internacoes": 4492
+    },
+    {
+      "nacionalidade": "Eire",
+      "internacoes": 4236
+    },
+    {
+      "nacionalidade": "Colombia",
+      "internacoes": 4131
+    },
+    {
+      "nacionalidade": "Italia",
+      "internacoes": 3624
+    },
+    {
+      "nacionalidade": "Japao",
+      "internacoes": 3605
+    },
+    {
+      "nacionalidade": "Gibraltar",
+      "internacoes": 3363
+    },
+    {
+      "nacionalidade": "Cuba",
+      "internacoes": 3262
+    }
+  ],
+  "result_hash": "62e76e10fac1068506b4da876af389881c58f50d45e95745bb7f123ec0138d1d",
+  "semantic_disposition": "accepted"
+}

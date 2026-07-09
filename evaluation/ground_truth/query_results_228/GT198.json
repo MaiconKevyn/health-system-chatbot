@@ -1,0 +1,58 @@
+{
+  "id": "GT198",
+  "question_pt": "Quais capitulos CID tem maior custo total de internacoes?",
+  "executed_at": "2026-07-09T00:36:56.122858+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DS_CAPITULO\" AS capitulo_cid, ROUND(SUM(i.\"VAL_TOT\"), 2) AS custo_total FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"VAL_TOT\" IS NOT NULL GROUP BY c.\"DS_CAPITULO\" ORDER BY custo_total DESC LIMIT 10",
+  "duration_seconds": 0.379349,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "capitulo_cid",
+    "custo_total"
+  ],
+  "preview_rows": [
+    {
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "custo_total": 39191076108.4
+    },
+    {
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "custo_total": 30933084157.38
+    },
+    {
+      "capitulo_cid": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "custo_total": 21424640439.71
+    },
+    {
+      "capitulo_cid": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "custo_total": 19182636627.31
+    },
+    {
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "custo_total": 19045592912.8
+    },
+    {
+      "capitulo_cid": "XV. Gravidez, parto e puerp\u00e9rio",
+      "custo_total": 17587893534.34
+    },
+    {
+      "capitulo_cid": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "custo_total": 14168382742.15
+    },
+    {
+      "capitulo_cid": "XI. Doen\u00e7as do aparelho digestivo",
+      "custo_total": 13733348017.78
+    },
+    {
+      "capitulo_cid": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "custo_total": 8805166196.67
+    },
+    {
+      "capitulo_cid": "V. Transtornos mentais e comportamentais",
+      "custo_total": 4564311778.07
+    }
+  ],
+  "result_hash": "630a9df9604deaa079dee3b9c4df06f9d5618edea8c396ebd33e63ee543b46ee",
+  "semantic_disposition": "accepted"
+}

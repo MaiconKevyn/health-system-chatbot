@@ -1,0 +1,20 @@
+{
+  "id": "GT041",
+  "question_pt": "Quantos hospitais atenderam casos de UTI em 2020?",
+  "executed_at": "2026-07-09T00:36:39.805263+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(DISTINCT \"CNES\") FROM internacoes WHERE \"VAL_UTI\" > 0 AND EXTRACT(YEAR FROM \"DT_INTER\") = 2020",
+  "duration_seconds": 0.030428,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "count(DISTINCT CNES)"
+  ],
+  "preview_rows": [
+    {
+      "count(DISTINCT CNES)": 1084
+    }
+  ],
+  "result_hash": "085f0f8b7f8cabc1e4958912d9f31ec0c38fa2f4bcc66cb50a4ea702265c0dc4",
+  "semantic_disposition": "accepted"
+}

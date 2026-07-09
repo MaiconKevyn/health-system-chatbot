@@ -1,0 +1,80 @@
+{
+  "id": "GT127",
+  "question_pt": "Quais s\u00e3o os 10 diagn\u00f3sticos com maior queda absoluta de interna\u00e7\u00f5es entre os per\u00edodos 2008-2012 e 2019-2023, considerando diagn\u00f3sticos com mais de 1000 interna\u00e7\u00f5es no primeiro per\u00edodo?",
+  "executed_at": "2026-07-09T00:36:47.235065+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH p1 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n1 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2008 AND 2012 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\"), p2 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n2 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2019 AND 2023 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\") SELECT c.\"DESCRICAO\", p1.n1 AS periodo_2008_2012, p2.n2 AS periodo_2019_2023, (p1.n1 - p2.n2) AS queda_absoluta FROM p1 JOIN p2 ON p1.\"DIAG_PRINC\" = p2.\"DIAG_PRINC\" JOIN cid c ON p1.\"DIAG_PRINC\" = c.\"CID\" WHERE p1.n1 > 1000 ORDER BY queda_absoluta DESC LIMIT 10",
+  "duration_seconds": 0.104043,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "DESCRICAO",
+    "periodo_2008_2012",
+    "periodo_2019_2023",
+    "queda_absoluta"
+  ],
+  "preview_rows": [
+    {
+      "DESCRICAO": "Diarreia e gastroenterite orig infecc presum",
+      "periodo_2008_2012": 936472,
+      "periodo_2019_2023": 380118,
+      "queda_absoluta": 556354
+    },
+    {
+      "DESCRICAO": "Parto espontaneo cefalico",
+      "periodo_2008_2012": 3409488,
+      "periodo_2019_2023": 2946055,
+      "queda_absoluta": 463433
+    },
+    {
+      "DESCRICAO": "Asma NE",
+      "periodo_2008_2012": 687491,
+      "periodo_2019_2023": 239110,
+      "queda_absoluta": 448381
+    },
+    {
+      "DESCRICAO": "Parto unico espontaneo NE",
+      "periodo_2008_2012": 896287,
+      "periodo_2019_2023": 569786,
+      "queda_absoluta": 326501
+    },
+    {
+      "DESCRICAO": "Infecc intestinal bacter NE",
+      "periodo_2008_2012": 438730,
+      "periodo_2019_2023": 124355,
+      "queda_absoluta": 314375
+    },
+    {
+      "DESCRICAO": "Outr tipos de parto unico espontaneo",
+      "periodo_2008_2012": 467888,
+      "periodo_2019_2023": 176661,
+      "queda_absoluta": 291227
+    },
+    {
+      "DESCRICAO": "Outr pneumonias bacter",
+      "periodo_2008_2012": 442318,
+      "periodo_2019_2023": 204402,
+      "queda_absoluta": 237916
+    },
+    {
+      "DESCRICAO": "Outr pneumonias dev microorg NE",
+      "periodo_2008_2012": 347461,
+      "periodo_2019_2023": 109584,
+      "queda_absoluta": 237877
+    },
+    {
+      "DESCRICAO": "Parto p/cesariana de emergencia",
+      "periodo_2008_2012": 527219,
+      "periodo_2019_2023": 303408,
+      "queda_absoluta": 223811
+    },
+    {
+      "DESCRICAO": "Insuf cardiaca NE",
+      "periodo_2008_2012": 534593,
+      "periodo_2019_2023": 323352,
+      "queda_absoluta": 211241
+    }
+  ],
+  "result_hash": "7f72605352d772ae39dc526b28e1700dffe0f85f29ae7cf6014532d08a7c7dcd",
+  "semantic_disposition": "accepted"
+}

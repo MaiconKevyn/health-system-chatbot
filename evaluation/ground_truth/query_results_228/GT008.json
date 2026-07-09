@@ -1,0 +1,20 @@
+{
+  "id": "GT008",
+  "question_pt": "Quantos casos de VDRL positivo foram registrados?",
+  "executed_at": "2026-07-09T00:36:37.409436+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_vdrl FROM internacoes WHERE \"IND_VDRL\" = true",
+  "duration_seconds": 0.015411,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_vdrl"
+  ],
+  "preview_rows": [
+    {
+      "total_vdrl": 22840654
+    }
+  ],
+  "result_hash": "a7e110e132672aba8859c53c85c1ea757a6b6dbb8f414ada9719c41585b8aa5b",
+  "semantic_disposition": "accepted"
+}

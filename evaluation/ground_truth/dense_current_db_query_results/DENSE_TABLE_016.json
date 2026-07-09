@@ -1,0 +1,46 @@
+{
+  "id": "DENSE_TABLE_016",
+  "question_pt": "Quais codigos e descricoes existem para raca cor?",
+  "executed_at": "2026-07-08T23:09:05.519322+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT RACA_COR, DESCRICAO FROM raca_cor ORDER BY RACA_COR",
+  "duration_seconds": 0.000273,
+  "performance_class": "fast",
+  "row_count": 7,
+  "columns": [
+    "RACA_COR",
+    "DESCRICAO"
+  ],
+  "preview_rows": [
+    {
+      "RACA_COR": "00",
+      "DESCRICAO": "N\u00e3o informado"
+    },
+    {
+      "RACA_COR": "01",
+      "DESCRICAO": "Branca"
+    },
+    {
+      "RACA_COR": "02",
+      "DESCRICAO": "Preta"
+    },
+    {
+      "RACA_COR": "03",
+      "DESCRICAO": "Parda"
+    },
+    {
+      "RACA_COR": "04",
+      "DESCRICAO": "Amarela"
+    },
+    {
+      "RACA_COR": "05",
+      "DESCRICAO": "Ind\u00edgena"
+    },
+    {
+      "RACA_COR": "99",
+      "DESCRICAO": "Sem informa\u00e7\u00e3o"
+    }
+  ],
+  "result_hash": "c446c9f15cf26dd80293749be539d1b9642498cc1bcda7b24014489a18d17f10",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "DENSE_TABLE_019",
+  "question_pt": "Qual e o intervalo de datas disponivel na dimensao tempo?",
+  "executed_at": "2026-07-08T23:09:05.520188+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MIN(data) AS primeira_data, MAX(data) AS ultima_data, COUNT(*) AS dias FROM tempo",
+  "duration_seconds": 0.000133,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "primeira_data",
+    "ultima_data",
+    "dias"
+  ],
+  "preview_rows": [
+    {
+      "primeira_data": "2008-01-01",
+      "ultima_data": "2023-12-31",
+      "dias": 5844
+    }
+  ],
+  "result_hash": "c514a6f2628315afb035fa8077af18a563d0e61f9342d688f7d48afa3629a371",
+  "semantic_disposition": "accepted"
+}

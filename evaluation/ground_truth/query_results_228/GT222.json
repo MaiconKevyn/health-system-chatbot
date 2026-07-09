@@ -1,0 +1,20 @@
+{
+  "id": "GT222",
+  "question_pt": "Quando houver dados socioecon\u00f4micos, quais munic\u00edpios tiveram maior taxa de interna\u00e7\u00e3o por mil habitantes em 2021?",
+  "executed_at": "2026-07-09T00:37:00.762867+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH internacoes_2021 AS (SELECT i.\"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes FROM internacoes i WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021 GROUP BY i.\"MUNIC_RES\") SELECT m.\"NO_MUNICIPIO\" AS municipio, m.\"SG_UF\" AS uf, a.total_internacoes, s.\"QT_POPULACAO\", ROUND(a.total_internacoes * 1000.0 / NULLIF(s.\"QT_POPULACAO\", 0), 2) AS internacoes_por_mil FROM internacoes_2021 a JOIN socioeconomico s ON a.municipio_codigo = s.\"CO_MUNICIPIO_6D\" AND s.\"NU_ANO\" = 2021 JOIN municipios m ON s.\"CO_MUNICIPIO_6D\" = m.\"CO_MUNICIPIO_6D\" WHERE s.\"QT_POPULACAO\" > 0 ORDER BY internacoes_por_mil DESC LIMIT 10",
+  "duration_seconds": 0.032067,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "municipio",
+    "uf",
+    "total_internacoes",
+    "QT_POPULACAO",
+    "internacoes_por_mil"
+  ],
+  "preview_rows": [],
+  "result_hash": "ff652fc52cf6037e76971fdd5df1347310bfc11b7d6823d1653c9929af26b979",
+  "semantic_disposition": "accepted"
+}

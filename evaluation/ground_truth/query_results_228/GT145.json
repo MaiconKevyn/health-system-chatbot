@@ -1,0 +1,20 @@
+{
+  "id": "GT145",
+  "question_pt": "Quantas internacoes de pacientes indigenas foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.826568+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_pacientes_indigenas FROM internacoes WHERE \"RACA_COR\" = 5",
+  "duration_seconds": 0.09975,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_pacientes_indigenas"
+  ],
+  "preview_rows": [
+    {
+      "total_pacientes_indigenas": 459272
+    }
+  ],
+  "result_hash": "4831dd1f10b813fc6306b717b046bdb0ff7087bbf6b80dfbd6571500b4e2af1b",
+  "semantic_disposition": "accepted"
+}

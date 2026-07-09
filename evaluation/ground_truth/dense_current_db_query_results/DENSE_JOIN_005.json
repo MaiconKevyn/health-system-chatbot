@@ -1,0 +1,82 @@
+{
+  "id": "DENSE_JOIN_005",
+  "question_pt": "Quais especialidades tiveram mais internacoes?",
+  "executed_at": "2026-07-08T23:09:06.256684+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT e.DESCRICAO AS especialidade, COUNT(*) AS internacoes FROM internacoes i JOIN especialidade e ON i.ESPEC = e.ESPEC GROUP BY 1 ORDER BY internacoes DESC LIMIT 20",
+  "duration_seconds": 0.053789,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "especialidade",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "especialidade": "Cl\u00ednico",
+      "internacoes": 52713972
+    },
+    {
+      "especialidade": "Cir\u00fargico",
+      "internacoes": 44552780
+    },
+    {
+      "especialidade": "Obst\u00e9trico",
+      "internacoes": 27397950
+    },
+    {
+      "especialidade": "Pedi\u00e1trico",
+      "internacoes": 16187236
+    },
+    {
+      "especialidade": "Psiquiatria",
+      "internacoes": 2079148
+    },
+    {
+      "especialidade": "Leito Dia / Cir\u00fargico",
+      "internacoes": 340779
+    },
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "internacoes": 280162
+    },
+    {
+      "especialidade": "Reabilita\u00e7\u00e3o",
+      "internacoes": 240826
+    },
+    {
+      "especialidade": "Sa\u00fade Mental - Longa Perman\u00eancia",
+      "internacoes": 207535
+    },
+    {
+      "especialidade": "Leito Dia / Sa\u00fade Mental",
+      "internacoes": 173169
+    },
+    {
+      "especialidade": "Pneumologia Sanit\u00e1ria",
+      "internacoes": 93409
+    },
+    {
+      "especialidade": "Leito Dia / AIDS",
+      "internacoes": 81615
+    },
+    {
+      "especialidade": "Leito Dia / Intercorr\u00eancia P\u00f3s-Transplante",
+      "internacoes": 37271
+    },
+    {
+      "especialidade": "N\u00e3o Documentado",
+      "internacoes": 855
+    },
+    {
+      "especialidade": "Leito Dia / Geriatria",
+      "internacoes": 39
+    },
+    {
+      "especialidade": "Leito Dia / Fibrose C\u00edstica",
+      "internacoes": 26
+    }
+  ],
+  "result_hash": "5d9408de16a849ea663aae83b736095b2150a6502033b6801032bc6bdb30259f",
+  "semantic_disposition": "accepted"
+}

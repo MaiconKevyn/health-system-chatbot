@@ -1,0 +1,23 @@
+{
+  "id": "GT121",
+  "question_pt": "Quais munic\u00edpios com mais de 500 interna\u00e7\u00f5es aparecem simultaneamente no top-20 de volume e no top-20 de taxa de mortalidade nos estados MA e RS?",
+  "executed_at": "2026-07-09T00:36:46.593319+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH top_volume AS (\n    SELECT mu.\"NO_MUNICIPIO\" AS nome\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE mu.\"SG_UF\" IN ('MA', 'RS')\n    GROUP BY mu.\"NO_MUNICIPIO\"\n    HAVING COUNT(*) > 500\n    ORDER BY COUNT(*) DESC\n    LIMIT 20\n), top_mortalidade AS (\n    SELECT mu.\"NO_MUNICIPIO\" AS nome\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE mu.\"SG_UF\" IN ('MA', 'RS')\n    GROUP BY mu.\"NO_MUNICIPIO\"\n    HAVING COUNT(*) > 500\n    ORDER BY SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 1.0 / COUNT(*) DESC\n    LIMIT 20\n)\nSELECT tv.nome\nFROM top_volume tv\nWHERE tv.nome IN (SELECT nome FROM top_mortalidade)\nORDER BY tv.nome",
+  "duration_seconds": 0.096642,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "nome"
+  ],
+  "preview_rows": [
+    {
+      "nome": "Bag\u00e9"
+    },
+    {
+      "nome": "S\u00e3o Leopoldo"
+    }
+  ],
+  "result_hash": "470ac257ebca956687bb3b79456a314651313027378491eb68debd6f70344f27",
+  "semantic_disposition": "accepted"
+}

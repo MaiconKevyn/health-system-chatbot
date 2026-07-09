@@ -1,0 +1,69 @@
+{
+  "id": "GT199",
+  "question_pt": "Quais procedimentos principais foram mais registrados em interna\u00e7\u00f5es com UTI?",
+  "executed_at": "2026-07-09T00:36:56.182691+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"MARCA_UTI\" <> 0 GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total_procedimentos DESC LIMIT 10",
+  "duration_seconds": 0.059551,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "PROC_REA",
+    "procedimento",
+    "total_procedimentos"
+  ],
+  "preview_rows": [
+    {
+      "PROC_REA": "0303010037",
+      "procedimento": "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+      "total_procedimentos": 703310
+    },
+    {
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 423408
+    },
+    {
+      "PROC_REA": "0303010223",
+      "procedimento": "TRATAMENTO DE INFECCAO PELO CORONAVIRUS ? COVID 19",
+      "total_procedimentos": 388866
+    },
+    {
+      "PROC_REA": "0415010012",
+      "procedimento": "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+      "total_procedimentos": 373546
+    },
+    {
+      "PROC_REA": "0303160063",
+      "procedimento": "TRATAMENTO DE TRANSTORNOS RESPIRATORIOS E CARDIOVASCULARES ESPECIFICOS DO PERIODO NEONATAL",
+      "total_procedimentos": 345416
+    },
+    {
+      "PROC_REA": "0303060212",
+      "procedimento": "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+      "total_procedimentos": 323575
+    },
+    {
+      "PROC_REA": "0303160055",
+      "procedimento": "TRATAMENTO DE TRANSTORNOS RELACIONADOS C/ A DURACAO DA GESTACAO E C/ O CRESCIMENTO FETAL",
+      "total_procedimentos": 308453
+    },
+    {
+      "PROC_REA": "0303040149",
+      "procedimento": "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+      "total_procedimentos": 290002
+    },
+    {
+      "PROC_REA": "0303060190",
+      "procedimento": "TRATAMENTO DE INFARTO AGUDO DO MIOCARDIO",
+      "total_procedimentos": 237915
+    },
+    {
+      "PROC_REA": "0303140135",
+      "procedimento": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO",
+      "total_procedimentos": 215838
+    }
+  ],
+  "result_hash": "feaa258b05a4d9a87be2156ee802c44cba1f21090cc3bb5f0e3df16d5c193ca3",
+  "semantic_disposition": "accepted"
+}

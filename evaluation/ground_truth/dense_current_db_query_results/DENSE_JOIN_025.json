@@ -1,0 +1,89 @@
+{
+  "id": "DENSE_JOIN_025",
+  "question_pt": "Qual e o mix de complexidade por carater de internacao?",
+  "executed_at": "2026-07-08T23:09:08.474191+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT comp.DESCRICAO AS complexidade, car.DESCRICAO AS carater, COUNT(*) AS internacoes FROM internacoes i JOIN complexidade comp ON i.COMPLEX = comp.COMPLEX JOIN car_int car ON i.CAR_INT = car.CAR_INT GROUP BY 1, 2 ORDER BY internacoes DESC",
+  "duration_seconds": 0.198322,
+  "performance_class": "fast",
+  "row_count": 14,
+  "columns": [
+    "complexidade",
+    "carater",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "carater": "Urg\u00eancia",
+      "internacoes": 112079041
+    },
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "carater": "Eletivo",
+      "internacoes": 22316303
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "carater": "Eletivo",
+      "internacoes": 4499456
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "carater": "Urg\u00eancia",
+      "internacoes": 4474201
+    },
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "carater": "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+      "internacoes": 568255
+    },
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "carater": "Outros tipo de acidente de tr\u00e2nsito",
+      "internacoes": 394033
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "carater": "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+      "internacoes": 29426
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "carater": "Outros tipo de acidente de tr\u00e2nsito",
+      "internacoes": 25666
+    },
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "carater": "Acidente no local trabalho ou a serv da empresa",
+      "internacoes": 321
+    },
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "carater": "Acidente no trajeto para o trabalho",
+      "internacoes": 49
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "carater": "Acidente no local trabalho ou a serv da empresa",
+      "internacoes": 10
+    },
+    {
+      "complexidade": "N\u00e3o informado",
+      "carater": "Urg\u00eancia",
+      "internacoes": 5
+    },
+    {
+      "complexidade": "N\u00e3o informado",
+      "carater": "Eletivo",
+      "internacoes": 4
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "carater": "Acidente no trajeto para o trabalho",
+      "internacoes": 2
+    }
+  ],
+  "result_hash": "a9573939d0ab489ba1a58940e6f924c4d031f23553b86e86b4181506a4517d55",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "GT092",
+  "question_pt": "Quais s\u00e3o as 5 combina\u00e7\u00f5es mais frequentes de diagn\u00f3stico e especialidade entre homens com mais de 60 anos?",
+  "executed_at": "2026-07-09T00:36:44.937825+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\" AS diagnostico, e.DESCRICAO AS especialidade, COUNT(*) AS total FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" WHERE i.\"SEXO\" = 1 AND i.\"IDADE\" > 60 GROUP BY c.\"DESCRICAO\", e.DESCRICAO ORDER BY total DESC LIMIT 5",
+  "duration_seconds": 0.127385,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "diagnostico",
+    "especialidade",
+    "total"
+  ],
+  "preview_rows": [
+    {
+      "diagnostico": "Acid vasc cerebr NE como hemorrag isquemico",
+      "especialidade": "Cl\u00ednico",
+      "total": 640315
+    },
+    {
+      "diagnostico": "Pneumonia NE",
+      "especialidade": "Cl\u00ednico",
+      "total": 601200
+    },
+    {
+      "diagnostico": "Insuf cardiaca congestiva",
+      "especialidade": "Cl\u00ednico",
+      "total": 497341
+    },
+    {
+      "diagnostico": "Insuf cardiaca NE",
+      "especialidade": "Cl\u00ednico",
+      "total": 468153
+    },
+    {
+      "diagnostico": "Doenc pulmonar obstrutiva cronica NE",
+      "especialidade": "Cl\u00ednico",
+      "total": 343850
+    }
+  ],
+  "result_hash": "f3d42707204250844b59589a57055b54ed0003a664761c59ed03d8768fcb32ee",
+  "semantic_disposition": "accepted"
+}

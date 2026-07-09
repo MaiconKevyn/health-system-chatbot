@@ -1,0 +1,20 @@
+{
+  "id": "GT011",
+  "question_pt": "Quantos pacientes t\u00eam v\u00ednculo previdenci\u00e1rio informado?",
+  "executed_at": "2026-07-09T00:36:37.491334+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_vincprev FROM internacoes WHERE \"VINCPREV\" IS NOT NULL AND \"VINCPREV\" != 0",
+  "duration_seconds": 0.006336,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_vincprev"
+  ],
+  "preview_rows": [
+    {
+      "total_vincprev": 17533
+    }
+  ],
+  "result_hash": "6434569b8b43927f07e435e77528e49509373adb57ebeb10c54662ef4e5ccbf1",
+  "semantic_disposition": "accepted"
+}

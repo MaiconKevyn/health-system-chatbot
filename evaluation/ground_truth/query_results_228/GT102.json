@@ -1,0 +1,20 @@
+{
+  "id": "GT102",
+  "question_pt": "Quantos munic\u00edpios est\u00e3o no estado do Maranh\u00e3o?",
+  "executed_at": "2026-07-09T00:36:45.005438+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS municipios_ma FROM municipios WHERE \"SG_UF\" = 'MA'",
+  "duration_seconds": 0.000321,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "municipios_ma"
+  ],
+  "preview_rows": [
+    {
+      "municipios_ma": 217
+    }
+  ],
+  "result_hash": "6f2f921c95ab05997088598327123594f7425eaa53eecdf867b3e14ae7a7d223",
+  "semantic_disposition": "accepted"
+}

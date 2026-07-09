@@ -1,0 +1,20 @@
+{
+  "id": "GT023",
+  "question_pt": "Quantas interna\u00e7\u00f5es de UTI resultaram em \u00f3bito?",
+  "executed_at": "2026-07-09T00:36:38.315772+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS uti_com_obito FROM internacoes WHERE \"VAL_UTI\" > 0 AND \"MORTE\" = true",
+  "duration_seconds": 0.020942,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "uti_com_obito"
+  ],
+  "preview_rows": [
+    {
+      "uti_com_obito": 2100502
+    }
+  ],
+  "result_hash": "cfc4888226533ea74867c1fb09868573b2007698007c5d89a1970db2196a0ec1",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT156",
+  "question_pt": "Quantas internacoes foram de pacientes com 80 anos ou mais?",
+  "executed_at": "2026-07-09T00:36:52.928647+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_80_mais FROM internacoes WHERE \"IDADE\" >= 80",
+  "duration_seconds": 0.012967,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_80_mais"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_80_mais": 8276423
+    }
+  ],
+  "result_hash": "cc36654cb327359868bb06b6cb2d05f96db26e9b04495b5faa97d102f047d91d",
+  "semantic_disposition": "accepted"
+}

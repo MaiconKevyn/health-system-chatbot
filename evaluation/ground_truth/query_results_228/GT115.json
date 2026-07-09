@@ -1,0 +1,84 @@
+{
+  "id": "GT115",
+  "question_pt": "Qual o hospital com maior receita total por especialidade m\u00e9dica, considerando apenas hospitais com mais de 500 interna\u00e7\u00f5es na especialidade?",
+  "executed_at": "2026-07-09T00:36:46.092800+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT especialidade, \"CNES\", receita_total FROM (SELECT e.\"DESCRICAO\" AS especialidade, i.\"CNES\", ROUND(SUM(i.\"VAL_TOT\"), 2) AS receita_total, ROW_NUMBER() OVER (PARTITION BY e.\"DESCRICAO\" ORDER BY SUM(i.\"VAL_TOT\") DESC) AS rn FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" GROUP BY e.\"DESCRICAO\", i.\"CNES\" HAVING COUNT(*) > 500) sub WHERE rn = 1 ORDER BY receita_total DESC",
+  "duration_seconds": 0.196969,
+  "performance_class": "fast",
+  "row_count": 13,
+  "columns": [
+    "especialidade",
+    "CNES",
+    "receita_total"
+  ],
+  "preview_rows": [
+    {
+      "especialidade": "Cir\u00fargico",
+      "CNES": 13633,
+      "receita_total": 1525557676.38
+    },
+    {
+      "especialidade": "Cl\u00ednico",
+      "CNES": 13846,
+      "receita_total": 823861560.01
+    },
+    {
+      "especialidade": "Pedi\u00e1trico",
+      "CNES": 434,
+      "receita_total": 384189426.81
+    },
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "CNES": 2802104,
+      "receita_total": 147550656.71
+    },
+    {
+      "especialidade": "Obst\u00e9trico",
+      "CNES": 2323397,
+      "receita_total": 142564195.13
+    },
+    {
+      "especialidade": "Psiquiatria",
+      "CNES": 18384,
+      "receita_total": 97562484.75
+    },
+    {
+      "especialidade": "Reabilita\u00e7\u00e3o",
+      "CNES": 2673916,
+      "receita_total": 32378095.06
+    },
+    {
+      "especialidade": "Pneumologia Sanit\u00e1ria",
+      "CNES": 426,
+      "receita_total": 21936706.73
+    },
+    {
+      "especialidade": "Leito Dia / Sa\u00fade Mental",
+      "CNES": 16292,
+      "receita_total": 21375967.16
+    },
+    {
+      "especialidade": "Leito Dia / Cir\u00fargico",
+      "CNES": 2237601,
+      "receita_total": 20575226.03
+    },
+    {
+      "especialidade": "Leito Dia / Intercorr\u00eancia P\u00f3s-Transplante",
+      "CNES": 434,
+      "receita_total": 19043200.03
+    },
+    {
+      "especialidade": "Leito Dia / AIDS",
+      "CNES": 2237571,
+      "receita_total": 3138034.6
+    },
+    {
+      "especialidade": "Sa\u00fade Mental - Longa Perman\u00eancia",
+      "CNES": 2127989,
+      "receita_total": 0.0
+    }
+  ],
+  "result_hash": "9f466199481ecc402d083f13a0a88521b80ace71e41b3a427e5e9162f9fb0942",
+  "semantic_disposition": "accepted"
+}

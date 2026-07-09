@@ -1,0 +1,28 @@
+{
+  "id": "GT212",
+  "question_pt": "Em qual combinacao de estado e ano MA/RS ocorreu a maior taxa de mortalidade em internacoes com UTI?",
+  "executed_at": "2026-07-09T00:36:58.816849+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT m.\"SG_UF\" AS uf, EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_uti, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS mortes_uti, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade_uti FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" IN ('MA', 'RS') AND i.\"MARCA_UTI\" <> 0 AND i.\"DT_INTER\" IS NOT NULL GROUP BY m.\"SG_UF\", ano) SELECT * FROM agg ORDER BY taxa_mortalidade_uti DESC LIMIT 1",
+  "duration_seconds": 0.038917,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "uf",
+    "ano",
+    "total_uti",
+    "mortes_uti",
+    "taxa_mortalidade_uti"
+  ],
+  "preview_rows": [
+    {
+      "uf": "MA",
+      "ano": 2021,
+      "total_uti": 23841,
+      "mortes_uti": 8098,
+      "taxa_mortalidade_uti": 33.97
+    }
+  ],
+  "result_hash": "98294fa3fce6f0aad3bfdae19eb800c98c982a1e95e180f7638abe73c7f1a925",
+  "semantic_disposition": "accepted"
+}

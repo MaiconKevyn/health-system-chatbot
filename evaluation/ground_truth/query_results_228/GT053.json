@@ -1,0 +1,20 @@
+{
+  "id": "GT053",
+  "question_pt": "Qual o valor total gasto em interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:40.484416+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT ROUND(SUM(\"VAL_TOT\"), 0) AS total_gasto FROM internacoes",
+  "duration_seconds": 0.017773,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_gasto"
+  ],
+  "preview_rows": [
+    {
+      "total_gasto": 212580836282.0
+    }
+  ],
+  "result_hash": "a0fca5ef7d6503365f43943ad90552bd695eef43d0b22919f7f3a00d2e5c5f8b",
+  "semantic_disposition": "accepted"
+}

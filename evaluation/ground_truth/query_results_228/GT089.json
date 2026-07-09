@@ -1,0 +1,80 @@
+{
+  "id": "GT089",
+  "question_pt": "Quais s\u00e3o os 10 CNES com maior taxa de mortalidade obst\u00e9trica (com mais de 500 interna\u00e7\u00f5es obst\u00e9tricas)?",
+  "executed_at": "2026-07-09T00:36:44.282675+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT i.\"CNES\", COUNT(*) AS total_obstetricos, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS pct_mortalidade FROM internacoes i WHERE i.\"ESPEC\" = 2 AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\" HAVING COUNT(*) > 500 ORDER BY pct_mortalidade DESC LIMIT 10",
+  "duration_seconds": 0.050034,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "CNES",
+    "total_obstetricos",
+    "total_mortes",
+    "pct_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "CNES": 5585422,
+      "total_obstetricos": 681,
+      "total_mortes": 6,
+      "pct_mortalidade": 0.88
+    },
+    {
+      "CNES": 2016419,
+      "total_obstetricos": 2185,
+      "total_mortes": 19,
+      "pct_mortalidade": 0.87
+    },
+    {
+      "CNES": 5597501,
+      "total_obstetricos": 1186,
+      "total_mortes": 10,
+      "pct_mortalidade": 0.84
+    },
+    {
+      "CNES": 2179628,
+      "total_obstetricos": 1110,
+      "total_mortes": 7,
+      "pct_mortalidade": 0.63
+    },
+    {
+      "CNES": 2246872,
+      "total_obstetricos": 684,
+      "total_mortes": 4,
+      "pct_mortalidade": 0.58
+    },
+    {
+      "CNES": 2244314,
+      "total_obstetricos": 524,
+      "total_mortes": 3,
+      "pct_mortalidade": 0.57
+    },
+    {
+      "CNES": 2557088,
+      "total_obstetricos": 574,
+      "total_mortes": 3,
+      "pct_mortalidade": 0.52
+    },
+    {
+      "CNES": 2262010,
+      "total_obstetricos": 974,
+      "total_mortes": 5,
+      "pct_mortalidade": 0.51
+    },
+    {
+      "CNES": 2016478,
+      "total_obstetricos": 1669,
+      "total_mortes": 8,
+      "pct_mortalidade": 0.48
+    },
+    {
+      "CNES": 2536587,
+      "total_obstetricos": 1787,
+      "total_mortes": 8,
+      "pct_mortalidade": 0.45
+    }
+  ],
+  "result_hash": "cad4dec2d7dc4a9331ffe4e8103be1ff32eda3e73a11360bd27a44f4e2450ae6",
+  "semantic_disposition": "accepted"
+}

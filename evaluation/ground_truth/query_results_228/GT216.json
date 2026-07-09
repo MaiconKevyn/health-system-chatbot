@@ -1,0 +1,82 @@
+{
+  "id": "GT216",
+  "question_pt": "Qual a media movel de 3 anos da taxa de mortalidade no RS?",
+  "executed_at": "2026-07-09T00:36:59.593341+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH anual AS (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" = 'RS' AND EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2008 AND 2023 GROUP BY ano), taxas AS (SELECT ano, total_internacoes, total_mortes, total_mortes * 100.0 / NULLIF(total_internacoes, 0) AS taxa_mortalidade FROM anual) SELECT ano, ROUND(AVG(taxa_mortalidade) OVER (ORDER BY ano ROWS BETWEEN 2 PRECEDING AND CURRENT ROW), 2) AS media_movel_3_anos_taxa_mortalidade FROM taxas ORDER BY ano",
+  "duration_seconds": 0.042749,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "ano",
+    "media_movel_3_anos_taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2008,
+      "media_movel_3_anos_taxa_mortalidade": 4.33
+    },
+    {
+      "ano": 2009,
+      "media_movel_3_anos_taxa_mortalidade": 4.41
+    },
+    {
+      "ano": 2010,
+      "media_movel_3_anos_taxa_mortalidade": 4.47
+    },
+    {
+      "ano": 2011,
+      "media_movel_3_anos_taxa_mortalidade": 4.57
+    },
+    {
+      "ano": 2012,
+      "media_movel_3_anos_taxa_mortalidade": 4.61
+    },
+    {
+      "ano": 2013,
+      "media_movel_3_anos_taxa_mortalidade": 4.68
+    },
+    {
+      "ano": 2014,
+      "media_movel_3_anos_taxa_mortalidade": 4.71
+    },
+    {
+      "ano": 2015,
+      "media_movel_3_anos_taxa_mortalidade": 4.77
+    },
+    {
+      "ano": 2016,
+      "media_movel_3_anos_taxa_mortalidade": 4.88
+    },
+    {
+      "ano": 2017,
+      "media_movel_3_anos_taxa_mortalidade": 5.0
+    },
+    {
+      "ano": 2018,
+      "media_movel_3_anos_taxa_mortalidade": 5.14
+    },
+    {
+      "ano": 2019,
+      "media_movel_3_anos_taxa_mortalidade": 5.15
+    },
+    {
+      "ano": 2020,
+      "media_movel_3_anos_taxa_mortalidade": 5.6
+    },
+    {
+      "ano": 2021,
+      "media_movel_3_anos_taxa_mortalidade": 6.47
+    },
+    {
+      "ano": 2022,
+      "media_movel_3_anos_taxa_mortalidade": 6.72
+    },
+    {
+      "ano": 2023,
+      "media_movel_3_anos_taxa_mortalidade": 6.31
+    }
+  ],
+  "result_hash": "5b39172f61d87b165a49e617ce98a10ae2a1034385e585f72b93d6e45c9bebf2",
+  "semantic_disposition": "accepted"
+}

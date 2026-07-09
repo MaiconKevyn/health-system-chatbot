@@ -1,0 +1,58 @@
+{
+  "id": "GT069",
+  "question_pt": "Quais s\u00e3o os 10 principais CIDs de entrada nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:41.730407+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY c.\"DESCRICAO\" ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.388502,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "DESCRICAO",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "DESCRICAO": "Parto espontaneo cefalico",
+      "total_internacoes": 10289544
+    },
+    {
+      "DESCRICAO": "Pneumonia NE",
+      "total_internacoes": 3293713
+    },
+    {
+      "DESCRICAO": "Parto unico espontaneo NE",
+      "total_internacoes": 2459872
+    },
+    {
+      "DESCRICAO": "Diarreia e gastroenterite orig infecc presum",
+      "total_internacoes": 2109464
+    },
+    {
+      "DESCRICAO": "Infecc do trato urinario de localiz NE",
+      "total_internacoes": 1886373
+    },
+    {
+      "DESCRICAO": "Acid vasc cerebr NE como hemorrag isquemico",
+      "total_internacoes": 1806376
+    },
+    {
+      "DESCRICAO": "Insuf cardiaca congestiva",
+      "total_internacoes": 1459476
+    },
+    {
+      "DESCRICAO": "Infecc p/coronavirus NE",
+      "total_internacoes": 1435980
+    },
+    {
+      "DESCRICAO": "Parto p/cesariana de emergencia",
+      "total_internacoes": 1426340
+    },
+    {
+      "DESCRICAO": "Asma NE",
+      "total_internacoes": 1402128
+    }
+  ],
+  "result_hash": "7f35dc2c744dfd4e615834e9fe2ffe6618ec971b3fcb5970f2209e912dd706d6",
+  "semantic_disposition": "accepted"
+}

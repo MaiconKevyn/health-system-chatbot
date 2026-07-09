@@ -1,0 +1,99 @@
+{
+  "id": "GT133",
+  "question_pt": "Em qual m\u00eas de cada ano (2008-2023) ocorreu o maior n\u00famero de interna\u00e7\u00f5es em UTI?",
+  "executed_at": "2026-07-09T00:36:48.113686+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT ano, mes, total_uti FROM (SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, EXTRACT(MONTH FROM \"DT_INTER\") AS mes, COUNT(*) AS total_uti, ROW_NUMBER() OVER (PARTITION BY EXTRACT(YEAR FROM \"DT_INTER\") ORDER BY COUNT(*) DESC) AS rn FROM internacoes WHERE \"VAL_UTI\" > 0 AND \"DT_INTER\" IS NOT NULL AND EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2008 AND 2023 GROUP BY ano, mes) sub WHERE rn = 1 ORDER BY ano",
+  "duration_seconds": 0.09609,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "ano",
+    "mes",
+    "total_uti"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2008,
+      "mes": 10,
+      "total_uti": 30156
+    },
+    {
+      "ano": 2009,
+      "mes": 7,
+      "total_uti": 32987
+    },
+    {
+      "ano": 2010,
+      "mes": 8,
+      "total_uti": 36222
+    },
+    {
+      "ano": 2011,
+      "mes": 5,
+      "total_uti": 38572
+    },
+    {
+      "ano": 2012,
+      "mes": 5,
+      "total_uti": 41563
+    },
+    {
+      "ano": 2013,
+      "mes": 10,
+      "total_uti": 41514
+    },
+    {
+      "ano": 2014,
+      "mes": 10,
+      "total_uti": 43743
+    },
+    {
+      "ano": 2015,
+      "mes": 3,
+      "total_uti": 45271
+    },
+    {
+      "ano": 2016,
+      "mes": 8,
+      "total_uti": 46935
+    },
+    {
+      "ano": 2017,
+      "mes": 5,
+      "total_uti": 50020
+    },
+    {
+      "ano": 2018,
+      "mes": 8,
+      "total_uti": 53027
+    },
+    {
+      "ano": 2019,
+      "mes": 10,
+      "total_uti": 56402
+    },
+    {
+      "ano": 2020,
+      "mes": 7,
+      "total_uti": 67861
+    },
+    {
+      "ano": 2021,
+      "mes": 5,
+      "total_uti": 92607
+    },
+    {
+      "ano": 2022,
+      "mes": 8,
+      "total_uti": 72234
+    },
+    {
+      "ano": 2023,
+      "mes": 8,
+      "total_uti": 79273
+    }
+  ],
+  "result_hash": "cb65752583959d7a5085062b21c18baf9afe351c68ef8604724e3b69059d6478",
+  "semantic_disposition": "accepted"
+}

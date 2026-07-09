@@ -1,0 +1,20 @@
+{
+  "id": "GT025",
+  "question_pt": "Quantas interna\u00e7\u00f5es com VDRL positivo resultaram em morte?",
+  "executed_at": "2026-07-09T00:36:38.664398+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS vdrl_positivo_obito FROM internacoes WHERE \"IND_VDRL\" = true AND \"MORTE\" = true",
+  "duration_seconds": 0.014193,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "vdrl_positivo_obito"
+  ],
+  "preview_rows": [
+    {
+      "vdrl_positivo_obito": 9438
+    }
+  ],
+  "result_hash": "ec39c31c6a9edef893648d3d73ee53b48894de91b8985f19a6dfe33d71a2745d",
+  "semantic_disposition": "accepted"
+}

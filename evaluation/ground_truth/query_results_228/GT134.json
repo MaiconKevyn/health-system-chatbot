@@ -1,0 +1,84 @@
+{
+  "id": "GT134",
+  "question_pt": "Qual a m\u00e9dia de dias de interna\u00e7\u00e3o por especialidade m\u00e9dica, comparando lado a lado os estados MA e RS?",
+  "executed_at": "2026-07-09T00:36:48.199897+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT e.\"DESCRICAO\" AS especialidade, ROUND(AVG(CASE WHEN mu.\"SG_UF\" = 'MA' THEN i.\"DIAS_PERM\" END), 2) AS media_dias_MA, ROUND(AVG(CASE WHEN mu.\"SG_UF\" = 'RS' THEN i.\"DIAS_PERM\" END), 2) AS media_dias_RS FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') GROUP BY e.\"DESCRICAO\" HAVING COUNT(CASE WHEN mu.\"SG_UF\" = 'MA' THEN 1 END) > 0 AND COUNT(CASE WHEN mu.\"SG_UF\" = 'RS' THEN 1 END) > 0 ORDER BY especialidade",
+  "duration_seconds": 0.085867,
+  "performance_class": "fast",
+  "row_count": 13,
+  "columns": [
+    "especialidade",
+    "media_dias_MA",
+    "media_dias_RS"
+  ],
+  "preview_rows": [
+    {
+      "especialidade": "Cir\u00fargico",
+      "media_dias_MA": 4.2,
+      "media_dias_RS": 4.24
+    },
+    {
+      "especialidade": "Cl\u00ednico",
+      "media_dias_MA": 4.56,
+      "media_dias_RS": 7.06
+    },
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "media_dias_MA": 15.72,
+      "media_dias_RS": 20.24
+    },
+    {
+      "especialidade": "Leito Dia / AIDS",
+      "media_dias_MA": 21.47,
+      "media_dias_RS": 28.45
+    },
+    {
+      "especialidade": "Leito Dia / Cir\u00fargico",
+      "media_dias_MA": 0.26,
+      "media_dias_RS": 0.04
+    },
+    {
+      "especialidade": "Leito Dia / Intercorr\u00eancia P\u00f3s-Transplante",
+      "media_dias_MA": 5.9,
+      "media_dias_RS": 13.3
+    },
+    {
+      "especialidade": "Leito Dia / Sa\u00fade Mental",
+      "media_dias_MA": 31.62,
+      "media_dias_RS": 29.96
+    },
+    {
+      "especialidade": "Obst\u00e9trico",
+      "media_dias_MA": 2.2,
+      "media_dias_RS": 2.65
+    },
+    {
+      "especialidade": "Pedi\u00e1trico",
+      "media_dias_MA": 5.01,
+      "media_dias_RS": 6.52
+    },
+    {
+      "especialidade": "Pneumologia Sanit\u00e1ria",
+      "media_dias_MA": 16.44,
+      "media_dias_RS": 26.17
+    },
+    {
+      "especialidade": "Psiquiatria",
+      "media_dias_MA": 43.08,
+      "media_dias_RS": 17.33
+    },
+    {
+      "especialidade": "Reabilita\u00e7\u00e3o",
+      "media_dias_MA": 8.27,
+      "media_dias_RS": 16.74
+    },
+    {
+      "especialidade": "Sa\u00fade Mental - Longa Perman\u00eancia",
+      "media_dias_MA": 11.08,
+      "media_dias_RS": 13.53
+    }
+  ],
+  "result_hash": "1f46bc5d88da8a8ad568ab223274af7c20d6fb17a04ecf96bd776a2945aa4c4a",
+  "semantic_disposition": "accepted"
+}

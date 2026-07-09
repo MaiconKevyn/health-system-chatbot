@@ -1,0 +1,106 @@
+{
+  "id": "GT194",
+  "question_pt": "Qual a evolucao anual das internacoes com gestacao de risco registrada?",
+  "executed_at": "2026-07-09T00:36:55.497779+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS internacoes_gestacao_risco FROM internacoes WHERE \"GESTRISCO\" = true AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.065852,
+  "performance_class": "fast",
+  "row_count": 22,
+  "columns": [
+    "ano",
+    "internacoes_gestacao_risco"
+  ],
+  "preview_rows": [
+    {
+      "ano": 1995,
+      "internacoes_gestacao_risco": 1
+    },
+    {
+      "ano": 1998,
+      "internacoes_gestacao_risco": 1
+    },
+    {
+      "ano": 2000,
+      "internacoes_gestacao_risco": 3
+    },
+    {
+      "ano": 2005,
+      "internacoes_gestacao_risco": 3
+    },
+    {
+      "ano": 2006,
+      "internacoes_gestacao_risco": 4
+    },
+    {
+      "ano": 2007,
+      "internacoes_gestacao_risco": 268769
+    },
+    {
+      "ano": 2008,
+      "internacoes_gestacao_risco": 8302171
+    },
+    {
+      "ano": 2009,
+      "internacoes_gestacao_risco": 8704694
+    },
+    {
+      "ano": 2010,
+      "internacoes_gestacao_risco": 8895723
+    },
+    {
+      "ano": 2011,
+      "internacoes_gestacao_risco": 8800262
+    },
+    {
+      "ano": 2012,
+      "internacoes_gestacao_risco": 8646505
+    },
+    {
+      "ano": 2013,
+      "internacoes_gestacao_risco": 8736945
+    },
+    {
+      "ano": 2014,
+      "internacoes_gestacao_risco": 8868652
+    },
+    {
+      "ano": 2015,
+      "internacoes_gestacao_risco": 8863448
+    },
+    {
+      "ano": 2016,
+      "internacoes_gestacao_risco": 8791011
+    },
+    {
+      "ano": 2017,
+      "internacoes_gestacao_risco": 9013869
+    },
+    {
+      "ano": 2018,
+      "internacoes_gestacao_risco": 9314695
+    },
+    {
+      "ano": 2019,
+      "internacoes_gestacao_risco": 9565624
+    },
+    {
+      "ano": 2020,
+      "internacoes_gestacao_risco": 8238680
+    },
+    {
+      "ano": 2021,
+      "internacoes_gestacao_risco": 9147399
+    },
+    {
+      "ano": 2022,
+      "internacoes_gestacao_risco": 9789040
+    },
+    {
+      "ano": 2023,
+      "internacoes_gestacao_risco": 9816699
+    }
+  ],
+  "result_hash": "ee5dee7fba10e07158a35bcc52929ba5d85f763cf5924852f74c753cf6f71142",
+  "semantic_disposition": "accepted"
+}

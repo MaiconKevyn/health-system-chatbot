@@ -1,0 +1,140 @@
+{
+  "id": "GT230",
+  "question_pt": "Qual o custo medio por dia calendario de internacao por especialidade e desfecho de morte?",
+  "executed_at": "2026-07-09T00:37:01.892591+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT e.\"DESCRICAO\" AS especialidade,\n       CASE WHEN i.\"MORTE\" = true THEN 'obito' ELSE 'sem_obito' END AS desfecho,\n       COUNT(*) AS total_internacoes,\n       ROUND(AVG(i.\"VAL_TOT\" / NULLIF(date_diff('day', i.\"DT_INTER\", i.\"DT_SAIDA\") + 1, 0)), 2) AS custo_medio_por_dia_calendario\nFROM internacoes i\nJOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\"\nWHERE i.\"VAL_TOT\" IS NOT NULL\n  AND i.\"DT_INTER\" IS NOT NULL\n  AND i.\"DT_SAIDA\" IS NOT NULL\n  AND date_diff('day', i.\"DT_INTER\", i.\"DT_SAIDA\") >= 0\nGROUP BY e.\"DESCRICAO\", desfecho\nHAVING COUNT(*) > 1000\nORDER BY custo_medio_por_dia_calendario DESC\nLIMIT 20",
+  "duration_seconds": 0.315176,
+  "performance_class": "fast",
+  "row_count": 20,
+  "columns": [
+    "especialidade",
+    "desfecho",
+    "total_internacoes",
+    "custo_medio_por_dia_calendario"
+  ],
+  "preview_rows": [
+    {
+      "especialidade": "Cir\u00fargico",
+      "desfecho": "obito",
+      "total_internacoes": 918886,
+      "custo_medio_por_dia_calendario": 1282.11
+    },
+    {
+      "especialidade": "Pedi\u00e1trico",
+      "desfecho": "obito",
+      "total_internacoes": 254474,
+      "custo_medio_por_dia_calendario": 865.57
+    },
+    {
+      "especialidade": "Leito Dia / Cir\u00fargico",
+      "desfecho": "sem_obito",
+      "total_internacoes": 340654,
+      "custo_medio_por_dia_calendario": 630.53
+    },
+    {
+      "especialidade": "Obst\u00e9trico",
+      "desfecho": "obito",
+      "total_internacoes": 8227,
+      "custo_medio_por_dia_calendario": 492.07
+    },
+    {
+      "especialidade": "Cl\u00ednico",
+      "desfecho": "obito",
+      "total_internacoes": 4619965,
+      "custo_medio_por_dia_calendario": 487.41
+    },
+    {
+      "especialidade": "Cir\u00fargico",
+      "desfecho": "sem_obito",
+      "total_internacoes": 43633894,
+      "custo_medio_por_dia_calendario": 452.03
+    },
+    {
+      "especialidade": "Obst\u00e9trico",
+      "desfecho": "sem_obito",
+      "total_internacoes": 27389723,
+      "custo_medio_por_dia_calendario": 197.9
+    },
+    {
+      "especialidade": "Pneumologia Sanit\u00e1ria",
+      "desfecho": "obito",
+      "total_internacoes": 6237,
+      "custo_medio_por_dia_calendario": 190.72
+    },
+    {
+      "especialidade": "Pedi\u00e1trico",
+      "desfecho": "sem_obito",
+      "total_internacoes": 15932762,
+      "custo_medio_por_dia_calendario": 161.9
+    },
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "desfecho": "sem_obito",
+      "total_internacoes": 216389,
+      "custo_medio_por_dia_calendario": 153.27
+    },
+    {
+      "especialidade": "Cl\u00ednico",
+      "desfecho": "sem_obito",
+      "total_internacoes": 48094007,
+      "custo_medio_por_dia_calendario": 144.34
+    },
+    {
+      "especialidade": "Pneumologia Sanit\u00e1ria",
+      "desfecho": "sem_obito",
+      "total_internacoes": 87172,
+      "custo_medio_por_dia_calendario": 124.21
+    },
+    {
+      "especialidade": "Leito Dia / Intercorr\u00eancia P\u00f3s-Transplante",
+      "desfecho": "sem_obito",
+      "total_internacoes": 37011,
+      "custo_medio_por_dia_calendario": 119.45
+    },
+    {
+      "especialidade": "Psiquiatria",
+      "desfecho": "sem_obito",
+      "total_internacoes": 2075502,
+      "custo_medio_por_dia_calendario": 90.93
+    },
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "desfecho": "obito",
+      "total_internacoes": 63773,
+      "custo_medio_por_dia_calendario": 83.34
+    },
+    {
+      "especialidade": "Psiquiatria",
+      "desfecho": "obito",
+      "total_internacoes": 3646,
+      "custo_medio_por_dia_calendario": 48.56
+    },
+    {
+      "especialidade": "Reabilita\u00e7\u00e3o",
+      "desfecho": "sem_obito",
+      "total_internacoes": 240212,
+      "custo_medio_por_dia_calendario": 47.07
+    },
+    {
+      "especialidade": "Leito Dia / Sa\u00fade Mental",
+      "desfecho": "sem_obito",
+      "total_internacoes": 173143,
+      "custo_medio_por_dia_calendario": 25.1
+    },
+    {
+      "especialidade": "Leito Dia / AIDS",
+      "desfecho": "sem_obito",
+      "total_internacoes": 81578,
+      "custo_medio_por_dia_calendario": 13.56
+    },
+    {
+      "especialidade": "Sa\u00fade Mental - Longa Perman\u00eancia",
+      "desfecho": "sem_obito",
+      "total_internacoes": 206772,
+      "custo_medio_por_dia_calendario": 0.0
+    }
+  ],
+  "result_hash": "253ae93571159c85c708e7973ba2adeadef2d148d304d9c3d9aa955e9807f15d",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "GT072",
+  "question_pt": "Qual o total de interna\u00e7\u00f5es para o estado do Maranh\u00e3o e para o estado do Rio Grande do Sul?",
+  "executed_at": "2026-07-09T00:36:42.083398+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"SG_UF\", COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" IN ('MA', 'RS') GROUP BY m.\"SG_UF\"",
+  "duration_seconds": 0.166214,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "SG_UF",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "SG_UF": "MA",
+      "total_internacoes": 6790650
+    },
+    {
+      "SG_UF": "RS",
+      "total_internacoes": 11831809
+    }
+  ],
+  "result_hash": "35d7e46fa7794fa4dea736f440e0d45ab58c554726661d1c562c14ce0277c5b4",
+  "semantic_disposition": "accepted"
+}

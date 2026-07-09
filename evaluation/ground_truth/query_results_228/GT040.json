@@ -1,0 +1,20 @@
+{
+  "id": "GT040",
+  "question_pt": "Quando houver dados socioecon\u00f4micos, qual a taxa de mortalidade infantil m\u00e9dia registrada?",
+  "executed_at": "2026-07-09T00:36:39.774697+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT AVG(\"VL_MORT_INFANTIL\") AS taxa_media_mortalidade_infantil FROM socioeconomico WHERE \"VL_MORT_INFANTIL\" IS NOT NULL",
+  "duration_seconds": 0.000306,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "taxa_media_mortalidade_infantil"
+  ],
+  "preview_rows": [
+    {
+      "taxa_media_mortalidade_infantil": null
+    }
+  ],
+  "result_hash": "e45e103425e45c9db3dc072aa4d90c6ff0a2b64ec8c70dd1854545ecec13ff25",
+  "semantic_disposition": "accepted"
+}

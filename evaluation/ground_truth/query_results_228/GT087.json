@@ -1,0 +1,266 @@
+{
+  "id": "GT087",
+  "question_pt": "Qual a evolu\u00e7\u00e3o anual da taxa de mortalidade por estado (MA e RS)?",
+  "executed_at": "2026-07-09T00:36:44.031836+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT mu.\"SG_UF\", EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"DT_INTER\" IS NOT NULL GROUP BY mu.\"SG_UF\", ano ORDER BY mu.\"SG_UF\", ano",
+  "duration_seconds": 0.060019,
+  "performance_class": "fast",
+  "row_count": 35,
+  "columns": [
+    "SG_UF",
+    "ano",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "SG_UF": "MA",
+      "ano": 2007,
+      "total_internacoes": 26091,
+      "total_mortes": 578,
+      "taxa_mortalidade": 2.22
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2008,
+      "total_internacoes": 340217,
+      "total_mortes": 4606,
+      "taxa_mortalidade": 1.35
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2009,
+      "total_internacoes": 376372,
+      "total_mortes": 5394,
+      "taxa_mortalidade": 1.43
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2010,
+      "total_internacoes": 403962,
+      "total_mortes": 5721,
+      "taxa_mortalidade": 1.42
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2011,
+      "total_internacoes": 411256,
+      "total_mortes": 6468,
+      "taxa_mortalidade": 1.57
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2012,
+      "total_internacoes": 395903,
+      "total_mortes": 7514,
+      "taxa_mortalidade": 1.9
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2013,
+      "total_internacoes": 418744,
+      "total_mortes": 8805,
+      "taxa_mortalidade": 2.1
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2014,
+      "total_internacoes": 422640,
+      "total_mortes": 9304,
+      "taxa_mortalidade": 2.2
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2015,
+      "total_internacoes": 425468,
+      "total_mortes": 9987,
+      "taxa_mortalidade": 2.35
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2016,
+      "total_internacoes": 408807,
+      "total_mortes": 10190,
+      "taxa_mortalidade": 2.49
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2017,
+      "total_internacoes": 437531,
+      "total_mortes": 10551,
+      "taxa_mortalidade": 2.41
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2018,
+      "total_internacoes": 470274,
+      "total_mortes": 10969,
+      "taxa_mortalidade": 2.33
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2019,
+      "total_internacoes": 462324,
+      "total_mortes": 11324,
+      "taxa_mortalidade": 2.45
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2020,
+      "total_internacoes": 394381,
+      "total_mortes": 14749,
+      "taxa_mortalidade": 3.74
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2021,
+      "total_internacoes": 455764,
+      "total_mortes": 17679,
+      "taxa_mortalidade": 3.88
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2022,
+      "total_internacoes": 481479,
+      "total_mortes": 13992,
+      "taxa_mortalidade": 2.91
+    },
+    {
+      "SG_UF": "MA",
+      "ano": 2023,
+      "total_internacoes": 459437,
+      "total_mortes": 12817,
+      "taxa_mortalidade": 2.79
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2006,
+      "total_internacoes": 1,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2007,
+      "total_internacoes": 44271,
+      "total_mortes": 2120,
+      "taxa_mortalidade": 4.79
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2008,
+      "total_internacoes": 718980,
+      "total_mortes": 31102,
+      "taxa_mortalidade": 4.33
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2009,
+      "total_internacoes": 729369,
+      "total_mortes": 32713,
+      "taxa_mortalidade": 4.49
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2010,
+      "total_internacoes": 722522,
+      "total_mortes": 33220,
+      "taxa_mortalidade": 4.6
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2011,
+      "total_internacoes": 710800,
+      "total_mortes": 32856,
+      "taxa_mortalidade": 4.62
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2012,
+      "total_internacoes": 723375,
+      "total_mortes": 33392,
+      "taxa_mortalidade": 4.62
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2013,
+      "total_internacoes": 738034,
+      "total_mortes": 35410,
+      "taxa_mortalidade": 4.8
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2014,
+      "total_internacoes": 764047,
+      "total_mortes": 35978,
+      "taxa_mortalidade": 4.71
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2015,
+      "total_internacoes": 759643,
+      "total_mortes": 36538,
+      "taxa_mortalidade": 4.81
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2016,
+      "total_internacoes": 750093,
+      "total_mortes": 38438,
+      "taxa_mortalidade": 5.12
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2017,
+      "total_internacoes": 752897,
+      "total_mortes": 38102,
+      "taxa_mortalidade": 5.06
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2018,
+      "total_internacoes": 747196,
+      "total_mortes": 39046,
+      "taxa_mortalidade": 5.23
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2019,
+      "total_internacoes": 769179,
+      "total_mortes": 39782,
+      "taxa_mortalidade": 5.17
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2020,
+      "total_internacoes": 664505,
+      "total_mortes": 42597,
+      "taxa_mortalidade": 6.41
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2021,
+      "total_internacoes": 719323,
+      "total_mortes": 56392,
+      "taxa_mortalidade": 7.84
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2022,
+      "total_internacoes": 771975,
+      "total_mortes": 45553,
+      "taxa_mortalidade": 5.9
+    },
+    {
+      "SG_UF": "RS",
+      "ano": 2023,
+      "total_internacoes": 745599,
+      "total_mortes": 38670,
+      "taxa_mortalidade": 5.19
+    }
+  ],
+  "result_hash": "aabb4da98b587919ad8b4fa96c26a1768d230e1de114d61b51a466bd509ce118",
+  "semantic_disposition": "accepted"
+}

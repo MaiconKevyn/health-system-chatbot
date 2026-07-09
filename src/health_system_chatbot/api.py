@@ -44,7 +44,7 @@ class ChatService:
         config = load_config()
         return cls(
             config=config,
-            stage1_context=load_stage1_context(config.project_root),
+            stage1_context=load_stage1_context(config.project_root, db_path=config.db_path),
         )
 
     def ask(

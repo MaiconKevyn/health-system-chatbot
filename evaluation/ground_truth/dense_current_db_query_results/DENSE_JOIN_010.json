@@ -1,0 +1,119 @@
+{
+  "id": "DENSE_JOIN_010",
+  "question_pt": "Quais regioes de saude tiveram mais internacoes por residencia mapeada?",
+  "executed_at": "2026-07-08T23:09:07.120824+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.SG_UF, m.NO_REGIAO_SAUDE, COUNT(*) AS internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+  "duration_seconds": 0.168183,
+  "performance_class": "fast",
+  "row_count": 20,
+  "columns": [
+    "SG_UF",
+    "NO_REGIAO_SAUDE",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "SG_UF": "RJ",
+      "NO_REGIAO_SAUDE": "Metropolitana I",
+      "internacoes": 5720553
+    },
+    {
+      "SG_UF": "PE",
+      "NO_REGIAO_SAUDE": "I Regi\u00e3o de Sa\u00fade",
+      "internacoes": 4032205
+    },
+    {
+      "SG_UF": "CE",
+      "NO_REGIAO_SAUDE": "1\u00aa RS Fortaleza",
+      "internacoes": 3819597
+    },
+    {
+      "SG_UF": "PR",
+      "NO_REGIAO_SAUDE": "2\u00aa RS Metropolitana",
+      "internacoes": 3729849
+    },
+    {
+      "SG_UF": "MG",
+      "NO_REGIAO_SAUDE": "Belo Horizonte/Nova Lima/Santa Luzia",
+      "internacoes": 2925470
+    },
+    {
+      "SG_UF": "BA",
+      "NO_REGIAO_SAUDE": "Salvador",
+      "internacoes": 2593695
+    },
+    {
+      "SG_UF": "DF",
+      "NO_REGIAO_SAUDE": "Distrito Federal",
+      "internacoes": 2529580
+    },
+    {
+      "SG_UF": "RS",
+      "NO_REGIAO_SAUDE": "Regi\u00e3o 10 - Capital e Vale do Gravata\u00ed",
+      "internacoes": 2406638
+    },
+    {
+      "SG_UF": "ES",
+      "NO_REGIAO_SAUDE": "Metropolitana",
+      "internacoes": 1938392
+    },
+    {
+      "SG_UF": "PA",
+      "NO_REGIAO_SAUDE": "Metropolitana I",
+      "internacoes": 1889348
+    },
+    {
+      "SG_UF": "AM",
+      "NO_REGIAO_SAUDE": "Manaus, Entorno e Alto Rio Negro",
+      "internacoes": 1847251
+    },
+    {
+      "SG_UF": "GO",
+      "NO_REGIAO_SAUDE": "Central",
+      "internacoes": 1706477
+    },
+    {
+      "SG_UF": "CE",
+      "NO_REGIAO_SAUDE": "2\u00aa RS Cariri",
+      "internacoes": 1461234
+    },
+    {
+      "SG_UF": "CE",
+      "NO_REGIAO_SAUDE": "5\u00aa RS Sobral",
+      "internacoes": 1391776
+    },
+    {
+      "SG_UF": "RJ",
+      "NO_REGIAO_SAUDE": "Metropolitana II",
+      "internacoes": 1338736
+    },
+    {
+      "SG_UF": "PI",
+      "NO_REGIAO_SAUDE": "Entre Rios",
+      "internacoes": 1217044
+    },
+    {
+      "SG_UF": "MA",
+      "NO_REGIAO_SAUDE": "S\u00e3o Lu\u00eds",
+      "internacoes": 1172532
+    },
+    {
+      "SG_UF": "PB",
+      "NO_REGIAO_SAUDE": "1\u00aa Regi\u00e3o Mata Atl\u00e2ntica",
+      "internacoes": 1136559
+    },
+    {
+      "SG_UF": "SC",
+      "NO_REGIAO_SAUDE": "Grande Florian\u00f3polis",
+      "internacoes": 1059710
+    },
+    {
+      "SG_UF": "PE",
+      "NO_REGIAO_SAUDE": "IV Regi\u00e3o de Sa\u00fade",
+      "internacoes": 1035940
+    }
+  ],
+  "result_hash": "979100e06b356da3648c1e892a42f52692178d4012e966f2337eddd7bea530a6",
+  "semantic_disposition": "accepted"
+}

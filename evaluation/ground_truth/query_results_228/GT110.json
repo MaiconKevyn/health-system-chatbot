@@ -1,0 +1,20 @@
+{
+  "id": "GT110",
+  "question_pt": "Qual o total gasto em servi\u00e7os profissionais nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:45.479949+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT SUM(\"VAL_SP\") AS total_val_sp FROM internacoes WHERE \"VAL_SP\" IS NOT NULL",
+  "duration_seconds": 0.024833,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_val_sp"
+  ],
+  "preview_rows": [
+    {
+      "total_val_sp": 34646554286.543564
+    }
+  ],
+  "result_hash": "a074908eb79136908e14d058510036f90df08a2ce2c0ce569d091d9be3345ea3",
+  "semantic_disposition": "accepted"
+}

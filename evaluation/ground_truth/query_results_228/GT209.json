@@ -1,0 +1,30 @@
+{
+  "id": "GT209",
+  "question_pt": "Qual CNES tem maior taxa de mortalidade por especialidade, considerando apenas combina\u00e7\u00f5es com mais de 1000 interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:57.745443+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT e.\"DESCRICAO\" AS especialidade, i.\"CNES\", COALESCE(h.\"NO_HOSPITAL\", 'Sem nome cadastrado') AS hospital, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" LEFT JOIN hospital h ON i.\"CNES\" = h.\"CNES\" WHERE i.\"CNES\" IS NOT NULL GROUP BY e.\"DESCRICAO\", i.\"CNES\", h.\"NO_HOSPITAL\" HAVING COUNT(*) > 1000) SELECT * FROM agg ORDER BY taxa_mortalidade DESC LIMIT 1",
+  "duration_seconds": 0.239412,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "especialidade",
+    "CNES",
+    "hospital",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "CNES": 7002017,
+      "hospital": "Sem nome cadastrado",
+      "total_internacoes": 1544,
+      "total_mortes": 1053,
+      "taxa_mortalidade": 68.2
+    }
+  ],
+  "result_hash": "129ac4022c9e3ae6bcb9081152a05ff5c99ff12e0ef0e0b0a1d6e794cb4b96bf",
+  "semantic_disposition": "accepted"
+}

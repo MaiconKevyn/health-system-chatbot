@@ -1,0 +1,20 @@
+{
+  "id": "GT140",
+  "question_pt": "Quantas internacoes por COVID ou coronavirus foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.423564+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_covid_coronavirus FROM internacoes WHERE \"DIAG_PRINC\" IN ('B342', 'B972')",
+  "duration_seconds": 0.064922,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_covid_coronavirus"
+  ],
+  "preview_rows": [
+    {
+      "total_covid_coronavirus": 1437706
+    }
+  ],
+  "result_hash": "0cf750345692c56ec8595c329a7392e3b660e8fbdf84e5871b8cbade2e2a57a0",
+  "semantic_disposition": "accepted"
+}

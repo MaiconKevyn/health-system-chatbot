@@ -1,0 +1,20 @@
+{
+  "id": "GT104",
+  "question_pt": "Quantas interna\u00e7\u00f5es tiveram cobran\u00e7a de servi\u00e7o hospitalar?",
+  "executed_at": "2026-07-09T00:36:45.050867+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_com_sh FROM internacoes WHERE \"VAL_SH\" > 0",
+  "duration_seconds": 0.044483,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_com_sh"
+  ],
+  "preview_rows": [
+    {
+      "total_com_sh": 144142387
+    }
+  ],
+  "result_hash": "bb07756077db830dc23673e2dfe582c95c52b728dfb592c02f1867764768c9ad",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT042",
+  "question_pt": "Quantas interna\u00e7\u00f5es de pacientes com mais de 70 anos ocorreram no inverno (junho a agosto)?",
+  "executed_at": "2026-07-09T00:36:39.855848+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(i.\"N_AIH\") FROM internacoes i WHERE EXTRACT(MONTH FROM i.\"DT_INTER\") BETWEEN 6 AND 8 AND i.\"IDADE\" > 70",
+  "duration_seconds": 0.050305,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "count(i.N_AIH)"
+  ],
+  "preview_rows": [
+    {
+      "count(i.N_AIH)": 4975404
+    }
+  ],
+  "result_hash": "46eb74c933e238af809034de113f5ce5f2e803cc9f6996b2717fc2d4203987dc",
+  "semantic_disposition": "accepted"
+}

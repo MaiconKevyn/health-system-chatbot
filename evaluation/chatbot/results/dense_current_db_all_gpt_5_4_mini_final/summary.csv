@@ -1,0 +1,23 @@
+metric,value
+total,45
+answerable_rate,1.0
+intent_accuracy,1.0
+sql_generation_rate,1.0
+sql_validation_rate,0.9777777777777777
+sql_valid_rate,0.9777777777777777
+sql_execution_rate,0.9555555555555556
+result_value_match_rate,0.6511627906976745
+result_match_rate,0.6511627906976745
+correction_success_rate,0.5
+retrieval_miss_rate,0.022222222222222223
+candidate_selection_accuracy,
+latency_p50,2.720770750000156
+latency_p95,5.062149583000064
+token_cost_estimate,"{""usd"": null, ""method"": ""provider_usage_not_tracked_yet""}"
+alias_only_difference_count,14
+type_only_difference_count,0
+order_only_mismatch_count,0
+shape_mismatch_count,10
+value_mismatch_count,5
+error_category_counts,"{""value_mismatch"": 5, ""retrieval_miss"": 1, ""shape_mismatch"": 10, ""schema_linking_error"": 1}"
+failures_by_difficulty,"{""L1"": 2, ""L2"": 6, ""L3"": 7, ""L4"": 2}"

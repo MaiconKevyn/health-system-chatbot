@@ -1,0 +1,20 @@
+{
+  "id": "GT154",
+  "question_pt": "Quantas internacoes ocorreram no mes de janeiro?",
+  "executed_at": "2026-07-09T00:36:52.866065+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_janeiro FROM internacoes WHERE EXTRACT(MONTH FROM \"DT_INTER\") = 1",
+  "duration_seconds": 0.021551,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_janeiro"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_janeiro": 11835080
+    }
+  ],
+  "result_hash": "0412156c4e07e74ce9d7ff908ad6fcffdc393e3e94d7ece59fc917271a46ad53",
+  "semantic_disposition": "accepted"
+}

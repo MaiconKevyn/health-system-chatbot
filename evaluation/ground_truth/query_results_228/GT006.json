@@ -1,0 +1,20 @@
+{
+  "id": "GT006",
+  "question_pt": "Quantos munic\u00edpios t\u00eam dados socioecon\u00f4micos registrados?",
+  "executed_at": "2026-07-09T00:36:37.335835+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(DISTINCT \"CO_MUNICIPIO_6D\") AS total_municipios FROM socioeconomico",
+  "duration_seconds": 0.000181,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_municipios"
+  ],
+  "preview_rows": [
+    {
+      "total_municipios": 0
+    }
+  ],
+  "result_hash": "d607fb4b611c38105103f23ec8eb50cba4a84a39763380fa727a6784e688a947",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT103",
+  "question_pt": "Quantos estados distintos est\u00e3o cobertos pelo banco de dados?",
+  "executed_at": "2026-07-09T00:36:45.006227+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(DISTINCT \"SG_UF\") AS total_estados FROM municipios",
+  "duration_seconds": 0.000577,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_estados"
+  ],
+  "preview_rows": [
+    {
+      "total_estados": 39
+    }
+  ],
+  "result_hash": "80f47138943dbb169dbbc1327a29318c77203e1ce2e88d25f39a6c735c64b172",
+  "semantic_disposition": "accepted"
+}

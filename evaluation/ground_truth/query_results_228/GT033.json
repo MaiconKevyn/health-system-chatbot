@@ -1,0 +1,20 @@
+{
+  "id": "GT033",
+  "question_pt": "Qual a idade m\u00e9dia dos pacientes internados?",
+  "executed_at": "2026-07-09T00:36:39.120771+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT AVG(\"IDADE\") AS idade_media FROM internacoes WHERE \"IDADE\" IS NOT NULL",
+  "duration_seconds": 0.012527,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "idade_media"
+  ],
+  "preview_rows": [
+    {
+      "idade_media": 38.87214282344369
+    }
+  ],
+  "result_hash": "555bd0d82383aa508bcff8782cb8357bb3f9e08cdfb1a0043e3d16ba1a4df029",
+  "semantic_disposition": "accepted"
+}

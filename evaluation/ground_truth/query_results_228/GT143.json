@@ -1,0 +1,20 @@
+{
+  "id": "GT143",
+  "question_pt": "Quantas internacoes por acidente vascular cerebral inespecifico foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.660897+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_avc_i64 FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'I64%'",
+  "duration_seconds": 0.059504,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_avc_i64"
+  ],
+  "preview_rows": [
+    {
+      "total_avc_i64": 1806376
+    }
+  ],
+  "result_hash": "2bc7269916ada59e9fe7a5ad0c5faf32859b4d0cedeabce75a07f5401553e80f",
+  "semantic_disposition": "accepted"
+}

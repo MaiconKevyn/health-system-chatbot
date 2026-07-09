@@ -1,0 +1,42 @@
+{
+  "id": "GT169",
+  "question_pt": "Qual a distribuicao das internacoes por carater de atendimento?",
+  "executed_at": "2026-07-09T00:36:53.094722+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\" AS carater_atendimento, COUNT(*) AS total_internacoes FROM internacoes i JOIN car_int c ON i.\"CAR_INT\" = c.\"CAR_INT\" GROUP BY c.\"DESCRICAO\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.047045,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "carater_atendimento",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "carater_atendimento": "Urg\u00eancia",
+      "total_internacoes": 116553247
+    },
+    {
+      "carater_atendimento": "Eletivo",
+      "total_internacoes": 26815763
+    },
+    {
+      "carater_atendimento": "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+      "total_internacoes": 597681
+    },
+    {
+      "carater_atendimento": "Outros tipo de acidente de tr\u00e2nsito",
+      "total_internacoes": 419699
+    },
+    {
+      "carater_atendimento": "Acidente no local trabalho ou a serv da empresa",
+      "total_internacoes": 331
+    },
+    {
+      "carater_atendimento": "Acidente no trajeto para o trabalho",
+      "total_internacoes": 51
+    }
+  ],
+  "result_hash": "213228ebdcb3b6ef09581df8d523495235c92e68c43ac90758590a1ef5618127",
+  "semantic_disposition": "accepted"
+}

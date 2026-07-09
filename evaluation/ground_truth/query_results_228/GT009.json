@@ -1,0 +1,20 @@
+{
+  "id": "GT009",
+  "question_pt": "Quantas especialidades m\u00e9dicas est\u00e3o cadastradas?",
+  "executed_at": "2026-07-09T00:36:37.409966+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_especialidades FROM especialidade",
+  "duration_seconds": 0.000223,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_especialidades"
+  ],
+  "preview_rows": [
+    {
+      "total_especialidades": 39
+    }
+  ],
+  "result_hash": "c59887ac80c78cea9e4872d05bc6cddb43d47806a20cb4f9f027bc990a507e6d",
+  "semantic_disposition": "accepted"
+}

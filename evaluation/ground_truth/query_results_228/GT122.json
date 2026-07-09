@@ -1,0 +1,218 @@
+{
+  "id": "GT122",
+  "question_pt": "Quais procedimentos principais, ordenados por volume decrescente, cobrem at\u00e9 80% das interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:47.002978+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT proc_rea, nome_proc FROM (SELECT p.\"PROC_REA\" AS proc_rea, p.\"NOME_PROC\" AS nome_proc, COUNT(*) AS total_procedimentos, ROUND(SUM(COUNT(*)) OVER (ORDER BY COUNT(*) DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_acumulado FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\") sub WHERE pct_acumulado <= 80 ORDER BY total_procedimentos DESC",
+  "duration_seconds": 0.4093,
+  "performance_class": "fast",
+  "row_count": 105,
+  "columns": [
+    "proc_rea",
+    "nome_proc"
+  ],
+  "preview_rows": [
+    {
+      "proc_rea": "0310010039",
+      "nome_proc": "PARTO NORMAL"
+    },
+    {
+      "proc_rea": "0303140151",
+      "nome_proc": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)"
+    },
+    {
+      "proc_rea": "0411010034",
+      "nome_proc": "PARTO CESARIANO"
+    },
+    {
+      "proc_rea": "0303010061",
+      "nome_proc": "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS"
+    },
+    {
+      "proc_rea": "0303140046",
+      "nome_proc": "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES"
+    },
+    {
+      "proc_rea": "0303010037",
+      "nome_proc": "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS"
+    },
+    {
+      "proc_rea": "0303060212",
+      "nome_proc": "TRATAMENTO DE INSUFICIENCIA CARDIACA"
+    },
+    {
+      "proc_rea": "0415010012",
+      "nome_proc": "TRATAMENTO C/ CIRURGIAS MULTIPLAS"
+    },
+    {
+      "proc_rea": "0303040149",
+      "nome_proc": "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)"
+    },
+    {
+      "proc_rea": "0303100044",
+      "nome_proc": "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ"
+    },
+    {
+      "proc_rea": "0411020013",
+      "nome_proc": "CURETAGEM POS-ABORTAMENTO / PUERPERAL"
+    },
+    {
+      "proc_rea": "0301060088",
+      "nome_proc": "DIAGNOSTICO E/OU ATENDIMENTO DE URGENCIA EM CLINICA MEDICA"
+    },
+    {
+      "proc_rea": "0303150050",
+      "nome_proc": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO URINARIO"
+    },
+    {
+      "proc_rea": "0407030026",
+      "nome_proc": "COLECISTECTOMIA"
+    },
+    {
+      "proc_rea": "0411010026",
+      "nome_proc": "PARTO CESARIANO EM GESTACAO DE ALTO RISCO"
+    },
+    {
+      "proc_rea": "0407040102",
+      "nome_proc": "HERNIOPLASTIA INGUINAL / CRURAL (UNILATERAL)"
+    },
+    {
+      "proc_rea": "0305020013",
+      "nome_proc": "TRATAMENTO DA PIELONEFRITE"
+    },
+    {
+      "proc_rea": "0303030038",
+      "nome_proc": "TRATAMENTO DE DIABETES MELLITUS"
+    },
+    {
+      "proc_rea": "0303010223",
+      "nome_proc": "TRATAMENTO DE INFECCAO PELO CORONAVIRUS ? COVID 19"
+    },
+    {
+      "proc_rea": "0304100021",
+      "nome_proc": "TRATAMENTO CLINICO DE PACIENTE ONCOLOGICO"
+    },
+    {
+      "proc_rea": "0308010019",
+      "nome_proc": "TRATAMENTO DE TRAUMATISMOS DE LOCALIZACAO ESPECIFICADA / NAO ESPECIFICADA"
+    },
+    {
+      "proc_rea": "0407020039",
+      "nome_proc": "APENDICECTOMIA"
+    },
+    {
+      "proc_rea": "0303070102",
+      "nome_proc": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO DIGESTIVO"
+    },
+    {
+      "proc_rea": "0304100013",
+      "nome_proc": "TRATAMENTO DE INTERCORRENCIAS CLINICAS DE PACIENTE ONCOLOGICO"
+    },
+    {
+      "proc_rea": "0303170093",
+      "nome_proc": "TRATAMENTO EM PSIQUIATRIA (POR DIA)"
+    },
+    {
+      "proc_rea": "0303070129",
+      "nome_proc": "TRATAMENTO DE TRANSTORNOS DAS VIAS BILIARES E PANCREAS"
+    },
+    {
+      "proc_rea": "0303060107",
+      "nome_proc": "TRATAMENTO DE CRISE HIPERTENSIVA"
+    },
+    {
+      "proc_rea": "0303080078",
+      "nome_proc": "TRATAMENTO DE ESTREPTOCOCCIAS"
+    },
+    {
+      "proc_rea": "0415040035",
+      "nome_proc": "DEBRIDAMENTO DE ULCERA / DE TECIDOS DESVITALIZADOS"
+    },
+    {
+      "proc_rea": "0303080060",
+      "nome_proc": "TRATAMENTO DE ESTAFILOCOCCIAS"
+    },
+    {
+      "proc_rea": "0310010047",
+      "nome_proc": "PARTO NORMAL EM GESTACAO DE ALTO RISCO"
+    },
+    {
+      "proc_rea": "0303160039",
+      "nome_proc": "TRATAMENTO DE OUTROS TRANSTORNOS ORIGINADOS NO PERIODO PERINATAL"
+    },
+    {
+      "proc_rea": "0303070064",
+      "nome_proc": "TRATAMENTO DE DOENCAS DO ESOFAGO ESTOMAGO E DUODENO"
+    },
+    {
+      "proc_rea": "0303060280",
+      "nome_proc": "TRATAMENTO DE SINDROME CORONARIANA AGUDA"
+    },
+    {
+      "proc_rea": "0303140135",
+      "nome_proc": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO"
+    },
+    {
+      "proc_rea": "0301060010",
+      "nome_proc": "DIAGNOSTICO E/OU ATENDIMENTO DE URGENCIA EM CLINICA PEDIATRICA"
+    },
+    {
+      "proc_rea": "0409060135",
+      "nome_proc": "HISTERECTOMIA TOTAL"
+    },
+    {
+      "proc_rea": "0415030013",
+      "nome_proc": "TRATAMENTO CIRURGICO EM POLITRAUMATIZADO"
+    },
+    {
+      "proc_rea": "0301060070",
+      "nome_proc": "DIAGNOSTICO E/OU ATENDIMENTO DE URGENCIA EM CLINICA CIRURGICA"
+    },
+    {
+      "proc_rea": "0303060190",
+      "nome_proc": "TRATAMENTO DE INFARTO AGUDO DO MIOCARDIO"
+    },
+    {
+      "proc_rea": "0407040129",
+      "nome_proc": "HERNIOPLASTIA UMBILICAL"
+    },
+    {
+      "proc_rea": "0407030034",
+      "nome_proc": "COLECISTECTOMIA VIDEOLAPAROSCOPICA"
+    },
+    {
+      "proc_rea": "0304080020",
+      "nome_proc": "INTERNACAO P/ QUIMIOTERAPIA DE ADMINISTRACAO CONTINUA"
+    },
+    {
+      "proc_rea": "0303010010",
+      "nome_proc": "TRATAMENTO DE DENGUE CLASSICA"
+    },
+    {
+      "proc_rea": "0303030046",
+      "nome_proc": "TRATAMENTO DE DISTURBIOS METABOLICOS"
+    },
+    {
+      "proc_rea": "0305020056",
+      "nome_proc": "TRATAMENTO DE INSUFICIENCIA RENAL CRONICA"
+    },
+    {
+      "proc_rea": "0303070072",
+      "nome_proc": "TRATAMENTO DE DOENCAS DO FIGADO"
+    },
+    {
+      "proc_rea": "0303140143",
+      "nome_proc": "TRATAMENTO DE OUTRAS INFECCOES AGUDAS DAS VIAS AEREAS INFERIORES"
+    },
+    {
+      "proc_rea": "0415020034",
+      "nome_proc": "OUTROS PROCEDIMENTOS COM CIRURGIAS SEQUENCIAIS"
+    },
+    {
+      "proc_rea": "0303160055",
+      "nome_proc": "TRATAMENTO DE TRANSTORNOS RELACIONADOS C/ A DURACAO DA GESTACAO E C/ O CRESCIMENTO FETAL"
+    }
+  ],
+  "result_hash": "c93dec2563a0092417fd8f6c0e54e594fb126dea974912664c1512714e806c53",
+  "semantic_disposition": "accepted"
+}

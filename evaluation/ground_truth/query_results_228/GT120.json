@@ -1,0 +1,39 @@
+{
+  "id": "GT120",
+  "question_pt": "Qual o total e o percentual de interna\u00e7\u00f5es por doen\u00e7as respirat\u00f3rias (CID J%) em cada trimestre do ano no estado do RS?",
+  "executed_at": "2026-07-09T00:36:46.496369+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(QUARTER FROM i.\"DT_INTER\") AS trimestre, COUNT(*) AS total_respiratorio, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_anual FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"DIAG_PRINC\" LIKE 'J%' AND mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL GROUP BY trimestre ORDER BY trimestre",
+  "duration_seconds": 0.041824,
+  "performance_class": "fast",
+  "row_count": 4,
+  "columns": [
+    "trimestre",
+    "total_respiratorio",
+    "pct_anual"
+  ],
+  "preview_rows": [
+    {
+      "trimestre": 1,
+      "total_respiratorio": 282441,
+      "pct_anual": 18.11
+    },
+    {
+      "trimestre": 2,
+      "total_respiratorio": 436141,
+      "pct_anual": 27.96
+    },
+    {
+      "trimestre": 3,
+      "total_respiratorio": 488759,
+      "pct_anual": 31.33
+    },
+    {
+      "trimestre": 4,
+      "total_respiratorio": 352537,
+      "pct_anual": 22.6
+    }
+  ],
+  "result_hash": "752b4a5f67abab0f375d12e4c8610bd3ed69b6caa2cee1f73412a69e3f35c015",
+  "semantic_disposition": "accepted"
+}

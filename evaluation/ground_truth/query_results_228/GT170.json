@@ -1,0 +1,30 @@
+{
+  "id": "GT170",
+  "question_pt": "Qual a quantidade de internacoes por complexidade assistencial?",
+  "executed_at": "2026-07-09T00:36:53.261181+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\" AS complexidade, COUNT(*) AS total_internacoes FROM internacoes i JOIN complexidade c ON i.\"COMPLEX\" = c.\"COMPLEX\" GROUP BY c.\"DESCRICAO\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.166215,
+  "performance_class": "fast",
+  "row_count": 3,
+  "columns": [
+    "complexidade",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "total_internacoes": 135358002
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "total_internacoes": 9028761
+    },
+    {
+      "complexidade": "N\u00e3o informado",
+      "total_internacoes": 9
+    }
+  ],
+  "result_hash": "7b167e9fb720c13a3f1540d3b98c533ebeb49c2e3c9689000adac72e4d792a38",
+  "semantic_disposition": "accepted"
+}

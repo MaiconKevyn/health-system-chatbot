@@ -1,0 +1,320 @@
+{
+  "id": "GT211",
+  "question_pt": "Qual percentual de internacoes de cada ano entre 2019 e 2023 foi por capitulo CID?",
+  "executed_at": "2026-07-09T00:36:58.777444+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2019 AND 2023 GROUP BY ano, c.\"DS_CAPITULO\") SELECT ano, capitulo_cid, total_internacoes, ROUND(total_internacoes * 100.0 / SUM(total_internacoes) OVER (PARTITION BY ano), 2) AS percentual_no_ano FROM agg ORDER BY ano, percentual_no_ano DESC",
+  "duration_seconds": 0.218942,
+  "performance_class": "fast",
+  "row_count": 105,
+  "columns": [
+    "ano",
+    "capitulo_cid",
+    "total_internacoes",
+    "percentual_no_ano"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2019,
+      "capitulo_cid": "XV. Gravidez, parto e puerp\u00e9rio",
+      "total_internacoes": 1977117,
+      "percentual_no_ano": 20.65
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "total_internacoes": 983779,
+      "percentual_no_ano": 10.27
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "total_internacoes": 955671,
+      "percentual_no_ano": 9.98
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XI. Doen\u00e7as do aparelho digestivo",
+      "total_internacoes": 929527,
+      "percentual_no_ano": 9.71
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "total_internacoes": 900500,
+      "percentual_no_ano": 9.4
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "total_internacoes": 692256,
+      "percentual_no_ano": 7.23
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "total_internacoes": 675532,
+      "percentual_no_ano": 7.06
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "total_internacoes": 674222,
+      "percentual_no_ano": 7.04
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "total_internacoes": 239572,
+      "percentual_no_ano": 2.5
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+      "total_internacoes": 224054,
+      "percentual_no_ano": 2.34
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+      "total_internacoes": 201189,
+      "percentual_no_ano": 2.1
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XXI. Fatores que influenciam o estado de sa\u00fade",
+      "total_internacoes": 199740,
+      "percentual_no_ano": 2.09
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "V. Transtornos mentais e comportamentais",
+      "total_internacoes": 176481,
+      "percentual_no_ano": 1.84
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XVIII. Sintomas, sinais e achados anormais",
+      "total_internacoes": 169999,
+      "percentual_no_ano": 1.78
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+      "total_internacoes": 168831,
+      "percentual_no_ano": 1.76
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "VI. Doen\u00e7as do sistema nervoso",
+      "total_internacoes": 155440,
+      "percentual_no_ano": 1.62
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "III. Doen\u00e7as do sangue e dos \u00f3rg\u00e3os hematopo\u00e9ticos",
+      "total_internacoes": 85911,
+      "percentual_no_ano": 0.9
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "VII. Doen\u00e7as do olho e anexos",
+      "total_internacoes": 84255,
+      "percentual_no_ano": 0.88
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+      "total_internacoes": 65053,
+      "percentual_no_ano": 0.68
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "VIII. Doen\u00e7as do ouvido e da ap\u00f3fise mast\u00f3ide",
+      "total_internacoes": 15826,
+      "percentual_no_ano": 0.17
+    },
+    {
+      "ano": 2019,
+      "capitulo_cid": "XXII. C\u00f3digos para prop\u00f3sitos especiais",
+      "total_internacoes": 16,
+      "percentual_no_ano": 0.0
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XV. Gravidez, parto e puerp\u00e9rio",
+      "total_internacoes": 1878953,
+      "percentual_no_ano": 22.78
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "total_internacoes": 946294,
+      "percentual_no_ano": 11.47
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "total_internacoes": 937471,
+      "percentual_no_ano": 11.37
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "total_internacoes": 749364,
+      "percentual_no_ano": 9.09
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XI. Doen\u00e7as do aparelho digestivo",
+      "total_internacoes": 670965,
+      "percentual_no_ano": 8.13
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "total_internacoes": 573971,
+      "percentual_no_ano": 6.96
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "total_internacoes": 574236,
+      "percentual_no_ano": 6.96
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "total_internacoes": 495494,
+      "percentual_no_ano": 6.01
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "total_internacoes": 242303,
+      "percentual_no_ano": 2.94
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+      "total_internacoes": 161801,
+      "percentual_no_ano": 1.96
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+      "total_internacoes": 161551,
+      "percentual_no_ano": 1.96
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XXI. Fatores que influenciam o estado de sa\u00fade",
+      "total_internacoes": 148203,
+      "percentual_no_ano": 1.8
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "V. Transtornos mentais e comportamentais",
+      "total_internacoes": 146963,
+      "percentual_no_ano": 1.78
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XVIII. Sintomas, sinais e achados anormais",
+      "total_internacoes": 147214,
+      "percentual_no_ano": 1.78
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "VI. Doen\u00e7as do sistema nervoso",
+      "total_internacoes": 125849,
+      "percentual_no_ano": 1.53
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+      "total_internacoes": 112319,
+      "percentual_no_ano": 1.36
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "III. Doen\u00e7as do sangue e dos \u00f3rg\u00e3os hematopo\u00e9ticos",
+      "total_internacoes": 71485,
+      "percentual_no_ano": 0.87
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "VII. Doen\u00e7as do olho e anexos",
+      "total_internacoes": 49350,
+      "percentual_no_ano": 0.6
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+      "total_internacoes": 44562,
+      "percentual_no_ano": 0.54
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "VIII. Doen\u00e7as do ouvido e da ap\u00f3fise mast\u00f3ide",
+      "total_internacoes": 8421,
+      "percentual_no_ano": 0.1
+    },
+    {
+      "ano": 2020,
+      "capitulo_cid": "XXII. C\u00f3digos para prop\u00f3sitos especiais",
+      "total_internacoes": 1183,
+      "percentual_no_ano": 0.01
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "XV. Gravidez, parto e puerp\u00e9rio",
+      "total_internacoes": 1884393,
+      "percentual_no_ano": 20.58
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "total_internacoes": 1405820,
+      "percentual_no_ano": 15.35
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "total_internacoes": 1008426,
+      "percentual_no_ano": 11.01
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "total_internacoes": 789944,
+      "percentual_no_ano": 8.63
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "XI. Doen\u00e7as do aparelho digestivo",
+      "total_internacoes": 728187,
+      "percentual_no_ano": 7.95
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "total_internacoes": 626258,
+      "percentual_no_ano": 6.84
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "total_internacoes": 626024,
+      "percentual_no_ano": 6.84
+    },
+    {
+      "ano": 2021,
+      "capitulo_cid": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "total_internacoes": 525585,
+      "percentual_no_ano": 5.74
+    }
+  ],
+  "result_hash": "638728c156d7d222a282b4081b13bf4f62779695ea3443929541628293c79053",
+  "semantic_disposition": "accepted"
+}

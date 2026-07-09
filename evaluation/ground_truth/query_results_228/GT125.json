@@ -1,0 +1,54 @@
+{
+  "id": "GT125",
+  "question_pt": "Qual a distribui\u00e7\u00e3o e percentual de interna\u00e7\u00f5es em UTI por dia da semana?",
+  "executed_at": "2026-07-09T00:36:47.064758+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT t.dia_semana, COUNT(*) AS total_internacoes_uti, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_total FROM internacoes i JOIN tempo t ON i.\"DT_INTER\" = t.data WHERE i.\"VAL_UTI\" > 0 GROUP BY t.dia_semana ORDER BY t.dia_semana",
+  "duration_seconds": 0.031609,
+  "performance_class": "fast",
+  "row_count": 7,
+  "columns": [
+    "dia_semana",
+    "total_internacoes_uti",
+    "pct_total"
+  ],
+  "preview_rows": [
+    {
+      "dia_semana": 1,
+      "total_internacoes_uti": 1494221,
+      "pct_total": 16.3
+    },
+    {
+      "dia_semana": 2,
+      "total_internacoes_uti": 1457460,
+      "pct_total": 15.9
+    },
+    {
+      "dia_semana": 3,
+      "total_internacoes_uti": 1446340,
+      "pct_total": 15.78
+    },
+    {
+      "dia_semana": 4,
+      "total_internacoes_uti": 1402069,
+      "pct_total": 15.3
+    },
+    {
+      "dia_semana": 5,
+      "total_internacoes_uti": 1326608,
+      "pct_total": 14.47
+    },
+    {
+      "dia_semana": 6,
+      "total_internacoes_uti": 1018510,
+      "pct_total": 11.11
+    },
+    {
+      "dia_semana": 7,
+      "total_internacoes_uti": 1019958,
+      "pct_total": 11.13
+    }
+  ],
+  "result_hash": "11edc9d268eb648037b71fe0bdc1ebc391cbe2dec1125c4ec99080328c54f019",
+  "semantic_disposition": "accepted"
+}

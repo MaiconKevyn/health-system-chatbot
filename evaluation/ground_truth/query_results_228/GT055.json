@@ -1,0 +1,20 @@
+{
+  "id": "GT055",
+  "question_pt": "Quantas interna\u00e7\u00f5es possuem ra\u00e7a/cor identificada, excluindo sem informa\u00e7\u00e3o?",
+  "executed_at": "2026-07-09T00:36:40.650983+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) FROM internacoes WHERE \"RACA_COR\" IN (1, 2, 3, 4, 5)",
+  "duration_seconds": 0.161318,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "count_star()"
+  ],
+  "preview_rows": [
+    {
+      "count_star()": 102209345
+    }
+  ],
+  "result_hash": "a10f2cf344617f802dad8ae45ed76a26863e36a4013e9d90b6035a0073a253e8",
+  "semantic_disposition": "accepted"
+}

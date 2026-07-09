@@ -1,0 +1,29 @@
+{
+  "id": "GT168",
+  "question_pt": "Qual a distribuicao de internacoes por sexo?",
+  "executed_at": "2026-07-09T00:36:53.047419+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT s.\"DESCRICAO\" AS sexo, COUNT(*) AS total_internacoes, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentual FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" GROUP BY s.\"DESCRICAO\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.045455,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "sexo",
+    "total_internacoes",
+    "percentual"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Feminino",
+      "total_internacoes": 85419029,
+      "percentual": 59.16
+    },
+    {
+      "sexo": "Masculino",
+      "total_internacoes": 58967743,
+      "percentual": 40.84
+    }
+  ],
+  "result_hash": "166dcd947f96db47d6be7b7ab678cd0f3432a594c095bbd00527dfa57b699e63",
+  "semantic_disposition": "accepted"
+}

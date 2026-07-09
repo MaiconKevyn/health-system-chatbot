@@ -1,0 +1,86 @@
+{
+  "id": "GT195",
+  "question_pt": "Qual a evolucao anual dos casos com VDRL positivo?",
+  "executed_at": "2026-07-09T00:36:55.529920+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS casos_vdrl_positivo FROM internacoes WHERE \"IND_VDRL\" = true AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.031829,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "ano",
+    "casos_vdrl_positivo"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2007,
+      "casos_vdrl_positivo": 81716
+    },
+    {
+      "ano": 2008,
+      "casos_vdrl_positivo": 1699734
+    },
+    {
+      "ano": 2009,
+      "casos_vdrl_positivo": 1688610
+    },
+    {
+      "ano": 2010,
+      "casos_vdrl_positivo": 1676315
+    },
+    {
+      "ano": 2011,
+      "casos_vdrl_positivo": 1663825
+    },
+    {
+      "ano": 2012,
+      "casos_vdrl_positivo": 1607465
+    },
+    {
+      "ano": 2013,
+      "casos_vdrl_positivo": 1598784
+    },
+    {
+      "ano": 2014,
+      "casos_vdrl_positivo": 1632619
+    },
+    {
+      "ano": 2015,
+      "casos_vdrl_positivo": 1589868
+    },
+    {
+      "ano": 2016,
+      "casos_vdrl_positivo": 1418238
+    },
+    {
+      "ano": 2017,
+      "casos_vdrl_positivo": 1389956
+    },
+    {
+      "ano": 2018,
+      "casos_vdrl_positivo": 1353188
+    },
+    {
+      "ano": 2019,
+      "casos_vdrl_positivo": 1273130
+    },
+    {
+      "ano": 2020,
+      "casos_vdrl_positivo": 1155400
+    },
+    {
+      "ano": 2021,
+      "casos_vdrl_positivo": 1100188
+    },
+    {
+      "ano": 2022,
+      "casos_vdrl_positivo": 1001120
+    },
+    {
+      "ano": 2023,
+      "casos_vdrl_positivo": 910498
+    }
+  ],
+  "result_hash": "5a2f99079c41ebb076fda8fbb1d58095cc0301d7ce332aebca357fe5fd33a0de",
+  "semantic_disposition": "accepted"
+}

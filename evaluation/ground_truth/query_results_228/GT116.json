@@ -1,0 +1,80 @@
+{
+  "id": "GT116",
+  "question_pt": "Quais s\u00e3o os 10 diagn\u00f3sticos com maior crescimento absoluto de interna\u00e7\u00f5es entre os per\u00edodos 2008-2012 e 2019-2023, considerando diagn\u00f3sticos com mais de 1000 interna\u00e7\u00f5es no primeiro per\u00edodo?",
+  "executed_at": "2026-07-09T00:36:46.201851+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH p1 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n1 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2008 AND 2012 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\"), p2 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n2 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2019 AND 2023 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\") SELECT c.\"DESCRICAO\", p1.n1 AS periodo_2008_2012, p2.n2 AS periodo_2019_2023, (p2.n2 - p1.n1) AS crescimento_absoluto FROM p1 JOIN p2 ON p1.\"DIAG_PRINC\" = p2.\"DIAG_PRINC\" JOIN cid c ON p1.\"DIAG_PRINC\" = c.\"CID\" WHERE p1.n1 > 1000 ORDER BY crescimento_absoluto DESC LIMIT 10",
+  "duration_seconds": 0.108694,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "DESCRICAO",
+    "periodo_2008_2012",
+    "periodo_2019_2023",
+    "crescimento_absoluto"
+  ],
+  "preview_rows": [
+    {
+      "DESCRICAO": "Parto p/cesariana eletiva",
+      "periodo_2008_2012": 138711,
+      "periodo_2019_2023": 467668,
+      "crescimento_absoluto": 328957
+    },
+    {
+      "DESCRICAO": "Infecc bacter NE",
+      "periodo_2008_2012": 95547,
+      "periodo_2019_2023": 354352,
+      "crescimento_absoluto": 258805
+    },
+    {
+      "DESCRICAO": "Acid vasc cerebr NE como hemorrag isquemico",
+      "periodo_2008_2012": 435057,
+      "periodo_2019_2023": 675013,
+      "crescimento_absoluto": 239956
+    },
+    {
+      "DESCRICAO": "Septicemia NE",
+      "periodo_2008_2012": 149982,
+      "periodo_2019_2023": 372476,
+      "crescimento_absoluto": 222494
+    },
+    {
+      "DESCRICAO": "Infecc do trato urinario de localiz NE",
+      "periodo_2008_2012": 450738,
+      "periodo_2019_2023": 666927,
+      "crescimento_absoluto": 216189
+    },
+    {
+      "DESCRICAO": "Infarto agudo do miocardio NE",
+      "periodo_2008_2012": 161367,
+      "periodo_2019_2023": 370449,
+      "crescimento_absoluto": 209082
+    },
+    {
+      "DESCRICAO": "Pneumonia bacter NE",
+      "periodo_2008_2012": 170106,
+      "periodo_2019_2023": 349288,
+      "crescimento_absoluto": 179182
+    },
+    {
+      "DESCRICAO": "Frat da extremidade distal do radio",
+      "periodo_2008_2012": 125759,
+      "periodo_2019_2023": 300475,
+      "crescimento_absoluto": 174716
+    },
+    {
+      "DESCRICAO": "Ictericia neonatal NE",
+      "periodo_2008_2012": 93635,
+      "periodo_2019_2023": 266863,
+      "crescimento_absoluto": 173228
+    },
+    {
+      "DESCRICAO": "Esterilizacao",
+      "periodo_2008_2012": 268159,
+      "periodo_2019_2023": 434160,
+      "crescimento_absoluto": 166001
+    }
+  ],
+  "result_hash": "657961972305208e0bbb0d169fd5596b4fee4cda2b0d8430e528ab85670a2a06",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "DENSE_JOIN_023",
+  "question_pt": "Qual e a taxa de mortalidade hospitalar por sexo?",
+  "executed_at": "2026-07-08T23:09:08.125424+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS internacoes, COUNT(*) FILTER (WHERE i.MORTE) AS mortes, ROUND(100.0 * COUNT(*) FILTER (WHERE i.MORTE) / COUNT(*), 4) AS taxa_morte_pct FROM internacoes i JOIN sexo s ON i.SEXO = s.SEXO GROUP BY 1 ORDER BY taxa_morte_pct DESC",
+  "duration_seconds": 0.069275,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "sexo",
+    "internacoes",
+    "mortes",
+    "taxa_morte_pct"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Masculino",
+      "internacoes": 58967743,
+      "mortes": 3159390,
+      "taxa_morte_pct": 5.3578
+    },
+    {
+      "sexo": "Feminino",
+      "internacoes": 85419029,
+      "mortes": 2718146,
+      "taxa_morte_pct": 3.1821
+    }
+  ],
+  "result_hash": "8c185f5cfa9f1ad4d7a6bf5614aa3246c0410f1ee99923ff0fead735c853a07f",
+  "semantic_disposition": "accepted"
+}

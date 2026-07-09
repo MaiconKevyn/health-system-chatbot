@@ -1,0 +1,50 @@
+{
+  "id": "GT232",
+  "question_pt": "Quantos registros com idade zero parecem inconsistentes com data de nascimento e data de internacao por ano?",
+  "executed_at": "2026-07-09T00:37:02.153998+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS idade_zero_inconsistente FROM internacoes WHERE \"IDADE\" = 0 AND \"NASC\" IS NOT NULL AND \"DT_INTER\" IS NOT NULL AND date_diff('day', \"NASC\", \"DT_INTER\") >= 365 GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.037522,
+  "performance_class": "fast",
+  "row_count": 8,
+  "columns": [
+    "ano",
+    "idade_zero_inconsistente"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2008,
+      "idade_zero_inconsistente": 657
+    },
+    {
+      "ano": 2009,
+      "idade_zero_inconsistente": 97
+    },
+    {
+      "ano": 2012,
+      "idade_zero_inconsistente": 507
+    },
+    {
+      "ano": 2013,
+      "idade_zero_inconsistente": 81
+    },
+    {
+      "ano": 2016,
+      "idade_zero_inconsistente": 457
+    },
+    {
+      "ano": 2017,
+      "idade_zero_inconsistente": 60
+    },
+    {
+      "ano": 2020,
+      "idade_zero_inconsistente": 208
+    },
+    {
+      "ano": 2021,
+      "idade_zero_inconsistente": 50
+    }
+  ],
+  "result_hash": "7bd987df8cdf77dacb63233e7cd04b5cbbc32c1dd06e67f96e70a95bfb491d81",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT004",
+  "question_pt": "Quantos c\u00f3digos CID-10 est\u00e3o dispon\u00edveis?",
+  "executed_at": "2026-07-09T00:36:37.335324+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_cids FROM cid",
+  "duration_seconds": 0.000127,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_cids"
+  ],
+  "preview_rows": [
+    {
+      "total_cids": 14253
+    }
+  ],
+  "result_hash": "8486c2200b5d363d7fe799d44d9dbf5bce747bbe1ecc7802fdeb417fd586d311",
+  "semantic_disposition": "accepted"
+}

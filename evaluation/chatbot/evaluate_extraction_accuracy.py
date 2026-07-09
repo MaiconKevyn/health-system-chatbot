@@ -9,6 +9,7 @@ match decision.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import math
 import re
@@ -28,10 +29,22 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from health_system_chatbot.artifacts import load_stage1_context
+from health_system_chatbot.candidate_generation import (
+    generate_sql_candidates,
+    should_use_multi_candidate,
+)
+from health_system_chatbot.candidate_ranking import rank_sql_candidates
 from health_system_chatbot.config import ChatbotConfig, load_config
 from health_system_chatbot.intent import classify_question
-from health_system_chatbot.models import GroundTruthItem, Stage1Context
+from health_system_chatbot.models import (
+    GroundTruthItem,
+    RetrievedContext,
+    SqlPlan,
+    Stage1Context,
+    ValidationResult,
+)
 from health_system_chatbot.schema_context import retrieve_context
+from health_system_chatbot.self_correction import refine_sql_plan
 from health_system_chatbot.sql_generator import generate_sql_plan
 from health_system_chatbot.sql_validator import validate_sql
 
@@ -82,6 +95,8 @@ class RunPaths:
     output: Path
     analysis_output: Path
     trace_output: Path
+    failure_examples_output: Path
+    summary_csv_output: Path
 
 
 def format_progress_start(index: int, total: int, item_id: str) -> str:
@@ -135,6 +150,8 @@ def resolve_run_paths(
         output=run_dir / "results.json",
         analysis_output=run_dir / "analysis.md",
         trace_output=run_dir / "trace.jsonl",
+        failure_examples_output=run_dir / "failure_examples.jsonl",
+        summary_csv_output=run_dir / "summary.csv",
     )
 
 
@@ -500,6 +517,267 @@ def _preview_values(
     )
 
 
+def _categorize_validation_error(errors: list[str]) -> str:
+    text = " ".join(errors).lower()
+    if "blocked sql keyword" in text or "blocked file" in text or "multiple sql" in text:
+        return "unsafe_sql_blocked"
+    if "unknown or unsupported table" in text:
+        return "retrieval_miss"
+    if "not found" in text or "unknown column" in text:
+        return "schema_linking_error"
+    if "rejected relationship" in text or "join requires" in text:
+        return "schema_linking_error"
+    return "invalid_sql"
+
+
+def _categorize_execution_error(error_message: str | None) -> str:
+    text = (error_message or "").lower()
+    if "timeout" in text or "exceeded timeout" in text:
+        return "execution_error"
+    if "duckdb file not found" in text:
+        return "environment_error"
+    if "binder" in text or "column" in text or "table" in text:
+        return "schema_linking_error"
+    if "type" in text or "conversion" in text:
+        return "schema_linking_error"
+    return "execution_error"
+
+
+def _next_action_for(category: str | None) -> str:
+    return {
+        "intent_misclassified": "Ajustar classificador de intencao.",
+        "intent_not_answerable": "Verificar se a pergunta deveria ser answerable.",
+        "retrieval_miss": "Ajustar retrieval/schema grounding para incluir tabela ou coluna correta.",
+        "schema_linking_error": "Melhorar schema linking, aliases ou join policies.",
+        "metric_basis_error": "Ajustar catalogo de metricas e exemplos few-shot.",
+        "date_basis_error": "Revisar regras de base temporal.",
+        "geography_basis_error": "Revisar regras de geografia residencia/hospital.",
+        "grain_error": "Revisar granularidade, especialmente joins com procedimentos.",
+        "invalid_sql": "Ajustar prompt, refiner ou validator.",
+        "unsafe_sql_blocked": "Manter bloqueio e ajustar prompt para evitar SQL insegura.",
+        "execution_error": "Corrigir SQL gerada ou limites de execucao.",
+        "empty_or_suspicious_result": "Investigar filtros, joins e cobertura do contexto.",
+        "candidate_misrank": "Ajustar ranking deterministico ou adicionar julgador.",
+        "natural_answer_error": "Ajustar sintetizador de resposta.",
+        "provider_error": "Verificar provider/modelo/chave.",
+        "environment_error": "Corrigir ambiente, banco ou dependencia.",
+        "shape_mismatch": "Comparar colunas/linhas esperadas e revisar selecao/agregacao.",
+        "value_mismatch": "Comparar valores e revisar metrica, filtros, data ou geografia.",
+        "order_only_mismatch": "Adicionar ORDER BY deterministico ou ajustar modo de comparacao.",
+    }.get(category or "", "Inspecionar trace e SQL gerada.")
+
+
+def _candidate_summary(selection: Any) -> list[dict[str, Any]]:
+    summaries = []
+    for candidate in selection.candidates:
+        summaries.append(
+            {
+                "candidate_id": candidate.candidate_id,
+                "source": candidate.plan.source,
+                "sql": candidate.plan.sql,
+                "is_valid": bool(candidate.validation and candidate.validation.is_valid),
+                "executed": candidate.execution is not None,
+                "score": candidate.score,
+                "rank_reason": candidate.rank_reason,
+                "errors": candidate.errors,
+                "warnings": candidate.warnings,
+            }
+        )
+    return summaries
+
+
+def _generate_plan_for_evaluation(
+    *,
+    item: GroundTruthItem,
+    retrieved: RetrievedContext,
+    ctx: Stage1Context,
+    config: ChatbotConfig,
+    allow_llm: bool,
+    record: dict[str, Any],
+) -> tuple[SqlPlan, ValidationResult | None]:
+    if should_use_multi_candidate(config, allow_llm=allow_llm):
+        candidate_plans = generate_sql_candidates(
+            item.question_pt,
+            retrieved,
+            ctx,
+            config,
+            allow_llm=allow_llm,
+        )
+        selection = rank_sql_candidates(
+            candidate_plans,
+            question=item.question_pt,
+            stage1_context=ctx,
+            config=config,
+        )
+        record["candidate_count"] = len(selection.candidates)
+        record["selected_candidate_id"] = selection.selected_candidate_id
+        record["candidate_selection_reason"] = selection.selection_reason
+        record["candidates"] = _candidate_summary(selection)
+        selected = selection.selected_candidate()
+        if selected is not None and selected.validation is not None:
+            return selected.plan, selected.validation
+        fallback = selection.best_candidate()
+        if fallback is None:
+            raise RuntimeError("No SQL candidates were generated.")
+        return fallback.plan, fallback.validation
+
+    plan = generate_sql_plan(
+        item.question_pt,
+        retrieved,
+        ctx,
+        config,
+        allow_llm=allow_llm,
+    )
+    record["candidate_count"] = 1
+    return plan, None
+
+
+def _try_refine_after_validation_error(
+    *,
+    item: GroundTruthItem,
+    retrieved: RetrievedContext,
+    ctx: Stage1Context,
+    config: ChatbotConfig,
+    plan: SqlPlan,
+    validation: ValidationResult,
+    allow_llm: bool,
+    record: dict[str, Any],
+) -> tuple[SqlPlan, ValidationResult]:
+    if (
+        not allow_llm
+        or config.agent_framework != "pydantic_ai"
+        or config.sql_correction_attempts <= 0
+        or validation.is_valid
+    ):
+        return plan, validation
+
+    for attempt in range(1, config.sql_correction_attempts + 1):
+        correction_record: dict[str, Any] = {
+            "attempt": attempt,
+            "phase": "validation",
+            "input_errors": validation.errors,
+        }
+        try:
+            corrected_plan = refine_sql_plan(
+                question=item.question_pt,
+                context=retrieved,
+                stage1_context=ctx,
+                rejected_plan=plan,
+                validation_errors=validation.errors,
+                execution_error=None,
+                config=config,
+            )
+            corrected_validation = validate_sql(
+                corrected_plan.sql,
+                ctx,
+                question=item.question_pt,
+                plan=corrected_plan,
+            )
+            correction_record.update(
+                {
+                    "sql": corrected_plan.sql,
+                    "source": corrected_plan.source,
+                    "validation_errors": corrected_validation.errors,
+                    "validation_warnings": corrected_validation.warnings,
+                    "success": corrected_validation.is_valid,
+                }
+            )
+            record["correction_attempts"].append(correction_record)
+            plan = corrected_plan
+            validation = corrected_validation
+            if validation.is_valid:
+                record["correction_success"] = True
+                break
+        except Exception as exc:
+            correction_record.update({"error": str(exc), "success": False})
+            record["correction_attempts"].append(correction_record)
+            break
+    return plan, validation
+
+
+def _try_refine_after_execution_error(
+    *,
+    item: GroundTruthItem,
+    retrieved: RetrievedContext,
+    ctx: Stage1Context,
+    config: ChatbotConfig,
+    plan: SqlPlan,
+    validation: ValidationResult,
+    execution: SqlExecution,
+    allow_llm: bool,
+    max_rows: int,
+    timeout_seconds: int,
+    record: dict[str, Any],
+) -> tuple[SqlPlan, ValidationResult, SqlExecution]:
+    if (
+        not allow_llm
+        or config.agent_framework != "pydantic_ai"
+        or config.sql_correction_attempts <= 0
+        or execution.status == "passed"
+    ):
+        return plan, validation, execution
+
+    execution_error = execution.error_message or "SQL execution failed"
+    for attempt in range(1, config.sql_correction_attempts + 1):
+        correction_record: dict[str, Any] = {
+            "attempt": attempt,
+            "phase": "execution",
+            "execution_error": execution_error,
+        }
+        try:
+            corrected_plan = refine_sql_plan(
+                question=item.question_pt,
+                context=retrieved,
+                stage1_context=ctx,
+                rejected_plan=plan,
+                validation_errors=[],
+                execution_error=execution_error,
+                config=config,
+            )
+            corrected_validation = validate_sql(
+                corrected_plan.sql,
+                ctx,
+                question=item.question_pt,
+                plan=corrected_plan,
+            )
+            correction_record.update(
+                {
+                    "sql": corrected_plan.sql,
+                    "source": corrected_plan.source,
+                    "validation_errors": corrected_validation.errors,
+                    "validation_warnings": corrected_validation.warnings,
+                }
+            )
+            if corrected_validation.is_valid and corrected_validation.safe_sql:
+                corrected_execution = execute_sql(
+                    corrected_validation.safe_sql,
+                    db_path=config.db_path,
+                    max_rows=max_rows,
+                    timeout_seconds=timeout_seconds,
+                )
+                correction_record["execution_status"] = corrected_execution.status
+                correction_record["success"] = corrected_execution.status == "passed"
+                record["correction_attempts"].append(correction_record)
+                plan = corrected_plan
+                validation = corrected_validation
+                execution = corrected_execution
+                execution_error = corrected_execution.error_message or execution_error
+                if execution.status == "passed":
+                    record["correction_success"] = True
+                    break
+            else:
+                correction_record["success"] = False
+                record["correction_attempts"].append(correction_record)
+                plan = corrected_plan
+                validation = corrected_validation
+                execution_error = "; ".join(corrected_validation.errors)
+        except Exception as exc:
+            correction_record.update({"error": str(exc), "success": False})
+            record["correction_attempts"].append(correction_record)
+            break
+    return plan, validation, execution
+
+
 def evaluate_item(
     item: GroundTruthItem,
     *,
@@ -517,6 +795,20 @@ def evaluate_item(
         "expected_result_type": item.expected_result_type,
         "question_pt": item.question_pt,
         "intent_status": None,
+        "retrieval_mode": None,
+        "retrieved_tables": [],
+        "retrieved_columns_count": 0,
+        "business_metrics": [],
+        "value_hints_count": 0,
+        "query_examples": [],
+        "plan_source": "",
+        "candidate_count": 0,
+        "selected_candidate_id": None,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": None,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": False,
         "generated_sql": "",
         "ground_truth_sql": item.sql,
         "generated_sql_valid": False,
@@ -552,26 +844,70 @@ def evaluate_item(
             return record
 
         retrieved = retrieve_context(item.question_pt, ctx, config=config)
+        record["retrieval_mode"] = retrieved.retrieval_mode
+        record["retrieved_tables"] = retrieved.tables
+        record["retrieved_columns_count"] = len(retrieved.columns)
+        record["business_metrics"] = [metric.name for metric in retrieved.business_metrics]
+        record["value_hints_count"] = len(retrieved.value_hints)
+        record["query_examples"] = [example.id for example in retrieved.query_examples]
+
+        expected_precheck = execute_sql(
+            item.sql,
+            db_path=config.db_path,
+            max_rows=max_rows,
+            timeout_seconds=timeout_seconds,
+        )
+        record["ground_truth_execution_status"] = expected_precheck.status
+        record["expected_columns"] = expected_precheck.columns
+        record["expected_row_count"] = expected_precheck.row_count
+        record["expected_truncated"] = expected_precheck.truncated
+        record["expected_preview_values"] = _preview_values(
+            expected_precheck.columns,
+            expected_precheck.rows,
+            numeric_tolerance=numeric_tolerance,
+        )
+        if expected_precheck.status != "passed":
+            record["error_category"] = "environment_error"
+            record["error_message"] = (
+                "Ground truth SQL failed against the configured database: "
+                f"{expected_precheck.error_message}"
+            )
+            return record
+
         try:
-            plan = generate_sql_plan(
-                item.question_pt,
-                retrieved,
-                ctx,
-                config,
+            plan, validation = _generate_plan_for_evaluation(
+                item=item,
+                retrieved=retrieved,
+                ctx=ctx,
+                config=config,
                 allow_llm=allow_llm,
+                record=record,
             )
         except Exception as exc:
-            record["error_category"] = "sql_generation_error"
+            record["error_category"] = "provider_error" if config.has_openai_key else "environment_error"
             record["error_message"] = str(exc)
             return record
 
         record["generated_sql"] = plan.sql
-        validation = validate_sql(plan.sql, ctx, question=item.question_pt, plan=plan)
+        record["plan_source"] = plan.source
+        validation = validation or validate_sql(plan.sql, ctx, question=item.question_pt, plan=plan)
+        plan, validation = _try_refine_after_validation_error(
+            item=item,
+            retrieved=retrieved,
+            ctx=ctx,
+            config=config,
+            plan=plan,
+            validation=validation,
+            allow_llm=allow_llm,
+            record=record,
+        )
+        record["generated_sql"] = plan.sql
+        record["plan_source"] = plan.source
         record["generated_sql_valid"] = validation.is_valid
         record["generated_sql_validation_errors"] = validation.errors
         record["generated_sql_validation_warnings"] = validation.warnings
         if not validation.is_valid or not validation.safe_sql:
-            record["error_category"] = "sql_validation_error"
+            record["error_category"] = _categorize_validation_error(validation.errors)
             record["error_message"] = "; ".join(validation.errors)
             return record
 
@@ -581,6 +917,24 @@ def evaluate_item(
             max_rows=max_rows,
             timeout_seconds=timeout_seconds,
         )
+        plan, validation, actual = _try_refine_after_execution_error(
+            item=item,
+            retrieved=retrieved,
+            ctx=ctx,
+            config=config,
+            plan=plan,
+            validation=validation,
+            execution=actual,
+            allow_llm=allow_llm,
+            max_rows=max_rows,
+            timeout_seconds=timeout_seconds,
+            record=record,
+        )
+        record["generated_sql"] = plan.sql
+        record["plan_source"] = plan.source
+        record["generated_sql_valid"] = validation.is_valid
+        record["generated_sql_validation_errors"] = validation.errors
+        record["generated_sql_validation_warnings"] = validation.warnings
         record["generated_execution_status"] = actual.status
         record["actual_columns"] = actual.columns
         record["actual_row_count"] = actual.row_count
@@ -591,9 +945,7 @@ def evaluate_item(
             numeric_tolerance=numeric_tolerance,
         )
         if actual.status != "passed":
-            record["error_category"] = (
-                "timeout" if actual.status == "timeout" else "generated_sql_execution_error"
-            )
+            record["error_category"] = _categorize_execution_error(actual.error_message)
             record["error_message"] = actual.error_message
             return record
 
@@ -613,9 +965,7 @@ def evaluate_item(
             numeric_tolerance=numeric_tolerance,
         )
         if expected.status != "passed":
-            record["error_category"] = (
-                "timeout" if expected.status == "timeout" else "ground_truth_sql_execution_error"
-            )
+            record["error_category"] = _categorize_execution_error(expected.error_message)
             record["error_message"] = expected.error_message
             return record
 
@@ -636,9 +986,11 @@ def evaluate_item(
         record["shape_match"] = comparison.shape_match
         record["error_category"] = comparison.error_category
         record["error_message"] = comparison.error_message
+        if record["candidate_count"] > 1:
+            record["candidate_selection_correct"] = comparison.result_match
         return record
     except Exception as exc:
-        record["error_category"] = "unknown_error"
+        record["error_category"] = "environment_error"
         record["error_message"] = str(exc)
         return record
     finally:
@@ -666,17 +1018,52 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         category = record.get("error_category")
         if category:
             categories[category] = categories.get(category, 0) + 1
+    correction_records = [record for record in records if record.get("correction_attempts")]
+    candidate_records = [record for record in records if record.get("candidate_count", 0) > 1]
+    latencies = sorted(float(record.get("latency_seconds") or 0) for record in records)
+    failures_by_difficulty: dict[str, int] = {}
+    for record in records:
+        if record.get("error_category"):
+            key = record.get("difficulty") or "unknown"
+            failures_by_difficulty[key] = failures_by_difficulty.get(key, 0) + 1
+
+    def percentile(values: list[float], percentile_value: float) -> float:
+        if not values:
+            return 0.0
+        index = int(percentile_value * (len(values) - 1))
+        return values[index]
+
+    result_match_rate = (
+        sum(record["result_match"] for record in comparable) / len(comparable)
+        if comparable
+        else None
+    )
     return {
         "total": total,
         "answerable_rate": len(answerable) / total if total else 0,
+        "intent_accuracy": len(answerable) / total if total else 0,
         "sql_generation_rate": len(generated) / total if total else 0,
         "sql_validation_rate": len(valid) / total if total else 0,
+        "sql_valid_rate": len(valid) / total if total else 0,
         "sql_execution_rate": len(executed) / total if total else 0,
-        "result_value_match_rate": (
-            sum(record["result_match"] for record in comparable) / len(comparable)
-            if comparable
+        "result_value_match_rate": result_match_rate,
+        "result_match_rate": result_match_rate,
+        "correction_success_rate": (
+            sum(bool(record.get("correction_success")) for record in correction_records)
+            / len(correction_records)
+            if correction_records
             else None
         ),
+        "retrieval_miss_rate": categories.get("retrieval_miss", 0) / total if total else 0,
+        "candidate_selection_accuracy": (
+            sum(record.get("candidate_selection_correct") is True for record in candidate_records)
+            / len(candidate_records)
+            if candidate_records
+            else None
+        ),
+        "latency_p50": percentile(latencies, 0.5),
+        "latency_p95": percentile(latencies, 0.95),
+        "token_cost_estimate": {"usd": None, "method": "provider_usage_not_tracked_yet"},
         "alias_only_difference_count": sum(
             record["alias_only_difference"] for record in records
         ),
@@ -689,6 +1076,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         "shape_mismatch_count": categories.get("shape_mismatch", 0),
         "value_mismatch_count": categories.get("value_mismatch", 0),
         "error_category_counts": categories,
+        "failures_by_difficulty": failures_by_difficulty,
     }
 
 
@@ -723,6 +1111,47 @@ def write_json_payload(payload: dict[str, Any], path: Path) -> None:
     )
 
 
+def write_failure_examples(records: list[dict[str, Any]], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        for record in records:
+            if not record.get("error_category"):
+                continue
+            payload = {
+                "id": record["id"],
+                "difficulty": record.get("difficulty"),
+                "question_pt": record["question_pt"],
+                "error_category": record["error_category"],
+                "error_message": record.get("error_message"),
+                "next_action": _next_action_for(record.get("error_category")),
+                "generated_sql": record.get("generated_sql"),
+                "ground_truth_sql": record.get("ground_truth_sql"),
+                "validation_errors": record.get("generated_sql_validation_errors", []),
+                "validation_warnings": record.get("generated_sql_validation_warnings", []),
+                "generated_execution_status": record.get("generated_execution_status"),
+                "ground_truth_execution_status": record.get("ground_truth_execution_status"),
+                "expected_preview_values": record.get("expected_preview_values", []),
+                "actual_preview_values": record.get("actual_preview_values", []),
+                "retrieved_tables": record.get("retrieved_tables", []),
+                "business_metrics": record.get("business_metrics", []),
+                "selected_candidate_id": record.get("selected_candidate_id"),
+                "correction_attempts": record.get("correction_attempts", []),
+            }
+            handle.write(json.dumps(payload, ensure_ascii=True, default=_json_default))
+            handle.write("\n")
+
+
+def write_summary_csv(summary: dict[str, Any], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["metric", "value"])
+        writer.writeheader()
+        for key, value in summary.items():
+            if isinstance(value, (dict, list)):
+                value = json.dumps(value, ensure_ascii=True, default=_json_default)
+            writer.writerow({"metric": key, "value": value})
+
+
 def write_analysis(payload: dict[str, Any], path: Path) -> None:
     summary = payload["summary"]
     lines = [
@@ -736,27 +1165,43 @@ def write_analysis(payload: dict[str, Any], path: Path) -> None:
         f"- SQL validation rate: {summary['sql_validation_rate']:.4f}",
         f"- SQL execution rate: {summary['sql_execution_rate']:.4f}",
         f"- Result value match rate: {summary['result_value_match_rate']}",
+        f"- Correction success rate: {summary['correction_success_rate']}",
+        f"- Retrieval miss rate: {summary['retrieval_miss_rate']:.4f}",
+        f"- Candidate selection accuracy: {summary['candidate_selection_accuracy']}",
+        f"- Latency p50: {summary['latency_p50']:.4f}s",
+        f"- Latency p95: {summary['latency_p95']:.4f}s",
         f"- Alias-only differences: {summary['alias_only_difference_count']}",
         f"- Type-only differences: {summary['type_only_difference_count']}",
         f"- Order-only mismatches: {summary['order_only_mismatch_count']}",
         f"- Shape mismatches: {summary['shape_mismatch_count']}",
         f"- Value mismatches: {summary['value_mismatch_count']}",
+        f"- Token/cost estimate: `{summary['token_cost_estimate']}`",
         "",
-        "## Records",
+        "## Error Categories",
         "",
-        "| id | difficulty | mode | match | alias_only | type_only | order_only | error_category |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| category | count | next action |",
+        "| --- | ---: | --- |",
     ]
+    for category, count in sorted(summary["error_category_counts"].items()):
+        lines.append(f"| `{category}` | {count} | {_next_action_for(category)} |")
+    lines.extend(
+        [
+            "",
+            "## Records",
+            "",
+            "| id | difficulty | mode | match | candidate | corrected | error_category |",
+            "| --- | --- | --- | --- | --- | --- | --- |",
+        ]
+    )
     for record in payload["records"]:
         lines.append(
-            "| {id} | {difficulty} | {mode} | {match} | {alias} | {type_only} | {order} | {category} |".format(
+            "| {id} | {difficulty} | {mode} | {match} | {candidate} | {corrected} | {category} |".format(
                 id=record["id"],
                 difficulty=record["difficulty"],
                 mode=record["comparison_mode"],
                 match=record["result_match"],
-                alias=record["alias_only_difference"],
-                type_only=record["type_only_difference"],
-                order=record["order_only_mismatch"],
+                candidate=record.get("selected_candidate_id") or "",
+                corrected=record.get("correction_success"),
                 category=record["error_category"] or "",
             )
         )
@@ -770,7 +1215,12 @@ def write_analysis(payload: dict[str, Any], path: Path) -> None:
                     "",
                     f"- Category: `{record['error_category']}`",
                     f"- Message: {record['error_message']}",
+                    f"- Next action: {_next_action_for(record['error_category'])}",
                     f"- Question: {record['question_pt']}",
+                    f"- Retrieved tables: `{record.get('retrieved_tables', [])}`",
+                    f"- Business metrics: `{record.get('business_metrics', [])}`",
+                    f"- Selected candidate: `{record.get('selected_candidate_id')}`",
+                    f"- Correction attempts: `{len(record.get('correction_attempts', []))}`",
                     "",
                     "Generated SQL:",
                     "",
@@ -838,7 +1288,7 @@ def main() -> int:
     )
 
     items = select_items(load_dataset(dataset), ids=args.ids, limit=args.limit)
-    ctx = load_stage1_context(config.project_root)
+    ctx = load_stage1_context(config.project_root, db_path=config.db_path)
     trace_path = initialize_trace(run_paths.trace_output)
     records = []
     total = len(items)
@@ -879,6 +1329,8 @@ def main() -> int:
     }
     write_json_payload(payload, run_paths.output)
     write_analysis(payload, run_paths.analysis_output)
+    write_failure_examples(records, run_paths.failure_examples_output)
+    write_summary_csv(payload["summary"], run_paths.summary_csv_output)
     if output_copy and output_copy != run_paths.output:
         write_json_payload(payload, output_copy)
     if analysis_copy and analysis_copy != run_paths.analysis_output:
@@ -889,6 +1341,8 @@ def main() -> int:
     print(f"output={run_paths.output}")
     print(f"analysis_output={run_paths.analysis_output}")
     print(f"trace_path={trace_path}")
+    print(f"failure_examples_output={run_paths.failure_examples_output}")
+    print(f"summary_csv_output={run_paths.summary_csv_output}")
     if output_copy and output_copy != run_paths.output:
         print(f"output_copy={output_copy}")
     if analysis_copy and analysis_copy != run_paths.analysis_output:

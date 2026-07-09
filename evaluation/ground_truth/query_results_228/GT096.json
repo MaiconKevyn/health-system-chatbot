@@ -1,0 +1,20 @@
+{
+  "id": "GT096",
+  "question_pt": "Quantos tipos de v\u00ednculo previdenci\u00e1rio existem?",
+  "executed_at": "2026-07-09T00:36:44.973697+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_vinculos FROM vincprev",
+  "duration_seconds": 9e-05,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_vinculos"
+  ],
+  "preview_rows": [
+    {
+      "total_vinculos": 7
+    }
+  ],
+  "result_hash": "b5a74f260b77b0bb05d07b26d12a618b7b910ace80b50d4daab9f0fc490379a4",
+  "semantic_disposition": "accepted"
+}

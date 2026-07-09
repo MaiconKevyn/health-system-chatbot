@@ -1,0 +1,20 @@
+{
+  "id": "GT022",
+  "question_pt": "Quantos hospitais registraram pelo menos uma morte?",
+  "executed_at": "2026-07-09T00:36:38.294550+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(DISTINCT \"CNES\") AS hospitais_com_mortes FROM internacoes WHERE \"MORTE\" = true",
+  "duration_seconds": 0.103363,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "hospitais_com_mortes"
+  ],
+  "preview_rows": [
+    {
+      "hospitais_com_mortes": 5082
+    }
+  ],
+  "result_hash": "f07f827f82127654e41faac1ad5809e84dd4e4c46234ae7c575c622e506ceb58",
+  "semantic_disposition": "accepted"
+}

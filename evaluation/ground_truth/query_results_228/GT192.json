@@ -1,0 +1,46 @@
+{
+  "id": "GT192",
+  "question_pt": "Qual a distribuicao de internacoes por vinculo previdenciario?",
+  "executed_at": "2026-07-09T00:36:55.331532+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT v.\"DESCRICAO\" AS vinculo_previdenciario, COUNT(*) AS total_internacoes FROM internacoes i JOIN vincprev v ON i.\"VINCPREV\" = v.\"VINCPREV\" GROUP BY v.\"DESCRICAO\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.039841,
+  "performance_class": "fast",
+  "row_count": 7,
+  "columns": [
+    "vinculo_previdenciario",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "vinculo_previdenciario": "N\u00e3o informado",
+      "total_internacoes": 144369239
+    },
+    {
+      "vinculo_previdenciario": "Aut\u00f4nomo",
+      "total_internacoes": 13361
+    },
+    {
+      "vinculo_previdenciario": "N\u00e3o segurado",
+      "total_internacoes": 2543
+    },
+    {
+      "vinculo_previdenciario": "Empregado",
+      "total_internacoes": 722
+    },
+    {
+      "vinculo_previdenciario": "Desempregado",
+      "total_internacoes": 546
+    },
+    {
+      "vinculo_previdenciario": "Aposentado",
+      "total_internacoes": 270
+    },
+    {
+      "vinculo_previdenciario": "Empregador",
+      "total_internacoes": 91
+    }
+  ],
+  "result_hash": "8a2181accb5d1f6e75125208f9a019be4ca43c96e897e7e52628d860a987cfd5",
+  "semantic_disposition": "accepted"
+}

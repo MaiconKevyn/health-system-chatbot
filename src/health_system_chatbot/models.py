@@ -53,6 +53,24 @@ class GroundTruthItem(BaseModel):
     semantic_disposition: str | None = None
 
 
+class BusinessMetric(BaseModel):
+    name: str
+    description: str
+    formula: str = ""
+    tables: list[str] = Field(default_factory=list)
+    columns: list[str] = Field(default_factory=list)
+    caveats: list[str] = Field(default_factory=list)
+    trigger_terms: list[str] = Field(default_factory=list)
+
+
+class ValueHint(BaseModel):
+    table: str
+    column: str
+    value: Any
+    label: str = ""
+    match_reason: str = ""
+
+
 class TableContext(BaseModel):
     table_name: str
     schema_name: str = "main"
@@ -84,6 +102,9 @@ class RetrievedContext(BaseModel):
     columns: list[str] = Field(default_factory=list)
     table_context: list[str] = Field(default_factory=list)
     join_policies: list[JoinPolicy] = Field(default_factory=list)
+    business_metrics: list[BusinessMetric] = Field(default_factory=list)
+    value_hints: list[ValueHint] = Field(default_factory=list)
+    query_examples: list[GroundTruthItem] = Field(default_factory=list)
     data_quality_caveats: list[str] = Field(default_factory=list)
     retrieval_mode: str = "schema"
 
@@ -141,5 +162,6 @@ class EvaluationRecord(BaseModel):
     executed: bool
     result_match: bool | None = None
     latency_seconds: float = 0.0
+    error_category: str | None = None
     errors: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)

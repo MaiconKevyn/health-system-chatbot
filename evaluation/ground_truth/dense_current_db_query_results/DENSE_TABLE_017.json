@@ -1,0 +1,34 @@
+{
+  "id": "DENSE_TABLE_017",
+  "question_pt": "Quais codigos e descricoes existem para sexo?",
+  "executed_at": "2026-07-08T23:09:05.519706+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT SEXO, DESCRICAO FROM sexo ORDER BY SEXO",
+  "duration_seconds": 0.000243,
+  "performance_class": "fast",
+  "row_count": 4,
+  "columns": [
+    "SEXO",
+    "DESCRICAO"
+  ],
+  "preview_rows": [
+    {
+      "SEXO": 0,
+      "DESCRICAO": "Ignorado"
+    },
+    {
+      "SEXO": 1,
+      "DESCRICAO": "Masculino"
+    },
+    {
+      "SEXO": 2,
+      "DESCRICAO": "Feminino"
+    },
+    {
+      "SEXO": 3,
+      "DESCRICAO": "Feminino"
+    }
+  ],
+  "result_hash": "6387e9ea27c6293c5d25529eacee9086cf3ff8db224c73b4dc5de3302d1815f0",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "DENSE_JOIN_021",
+  "question_pt": "Qual populacao socioeconomica existe por UF e ano quando ha denominador socioeconomico?",
+  "executed_at": "2026-07-08T23:09:07.979594+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.SG_UF, se.NU_ANO AS ano, SUM(se.QT_POPULACAO) AS populacao FROM socioeconomico se JOIN municipios m ON se.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D GROUP BY 1, 2 ORDER BY 1, 2",
+  "duration_seconds": 0.000557,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "SG_UF",
+    "ano",
+    "populacao"
+  ],
+  "preview_rows": [],
+  "result_hash": "d9f457fd6284305ceafd6023ab3a7c09a191f85fde837ab6342dd61490b21fe9",
+  "semantic_disposition": "accepted"
+}

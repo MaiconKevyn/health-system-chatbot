@@ -1,0 +1,17 @@
+{
+  "id": "GT233",
+  "question_pt": "Quais codigos de municipio de residencia sem correspondencia aparecem com maior volume de internacoes?",
+  "executed_at": "2026-07-09T00:37:02.240565+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT i.\"MUNIC_RES\" AS codigo_municipio_residencia, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE i.\"MUNIC_RES\" IS NOT NULL AND m.\"CO_MUNICIPIO_6D\" IS NULL GROUP BY i.\"MUNIC_RES\" ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.086211,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "codigo_municipio_residencia",
+    "total_internacoes"
+  ],
+  "preview_rows": [],
+  "result_hash": "98767287c9eb4dfa7d44c1747d1bc26fa9c1cd44259a08d7e1c2bda370d25ea8",
+  "semantic_disposition": "accepted"
+}

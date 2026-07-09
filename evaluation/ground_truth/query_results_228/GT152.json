@@ -1,0 +1,20 @@
+{
+  "id": "GT152",
+  "question_pt": "Qual a mediana do valor total das internacoes com valor informado?",
+  "executed_at": "2026-07-09T00:36:52.772929+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MEDIAN(\"VAL_TOT\") AS mediana_valor_total FROM internacoes WHERE \"VAL_TOT\" IS NOT NULL",
+  "duration_seconds": 2.392592,
+  "performance_class": "medium",
+  "row_count": 1,
+  "columns": [
+    "mediana_valor_total"
+  ],
+  "preview_rows": [
+    {
+      "mediana_valor_total": 559.28
+    }
+  ],
+  "result_hash": "f5fa453d2040ad57b5d2c65c85a109d86bc8f1fefd02654adaa9ac1ce8cf5af8",
+  "semantic_disposition": "accepted"
+}

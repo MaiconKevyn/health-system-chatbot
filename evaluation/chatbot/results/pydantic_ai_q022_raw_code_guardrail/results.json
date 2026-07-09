@@ -1,0 +1,197 @@
+{
+  "run_id": "pydantic_ai_q022_raw_code_guardrail",
+  "run_dir": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/pydantic_ai_q022_raw_code_guardrail",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/stage1_questions_v2.jsonl",
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "limit": null,
+  "ids": [
+    "SIHRD5_Q022"
+  ],
+  "allow_llm": true,
+  "numeric_tolerance": 1e-06,
+  "max_rows": 10000,
+  "timeout_seconds": 60,
+  "trace_path": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/pydantic_ai_q022_raw_code_guardrail/trace.jsonl",
+  "summary": {
+    "total": 1,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 1.0,
+    "sql_validation_rate": 1.0,
+    "sql_valid_rate": 1.0,
+    "sql_execution_rate": 1.0,
+    "result_value_match_rate": 1.0,
+    "result_match_rate": 1.0,
+    "correction_success_rate": 1.0,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "latency_p50": 7.893648375000339,
+    "latency_p95": 7.893648375000339,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 0,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "shape_mismatch_count": 0,
+    "value_mismatch_count": 0,
+    "error_category_counts": {},
+    "failures_by_difficulty": {}
+  },
+  "records": [
+    {
+      "id": "SIHRD5_Q022",
+      "difficulty": "L2",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais codigos de diagnostico principal foram mais frequentes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid"
+      ],
+      "retrieved_columns_count": 7,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q022",
+        "SIHRD5_Q049",
+        "SIHRD5_Q050",
+        "SIHRD5_Q063"
+      ],
+      "plan_source": "pydantic_ai_refiner",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "validation",
+          "input_errors": [
+            "Question asks for raw codes; do not include DESCRICAO/name columns unless requested."
+          ],
+          "sql": "SELECT DIAG_PRINC, COUNT(*) AS internacoes\nFROM internacoes\nWHERE DIAG_PRINC IS NOT NULL\nGROUP BY DIAG_PRINC\nORDER BY internacoes DESC\nLIMIT 20",
+          "source": "pydantic_ai_refiner",
+          "validation_errors": [],
+          "validation_warnings": [],
+          "success": true
+        }
+      ],
+      "correction_success": true,
+      "generated_sql": "SELECT DIAG_PRINC, COUNT(*) AS internacoes\nFROM internacoes\nWHERE DIAG_PRINC IS NOT NULL\nGROUP BY DIAG_PRINC\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT DIAG_PRINC, COUNT(*) AS internacoes FROM internacoes WHERE DIAG_PRINC IS NOT NULL GROUP BY 1 ORDER BY internacoes DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "DIAG_PRINC",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "DIAG_PRINC",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "O800",
+          10289544
+        ],
+        [
+          "J189",
+          3293713
+        ],
+        [
+          "O809",
+          2459872
+        ],
+        [
+          "A09",
+          2109464
+        ],
+        [
+          "N390",
+          1886373
+        ],
+        [
+          "I64",
+          1806376
+        ],
+        [
+          "I500",
+          1459476
+        ],
+        [
+          "B342",
+          1435980
+        ],
+        [
+          "O821",
+          1426340
+        ],
+        [
+          "J459",
+          1402128
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "O800",
+          10289544
+        ],
+        [
+          "J189",
+          3293713
+        ],
+        [
+          "O809",
+          2459872
+        ],
+        [
+          "A09",
+          2109464
+        ],
+        [
+          "N390",
+          1886373
+        ],
+        [
+          "I64",
+          1806376
+        ],
+        [
+          "I500",
+          1459476
+        ],
+        [
+          "B342",
+          1435980
+        ],
+        [
+          "O821",
+          1426340
+        ],
+        [
+          "J459",
+          1402128
+        ]
+      ],
+      "expected_row_count": 20,
+      "actual_row_count": 20,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 7.893648375000339
+    }
+  ]
+}

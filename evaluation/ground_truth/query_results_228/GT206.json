@@ -1,0 +1,106 @@
+{
+  "id": "GT206",
+  "question_pt": "Qual a razao anual entre uso de UTI em pacientes com 65 anos ou mais e pacientes com menos de 65 anos?",
+  "executed_at": "2026-07-09T00:36:56.900171+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, CASE WHEN \"IDADE\" >= 65 THEN '65_mais' ELSE 'menor_65' END AS grupo_idade, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MARCA_UTI\" <> 0 THEN 1 ELSE 0 END) AS internacoes_uti FROM internacoes WHERE \"IDADE\" IS NOT NULL AND \"DT_INTER\" IS NOT NULL GROUP BY ano, grupo_idade), taxas AS (SELECT ano, grupo_idade, internacoes_uti * 1.0 / NULLIF(total_internacoes, 0) AS taxa_uti FROM agg) SELECT ano, ROUND(MAX(CASE WHEN grupo_idade = '65_mais' THEN taxa_uti END) / NULLIF(MAX(CASE WHEN grupo_idade = 'menor_65' THEN taxa_uti END), 0), 2) AS razao_uti_65_mais_vs_menor_65 FROM taxas GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.216712,
+  "performance_class": "fast",
+  "row_count": 22,
+  "columns": [
+    "ano",
+    "razao_uti_65_mais_vs_menor_65"
+  ],
+  "preview_rows": [
+    {
+      "ano": 1995,
+      "razao_uti_65_mais_vs_menor_65": null
+    },
+    {
+      "ano": 1998,
+      "razao_uti_65_mais_vs_menor_65": null
+    },
+    {
+      "ano": 2000,
+      "razao_uti_65_mais_vs_menor_65": null
+    },
+    {
+      "ano": 2005,
+      "razao_uti_65_mais_vs_menor_65": null
+    },
+    {
+      "ano": 2006,
+      "razao_uti_65_mais_vs_menor_65": null
+    },
+    {
+      "ano": 2007,
+      "razao_uti_65_mais_vs_menor_65": 1.89
+    },
+    {
+      "ano": 2008,
+      "razao_uti_65_mais_vs_menor_65": 2.23
+    },
+    {
+      "ano": 2009,
+      "razao_uti_65_mais_vs_menor_65": 2.19
+    },
+    {
+      "ano": 2010,
+      "razao_uti_65_mais_vs_menor_65": 2.15
+    },
+    {
+      "ano": 2011,
+      "razao_uti_65_mais_vs_menor_65": 2.11
+    },
+    {
+      "ano": 2012,
+      "razao_uti_65_mais_vs_menor_65": 2.18
+    },
+    {
+      "ano": 2013,
+      "razao_uti_65_mais_vs_menor_65": 2.19
+    },
+    {
+      "ano": 2014,
+      "razao_uti_65_mais_vs_menor_65": 2.25
+    },
+    {
+      "ano": 2015,
+      "razao_uti_65_mais_vs_menor_65": 2.2
+    },
+    {
+      "ano": 2016,
+      "razao_uti_65_mais_vs_menor_65": 2.16
+    },
+    {
+      "ano": 2017,
+      "razao_uti_65_mais_vs_menor_65": 2.13
+    },
+    {
+      "ano": 2018,
+      "razao_uti_65_mais_vs_menor_65": 2.17
+    },
+    {
+      "ano": 2019,
+      "razao_uti_65_mais_vs_menor_65": 2.17
+    },
+    {
+      "ano": 2020,
+      "razao_uti_65_mais_vs_menor_65": 2.23
+    },
+    {
+      "ano": 2021,
+      "razao_uti_65_mais_vs_menor_65": 1.98
+    },
+    {
+      "ano": 2022,
+      "razao_uti_65_mais_vs_menor_65": 2.22
+    },
+    {
+      "ano": 2023,
+      "razao_uti_65_mais_vs_menor_65": 2.25
+    }
+  ],
+  "result_hash": "492c256041732a9b028b2cbddb9d7284ccb2b5156f66a53bda7e064f09a8e9bf",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "GT044",
+  "question_pt": "Qual o custo m\u00e9dio de UTI por faixa et\u00e1ria dos pacientes?",
+  "executed_at": "2026-07-09T00:36:39.898064+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END AS faixa_etaria, AVG(\"VAL_UTI\") AS custo_medio_uti FROM internacoes WHERE \"VAL_UTI\" > 0 GROUP BY CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END",
+  "duration_seconds": 0.041313,
+  "performance_class": "fast",
+  "row_count": 3,
+  "columns": [
+    "faixa_etaria",
+    "custo_medio_uti"
+  ],
+  "preview_rows": [
+    {
+      "faixa_etaria": "Idoso",
+      "custo_medio_uti": 3966.2841441760443
+    },
+    {
+      "faixa_etaria": "Adulto",
+      "custo_medio_uti": 3865.748893050955
+    },
+    {
+      "faixa_etaria": "Menor",
+      "custo_medio_uti": 5358.853033921951
+    }
+  ],
+  "result_hash": "4a6e2fffe1b6252ae171db1af22f22678d76a48477d30eb2cdae0026e9b6a53b",
+  "semantic_disposition": "accepted"
+}

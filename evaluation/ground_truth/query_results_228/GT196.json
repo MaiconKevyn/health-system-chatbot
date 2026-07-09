@@ -1,0 +1,86 @@
+{
+  "id": "GT196",
+  "question_pt": "Qual a evolucao anual das internacoes por parto cesariano?",
+  "executed_at": "2026-07-09T00:36:55.590136+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_cesarianas FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'O82%' AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.059902,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "ano",
+    "total_cesarianas"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2007,
+      "total_cesarianas": 14140
+    },
+    {
+      "ano": 2008,
+      "total_cesarianas": 226089
+    },
+    {
+      "ano": 2009,
+      "total_cesarianas": 253066
+    },
+    {
+      "ano": 2010,
+      "total_cesarianas": 268514
+    },
+    {
+      "ano": 2011,
+      "total_cesarianas": 290231
+    },
+    {
+      "ano": 2012,
+      "total_cesarianas": 294161
+    },
+    {
+      "ano": 2013,
+      "total_cesarianas": 303432
+    },
+    {
+      "ano": 2014,
+      "total_cesarianas": 328357
+    },
+    {
+      "ano": 2015,
+      "total_cesarianas": 315565
+    },
+    {
+      "ano": 2016,
+      "total_cesarianas": 275820
+    },
+    {
+      "ano": 2017,
+      "total_cesarianas": 249414
+    },
+    {
+      "ano": 2018,
+      "total_cesarianas": 262716
+    },
+    {
+      "ano": 2019,
+      "total_cesarianas": 257498
+    },
+    {
+      "ano": 2020,
+      "total_cesarianas": 245940
+    },
+    {
+      "ano": 2021,
+      "total_cesarianas": 241843
+    },
+    {
+      "ano": 2022,
+      "total_cesarianas": 231555
+    },
+    {
+      "ano": 2023,
+      "total_cesarianas": 228732
+    }
+  ],
+  "result_hash": "9c1c380286241c65e6afddc534fffb8806f9d86a7a0b367ac5b5b4c1fd8f364f",
+  "semantic_disposition": "accepted"
+}

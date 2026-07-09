@@ -1,0 +1,20 @@
+{
+  "id": "GT047",
+  "question_pt": "Quantas interna\u00e7\u00f5es por doen\u00e7a respirat\u00f3ria ocorrem no inverno (junho a agosto)?",
+  "executed_at": "2026-07-09T00:36:40.024591+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_respiratorias_inverno FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'J%' AND EXTRACT(MONTH FROM \"DT_INTER\") IN (6, 7, 8)",
+  "duration_seconds": 0.075415,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_respiratorias_inverno"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_respiratorias_inverno": 4393520
+    }
+  ],
+  "result_hash": "c33c4025ecd862634b736db120639b822eafc5f0c2396ce045e7f7d112f66933",
+  "semantic_disposition": "accepted"
+}

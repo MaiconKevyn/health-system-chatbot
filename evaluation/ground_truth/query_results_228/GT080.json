@@ -1,0 +1,20 @@
+{
+  "id": "GT080",
+  "question_pt": "Quantas mortes foram registradas no estado do RS?",
+  "executed_at": "2026-07-09T00:36:43.210544+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_mortes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"MORTE\" = true AND mu.\"SG_UF\" = 'RS'",
+  "duration_seconds": 0.019125,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "total_mortes": 611909
+    }
+  ],
+  "result_hash": "7a942989e86c698c653abe117cb07bd8915b55c023cfec174c04756afb0dd263",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "GT205",
+  "question_pt": "Quais municipios do RS tem taxa de uso de UTI acima da media estadual, considerando apenas municipios com mais de 1000 internacoes?",
+  "executed_at": "2026-07-09T00:36:56.683129+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH rs AS (SELECT m.\"NO_MUNICIPIO\" AS municipio, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MARCA_UTI\" <> 0 THEN 1 ELSE 0 END) AS internacoes_uti FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" = 'RS' GROUP BY m.\"NO_MUNICIPIO\"), media AS (SELECT SUM(internacoes_uti) * 100.0 / NULLIF(SUM(total_internacoes), 0) AS taxa_media_rs FROM rs) SELECT rs.municipio, rs.total_internacoes, rs.internacoes_uti, ROUND(rs.internacoes_uti * 100.0 / NULLIF(rs.total_internacoes, 0), 2) AS taxa_uti FROM rs, media WHERE rs.total_internacoes > 1000 AND rs.internacoes_uti * 100.0 / NULLIF(rs.total_internacoes, 0) > media.taxa_media_rs ORDER BY taxa_uti DESC LIMIT 10",
+  "duration_seconds": 0.038715,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "municipio",
+    "total_internacoes",
+    "internacoes_uti",
+    "taxa_uti"
+  ],
+  "preview_rows": [
+    {
+      "municipio": "Bag\u00e9",
+      "total_internacoes": 120196,
+      "internacoes_uti": 16230,
+      "taxa_uti": 13.5
+    },
+    {
+      "municipio": "Cidreira",
+      "total_internacoes": 14181,
+      "internacoes_uti": 1754,
+      "taxa_uti": 12.37
+    },
+    {
+      "municipio": "S\u00e3o Borja",
+      "total_internacoes": 83488,
+      "internacoes_uti": 10161,
+      "taxa_uti": 12.17
+    },
+    {
+      "municipio": "Ros\u00e1rio do Sul",
+      "total_internacoes": 46225,
+      "internacoes_uti": 5623,
+      "taxa_uti": 12.16
+    },
+    {
+      "municipio": "Barra do Ribeiro",
+      "total_internacoes": 10109,
+      "internacoes_uti": 1228,
+      "taxa_uti": 12.15
+    },
+    {
+      "municipio": "Imb\u00e9",
+      "total_internacoes": 22873,
+      "internacoes_uti": 2755,
+      "taxa_uti": 12.04
+    },
+    {
+      "municipio": "Tramanda\u00ed",
+      "total_internacoes": 52059,
+      "internacoes_uti": 6239,
+      "taxa_uti": 11.98
+    },
+    {
+      "municipio": "Bozano",
+      "total_internacoes": 2008,
+      "internacoes_uti": 235,
+      "taxa_uti": 11.7
+    },
+    {
+      "municipio": "Balne\u00e1rio Pinhal",
+      "total_internacoes": 10413,
+      "internacoes_uti": 1213,
+      "taxa_uti": 11.65
+    },
+    {
+      "municipio": "Candiota",
+      "total_internacoes": 6172,
+      "internacoes_uti": 707,
+      "taxa_uti": 11.45
+    }
+  ],
+  "result_hash": "49c1e844f20cf90dfcfa1acf808689914ef5ff87a85b00d02260c92f9fbae825",
+  "semantic_disposition": "accepted"
+}

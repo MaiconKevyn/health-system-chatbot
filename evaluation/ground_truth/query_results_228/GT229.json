@@ -1,0 +1,18 @@
+{
+  "id": "GT229",
+  "question_pt": "Quando houver cadastro de munic\u00edpio do hospital, quais pares de estado de resid\u00eancia e estado do hospital tiveram maior volume de interna\u00e7\u00f5es interestaduais?",
+  "executed_at": "2026-07-09T00:37:01.577236+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT mr.\"SG_UF\" AS uf_residencia, mh.\"SG_UF\" AS uf_hospital FROM internacoes i LEFT JOIN municipios mr ON i.\"MUNIC_RES\" = mr.\"CO_MUNICIPIO_6D\" JOIN hospital h ON i.\"CNES\" = h.\"CNES\" JOIN municipios mh ON h.\"MUNIC_MOV\" = mh.\"CO_MUNICIPIO_6D\" WHERE regexp_full_match(mr.\"SG_UF\", '^[A-Z]{2}$') AND regexp_full_match(mh.\"SG_UF\", '^[A-Z]{2}$')) SELECT uf_residencia, uf_hospital, COUNT(*) AS total_internacoes FROM base WHERE uf_residencia <> uf_hospital GROUP BY uf_residencia, uf_hospital ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.001033,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "uf_residencia",
+    "uf_hospital",
+    "total_internacoes"
+  ],
+  "preview_rows": [],
+  "result_hash": "8af3686e7bcf954068b5cd90a4f45deb3d036625bc50b684d51e82f06d54b00f",
+  "semantic_disposition": "accepted"
+}

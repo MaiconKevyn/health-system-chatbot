@@ -1,0 +1,32 @@
+{
+  "id": "GT175",
+  "question_pt": "Qual a taxa de mortalidade por sexo?",
+  "executed_at": "2026-07-09T00:36:54.057486+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT s.\"DESCRICAO\" AS sexo, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" GROUP BY s.\"DESCRICAO\" ORDER BY taxa_mortalidade DESC",
+  "duration_seconds": 0.08255,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "sexo",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Masculino",
+      "total_internacoes": 58967743,
+      "total_mortes": 3159390,
+      "taxa_mortalidade": 5.36
+    },
+    {
+      "sexo": "Feminino",
+      "total_internacoes": 85419029,
+      "total_mortes": 2718146,
+      "taxa_mortalidade": 3.18
+    }
+  ],
+  "result_hash": "bfbc0db44d4cd29bb2b5bca2a6f44ba2087eadc47d3b86d3f19231e9224531f9",
+  "semantic_disposition": "accepted"
+}

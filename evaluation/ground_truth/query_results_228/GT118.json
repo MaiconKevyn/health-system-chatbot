@@ -1,0 +1,58 @@
+{
+  "id": "GT118",
+  "question_pt": "Quais s\u00e3o os 10 hospitais com mais de 1000 interna\u00e7\u00f5es que nunca registraram nenhuma interna\u00e7\u00e3o em UTI?",
+  "executed_at": "2026-07-09T00:36:46.389800+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT \"CNES\", COUNT(*) AS total_internacoes FROM internacoes GROUP BY \"CNES\" HAVING COUNT(*) > 1000 AND SUM(CASE WHEN \"VAL_UTI\" > 0 THEN 1 ELSE 0 END) = 0 ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.133365,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "CNES",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "CNES": 10529,
+      "total_internacoes": 176099
+    },
+    {
+      "CNES": 2338114,
+      "total_internacoes": 125058
+    },
+    {
+      "CNES": 2772299,
+      "total_internacoes": 109813
+    },
+    {
+      "CNES": 4170,
+      "total_internacoes": 103167
+    },
+    {
+      "CNES": 2328003,
+      "total_internacoes": 101997
+    },
+    {
+      "CNES": 3794,
+      "total_internacoes": 100478
+    },
+    {
+      "CNES": 7011857,
+      "total_internacoes": 100133
+    },
+    {
+      "CNES": 2332914,
+      "total_internacoes": 99836
+    },
+    {
+      "CNES": 10545,
+      "total_internacoes": 98489
+    },
+    {
+      "CNES": 3840,
+      "total_internacoes": 97838
+    }
+  ],
+  "result_hash": "28ee8009d38d3e893d006e88934b026dd060fe2e26b1bf99ca247c4a5d85aae0",
+  "semantic_disposition": "accepted"
+}

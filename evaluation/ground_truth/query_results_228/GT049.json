@@ -1,0 +1,24 @@
+{
+  "id": "GT049",
+  "question_pt": "Qual a taxa de mortalidade no estado do Rio Grande do Sul em 2021?",
+  "executed_at": "2026-07-09T00:36:40.112420+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND EXTRACT(YEAR FROM \"DT_INTER\") = 2021",
+  "duration_seconds": 0.019137,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "total_internacoes": 719323,
+      "total_mortes": 56392,
+      "taxa_mortalidade": 7.84
+    }
+  ],
+  "result_hash": "ceb404ece5b5ed7493552f99082e6d92e2c1ce3e077a22dc8c459507dc7acd29",
+  "semantic_disposition": "accepted"
+}

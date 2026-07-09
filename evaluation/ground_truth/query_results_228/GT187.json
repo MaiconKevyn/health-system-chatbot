@@ -1,0 +1,26 @@
+{
+  "id": "GT187",
+  "question_pt": "Qual o valor total de internacoes por estado de residencia MA e RS?",
+  "executed_at": "2026-07-09T00:36:55.209246+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"SG_UF\" AS uf_residencia, ROUND(SUM(i.\"VAL_TOT\"), 2) AS valor_total FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" IN ('MA', 'RS') GROUP BY m.\"SG_UF\" ORDER BY m.\"SG_UF\"",
+  "duration_seconds": 0.055115,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "uf_residencia",
+    "valor_total"
+  ],
+  "preview_rows": [
+    {
+      "uf_residencia": "MA",
+      "valor_total": 6356705555.2
+    },
+    {
+      "uf_residencia": "RS",
+      "valor_total": 20281894025.98
+    }
+  ],
+  "result_hash": "76d237a8246231dfcc27db62cf216b4ecf85c4c5945a3ea0c0447a582c25682e",
+  "semantic_disposition": "accepted"
+}

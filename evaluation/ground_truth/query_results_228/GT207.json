@@ -1,0 +1,69 @@
+{
+  "id": "GT207",
+  "question_pt": "Quais diagnosticos tiveram maior custo total de UTI entre internacoes que resultaram em obito?",
+  "executed_at": "2026-07-09T00:36:56.970005+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\" AS diagnostico, COUNT(*) AS total_obitos, ROUND(SUM(i.\"VAL_UTI\"), 2) AS custo_total_uti FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"MORTE\" = true AND i.\"VAL_UTI\" > 0 GROUP BY c.\"DESCRICAO\" HAVING COUNT(*) > 1000 ORDER BY custo_total_uti DESC LIMIT 10",
+  "duration_seconds": 0.069529,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "diagnostico",
+    "total_obitos",
+    "custo_total_uti"
+  ],
+  "preview_rows": [
+    {
+      "diagnostico": "Infecc p/coronavirus NE",
+      "total_obitos": 183031,
+      "custo_total_uti": 2672480984.12
+    },
+    {
+      "diagnostico": "Septicemia NE",
+      "total_obitos": 167317,
+      "custo_total_uti": 873740888.8
+    },
+    {
+      "diagnostico": "Acid vasc cerebr NE como hemorrag isquemico",
+      "total_obitos": 85533,
+      "custo_total_uti": 369561462.36
+    },
+    {
+      "diagnostico": "Insuf respirat aguda",
+      "total_obitos": 75616,
+      "custo_total_uti": 360537789.68
+    },
+    {
+      "diagnostico": "Pneumonia NE",
+      "total_obitos": 69636,
+      "custo_total_uti": 330664210.9
+    },
+    {
+      "diagnostico": "Infecc bacter NE",
+      "total_obitos": 44485,
+      "custo_total_uti": 243333457.72
+    },
+    {
+      "diagnostico": "Insuf cardiaca congestiva",
+      "total_obitos": 47760,
+      "custo_total_uti": 208417862.9
+    },
+    {
+      "diagnostico": "Outr septicemias espec",
+      "total_obitos": 37953,
+      "custo_total_uti": 201065662.33
+    },
+    {
+      "diagnostico": "Insuf cardiaca NE",
+      "total_obitos": 39083,
+      "custo_total_uti": 158422427.41
+    },
+    {
+      "diagnostico": "Infarto agudo do miocardio NE",
+      "total_obitos": 40518,
+      "custo_total_uti": 138926829.36
+    }
+  ],
+  "result_hash": "118f2746b97b33923797156ce9de37d3db18eeb0acfb1ec3b11a9b1f23a1fd21",
+  "semantic_disposition": "accepted"
+}

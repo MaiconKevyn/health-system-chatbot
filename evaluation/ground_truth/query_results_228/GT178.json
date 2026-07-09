@@ -1,0 +1,44 @@
+{
+  "id": "GT178",
+  "question_pt": "Qual a distribuicao percentual de internacoes por raca/cor, excluindo sem informacao?",
+  "executed_at": "2026-07-09T00:36:54.461064+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT r.\"DESCRICAO\" AS raca_cor, COUNT(*) AS total_internacoes, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentual FROM internacoes i JOIN raca_cor r ON i.\"RACA_COR\" = r.\"RACA_COR\" WHERE i.\"RACA_COR\" IN (1, 2, 3, 4, 5) GROUP BY r.\"DESCRICAO\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.264174,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "raca_cor",
+    "total_internacoes",
+    "percentual"
+  ],
+  "preview_rows": [
+    {
+      "raca_cor": "Parda",
+      "total_internacoes": 55944720,
+      "percentual": 54.74
+    },
+    {
+      "raca_cor": "Branca",
+      "total_internacoes": 39187974,
+      "percentual": 38.34
+    },
+    {
+      "raca_cor": "Preta",
+      "total_internacoes": 4674252,
+      "percentual": 4.57
+    },
+    {
+      "raca_cor": "Amarela",
+      "total_internacoes": 1943127,
+      "percentual": 1.9
+    },
+    {
+      "raca_cor": "Ind\u00edgena",
+      "total_internacoes": 459272,
+      "percentual": 0.45
+    }
+  ],
+  "result_hash": "cfbc8e7da888ade2f91b395cd4f5d6817c348f096f1d1c8b5052002264ea1800",
+  "semantic_disposition": "accepted"
+}

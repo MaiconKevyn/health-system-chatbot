@@ -1,0 +1,66 @@
+{
+  "id": "GT180",
+  "question_pt": "Qual o total de internacoes por mes em 2023?",
+  "executed_at": "2026-07-09T00:36:54.786875+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(MONTH FROM \"DT_INTER\") AS mes, COUNT(*) AS total_internacoes FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2023 GROUP BY mes ORDER BY mes",
+  "duration_seconds": 0.024384,
+  "performance_class": "fast",
+  "row_count": 12,
+  "columns": [
+    "mes",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "mes": 1,
+      "total_internacoes": 840532
+    },
+    {
+      "mes": 2,
+      "total_internacoes": 773549
+    },
+    {
+      "mes": 3,
+      "total_internacoes": 929832
+    },
+    {
+      "mes": 4,
+      "total_internacoes": 861641
+    },
+    {
+      "mes": 5,
+      "total_internacoes": 942847
+    },
+    {
+      "mes": 6,
+      "total_internacoes": 887587
+    },
+    {
+      "mes": 7,
+      "total_internacoes": 891198
+    },
+    {
+      "mes": 8,
+      "total_internacoes": 925783
+    },
+    {
+      "mes": 9,
+      "total_internacoes": 855694
+    },
+    {
+      "mes": 10,
+      "total_internacoes": 814869
+    },
+    {
+      "mes": 11,
+      "total_internacoes": 690000
+    },
+    {
+      "mes": 12,
+      "total_internacoes": 430204
+    }
+  ],
+  "result_hash": "bdd33d8b6c74cdd259ee7f923b295fd8f85265388c84ec2d927ed1f4c9c7a406",
+  "semantic_disposition": "accepted"
+}

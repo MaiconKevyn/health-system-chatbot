@@ -1,0 +1,49 @@
+{
+  "id": "GT082",
+  "question_pt": "Quais s\u00e3o os 3 diagn\u00f3sticos principais mais comuns entre pacientes com mais de 60 anos no estado de MA e no estado do RS?",
+  "executed_at": "2026-07-09T00:36:43.756775+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT estado, \"DESCRICAO\", total\nFROM (\n    SELECT mu.\"SG_UF\" AS estado,\n           c.\"DESCRICAO\",\n           COUNT(*) AS total,\n           ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY COUNT(*) DESC) AS rn\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\n    WHERE i.\"IDADE\" > 60 AND mu.\"SG_UF\" IN ('MA', 'RS')\n    GROUP BY mu.\"SG_UF\", c.\"DESCRICAO\"\n) sub\nWHERE rn <= 3\nORDER BY estado, rn",
+  "duration_seconds": 0.076315,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "estado",
+    "DESCRICAO",
+    "total"
+  ],
+  "preview_rows": [
+    {
+      "estado": "MA",
+      "DESCRICAO": "Hipertensao essencial",
+      "total": 63084
+    },
+    {
+      "estado": "MA",
+      "DESCRICAO": "Acid vasc cerebr NE como hemorrag isquemico",
+      "total": 46706
+    },
+    {
+      "estado": "MA",
+      "DESCRICAO": "Pneumonia NE",
+      "total": 40505
+    },
+    {
+      "estado": "RS",
+      "DESCRICAO": "Pneumonia NE",
+      "total": 127133
+    },
+    {
+      "estado": "RS",
+      "DESCRICAO": "Doenc pulmonar obstrutiva cronica NE",
+      "total": 116497
+    },
+    {
+      "estado": "RS",
+      "DESCRICAO": "Insuf cardiaca NE",
+      "total": 109151
+    }
+  ],
+  "result_hash": "ff4ead1dd91c486a9b19c592f93274b3f7abdff93ae2fb49ed9685979f95eedf",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,259 @@
+{
+  "id": "GT203",
+  "question_pt": "Como a taxa de mortalidade por doencas respiratorias compara inverno e fora do inverno por ano?",
+  "executed_at": "2026-07-09T00:36:56.485640+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, CASE WHEN EXTRACT(MONTH FROM \"DT_INTER\") IN (6, 7, 8) THEN 'inverno' ELSE 'fora_inverno' END AS periodo, \"MORTE\" FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'J%' AND \"DT_INTER\" IS NOT NULL) SELECT ano, periodo, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM base GROUP BY ano, periodo ORDER BY ano, periodo",
+  "duration_seconds": 0.116804,
+  "performance_class": "fast",
+  "row_count": 34,
+  "columns": [
+    "ano",
+    "periodo",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2007,
+      "periodo": "fora_inverno",
+      "total_internacoes": 55235,
+      "total_mortes": 3372,
+      "taxa_mortalidade": 6.1
+    },
+    {
+      "ano": 2007,
+      "periodo": "inverno",
+      "total_internacoes": 733,
+      "total_mortes": 37,
+      "taxa_mortalidade": 5.05
+    },
+    {
+      "ano": 2008,
+      "periodo": "fora_inverno",
+      "total_internacoes": 824613,
+      "total_mortes": 32952,
+      "taxa_mortalidade": 4.0
+    },
+    {
+      "ano": 2008,
+      "periodo": "inverno",
+      "total_internacoes": 323555,
+      "total_mortes": 12571,
+      "taxa_mortalidade": 3.89
+    },
+    {
+      "ano": 2009,
+      "periodo": "fora_inverno",
+      "total_internacoes": 885571,
+      "total_mortes": 36485,
+      "taxa_mortalidade": 4.12
+    },
+    {
+      "ano": 2009,
+      "periodo": "inverno",
+      "total_internacoes": 370003,
+      "total_mortes": 15268,
+      "taxa_mortalidade": 4.13
+    },
+    {
+      "ano": 2010,
+      "periodo": "fora_inverno",
+      "total_internacoes": 871812,
+      "total_mortes": 41005,
+      "taxa_mortalidade": 4.7
+    },
+    {
+      "ano": 2010,
+      "periodo": "inverno",
+      "total_internacoes": 313946,
+      "total_mortes": 14970,
+      "taxa_mortalidade": 4.77
+    },
+    {
+      "ano": 2011,
+      "periodo": "fora_inverno",
+      "total_internacoes": 849336,
+      "total_mortes": 43316,
+      "taxa_mortalidade": 5.1
+    },
+    {
+      "ano": 2011,
+      "periodo": "inverno",
+      "total_internacoes": 293264,
+      "total_mortes": 16009,
+      "taxa_mortalidade": 5.46
+    },
+    {
+      "ano": 2012,
+      "periodo": "fora_inverno",
+      "total_internacoes": 758189,
+      "total_mortes": 43719,
+      "taxa_mortalidade": 5.77
+    },
+    {
+      "ano": 2012,
+      "periodo": "inverno",
+      "total_internacoes": 301579,
+      "total_mortes": 16805,
+      "taxa_mortalidade": 5.57
+    },
+    {
+      "ano": 2013,
+      "periodo": "fora_inverno",
+      "total_internacoes": 757420,
+      "total_mortes": 46900,
+      "taxa_mortalidade": 6.19
+    },
+    {
+      "ano": 2013,
+      "periodo": "inverno",
+      "total_internacoes": 299947,
+      "total_mortes": 18305,
+      "taxa_mortalidade": 6.1
+    },
+    {
+      "ano": 2014,
+      "periodo": "fora_inverno",
+      "total_internacoes": 718190,
+      "total_mortes": 47478,
+      "taxa_mortalidade": 6.61
+    },
+    {
+      "ano": 2014,
+      "periodo": "inverno",
+      "total_internacoes": 284442,
+      "total_mortes": 18005,
+      "taxa_mortalidade": 6.33
+    },
+    {
+      "ano": 2015,
+      "periodo": "fora_inverno",
+      "total_internacoes": 699746,
+      "total_mortes": 49446,
+      "taxa_mortalidade": 7.07
+    },
+    {
+      "ano": 2015,
+      "periodo": "inverno",
+      "total_internacoes": 267607,
+      "total_mortes": 18845,
+      "taxa_mortalidade": 7.04
+    },
+    {
+      "ano": 2016,
+      "periodo": "fora_inverno",
+      "total_internacoes": 645535,
+      "total_mortes": 51055,
+      "taxa_mortalidade": 7.91
+    },
+    {
+      "ano": 2016,
+      "periodo": "inverno",
+      "total_internacoes": 266393,
+      "total_mortes": 19521,
+      "taxa_mortalidade": 7.33
+    },
+    {
+      "ano": 2017,
+      "periodo": "fora_inverno",
+      "total_internacoes": 679287,
+      "total_mortes": 51037,
+      "taxa_mortalidade": 7.51
+    },
+    {
+      "ano": 2017,
+      "periodo": "inverno",
+      "total_internacoes": 264972,
+      "total_mortes": 20176,
+      "taxa_mortalidade": 7.61
+    },
+    {
+      "ano": 2018,
+      "periodo": "fora_inverno",
+      "total_internacoes": 664096,
+      "total_mortes": 51709,
+      "taxa_mortalidade": 7.79
+    },
+    {
+      "ano": 2018,
+      "periodo": "inverno",
+      "total_internacoes": 276763,
+      "total_mortes": 20785,
+      "taxa_mortalidade": 7.51
+    },
+    {
+      "ano": 2019,
+      "periodo": "fora_inverno",
+      "total_internacoes": 687793,
+      "total_mortes": 53039,
+      "taxa_mortalidade": 7.71
+    },
+    {
+      "ano": 2019,
+      "periodo": "inverno",
+      "total_internacoes": 267878,
+      "total_mortes": 20996,
+      "taxa_mortalidade": 7.84
+    },
+    {
+      "ano": 2020,
+      "periodo": "fora_inverno",
+      "total_internacoes": 446154,
+      "total_mortes": 50981,
+      "taxa_mortalidade": 11.43
+    },
+    {
+      "ano": 2020,
+      "periodo": "inverno",
+      "total_internacoes": 128082,
+      "total_mortes": 17271,
+      "taxa_mortalidade": 13.48
+    },
+    {
+      "ano": 2021,
+      "periodo": "fora_inverno",
+      "total_internacoes": 469650,
+      "total_mortes": 52727,
+      "taxa_mortalidade": 11.23
+    },
+    {
+      "ano": 2021,
+      "periodo": "inverno",
+      "total_internacoes": 156374,
+      "total_mortes": 17505,
+      "taxa_mortalidade": 11.19
+    },
+    {
+      "ano": 2022,
+      "periodo": "fora_inverno",
+      "total_internacoes": 709904,
+      "total_mortes": 61594,
+      "taxa_mortalidade": 8.68
+    },
+    {
+      "ano": 2022,
+      "periodo": "inverno",
+      "total_internacoes": 280669,
+      "total_mortes": 23959,
+      "taxa_mortalidade": 8.54
+    },
+    {
+      "ano": 2023,
+      "periodo": "fora_inverno",
+      "total_internacoes": 705292,
+      "total_mortes": 54823,
+      "taxa_mortalidade": 7.77
+    },
+    {
+      "ano": 2023,
+      "periodo": "inverno",
+      "total_internacoes": 297313,
+      "total_mortes": 22945,
+      "taxa_mortalidade": 7.72
+    }
+  ],
+  "result_hash": "4220feb296953e9fd488e6f1b1b7a136f380e08a88752c13327f0cc59e64b46a",
+  "semantic_disposition": "accepted"
+}

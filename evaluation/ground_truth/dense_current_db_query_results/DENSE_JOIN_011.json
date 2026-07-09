@@ -1,0 +1,119 @@
+{
+  "id": "DENSE_JOIN_011",
+  "question_pt": "Quais procedimentos principais das internacoes aparecem mais no catalogo de procedimentos?",
+  "executed_at": "2026-07-08T23:09:07.543569+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT p.PROC_REA, p.NOME_PROC, COUNT(*) AS internacoes FROM internacoes i JOIN procedimentos p ON i.PROC_REA = p.PROC_REA GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+  "duration_seconds": 0.422409,
+  "performance_class": "fast",
+  "row_count": 20,
+  "columns": [
+    "PROC_REA",
+    "NOME_PROC",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "PROC_REA": "0310010039",
+      "NOME_PROC": "PARTO NORMAL",
+      "internacoes": 13399545
+    },
+    {
+      "PROC_REA": "0303140151",
+      "NOME_PROC": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "internacoes": 8575497
+    },
+    {
+      "PROC_REA": "0411010034",
+      "NOME_PROC": "PARTO CESARIANO",
+      "internacoes": 8390010
+    },
+    {
+      "PROC_REA": "0303010061",
+      "NOME_PROC": "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+      "internacoes": 4218758
+    },
+    {
+      "PROC_REA": "0303140046",
+      "NOME_PROC": "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+      "internacoes": 3226173
+    },
+    {
+      "PROC_REA": "0303010037",
+      "NOME_PROC": "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+      "internacoes": 3011901
+    },
+    {
+      "PROC_REA": "0303060212",
+      "NOME_PROC": "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+      "internacoes": 2935061
+    },
+    {
+      "PROC_REA": "0415010012",
+      "NOME_PROC": "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+      "internacoes": 2541270
+    },
+    {
+      "PROC_REA": "0303040149",
+      "NOME_PROC": "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+      "internacoes": 2385656
+    },
+    {
+      "PROC_REA": "0303100044",
+      "NOME_PROC": "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ",
+      "internacoes": 2366262
+    },
+    {
+      "PROC_REA": "0411020013",
+      "NOME_PROC": "CURETAGEM POS-ABORTAMENTO / PUERPERAL",
+      "internacoes": 2308467
+    },
+    {
+      "PROC_REA": "0301060088",
+      "NOME_PROC": "DIAGNOSTICO E/OU ATENDIMENTO DE URGENCIA EM CLINICA MEDICA",
+      "internacoes": 2058377
+    },
+    {
+      "PROC_REA": "0303150050",
+      "NOME_PROC": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO URINARIO",
+      "internacoes": 1821130
+    },
+    {
+      "PROC_REA": "0407030026",
+      "NOME_PROC": "COLECISTECTOMIA",
+      "internacoes": 1681079
+    },
+    {
+      "PROC_REA": "0411010026",
+      "NOME_PROC": "PARTO CESARIANO EM GESTACAO DE ALTO RISCO",
+      "internacoes": 1583860
+    },
+    {
+      "PROC_REA": "0407040102",
+      "NOME_PROC": "HERNIOPLASTIA INGUINAL / CRURAL (UNILATERAL)",
+      "internacoes": 1526071
+    },
+    {
+      "PROC_REA": "0305020013",
+      "NOME_PROC": "TRATAMENTO DA PIELONEFRITE",
+      "internacoes": 1505793
+    },
+    {
+      "PROC_REA": "0303030038",
+      "NOME_PROC": "TRATAMENTO DE DIABETES MELLITUS",
+      "internacoes": 1411615
+    },
+    {
+      "PROC_REA": "0303010223",
+      "NOME_PROC": "TRATAMENTO DE INFECCAO PELO CORONAVIRUS ? COVID 19",
+      "internacoes": 1385618
+    },
+    {
+      "PROC_REA": "0304100021",
+      "NOME_PROC": "TRATAMENTO CLINICO DE PACIENTE ONCOLOGICO",
+      "internacoes": 1373031
+    }
+  ],
+  "result_hash": "4f4f00e8a375f507a09d0564b0bff0672a27e856753678b0c54a71803eb9cda6",
+  "semantic_disposition": "accepted"
+}

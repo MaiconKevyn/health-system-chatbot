@@ -1,0 +1,20 @@
+{
+  "id": "GT165",
+  "question_pt": "Qual o maior PIB per capita registrado na tabela socioeconomica?",
+  "executed_at": "2026-07-09T00:36:52.968878+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MAX(\"VL_PIB_PERCAPITA\") AS maior_pib_per_capita FROM socioeconomico WHERE \"VL_PIB_PERCAPITA\" IS NOT NULL",
+  "duration_seconds": 0.00016,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "maior_pib_per_capita"
+  ],
+  "preview_rows": [
+    {
+      "maior_pib_per_capita": null
+    }
+  ],
+  "result_hash": "f65fea1494a0192806e24533ed30f8bffab116dd918a11035092e09a71f4815d",
+  "semantic_disposition": "accepted"
+}

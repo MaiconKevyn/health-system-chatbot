@@ -1,0 +1,218 @@
+{
+  "id": "GT061",
+  "question_pt": "Qual a distribui\u00e7\u00e3o por idade nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:40.731216+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT \"IDADE\", COUNT(*) AS total_internacoes FROM internacoes GROUP BY \"IDADE\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.02465,
+  "performance_class": "fast",
+  "row_count": 131,
+  "columns": [
+    "IDADE",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "IDADE": 0,
+      "total_internacoes": 7370829
+    },
+    {
+      "IDADE": 21,
+      "total_internacoes": 2829321
+    },
+    {
+      "IDADE": 22,
+      "total_internacoes": 2813341
+    },
+    {
+      "IDADE": 20,
+      "total_internacoes": 2795537
+    },
+    {
+      "IDADE": 23,
+      "total_internacoes": 2759921
+    },
+    {
+      "IDADE": 24,
+      "total_internacoes": 2708106
+    },
+    {
+      "IDADE": 25,
+      "total_internacoes": 2694654
+    },
+    {
+      "IDADE": 19,
+      "total_internacoes": 2688583
+    },
+    {
+      "IDADE": 26,
+      "total_internacoes": 2628034
+    },
+    {
+      "IDADE": 1,
+      "total_internacoes": 2598770
+    },
+    {
+      "IDADE": 27,
+      "total_internacoes": 2551781
+    },
+    {
+      "IDADE": 28,
+      "total_internacoes": 2464289
+    },
+    {
+      "IDADE": 18,
+      "total_internacoes": 2452327
+    },
+    {
+      "IDADE": 29,
+      "total_internacoes": 2372689
+    },
+    {
+      "IDADE": 30,
+      "total_internacoes": 2311703
+    },
+    {
+      "IDADE": 31,
+      "total_internacoes": 2212807
+    },
+    {
+      "IDADE": 17,
+      "total_internacoes": 2167971
+    },
+    {
+      "IDADE": 32,
+      "total_internacoes": 2129962
+    },
+    {
+      "IDADE": 33,
+      "total_internacoes": 2048358
+    },
+    {
+      "IDADE": 34,
+      "total_internacoes": 1979022
+    },
+    {
+      "IDADE": 35,
+      "total_internacoes": 1911887
+    },
+    {
+      "IDADE": 36,
+      "total_internacoes": 1835743
+    },
+    {
+      "IDADE": 2,
+      "total_internacoes": 1833954
+    },
+    {
+      "IDADE": 16,
+      "total_internacoes": 1787339
+    },
+    {
+      "IDADE": 37,
+      "total_internacoes": 1767208
+    },
+    {
+      "IDADE": 38,
+      "total_internacoes": 1700221
+    },
+    {
+      "IDADE": 39,
+      "total_internacoes": 1647384
+    },
+    {
+      "IDADE": 40,
+      "total_internacoes": 1602327
+    },
+    {
+      "IDADE": 41,
+      "total_internacoes": 1539894
+    },
+    {
+      "IDADE": 59,
+      "total_internacoes": 1525895
+    },
+    {
+      "IDADE": 60,
+      "total_internacoes": 1524679
+    },
+    {
+      "IDADE": 58,
+      "total_internacoes": 1522653
+    },
+    {
+      "IDADE": 61,
+      "total_internacoes": 1518741
+    },
+    {
+      "IDADE": 57,
+      "total_internacoes": 1513558
+    },
+    {
+      "IDADE": 62,
+      "total_internacoes": 1513541
+    },
+    {
+      "IDADE": 63,
+      "total_internacoes": 1506487
+    },
+    {
+      "IDADE": 56,
+      "total_internacoes": 1505585
+    },
+    {
+      "IDADE": 55,
+      "total_internacoes": 1496391
+    },
+    {
+      "IDADE": 64,
+      "total_internacoes": 1495859
+    },
+    {
+      "IDADE": 54,
+      "total_internacoes": 1487486
+    },
+    {
+      "IDADE": 42,
+      "total_internacoes": 1487291
+    },
+    {
+      "IDADE": 65,
+      "total_internacoes": 1487073
+    },
+    {
+      "IDADE": 53,
+      "total_internacoes": 1483619
+    },
+    {
+      "IDADE": 3,
+      "total_internacoes": 1478787
+    },
+    {
+      "IDADE": 52,
+      "total_internacoes": 1475169
+    },
+    {
+      "IDADE": 51,
+      "total_internacoes": 1466109
+    },
+    {
+      "IDADE": 66,
+      "total_internacoes": 1465552
+    },
+    {
+      "IDADE": 50,
+      "total_internacoes": 1464523
+    },
+    {
+      "IDADE": 43,
+      "total_internacoes": 1454559
+    },
+    {
+      "IDADE": 49,
+      "total_internacoes": 1449588
+    }
+  ],
+  "result_hash": "2c77c051bfa3ee6b4543085dd71f3af14e264e8aa84753c6148b03498841d8fd",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,94 @@
+{
+  "id": "GT182",
+  "question_pt": "Qual a evolucao anual de internacoes e mortes por COVID ou coronavirus?",
+  "executed_at": "2026-07-09T00:36:54.929792+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes FROM internacoes WHERE \"DIAG_PRINC\" IN ('B342', 'B972') AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.07441,
+  "performance_class": "fast",
+  "row_count": 15,
+  "columns": [
+    "ano",
+    "total_internacoes",
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2008,
+      "total_internacoes": 4,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2009,
+      "total_internacoes": 1,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2010,
+      "total_internacoes": 6,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2011,
+      "total_internacoes": 6,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2013,
+      "total_internacoes": 6,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2014,
+      "total_internacoes": 5,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2015,
+      "total_internacoes": 4,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2016,
+      "total_internacoes": 12,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2017,
+      "total_internacoes": 14,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2018,
+      "total_internacoes": 7,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2019,
+      "total_internacoes": 10,
+      "total_mortes": 0
+    },
+    {
+      "ano": 2020,
+      "total_internacoes": 413859,
+      "total_mortes": 88267
+    },
+    {
+      "ano": 2021,
+      "total_internacoes": 894822,
+      "total_mortes": 185673
+    },
+    {
+      "ano": 2022,
+      "total_internacoes": 119191,
+      "total_mortes": 21716
+    },
+    {
+      "ano": 2023,
+      "total_internacoes": 9759,
+      "total_mortes": 1146
+    }
+  ],
+  "result_hash": "443df4baecf95f03525628634015c5d0a55542c80302edc51e01b611fb071c22",
+  "semantic_disposition": "accepted"
+}

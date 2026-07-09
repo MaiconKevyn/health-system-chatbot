@@ -6,19 +6,32 @@ from pathlib import Path
 
 from .config import ChatbotConfig
 from .models import RetrievedContext, Stage1Context, TableContext
+from .schema_linking import DIMENSION_LINKS, question_matches_link
 from .text import normalize_text, tokenize
 
 
 DOMAIN_TERMS: dict[str, set[str]] = {
+    "_staging_internacoes": {
+        "staging",
+        "stage",
+        "_staging_internacoes",
+        "tabela de staging",
+        "internacoes staging",
+        "registros staging",
+    },
     "internacoes": {
         "internacao",
         "internacoes",
         "aih",
         "morte",
         "mortes",
+        "morreu",
+        "morreram",
         "mortalidade",
         "obito",
         "obitos",
+        "falecimento",
+        "faleceram",
         "idade",
         "anos",
         "permanencia",
@@ -26,6 +39,12 @@ DOMAIN_TERMS: dict[str, set[str]] = {
         "val_tot",
         "custo",
         "dt_inter",
+        "parto",
+        "partos",
+        "cesariano",
+        "cesarianos",
+        "cesariana",
+        "cesarianas",
     },
     "internacao_procedimento": {
         "procedimento",
@@ -34,7 +53,18 @@ DOMAIN_TERMS: dict[str, set[str]] = {
         "ocorrencias",
         "proc_rea",
     },
-    "procedimentos": {"procedimento", "procedimentos", "nome_proc", "proc_rea"},
+    "procedimentos": {
+        "procedimento",
+        "procedimentos",
+        "nome_proc",
+        "proc_rea",
+        "parto",
+        "partos",
+        "cesariano",
+        "cesarianos",
+        "cesariana",
+        "cesarianas",
+    },
     "hospital": {"hospital", "hospitais", "cnes", "estabelecimento", "atendimento"},
     "municipios": {
         "municipio",
@@ -56,7 +86,32 @@ DOMAIN_TERMS: dict[str, set[str]] = {
         "feminino",
         "feminina",
     },
-    "cid": {"cid", "diagnostico", "diagnosticos", "capitulo"},
+    "cid": {
+        "cid",
+        "diagnostico",
+        "diagnosticos",
+        "capitulo",
+        "causa",
+        "causas",
+        "doenca",
+        "doencas",
+        "infecc",
+        "infeccao",
+        "infeccoes",
+        "infecciosa",
+        "infecciosas",
+        "neoplasia",
+        "neoplasias",
+        "cancer",
+    },
+    "car_int": {"carater", "carater de internacao", "urgencia", "eletivo"},
+    "complexidade": {"complexidade", "complex"},
+    "marca_uti": {"marca uti", "uti"},
+    "raca_cor": {"raca", "cor", "raca cor"},
+    "instrucao": {"instrucao", "escolaridade"},
+    "vincprev": {"vinculo", "previdenciario", "vincprev"},
+    "nacionalidade": {"nacionalidade", "nacionalidades"},
+    "contraceptivos": {"contraceptivo", "contraceptivo 1", "contraceptivo 2"},
     "socioeconomico": {"populacao", "habitante", "habitantes", "socioeconomico"},
     "tempo": {"ano", "mes", "data", "periodo", "temporal"},
 }
@@ -76,6 +131,10 @@ RESIDENCE_TERMS = {
 }
 
 BUSINESS_TABLE_NOTES: dict[str, str] = {
+    "_staging_internacoes": (
+        "Tabela de staging de internacoes. Use somente quando a pergunta mencionar "
+        "staging ou a tabela _staging_internacoes; nao substitua por internacoes."
+    ),
     "internacoes": (
         "Tabela principal de internacoes hospitalares/AIH. Use esta tabela para "
         "perguntas de negocio sobre internacoes, idade do usuario, sexo, obito "
@@ -88,6 +147,15 @@ BUSINESS_TABLE_NOTES: dict[str, str] = {
     "hospital": "Dimensao de estabelecimentos/CNES e municipio do hospital.",
     "cid": "Dimensao CID para diagnostico principal via internacoes.DIAG_PRINC.",
     "internacao_procedimento": "Tabela de ocorrencias de procedimentos por AIH.",
+    "procedimentos": "Catalogo para interpretar internacoes.PROC_REA como procedimento principal.",
+    "car_int": "Dimensao para interpretar internacoes.CAR_INT como carater de internacao.",
+    "complexidade": "Dimensao para interpretar internacoes.COMPLEX como complexidade.",
+    "marca_uti": "Dimensao para interpretar internacoes.MARCA_UTI como marca/uso de UTI.",
+    "raca_cor": "Dimensao para interpretar internacoes.RACA_COR quando a relacao for aceitavel para a pergunta.",
+    "instrucao": "Dimensao para interpretar internacoes.INSTRU como instrucao/escolaridade.",
+    "vincprev": "Dimensao para interpretar internacoes.VINCPREV como vinculo previdenciario.",
+    "nacionalidade": "Dimensao para interpretar internacoes.NACIONAL como nacionalidade.",
+    "contraceptivos": "Dimensao para interpretar internacoes.CONTRACEP1 e CONTRACEP2.",
 }
 
 
@@ -120,6 +188,11 @@ def table_document(table: TableContext) -> str:
 
 
 def _score_table(question_tokens: set[str], question: str, table: TableContext) -> float:
+    normalized_question = normalize_text(question)
+    if table.table_name == "_staging_internacoes" and not (
+        "staging" in normalized_question or "_staging_internacoes" in normalized_question
+    ):
+        return 0.0
     haystack = " ".join(
         [
             table.table_name,
@@ -130,7 +203,7 @@ def _score_table(question_tokens: set[str], question: str, table: TableContext) 
     )
     hay_tokens = tokenize(haystack)
     overlap = len(question_tokens & hay_tokens)
-    name_bonus = 3.0 if table.table_name in normalize_text(question) else 0.0
+    name_bonus = 3.0 if table.table_name in normalized_question else 0.0
     domain_bonus = len(question_tokens & DOMAIN_TERMS.get(table.table_name, set())) * 1.5
     return overlap + name_bonus + domain_bonus
 
@@ -214,6 +287,32 @@ def _ensure_geography_tables(
         _add_table_if_available(selected_table_names, selected_tables, ctx, "hospital")
 
 
+def _ensure_schema_link_tables(
+    question: str,
+    ctx: Stage1Context,
+    selected_table_names: set[str],
+    selected_tables: list[TableContext],
+) -> None:
+    text = normalize_text(question)
+    if "staging" in text or "_staging_internacoes" in text:
+        _add_table_if_available(selected_table_names, selected_tables, ctx, "_staging_internacoes")
+        return
+
+    for link in DIMENSION_LINKS:
+        if not question_matches_link(question, link):
+            continue
+        _add_table_if_available(selected_table_names, selected_tables, ctx, link.fact_table)
+        _add_table_if_available(selected_table_names, selected_tables, ctx, link.dimension_table)
+
+    if "procedimento principal" in text or "procedimentos principais" in text:
+        _add_table_if_available(selected_table_names, selected_tables, ctx, "internacoes")
+        _add_table_if_available(selected_table_names, selected_tables, ctx, "procedimentos")
+
+    if any(term in text for term in ("parto", "partos", "cesariano", "cesarianos", "cesariana")):
+        _add_table_if_available(selected_table_names, selected_tables, ctx, "internacoes")
+        _add_table_if_available(selected_table_names, selected_tables, ctx, "procedimentos")
+
+
 def _build_columns(selected_tables: list[TableContext]) -> list[str]:
     columns: list[str] = []
     for table in selected_tables:
@@ -231,6 +330,7 @@ def _finalize_retrieved_context(
     table_context: list[str] | None = None,
 ) -> tuple[list[str], list[str], list[str], list]:
     _ensure_geography_tables(question, ctx, selected_table_names, selected_tables, config)
+    _ensure_schema_link_tables(question, ctx, selected_table_names, selected_tables)
 
     documented = set()
     final_table_context: list[str] = []
@@ -252,6 +352,14 @@ def _finalize_retrieved_context(
     )
 
 
+def _should_use_vector(config: ChatbotConfig) -> bool:
+    if config.schema_retrieval_mode == "keyword":
+        return False
+    if config.schema_retrieval_mode == "llamaindex_vector":
+        return True
+    return config.agent_framework == "llamaindex"
+
+
 def retrieve_context(
     question: str,
     ctx: Stage1Context,
@@ -260,7 +368,7 @@ def retrieve_context(
     config: ChatbotConfig | None = None,
     use_vector: bool = True,
 ) -> RetrievedContext:
-    if config is not None and use_vector and config.has_openai_key:
+    if config is not None and use_vector and config.has_openai_key and _should_use_vector(config):
         vector_context = retrieve_context_with_index(
             question,
             ctx,
@@ -268,7 +376,14 @@ def retrieve_context(
             top_k_tables=top_k_tables,
         )
         if vector_context.table_context:
-            return vector_context
+            from .context_retrieval import enrich_retrieved_context
+
+            return enrich_retrieved_context(
+                question=question,
+                ctx=ctx,
+                retrieved=vector_context,
+                config=config,
+            )
 
     question_tokens = tokenize(question)
     ranked_tables = sorted(
@@ -301,13 +416,21 @@ def retrieve_context(
             "Avisar quando procedimentos mudarem a unidade de analise para ocorrencias.",
         ]
 
-    return RetrievedContext(
+    retrieved = RetrievedContext(
         tables=tables,
         columns=columns,
         table_context=table_context,
         join_policies=selected_policies,
         data_quality_caveats=caveats[:8],
         retrieval_mode="schema_keyword",
+    )
+    from .context_retrieval import enrich_retrieved_context
+
+    return enrich_retrieved_context(
+        question=question,
+        ctx=ctx,
+        retrieved=retrieved,
+        config=config,
     )
 
 

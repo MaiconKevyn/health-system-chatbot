@@ -1,0 +1,20 @@
+{
+  "id": "GT032",
+  "question_pt": "Quantos munic\u00edpios est\u00e3o no estado do RS?",
+  "executed_at": "2026-07-09T00:36:39.108123+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS municipios_rs FROM municipios WHERE \"SG_UF\" = 'RS'",
+  "duration_seconds": 0.000219,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "municipios_rs"
+  ],
+  "preview_rows": [
+    {
+      "municipios_rs": 497
+    }
+  ],
+  "result_hash": "f01c33a1083f55a7b6d9b9e57da874792e2980d7f76f2a4a85dde57dbe13fe0a",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT062",
+  "question_pt": "Qual a m\u00e9dia de valor de servi\u00e7o hospitalar por paciente?",
+  "executed_at": "2026-07-09T00:36:40.754857+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT AVG(\"VAL_SH\") AS media_valor FROM internacoes WHERE \"VAL_SH\" IS NOT NULL",
+  "duration_seconds": 0.023284,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "media_valor"
+  ],
+  "preview_rows": [
+    {
+      "media_valor": 963.0496179898953
+    }
+  ],
+  "result_hash": "fac8c6a3cdfb91e2e936812889e99444121371e3021796a8141552c318141179",
+  "semantic_disposition": "accepted"
+}

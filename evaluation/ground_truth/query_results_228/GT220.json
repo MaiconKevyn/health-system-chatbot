@@ -1,0 +1,164 @@
+{
+  "id": "GT220",
+  "question_pt": "Qual a distribuicao mensal percentual das internacoes respiratorias e nao respiratorias?",
+  "executed_at": "2026-07-09T00:37:00.690202+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT EXTRACT(MONTH FROM \"DT_INTER\") AS mes, CASE WHEN \"DIAG_PRINC\" LIKE 'J%' THEN 'respiratoria' ELSE 'nao_respiratoria' END AS grupo, COUNT(*) AS total FROM internacoes WHERE \"DT_INTER\" IS NOT NULL GROUP BY mes, grupo) SELECT mes, grupo, total, ROUND(total * 100.0 / SUM(total) OVER (PARTITION BY mes), 2) AS percentual_no_mes FROM base ORDER BY mes, grupo",
+  "duration_seconds": 0.392595,
+  "performance_class": "fast",
+  "row_count": 24,
+  "columns": [
+    "mes",
+    "grupo",
+    "total",
+    "percentual_no_mes"
+  ],
+  "preview_rows": [
+    {
+      "mes": 1,
+      "grupo": "nao_respiratoria",
+      "total": 10745126,
+      "percentual_no_mes": 90.79
+    },
+    {
+      "mes": 1,
+      "grupo": "respiratoria",
+      "total": 1089954,
+      "percentual_no_mes": 9.21
+    },
+    {
+      "mes": 2,
+      "grupo": "nao_respiratoria",
+      "total": 10066042,
+      "percentual_no_mes": 90.82
+    },
+    {
+      "mes": 2,
+      "grupo": "respiratoria",
+      "total": 1017282,
+      "percentual_no_mes": 9.18
+    },
+    {
+      "mes": 3,
+      "grupo": "nao_respiratoria",
+      "total": 11276676,
+      "percentual_no_mes": 89.01
+    },
+    {
+      "mes": 3,
+      "grupo": "respiratoria",
+      "total": 1392506,
+      "percentual_no_mes": 10.99
+    },
+    {
+      "mes": 4,
+      "grupo": "nao_respiratoria",
+      "total": 10626305,
+      "percentual_no_mes": 87.71
+    },
+    {
+      "mes": 4,
+      "grupo": "respiratoria",
+      "total": 1489218,
+      "percentual_no_mes": 12.29
+    },
+    {
+      "mes": 5,
+      "grupo": "nao_respiratoria",
+      "total": 11020079,
+      "percentual_no_mes": 87.09
+    },
+    {
+      "mes": 5,
+      "grupo": "respiratoria",
+      "total": 1633084,
+      "percentual_no_mes": 12.91
+    },
+    {
+      "mes": 6,
+      "grupo": "nao_respiratoria",
+      "total": 10489019,
+      "percentual_no_mes": 87.23
+    },
+    {
+      "mes": 6,
+      "grupo": "respiratoria",
+      "total": 1535038,
+      "percentual_no_mes": 12.77
+    },
+    {
+      "mes": 7,
+      "grupo": "nao_respiratoria",
+      "total": 10818976,
+      "percentual_no_mes": 88.01
+    },
+    {
+      "mes": 7,
+      "grupo": "respiratoria",
+      "total": 1473612,
+      "percentual_no_mes": 11.99
+    },
+    {
+      "mes": 8,
+      "grupo": "nao_respiratoria",
+      "total": 11107875,
+      "percentual_no_mes": 88.91
+    },
+    {
+      "mes": 8,
+      "grupo": "respiratoria",
+      "total": 1384870,
+      "percentual_no_mes": 11.09
+    },
+    {
+      "mes": 9,
+      "grupo": "nao_respiratoria",
+      "total": 10787682,
+      "percentual_no_mes": 89.32
+    },
+    {
+      "mes": 9,
+      "grupo": "respiratoria",
+      "total": 1289838,
+      "percentual_no_mes": 10.68
+    },
+    {
+      "mes": 10,
+      "grupo": "nao_respiratoria",
+      "total": 10963589,
+      "percentual_no_mes": 89.65
+    },
+    {
+      "mes": 10,
+      "grupo": "respiratoria",
+      "total": 1265969,
+      "percentual_no_mes": 10.35
+    },
+    {
+      "mes": 11,
+      "grupo": "nao_respiratoria",
+      "total": 10545207,
+      "percentual_no_mes": 90.13
+    },
+    {
+      "mes": 11,
+      "grupo": "respiratoria",
+      "total": 1154221,
+      "percentual_no_mes": 9.87
+    },
+    {
+      "mes": 12,
+      "grupo": "nao_respiratoria",
+      "total": 10118853,
+      "percentual_no_mes": 90.23
+    },
+    {
+      "mes": 12,
+      "grupo": "respiratoria",
+      "total": 1095751,
+      "percentual_no_mes": 9.77
+    }
+  ],
+  "result_hash": "889d8263fe420282167309e9ed5f4312f9b018d2ed9b960dd4974d644b8c919d",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT147",
+  "question_pt": "Quantas internacoes estao com raca/cor sem informacao?",
+  "executed_at": "2026-07-09T00:36:49.023760+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_raca_cor_sem_informacao FROM internacoes WHERE \"RACA_COR\" = 99",
+  "duration_seconds": 0.098877,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_raca_cor_sem_informacao"
+  ],
+  "preview_rows": [
+    {
+      "total_raca_cor_sem_informacao": 42177427
+    }
+  ],
+  "result_hash": "8e15ce0251489fc77f5c8e7ce15fea3fe7e3eed01e73737f7be4b3f91ee433ba",
+  "semantic_disposition": "accepted"
+}

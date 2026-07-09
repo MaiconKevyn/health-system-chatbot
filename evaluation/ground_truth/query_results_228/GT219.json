@@ -1,0 +1,102 @@
+{
+  "id": "GT219",
+  "question_pt": "Quais diagnosticos tiveram maior aumento na taxa de mortalidade entre 2008-2012 e 2019-2023?",
+  "executed_at": "2026-07-09T00:37:00.297174+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH p1 AS (SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS n1, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS m1 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2008 AND 2012 GROUP BY \"DIAG_PRINC\"), p2 AS (SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS n2, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS m2 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2019 AND 2023 GROUP BY \"DIAG_PRINC\") SELECT c.\"DESCRICAO\" AS diagnostico, n1 AS internacoes_2008_2012, n2 AS internacoes_2019_2023, ROUND(m1 * 100.0 / NULLIF(n1, 0), 2) AS taxa_2008_2012, ROUND(m2 * 100.0 / NULLIF(n2, 0), 2) AS taxa_2019_2023, ROUND((m2 * 100.0 / NULLIF(n2, 0)) - (m1 * 100.0 / NULLIF(n1, 0)), 2) AS aumento_pontos_percentuais FROM p1 JOIN p2 ON p1.cid = p2.cid JOIN cid c ON p1.cid = c.\"CID\" WHERE n1 >= 1000 AND n2 >= 1000 ORDER BY aumento_pontos_percentuais DESC LIMIT 10",
+  "duration_seconds": 0.135834,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "diagnostico",
+    "internacoes_2008_2012",
+    "internacoes_2019_2023",
+    "taxa_2008_2012",
+    "taxa_2019_2023",
+    "aumento_pontos_percentuais"
+  ],
+  "preview_rows": [
+    {
+      "diagnostico": "Acidose",
+      "internacoes_2008_2012": 1273,
+      "internacoes_2019_2023": 1962,
+      "taxa_2008_2012": 8.25,
+      "taxa_2019_2023": 36.24,
+      "aumento_pontos_percentuais": 27.99
+    },
+    {
+      "diagnostico": "Choque cardiogenico",
+      "internacoes_2008_2012": 17181,
+      "internacoes_2019_2023": 20028,
+      "taxa_2008_2012": 56.7,
+      "taxa_2019_2023": 73.21,
+      "aumento_pontos_percentuais": 16.51
+    },
+    {
+      "diagnostico": "Choque NE",
+      "internacoes_2008_2012": 2105,
+      "internacoes_2019_2023": 6319,
+      "taxa_2008_2012": 47.27,
+      "taxa_2019_2023": 61.97,
+      "aumento_pontos_percentuais": 14.7
+    },
+    {
+      "diagnostico": "Outr septicemias estreptococicas",
+      "internacoes_2008_2012": 17274,
+      "internacoes_2019_2023": 5269,
+      "taxa_2008_2012": 27.8,
+      "taxa_2019_2023": 41.68,
+      "aumento_pontos_percentuais": 13.88
+    },
+    {
+      "diagnostico": "Aneurisma da aorta abdominal roto",
+      "internacoes_2008_2012": 2246,
+      "internacoes_2019_2023": 2637,
+      "taxa_2008_2012": 23.6,
+      "taxa_2019_2023": 35.46,
+      "aumento_pontos_percentuais": 11.86
+    },
+    {
+      "diagnostico": "Pneumopatia varicelosa",
+      "internacoes_2008_2012": 20909,
+      "internacoes_2019_2023": 5779,
+      "taxa_2008_2012": 6.63,
+      "taxa_2019_2023": 18.45,
+      "aumento_pontos_percentuais": 11.82
+    },
+    {
+      "diagnostico": "Lesao invasiva outr localiz e mal definidas",
+      "internacoes_2008_2012": 8294,
+      "internacoes_2019_2023": 2276,
+      "taxa_2008_2012": 13.12,
+      "taxa_2019_2023": 24.56,
+      "aumento_pontos_percentuais": 11.44
+    },
+    {
+      "diagnostico": "Neopl malig da vesicula biliar",
+      "internacoes_2008_2012": 15022,
+      "internacoes_2019_2023": 9280,
+      "taxa_2008_2012": 5.13,
+      "taxa_2019_2023": 16.26,
+      "aumento_pontos_percentuais": 11.13
+    },
+    {
+      "diagnostico": "Parada cardiaca NE",
+      "internacoes_2008_2012": 3066,
+      "internacoes_2019_2023": 19379,
+      "taxa_2008_2012": 80.5,
+      "taxa_2019_2023": 91.06,
+      "aumento_pontos_percentuais": 10.57
+    },
+    {
+      "diagnostico": "Hiperosmolaridade e hipernatremia",
+      "internacoes_2008_2012": 2635,
+      "internacoes_2019_2023": 3917,
+      "taxa_2008_2012": 6.45,
+      "taxa_2019_2023": 16.8,
+      "aumento_pontos_percentuais": 10.35
+    }
+  ],
+  "result_hash": "8cf009c4bc273f81d834abd7a7c7def9935cabcc9ff49cafb142f2cca352ea0a",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,91 @@
+{
+  "id": "GT221",
+  "question_pt": "Quais s\u00e3o os 5 CNES por UF de resid\u00eancia MA e RS com maior taxa de mortalidade em interna\u00e7\u00f5es com UTI, considerando mais de 500 interna\u00e7\u00f5es em UTI?",
+  "executed_at": "2026-07-09T00:37:00.730475+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT m.\"SG_UF\" AS uf_residencia, i.\"CNES\", COUNT(*) AS total_uti, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS mortes_uti, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade_uti FROM internacoes i JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" IN ('MA', 'RS') AND i.\"MARCA_UTI\" <> 0 AND i.\"CNES\" IS NOT NULL GROUP BY m.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 500), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY uf_residencia ORDER BY taxa_mortalidade_uti DESC, total_uti DESC) AS rn FROM agg) SELECT uf_residencia, \"CNES\", total_uti, mortes_uti, taxa_mortalidade_uti FROM ranked WHERE rn <= 5 ORDER BY uf_residencia, rn",
+  "duration_seconds": 0.039929,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "uf_residencia",
+    "CNES",
+    "total_uti",
+    "mortes_uti",
+    "taxa_mortalidade_uti"
+  ],
+  "preview_rows": [
+    {
+      "uf_residencia": "MA",
+      "CNES": 9161449,
+      "total_uti": 2417,
+      "mortes_uti": 1484,
+      "taxa_mortalidade_uti": 61.4
+    },
+    {
+      "uf_residencia": "MA",
+      "CNES": 2323338,
+      "total_uti": 569,
+      "mortes_uti": 348,
+      "taxa_mortalidade_uti": 61.16
+    },
+    {
+      "uf_residencia": "MA",
+      "CNES": 9065768,
+      "total_uti": 1967,
+      "mortes_uti": 1041,
+      "taxa_mortalidade_uti": 52.92
+    },
+    {
+      "uf_residencia": "MA",
+      "CNES": 2309475,
+      "total_uti": 896,
+      "mortes_uti": 473,
+      "taxa_mortalidade_uti": 52.79
+    },
+    {
+      "uf_residencia": "MA",
+      "CNES": 2452782,
+      "total_uti": 1383,
+      "mortes_uti": 661,
+      "taxa_mortalidade_uti": 47.79
+    },
+    {
+      "uf_residencia": "RS",
+      "CNES": 2693801,
+      "total_uti": 18357,
+      "mortes_uti": 10168,
+      "taxa_mortalidade_uti": 55.39
+    },
+    {
+      "uf_residencia": "RS",
+      "CNES": 2257815,
+      "total_uti": 813,
+      "mortes_uti": 405,
+      "taxa_mortalidade_uti": 49.82
+    },
+    {
+      "uf_residencia": "RS",
+      "CNES": 2263858,
+      "total_uti": 6492,
+      "mortes_uti": 3084,
+      "taxa_mortalidade_uti": 47.5
+    },
+    {
+      "uf_residencia": "RS",
+      "CNES": 181927,
+      "total_uti": 811,
+      "mortes_uti": 376,
+      "taxa_mortalidade_uti": 46.36
+    },
+    {
+      "uf_residencia": "RS",
+      "CNES": 2227762,
+      "total_uti": 1017,
+      "mortes_uti": 463,
+      "taxa_mortalidade_uti": 45.53
+    }
+  ],
+  "result_hash": "de82e93c767977f83ced067c40eab683f12ad6746e3f4e922bc2eecbd32b7511",
+  "semantic_disposition": "accepted"
+}

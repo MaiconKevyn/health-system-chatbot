@@ -1,0 +1,20 @@
+{
+  "id": "GT052",
+  "question_pt": "Quantos c\u00f3digos CID-10 distintos existem?",
+  "executed_at": "2026-07-09T00:36:40.466485+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(DISTINCT \"CID\") FROM cid",
+  "duration_seconds": 0.000898,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "count(DISTINCT CID)"
+  ],
+  "preview_rows": [
+    {
+      "count(DISTINCT CID)": 14253
+    }
+  ],
+  "result_hash": "759afe37a268a6c45d809ddb7c938bff26982c74a246839a332ee1d839da9213",
+  "semantic_disposition": "accepted"
+}

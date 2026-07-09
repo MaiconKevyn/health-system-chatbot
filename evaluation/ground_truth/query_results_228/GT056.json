@@ -1,0 +1,20 @@
+{
+  "id": "GT056",
+  "question_pt": "Quantas interna\u00e7\u00f5es ocorreram em 2020?",
+  "executed_at": "2026-07-09T00:36:40.670965+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2020",
+  "duration_seconds": 0.019682,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "count_star()"
+  ],
+  "preview_rows": [
+    {
+      "count_star()": 8248077
+    }
+  ],
+  "result_hash": "8a761373943b6c7507a66b6851ef1d405fc730444061d646da55f165ad78d6b8",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,74 @@
+{
+  "id": "GT114",
+  "question_pt": "Qual a distribui\u00e7\u00e3o dos m\u00e9todos contraceptivos utilizados por pacientes em interna\u00e7\u00f5es obst\u00e9tricas, incluindo os casos sem informa\u00e7\u00e3o?",
+  "executed_at": "2026-07-09T00:36:45.895537+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') AS metodo_contraceptivo, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN contraceptivos c ON i.\"CONTRACEP1\" = c.\"CONTRACEPTIVO\" WHERE i.\"ESPEC\" = 2 GROUP BY COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.078972,
+  "performance_class": "fast",
+  "row_count": 14,
+  "columns": [
+    "metodo_contraceptivo",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "metodo_contraceptivo": "N\u00e3o informado",
+      "total_internacoes": 27039929
+    },
+    {
+      "metodo_contraceptivo": "Preservativo",
+      "total_internacoes": 150646
+    },
+    {
+      "metodo_contraceptivo": "Horm\u00f4nio oral",
+      "total_internacoes": 144586
+    },
+    {
+      "metodo_contraceptivo": "LAM",
+      "total_internacoes": 18911
+    },
+    {
+      "metodo_contraceptivo": "Coito interrompido",
+      "total_internacoes": 13448
+    },
+    {
+      "metodo_contraceptivo": "DIU",
+      "total_internacoes": 11570
+    },
+    {
+      "metodo_contraceptivo": "Horm\u00f4nio injet\u00e1vel",
+      "total_internacoes": 8679
+    },
+    {
+      "metodo_contraceptivo": "Diafragma",
+      "total_internacoes": 4106
+    },
+    {
+      "metodo_contraceptivo": "Ogino Knaus",
+      "total_internacoes": 2261
+    },
+    {
+      "metodo_contraceptivo": "Espermicida",
+      "total_internacoes": 1610
+    },
+    {
+      "metodo_contraceptivo": "Billings",
+      "total_internacoes": 1261
+    },
+    {
+      "metodo_contraceptivo": "Cinto t\u00e9rmico",
+      "total_internacoes": 574
+    },
+    {
+      "metodo_contraceptivo": "Temperatura basal",
+      "total_internacoes": 332
+    },
+    {
+      "metodo_contraceptivo": "SEM INFORMACAO",
+      "total_internacoes": 37
+    }
+  ],
+  "result_hash": "bda7abbe6654c8a7c71bad32ae15c15a8cc0cf389b1370328d581800aadac2e8",
+  "semantic_disposition": "accepted"
+}

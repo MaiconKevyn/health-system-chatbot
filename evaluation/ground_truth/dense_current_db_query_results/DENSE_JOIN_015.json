@@ -1,0 +1,22 @@
+{
+  "id": "DENSE_JOIN_015",
+  "question_pt": "Auditoria: quantas internacoes tem instrucao sem correspondencia na dimensao?",
+  "executed_at": "2026-07-08T23:09:07.782866+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) FILTER (WHERE ins.INSTRU IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN instrucao ins ON i.INSTRU = ins.INSTRU",
+  "duration_seconds": 0.057451,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "sem_correspondencia",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "sem_correspondencia": 6,
+      "internacoes": 144386772
+    }
+  ],
+  "result_hash": "e1c388086962a8163ac5b324cbd3d9390383ebebff8bb41c4639a56df6588779",
+  "semantic_disposition": "accepted"
+}

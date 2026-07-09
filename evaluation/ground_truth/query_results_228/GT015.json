@@ -1,0 +1,20 @@
+{
+  "id": "GT015",
+  "question_pt": "Qual a descri\u00e7\u00e3o do c\u00f3digo CID A15?",
+  "executed_at": "2026-07-09T00:36:37.603419+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT \"DESCRICAO\" FROM cid WHERE \"CID\" = 'A15'",
+  "duration_seconds": 0.00079,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "DESCRICAO"
+  ],
+  "preview_rows": [
+    {
+      "DESCRICAO": "Tuberc respirat c/conf bacteriol e histolog"
+    }
+  ],
+  "result_hash": "607e7c080ac3cbed6d5a75f06b31a2ee2034a3e9f23905dc50e08c37f1297438",
+  "semantic_disposition": "accepted"
+}

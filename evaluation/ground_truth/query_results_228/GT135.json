@@ -1,0 +1,20 @@
+{
+  "id": "GT135",
+  "question_pt": "Quantas internacoes de urgencia foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.213716+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_internacoes_urgencia FROM internacoes WHERE \"CAR_INT\" = 2",
+  "duration_seconds": 0.013496,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_internacoes_urgencia"
+  ],
+  "preview_rows": [
+    {
+      "total_internacoes_urgencia": 116553247
+    }
+  ],
+  "result_hash": "168174432d0376bccf70b50547c8939fb7a5222a5caddb9cf1807758066367e0",
+  "semantic_disposition": "accepted"
+}

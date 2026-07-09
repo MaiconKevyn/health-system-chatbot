@@ -1,0 +1,174 @@
+{
+  "id": "DENSE_TABLE_007",
+  "question_pt": "Quais especialidades existem no catalogo de especialidade?",
+  "executed_at": "2026-07-08T23:09:05.349215+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT ESPEC, DESCRICAO FROM especialidade ORDER BY ESPEC",
+  "duration_seconds": 0.000221,
+  "performance_class": "fast",
+  "row_count": 39,
+  "columns": [
+    "ESPEC",
+    "DESCRICAO"
+  ],
+  "preview_rows": [
+    {
+      "ESPEC": 0,
+      "DESCRICAO": "N\u00e3o informado"
+    },
+    {
+      "ESPEC": 1,
+      "DESCRICAO": "Cir\u00fargico"
+    },
+    {
+      "ESPEC": 2,
+      "DESCRICAO": "Obst\u00e9trico"
+    },
+    {
+      "ESPEC": 3,
+      "DESCRICAO": "Cl\u00ednico"
+    },
+    {
+      "ESPEC": 4,
+      "DESCRICAO": "Cr\u00f4nicos"
+    },
+    {
+      "ESPEC": 5,
+      "DESCRICAO": "Psiquiatria"
+    },
+    {
+      "ESPEC": 6,
+      "DESCRICAO": "Pneumologia Sanit\u00e1ria"
+    },
+    {
+      "ESPEC": 7,
+      "DESCRICAO": "Pedi\u00e1trico"
+    },
+    {
+      "ESPEC": 8,
+      "DESCRICAO": "Reabilita\u00e7\u00e3o"
+    },
+    {
+      "ESPEC": 9,
+      "DESCRICAO": "Leito Dia / Cir\u00fargico"
+    },
+    {
+      "ESPEC": 10,
+      "DESCRICAO": "Leito Dia / AIDS"
+    },
+    {
+      "ESPEC": 11,
+      "DESCRICAO": "Leito Dia / Fibrose C\u00edstica"
+    },
+    {
+      "ESPEC": 12,
+      "DESCRICAO": "Leito Dia / Intercorr\u00eancia P\u00f3s-Transplante"
+    },
+    {
+      "ESPEC": 13,
+      "DESCRICAO": "Leito Dia / Geriatria"
+    },
+    {
+      "ESPEC": 14,
+      "DESCRICAO": "Leito Dia / Sa\u00fade Mental"
+    },
+    {
+      "ESPEC": 17,
+      "DESCRICAO": "N\u00e3o Documentado"
+    },
+    {
+      "ESPEC": 64,
+      "DESCRICAO": "Unidade Intermedi\u00e1ria"
+    },
+    {
+      "ESPEC": 65,
+      "DESCRICAO": "Unidade Intermedi\u00e1ria Neonatal"
+    },
+    {
+      "ESPEC": 74,
+      "DESCRICAO": "UTI Adulto - Tipo I"
+    },
+    {
+      "ESPEC": 75,
+      "DESCRICAO": "UTI Adulto - Tipo II"
+    },
+    {
+      "ESPEC": 76,
+      "DESCRICAO": "UTI Adulto - Tipo III"
+    },
+    {
+      "ESPEC": 77,
+      "DESCRICAO": "UTI Infantil - Tipo I"
+    },
+    {
+      "ESPEC": 78,
+      "DESCRICAO": "UTI Infantil - Tipo II"
+    },
+    {
+      "ESPEC": 79,
+      "DESCRICAO": "UTI Infantil - Tipo III"
+    },
+    {
+      "ESPEC": 80,
+      "DESCRICAO": "UTI Neonatal - Tipo I"
+    },
+    {
+      "ESPEC": 81,
+      "DESCRICAO": "UTI Neonatal - Tipo II"
+    },
+    {
+      "ESPEC": 82,
+      "DESCRICAO": "UTI Neonatal - Tipo III"
+    },
+    {
+      "ESPEC": 83,
+      "DESCRICAO": "UTI de Queimados"
+    },
+    {
+      "ESPEC": 85,
+      "DESCRICAO": "UTI Coronariana tipo II - UCO tipo II"
+    },
+    {
+      "ESPEC": 86,
+      "DESCRICAO": "UTI Coronariana tipo III - UCO tipo III"
+    },
+    {
+      "ESPEC": 87,
+      "DESCRICAO": "Sa\u00fade Mental - Longa Perman\u00eancia"
+    },
+    {
+      "ESPEC": 88,
+      "DESCRICAO": "Queimado Cl\u00ednico Adulto"
+    },
+    {
+      "ESPEC": 89,
+      "DESCRICAO": "Queimado Cl\u00ednico Pedi\u00e1trico"
+    },
+    {
+      "ESPEC": 90,
+      "DESCRICAO": "Queimado Cir\u00fargico Adulto"
+    },
+    {
+      "ESPEC": 91,
+      "DESCRICAO": "Queimado Cir\u00fargico Pedi\u00e1trico"
+    },
+    {
+      "ESPEC": 92,
+      "DESCRICAO": "UCI Neonatal Convencional"
+    },
+    {
+      "ESPEC": 93,
+      "DESCRICAO": "UCI Neonatal Canguru"
+    },
+    {
+      "ESPEC": 94,
+      "DESCRICAO": "UCI Pedi\u00e1trica"
+    },
+    {
+      "ESPEC": 95,
+      "DESCRICAO": "UCI Adulto"
+    }
+  ],
+  "result_hash": "f358daeea31a6ca519dbd4360339c163f40608e881cdb213f5d91f6d8d3c760a",
+  "semantic_disposition": "accepted"
+}

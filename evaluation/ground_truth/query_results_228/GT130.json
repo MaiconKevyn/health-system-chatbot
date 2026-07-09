@@ -1,0 +1,102 @@
+{
+  "id": "GT130",
+  "question_pt": "Quais s\u00e3o os 10 munic\u00edpios com maior taxa de mortalidade em interna\u00e7\u00f5es obst\u00e9tricas, entre aqueles com mais de 200 interna\u00e7\u00f5es obst\u00e9tricas e taxa acima da m\u00e9dia nacional obst\u00e9trica?",
+  "executed_at": "2026-07-09T00:36:47.838250+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH media_obs AS (\n    SELECT SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS taxa_media_obstetrica\n    FROM internacoes i\n    WHERE i.\"ESPEC\" = 2\n)\nSELECT mu.\"NO_MUNICIPIO\" AS nome,\n       mu.\"SG_UF\" AS estado,\n       COUNT(*) AS total_obstetrico,\n       SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes,\n       ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 4) AS taxa_mort_obstetrica,\n       ROUND(mo.taxa_media_obstetrica, 4) AS media_nacional\nFROM internacoes i\nJOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\", media_obs mo\nWHERE i.\"ESPEC\" = 2\nGROUP BY mu.\"NO_MUNICIPIO\", mu.\"SG_UF\", mo.taxa_media_obstetrica\nHAVING COUNT(*) > 200\n   AND SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*) > mo.taxa_media_obstetrica\nORDER BY taxa_mort_obstetrica DESC\nLIMIT 10",
+  "duration_seconds": 0.133782,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "nome",
+    "estado",
+    "total_obstetrico",
+    "total_mortes",
+    "taxa_mort_obstetrica",
+    "media_nacional"
+  ],
+  "preview_rows": [
+    {
+      "nome": "Canutama",
+      "estado": "AM",
+      "total_obstetrico": 2160,
+      "total_mortes": 19,
+      "taxa_mort_obstetrica": 0.8796,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "Lavras do Sul",
+      "estado": "RS",
+      "total_obstetrico": 827,
+      "total_mortes": 7,
+      "taxa_mort_obstetrica": 0.8464,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "Italva",
+      "estado": "RJ",
+      "total_obstetrico": 241,
+      "total_mortes": 2,
+      "taxa_mort_obstetrica": 0.8299,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "C\u00f3rrego Danta",
+      "estado": "MG",
+      "total_obstetrico": 251,
+      "total_mortes": 2,
+      "taxa_mort_obstetrica": 0.7968,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "Ibituruna",
+      "estado": "MG",
+      "total_obstetrico": 327,
+      "total_mortes": 2,
+      "taxa_mort_obstetrica": 0.6116,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "Acegu\u00e1",
+      "estado": "RS",
+      "total_obstetrico": 659,
+      "total_mortes": 4,
+      "taxa_mort_obstetrica": 0.607,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "Casca",
+      "estado": "RS",
+      "total_obstetrico": 718,
+      "total_mortes": 4,
+      "taxa_mort_obstetrica": 0.5571,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "S\u00e3o Pedro dos Crentes",
+      "estado": "MA",
+      "total_obstetrico": 374,
+      "total_mortes": 2,
+      "taxa_mort_obstetrica": 0.5348,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "Vila Nova do Sul",
+      "estado": "RS",
+      "total_obstetrico": 387,
+      "total_mortes": 2,
+      "taxa_mort_obstetrica": 0.5168,
+      "media_nacional": 0.03
+    },
+    {
+      "nome": "Coronel Bicaco",
+      "estado": "RS",
+      "total_obstetrico": 973,
+      "total_mortes": 5,
+      "taxa_mort_obstetrica": 0.5139,
+      "media_nacional": 0.03
+    }
+  ],
+  "result_hash": "e9096d827626ae9c34300e3ca09a4768c01acff0faafa7a875bfd781be5bcc2e",
+  "semantic_disposition": "accepted"
+}

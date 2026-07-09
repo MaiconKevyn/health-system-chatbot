@@ -1,0 +1,42 @@
+{
+  "id": "GT108",
+  "question_pt": "Qual a distribui\u00e7\u00e3o de interna\u00e7\u00f5es por ra\u00e7a/cor?",
+  "executed_at": "2026-07-09T00:36:45.440111+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT r.\"DESCRICAO\" AS raca_cor, COUNT(*) AS total_internacoes FROM internacoes i JOIN raca_cor r ON i.\"RACA_COR\" = r.\"RACA_COR\" GROUP BY r.\"DESCRICAO\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.191978,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "raca_cor",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "raca_cor": "Parda",
+      "total_internacoes": 55944720
+    },
+    {
+      "raca_cor": "Sem informa\u00e7\u00e3o",
+      "total_internacoes": 42177427
+    },
+    {
+      "raca_cor": "Branca",
+      "total_internacoes": 39187974
+    },
+    {
+      "raca_cor": "Preta",
+      "total_internacoes": 4674252
+    },
+    {
+      "raca_cor": "Amarela",
+      "total_internacoes": 1943127
+    },
+    {
+      "raca_cor": "Ind\u00edgena",
+      "total_internacoes": 459272
+    }
+  ],
+  "result_hash": "6ff38983bfecd9f4186fb90bfd72a94c66ba347bc012052328329ea4980ef887",
+  "semantic_disposition": "accepted"
+}

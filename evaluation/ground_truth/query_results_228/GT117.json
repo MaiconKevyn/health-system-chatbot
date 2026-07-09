@@ -1,0 +1,122 @@
+{
+  "id": "GT117",
+  "question_pt": "Qual a raz\u00e3o entre interna\u00e7\u00f5es masculinas e femininas em UTI por ano, considerando apenas interna\u00e7\u00f5es cir\u00fargicas (ESPEC = 1)?",
+  "executed_at": "2026-07-09T00:36:46.256093+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(CASE WHEN \"SEXO\" = 1 THEN 1 END) AS homens_uti, COUNT(CASE WHEN \"SEXO\" = 3 THEN 1 END) AS mulheres_uti, ROUND(COUNT(CASE WHEN \"SEXO\" = 1 THEN 1 END) * 100.0 / NULLIF(COUNT(CASE WHEN \"SEXO\" = 3 THEN 1 END), 0), 2) AS razao_h_m_pct FROM internacoes WHERE \"VAL_UTI\" > 0 AND \"ESPEC\" = 1 AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.0539,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "ano",
+    "homens_uti",
+    "mulheres_uti",
+    "razao_h_m_pct"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2007,
+      "homens_uti": 7272,
+      "mulheres_uti": 4939,
+      "razao_h_m_pct": 147.24
+    },
+    {
+      "ano": 2008,
+      "homens_uti": 80173,
+      "mulheres_uti": 57227,
+      "razao_h_m_pct": 140.1
+    },
+    {
+      "ano": 2009,
+      "homens_uti": 90642,
+      "mulheres_uti": 63443,
+      "razao_h_m_pct": 142.87
+    },
+    {
+      "ano": 2010,
+      "homens_uti": 98356,
+      "mulheres_uti": 70086,
+      "razao_h_m_pct": 140.34
+    },
+    {
+      "ano": 2011,
+      "homens_uti": 106727,
+      "mulheres_uti": 76524,
+      "razao_h_m_pct": 139.47
+    },
+    {
+      "ano": 2012,
+      "homens_uti": 114269,
+      "mulheres_uti": 82123,
+      "razao_h_m_pct": 139.14
+    },
+    {
+      "ano": 2013,
+      "homens_uti": 121660,
+      "mulheres_uti": 87826,
+      "razao_h_m_pct": 138.52
+    },
+    {
+      "ano": 2014,
+      "homens_uti": 127767,
+      "mulheres_uti": 94111,
+      "razao_h_m_pct": 135.76
+    },
+    {
+      "ano": 2015,
+      "homens_uti": 131001,
+      "mulheres_uti": 97275,
+      "razao_h_m_pct": 134.67
+    },
+    {
+      "ano": 2016,
+      "homens_uti": 136027,
+      "mulheres_uti": 101383,
+      "razao_h_m_pct": 134.17
+    },
+    {
+      "ano": 2017,
+      "homens_uti": 143931,
+      "mulheres_uti": 109096,
+      "razao_h_m_pct": 131.93
+    },
+    {
+      "ano": 2018,
+      "homens_uti": 152116,
+      "mulheres_uti": 117671,
+      "razao_h_m_pct": 129.27
+    },
+    {
+      "ano": 2019,
+      "homens_uti": 161708,
+      "mulheres_uti": 125814,
+      "razao_h_m_pct": 128.53
+    },
+    {
+      "ano": 2020,
+      "homens_uti": 153087,
+      "mulheres_uti": 112145,
+      "razao_h_m_pct": 136.51
+    },
+    {
+      "ano": 2021,
+      "homens_uti": 160026,
+      "mulheres_uti": 119425,
+      "razao_h_m_pct": 134.0
+    },
+    {
+      "ano": 2022,
+      "homens_uti": 181837,
+      "mulheres_uti": 138666,
+      "razao_h_m_pct": 131.13
+    },
+    {
+      "ano": 2023,
+      "homens_uti": 186252,
+      "mulheres_uti": 144631,
+      "razao_h_m_pct": 128.78
+    }
+  ],
+  "result_hash": "23e7a32cf6203f09de92e96bf06f56185b1bc115710f33b54233953959b0f975",
+  "semantic_disposition": "accepted"
+}

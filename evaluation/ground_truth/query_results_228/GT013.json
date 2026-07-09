@@ -1,0 +1,20 @@
+{
+  "id": "GT013",
+  "question_pt": "Quantos pacientes do sexo masculino foram internados?",
+  "executed_at": "2026-07-09T00:36:37.514566+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS homens FROM internacoes WHERE \"SEXO\" = 1",
+  "duration_seconds": 0.012109,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "homens"
+  ],
+  "preview_rows": [
+    {
+      "homens": 58967743
+    }
+  ],
+  "result_hash": "2ea55eb211ca5c7e79d6a9c48db7aaa68814d0c1cc59bc6864050ec9fe35f3a8",
+  "semantic_disposition": "accepted"
+}

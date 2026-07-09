@@ -1,0 +1,20 @@
+{
+  "id": "DENSE_TABLE_008",
+  "question_pt": "Quantos registros existem na dimensao de etnia?",
+  "executed_at": "2026-07-08T23:09:05.349421+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_etnias FROM etnia",
+  "duration_seconds": 0.000101,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_etnias"
+  ],
+  "preview_rows": [
+    {
+      "total_etnias": 265
+    }
+  ],
+  "result_hash": "d5f84c81335edb6fdd59f89fd536cdc6142ff7cb5e2ec84b00d9abecae05988b",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT157",
+  "question_pt": "Quantas internacoes foram de criancas de 1 a 4 anos?",
+  "executed_at": "2026-07-09T00:36:52.946444+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_1_a_4_anos FROM internacoes WHERE \"IDADE\" BETWEEN 1 AND 4",
+  "duration_seconds": 0.017501,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_1_a_4_anos"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_1_a_4_anos": 7188666
+    }
+  ],
+  "result_hash": "6ce4228112ccd42b02ed11cd61c96ee5adc3c9d5d78f87f1e0ea5c031691ff8e",
+  "semantic_disposition": "accepted"
+}

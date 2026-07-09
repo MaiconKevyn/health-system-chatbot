@@ -1,0 +1,56 @@
+{
+  "id": "GT193",
+  "question_pt": "Qual a taxa de mortalidade por nivel de instrucao?",
+  "executed_at": "2026-07-09T00:36:55.431622+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT ins.\"DESCRICAO\" AS nivel_instrucao, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes i JOIN instrucao ins ON i.\"INSTRU\" = ins.\"INSTRU\" GROUP BY ins.\"DESCRICAO\" ORDER BY taxa_mortalidade DESC",
+  "duration_seconds": 0.099761,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "nivel_instrucao",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "nivel_instrucao": "N\u00e3o informado",
+      "total_internacoes": 143181169,
+      "total_mortes": 5877388,
+      "taxa_mortalidade": 4.1
+    },
+    {
+      "nivel_instrucao": "Analfabeto",
+      "total_internacoes": 71358,
+      "total_mortes": 16,
+      "taxa_mortalidade": 0.02
+    },
+    {
+      "nivel_instrucao": "2\u00ba grau",
+      "total_internacoes": 517048,
+      "total_mortes": 46,
+      "taxa_mortalidade": 0.01
+    },
+    {
+      "nivel_instrucao": "1\u00ba grau",
+      "total_internacoes": 561908,
+      "total_mortes": 82,
+      "taxa_mortalidade": 0.01
+    },
+    {
+      "nivel_instrucao": "3\u00ba grau",
+      "total_internacoes": 55281,
+      "total_mortes": 4,
+      "taxa_mortalidade": 0.01
+    },
+    {
+      "nivel_instrucao": "Ignorado",
+      "total_internacoes": 2,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    }
+  ],
+  "result_hash": "d50a7be668c7fcdd9878da8a5c500778299d17f3f13fcdbd0ca719a37ac46486",
+  "semantic_disposition": "accepted"
+}

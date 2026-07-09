@@ -17,7 +17,7 @@ QUESTIONS = [
 
 def main() -> int:
     config = load_config()
-    ctx = load_stage1_context(config.project_root)
+    ctx = load_stage1_context(config.project_root, db_path=config.db_path)
     for question in QUESTIONS:
         answer = run_chat(
             question,

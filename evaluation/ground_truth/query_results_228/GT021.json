@@ -1,0 +1,44 @@
+{
+  "id": "GT021",
+  "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:38.190873+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total DESC LIMIT 5",
+  "duration_seconds": 0.417281,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "PROC_REA",
+    "procedimento",
+    "total"
+  ],
+  "preview_rows": [
+    {
+      "PROC_REA": "0310010039",
+      "procedimento": "PARTO NORMAL",
+      "total": 13399545
+    },
+    {
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total": 8575497
+    },
+    {
+      "PROC_REA": "0411010034",
+      "procedimento": "PARTO CESARIANO",
+      "total": 8390010
+    },
+    {
+      "PROC_REA": "0303010061",
+      "procedimento": "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+      "total": 4218758
+    },
+    {
+      "PROC_REA": "0303140046",
+      "procedimento": "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+      "total": 3226173
+    }
+  ],
+  "result_hash": "4feb0da8f9a7d5a02a6e6ff1837aff7d94ab2dc5abe0bb81112d69ddf70a8902",
+  "semantic_disposition": "accepted"
+}

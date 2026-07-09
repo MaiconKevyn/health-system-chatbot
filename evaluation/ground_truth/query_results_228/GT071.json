@@ -1,0 +1,22 @@
+{
+  "id": "GT071",
+  "question_pt": "Qual \u00e9 a ra\u00e7a que apresenta maior n\u00famero de mortes registradas?",
+  "executed_at": "2026-07-09T00:36:41.916879+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT r.\"DESCRICAO\" AS descricao_raca_cor, COUNT(i.\"N_AIH\") AS total_mortes FROM internacoes i JOIN raca_cor r ON i.\"RACA_COR\" = r.\"RACA_COR\" WHERE i.\"MORTE\" = true GROUP BY r.\"DESCRICAO\" ORDER BY total_mortes DESC LIMIT 1",
+  "duration_seconds": 0.060849,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "descricao_raca_cor",
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "descricao_raca_cor": "Parda",
+      "total_mortes": 1979782
+    }
+  ],
+  "result_hash": "471ebb2a4c6170a12bed550eb8a3185ea86ecdf42a7645689b40716748329e05",
+  "semantic_disposition": "accepted"
+}

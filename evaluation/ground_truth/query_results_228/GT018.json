@@ -1,0 +1,17 @@
+{
+  "id": "GT018",
+  "question_pt": "Quando houver dados socioecon\u00f4micos, quantos habitantes tem o munic\u00edpio com a maior popula\u00e7\u00e3o registrada?",
+  "executed_at": "2026-07-09T00:36:37.673512+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH latest_year AS (\n    SELECT MAX(\"NU_ANO\") AS ano FROM socioeconomico WHERE \"QT_POPULACAO\" IS NOT NULL\n)\nSELECT mu.\"NO_MUNICIPIO\" AS municipio_maior_populacao,\n       s.\"QT_POPULACAO\" AS total_habitantes\nFROM socioeconomico s\nJOIN latest_year ly ON s.\"NU_ANO\" = ly.ano\nJOIN municipios mu ON s.\"CO_MUNICIPIO_6D\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE s.\"QT_POPULACAO\" IS NOT NULL\nORDER BY s.\"QT_POPULACAO\" DESC\nLIMIT 1",
+  "duration_seconds": 0.001017,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "municipio_maior_populacao",
+    "total_habitantes"
+  ],
+  "preview_rows": [],
+  "result_hash": "cfb13fd655e9c521da4745d82c4db0cebc3ced9ac9dcffd384b008c04daa385e",
+  "semantic_disposition": "accepted"
+}

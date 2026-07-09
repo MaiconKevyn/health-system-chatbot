@@ -1,0 +1,42 @@
+{
+  "id": "DENSE_TABLE_010",
+  "question_pt": "Quais codigos e descricoes existem para instrucao?",
+  "executed_at": "2026-07-08T23:09:05.350022+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT INSTRU, DESCRICAO FROM instrucao ORDER BY INSTRU",
+  "duration_seconds": 0.000265,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "INSTRU",
+    "DESCRICAO"
+  ],
+  "preview_rows": [
+    {
+      "INSTRU": 0,
+      "DESCRICAO": "N\u00e3o informado"
+    },
+    {
+      "INSTRU": 1,
+      "DESCRICAO": "Analfabeto"
+    },
+    {
+      "INSTRU": 2,
+      "DESCRICAO": "1\u00ba grau"
+    },
+    {
+      "INSTRU": 3,
+      "DESCRICAO": "2\u00ba grau"
+    },
+    {
+      "INSTRU": 4,
+      "DESCRICAO": "3\u00ba grau"
+    },
+    {
+      "INSTRU": 9,
+      "DESCRICAO": "Ignorado"
+    }
+  ],
+  "result_hash": "32124a6e6cc181f20fce8f307dfb69d2a7d0e354d4305b33d21113cc2992a901",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,69 @@
+{
+  "id": "GT172",
+  "question_pt": "Quais sao os 10 municipios de residencia com maior numero de obitos hospitalares?",
+  "executed_at": "2026-07-09T00:36:53.517211+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"NO_MUNICIPIO\" AS municipio, m.\"SG_UF\" AS uf, COUNT(*) AS total_mortes FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE i.\"MORTE\" = true GROUP BY m.\"NO_MUNICIPIO\", m.\"SG_UF\" ORDER BY total_mortes DESC LIMIT 10",
+  "duration_seconds": 0.047061,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "municipio",
+    "uf",
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "municipio": "Rio de Janeiro",
+      "uf": "RJ",
+      "total_mortes": 242076
+    },
+    {
+      "municipio": "Salvador",
+      "uf": "BA",
+      "total_mortes": 96473
+    },
+    {
+      "municipio": "Belo Horizonte",
+      "uf": "MG",
+      "total_mortes": 90975
+    },
+    {
+      "municipio": "Fortaleza",
+      "uf": "CE",
+      "total_mortes": 88536
+    },
+    {
+      "municipio": "Bras\u00edlia",
+      "uf": "DF",
+      "total_mortes": 84667
+    },
+    {
+      "municipio": "Porto Alegre",
+      "uf": "RS",
+      "total_mortes": 81260
+    },
+    {
+      "municipio": "Recife",
+      "uf": "PE",
+      "total_mortes": 75357
+    },
+    {
+      "municipio": "Curitiba",
+      "uf": "PR",
+      "total_mortes": 71771
+    },
+    {
+      "municipio": "Manaus",
+      "uf": "AM",
+      "total_mortes": 67515
+    },
+    {
+      "municipio": "Goi\u00e2nia",
+      "uf": "GO",
+      "total_mortes": 49249
+    }
+  ],
+  "result_hash": "37b3167bb4a2f8a184947a26aea89a492eba447c9e93d455f50129d571b1379d",
+  "semantic_disposition": "accepted"
+}

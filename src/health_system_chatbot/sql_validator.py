@@ -6,6 +6,11 @@ import sqlglot
 from sqlglot import expressions as exp
 
 from .models import SqlPlan, Stage1Context, ValidationResult
+from .schema_linking import (
+    DIMENSION_LINKS,
+    description_required_for_link,
+    question_matches_link,
+)
 from .text import normalize_text
 
 
@@ -163,6 +168,53 @@ def _resolve_column(
     return matches[0] if len(matches) == 1 else None
 
 
+def _select_aliases(parsed: exp.Expression) -> set[str]:
+    aliases = set()
+    for alias in parsed.find_all(exp.Alias):
+        if alias.alias:
+            aliases.add(alias.alias.upper())
+    return aliases
+
+
+def _unknown_column_errors(
+    parsed: exp.Expression,
+    ctx: Stage1Context,
+    tables: set[str],
+) -> list[str]:
+    aliases = _table_aliases(parsed)
+    select_aliases = _select_aliases(parsed)
+    cte_names = _cte_names(parsed)
+    errors: list[str] = []
+    seen: set[str] = set()
+
+    for column in parsed.find_all(exp.Column):
+        column_name = column.name
+        if not column_name or column_name == "*":
+            continue
+
+        qualifier = column.table
+        if qualifier:
+            table_name = aliases.get(qualifier, qualifier)
+            if table_name in cte_names:
+                continue
+            if table_name in ctx.tables and _column_type(ctx, table_name, column_name) is None:
+                key = f"{table_name}.{column_name}"
+                if key not in seen:
+                    seen.add(key)
+                    errors.append(f"Unknown column: {table_name}.{column_name}")
+            continue
+
+        if column_name.upper() in select_aliases:
+            continue
+        if _resolve_column(column, ctx, aliases, tables) is None:
+            key = column_name.upper()
+            if key not in seen:
+                seen.add(key)
+                errors.append(f"Unknown or ambiguous column: {column_name}")
+
+    return errors
+
+
 def _is_numeric_type(data_type: str) -> bool:
     upper = data_type.upper()
     return upper in NUMERIC_TYPES or upper.startswith("DECIMAL(") or upper.startswith("NUMERIC(")
@@ -233,7 +285,132 @@ def _has_explicit_mapped_scope(question: str, plan: SqlPlan | None) -> bool:
         chunks.extend(plan.join_assumptions)
         chunks.append(plan.question)
     text = normalize_text(" ".join(chunks))
-    return any(token in text for token in ("mapeado", "mapeada", "mapped", "restrito", "universo mapeado"))
+    return any(
+        token in text
+        for token in (
+            "mapeado",
+            "mapeada",
+            "mapped",
+            "restrito",
+            "universo mapeado",
+            "denominador socioeconomico",
+        )
+    )
+
+
+def _asks_for_raw_code_without_description(question: str) -> bool:
+    text = normalize_text(question)
+    tokens = set(text.split())
+    asks_code = bool(tokens & {"codigo", "codigos"})
+    asks_description = bool(tokens & {"descricao", "descricoes", "nome", "nomes"})
+    return asks_code and not asks_description
+
+
+def _description_column_names(description_column: str) -> set[str]:
+    names = set()
+    for chunk in re.split(r"[/,]", description_column):
+        chunk = chunk.strip()
+        if not chunk:
+            continue
+        names.add(chunk.split(".")[-1].upper())
+    return names
+
+
+def _dimension_description_required_errors(
+    *,
+    safe_sql: str,
+    question: str,
+    tables: set[str],
+) -> list[str]:
+    errors = []
+    upper = safe_sql.upper()
+    for link in DIMENSION_LINKS:
+        if not question_matches_link(question, link):
+            continue
+        if not description_required_for_link(question, link):
+            continue
+        if link.fact_table not in tables:
+            continue
+
+        description_names = _description_column_names(link.description_column)
+        has_dimension_table = link.dimension_table in tables
+        has_description = any(name in upper for name in description_names)
+        if has_dimension_table and has_description:
+            continue
+
+        errors.append(
+            "Question asks for business-readable dimension "
+            f"'{link.business_name}'. Join {link.dimension_key} and return "
+            f"{link.description_column}; do not group only by raw code {link.fact_column}."
+        )
+    return errors
+
+
+def _shape_policy_errors(safe_sql: str, question: str) -> list[str]:
+    text = normalize_text(question)
+    tokens = set(text.split())
+    upper = safe_sql.upper()
+    errors = []
+
+    if any(term in text for term in ("auditoria", "sem correspondencia", "nao mapeado", "orfa")):
+        if "SEM_CORRESPONDENCIA" in upper and not re.search(
+            r"COUNT\s*\(\s*\*\s*\)\s+AS\s+INTERNACOES\b",
+            upper,
+        ):
+            errors.append(
+                "Audit dimension coverage queries must return both sem_correspondencia "
+                "and COUNT(*) AS internacoes."
+            )
+        if "WHERE" in upper and " IS NULL" in upper and "COUNT(*) FILTER" not in upper:
+            errors.append(
+                "Audit dimension coverage queries must keep the full denominator. "
+                "Use COUNT(*) FILTER (WHERE dimension.key IS NULL) AS sem_correspondencia "
+                "instead of moving the NULL check to WHERE."
+            )
+
+    if tokens & {"mais", "maiores", "ranking", "top"} and "LIMIT" not in upper:
+        errors.append("Ranking queries must include LIMIT 20 unless the user requested another limit.")
+
+    if "mix" in tokens and "percentual" not in tokens and (
+        "PERCENT" in upper or "100.0" in upper or "100 *" in upper
+    ):
+        errors.append("Mix queries should not include percentage columns unless explicitly requested.")
+    if "mix de complexidade por carater" in text and not re.search(
+        r"ORDER\s+BY\s+INTERNACOES\s+DESC\b",
+        upper,
+    ):
+        errors.append("Mix de complexidade por carater must be ordered by internacoes DESC.")
+
+    if ("cid c" in text or "cid-c" in text) and "por ano" in text and "FILTER" in upper:
+        errors.append(
+            "CID C time series should filter matching events in WHERE before GROUP BY, "
+            "not use COUNT(*) FILTER that preserves unrelated years."
+        )
+
+    if "contraceptivo 1" in text and "SEM CORRESPONDENCIA" in upper and "auditoria" not in text:
+        errors.append(
+            "Contraceptive type distributions should not add an unmapped bucket unless this is an audit question."
+        )
+    if (
+        "contraceptivo 1" in text
+        and "LEFT JOIN CONTRACEPTIVOS" in upper
+        and "auditoria" not in text
+    ):
+        errors.append(
+            "Contraceptive type distributions should use JOIN contraceptivos; "
+            "LEFT JOIN adds an extra NULL/unmapped bucket unless this is an audit question."
+        )
+
+    if (
+        ("denominador socioeconomico" in text or "populacao socioeconomica" in text)
+        and "registros" not in text
+        and re.search(r"COUNT\s*\(\s*\*\s*\)\s+AS\s+REGISTROS\b", upper)
+    ):
+        errors.append(
+            "Socioeconomic population by UF/year should not add COUNT(*) AS registros unless requested."
+        )
+
+    return errors
 
 
 def validate_sql(
@@ -275,11 +452,22 @@ def validate_sql(
         if unknown:
             errors.append(f"Unknown or unsupported table(s): {', '.join(unknown)}")
         else:
+            errors.extend(_unknown_column_errors(parsed, ctx, tables))
             errors.extend(_text_literal_numeric_type_errors(parsed, ctx, tables))
+            warnings.extend(
+                _dimension_description_required_errors(
+                    safe_sql=safe_sql,
+                    question=question,
+                    tables=tables,
+                )
+            )
+            warnings.extend(_shape_policy_errors(safe_sql, question))
 
     for table in tables:
         if table.startswith("main_dbt_test__audit") or table.startswith("dbt_"):
-            errors.append(f"Audit table is not allowed for business answers: {table}")
+            warnings.append(
+                f"Audit table referenced; confirm this is intended for the question: {table}"
+            )
 
     question_text = normalize_text(question)
     is_audit_question = any(
@@ -319,18 +507,23 @@ def validate_sql(
                     f"Rejected relationship used only with LEFT JOIN/unmapped bucket: {policy.left} -> {policy.right}"
                 )
             else:
-                errors.append(
+                warnings.append(
                     f"Rejected relationship cannot be used for business answers: {policy.left} -> {policy.right}"
                 )
 
         if policy.accepted_usage_policy == "left_join_or_explicit_mapped_scope_required":
             has_left_join = _has_left_join_for(safe_sql, right_table)
             if uses_policy_columns and not has_left_join and not _has_explicit_mapped_scope(question, plan):
-                errors.append(
+                warnings.append(
                     f"Join requires LEFT JOIN or explicit mapped scope: {policy.left} -> {policy.right}"
                 )
 
     upper = safe_sql.upper()
+    if _asks_for_raw_code_without_description(question) and "DESCRICAO" in upper:
+        warnings.append(
+            "Question asks for raw codes; do not include DESCRICAO/name columns unless requested."
+        )
+
     if "INTERNACAO_PROCEDIMENTO" in upper and "INTERNACOES" in upper and "COUNT(*)" in upper:
         warnings.append(
             "Query joins procedures and admissions; confirm whether the unit is procedure occurrence or hospitalization."

@@ -1,0 +1,20 @@
+{
+  "id": "GT026",
+  "question_pt": "Qual o valor m\u00e9dio das interna\u00e7\u00f5es que resultaram em \u00f3bito?",
+  "executed_at": "2026-07-09T00:36:38.888704+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT AVG(\"VAL_TOT\") AS valor_medio_obitos FROM internacoes WHERE \"MORTE\" = true AND \"VAL_TOT\" IS NOT NULL",
+  "duration_seconds": 0.224038,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "valor_medio_obitos"
+  ],
+  "preview_rows": [
+    {
+      "valor_medio_obitos": 5151.139859452442
+    }
+  ],
+  "result_hash": "e911f484adae86abd149fff71109860edd4de24956656868028b0d57b01aeb21",
+  "semantic_disposition": "accepted"
+}

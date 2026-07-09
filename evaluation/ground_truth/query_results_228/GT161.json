@@ -1,0 +1,17 @@
+{
+  "id": "GT161",
+  "question_pt": "Quantos hospitais cadastrados existem no MA e no RS?",
+  "executed_at": "2026-07-09T00:36:52.967650+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"SG_UF\" AS uf, COUNT(*) AS total_hospitais\nFROM hospital h\nJOIN municipios m ON h.\"MUNIC_MOV\" = m.\"CO_MUNICIPIO_6D\"\nWHERE m.\"SG_UF\" IN ('MA', 'RS')\nGROUP BY m.\"SG_UF\"\nORDER BY m.\"SG_UF\"",
+  "duration_seconds": 0.000613,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "uf",
+    "total_hospitais"
+  ],
+  "preview_rows": [],
+  "result_hash": "a2f5d397e94568a6982afceabd35b5390f27a8a7971ebd0e8377aada0caf0be9",
+  "semantic_disposition": "accepted"
+}

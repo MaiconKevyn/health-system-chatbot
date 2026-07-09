@@ -1,0 +1,20 @@
+{
+  "id": "GT057",
+  "question_pt": "Qual a menor idade registrada nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:40.675832+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MIN(\"IDADE\") FROM internacoes",
+  "duration_seconds": 0.004568,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "min(IDADE)"
+  ],
+  "preview_rows": [
+    {
+      "min(IDADE)": 0
+    }
+  ],
+  "result_hash": "59d837aa022818f8a39d1cc681424bf40d88692cb793a47a4c776450a9666dca",
+  "semantic_disposition": "accepted"
+}

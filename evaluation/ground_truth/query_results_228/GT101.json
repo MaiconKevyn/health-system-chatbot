@@ -1,0 +1,20 @@
+{
+  "id": "GT101",
+  "question_pt": "Qual a maior perman\u00eancia hospitalar registrada?",
+  "executed_at": "2026-07-09T00:36:45.004812+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MAX(\"DIAS_PERM\") AS max_dias FROM internacoes",
+  "duration_seconds": 0.00516,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "max_dias"
+  ],
+  "preview_rows": [
+    {
+      "max_dias": 5476
+    }
+  ],
+  "result_hash": "caab5c278cc8dddc675529afb3fe2b46a6b09331f237a9775f94d4b2d24e5970",
+  "semantic_disposition": "accepted"
+}

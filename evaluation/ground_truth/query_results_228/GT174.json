@@ -1,0 +1,58 @@
+{
+  "id": "GT174",
+  "question_pt": "Quais capitulos CID aparecem com maior volume de internacoes?",
+  "executed_at": "2026-07-09T00:36:53.974567+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY c.\"DS_CAPITULO\" ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.386607,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "capitulo_cid",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "capitulo_cid": "XV. Gravidez, parto e puerp\u00e9rio",
+      "total_internacoes": 30334251
+    },
+    {
+      "capitulo_cid": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "total_internacoes": 15821343
+    },
+    {
+      "capitulo_cid": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "total_internacoes": 13890509
+    },
+    {
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "total_internacoes": 13880974
+    },
+    {
+      "capitulo_cid": "XI. Doen\u00e7as do aparelho digestivo",
+      "total_internacoes": 13340857
+    },
+    {
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "total_internacoes": 12770709
+    },
+    {
+      "capitulo_cid": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "total_internacoes": 9775026
+    },
+    {
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "total_internacoes": 9103344
+    },
+    {
+      "capitulo_cid": "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+      "total_internacoes": 3320630
+    },
+    {
+      "capitulo_cid": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "total_internacoes": 3226095
+    }
+  ],
+  "result_hash": "b958f04022bd77f1ba8e993e78e2feaa4a4ac414ed4dd11bc6169961147f1649",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT029",
+  "question_pt": "Qual \u00e9 o valor m\u00e9dio de UTI para homens?",
+  "executed_at": "2026-07-09T00:36:39.096677+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT AVG(\"VAL_UTI\") AS valor_medio_uti_homens FROM internacoes WHERE \"SEXO\" = 1 AND \"VAL_UTI\" > 0",
+  "duration_seconds": 0.022609,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "valor_medio_uti_homens"
+  ],
+  "preview_rows": [
+    {
+      "valor_medio_uti_homens": 4280.517571277034
+    }
+  ],
+  "result_hash": "0621f0e728ecc16d67e2792f5e73a7955f587b4fd34a6f7b8ebf7a3120f503e8",
+  "semantic_disposition": "accepted"
+}

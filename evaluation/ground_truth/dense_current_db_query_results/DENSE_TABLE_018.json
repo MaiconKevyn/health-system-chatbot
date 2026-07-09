@@ -1,0 +1,24 @@
+{
+  "id": "DENSE_TABLE_018",
+  "question_pt": "Qual e o intervalo de anos e total de registros socioeconomicos carregados?",
+  "executed_at": "2026-07-08T23:09:05.519978+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MIN(NU_ANO) AS primeiro_ano, MAX(NU_ANO) AS ultimo_ano, COUNT(*) AS registros FROM socioeconomico",
+  "duration_seconds": 0.000175,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "primeiro_ano",
+    "ultimo_ano",
+    "registros"
+  ],
+  "preview_rows": [
+    {
+      "primeiro_ano": null,
+      "ultimo_ano": null,
+      "registros": 0
+    }
+  ],
+  "result_hash": "aed76ff9e89ec21be3361de7912dba650b5e47ed7166cc1ae7adcb71378cfbb1",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,110 @@
+{
+  "id": "GT201",
+  "question_pt": "Qual a taxa anual de mortalidade nas internacoes por COVID ou coronavirus?",
+  "executed_at": "2026-07-09T00:36:56.285299+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes WHERE \"DIAG_PRINC\" IN ('B342', 'B972') AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.074758,
+  "performance_class": "fast",
+  "row_count": 15,
+  "columns": [
+    "ano",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2008,
+      "total_internacoes": 4,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2009,
+      "total_internacoes": 1,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2010,
+      "total_internacoes": 6,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2011,
+      "total_internacoes": 6,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2013,
+      "total_internacoes": 6,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2014,
+      "total_internacoes": 5,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2015,
+      "total_internacoes": 4,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2016,
+      "total_internacoes": 12,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2017,
+      "total_internacoes": 14,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2018,
+      "total_internacoes": 7,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2019,
+      "total_internacoes": 10,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    },
+    {
+      "ano": 2020,
+      "total_internacoes": 413859,
+      "total_mortes": 88267,
+      "taxa_mortalidade": 21.33
+    },
+    {
+      "ano": 2021,
+      "total_internacoes": 894822,
+      "total_mortes": 185673,
+      "taxa_mortalidade": 20.75
+    },
+    {
+      "ano": 2022,
+      "total_internacoes": 119191,
+      "total_mortes": 21716,
+      "taxa_mortalidade": 18.22
+    },
+    {
+      "ano": 2023,
+      "total_internacoes": 9759,
+      "total_mortes": 1146,
+      "taxa_mortalidade": 11.74
+    }
+  ],
+  "result_hash": "7ded1d91c005dc1d8eb5358711a4525199e1b8862872a9fbd01e2a5933b6faf0",
+  "semantic_disposition": "accepted"
+}

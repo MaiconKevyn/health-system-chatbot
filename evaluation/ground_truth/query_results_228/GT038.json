@@ -1,0 +1,22 @@
+{
+  "id": "GT038",
+  "question_pt": "Qual munic\u00edpio teve o maior n\u00famero de interna\u00e7\u00f5es masculinas em 2020?",
+  "executed_at": "2026-07-09T00:36:39.702375+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT mu.\"NO_MUNICIPIO\", COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2020 AND i.\"SEXO\" = 1 GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 1",
+  "duration_seconds": 0.049758,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "NO_MUNICIPIO",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "NO_MUNICIPIO": "Rio de Janeiro",
+      "total_internacoes": 76548
+    }
+  ],
+  "result_hash": "08b0ad0806e780baea21040239229d8ab54dd1f91b32938179c85d4b2555feb7",
+  "semantic_disposition": "accepted"
+}

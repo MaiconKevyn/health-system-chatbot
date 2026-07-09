@@ -1,0 +1,94 @@
+{
+  "id": "GT112",
+  "question_pt": "Qual o crescimento percentual anual de interna\u00e7\u00f5es no estado do RS entre 2008 e 2023, retornando apenas anos com ano anterior dispon\u00edvel?",
+  "executed_at": "2026-07-09T00:36:45.744423+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH internacoes_por_ano AS (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL AND EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2008 AND 2023 GROUP BY ano), crescimento_percentual AS (SELECT ano, total_internacoes, LAG(total_internacoes) OVER (ORDER BY ano) AS total_anterior FROM internacoes_por_ano) SELECT ano, total_internacoes, ROUND((total_internacoes - total_anterior) * 100.0 / NULLIF(total_anterior, 0), 2) AS crescimento_percentual FROM crescimento_percentual WHERE total_anterior IS NOT NULL ORDER BY ano",
+  "duration_seconds": 0.033562,
+  "performance_class": "fast",
+  "row_count": 15,
+  "columns": [
+    "ano",
+    "total_internacoes",
+    "crescimento_percentual"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2009,
+      "total_internacoes": 729369,
+      "crescimento_percentual": 1.44
+    },
+    {
+      "ano": 2010,
+      "total_internacoes": 722522,
+      "crescimento_percentual": -0.94
+    },
+    {
+      "ano": 2011,
+      "total_internacoes": 710800,
+      "crescimento_percentual": -1.62
+    },
+    {
+      "ano": 2012,
+      "total_internacoes": 723375,
+      "crescimento_percentual": 1.77
+    },
+    {
+      "ano": 2013,
+      "total_internacoes": 738034,
+      "crescimento_percentual": 2.03
+    },
+    {
+      "ano": 2014,
+      "total_internacoes": 764047,
+      "crescimento_percentual": 3.52
+    },
+    {
+      "ano": 2015,
+      "total_internacoes": 759643,
+      "crescimento_percentual": -0.58
+    },
+    {
+      "ano": 2016,
+      "total_internacoes": 750093,
+      "crescimento_percentual": -1.26
+    },
+    {
+      "ano": 2017,
+      "total_internacoes": 752897,
+      "crescimento_percentual": 0.37
+    },
+    {
+      "ano": 2018,
+      "total_internacoes": 747196,
+      "crescimento_percentual": -0.76
+    },
+    {
+      "ano": 2019,
+      "total_internacoes": 769179,
+      "crescimento_percentual": 2.94
+    },
+    {
+      "ano": 2020,
+      "total_internacoes": 664505,
+      "crescimento_percentual": -13.61
+    },
+    {
+      "ano": 2021,
+      "total_internacoes": 719323,
+      "crescimento_percentual": 8.25
+    },
+    {
+      "ano": 2022,
+      "total_internacoes": 771975,
+      "crescimento_percentual": 7.32
+    },
+    {
+      "ano": 2023,
+      "total_internacoes": 745599,
+      "crescimento_percentual": -3.42
+    }
+  ],
+  "result_hash": "5f4232b651ce1db6a6810a5112f69dfeb557d3dab49857c1341f0ec5929f284e",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,86 @@
+{
+  "id": "DENSE_TABLE_012",
+  "question_pt": "Quais codigos e descricoes existem para marca de UTI?",
+  "executed_at": "2026-07-08T23:09:05.517200+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MARCA_UTI, DESCRICAO FROM marca_uti ORDER BY MARCA_UTI",
+  "duration_seconds": 0.000515,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "MARCA_UTI",
+    "DESCRICAO"
+  ],
+  "preview_rows": [
+    {
+      "MARCA_UTI": 0,
+      "DESCRICAO": "N\u00e3o utilizou UTI"
+    },
+    {
+      "MARCA_UTI": 1,
+      "DESCRICAO": "Utilizou mais de um tipo de UTI"
+    },
+    {
+      "MARCA_UTI": 51,
+      "DESCRICAO": "UTI adulto - tipo II COVID 19"
+    },
+    {
+      "MARCA_UTI": 52,
+      "DESCRICAO": "UTI pedi\u00e1trica - tipo II COVID 19"
+    },
+    {
+      "MARCA_UTI": 74,
+      "DESCRICAO": "UTI adulto - tipo I"
+    },
+    {
+      "MARCA_UTI": 75,
+      "DESCRICAO": "UTI adulto - tipo II"
+    },
+    {
+      "MARCA_UTI": 76,
+      "DESCRICAO": "UTI adulto - tipo III"
+    },
+    {
+      "MARCA_UTI": 77,
+      "DESCRICAO": "UTI infantil - tipo I"
+    },
+    {
+      "MARCA_UTI": 78,
+      "DESCRICAO": "UTI infantil - tipo II"
+    },
+    {
+      "MARCA_UTI": 79,
+      "DESCRICAO": "UTI infantil - tipo III"
+    },
+    {
+      "MARCA_UTI": 80,
+      "DESCRICAO": "UTI neonatal - tipo I"
+    },
+    {
+      "MARCA_UTI": 81,
+      "DESCRICAO": "UTI neonatal - tipo II"
+    },
+    {
+      "MARCA_UTI": 82,
+      "DESCRICAO": "UTI neonatal - tipo III"
+    },
+    {
+      "MARCA_UTI": 83,
+      "DESCRICAO": "UTI de queimados"
+    },
+    {
+      "MARCA_UTI": 85,
+      "DESCRICAO": "UTI coronariana tipo II - UCO tipo II"
+    },
+    {
+      "MARCA_UTI": 86,
+      "DESCRICAO": "UTI coronariana tipo III - UCO tipo III"
+    },
+    {
+      "MARCA_UTI": 99,
+      "DESCRICAO": "UTI Doador"
+    }
+  ],
+  "result_hash": "a942bb6052d5bd5b75ff5c432d3b4cdc9efaaa82a9caae125b8a53ed74cf24eb",
+  "semantic_disposition": "accepted"
+}

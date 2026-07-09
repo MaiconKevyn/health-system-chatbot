@@ -1,0 +1,77 @@
+{
+  "id": "GT225",
+  "question_pt": "Qual a taxa de mortalidade por sexo e faixa etaria nas internacoes por COVID ou coronavirus?",
+  "executed_at": "2026-07-09T00:37:00.909372+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT s.\"DESCRICAO\" AS sexo, CASE WHEN i.\"IDADE\" < 40 THEN '00-39' WHEN i.\"IDADE\" BETWEEN 40 AND 59 THEN '40-59' WHEN i.\"IDADE\" BETWEEN 60 AND 79 THEN '60-79' ELSE '80+' END AS faixa_etaria, CASE WHEN i.\"IDADE\" < 40 THEN 1 WHEN i.\"IDADE\" BETWEEN 40 AND 59 THEN 2 WHEN i.\"IDADE\" BETWEEN 60 AND 79 THEN 3 ELSE 4 END AS ordem, i.\"MORTE\" FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" WHERE i.\"DIAG_PRINC\" IN ('B342', 'B972') AND i.\"IDADE\" IS NOT NULL) SELECT sexo, faixa_etaria, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM base GROUP BY sexo, faixa_etaria, ordem ORDER BY sexo, ordem",
+  "duration_seconds": 0.083559,
+  "performance_class": "fast",
+  "row_count": 8,
+  "columns": [
+    "sexo",
+    "faixa_etaria",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "00-39",
+      "total_internacoes": 120213,
+      "total_mortes": 8196,
+      "taxa_mortalidade": 6.82
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "40-59",
+      "total_internacoes": 211803,
+      "total_mortes": 31898,
+      "taxa_mortalidade": 15.06
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "60-79",
+      "total_internacoes": 239397,
+      "total_mortes": 61364,
+      "taxa_mortalidade": 25.63
+    },
+    {
+      "sexo": "Feminino",
+      "faixa_etaria": "80+",
+      "total_internacoes": 89705,
+      "total_mortes": 31072,
+      "taxa_mortalidade": 34.64
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "00-39",
+      "total_internacoes": 141543,
+      "total_mortes": 11179,
+      "taxa_mortalidade": 7.9
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "40-59",
+      "total_internacoes": 279695,
+      "total_mortes": 44416,
+      "taxa_mortalidade": 15.88
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "60-79",
+      "total_internacoes": 271504,
+      "total_mortes": 76807,
+      "taxa_mortalidade": 28.29
+    },
+    {
+      "sexo": "Masculino",
+      "faixa_etaria": "80+",
+      "total_internacoes": 83846,
+      "total_mortes": 31870,
+      "taxa_mortalidade": 38.01
+    }
+  ],
+  "result_hash": "93ae99fd3eb3337f103194a568d83a72841c23e1a5439998f592eb75e6065baf",
+  "semantic_disposition": "accepted"
+}

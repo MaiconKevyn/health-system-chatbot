@@ -1,0 +1,34 @@
+{
+  "id": "DENSE_JOIN_003",
+  "question_pt": "Qual e o total de internacoes e valor total por codigo de complexidade validado na dimensao?",
+  "executed_at": "2026-07-08T23:09:05.891523+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT i.COMPLEX, COUNT(*) AS internacoes, ROUND(SUM(CAST(i.VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total FROM internacoes i JOIN complexidade c ON i.COMPLEX = c.COMPLEX GROUP BY 1 ORDER BY internacoes DESC",
+  "duration_seconds": 0.263092,
+  "performance_class": "fast",
+  "row_count": 3,
+  "columns": [
+    "COMPLEX",
+    "internacoes",
+    "valor_total"
+  ],
+  "preview_rows": [
+    {
+      "COMPLEX": "02",
+      "internacoes": 135358002,
+      "valor_total": 160868533754.1
+    },
+    {
+      "COMPLEX": "03",
+      "internacoes": 9028761,
+      "valor_total": 51712299656.53
+    },
+    {
+      "COMPLEX": "00",
+      "internacoes": 9,
+      "valor_total": 2870.48
+    }
+  ],
+  "result_hash": "940c10eb3c85ce32503f69421e8c317019223781c1a10dfed2c74ed42aa76bca",
+  "semantic_disposition": "accepted"
+}

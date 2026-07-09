@@ -1,0 +1,58 @@
+{
+  "id": "GT048",
+  "question_pt": "Quais s\u00e3o as 10 principais causas de morte (com descri\u00e7\u00e3o)?",
+  "executed_at": "2026-07-09T00:36:40.092898+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\", COUNT(*) AS total_mortes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"MORTE\" = true GROUP BY c.\"DESCRICAO\" ORDER BY total_mortes DESC LIMIT 10",
+  "duration_seconds": 0.068,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "DESCRICAO",
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "DESCRICAO": "Septicemia NE",
+      "total_mortes": 375464
+    },
+    {
+      "DESCRICAO": "Infecc p/coronavirus NE",
+      "total_mortes": 296557
+    },
+    {
+      "DESCRICAO": "Acid vasc cerebr NE como hemorrag isquemico",
+      "total_mortes": 286284
+    },
+    {
+      "DESCRICAO": "Pneumonia NE",
+      "total_mortes": 276079
+    },
+    {
+      "DESCRICAO": "Insuf respirat aguda",
+      "total_mortes": 179693
+    },
+    {
+      "DESCRICAO": "Insuf cardiaca congestiva",
+      "total_mortes": 143246
+    },
+    {
+      "DESCRICAO": "Insuf cardiaca NE",
+      "total_mortes": 127576
+    },
+    {
+      "DESCRICAO": "Infecc bacter NE",
+      "total_mortes": 106356
+    },
+    {
+      "DESCRICAO": "Infarto agudo do miocardio NE",
+      "total_mortes": 94813
+    },
+    {
+      "DESCRICAO": "Pneumonia bacter NE",
+      "total_mortes": 86145
+    }
+  ],
+  "result_hash": "43c35386026cfaf513f6b364a04de6ffb4afda3837cc28b2082ee666132c13a9",
+  "semantic_disposition": "accepted"
+}

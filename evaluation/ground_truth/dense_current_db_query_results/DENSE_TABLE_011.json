@@ -1,0 +1,24 @@
+{
+  "id": "DENSE_TABLE_011",
+  "question_pt": "Qual e o volume, mortes e valor total na tabela de internacoes?",
+  "executed_at": "2026-07-08T23:09:05.516319+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes, COUNT(*) FILTER (WHERE MORTE) AS mortes, ROUND(SUM(CAST(VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total FROM internacoes",
+  "duration_seconds": 0.166175,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes",
+    "mortes",
+    "valor_total"
+  ],
+  "preview_rows": [
+    {
+      "internacoes": 144386772,
+      "mortes": 5877536,
+      "valor_total": 212580836281.11
+    }
+  ],
+  "result_hash": "8c5a99092a9d72de53109c63515e7b7d142aa9d6b13983cc18af60a610f9bcf6",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "GT191",
+  "question_pt": "Quais nacionalidades aparecem com maior volume de internacoes?",
+  "executed_at": "2026-07-09T00:36:55.291374+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT n.\"DESCRICAO\" AS nacionalidade, COUNT(*) AS total_internacoes FROM internacoes i JOIN nacionalidade n ON i.\"NACIONAL\" = n.\"NACIONAL\" GROUP BY n.\"DESCRICAO\" ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.051026,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "nacionalidade",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "nacionalidade": "Brasil",
+      "total_internacoes": 144040090
+    },
+    {
+      "nacionalidade": "Republica dominicana",
+      "total_internacoes": 77902
+    },
+    {
+      "nacionalidade": "Venezuela",
+      "total_internacoes": 54914
+    },
+    {
+      "nacionalidade": "Reservado",
+      "total_internacoes": 26583
+    },
+    {
+      "nacionalidade": "Paraguai",
+      "total_internacoes": 21025
+    },
+    {
+      "nacionalidade": "Chile",
+      "total_internacoes": 19106
+    },
+    {
+      "nacionalidade": "Bolivia",
+      "total_internacoes": 15891
+    },
+    {
+      "nacionalidade": "Portugal",
+      "total_internacoes": 14104
+    },
+    {
+      "nacionalidade": "Republica do haiti",
+      "total_internacoes": 12539
+    },
+    {
+      "nacionalidade": "Argentina",
+      "total_internacoes": 10908
+    }
+  ],
+  "result_hash": "3dce782be2898d2ff5c7e558fc48f5d62e1234c67f6b6e4b56251c2304c3e6c1",
+  "semantic_disposition": "accepted"
+}

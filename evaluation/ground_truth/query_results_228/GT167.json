@@ -1,0 +1,20 @@
+{
+  "id": "GT167",
+  "question_pt": "Quantas internacoes possuem ocupacao CBOR informada?",
+  "executed_at": "2026-07-09T00:36:53.001700+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_com_cbor FROM internacoes WHERE \"CBOR\" IS NOT NULL AND \"CBOR\" <> ''",
+  "duration_seconds": 0.032541,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_com_cbor"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_com_cbor": 144386772
+    }
+  ],
+  "result_hash": "0a9c69493772a83ea3b25ead055639c97ba218eca7572edd9fcecbc7d52a6231",
+  "semantic_disposition": "accepted"
+}

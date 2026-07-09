@@ -1,0 +1,20 @@
+{
+  "id": "GT224",
+  "question_pt": "Quando houver dados socioecon\u00f4micos, como a taxa de mortalidade hospitalar em 2021 varia por quintil de leitos SUS por mil habitantes?",
+  "executed_at": "2026-07-09T00:37:00.825500+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH mun AS (SELECT s.\"CO_MUNICIPIO_6D\", s.\"VL_LEITOS_SUS_1000\", NTILE(5) OVER (ORDER BY s.\"VL_LEITOS_SUS_1000\") AS quintil_leitos FROM socioeconomico s WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_LEITOS_SUS_1000\" IS NOT NULL), adm AS (SELECT \"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2021 GROUP BY \"MUNIC_RES\") SELECT quintil_leitos, COUNT(*) AS municipios, SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes, SUM(COALESCE(adm.total_mortes, 0)) AS total_mortes, ROUND(SUM(COALESCE(adm.total_mortes, 0)) * 100.0 / NULLIF(SUM(COALESCE(adm.total_internacoes, 0)), 0), 2) AS taxa_mortalidade FROM mun LEFT JOIN adm ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo GROUP BY quintil_leitos ORDER BY quintil_leitos",
+  "duration_seconds": 0.032924,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "quintil_leitos",
+    "municipios",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [],
+  "result_hash": "de58d38bde0925d2f4dd4ec039c20e64060b9fd8c9f5302c8465d7931982cc59",
+  "semantic_disposition": "accepted"
+}

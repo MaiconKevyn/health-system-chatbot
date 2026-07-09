@@ -1,0 +1,218 @@
+{
+  "id": "GT063",
+  "question_pt": "Qual a m\u00e9dia de dias internados por idade?",
+  "executed_at": "2026-07-09T00:36:40.788971+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT \"IDADE\", AVG(\"DIAS_PERM\") AS media_dias_internados FROM internacoes GROUP BY \"IDADE\" ORDER BY media_dias_internados DESC",
+  "duration_seconds": 0.033773,
+  "performance_class": "fast",
+  "row_count": 131,
+  "columns": [
+    "IDADE",
+    "media_dias_internados"
+  ],
+  "preview_rows": [
+    {
+      "IDADE": 120,
+      "media_dias_internados": 8.48091603053435
+    },
+    {
+      "IDADE": 0,
+      "media_dias_internados": 7.744184270181821
+    },
+    {
+      "IDADE": 110,
+      "media_dias_internados": 7.644876325088339
+    },
+    {
+      "IDADE": 123,
+      "media_dias_internados": 7.618421052631579
+    },
+    {
+      "IDADE": 121,
+      "media_dias_internados": 7.248062015503876
+    },
+    {
+      "IDADE": 85,
+      "media_dias_internados": 6.673460936205856
+    },
+    {
+      "IDADE": 88,
+      "media_dias_internados": 6.639944358536305
+    },
+    {
+      "IDADE": 86,
+      "media_dias_internados": 6.637151983801428
+    },
+    {
+      "IDADE": 87,
+      "media_dias_internados": 6.633271086824052
+    },
+    {
+      "IDADE": 84,
+      "media_dias_internados": 6.602363739860538
+    },
+    {
+      "IDADE": 89,
+      "media_dias_internados": 6.587165814712423
+    },
+    {
+      "IDADE": 82,
+      "media_dias_internados": 6.584369627247884
+    },
+    {
+      "IDADE": 83,
+      "media_dias_internados": 6.581318786635481
+    },
+    {
+      "IDADE": 115,
+      "media_dias_internados": 6.576923076923077
+    },
+    {
+      "IDADE": 81,
+      "media_dias_internados": 6.551122624627957
+    },
+    {
+      "IDADE": 77,
+      "media_dias_internados": 6.549183852694302
+    },
+    {
+      "IDADE": 78,
+      "media_dias_internados": 6.545930172828987
+    },
+    {
+      "IDADE": 79,
+      "media_dias_internados": 6.542671541197245
+    },
+    {
+      "IDADE": 76,
+      "media_dias_internados": 6.513728427785301
+    },
+    {
+      "IDADE": 80,
+      "media_dias_internados": 6.511948779511805
+    },
+    {
+      "IDADE": 91,
+      "media_dias_internados": 6.503014954618555
+    },
+    {
+      "IDADE": 92,
+      "media_dias_internados": 6.493596687126956
+    },
+    {
+      "IDADE": 75,
+      "media_dias_internados": 6.468224091558215
+    },
+    {
+      "IDADE": 73,
+      "media_dias_internados": 6.455117039205739
+    },
+    {
+      "IDADE": 74,
+      "media_dias_internados": 6.453665606008788
+    },
+    {
+      "IDADE": 90,
+      "media_dias_internados": 6.449657296208907
+    },
+    {
+      "IDADE": 72,
+      "media_dias_internados": 6.420236108063139
+    },
+    {
+      "IDADE": 71,
+      "media_dias_internados": 6.397174353111463
+    },
+    {
+      "IDADE": 93,
+      "media_dias_internados": 6.375854326396495
+    },
+    {
+      "IDADE": 67,
+      "media_dias_internados": 6.375073606329106
+    },
+    {
+      "IDADE": 68,
+      "media_dias_internados": 6.37361492645144
+    },
+    {
+      "IDADE": 69,
+      "media_dias_internados": 6.368535116675747
+    },
+    {
+      "IDADE": 70,
+      "media_dias_internados": 6.367654924287814
+    },
+    {
+      "IDADE": 94,
+      "media_dias_internados": 6.3534132949370665
+    },
+    {
+      "IDADE": 65,
+      "media_dias_internados": 6.346132301507727
+    },
+    {
+      "IDADE": 119,
+      "media_dias_internados": 6.341666666666667
+    },
+    {
+      "IDADE": 66,
+      "media_dias_internados": 6.3403707272072225
+    },
+    {
+      "IDADE": 63,
+      "media_dias_internados": 6.32391716622845
+    },
+    {
+      "IDADE": 95,
+      "media_dias_internados": 6.318687972201016
+    },
+    {
+      "IDADE": 64,
+      "media_dias_internados": 6.315849287934224
+    },
+    {
+      "IDADE": 60,
+      "media_dias_internados": 6.31415858682385
+    },
+    {
+      "IDADE": 62,
+      "media_dias_internados": 6.306652413115997
+    },
+    {
+      "IDADE": 61,
+      "media_dias_internados": 6.303052989285204
+    },
+    {
+      "IDADE": 58,
+      "media_dias_internados": 6.299753785005513
+    },
+    {
+      "IDADE": 59,
+      "media_dias_internados": 6.297745257701218
+    },
+    {
+      "IDADE": 57,
+      "media_dias_internados": 6.295499742989697
+    },
+    {
+      "IDADE": 96,
+      "media_dias_internados": 6.2556875603566375
+    },
+    {
+      "IDADE": 56,
+      "media_dias_internados": 6.251528807739184
+    },
+    {
+      "IDADE": 55,
+      "media_dias_internados": 6.24796727593256
+    },
+    {
+      "IDADE": 118,
+      "media_dias_internados": 6.2272727272727275
+    }
+  ],
+  "result_hash": "ccac846c9f4f86b8d893846caf7155dc1e3275356b99294defd5a2cca64cce46",
+  "semantic_disposition": "accepted"
+}

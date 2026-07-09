@@ -1,0 +1,20 @@
+{
+  "id": "GT158",
+  "question_pt": "Quantas internacoes de pacientes com idade zero resultaram em morte?",
+  "executed_at": "2026-07-09T00:36:52.964829+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS mortes_idade_zero FROM internacoes WHERE \"IDADE\" = 0 AND \"MORTE\" = true",
+  "duration_seconds": 0.018103,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "mortes_idade_zero"
+  ],
+  "preview_rows": [
+    {
+      "mortes_idade_zero": 232050
+    }
+  ],
+  "result_hash": "e6749bf98fcd977455d9a5d33acb02359861547ed21498b4712267530bfc4779",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT107",
+  "question_pt": "Quantas interna\u00e7\u00f5es psiqui\u00e1tricas resultaram em \u00f3bito?",
+  "executed_at": "2026-07-09T00:36:45.247851+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS psiquiatria_obitos FROM internacoes WHERE \"ESPEC\" = 5 AND \"MORTE\" = true",
+  "duration_seconds": 0.017073,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "psiquiatria_obitos"
+  ],
+  "preview_rows": [
+    {
+      "psiquiatria_obitos": 3646
+    }
+  ],
+  "result_hash": "8309fbfc7ee9c65fe19a011c328fe443c6e6b269b6b2249c617eecbf6ed2ec28",
+  "semantic_disposition": "accepted"
+}

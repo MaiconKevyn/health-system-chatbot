@@ -1,0 +1,20 @@
+{
+  "id": "GT003",
+  "question_pt": "Quantos procedimentos diferentes existem cadastrados?",
+  "executed_at": "2026-07-09T00:36:37.335046+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_procedimentos FROM procedimentos",
+  "duration_seconds": 0.000302,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_procedimentos"
+  ],
+  "preview_rows": [
+    {
+      "total_procedimentos": 5394
+    }
+  ],
+  "result_hash": "8c92e4a5b72af2be901d2cba72b5be64a802eeb3e855c66e393c0284a2220c1f",
+  "semantic_disposition": "accepted"
+}

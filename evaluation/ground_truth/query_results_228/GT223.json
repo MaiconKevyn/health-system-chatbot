@@ -1,0 +1,20 @@
+{
+  "id": "GT223",
+  "question_pt": "Quando houver dados socioecon\u00f4micos, como a taxa de interna\u00e7\u00e3o por mil habitantes em 2021 varia por quintil de PIB per capita?",
+  "executed_at": "2026-07-09T00:37:00.792249+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH mun AS (SELECT s.\"CO_MUNICIPIO_6D\", s.\"VL_PIB_PERCAPITA\", s.\"QT_POPULACAO\", NTILE(5) OVER (ORDER BY s.\"VL_PIB_PERCAPITA\") AS quintil_pib FROM socioeconomico s WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_PIB_PERCAPITA\" IS NOT NULL AND s.\"QT_POPULACAO\" > 0), adm AS (SELECT \"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2021 GROUP BY \"MUNIC_RES\") SELECT quintil_pib, COUNT(*) AS municipios, SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes, SUM(mun.\"QT_POPULACAO\") AS populacao, ROUND(SUM(COALESCE(adm.total_internacoes, 0)) * 1000.0 / NULLIF(SUM(mun.\"QT_POPULACAO\"), 0), 2) AS internacoes_por_mil FROM mun LEFT JOIN adm ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo GROUP BY quintil_pib ORDER BY quintil_pib",
+  "duration_seconds": 0.029069,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "quintil_pib",
+    "municipios",
+    "total_internacoes",
+    "populacao",
+    "internacoes_por_mil"
+  ],
+  "preview_rows": [],
+  "result_hash": "da8e34072f28a36d8eb482680c264a9637d953de56dd930a5ad2e0feb124644b",
+  "semantic_disposition": "accepted"
+}

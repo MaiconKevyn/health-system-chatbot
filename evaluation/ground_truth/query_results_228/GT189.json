@@ -1,0 +1,17 @@
+{
+  "id": "GT189",
+  "question_pt": "Quando houver dados socioecon\u00f4micos, qual a m\u00e9dia de m\u00e9dicos por mil habitantes por UF em 2021?",
+  "executed_at": "2026-07-09T00:36:55.239385+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"SG_UF\" AS uf, ROUND(AVG(s.\"VL_MEDICOS_1000\"), 2) AS media_medicos_1000 FROM socioeconomico s JOIN municipios m ON s.\"CO_MUNICIPIO_6D\" = m.\"CO_MUNICIPIO_6D\" WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_MEDICOS_1000\" IS NOT NULL AND regexp_full_match(m.\"SG_UF\", '^[A-Z]{2}$') GROUP BY m.\"SG_UF\" ORDER BY media_medicos_1000 DESC",
+  "duration_seconds": 0.000818,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "uf",
+    "media_medicos_1000"
+  ],
+  "preview_rows": [],
+  "result_hash": "40572af39359c81b9181f6ab6fc7daa6bc7ca8619a4cc229c6be4ca053054ccb",
+  "semantic_disposition": "accepted"
+}

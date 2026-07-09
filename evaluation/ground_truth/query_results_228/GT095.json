@@ -1,0 +1,20 @@
+{
+  "id": "GT095",
+  "question_pt": "Quantas categorias de ra\u00e7a/cor est\u00e3o cadastradas?",
+  "executed_at": "2026-07-09T00:36:44.973523+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_categorias FROM raca_cor",
+  "duration_seconds": 9.6e-05,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_categorias"
+  ],
+  "preview_rows": [
+    {
+      "total_categorias": 7
+    }
+  ],
+  "result_hash": "52d33df9b784c73eb876f04d07689b5e63e1d665590ffa52296fa2bd11f30eca",
+  "semantic_disposition": "accepted"
+}

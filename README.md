@@ -7,8 +7,9 @@ SIH/SUS a partir do banco local `sihrd5.duckdb`.
 
 Stage 1 esta concluida como fase de entendimento de dados e preparacao de
 avaliacao. A Stage 2 ja possui um corte vertical funcional do chatbot
-Text-to-SQL com LlamaIndex, validacao deterministica de SQL, execucao read-only
-em DuckDB, CLI e avaliacao automatizada contra o ground truth v2.
+Text-to-SQL com Pydantic AI como nucleo das chamadas LLM estruturadas,
+validacao deterministica de SQL, self-correction, execucao read-only em DuckDB,
+CLI, API FastAPI e avaliacao automatizada contra o ground truth v2.
 
 Artefatos gerados:
 
@@ -78,23 +79,31 @@ Fluxo principal:
 2. `intent.classify_question` decide se a pergunta pode ser respondida,
    precisa de esclarecimento ou deve ser recusada.
 3. `schema_context.retrieve_context` recupera tabelas, colunas, politicas de
-   join e caveats a partir dos artefatos da Stage 1. Quando disponivel, usa o
-   indice LlamaIndex em `.chatbot_index`; caso contrario, usa recuperacao por
-   palavras-chave.
+   join e caveats a partir dos artefatos da Stage 1. No default Pydantic AI, o
+   modo `auto` usa retrieval deterministico por palavras-chave e enriquecimento
+   de contexto; LlamaIndex permanece disponivel como fallback opcional por
+   configuracao.
 4. `audit.find_related_audit_context` busca perguntas anteriores relacionadas
    no audit log para dar continuidade ao contexto da conversa.
-5. `sql_generator.generate_sql_plan` chama o modelo configurado via LlamaIndex
-   e OpenAI para gerar um `SqlPlan` estruturado.
-6. `sql_validator.validate_sql` aplica guardrails deterministas: somente
+5. `context_retrieval.enrich_retrieved_context` adiciona metricas de negocio,
+   exemplos few-shot do ground truth e value hints seguros de valores reais.
+6. `sql_generator.generate_sql_plan` chama o agente Pydantic AI/OpenAI para
+   gerar um `SqlPlan` estruturado. O caminho antigo com LlamaIndex pode ser
+   selecionado por `CHATBOT_AGENT_FRAMEWORK=llamaindex`.
+7. `sql_validator.validate_sql` aplica guardrails deterministas: somente
    `SELECT`/`WITH`, bloqueio de comandos mutantes, validacao de tabelas,
    politicas de relacionamento, joins territoriais e comparacoes incompativeis
    como codigo numerico de municipio contra literal textual.
-7. `duckdb_executor.execute_validated_sql` executa apenas SQL validada em
+8. Se a validacao ou execucao falhar, `self_correction.refine_sql_plan` pode
+   acionar um agente Pydantic AI refiner; toda SQL corrigida e revalidada antes
+   de executar. Quando `CHATBOT_ENABLE_MULTI_CANDIDATE=true`, o runtime gera
+   candidatas, valida, executa somente as validas e ranqueia deterministicamente.
+9. `duckdb_executor.execute_validated_sql` executa apenas SQL validada em
    `sihrd5.duckdb` em modo read-only.
-8. `answer_synthesizer.synthesize_answer` gera a resposta final em linguagem
-   natural para o usuario e preserva os detalhes de desenvolvimento em
+10. `answer_synthesizer.synthesize_answer` envia o resultado executado ao agente
+   Pydantic AI de resposta natural e preserva os detalhes de desenvolvimento em
    `result_summary`, `sql`, `caveats`, `evidence` e `developer_context`.
-9. `workflow.run_chat` grava traces e audit log em `evaluation/chatbot/` para
+11. `workflow.run_chat` grava traces e audit log em `evaluation/chatbot/` para
    depuracao, auditoria e avaliacao posterior.
 
 Trilha de avaliacao:
@@ -102,6 +111,9 @@ Trilha de avaliacao:
 - `evaluation.evaluate_dataset` le o ground truth v2, executa os componentes
   centrais ate `duckdb_executor.execute_validated_sql` e grava metricas em
   `evaluation/chatbot/results/`.
+- `evaluation/chatbot/evaluate_extraction_accuracy.py` compara resultados
+  executados, grava `results.json`, `analysis.md`, `trace.jsonl`,
+  `failure_examples.jsonl` e `summary.csv` por run.
 - Essa trilha nao substitui `workflow.run_chat`: ela existe para regressao e
   analise de erros durante o desenvolvimento.
 
@@ -109,9 +121,9 @@ Decisoes arquiteturais importantes:
 
 - O banco `sihrd5.duckdb` e a fonte operacional local; ele nao e versionado.
 - O ground truth v2 nao e usado como atalho de resposta. Ele e usado para
-  avaliacao automatizada.
+  avaliacao automatizada e exemplos few-shot recuperados.
 - O LLM gera o plano SQL, mas a execucao depende de validacao deterministica
-  antes de consultar o DuckDB.
+  antes de consultar o DuckDB; SQL invalida nunca e executada.
 - A resposta final para o usuario fica separada dos artefatos tecnicos, para
   manter boa experiencia de uso sem perder rastreabilidade durante o
   desenvolvimento.
@@ -203,7 +215,8 @@ Arquivos principais:
 - `src/health_system_chatbot/answer_synthesizer.py`: resposta final e contexto
   de desenvolvimento.
 - `scripts/chat_smoke.py`: smoke test conversacional.
-- `scripts/evaluate_chatbot.py`: avaliacao contra ground truth.
+- `evaluation/chatbot/evaluate_extraction_accuracy.py`: avaliacao contra ground
+  truth por resultado executado.
 - `evaluation/chatbot/results/`: resultados de avaliacao.
 - `evaluation/chatbot/error_analysis/`: analise de erros por iteracao.
 - `evaluation/chatbot/traces/`: traces JSON por pergunta executada.
@@ -214,7 +227,7 @@ Comandos:
 ```bash
 .venv/bin/python -m health_system_chatbot.cli ask "Quantas internacoes existem na tabela principal?" --show-sql
 .venv/bin/python scripts/chat_smoke.py
-.venv/bin/python scripts/evaluate_chatbot.py --dataset evaluation/ground_truth/stage1_questions_v2.jsonl --output evaluation/chatbot/results/iteration_002.json
+.venv/bin/python evaluation/chatbot/evaluate_extraction_accuracy.py --limit 10 --run-id pydantic_ai_limit10
 ```
 
 Auditoria e perguntas em lote:
@@ -232,9 +245,9 @@ status de corretude. Para perguntas ad hoc, a corretude fica como
 avaliacao em `evaluation/chatbot/results/`.
 
 O ground truth v2 nao e usado como rota de resposta do chatbot. Ele serve para
-avaliacao: o runtime recupera contexto de schema/regras via LlamaIndex e gera
-SQL com o modelo configurado. A flag `--no-llm` e apenas para debug e tende a
-falhar em perguntas novas, porque desliga a geracao do modelo.
+avaliacao e para recuperar exemplos relacionados no contexto do agente. A flag
+`--no-llm` e apenas para debug e tende a falhar em perguntas novas, porque
+desliga a geracao do modelo.
 
 ### Interface Web
 

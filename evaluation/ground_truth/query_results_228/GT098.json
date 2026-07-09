@@ -1,0 +1,20 @@
+{
+  "id": "GT098",
+  "question_pt": "Quantos munic\u00edpios est\u00e3o cadastrados no total?",
+  "executed_at": "2026-07-09T00:36:44.974136+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_municipios FROM municipios",
+  "duration_seconds": 0.000121,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_municipios"
+  ],
+  "preview_rows": [
+    {
+      "total_municipios": 5590
+    }
+  ],
+  "result_hash": "f52eb45e59eeabf0a038d021d27169a64943746a27f8ae27b1f6226f0bac354b",
+  "semantic_disposition": "accepted"
+}

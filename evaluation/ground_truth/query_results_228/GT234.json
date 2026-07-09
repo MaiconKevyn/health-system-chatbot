@@ -1,0 +1,69 @@
+{
+  "id": "GT234",
+  "question_pt": "Quais capitulos CID concentram mais internacoes de alto custo acima do percentil 99 do valor total?",
+  "executed_at": "2026-07-09T00:37:03.925863+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH limite AS (SELECT QUANTILE_CONT(\"VAL_TOT\", 0.99) AS p99_valor FROM internacoes WHERE \"VAL_TOT\" IS NOT NULL), alto_custo AS (SELECT i.\"DIAG_PRINC\", i.\"VAL_TOT\" FROM internacoes i, limite l WHERE i.\"VAL_TOT\" > l.p99_valor) SELECT c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS internacoes_alto_custo, ROUND(SUM(a.\"VAL_TOT\"), 2) AS custo_total_alto_custo FROM alto_custo a JOIN cid c ON a.\"DIAG_PRINC\" = c.\"CID\" GROUP BY c.\"DS_CAPITULO\" ORDER BY internacoes_alto_custo DESC LIMIT 10",
+  "duration_seconds": 1.685046,
+  "performance_class": "medium",
+  "row_count": 10,
+  "columns": [
+    "capitulo_cid",
+    "internacoes_alto_custo",
+    "custo_total_alto_custo"
+  ],
+  "preview_rows": [
+    {
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "internacoes_alto_custo": 382289,
+      "custo_total_alto_custo": 15581829759.82
+    },
+    {
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "internacoes_alto_custo": 279605,
+      "custo_total_alto_custo": 8965831944.67
+    },
+    {
+      "capitulo_cid": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "internacoes_alto_custo": 198189,
+      "custo_total_alto_custo": 6974093183.59
+    },
+    {
+      "capitulo_cid": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "internacoes_alto_custo": 164883,
+      "custo_total_alto_custo": 5684299898.79
+    },
+    {
+      "capitulo_cid": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "internacoes_alto_custo": 82255,
+      "custo_total_alto_custo": 2661473085.41
+    },
+    {
+      "capitulo_cid": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "internacoes_alto_custo": 70078,
+      "custo_total_alto_custo": 2570441426.73
+    },
+    {
+      "capitulo_cid": "XI. Doen\u00e7as do aparelho digestivo",
+      "internacoes_alto_custo": 56835,
+      "custo_total_alto_custo": 2839926014.33
+    },
+    {
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "internacoes_alto_custo": 54409,
+      "custo_total_alto_custo": 1762269549.55
+    },
+    {
+      "capitulo_cid": "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+      "internacoes_alto_custo": 49549,
+      "custo_total_alto_custo": 1718538002.93
+    },
+    {
+      "capitulo_cid": "VI. Doen\u00e7as do sistema nervoso",
+      "internacoes_alto_custo": 31814,
+      "custo_total_alto_custo": 1263677089.15
+    }
+  ],
+  "result_hash": "b374dcc4589b7fa89256d3bae83d172721fafaf670fb48808cd76058039afe86",
+  "semantic_disposition": "accepted"
+}

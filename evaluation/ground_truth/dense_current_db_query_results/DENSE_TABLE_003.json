@@ -1,0 +1,20 @@
+{
+  "id": "DENSE_TABLE_003",
+  "question_pt": "Quantos codigos ocupacionais existem na dimensao CBOR?",
+  "executed_at": "2026-07-08T23:09:05.347131+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_cbor FROM cbor",
+  "duration_seconds": 0.000102,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_cbor"
+  ],
+  "preview_rows": [
+    {
+      "total_cbor": 2813
+    }
+  ],
+  "result_hash": "d2b0d54af739df866eb7382649c6cf4e5b7d6ee94f9e2a42cbecb13d5ac51788",
+  "semantic_disposition": "accepted"
+}

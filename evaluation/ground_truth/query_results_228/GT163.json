@@ -1,0 +1,20 @@
+{
+  "id": "GT163",
+  "question_pt": "Quantos registros socioeconomicos possuem populacao informada?",
+  "executed_at": "2026-07-09T00:36:52.968308+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS registros_com_populacao FROM socioeconomico WHERE \"QT_POPULACAO\" IS NOT NULL",
+  "duration_seconds": 0.000163,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "registros_com_populacao"
+  ],
+  "preview_rows": [
+    {
+      "registros_com_populacao": 0
+    }
+  ],
+  "result_hash": "61a6f65c22dfca7865f69df60701198cd9cbd1ff91e94780cf9a0783db20bc7e",
+  "semantic_disposition": "accepted"
+}

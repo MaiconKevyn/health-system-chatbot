@@ -1,0 +1,20 @@
+{
+  "id": "GT036",
+  "question_pt": "Quantas interna\u00e7\u00f5es ocorreram em 2015?",
+  "executed_at": "2026-07-09T00:36:39.564599+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_2015 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2015",
+  "duration_seconds": 0.046021,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_2015"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_2015": 8871381
+    }
+  ],
+  "result_hash": "8aad72a88166f19e8cde14ab18afe7ca2475bdae900f6acab3a1c9adfb4557f1",
+  "semantic_disposition": "accepted"
+}

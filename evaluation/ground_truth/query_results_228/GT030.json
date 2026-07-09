@@ -1,0 +1,20 @@
+{
+  "id": "GT030",
+  "question_pt": "Quantas mulheres foram internadas?",
+  "executed_at": "2026-07-09T00:36:39.107202+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_mulheres FROM internacoes WHERE \"SEXO\" = 3",
+  "duration_seconds": 0.010243,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_mulheres"
+  ],
+  "preview_rows": [
+    {
+      "total_mulheres": 85419029
+    }
+  ],
+  "result_hash": "517f3e96090c86ce74be94bc193825bd37f78dd4dcea872b9bc9b29b8092f094",
+  "semantic_disposition": "accepted"
+}

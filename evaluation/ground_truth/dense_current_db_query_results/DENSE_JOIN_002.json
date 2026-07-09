@@ -1,0 +1,42 @@
+{
+  "id": "DENSE_JOIN_002",
+  "question_pt": "Como as internacoes se distribuem por carater de internacao?",
+  "executed_at": "2026-07-08T23:09:05.628118+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.DESCRICAO AS carater, COUNT(*) AS internacoes FROM internacoes i JOIN car_int c ON i.CAR_INT = c.CAR_INT GROUP BY 1 ORDER BY internacoes DESC",
+  "duration_seconds": 0.055498,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "carater",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "carater": "Urg\u00eancia",
+      "internacoes": 116553247
+    },
+    {
+      "carater": "Eletivo",
+      "internacoes": 26815763
+    },
+    {
+      "carater": "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+      "internacoes": 597681
+    },
+    {
+      "carater": "Outros tipo de acidente de tr\u00e2nsito",
+      "internacoes": 419699
+    },
+    {
+      "carater": "Acidente no local trabalho ou a serv da empresa",
+      "internacoes": 331
+    },
+    {
+      "carater": "Acidente no trajeto para o trabalho",
+      "internacoes": 51
+    }
+  ],
+  "result_hash": "417985a5ec1025d170cf45a2e085acb9238c2e070686938326123e800428f7cb",
+  "semantic_disposition": "accepted"
+}

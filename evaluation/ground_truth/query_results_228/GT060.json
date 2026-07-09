@@ -1,0 +1,20 @@
+{
+  "id": "GT060",
+  "question_pt": "Qual a m\u00e9dia de valor gasto por interna\u00e7\u00e3o?",
+  "executed_at": "2026-07-09T00:36:40.706283+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT AVG(\"VAL_TOT\") AS media_valor_internacao FROM internacoes",
+  "duration_seconds": 0.016731,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "media_valor_internacao"
+  ],
+  "preview_rows": [
+    {
+      "media_valor_internacao": 1472.3013288373015
+    }
+  ],
+  "result_hash": "f13b5d3f590441bb668f94f081cf15d7c04e40dd00784426accba9309038d8d6",
+  "semantic_disposition": "accepted"
+}

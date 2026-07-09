@@ -1,0 +1,320 @@
+{
+  "id": "GT226",
+  "question_pt": "Quais procedimentos principais cobrem 80% dos procedimentos principais em interna\u00e7\u00f5es com UTI?",
+  "executed_at": "2026-07-09T00:37:00.963101+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH proc_counts AS (SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"MARCA_UTI\" <> 0 GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\"), ranked AS (SELECT \"PROC_REA\", procedimento, total_procedimentos, SUM(total_procedimentos) OVER (ORDER BY total_procedimentos DESC, procedimento) AS acumulado, SUM(total_procedimentos) OVER () AS total_geral FROM proc_counts) SELECT \"PROC_REA\", procedimento, total_procedimentos, ROUND(acumulado * 100.0 / NULLIF(total_geral, 0), 2) AS percentual_acumulado FROM ranked WHERE acumulado <= total_geral * 0.8 OR acumulado - total_procedimentos < total_geral * 0.8 ORDER BY total_procedimentos DESC",
+  "duration_seconds": 0.053351,
+  "performance_class": "fast",
+  "row_count": 78,
+  "columns": [
+    "PROC_REA",
+    "procedimento",
+    "total_procedimentos",
+    "percentual_acumulado"
+  ],
+  "preview_rows": [
+    {
+      "PROC_REA": "0303010037",
+      "procedimento": "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+      "total_procedimentos": 703310,
+      "percentual_acumulado": 7.72
+    },
+    {
+      "PROC_REA": "0303140151",
+      "procedimento": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 423408,
+      "percentual_acumulado": 12.37
+    },
+    {
+      "PROC_REA": "0303010223",
+      "procedimento": "TRATAMENTO DE INFECCAO PELO CORONAVIRUS ? COVID 19",
+      "total_procedimentos": 388866,
+      "percentual_acumulado": 16.64
+    },
+    {
+      "PROC_REA": "0415010012",
+      "procedimento": "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+      "total_procedimentos": 373546,
+      "percentual_acumulado": 20.74
+    },
+    {
+      "PROC_REA": "0303160063",
+      "procedimento": "TRATAMENTO DE TRANSTORNOS RESPIRATORIOS E CARDIOVASCULARES ESPECIFICOS DO PERIODO NEONATAL",
+      "total_procedimentos": 345416,
+      "percentual_acumulado": 24.54
+    },
+    {
+      "PROC_REA": "0303060212",
+      "procedimento": "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+      "total_procedimentos": 323575,
+      "percentual_acumulado": 28.09
+    },
+    {
+      "PROC_REA": "0303160055",
+      "procedimento": "TRATAMENTO DE TRANSTORNOS RELACIONADOS C/ A DURACAO DA GESTACAO E C/ O CRESCIMENTO FETAL",
+      "total_procedimentos": 308453,
+      "percentual_acumulado": 31.48
+    },
+    {
+      "PROC_REA": "0303040149",
+      "procedimento": "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+      "total_procedimentos": 290002,
+      "percentual_acumulado": 34.66
+    },
+    {
+      "PROC_REA": "0303060190",
+      "procedimento": "TRATAMENTO DE INFARTO AGUDO DO MIOCARDIO",
+      "total_procedimentos": 237915,
+      "percentual_acumulado": 37.27
+    },
+    {
+      "PROC_REA": "0303140135",
+      "procedimento": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO",
+      "total_procedimentos": 215838,
+      "percentual_acumulado": 39.64
+    },
+    {
+      "PROC_REA": "0406030030",
+      "procedimento": "ANGIOPLASTIA CORONARIANA COM IMPLANTE DE STENT",
+      "total_procedimentos": 192261,
+      "percentual_acumulado": 41.75
+    },
+    {
+      "PROC_REA": "0406010935",
+      "procedimento": "REVASCULARIZACAO MIOCARDICA C/ USO DE EXTRACORPOREA (C/ 2 OU MAIS ENXERTOS)",
+      "total_procedimentos": 174599,
+      "percentual_acumulado": 43.67
+    },
+    {
+      "PROC_REA": "0404010377",
+      "procedimento": "TRAQUEOSTOMIA",
+      "total_procedimentos": 148513,
+      "percentual_acumulado": 45.3
+    },
+    {
+      "PROC_REA": "0303160039",
+      "procedimento": "TRATAMENTO DE OUTROS TRANSTORNOS ORIGINADOS NO PERIODO PERINATAL",
+      "total_procedimentos": 144771,
+      "percentual_acumulado": 46.89
+    },
+    {
+      "PROC_REA": "0412040166",
+      "procedimento": "TORACOSTOMIA COM DRENAGEM PLEURAL FECHADA",
+      "total_procedimentos": 128063,
+      "percentual_acumulado": 48.3
+    },
+    {
+      "PROC_REA": "0415020034",
+      "procedimento": "OUTROS PROCEDIMENTOS COM CIRURGIAS SEQUENCIAIS",
+      "total_procedimentos": 126183,
+      "percentual_acumulado": 49.68
+    },
+    {
+      "PROC_REA": "0406030022",
+      "procedimento": "ANGIOPLASTIA CORONARIANA C/ IMPLANTE DE DOIS STENTS",
+      "total_procedimentos": 125547,
+      "percentual_acumulado": 51.06
+    },
+    {
+      "PROC_REA": "0303060280",
+      "procedimento": "TRATAMENTO DE SINDROME CORONARIANA AGUDA",
+      "total_procedimentos": 123714,
+      "percentual_acumulado": 52.42
+    },
+    {
+      "PROC_REA": "0415030013",
+      "procedimento": "TRATAMENTO CIRURGICO EM POLITRAUMATIZADO",
+      "total_procedimentos": 107877,
+      "percentual_acumulado": 53.6
+    },
+    {
+      "PROC_REA": "0407040161",
+      "procedimento": "LAPAROTOMIA EXPLORADORA",
+      "total_procedimentos": 106094,
+      "percentual_acumulado": 54.77
+    },
+    {
+      "PROC_REA": "0303140046",
+      "procedimento": "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+      "total_procedimentos": 94919,
+      "percentual_acumulado": 55.81
+    },
+    {
+      "PROC_REA": "0304100021",
+      "procedimento": "TRATAMENTO CLINICO DE PACIENTE ONCOLOGICO",
+      "total_procedimentos": 89987,
+      "percentual_acumulado": 56.8
+    },
+    {
+      "PROC_REA": "0415020050",
+      "procedimento": "PROCEDIMENTOS SEQUENCIAIS EM ONCOLOGIA",
+      "total_procedimentos": 89986,
+      "percentual_acumulado": 57.79
+    },
+    {
+      "PROC_REA": "0305020056",
+      "procedimento": "TRATAMENTO DE INSUFICIENCIA RENAL CRONICA",
+      "total_procedimentos": 86481,
+      "percentual_acumulado": 58.74
+    },
+    {
+      "PROC_REA": "0406010692",
+      "procedimento": "IMPLANTE DE PROTESE VALVAR",
+      "total_procedimentos": 78944,
+      "percentual_acumulado": 59.6
+    },
+    {
+      "PROC_REA": "0303030038",
+      "procedimento": "TRATAMENTO DE DIABETES MELLITUS",
+      "total_procedimentos": 73836,
+      "percentual_acumulado": 60.41
+    },
+    {
+      "PROC_REA": "0305020048",
+      "procedimento": "TRATAMENTO DE INSUFICIENCIA RENAL AGUDA",
+      "total_procedimentos": 67232,
+      "percentual_acumulado": 61.15
+    },
+    {
+      "PROC_REA": "0406030049",
+      "procedimento": "ANGIOPLASTIA CORONARIANA PRIMARIA",
+      "total_procedimentos": 64170,
+      "percentual_acumulado": 61.86
+    },
+    {
+      "PROC_REA": "0303060026",
+      "procedimento": "TRATAMENTO DE ARRITMIAS",
+      "total_procedimentos": 63780,
+      "percentual_acumulado": 62.56
+    },
+    {
+      "PROC_REA": "0415040035",
+      "procedimento": "DEBRIDAMENTO DE ULCERA / DE TECIDOS DESVITALIZADOS",
+      "total_procedimentos": 63360,
+      "percentual_acumulado": 63.25
+    },
+    {
+      "PROC_REA": "0408050632",
+      "procedimento": "TRATAMENTO CIRURGICO DE FRATURA TRANSTROCANTERIANA",
+      "total_procedimentos": 60187,
+      "percentual_acumulado": 63.91
+    },
+    {
+      "PROC_REA": "0415020077",
+      "procedimento": "PROCEDIMENTOS SEQUENCIAIS EM NEUROCIRURGIA",
+      "total_procedimentos": 59152,
+      "percentual_acumulado": 64.56
+    },
+    {
+      "PROC_REA": "0303060131",
+      "procedimento": "TRATAMENTO DE EDEMA AGUDO DE PULMAO",
+      "total_procedimentos": 57979,
+      "percentual_acumulado": 65.2
+    },
+    {
+      "PROC_REA": "0303040092",
+      "procedimento": "TRATAMENTO CONSERVADOR DE TRAUMATISMO CRANIOENCEFALICO (GRAU MEDIO)",
+      "total_procedimentos": 56299,
+      "percentual_acumulado": 65.82
+    },
+    {
+      "PROC_REA": "0408050012",
+      "procedimento": "AMPUTACAO / DESARTICULACAO DE MEMBROS INFERIORES",
+      "total_procedimentos": 54775,
+      "percentual_acumulado": 66.42
+    },
+    {
+      "PROC_REA": "0303070102",
+      "procedimento": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO DIGESTIVO",
+      "total_procedimentos": 52966,
+      "percentual_acumulado": 67.0
+    },
+    {
+      "PROC_REA": "0411010026",
+      "procedimento": "PARTO CESARIANO EM GESTACAO DE ALTO RISCO",
+      "total_procedimentos": 51149,
+      "percentual_acumulado": 67.56
+    },
+    {
+      "PROC_REA": "0303070072",
+      "procedimento": "TRATAMENTO DE DOENCAS DO FIGADO",
+      "total_procedimentos": 51022,
+      "percentual_acumulado": 68.12
+    },
+    {
+      "PROC_REA": "0303040106",
+      "procedimento": "TRATAMENTO CONSERVADOR DE TRAUMATISMO CRANIOENCEFALICO GRAVE",
+      "total_procedimentos": 49243,
+      "percentual_acumulado": 68.66
+    },
+    {
+      "PROC_REA": "0403010098",
+      "procedimento": "DERIVACAO VENTRICULAR EXTERNAR-SUBGALEAL EXTERNA",
+      "total_procedimentos": 48143,
+      "percentual_acumulado": 69.19
+    },
+    {
+      "PROC_REA": "0304100013",
+      "procedimento": "TRATAMENTO DE INTERCORRENCIAS CLINICAS DE PACIENTE ONCOLOGICO",
+      "total_procedimentos": 47546,
+      "percentual_acumulado": 69.72
+    },
+    {
+      "PROC_REA": "0406010650",
+      "procedimento": "IMPLANTE DE MARCAPASSO DE CAMARA DUPLA TRANSVENOSO",
+      "total_procedimentos": 44085,
+      "percentual_acumulado": 70.2
+    },
+    {
+      "PROC_REA": "0303040165",
+      "procedimento": "TRATAMENTO DE CRISES EPILETICAS NAO CONTROLADAS",
+      "total_procedimentos": 39150,
+      "percentual_acumulado": 70.63
+    },
+    {
+      "PROC_REA": "0308020030",
+      "procedimento": "TRATAMENTO DE INTOXICACAO OU ENVENENAMENTO POR EXPOSICAO A MEDICAMENTO E SUBSTANCIAS DE USO NAO MEDI",
+      "total_procedimentos": 37627,
+      "percentual_acumulado": 71.04
+    },
+    {
+      "PROC_REA": "0503010014",
+      "procedimento": "ACOES RELACIONADAS A DOACAO DE ORGAOS E TECIDOS PARA TRANSPLANTE",
+      "total_procedimentos": 33484,
+      "percentual_acumulado": 71.41
+    },
+    {
+      "PROC_REA": "0407010173",
+      "procedimento": "GASTROPLASTIA C/ DERIVACAO INTESTINAL",
+      "total_procedimentos": 33096,
+      "percentual_acumulado": 71.77
+    },
+    {
+      "PROC_REA": "0406010927",
+      "procedimento": "REVASCULARIZACAO MIOCARDICA C/ USO DE EXTRACORPOREA",
+      "total_procedimentos": 32127,
+      "percentual_acumulado": 72.13
+    },
+    {
+      "PROC_REA": "0303160020",
+      "procedimento": "TRATAMENTO DE INFECCOES ESPECIFICAS DO PERIODO PERINATAL",
+      "total_procedimentos": 30489,
+      "percentual_acumulado": 72.46
+    },
+    {
+      "PROC_REA": "0303070129",
+      "procedimento": "TRATAMENTO DE TRANSTORNOS DAS VIAS BILIARES E PANCREAS",
+      "total_procedimentos": 29416,
+      "percentual_acumulado": 72.78
+    },
+    {
+      "PROC_REA": "0308040015",
+      "procedimento": "TRATAMENTO DE COMPLICACOES DE PROCEDIMENTOS CIRURGICOS OU CLINICOS",
+      "total_procedimentos": 29109,
+      "percentual_acumulado": 73.1
+    }
+  ],
+  "result_hash": "85fa278792f9ec29f8829abd2d417cd2872b8449cd7522ec7ef87044435d2cc1",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "GT093",
+  "question_pt": "Em qual ano ocorreu o maior n\u00famero de mortes em cada estado (MA e RS)?",
+  "executed_at": "2026-07-09T00:36:44.972780+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT estado, ano, total_mortes\nFROM (\n    SELECT mu.\"SG_UF\" AS estado,\n           EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano,\n           COUNT(*) AS total_mortes,\n           ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY COUNT(*) DESC) AS rn\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE i.\"MORTE\" = true AND mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"DT_INTER\" IS NOT NULL\n    GROUP BY mu.\"SG_UF\", ano\n) sub\nWHERE rn = 1\nORDER BY estado",
+  "duration_seconds": 0.034619,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "estado",
+    "ano",
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "estado": "MA",
+      "ano": 2021,
+      "total_mortes": 17679
+    },
+    {
+      "estado": "RS",
+      "ano": 2021,
+      "total_mortes": 56392
+    }
+  ],
+  "result_hash": "20a2ec6e300e3ee444260393bb5fdb7724b74c0a2b9c2eb02ec78b56863c20dc",
+  "semantic_disposition": "accepted"
+}

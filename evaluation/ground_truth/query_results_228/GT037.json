@@ -1,0 +1,20 @@
+{
+  "id": "GT037",
+  "question_pt": "Quantos pacientes nasceram antes de 1950?",
+  "executed_at": "2026-07-09T00:36:39.652318+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS nascidos_antes_1950 FROM internacoes WHERE EXTRACT(YEAR FROM \"NASC\") < 1950",
+  "duration_seconds": 0.087454,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "nascidos_antes_1950"
+  ],
+  "preview_rows": [
+    {
+      "nascidos_antes_1950": 25202523
+    }
+  ],
+  "result_hash": "2a0d240e0abb054526636d1d14a6781f164ef219ab0e8853d1d38bc5e5604dc7",
+  "semantic_disposition": "accepted"
+}

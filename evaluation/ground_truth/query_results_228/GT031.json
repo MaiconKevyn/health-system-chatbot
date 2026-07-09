@@ -1,0 +1,22 @@
+{
+  "id": "GT031",
+  "question_pt": "Qual a latitude e longitude de Porto Alegre?",
+  "executed_at": "2026-07-09T00:36:39.107753+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT latitude, longitude FROM municipios WHERE \"NO_MUNICIPIO\" = 'Porto Alegre'",
+  "duration_seconds": 0.000311,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "latitude",
+    "longitude"
+  ],
+  "preview_rows": [
+    {
+      "latitude": -30.112199783325195,
+      "longitude": -51.16339874267578
+    }
+  ],
+  "result_hash": "3b9b3527ec5f25d37c743233d718ea683be9153f89a95cd205789e760707ef8a",
+  "semantic_disposition": "accepted"
+}

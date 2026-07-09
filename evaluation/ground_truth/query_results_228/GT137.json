@@ -1,0 +1,20 @@
+{
+  "id": "GT137",
+  "question_pt": "Quantas internacoes de alta complexidade foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.253407+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_alta_complexidade FROM internacoes WHERE \"COMPLEX\" = '03'",
+  "duration_seconds": 0.023617,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_alta_complexidade"
+  ],
+  "preview_rows": [
+    {
+      "total_alta_complexidade": 9028761
+    }
+  ],
+  "result_hash": "3922efb59c109c80982508ee15be618f5e4cca1e8ee5cb8e096c49993b98b774",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,218 @@
+{
+  "id": "GT024",
+  "question_pt": "Quais CNES t\u00eam mais de 1000 interna\u00e7\u00f5es registradas?",
+  "executed_at": "2026-07-09T00:36:38.648530+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT i.\"CNES\", COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i WHERE i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\" HAVING COUNT(i.\"N_AIH\") > 1000 ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.331288,
+  "performance_class": "fast",
+  "row_count": 4893,
+  "columns": [
+    "CNES",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "CNES": 434,
+      "total_internacoes": 719254
+    },
+    {
+      "CNES": 27014,
+      "total_internacoes": 623143
+    },
+    {
+      "CNES": 2237571,
+      "total_internacoes": 587240
+    },
+    {
+      "CNES": 13846,
+      "total_internacoes": 569114
+    },
+    {
+      "CNES": 655,
+      "total_internacoes": 522136
+    },
+    {
+      "CNES": 2237601,
+      "total_internacoes": 521838
+    },
+    {
+      "CNES": 13633,
+      "total_internacoes": 454384
+    },
+    {
+      "CNES": 9717,
+      "total_internacoes": 424481
+    },
+    {
+      "CNES": 15245,
+      "total_internacoes": 423990
+    },
+    {
+      "CNES": 2237253,
+      "total_internacoes": 368826
+    },
+    {
+      "CNES": 2246988,
+      "total_internacoes": 364979
+    },
+    {
+      "CNES": 2192896,
+      "total_internacoes": 357591
+    },
+    {
+      "CNES": 10456,
+      "total_internacoes": 349390
+    },
+    {
+      "CNES": 2146355,
+      "total_internacoes": 343304
+    },
+    {
+      "CNES": 10472,
+      "total_internacoes": 338783
+    },
+    {
+      "CNES": 2205440,
+      "total_internacoes": 334480
+    },
+    {
+      "CNES": 2798662,
+      "total_internacoes": 315413
+    },
+    {
+      "CNES": 3021114,
+      "total_internacoes": 314447
+    },
+    {
+      "CNES": 2497654,
+      "total_internacoes": 313663
+    },
+    {
+      "CNES": 2752700,
+      "total_internacoes": 308665
+    },
+    {
+      "CNES": 10499,
+      "total_internacoes": 306426
+    },
+    {
+      "CNES": 3859,
+      "total_internacoes": 304142
+    },
+    {
+      "CNES": 27863,
+      "total_internacoes": 302024
+    },
+    {
+      "CNES": 15369,
+      "total_internacoes": 299611
+    },
+    {
+      "CNES": 5828856,
+      "total_internacoes": 298737
+    },
+    {
+      "CNES": 27049,
+      "total_internacoes": 296353
+    },
+    {
+      "CNES": 2802104,
+      "total_internacoes": 295644
+    },
+    {
+      "CNES": 10480,
+      "total_internacoes": 292409
+    },
+    {
+      "CNES": 2384299,
+      "total_internacoes": 291922
+    },
+    {
+      "CNES": 2537788,
+      "total_internacoes": 286566
+    },
+    {
+      "CNES": 26921,
+      "total_internacoes": 286508
+    },
+    {
+      "CNES": 2149990,
+      "total_internacoes": 281883
+    },
+    {
+      "CNES": 2232,
+      "total_internacoes": 280466
+    },
+    {
+      "CNES": 2802783,
+      "total_internacoes": 278106
+    },
+    {
+      "CNES": 426,
+      "total_internacoes": 278024
+    },
+    {
+      "CNES": 2529149,
+      "total_internacoes": 273939
+    },
+    {
+      "CNES": 418,
+      "total_internacoes": 265652
+    },
+    {
+      "CNES": 2566168,
+      "total_internacoes": 265240
+    },
+    {
+      "CNES": 2126494,
+      "total_internacoes": 260870
+    },
+    {
+      "CNES": 26794,
+      "total_internacoes": 254158
+    },
+    {
+      "CNES": 2555646,
+      "total_internacoes": 252856
+    },
+    {
+      "CNES": 2522691,
+      "total_internacoes": 252266
+    },
+    {
+      "CNES": 10537,
+      "total_internacoes": 244372
+    },
+    {
+      "CNES": 2427427,
+      "total_internacoes": 242915
+    },
+    {
+      "CNES": 2222043,
+      "total_internacoes": 232920
+    },
+    {
+      "CNES": 15407,
+      "total_internacoes": 232238
+    },
+    {
+      "CNES": 2726653,
+      "total_internacoes": 231453
+    },
+    {
+      "CNES": 2262568,
+      "total_internacoes": 231400
+    },
+    {
+      "CNES": 2693801,
+      "total_internacoes": 230870
+    },
+    {
+      "CNES": 2491710,
+      "total_internacoes": 230561
+    }
+  ],
+  "result_hash": "8b4904c3b5dc806573fb554a54a7312c3852077e4c98da09399221c74f7814d4",
+  "semantic_disposition": "accepted"
+}

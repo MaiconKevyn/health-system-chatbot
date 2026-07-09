@@ -1,0 +1,4953 @@
+{
+  "run_id": "dense_current_db_all_runtime_context_final",
+  "run_dir": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/dense_current_db_all_runtime_context_final",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/dense_current_db_all.jsonl",
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "limit": null,
+  "ids": [
+    "DENSE_TABLE_001",
+    "DENSE_TABLE_002",
+    "DENSE_TABLE_003",
+    "DENSE_TABLE_004",
+    "DENSE_TABLE_005",
+    "DENSE_TABLE_006",
+    "DENSE_TABLE_007",
+    "DENSE_TABLE_008",
+    "DENSE_TABLE_009",
+    "DENSE_TABLE_010",
+    "DENSE_TABLE_011",
+    "DENSE_TABLE_012",
+    "DENSE_TABLE_013",
+    "DENSE_TABLE_014",
+    "DENSE_TABLE_015",
+    "DENSE_TABLE_016",
+    "DENSE_TABLE_017",
+    "DENSE_TABLE_018",
+    "DENSE_TABLE_019",
+    "DENSE_TABLE_020",
+    "DENSE_JOIN_001",
+    "DENSE_JOIN_002",
+    "DENSE_JOIN_003",
+    "DENSE_JOIN_004",
+    "DENSE_JOIN_005",
+    "DENSE_JOIN_006",
+    "DENSE_JOIN_007",
+    "DENSE_JOIN_008",
+    "DENSE_JOIN_009",
+    "DENSE_JOIN_010",
+    "DENSE_JOIN_011",
+    "DENSE_JOIN_012",
+    "DENSE_JOIN_013",
+    "DENSE_JOIN_014",
+    "DENSE_JOIN_015",
+    "DENSE_JOIN_016",
+    "DENSE_JOIN_017",
+    "DENSE_JOIN_018",
+    "DENSE_JOIN_019",
+    "DENSE_JOIN_020",
+    "DENSE_JOIN_021",
+    "DENSE_JOIN_022",
+    "DENSE_JOIN_023",
+    "DENSE_JOIN_024",
+    "DENSE_JOIN_025"
+  ],
+  "allow_llm": true,
+  "numeric_tolerance": 1e-06,
+  "max_rows": 10000,
+  "timeout_seconds": 60,
+  "trace_path": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/dense_current_db_all_runtime_context_final/trace.jsonl",
+  "summary": {
+    "total": 45,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 1.0,
+    "sql_validation_rate": 1.0,
+    "sql_valid_rate": 1.0,
+    "sql_execution_rate": 1.0,
+    "result_value_match_rate": 1.0,
+    "result_match_rate": 1.0,
+    "correction_success_rate": 1.0,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "latency_p50": 2.6751153329987574,
+    "latency_p95": 5.112540708998495,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 19,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "shape_mismatch_count": 0,
+    "value_mismatch_count": 0,
+    "error_category_counts": {},
+    "failures_by_difficulty": {}
+  },
+  "records": [
+    {
+      "id": "DENSE_TABLE_001",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos registros existem na tabela de staging de internacoes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "_staging_internacoes",
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 93,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q092",
+        "SIHRD5_Q001",
+        "SIHRD5_Q090",
+        "SIHRD5_Q099"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_registros\nFROM _staging_internacoes",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_registros_staging FROM _staging_internacoes",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_registros_staging"
+      ],
+      "actual_columns": [
+        "total_registros"
+      ],
+      "expected_preview_values": [
+        [
+          39622048
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          39622048
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.798464041999978
+    },
+    {
+      "id": "DENSE_TABLE_002",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais codigos e descricoes existem para carater de internacao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "_staging_internacoes",
+        "car_int",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 82,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q007",
+        "SIHRD5_Q022",
+        "SIHRD5_Q023",
+        "SIHRD5_Q036"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  car_int.CAR_INT,\n  car_int.DESCRICAO\nFROM car_int\nORDER BY car_int.CAR_INT",
+      "ground_truth_sql": "SELECT CAR_INT, DESCRICAO FROM car_int ORDER BY CAR_INT",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "CAR_INT",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "CAR_INT",
+        "DESCRICAO"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Eletivo"
+        ],
+        [
+          2,
+          "Urg\u00eancia"
+        ],
+        [
+          3,
+          "Acidente no local trabalho ou a serv da empresa"
+        ],
+        [
+          4,
+          "Acidente no trajeto para o trabalho"
+        ],
+        [
+          5,
+          "Outros tipo de acidente de tr\u00e2nsito"
+        ],
+        [
+          6,
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Eletivo"
+        ],
+        [
+          2,
+          "Urg\u00eancia"
+        ],
+        [
+          3,
+          "Acidente no local trabalho ou a serv da empresa"
+        ],
+        [
+          4,
+          "Acidente no trajeto para o trabalho"
+        ],
+        [
+          5,
+          "Outros tipo de acidente de tr\u00e2nsito"
+        ],
+        [
+          6,
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos"
+        ]
+      ],
+      "expected_row_count": 7,
+      "actual_row_count": 7,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.5721675839995441
+    },
+    {
+      "id": "DENSE_TABLE_003",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos codigos ocupacionais existem na dimensao CBOR?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cbor",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q005",
+        "SIHRD5_Q007",
+        "SIHRD5_Q015",
+        "SIHRD5_Q002"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_codigos_ocupacionais\nFROM cbor",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_cbor FROM cbor",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_cbor"
+      ],
+      "actual_columns": [
+        "total_codigos_ocupacionais"
+      ],
+      "expected_preview_values": [
+        [
+          2813
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2813
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.424583874999371
+    },
+    {
+      "id": "DENSE_TABLE_004",
+      "difficulty": "L1",
+      "expected_result_type": "distribution",
+      "question_pt": "Quantos CIDs existem por capitulo no catalogo CID?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 47,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q007",
+        "SIHRD5_Q092",
+        "SIHRD5_Q039",
+        "SIHRD5_Q040"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  DS_CAPITULO,\n  COUNT(*) AS cids\nFROM cid\nGROUP BY 1\nORDER BY cids DESC, DS_CAPITULO",
+      "ground_truth_sql": "SELECT DS_CAPITULO, COUNT(*) AS total_cids FROM cid GROUP BY 1 ORDER BY total_cids DESC, DS_CAPITULO",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "DS_CAPITULO",
+        "total_cids"
+      ],
+      "actual_columns": [
+        "DS_CAPITULO",
+        "cids"
+      ],
+      "expected_preview_values": [
+        [
+          "XX. Causas externas de morbidade e de mortalidade",
+          3692
+        ],
+        [
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          1459
+        ],
+        [
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          912
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          853
+        ],
+        [
+          "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+          711
+        ],
+        [
+          "XXI. Fatores que influenciam o estado de sa\u00fade",
+          711
+        ],
+        [
+          "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+          626
+        ],
+        [
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          502
+        ],
+        [
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          491
+        ],
+        [
+          "XI. Doen\u00e7as do aparelho digestivo",
+          486
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "XX. Causas externas de morbidade e de mortalidade",
+          3692
+        ],
+        [
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          1459
+        ],
+        [
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          912
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          853
+        ],
+        [
+          "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+          711
+        ],
+        [
+          "XXI. Fatores que influenciam o estado de sa\u00fade",
+          711
+        ],
+        [
+          "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+          626
+        ],
+        [
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          502
+        ],
+        [
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          491
+        ],
+        [
+          "XI. Doen\u00e7as do aparelho digestivo",
+          486
+        ]
+      ],
+      "expected_row_count": 22,
+      "actual_row_count": 22,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.7895109159999265
+    },
+    {
+      "id": "DENSE_TABLE_005",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais codigos e descricoes existem para complexidade?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "complexidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q047",
+        "SIHRD5_Q007",
+        "SIHRD5_Q022",
+        "SIHRD5_Q036"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  COMPLEX AS codigo_complexidade,\n  DESCRICAO AS descricao_complexidade\nFROM complexidade\nORDER BY COMPLEX",
+      "ground_truth_sql": "SELECT COMPLEX, DESCRICAO FROM complexidade ORDER BY COMPLEX",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "COMPLEX",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "codigo_complexidade",
+        "descricao_complexidade"
+      ],
+      "expected_preview_values": [
+        [
+          "00",
+          "N\u00e3o informado"
+        ],
+        [
+          "01",
+          "Aten\u00e7\u00e3o B\u00e1sica"
+        ],
+        [
+          "02",
+          "M\u00e9dia complexidade"
+        ],
+        [
+          "03",
+          "Alta complexidade"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "00",
+          "N\u00e3o informado"
+        ],
+        [
+          "01",
+          "Aten\u00e7\u00e3o B\u00e1sica"
+        ],
+        [
+          "02",
+          "M\u00e9dia complexidade"
+        ],
+        [
+          "03",
+          "Alta complexidade"
+        ]
+      ],
+      "expected_row_count": 4,
+      "actual_row_count": 4,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.6163952499991865
+    },
+    {
+      "id": "DENSE_TABLE_006",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos tipos de contraceptivos existem no catalogo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "contraceptivos"
+      ],
+      "retrieved_columns_count": 2,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q002",
+        "SIHRD5_Q004",
+        "SIHRD5_Q005",
+        "SIHRD5_Q006"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_tipos_contraceptivos\nFROM contraceptivos",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_contraceptivos FROM contraceptivos",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_contraceptivos"
+      ],
+      "actual_columns": [
+        "total_tipos_contraceptivos"
+      ],
+      "expected_preview_values": [
+        [
+          13
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          13
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.3272827910004708
+    },
+    {
+      "id": "DENSE_TABLE_007",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais especialidades existem no catalogo de especialidade?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q046",
+        "SIHRD5_Q072",
+        "SIHRD5_Q083",
+        "SIHRD5_Q001"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT ESPEC, DESCRICAO\nFROM especialidade\nORDER BY ESPEC",
+      "ground_truth_sql": "SELECT ESPEC, DESCRICAO FROM especialidade ORDER BY ESPEC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ESPEC",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "ESPEC",
+        "DESCRICAO"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Cir\u00fargico"
+        ],
+        [
+          2,
+          "Obst\u00e9trico"
+        ],
+        [
+          3,
+          "Cl\u00ednico"
+        ],
+        [
+          4,
+          "Cr\u00f4nicos"
+        ],
+        [
+          5,
+          "Psiquiatria"
+        ],
+        [
+          6,
+          "Pneumologia Sanit\u00e1ria"
+        ],
+        [
+          7,
+          "Pedi\u00e1trico"
+        ],
+        [
+          8,
+          "Reabilita\u00e7\u00e3o"
+        ],
+        [
+          9,
+          "Leito Dia / Cir\u00fargico"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Cir\u00fargico"
+        ],
+        [
+          2,
+          "Obst\u00e9trico"
+        ],
+        [
+          3,
+          "Cl\u00ednico"
+        ],
+        [
+          4,
+          "Cr\u00f4nicos"
+        ],
+        [
+          5,
+          "Psiquiatria"
+        ],
+        [
+          6,
+          "Pneumologia Sanit\u00e1ria"
+        ],
+        [
+          7,
+          "Pedi\u00e1trico"
+        ],
+        [
+          8,
+          "Reabilita\u00e7\u00e3o"
+        ],
+        [
+          9,
+          "Leito Dia / Cir\u00fargico"
+        ]
+      ],
+      "expected_row_count": 39,
+      "actual_row_count": 39,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.5490521249994345
+    },
+    {
+      "id": "DENSE_TABLE_008",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos registros existem na dimensao de etnia?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "etnia",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q002",
+        "SIHRD5_Q005",
+        "SIHRD5_Q015",
+        "SIHRD5_Q004"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_registros FROM etnia",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_etnias FROM etnia",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_etnias"
+      ],
+      "actual_columns": [
+        "total_registros"
+      ],
+      "expected_preview_values": [
+        [
+          265
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          265
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.9243953750010405
+    },
+    {
+      "id": "DENSE_TABLE_009",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos hospitais existem no cadastro hospitalar carregado?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital"
+      ],
+      "retrieved_columns_count": 6,
+      "business_metrics": [
+        "geografia_hospital"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q004",
+        "SIHRD5_Q090",
+        "SIHRD5_Q006",
+        "SIHRD5_Q039"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_hospitais FROM hospital",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_hospitais FROM hospital",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_hospitais"
+      ],
+      "actual_columns": [
+        "total_hospitais"
+      ],
+      "expected_preview_values": [
+        [
+          0
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.239952583999184
+    },
+    {
+      "id": "DENSE_TABLE_010",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais codigos e descricoes existem para instrucao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "instrucao",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q007",
+        "SIHRD5_Q022",
+        "SIHRD5_Q036",
+        "SIHRD5_Q094"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT INSTRU, DESCRICAO\nFROM instrucao\nORDER BY INSTRU",
+      "ground_truth_sql": "SELECT INSTRU, DESCRICAO FROM instrucao ORDER BY INSTRU",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "INSTRU",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "INSTRU",
+        "DESCRICAO"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Analfabeto"
+        ],
+        [
+          2,
+          "1\u00ba grau"
+        ],
+        [
+          3,
+          "2\u00ba grau"
+        ],
+        [
+          4,
+          "3\u00ba grau"
+        ],
+        [
+          9,
+          "Ignorado"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Analfabeto"
+        ],
+        [
+          2,
+          "1\u00ba grau"
+        ],
+        [
+          3,
+          "2\u00ba grau"
+        ],
+        [
+          4,
+          "3\u00ba grau"
+        ],
+        [
+          9,
+          "Ignorado"
+        ]
+      ],
+      "expected_row_count": 6,
+      "actual_row_count": 6,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.537915041000815
+    },
+    {
+      "id": "DENSE_TABLE_011",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual e o volume, mortes e valor total na tabela de internacoes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar",
+        "valor_total_aprovado"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q012",
+        "SIHRD5_Q017",
+        "SIHRD5_Q031",
+        "SIHRD5_Q041"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS volume, COUNT(*) FILTER (WHERE MORTE) AS mortes, ROUND(SUM(CAST(VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total FROM internacoes",
+      "ground_truth_sql": "SELECT COUNT(*) AS internacoes, COUNT(*) FILTER (WHERE MORTE) AS mortes, ROUND(SUM(CAST(VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total FROM internacoes",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "internacoes",
+        "mortes",
+        "valor_total"
+      ],
+      "actual_columns": [
+        "volume",
+        "mortes",
+        "valor_total"
+      ],
+      "expected_preview_values": [
+        [
+          144386772,
+          5877536,
+          212580836281.11
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          144386772,
+          5877536,
+          212580836281.11
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.155685583000377
+    },
+    {
+      "id": "DENSE_TABLE_012",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais codigos e descricoes existem para marca de UTI?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q007",
+        "SIHRD5_Q022",
+        "SIHRD5_Q036",
+        "SIHRD5_Q048"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  MARCA_UTI,\n  DESCRICAO\nFROM marca_uti\nORDER BY MARCA_UTI",
+      "ground_truth_sql": "SELECT MARCA_UTI, DESCRICAO FROM marca_uti ORDER BY MARCA_UTI",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "MARCA_UTI",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "MARCA_UTI",
+        "DESCRICAO"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          "N\u00e3o utilizou UTI"
+        ],
+        [
+          1,
+          "Utilizou mais de um tipo de UTI"
+        ],
+        [
+          51,
+          "UTI adulto - tipo II COVID 19"
+        ],
+        [
+          52,
+          "UTI pedi\u00e1trica - tipo II COVID 19"
+        ],
+        [
+          74,
+          "UTI adulto - tipo I"
+        ],
+        [
+          75,
+          "UTI adulto - tipo II"
+        ],
+        [
+          76,
+          "UTI adulto - tipo III"
+        ],
+        [
+          77,
+          "UTI infantil - tipo I"
+        ],
+        [
+          78,
+          "UTI infantil - tipo II"
+        ],
+        [
+          79,
+          "UTI infantil - tipo III"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          "N\u00e3o utilizou UTI"
+        ],
+        [
+          1,
+          "Utilizou mais de um tipo de UTI"
+        ],
+        [
+          51,
+          "UTI adulto - tipo II COVID 19"
+        ],
+        [
+          52,
+          "UTI pedi\u00e1trica - tipo II COVID 19"
+        ],
+        [
+          74,
+          "UTI adulto - tipo I"
+        ],
+        [
+          75,
+          "UTI adulto - tipo II"
+        ],
+        [
+          76,
+          "UTI adulto - tipo III"
+        ],
+        [
+          77,
+          "UTI infantil - tipo I"
+        ],
+        [
+          78,
+          "UTI infantil - tipo II"
+        ],
+        [
+          79,
+          "UTI infantil - tipo III"
+        ]
+      ],
+      "expected_row_count": 17,
+      "actual_row_count": 17,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.8335561670010065
+    },
+    {
+      "id": "DENSE_TABLE_013",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos municipios existem e quantas UFs validas aparecem na dimensao territorial?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "municipios",
+        "socioeconomico"
+      ],
+      "retrieved_columns_count": 64,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q005",
+        "SIHRD5_Q039",
+        "SIHRD5_Q091",
+        "SIHRD5_Q014"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH valid_uf(sg_uf) AS (\n    VALUES ('AC'), ('AL'), ('AP'), ('AM'), ('BA'), ('CE'), ('DF'), ('ES'), ('GO'), ('MA'), ('MT'), ('MS'), ('MG'), ('PA'), ('PB'), ('PR'), ('PE'), ('PI'), ('RJ'), ('RN'), ('RS'), ('RO'), ('RR'), ('SC'), ('SP'), ('SE'), ('TO')\n)\nSELECT\n    COUNT(*) AS total_municipios,\n    COUNT(DISTINCT m.SG_UF) FILTER (WHERE v.sg_uf IS NOT NULL) AS total_ufs_validas,\n    COUNT(DISTINCT m.SG_UF) FILTER (WHERE v.sg_uf IS NULL) AS total_codigos_sg_uf_invalidos\nFROM municipios m\nLEFT JOIN valid_uf v\n    ON m.SG_UF = v.sg_uf",
+      "ground_truth_sql": "WITH valid_uf(sg_uf) AS (VALUES ('AC'), ('AL'), ('AP'), ('AM'), ('BA'), ('CE'), ('DF'), ('ES'), ('GO'), ('MA'), ('MT'), ('MS'), ('MG'), ('PA'), ('PB'), ('PR'), ('PE'), ('PI'), ('RJ'), ('RN'), ('RS'), ('RO'), ('RR'), ('SC'), ('SP'), ('SE'), ('TO')) SELECT COUNT(*) AS total_municipios, COUNT(DISTINCT m.SG_UF) FILTER (WHERE v.sg_uf IS NOT NULL) AS ufs_validas, COUNT(DISTINCT m.SG_UF) FILTER (WHERE v.sg_uf IS NULL) AS codigos_sg_uf_invalidos FROM municipios m LEFT JOIN valid_uf v ON m.SG_UF = v.sg_uf",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_municipios",
+        "ufs_validas",
+        "codigos_sg_uf_invalidos"
+      ],
+      "actual_columns": [
+        "total_municipios",
+        "total_ufs_validas",
+        "total_codigos_sg_uf_invalidos"
+      ],
+      "expected_preview_values": [
+        [
+          5590,
+          27,
+          12
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5590,
+          27,
+          12
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.0735382080001727
+    },
+    {
+      "id": "DENSE_TABLE_014",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos registros existem na dimensao de nacionalidade?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "nacionalidade"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q002",
+        "SIHRD5_Q005",
+        "SIHRD5_Q015",
+        "SIHRD5_Q004"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_registros FROM nacionalidade",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_nacionalidades FROM nacionalidade",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_nacionalidades"
+      ],
+      "actual_columns": [
+        "total_registros"
+      ],
+      "expected_preview_values": [
+        [
+          333
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          333
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.3073617919999379
+    },
+    {
+      "id": "DENSE_TABLE_015",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos procedimentos existem no catalogo de procedimentos?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 2,
+      "business_metrics": [
+        "procedimentos_ocorrencias"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q006",
+        "SIHRD5_Q093",
+        "SIHRD5_Q002",
+        "SIHRD5_Q004"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_procedimentos_cadastrados\nFROM procedimentos;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_procedimentos FROM procedimentos",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_procedimentos"
+      ],
+      "actual_columns": [
+        "total_procedimentos_cadastrados"
+      ],
+      "expected_preview_values": [
+        [
+          5394
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5394
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.73453574999985
+    },
+    {
+      "id": "DENSE_TABLE_016",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais codigos e descricoes existem para raca cor?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "raca_cor"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q007",
+        "SIHRD5_Q022",
+        "SIHRD5_Q025",
+        "SIHRD5_Q036"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  RACA_COR,\n  DESCRICAO\nFROM raca_cor\nORDER BY RACA_COR",
+      "ground_truth_sql": "SELECT RACA_COR, DESCRICAO FROM raca_cor ORDER BY RACA_COR",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "RACA_COR",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "RACA_COR",
+        "DESCRICAO"
+      ],
+      "expected_preview_values": [
+        [
+          "00",
+          "N\u00e3o informado"
+        ],
+        [
+          "01",
+          "Branca"
+        ],
+        [
+          "02",
+          "Preta"
+        ],
+        [
+          "03",
+          "Parda"
+        ],
+        [
+          "04",
+          "Amarela"
+        ],
+        [
+          "05",
+          "Ind\u00edgena"
+        ],
+        [
+          "99",
+          "Sem informa\u00e7\u00e3o"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "00",
+          "N\u00e3o informado"
+        ],
+        [
+          "01",
+          "Branca"
+        ],
+        [
+          "02",
+          "Preta"
+        ],
+        [
+          "03",
+          "Parda"
+        ],
+        [
+          "04",
+          "Amarela"
+        ],
+        [
+          "05",
+          "Ind\u00edgena"
+        ],
+        [
+          "99",
+          "Sem informa\u00e7\u00e3o"
+        ]
+      ],
+      "expected_row_count": 7,
+      "actual_row_count": 7,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.015604833000907
+    },
+    {
+      "id": "DENSE_TABLE_017",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais codigos e descricoes existem para sexo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "sexo"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 4,
+      "query_examples": [
+        "SIHRD5_Q094",
+        "SIHRD5_Q063",
+        "SIHRD5_Q007",
+        "SIHRD5_Q022"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT SEXO AS codigo, DESCRICAO AS descricao\nFROM sexo\nORDER BY SEXO",
+      "ground_truth_sql": "SELECT SEXO, DESCRICAO FROM sexo ORDER BY SEXO",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "SEXO",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          "Ignorado"
+        ],
+        [
+          1,
+          "Masculino"
+        ],
+        [
+          2,
+          "Feminino"
+        ],
+        [
+          3,
+          "Feminino"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          "Ignorado"
+        ],
+        [
+          1,
+          "Masculino"
+        ],
+        [
+          2,
+          "Feminino"
+        ],
+        [
+          3,
+          "Feminino"
+        ]
+      ],
+      "expected_row_count": 4,
+      "actual_row_count": 4,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.7263525409998692
+    },
+    {
+      "id": "DENSE_TABLE_018",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual e o intervalo de anos e total de registros socioeconomicos carregados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "socioeconomico"
+      ],
+      "retrieved_columns_count": 51,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q008",
+        "SIHRD5_Q037",
+        "SIHRD5_Q012",
+        "SIHRD5_Q017"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT MIN(NU_ANO) AS primeiro_ano, MAX(NU_ANO) AS ultimo_ano, COUNT(*) AS registros FROM socioeconomico",
+      "ground_truth_sql": "SELECT MIN(NU_ANO) AS primeiro_ano, MAX(NU_ANO) AS ultimo_ano, COUNT(*) AS registros FROM socioeconomico",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "primeiro_ano",
+        "ultimo_ano",
+        "registros"
+      ],
+      "actual_columns": [
+        "primeiro_ano",
+        "ultimo_ano",
+        "registros"
+      ],
+      "expected_preview_values": [
+        [
+          null,
+          null,
+          0
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          null,
+          null,
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.0414836250001827
+    },
+    {
+      "id": "DENSE_TABLE_019",
+      "difficulty": "L1",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual e o intervalo de datas disponivel na dimensao tempo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "municipios",
+        "tempo"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q015",
+        "SIHRD5_Q096",
+        "SIHRD5_Q097",
+        "SIHRD5_Q008"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT MIN(data) AS primeira_data, MAX(data) AS ultima_data, COUNT(*) AS registros FROM tempo",
+      "ground_truth_sql": "SELECT MIN(data) AS primeira_data, MAX(data) AS ultima_data, COUNT(*) AS dias FROM tempo",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "primeira_data",
+        "ultima_data",
+        "dias"
+      ],
+      "actual_columns": [
+        "primeira_data",
+        "ultima_data",
+        "registros"
+      ],
+      "expected_preview_values": [
+        [
+          "2008-01-01",
+          "2023-12-31",
+          5844
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "2008-01-01",
+          "2023-12-31",
+          5844
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.8514229169995815
+    },
+    {
+      "id": "DENSE_TABLE_020",
+      "difficulty": "L1",
+      "expected_result_type": "ordered",
+      "question_pt": "Quais codigos e descricoes existem para vinculo previdenciario?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "vincprev"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q007",
+        "SIHRD5_Q022",
+        "SIHRD5_Q036",
+        "SIHRD5_Q094"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  VINCPREV AS codigo,\n  DESCRICAO AS descricao\nFROM vincprev\nORDER BY VINCPREV",
+      "ground_truth_sql": "SELECT VINCPREV, DESCRICAO FROM vincprev ORDER BY VINCPREV",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "VINCPREV",
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Aut\u00f4nomo"
+        ],
+        [
+          2,
+          "Desempregado"
+        ],
+        [
+          3,
+          "Aposentado"
+        ],
+        [
+          4,
+          "N\u00e3o segurado"
+        ],
+        [
+          5,
+          "Empregado"
+        ],
+        [
+          6,
+          "Empregador"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          "N\u00e3o informado"
+        ],
+        [
+          1,
+          "Aut\u00f4nomo"
+        ],
+        [
+          2,
+          "Desempregado"
+        ],
+        [
+          3,
+          "Aposentado"
+        ],
+        [
+          4,
+          "N\u00e3o segurado"
+        ],
+        [
+          5,
+          "Empregado"
+        ],
+        [
+          6,
+          "Empregador"
+        ]
+      ],
+      "expected_row_count": 7,
+      "actual_row_count": 7,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.7328979579997394
+    },
+    {
+      "id": "DENSE_JOIN_001",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Como as internacoes se distribuem por sexo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "sexo"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 4,
+      "query_examples": [
+        "SIHRD5_Q024",
+        "SIHRD5_Q043",
+        "SIHRD5_Q061",
+        "SIHRD5_Q023"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN sexo s ON i.SEXO = s.SEXO\nGROUP BY 1\nORDER BY internacoes DESC",
+      "ground_truth_sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS internacoes FROM internacoes i JOIN sexo s ON i.SEXO = s.SEXO GROUP BY 1 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sexo",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "sexo",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Feminino",
+          85419029
+        ],
+        [
+          "Masculino",
+          58967743
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Feminino",
+          85419029
+        ],
+        [
+          "Masculino",
+          58967743
+        ]
+      ],
+      "expected_row_count": 2,
+      "actual_row_count": 2,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.3926548750005168
+    },
+    {
+      "id": "DENSE_JOIN_002",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Como as internacoes se distribuem por carater de internacao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "_staging_internacoes",
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 95,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q023",
+        "SIHRD5_Q024",
+        "SIHRD5_Q025",
+        "SIHRD5_Q027"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT car_int.DESCRICAO AS carater_internacao, COUNT(*) AS internacoes\nFROM internacoes\nLEFT JOIN car_int\n  ON internacoes.CAR_INT = car_int.CAR_INT\nGROUP BY 1\nORDER BY internacoes DESC",
+      "ground_truth_sql": "SELECT c.DESCRICAO AS carater, COUNT(*) AS internacoes FROM internacoes i JOIN car_int c ON i.CAR_INT = c.CAR_INT GROUP BY 1 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "carater",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "carater_internacao",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Urg\u00eancia",
+          116553247
+        ],
+        [
+          "Eletivo",
+          26815763
+        ],
+        [
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          597681
+        ],
+        [
+          "Outros tipo de acidente de tr\u00e2nsito",
+          419699
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          331
+        ],
+        [
+          "Acidente no trajeto para o trabalho",
+          51
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Urg\u00eancia",
+          116553247
+        ],
+        [
+          "Eletivo",
+          26815763
+        ],
+        [
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          597681
+        ],
+        [
+          "Outros tipo de acidente de tr\u00e2nsito",
+          419699
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          331
+        ],
+        [
+          "Acidente no trajeto para o trabalho",
+          51
+        ]
+      ],
+      "expected_row_count": 6,
+      "actual_row_count": 6,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.856975582999439
+    },
+    {
+      "id": "DENSE_JOIN_003",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual e o total de internacoes e valor total por codigo de complexidade validado na dimensao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "valor_total_aprovado"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q031",
+        "SIHRD5_Q080",
+        "SIHRD5_Q017",
+        "SIHRD5_Q041"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT i.COMPLEX AS codigo_complexidade, COUNT(*) AS internacoes, ROUND(SUM(CAST(i.VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total\nFROM internacoes i\nINNER JOIN complexidade c\n  ON i.COMPLEX = c.COMPLEX\nGROUP BY 1\nORDER BY internacoes DESC, valor_total DESC",
+      "ground_truth_sql": "SELECT i.COMPLEX, COUNT(*) AS internacoes, ROUND(SUM(CAST(i.VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total FROM internacoes i JOIN complexidade c ON i.COMPLEX = c.COMPLEX GROUP BY 1 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "COMPLEX",
+        "internacoes",
+        "valor_total"
+      ],
+      "actual_columns": [
+        "codigo_complexidade",
+        "internacoes",
+        "valor_total"
+      ],
+      "expected_preview_values": [
+        [
+          "02",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "03",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "00",
+          9,
+          2870.48
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "02",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "03",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "00",
+          9,
+          2870.48
+        ]
+      ],
+      "expected_row_count": 3,
+      "actual_row_count": 3,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.603253457999017
+    },
+    {
+      "id": "DENSE_JOIN_004",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Quais descricoes de complexidade tem mais internacoes e qual o valor total?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "valor_total_aprovado"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q031",
+        "SIHRD5_Q080",
+        "SIHRD5_Q012",
+        "SIHRD5_Q017"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  c.DESCRICAO AS complexidade,\n  COUNT(*) AS internacoes,\n  ROUND(SUM(CAST(i.VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total\nFROM internacoes i\nJOIN complexidade c\n  ON i.COMPLEX = c.COMPLEX\nGROUP BY 1\nORDER BY internacoes DESC, valor_total DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT c.DESCRICAO AS complexidade, COUNT(*) AS internacoes, ROUND(SUM(CAST(i.VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total FROM internacoes i JOIN complexidade c ON i.COMPLEX = c.COMPLEX GROUP BY 1 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "complexidade",
+        "internacoes",
+        "valor_total"
+      ],
+      "actual_columns": [
+        "complexidade",
+        "internacoes",
+        "valor_total"
+      ],
+      "expected_preview_values": [
+        [
+          "M\u00e9dia complexidade",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "Alta complexidade",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "N\u00e3o informado",
+          9,
+          2870.48
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "M\u00e9dia complexidade",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "Alta complexidade",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "N\u00e3o informado",
+          9,
+          2870.48
+        ]
+      ],
+      "expected_row_count": 3,
+      "actual_row_count": 3,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 4.873919499999829
+    },
+    {
+      "id": "DENSE_JOIN_005",
+      "difficulty": "L2",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais especialidades tiveram mais internacoes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q046",
+        "SIHRD5_Q053",
+        "SIHRD5_Q054",
+        "SIHRD5_Q059"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT e.DESCRICAO AS especialidade, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN especialidade e ON i.ESPEC = e.ESPEC\nGROUP BY 1\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT e.DESCRICAO AS especialidade, COUNT(*) AS internacoes FROM internacoes i JOIN especialidade e ON i.ESPEC = e.ESPEC GROUP BY 1 ORDER BY internacoes DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "especialidade",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "especialidade",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Cl\u00ednico",
+          52713972
+        ],
+        [
+          "Cir\u00fargico",
+          44552780
+        ],
+        [
+          "Obst\u00e9trico",
+          27397950
+        ],
+        [
+          "Pedi\u00e1trico",
+          16187236
+        ],
+        [
+          "Psiquiatria",
+          2079148
+        ],
+        [
+          "Leito Dia / Cir\u00fargico",
+          340779
+        ],
+        [
+          "Cr\u00f4nicos",
+          280162
+        ],
+        [
+          "Reabilita\u00e7\u00e3o",
+          240826
+        ],
+        [
+          "Sa\u00fade Mental - Longa Perman\u00eancia",
+          207535
+        ],
+        [
+          "Leito Dia / Sa\u00fade Mental",
+          173169
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Cl\u00ednico",
+          52713972
+        ],
+        [
+          "Cir\u00fargico",
+          44552780
+        ],
+        [
+          "Obst\u00e9trico",
+          27397950
+        ],
+        [
+          "Pedi\u00e1trico",
+          16187236
+        ],
+        [
+          "Psiquiatria",
+          2079148
+        ],
+        [
+          "Leito Dia / Cir\u00fargico",
+          340779
+        ],
+        [
+          "Cr\u00f4nicos",
+          280162
+        ],
+        [
+          "Reabilita\u00e7\u00e3o",
+          240826
+        ],
+        [
+          "Sa\u00fade Mental - Longa Perman\u00eancia",
+          207535
+        ],
+        [
+          "Leito Dia / Sa\u00fade Mental",
+          173169
+        ]
+      ],
+      "expected_row_count": 16,
+      "actual_row_count": 16,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.295046249999359
+    },
+    {
+      "id": "DENSE_JOIN_006",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Como as internacoes se distribuem por marca de UTI?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q023",
+        "SIHRD5_Q024",
+        "SIHRD5_Q025",
+        "SIHRD5_Q027"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  marca_uti.DESCRICAO AS marca_uti,\n  COUNT(*) AS internacoes\nFROM internacoes\nLEFT JOIN marca_uti\n  ON internacoes.MARCA_UTI = marca_uti.MARCA_UTI\nGROUP BY 1\nORDER BY internacoes DESC",
+      "ground_truth_sql": "SELECT m.DESCRICAO AS marca_uti, COUNT(*) AS internacoes FROM internacoes i JOIN marca_uti m ON i.MARCA_UTI = m.MARCA_UTI GROUP BY 1 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "marca_uti",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "marca_uti",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "N\u00e3o utilizou UTI",
+          135279575
+        ],
+        [
+          "UTI adulto - tipo II",
+          5752388
+        ],
+        [
+          "UTI neonatal - tipo II",
+          965018
+        ],
+        [
+          "UTI adulto - tipo III",
+          779707
+        ],
+        [
+          "UTI infantil - tipo II",
+          504908
+        ],
+        [
+          "UTI adulto - tipo II COVID 19",
+          364948
+        ],
+        [
+          "UTI adulto - tipo I",
+          215865
+        ],
+        [
+          "UTI coronariana tipo II - UCO tipo II",
+          137189
+        ],
+        [
+          "UTI infantil - tipo III",
+          127859
+        ],
+        [
+          "UTI neonatal - tipo III",
+          124856
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "N\u00e3o utilizou UTI",
+          135279575
+        ],
+        [
+          "UTI adulto - tipo II",
+          5752388
+        ],
+        [
+          "UTI neonatal - tipo II",
+          965018
+        ],
+        [
+          "UTI adulto - tipo III",
+          779707
+        ],
+        [
+          "UTI infantil - tipo II",
+          504908
+        ],
+        [
+          "UTI adulto - tipo II COVID 19",
+          364948
+        ],
+        [
+          "UTI adulto - tipo I",
+          215865
+        ],
+        [
+          "UTI coronariana tipo II - UCO tipo II",
+          137189
+        ],
+        [
+          "UTI infantil - tipo III",
+          127859
+        ],
+        [
+          "UTI neonatal - tipo III",
+          124856
+        ]
+      ],
+      "expected_row_count": 17,
+      "actual_row_count": 17,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.3525895410002704
+    },
+    {
+      "id": "DENSE_JOIN_007",
+      "difficulty": "L2",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais nacionalidades tiveram mais internacoes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "nacionalidade"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q053",
+        "SIHRD5_Q054",
+        "SIHRD5_Q059",
+        "SIHRD5_Q021"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT n.DESCRICAO, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN nacionalidade n ON i.NACIONAL = n.NACIONAL\nGROUP BY 1\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT n.DESCRICAO AS nacionalidade, COUNT(*) AS internacoes FROM internacoes i JOIN nacionalidade n ON i.NACIONAL = n.NACIONAL GROUP BY 1 ORDER BY internacoes DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "nacionalidade",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "DESCRICAO",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Brasil",
+          144040090
+        ],
+        [
+          "Republica dominicana",
+          77902
+        ],
+        [
+          "Venezuela",
+          54914
+        ],
+        [
+          "Reservado",
+          26583
+        ],
+        [
+          "Paraguai",
+          21025
+        ],
+        [
+          "Chile",
+          19106
+        ],
+        [
+          "Bolivia",
+          15891
+        ],
+        [
+          "Portugal",
+          14104
+        ],
+        [
+          "Republica do haiti",
+          12539
+        ],
+        [
+          "Argentina",
+          10908
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Brasil",
+          144040090
+        ],
+        [
+          "Republica dominicana",
+          77902
+        ],
+        [
+          "Venezuela",
+          54914
+        ],
+        [
+          "Reservado",
+          26583
+        ],
+        [
+          "Paraguai",
+          21025
+        ],
+        [
+          "Chile",
+          19106
+        ],
+        [
+          "Bolivia",
+          15891
+        ],
+        [
+          "Portugal",
+          14104
+        ],
+        [
+          "Republica do haiti",
+          12539
+        ],
+        [
+          "Argentina",
+          10908
+        ]
+      ],
+      "expected_row_count": 20,
+      "actual_row_count": 20,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.5454515410001477
+    },
+    {
+      "id": "DENSE_JOIN_008",
+      "difficulty": "L2",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais diagnosticos principais foram mais frequentes com descricao CID?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "contraceptivos",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q050",
+        "SIHRD5_Q063",
+        "SIHRD5_Q049",
+        "SIHRD5_Q022"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT c.CID, c.DESCRICAO, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN cid c ON i.DIAG_PRINC = c.CID\nWHERE i.DIAG_PRINC IS NOT NULL\nGROUP BY 1, 2\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT c.CID, c.DESCRICAO, COUNT(*) AS internacoes FROM internacoes i JOIN cid c ON i.DIAG_PRINC = c.CID GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "CID",
+        "DESCRICAO",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "CID",
+        "DESCRICAO",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "O800",
+          "Parto espontaneo cefalico",
+          10289544
+        ],
+        [
+          "J189",
+          "Pneumonia NE",
+          3293713
+        ],
+        [
+          "O809",
+          "Parto unico espontaneo NE",
+          2459872
+        ],
+        [
+          "A09",
+          "Diarreia e gastroenterite orig infecc presum",
+          2109464
+        ],
+        [
+          "N390",
+          "Infecc do trato urinario de localiz NE",
+          1886373
+        ],
+        [
+          "I64",
+          "Acid vasc cerebr NE como hemorrag isquemico",
+          1806376
+        ],
+        [
+          "I500",
+          "Insuf cardiaca congestiva",
+          1459476
+        ],
+        [
+          "B342",
+          "Infecc p/coronavirus NE",
+          1435980
+        ],
+        [
+          "O821",
+          "Parto p/cesariana de emergencia",
+          1426340
+        ],
+        [
+          "J459",
+          "Asma NE",
+          1402128
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "O800",
+          "Parto espontaneo cefalico",
+          10289544
+        ],
+        [
+          "J189",
+          "Pneumonia NE",
+          3293713
+        ],
+        [
+          "O809",
+          "Parto unico espontaneo NE",
+          2459872
+        ],
+        [
+          "A09",
+          "Diarreia e gastroenterite orig infecc presum",
+          2109464
+        ],
+        [
+          "N390",
+          "Infecc do trato urinario de localiz NE",
+          1886373
+        ],
+        [
+          "I64",
+          "Acid vasc cerebr NE como hemorrag isquemico",
+          1806376
+        ],
+        [
+          "I500",
+          "Insuf cardiaca congestiva",
+          1459476
+        ],
+        [
+          "B342",
+          "Infecc p/coronavirus NE",
+          1435980
+        ],
+        [
+          "O821",
+          "Parto p/cesariana de emergencia",
+          1426340
+        ],
+        [
+          "J459",
+          "Asma NE",
+          1402128
+        ]
+      ],
+      "expected_row_count": 20,
+      "actual_row_count": 20,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.059299165999619
+    },
+    {
+      "id": "DENSE_JOIN_009",
+      "difficulty": "L3",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual e o total de internacoes por UF de residencia mapeada?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes",
+        "geografia_residencia"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q041",
+        "SIHRD5_Q076",
+        "SIHRD5_Q017",
+        "SIHRD5_Q031"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  m.SG_UF,\n  COUNT(*) AS internacoes\nFROM internacoes i\nJOIN municipios m\n  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nGROUP BY 1\nORDER BY internacoes DESC",
+      "ground_truth_sql": "SELECT m.SG_UF, COUNT(*) AS internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D GROUP BY 1 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "SG_UF",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "SG_UF",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "MG",
+          19276203
+        ],
+        [
+          "BA",
+          13272355
+        ],
+        [
+          "PR",
+          12680323
+        ],
+        [
+          "RS",
+          11831809
+        ],
+        [
+          "RJ",
+          10926128
+        ],
+        [
+          "PE",
+          8529411
+        ],
+        [
+          "PA",
+          7934646
+        ],
+        [
+          "CE",
+          7807633
+        ],
+        [
+          "SC",
+          7215418
+        ],
+        [
+          "MA",
+          6790650
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "MG",
+          19276203
+        ],
+        [
+          "BA",
+          13272355
+        ],
+        [
+          "PR",
+          12680323
+        ],
+        [
+          "RS",
+          11831809
+        ],
+        [
+          "RJ",
+          10926128
+        ],
+        [
+          "PE",
+          8529411
+        ],
+        [
+          "PA",
+          7934646
+        ],
+        [
+          "CE",
+          7807633
+        ],
+        [
+          "SC",
+          7215418
+        ],
+        [
+          "MA",
+          6790650
+        ]
+      ],
+      "expected_row_count": 27,
+      "actual_row_count": 27,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.674788582999099
+    },
+    {
+      "id": "DENSE_JOIN_010",
+      "difficulty": "L3",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais regioes de saude tiveram mais internacoes por residencia mapeada?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes",
+        "geografia_residencia"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q054",
+        "SIHRD5_Q053",
+        "SIHRD5_Q065",
+        "SIHRD5_Q050"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  m.SG_UF,\n  m.NO_REGIAO_SAUDE,\n  COUNT(*) AS internacoes\nFROM internacoes i\nJOIN municipios m\n  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nGROUP BY 1, 2\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT m.SG_UF, m.NO_REGIAO_SAUDE, COUNT(*) AS internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "SG_UF",
+        "NO_REGIAO_SAUDE",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "SG_UF",
+        "NO_REGIAO_SAUDE",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "RJ",
+          "Metropolitana I",
+          5720553
+        ],
+        [
+          "PE",
+          "I Regi\u00e3o de Sa\u00fade",
+          4032205
+        ],
+        [
+          "CE",
+          "1\u00aa RS Fortaleza",
+          3819597
+        ],
+        [
+          "PR",
+          "2\u00aa RS Metropolitana",
+          3729849
+        ],
+        [
+          "MG",
+          "Belo Horizonte/Nova Lima/Santa Luzia",
+          2925470
+        ],
+        [
+          "BA",
+          "Salvador",
+          2593695
+        ],
+        [
+          "DF",
+          "Distrito Federal",
+          2529580
+        ],
+        [
+          "RS",
+          "Regi\u00e3o 10 - Capital e Vale do Gravata\u00ed",
+          2406638
+        ],
+        [
+          "ES",
+          "Metropolitana",
+          1938392
+        ],
+        [
+          "PA",
+          "Metropolitana I",
+          1889348
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "RJ",
+          "Metropolitana I",
+          5720553
+        ],
+        [
+          "PE",
+          "I Regi\u00e3o de Sa\u00fade",
+          4032205
+        ],
+        [
+          "CE",
+          "1\u00aa RS Fortaleza",
+          3819597
+        ],
+        [
+          "PR",
+          "2\u00aa RS Metropolitana",
+          3729849
+        ],
+        [
+          "MG",
+          "Belo Horizonte/Nova Lima/Santa Luzia",
+          2925470
+        ],
+        [
+          "BA",
+          "Salvador",
+          2593695
+        ],
+        [
+          "DF",
+          "Distrito Federal",
+          2529580
+        ],
+        [
+          "RS",
+          "Regi\u00e3o 10 - Capital e Vale do Gravata\u00ed",
+          2406638
+        ],
+        [
+          "ES",
+          "Metropolitana",
+          1938392
+        ],
+        [
+          "PA",
+          "Metropolitana I",
+          1889348
+        ]
+      ],
+      "expected_row_count": 20,
+      "actual_row_count": 20,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.6395303329991293
+    },
+    {
+      "id": "DENSE_JOIN_011",
+      "difficulty": "L2",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais procedimentos principais das internacoes aparecem mais no catalogo de procedimentos?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "procedimentos_ocorrencias"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q048",
+        "SIHRD5_Q050",
+        "SIHRD5_Q036",
+        "SIHRD5_Q058"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  p.PROC_REA,\n  p.NOME_PROC,\n  COUNT(*) AS internacoes\nFROM internacoes i\nJOIN procedimentos p\n  ON i.PROC_REA = p.PROC_REA\nGROUP BY 1, 2\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT p.PROC_REA, p.NOME_PROC, COUNT(*) AS internacoes FROM internacoes i JOIN procedimentos p ON i.PROC_REA = p.PROC_REA GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ],
+        [
+          "0303010037",
+          "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+          3011901
+        ],
+        [
+          "0303060212",
+          "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+          2935061
+        ],
+        [
+          "0415010012",
+          "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+          2541270
+        ],
+        [
+          "0303040149",
+          "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+          2385656
+        ],
+        [
+          "0303100044",
+          "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ",
+          2366262
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ],
+        [
+          "0303010037",
+          "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+          3011901
+        ],
+        [
+          "0303060212",
+          "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+          2935061
+        ],
+        [
+          "0415010012",
+          "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+          2541270
+        ],
+        [
+          "0303040149",
+          "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+          2385656
+        ],
+        [
+          "0303100044",
+          "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ",
+          2366262
+        ]
+      ],
+      "expected_row_count": 20,
+      "actual_row_count": 20,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.687753166999755
+    },
+    {
+      "id": "DENSE_JOIN_012",
+      "difficulty": "L2",
+      "expected_result_type": "time_series",
+      "question_pt": "Quantas internacoes ocorreram por ano usando a dimensao tempo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "raca_cor",
+        "tempo"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q016",
+        "SIHRD5_Q035",
+        "SIHRD5_Q096",
+        "SIHRD5_Q097"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n  SELECT\n    t.ano,\n    COUNT(*) AS internacoes\n  FROM internacoes i\n  INNER JOIN tempo t\n    ON i.DT_INTER = t.data\n  GROUP BY 1\n)\nSELECT\n  ano,\n  internacoes\nFROM base\nORDER BY ano",
+      "ground_truth_sql": "SELECT t.ano, COUNT(*) AS internacoes FROM internacoes i JOIN tempo t ON i.DT_INTER = t.data GROUP BY 1 ORDER BY 1",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          2008,
+          8547884
+        ],
+        [
+          2009,
+          8713626
+        ],
+        [
+          2010,
+          8904688
+        ],
+        [
+          2011,
+          8808487
+        ],
+        [
+          2012,
+          8654270
+        ],
+        [
+          2013,
+          8743623
+        ],
+        [
+          2014,
+          8876083
+        ],
+        [
+          2015,
+          8871381
+        ],
+        [
+          2016,
+          8798229
+        ],
+        [
+          2017,
+          9021471
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2008,
+          8547884
+        ],
+        [
+          2009,
+          8713626
+        ],
+        [
+          2010,
+          8904688
+        ],
+        [
+          2011,
+          8808487
+        ],
+        [
+          2012,
+          8654270
+        ],
+        [
+          2013,
+          8743623
+        ],
+        [
+          2014,
+          8876083
+        ],
+        [
+          2015,
+          8871381
+        ],
+        [
+          2016,
+          8798229
+        ],
+        [
+          2017,
+          9021471
+        ]
+      ],
+      "expected_row_count": 16,
+      "actual_row_count": 16,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.1697928749999846
+    },
+    {
+      "id": "DENSE_JOIN_013",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Como as internacoes com contraceptivo 1 informado se distribuem por tipo de contraceptivo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "contraceptivos",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q044",
+        "SIHRD5_Q061",
+        "SIHRD5_Q023",
+        "SIHRD5_Q024"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT c.DESCRICAO AS tipo_contraceptivo, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN contraceptivos c\n  ON i.CONTRACEP1 = c.CONTRACEPTIVO\nGROUP BY 1\nORDER BY internacoes DESC",
+      "ground_truth_sql": "SELECT c.DESCRICAO AS contraceptivo, COUNT(*) AS internacoes FROM internacoes i JOIN contraceptivos c ON i.CONTRACEP1 = c.CONTRACEPTIVO GROUP BY 1 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "contraceptivo",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "tipo_contraceptivo",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "N\u00e3o informado",
+          143180993
+        ],
+        [
+          "Preservativo",
+          625901
+        ],
+        [
+          "Horm\u00f4nio oral",
+          397650
+        ],
+        [
+          "LAM",
+          53150
+        ],
+        [
+          "Coito interrompido",
+          36369
+        ],
+        [
+          "DIU",
+          33605
+        ],
+        [
+          "Horm\u00f4nio injet\u00e1vel",
+          33405
+        ],
+        [
+          "Diafragma",
+          8903
+        ],
+        [
+          "Espermicida",
+          6058
+        ],
+        [
+          "Ogino Knaus",
+          5632
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "N\u00e3o informado",
+          143180993
+        ],
+        [
+          "Preservativo",
+          625901
+        ],
+        [
+          "Horm\u00f4nio oral",
+          397650
+        ],
+        [
+          "LAM",
+          53150
+        ],
+        [
+          "Coito interrompido",
+          36369
+        ],
+        [
+          "DIU",
+          33605
+        ],
+        [
+          "Horm\u00f4nio injet\u00e1vel",
+          33405
+        ],
+        [
+          "Diafragma",
+          8903
+        ],
+        [
+          "Espermicida",
+          6058
+        ],
+        [
+          "Ogino Knaus",
+          5632
+        ]
+      ],
+      "expected_row_count": 13,
+      "actual_row_count": 13,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.4462041669994505
+    },
+    {
+      "id": "DENSE_JOIN_014",
+      "difficulty": "L3",
+      "expected_result_type": "data_quality_finding",
+      "question_pt": "Auditoria: quantas internacoes tem codigo de raca cor sem correspondencia na dimensao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "raca_cor"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q044",
+        "SIHRD5_Q025",
+        "SIHRD5_Q091",
+        "SIHRD5_Q096"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) FILTER (WHERE r.RACA_COR IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN raca_cor r ON i.RACA_COR = r.RACA_COR WHERE i.RACA_COR IS NOT NULL",
+      "ground_truth_sql": "SELECT COUNT(*) FILTER (WHERE r.RACA_COR IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN raca_cor r ON i.RACA_COR = r.RACA_COR",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.149145583000063
+    },
+    {
+      "id": "DENSE_JOIN_015",
+      "difficulty": "L3",
+      "expected_result_type": "data_quality_finding",
+      "question_pt": "Auditoria: quantas internacoes tem instrucao sem correspondencia na dimensao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "instrucao",
+        "internacoes",
+        "raca_cor"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q091",
+        "SIHRD5_Q096",
+        "SIHRD5_Q097",
+        "SIHRD5_Q044"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) FILTER (WHERE d.INSTRU IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN instrucao d\n  ON i.INSTRU = d.INSTRU\nWHERE i.INSTRU IS NOT NULL;",
+      "ground_truth_sql": "SELECT COUNT(*) FILTER (WHERE ins.INSTRU IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN instrucao ins ON i.INSTRU = ins.INSTRU",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          6,
+          144386772
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          6,
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.5318969170002674
+    },
+    {
+      "id": "DENSE_JOIN_016",
+      "difficulty": "L3",
+      "expected_result_type": "data_quality_finding",
+      "question_pt": "Auditoria: quantas internacoes tem vinculo previdenciario sem correspondencia na dimensao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "raca_cor",
+        "vincprev"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q091",
+        "SIHRD5_Q096",
+        "SIHRD5_Q097",
+        "SIHRD5_Q044"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) FILTER (WHERE v.VINCPREV IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN vincprev v ON i.VINCPREV = v.VINCPREV WHERE i.VINCPREV IS NOT NULL",
+      "ground_truth_sql": "SELECT COUNT(*) FILTER (WHERE v.VINCPREV IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN vincprev v ON i.VINCPREV = v.VINCPREV",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.6751153329987574
+    },
+    {
+      "id": "DENSE_JOIN_017",
+      "difficulty": "L3",
+      "expected_result_type": "data_quality_finding",
+      "question_pt": "Auditoria: quantas internacoes tem CBOR sem correspondencia na dimensao ocupacional?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes",
+        "raca_cor"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q091",
+        "SIHRD5_Q096",
+        "SIHRD5_Q097",
+        "SIHRD5_Q044"
+      ],
+      "plan_source": "pydantic_ai_refiner",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "validation",
+          "input_errors": [
+            "Audit dimension coverage queries must keep the full denominator. Use COUNT(*) FILTER (WHERE dimension.key IS NULL) AS sem_correspondencia instead of moving the NULL check to WHERE."
+          ],
+          "sql": "SELECT\n  COUNT(*) FILTER (WHERE c.CBOR IS NULL) AS sem_correspondencia,\n  COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN cbor c\n  ON i.CBOR = c.CBOR;",
+          "source": "pydantic_ai_refiner",
+          "validation_errors": [],
+          "validation_warnings": [],
+          "success": true
+        }
+      ],
+      "correction_success": true,
+      "generated_sql": "SELECT\n  COUNT(*) FILTER (WHERE c.CBOR IS NULL) AS sem_correspondencia,\n  COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN cbor c\n  ON i.CBOR = c.CBOR;",
+      "ground_truth_sql": "SELECT COUNT(*) FILTER (WHERE c.CBOR IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN cbor c ON i.CBOR = c.CBOR",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 6.008501624999553
+    },
+    {
+      "id": "DENSE_JOIN_018",
+      "difficulty": "L3",
+      "expected_result_type": "data_quality_finding",
+      "question_pt": "Auditoria: quantas internacoes tem etnia sem correspondencia na dimensao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "etnia",
+        "internacoes",
+        "raca_cor"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q091",
+        "SIHRD5_Q096",
+        "SIHRD5_Q097",
+        "SIHRD5_Q044"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  COUNT(*) FILTER (WHERE e.ETNIA IS NULL AND i.ETNIA IS NOT NULL) AS sem_correspondencia,\n  COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN etnia e\n  ON i.ETNIA = e.ETNIA",
+      "ground_truth_sql": "SELECT COUNT(*) FILTER (WHERE e.ETNIA IS NULL) AS sem_correspondencia, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN etnia e ON i.ETNIA = e.ETNIA",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.740899750000608
+    },
+    {
+      "id": "DENSE_JOIN_019",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Como a tabela de staging se distribui por carater de internacao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "_staging_internacoes",
+        "car_int",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 82,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q023",
+        "SIHRD5_Q045",
+        "SIHRD5_Q082",
+        "SIHRD5_Q020"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT c.DESCRICAO AS carater, COUNT(*) AS registros_staging\nFROM _staging_internacoes s\nLEFT JOIN car_int c\n  ON s.CAR_INT = c.CAR_INT\nGROUP BY 1\nORDER BY registros_staging DESC",
+      "ground_truth_sql": "SELECT c.DESCRICAO AS carater, COUNT(*) AS registros_staging FROM _staging_internacoes s JOIN car_int c ON s.CAR_INT = c.CAR_INT GROUP BY 1 ORDER BY registros_staging DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "carater",
+        "registros_staging"
+      ],
+      "actual_columns": [
+        "carater",
+        "registros_staging"
+      ],
+      "expected_preview_values": [
+        [
+          "Urg\u00eancia",
+          28290701
+        ],
+        [
+          "Eletivo",
+          10606177
+        ],
+        [
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          519112
+        ],
+        [
+          "Outros tipo de acidente de tr\u00e2nsito",
+          205161
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          729
+        ],
+        [
+          "Acidente no trajeto para o trabalho",
+          168
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Urg\u00eancia",
+          28290701
+        ],
+        [
+          "Eletivo",
+          10606177
+        ],
+        [
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          519112
+        ],
+        [
+          "Outros tipo de acidente de tr\u00e2nsito",
+          205161
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          729
+        ],
+        [
+          "Acidente no trajeto para o trabalho",
+          168
+        ]
+      ],
+      "expected_row_count": 6,
+      "actual_row_count": 6,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.6337670419998176
+    },
+    {
+      "id": "DENSE_JOIN_020",
+      "difficulty": "L2",
+      "expected_result_type": "distribution",
+      "question_pt": "Quantos hospitais existem por UF do municipio do hospital?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 53,
+      "business_metrics": [
+        "geografia_residencia",
+        "geografia_hospital"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q040",
+        "SIHRD5_Q004",
+        "SIHRD5_Q090",
+        "SIHRD5_Q039"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  m.SG_UF,\n  COUNT(*) AS hospitais\nFROM hospital h\nJOIN municipios m\n  ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D\nGROUP BY 1\nORDER BY hospitais DESC, m.SG_UF",
+      "ground_truth_sql": "SELECT m.SG_UF, COUNT(*) AS hospitais FROM hospital h JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D GROUP BY 1 ORDER BY hospitais DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "SG_UF",
+        "hospitais"
+      ],
+      "actual_columns": [
+        "SG_UF",
+        "hospitais"
+      ],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.754255916999682
+    },
+    {
+      "id": "DENSE_JOIN_021",
+      "difficulty": "L3",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual populacao socioeconomica existe por UF e ano quando ha denominador socioeconomico?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "municipios",
+        "socioeconomico",
+        "tempo"
+      ],
+      "retrieved_columns_count": 63,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q064",
+        "SIHRD5_Q037",
+        "SIHRD5_Q075",
+        "SIHRD5_Q076"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT m.SG_UF, se.NU_ANO AS ano, SUM(se.QT_POPULACAO) AS populacao\nFROM socioeconomico se\nJOIN municipios m ON se.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D\nGROUP BY 1, 2\nORDER BY 1, 2",
+      "ground_truth_sql": "SELECT m.SG_UF, se.NU_ANO AS ano, SUM(se.QT_POPULACAO) AS populacao FROM socioeconomico se JOIN municipios m ON se.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D GROUP BY 1, 2 ORDER BY 1, 2",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "SG_UF",
+        "ano",
+        "populacao"
+      ],
+      "actual_columns": [
+        "SG_UF",
+        "ano",
+        "populacao"
+      ],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.361740334001297
+    },
+    {
+      "id": "DENSE_JOIN_022",
+      "difficulty": "L3",
+      "expected_result_type": "time_series",
+      "question_pt": "Quantas mortes hospitalares com diagnostico principal CID C ocorreram por ano?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid",
+        "hospital",
+        "internacoes",
+        "raca_cor",
+        "tempo"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 5,
+      "query_examples": [
+        "SIHRD5_Q018",
+        "SIHRD5_Q035",
+        "SIHRD5_Q016",
+        "SIHRD5_Q032"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT year(DT_INTER) AS ano, COUNT(*) AS mortes\nFROM internacoes\nWHERE MORTE = TRUE\n  AND DIAG_PRINC LIKE 'C%'\nGROUP BY 1\nORDER BY 1",
+      "ground_truth_sql": "SELECT year(i.DT_INTER) AS ano, COUNT(*) AS mortes_cid_c FROM internacoes i JOIN cid c ON i.DIAG_PRINC = c.CID WHERE i.MORTE AND c.CID LIKE 'C%' GROUP BY 1 ORDER BY 1",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "mortes_cid_c"
+      ],
+      "actual_columns": [
+        "ano",
+        "mortes"
+      ],
+      "expected_preview_values": [
+        [
+          2007,
+          2096
+        ],
+        [
+          2008,
+          27514
+        ],
+        [
+          2009,
+          30455
+        ],
+        [
+          2010,
+          32175
+        ],
+        [
+          2011,
+          33936
+        ],
+        [
+          2012,
+          36079
+        ],
+        [
+          2013,
+          38105
+        ],
+        [
+          2014,
+          39962
+        ],
+        [
+          2015,
+          42546
+        ],
+        [
+          2016,
+          44008
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2007,
+          2096
+        ],
+        [
+          2008,
+          27514
+        ],
+        [
+          2009,
+          30455
+        ],
+        [
+          2010,
+          32175
+        ],
+        [
+          2011,
+          33936
+        ],
+        [
+          2012,
+          36079
+        ],
+        [
+          2013,
+          38105
+        ],
+        [
+          2014,
+          39962
+        ],
+        [
+          2015,
+          42546
+        ],
+        [
+          2016,
+          44008
+        ]
+      ],
+      "expected_row_count": 17,
+      "actual_row_count": 17,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.620608749999519
+    },
+    {
+      "id": "DENSE_JOIN_023",
+      "difficulty": "L3",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual e a taxa de mortalidade hospitalar por sexo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "sexo"
+      ],
+      "retrieved_columns_count": 48,
+      "business_metrics": [
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 4,
+      "query_examples": [
+        "SIHRD5_Q019",
+        "SIHRD5_Q055",
+        "SIHRD5_Q075",
+        "SIHRD5_Q081"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  s.DESCRICAO AS sexo,\n  COUNT(*) AS internacoes,\n  COUNT(*) FILTER (WHERE i.MORTE) AS mortes,\n  ROUND(100.0 * COUNT(*) FILTER (WHERE i.MORTE) / COUNT(*), 4) AS taxa_mortalidade_hospitalar_pct\nFROM internacoes i\nJOIN sexo s\n  ON i.SEXO = s.SEXO\nGROUP BY 1\nORDER BY 4 DESC",
+      "ground_truth_sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS internacoes, COUNT(*) FILTER (WHERE i.MORTE) AS mortes, ROUND(100.0 * COUNT(*) FILTER (WHERE i.MORTE) / COUNT(*), 4) AS taxa_morte_pct FROM internacoes i JOIN sexo s ON i.SEXO = s.SEXO GROUP BY 1 ORDER BY taxa_morte_pct DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sexo",
+        "internacoes",
+        "mortes",
+        "taxa_morte_pct"
+      ],
+      "actual_columns": [
+        "sexo",
+        "internacoes",
+        "mortes",
+        "taxa_mortalidade_hospitalar_pct"
+      ],
+      "expected_preview_values": [
+        [
+          "Masculino",
+          58967743,
+          3159390,
+          5.3578
+        ],
+        [
+          "Feminino",
+          85419029,
+          2718146,
+          3.1821
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Masculino",
+          58967743,
+          3159390,
+          5.3578
+        ],
+        [
+          "Feminino",
+          85419029,
+          2718146,
+          3.1821
+        ]
+      ],
+      "expected_row_count": 2,
+      "actual_row_count": 2,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.112540708998495
+    },
+    {
+      "id": "DENSE_JOIN_024",
+      "difficulty": "L4",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais UFs e sexos tiveram mais internacoes por residencia mapeada?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "internacoes",
+        "municipios",
+        "sexo"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes",
+        "geografia_residencia"
+      ],
+      "value_hints_count": 4,
+      "query_examples": [
+        "SIHRD5_Q054",
+        "SIHRD5_Q053",
+        "SIHRD5_Q065",
+        "SIHRD5_Q069"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n    SELECT\n        m.SG_UF,\n        s.DESCRICAO AS sexo,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    JOIN municipios m\n        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\n    JOIN sexo s\n        ON i.SEXO = s.SEXO\n    GROUP BY 1, 2\n)\nSELECT\n    SG_UF,\n    sexo,\n    internacoes\nFROM base\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "SELECT m.SG_UF, s.DESCRICAO AS sexo, COUNT(*) AS internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN sexo s ON i.SEXO = s.SEXO GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "SG_UF",
+        "sexo",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "SG_UF",
+        "sexo",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "MG",
+          "Feminino",
+          10985551
+        ],
+        [
+          "MG",
+          "Masculino",
+          8290652
+        ],
+        [
+          "BA",
+          "Feminino",
+          8117220
+        ],
+        [
+          "PR",
+          "Feminino",
+          7040668
+        ],
+        [
+          "RS",
+          "Feminino",
+          6611829
+        ],
+        [
+          "RJ",
+          "Feminino",
+          6481423
+        ],
+        [
+          "PR",
+          "Masculino",
+          5639655
+        ],
+        [
+          "RS",
+          "Masculino",
+          5219980
+        ],
+        [
+          "BA",
+          "Masculino",
+          5155135
+        ],
+        [
+          "PE",
+          "Feminino",
+          5154459
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "MG",
+          "Feminino",
+          10985551
+        ],
+        [
+          "MG",
+          "Masculino",
+          8290652
+        ],
+        [
+          "BA",
+          "Feminino",
+          8117220
+        ],
+        [
+          "PR",
+          "Feminino",
+          7040668
+        ],
+        [
+          "RS",
+          "Feminino",
+          6611829
+        ],
+        [
+          "RJ",
+          "Feminino",
+          6481423
+        ],
+        [
+          "PR",
+          "Masculino",
+          5639655
+        ],
+        [
+          "RS",
+          "Masculino",
+          5219980
+        ],
+        [
+          "BA",
+          "Masculino",
+          5155135
+        ],
+        [
+          "PE",
+          "Feminino",
+          5154459
+        ]
+      ],
+      "expected_row_count": 20,
+      "actual_row_count": 20,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 4.220136291998642
+    },
+    {
+      "id": "DENSE_JOIN_025",
+      "difficulty": "L4",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual e o mix de complexidade por carater de internacao?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "_staging_internacoes",
+        "car_int",
+        "complexidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 84,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "query_examples": [
+        "SIHRD5_Q082",
+        "SIHRD5_Q020",
+        "SIHRD5_Q023",
+        "SIHRD5_Q031"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n    SELECT\n        co.DESCRICAO AS complexidade,\n        ci.DESCRICAO AS carater,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    JOIN complexidade co\n        ON i.COMPLEX = co.COMPLEX\n    JOIN car_int ci\n        ON i.CAR_INT = ci.CAR_INT\n    GROUP BY 1, 2\n)\nSELECT\n    complexidade,\n    carater,\n    internacoes\nFROM base\nORDER BY internacoes DESC, complexidade, carater",
+      "ground_truth_sql": "SELECT comp.DESCRICAO AS complexidade, car.DESCRICAO AS carater, COUNT(*) AS internacoes FROM internacoes i JOIN complexidade comp ON i.COMPLEX = comp.COMPLEX JOIN car_int car ON i.CAR_INT = car.CAR_INT GROUP BY 1, 2 ORDER BY internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "complexidade",
+        "carater",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "complexidade",
+        "carater",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "M\u00e9dia complexidade",
+          "Urg\u00eancia",
+          112079041
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Eletivo",
+          22316303
+        ],
+        [
+          "Alta complexidade",
+          "Eletivo",
+          4499456
+        ],
+        [
+          "Alta complexidade",
+          "Urg\u00eancia",
+          4474201
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          568255
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Outros tipo de acidente de tr\u00e2nsito",
+          394033
+        ],
+        [
+          "Alta complexidade",
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          29426
+        ],
+        [
+          "Alta complexidade",
+          "Outros tipo de acidente de tr\u00e2nsito",
+          25666
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Acidente no local trabalho ou a serv da empresa",
+          321
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Acidente no trajeto para o trabalho",
+          49
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "M\u00e9dia complexidade",
+          "Urg\u00eancia",
+          112079041
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Eletivo",
+          22316303
+        ],
+        [
+          "Alta complexidade",
+          "Eletivo",
+          4499456
+        ],
+        [
+          "Alta complexidade",
+          "Urg\u00eancia",
+          4474201
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          568255
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Outros tipo de acidente de tr\u00e2nsito",
+          394033
+        ],
+        [
+          "Alta complexidade",
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          29426
+        ],
+        [
+          "Alta complexidade",
+          "Outros tipo de acidente de tr\u00e2nsito",
+          25666
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Acidente no local trabalho ou a serv da empresa",
+          321
+        ],
+        [
+          "M\u00e9dia complexidade",
+          "Acidente no trajeto para o trabalho",
+          49
+        ]
+      ],
+      "expected_row_count": 14,
+      "actual_row_count": 14,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 4.240820625000197
+    }
+  ]
+}

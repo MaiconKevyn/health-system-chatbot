@@ -1,0 +1,20 @@
+{
+  "id": "GT149",
+  "question_pt": "Quantas internacoes tiveram permanencia registrada como zero dias?",
+  "executed_at": "2026-07-09T00:36:49.052573+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_zero_dias FROM internacoes WHERE \"DIAS_PERM\" = 0",
+  "duration_seconds": 0.012572,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_zero_dias"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_zero_dias": 7406084
+    }
+  ],
+  "result_hash": "7f7a9d0f318011feee1c79ff87c4df5e7293d72ff3cca49eff6fb4cad94cd503",
+  "semantic_disposition": "accepted"
+}

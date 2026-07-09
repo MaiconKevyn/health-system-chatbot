@@ -1,0 +1,102 @@
+{
+  "id": "GT208",
+  "question_pt": "Quais diagnosticos apresentam maior diferenca de permanencia media entre criancas e adultos, considerando diagnosticos com pelo menos 1000 internacoes em cada grupo?",
+  "executed_at": "2026-07-09T00:36:57.505635+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT c.\"DESCRICAO\" AS diagnostico, CASE WHEN i.\"IDADE\" < 18 THEN 'criancas' ELSE 'adultos' END AS grupo_idade, COUNT(*) AS total_internacoes, AVG(i.\"DIAS_PERM\") AS media_dias FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"IDADE\" IS NOT NULL AND i.\"DIAS_PERM\" IS NOT NULL GROUP BY c.\"DESCRICAO\", grupo_idade), piv AS (SELECT diagnostico, MAX(CASE WHEN grupo_idade = 'criancas' THEN total_internacoes END) AS n_criancas, MAX(CASE WHEN grupo_idade = 'adultos' THEN total_internacoes END) AS n_adultos, MAX(CASE WHEN grupo_idade = 'criancas' THEN media_dias END) AS media_criancas, MAX(CASE WHEN grupo_idade = 'adultos' THEN media_dias END) AS media_adultos FROM agg GROUP BY diagnostico) SELECT diagnostico, n_criancas, n_adultos, ROUND(media_criancas, 2) AS media_criancas, ROUND(media_adultos, 2) AS media_adultos, ROUND(ABS(media_adultos - media_criancas), 2) AS diferenca_absoluta FROM piv WHERE n_criancas >= 1000 AND n_adultos >= 1000 ORDER BY diferenca_absoluta DESC LIMIT 10",
+  "duration_seconds": 0.535279,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "diagnostico",
+    "n_criancas",
+    "n_adultos",
+    "media_criancas",
+    "media_adultos",
+    "diferenca_absoluta"
+  ],
+  "preview_rows": [
+    {
+      "diagnostico": "Compr signif comport req vigilancia ou trat",
+      "n_criancas": 2540,
+      "n_adultos": 22390,
+      "media_criancas": 13.71,
+      "media_adultos": 43.69,
+      "diferenca_absoluta": 29.97
+    },
+    {
+      "diagnostico": "Mencao ausencia de ou compr minimo comport",
+      "n_criancas": 1494,
+      "n_adultos": 14043,
+      "media_criancas": 11.11,
+      "media_adultos": 38.23,
+      "diferenca_absoluta": 27.12
+    },
+    {
+      "diagnostico": "Outr comprometimentos do comport",
+      "n_criancas": 1270,
+      "n_adultos": 5505,
+      "media_criancas": 3.79,
+      "media_adultos": 21.96,
+      "diferenca_absoluta": 18.17
+    },
+    {
+      "diagnostico": "Outr esquizofrenias",
+      "n_criancas": 1159,
+      "n_adultos": 41985,
+      "media_criancas": 11.4,
+      "media_adultos": 25.83,
+      "diferenca_absoluta": 14.43
+    },
+    {
+      "diagnostico": "Esquizofrenia paranoide",
+      "n_criancas": 4398,
+      "n_adultos": 368903,
+      "media_criancas": 17.23,
+      "media_adultos": 30.2,
+      "diferenca_absoluta": 12.97
+    },
+    {
+      "diagnostico": "Outr transt retinianos em doenc COP",
+      "n_criancas": 1559,
+      "n_adultos": 1088,
+      "media_criancas": 10.35,
+      "media_adultos": 0.21,
+      "diferenca_absoluta": 10.14
+    },
+    {
+      "diagnostico": "Distrofia muscular",
+      "n_criancas": 2682,
+      "n_adultos": 4328,
+      "media_criancas": 18.66,
+      "media_adultos": 8.78,
+      "diferenca_absoluta": 9.88
+    },
+    {
+      "diagnostico": "Psicose nao-organica NE",
+      "n_criancas": 6160,
+      "n_adultos": 235231,
+      "media_criancas": 12.24,
+      "media_adultos": 21.63,
+      "diferenca_absoluta": 9.39
+    },
+    {
+      "diagnostico": "Transt psicotico",
+      "n_criancas": 2123,
+      "n_adultos": 85079,
+      "media_criancas": 14.85,
+      "media_adultos": 24.18,
+      "diferenca_absoluta": 9.34
+    },
+    {
+      "diagnostico": "Tetraplegia espastica",
+      "n_criancas": 1468,
+      "n_adultos": 9902,
+      "media_criancas": 18.96,
+      "media_adultos": 28.2,
+      "diferenca_absoluta": 9.24
+    }
+  ],
+  "result_hash": "143399dfbcfb75c35e319ee72cfd1cfa3c3cf8f27cffd6a86a8e133e291b8cc1",
+  "semantic_disposition": "accepted"
+}

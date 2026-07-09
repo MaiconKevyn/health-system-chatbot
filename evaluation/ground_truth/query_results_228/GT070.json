@@ -1,0 +1,58 @@
+{
+  "id": "GT070",
+  "question_pt": "Quais os 10 motivos mais comuns de interna\u00e7\u00e3o para pacientes ind\u00edgenas?",
+  "executed_at": "2026-07-09T00:36:41.855715+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"RACA_COR\" = 5 GROUP BY c.\"DESCRICAO\" ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.125003,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "DESCRICAO",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "DESCRICAO": "Parto espontaneo cefalico",
+      "total_internacoes": 65069
+    },
+    {
+      "DESCRICAO": "Pneumonia NE",
+      "total_internacoes": 26594
+    },
+    {
+      "DESCRICAO": "Parto unico espontaneo NE",
+      "total_internacoes": 21667
+    },
+    {
+      "DESCRICAO": "Diarreia e gastroenterite orig infecc presum",
+      "total_internacoes": 21479
+    },
+    {
+      "DESCRICAO": "Broncopneumonia NE",
+      "total_internacoes": 10152
+    },
+    {
+      "DESCRICAO": "Pneumonia bacter NE",
+      "total_internacoes": 8759
+    },
+    {
+      "DESCRICAO": "Infecc do trato urinario de localiz NE",
+      "total_internacoes": 8091
+    },
+    {
+      "DESCRICAO": "Outr pneumonias bacter",
+      "total_internacoes": 6438
+    },
+    {
+      "DESCRICAO": "Asma NE",
+      "total_internacoes": 6396
+    },
+    {
+      "DESCRICAO": "Infecc intestinal bacter NE",
+      "total_internacoes": 5973
+    }
+  ],
+  "result_hash": "2494203afda78d651dec9b8ed9b4a19f774fbb2d48001299f5953e98863ebea8",
+  "semantic_disposition": "accepted"
+}

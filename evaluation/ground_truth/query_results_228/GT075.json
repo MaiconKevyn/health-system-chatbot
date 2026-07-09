@@ -1,0 +1,26 @@
+{
+  "id": "GT075",
+  "question_pt": "Quantas mortes foram registradas em cada um dos estados MA e no RS?",
+  "executed_at": "2026-07-09T00:36:42.107740+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT mu.\"SG_UF\", COUNT(*) AS total_mortes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"MORTE\" = true AND mu.\"SG_UF\" IN ('MA', 'RS') GROUP BY mu.\"SG_UF\" ORDER BY total_mortes DESC",
+  "duration_seconds": 0.024034,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "SG_UF",
+    "total_mortes"
+  ],
+  "preview_rows": [
+    {
+      "SG_UF": "RS",
+      "total_mortes": 611909
+    },
+    {
+      "SG_UF": "MA",
+      "total_mortes": 160648
+    }
+  ],
+  "result_hash": "30bf0539ae53f096850b1d01e5e1cfc1fcd85ada73d27aa42ac3a12d388fe3de",
+  "semantic_disposition": "accepted"
+}

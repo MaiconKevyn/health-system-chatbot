@@ -1,0 +1,82 @@
+{
+  "id": "DENSE_JOIN_012",
+  "question_pt": "Quantas internacoes ocorreram por ano usando a dimensao tempo?",
+  "executed_at": "2026-07-08T23:09:07.603265+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT t.ano, COUNT(*) AS internacoes FROM internacoes i JOIN tempo t ON i.DT_INTER = t.data GROUP BY 1 ORDER BY 1",
+  "duration_seconds": 0.059375,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "ano",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2008,
+      "internacoes": 8547884
+    },
+    {
+      "ano": 2009,
+      "internacoes": 8713626
+    },
+    {
+      "ano": 2010,
+      "internacoes": 8904688
+    },
+    {
+      "ano": 2011,
+      "internacoes": 8808487
+    },
+    {
+      "ano": 2012,
+      "internacoes": 8654270
+    },
+    {
+      "ano": 2013,
+      "internacoes": 8743623
+    },
+    {
+      "ano": 2014,
+      "internacoes": 8876083
+    },
+    {
+      "ano": 2015,
+      "internacoes": 8871381
+    },
+    {
+      "ano": 2016,
+      "internacoes": 8798229
+    },
+    {
+      "ano": 2017,
+      "internacoes": 9021471
+    },
+    {
+      "ano": 2018,
+      "internacoes": 9323065
+    },
+    {
+      "ano": 2019,
+      "internacoes": 9574972
+    },
+    {
+      "ano": 2020,
+      "internacoes": 8248077
+    },
+    {
+      "ano": 2021,
+      "internacoes": 9157889
+    },
+    {
+      "ano": 2022,
+      "internacoes": 9802736
+    },
+    {
+      "ano": 2023,
+      "internacoes": 9843736
+    }
+  ],
+  "result_hash": "aa0ff4981ad1bf4cd0256f366ef3142a009be62ddc7d12024647caf41b4902ee",
+  "semantic_disposition": "accepted"
+}

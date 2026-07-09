@@ -1,0 +1,364 @@
+{
+  "created_at": "2026-07-09T00:37:04.258184+00:00",
+  "source": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/ground_truth_228.json",
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "total_source_items": 228,
+  "validated_items": 228,
+  "failed_items": 0,
+  "adjusted_items": 32,
+  "adjusted_ids": [
+    "GT018",
+    "GT021",
+    "GT024",
+    "GT040",
+    "GT068",
+    "GT076",
+    "GT079",
+    "GT081",
+    "GT084",
+    "GT086",
+    "GT089",
+    "GT091",
+    "GT122",
+    "GT131",
+    "GT132",
+    "GT166",
+    "GT185",
+    "GT186",
+    "GT189",
+    "GT190",
+    "GT199",
+    "GT209",
+    "GT210",
+    "GT214",
+    "GT221",
+    "GT222",
+    "GT223",
+    "GT224",
+    "GT226",
+    "GT227",
+    "GT228",
+    "GT229"
+  ],
+  "adjusted_details": [
+    {
+      "id": "GT018",
+      "question": "Quando houver dados socioecon\u00f4micos, quantos habitantes tem o munic\u00edpio com a maior popula\u00e7\u00e3o registrada?",
+      "tables": [
+        "socioeconomico",
+        "municipios"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT021",
+      "question": "Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?",
+      "tables": [
+        "internacoes",
+        "procedimentos"
+      ],
+      "reason": "internacao_procedimento nao existe no DuckDB atual; usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT024",
+      "question": "Quais CNES t\u00eam mais de 1000 interna\u00e7\u00f5es registradas?",
+      "tables": [
+        "internacoes"
+      ],
+      "reason": "hospital esta vazia; responder por CNES registrado em internacoes."
+    },
+    {
+      "id": "GT040",
+      "question": "Quando houver dados socioecon\u00f4micos, qual a taxa de mortalidade infantil m\u00e9dia registrada?",
+      "tables": [
+        "socioeconomico"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT068",
+      "question": "Quais s\u00e3o os 10 procedimentos principais mais comuns nas interna\u00e7\u00f5es?",
+      "tables": [
+        "internacoes",
+        "procedimentos"
+      ],
+      "reason": "internacao_procedimento/id_atendimento nao existem; usar internacoes.PROC_REA."
+    },
+    {
+      "id": "GT076",
+      "question": "Quais s\u00e3o os 10 munic\u00edpios de resid\u00eancia com mais interna\u00e7\u00f5es?",
+      "tables": [
+        "internacoes",
+        "municipios"
+      ],
+      "reason": "municipio do hospital depende da tabela hospital, vazia no banco atual; usar municipio de residencia."
+    },
+    {
+      "id": "GT079",
+      "question": "Quais s\u00e3o os 10 procedimentos principais mais comuns entre interna\u00e7\u00f5es de residentes no RS?",
+      "tables": [
+        "internacoes",
+        "procedimentos",
+        "municipios"
+      ],
+      "reason": "internacao_procedimento e municipio do hospital indisponiveis; usar procedimento principal e residencia."
+    },
+    {
+      "id": "GT081",
+      "question": "Quais s\u00e3o os 5 procedimentos principais mais registrados para cada sexo?",
+      "tables": [
+        "internacoes",
+        "sexo",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal e dimensao sexo em vez de CASE manual e tabela inexistente."
+    },
+    {
+      "id": "GT084",
+      "question": "Quais s\u00e3o os 3 procedimentos principais mais comuns entre interna\u00e7\u00f5es que resultaram em \u00f3bito para cada faixa et\u00e1ria?",
+      "tables": [
+        "internacoes",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT086",
+      "question": "Quais s\u00e3o os 3 CNES com maior custo m\u00e9dio de UTI entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+      "tables": [
+        "internacoes",
+        "municipios"
+      ],
+      "reason": "estado do hospital indisponivel; usar UF de residencia e CNES."
+    },
+    {
+      "id": "GT089",
+      "question": "Quais s\u00e3o os 10 CNES com maior taxa de mortalidade obst\u00e9trica (com mais de 500 interna\u00e7\u00f5es obst\u00e9tricas)?",
+      "tables": [
+        "internacoes"
+      ],
+      "reason": "hospital esta vazia; agrupar por CNES da internacao."
+    },
+    {
+      "id": "GT091",
+      "question": "Quais s\u00e3o os 5 CNES mais eficientes em custo por dia de interna\u00e7\u00e3o (com mais de 1000 interna\u00e7\u00f5es)?",
+      "tables": [
+        "internacoes"
+      ],
+      "reason": "hospital esta vazia; agrupar por CNES da internacao."
+    },
+    {
+      "id": "GT122",
+      "question": "Quais procedimentos principais, ordenados por volume decrescente, cobrem at\u00e9 80% das interna\u00e7\u00f5es?",
+      "tables": [
+        "internacoes",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT131",
+      "question": "Quais s\u00e3o os 5 procedimentos principais mais registrados em interna\u00e7\u00f5es de pacientes ind\u00edgenas?",
+      "tables": [
+        "internacoes",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT132",
+      "question": "Quais os 3 CNES com maior valor m\u00e9dio de servi\u00e7o hospitalar (VAL_SH) entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+      "tables": [
+        "internacoes",
+        "municipios"
+      ],
+      "reason": "estado do hospital indisponivel; usar UF de residencia e CNES."
+    },
+    {
+      "id": "GT166",
+      "question": "Quantas interna\u00e7\u00f5es est\u00e3o sem c\u00f3digo de procedimento principal realizado?",
+      "tables": [
+        "internacoes"
+      ],
+      "reason": "internacao_procedimento nao existe; validar internacoes.PROC_REA."
+    },
+    {
+      "id": "GT185",
+      "question": "Quais s\u00e3o os 10 CNES com maior volume de interna\u00e7\u00f5es em UTI?",
+      "tables": [
+        "internacoes",
+        "hospital"
+      ],
+      "reason": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia."
+    },
+    {
+      "id": "GT186",
+      "question": "Quais s\u00e3o os 10 CNES com maior n\u00famero absoluto de mortes?",
+      "tables": [
+        "internacoes",
+        "hospital"
+      ],
+      "reason": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia."
+    },
+    {
+      "id": "GT189",
+      "question": "Quando houver dados socioecon\u00f4micos, qual a m\u00e9dia de m\u00e9dicos por mil habitantes por UF em 2021?",
+      "tables": [
+        "socioeconomico",
+        "municipios"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT190",
+      "question": "Quando houver dados socioecon\u00f4micos, quais munic\u00edpios tiveram maior taxa de mortalidade infantil em 2021?",
+      "tables": [
+        "socioeconomico",
+        "municipios"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT199",
+      "question": "Quais procedimentos principais foram mais registrados em interna\u00e7\u00f5es com UTI?",
+      "tables": [
+        "internacoes",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT209",
+      "question": "Qual CNES tem maior taxa de mortalidade por especialidade, considerando apenas combina\u00e7\u00f5es com mais de 1000 interna\u00e7\u00f5es?",
+      "tables": [
+        "internacoes",
+        "especialidade",
+        "hospital"
+      ],
+      "reason": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia."
+    },
+    {
+      "id": "GT210",
+      "question": "Qual procedimento principal mais frequente em cada cap\u00edtulo CID?",
+      "tables": [
+        "internacoes",
+        "cid",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT214",
+      "question": "Quais CNES com mais de 5000 interna\u00e7\u00f5es t\u00eam custo m\u00e9dio e taxa de mortalidade acima da m\u00e9dia geral?",
+      "tables": [
+        "internacoes",
+        "hospital"
+      ],
+      "reason": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia."
+    },
+    {
+      "id": "GT221",
+      "question": "Quais s\u00e3o os 5 CNES por UF de resid\u00eancia MA e RS com maior taxa de mortalidade em interna\u00e7\u00f5es com UTI, considerando mais de 500 interna\u00e7\u00f5es em UTI?",
+      "tables": [
+        "internacoes",
+        "municipios"
+      ],
+      "reason": "estado do hospital indisponivel; usar UF de residencia e CNES."
+    },
+    {
+      "id": "GT222",
+      "question": "Quando houver dados socioecon\u00f4micos, quais munic\u00edpios tiveram maior taxa de interna\u00e7\u00e3o por mil habitantes em 2021?",
+      "tables": [
+        "internacoes",
+        "socioeconomico",
+        "municipios"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT223",
+      "question": "Quando houver dados socioecon\u00f4micos, como a taxa de interna\u00e7\u00e3o por mil habitantes em 2021 varia por quintil de PIB per capita?",
+      "tables": [
+        "socioeconomico",
+        "internacoes"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT224",
+      "question": "Quando houver dados socioecon\u00f4micos, como a taxa de mortalidade hospitalar em 2021 varia por quintil de leitos SUS por mil habitantes?",
+      "tables": [
+        "socioeconomico",
+        "internacoes"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT226",
+      "question": "Quais procedimentos principais cobrem 80% dos procedimentos principais em interna\u00e7\u00f5es com UTI?",
+      "tables": [
+        "internacoes",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT227",
+      "question": "Quais s\u00e3o os 3 procedimentos principais mais registrados por sexo e faixa et\u00e1ria?",
+      "tables": [
+        "internacoes",
+        "sexo",
+        "procedimentos"
+      ],
+      "reason": "usar procedimento principal em internacoes.PROC_REA."
+    },
+    {
+      "id": "GT228",
+      "question": "Quando houver cadastro de munic\u00edpio do hospital, quantas interna\u00e7\u00f5es ocorreram com estado de resid\u00eancia diferente do estado do hospital por ano?",
+      "tables": [
+        "internacoes",
+        "municipios",
+        "hospital"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    },
+    {
+      "id": "GT229",
+      "question": "Quando houver cadastro de munic\u00edpio do hospital, quais pares de estado de resid\u00eancia e estado do hospital tiveram maior volume de interna\u00e7\u00f5es interestaduais?",
+      "tables": [
+        "internacoes",
+        "municipios",
+        "hospital"
+      ],
+      "reason": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual."
+    }
+  ],
+  "elapsed_seconds": 27.030599,
+  "outputs": {
+    "json": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_228_validated.json",
+    "jsonl": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_228_validated.jsonl",
+    "evidence_dir": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228",
+    "report_json": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_228_validation_report.json",
+    "report_md": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_228_validation_report.md"
+  },
+  "table_counts": {
+    "car_int": 1,
+    "cid": 28,
+    "complexidade": 2,
+    "contraceptivos": 1,
+    "especialidade": 10,
+    "hospital": 9,
+    "instrucao": 3,
+    "internacoes": 203,
+    "marca_uti": 1,
+    "municipios": 49,
+    "nacionalidade": 2,
+    "procedimentos": 12,
+    "raca_cor": 5,
+    "sexo": 7,
+    "socioeconomico": 11,
+    "tempo": 1,
+    "vincprev": 2
+  },
+  "errors": []
+}

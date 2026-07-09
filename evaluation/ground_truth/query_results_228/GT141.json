@@ -1,0 +1,20 @@
+{
+  "id": "GT141",
+  "question_pt": "Quantas internacoes por diabetes foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.545280+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_diabetes FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'E10%' OR \"DIAG_PRINC\" LIKE 'E11%' OR \"DIAG_PRINC\" LIKE 'E12%' OR \"DIAG_PRINC\" LIKE 'E13%' OR \"DIAG_PRINC\" LIKE 'E14%'",
+  "duration_seconds": 0.121406,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_diabetes"
+  ],
+  "preview_rows": [
+    {
+      "total_diabetes": 1820001
+    }
+  ],
+  "result_hash": "11e06011aa0ddc8f36edd3be967e324c93bce7f5859ab49b48c88a0282a566a2",
+  "semantic_disposition": "accepted"
+}

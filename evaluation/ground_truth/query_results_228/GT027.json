@@ -1,0 +1,20 @@
+{
+  "id": "GT027",
+  "question_pt": "Quantas interna\u00e7\u00f5es obst\u00e9tricas foram registradas em UTI?",
+  "executed_at": "2026-07-09T00:36:38.910704+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS obstetricos_uti FROM internacoes WHERE \"ESPEC\" = 2 AND \"VAL_UTI\" > 0",
+  "duration_seconds": 0.021708,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "obstetricos_uti"
+  ],
+  "preview_rows": [
+    {
+      "obstetricos_uti": 110161
+    }
+  ],
+  "result_hash": "6019da397a9726cefcb9df718871e80764738a329ce6df2b1f2a2ce43d55008e",
+  "semantic_disposition": "accepted"
+}

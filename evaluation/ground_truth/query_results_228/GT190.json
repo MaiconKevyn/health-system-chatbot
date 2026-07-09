@@ -1,0 +1,18 @@
+{
+  "id": "GT190",
+  "question_pt": "Quando houver dados socioecon\u00f4micos, quais munic\u00edpios tiveram maior taxa de mortalidade infantil em 2021?",
+  "executed_at": "2026-07-09T00:36:55.240163+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"NO_MUNICIPIO\" AS municipio, m.\"SG_UF\" AS uf, s.\"VL_MORT_INFANTIL\" AS mortalidade_infantil FROM socioeconomico s JOIN municipios m ON s.\"CO_MUNICIPIO_6D\" = m.\"CO_MUNICIPIO_6D\" WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_MORT_INFANTIL\" IS NOT NULL ORDER BY s.\"VL_MORT_INFANTIL\" DESC LIMIT 10",
+  "duration_seconds": 0.000531,
+  "performance_class": "fast",
+  "row_count": 0,
+  "columns": [
+    "municipio",
+    "uf",
+    "mortalidade_infantil"
+  ],
+  "preview_rows": [],
+  "result_hash": "b97f881f4edf71dfe03c737314c76af83d0b409d68078a564b5d02556ed2a56b",
+  "semantic_disposition": "accepted"
+}

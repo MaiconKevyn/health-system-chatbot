@@ -1,0 +1,49 @@
+{
+  "id": "GT126",
+  "question_pt": "Como se distribuem os hospitais em quartis de volume de interna\u00e7\u00f5es? Mostre o n\u00famero de hospitais e o intervalo de interna\u00e7\u00f5es por quartil.",
+  "executed_at": "2026-07-09T00:36:47.130673+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT ntile_grupo, COUNT(*) AS total_hospitais, MIN(total_internacoes) AS min_internacoes, MAX(total_internacoes) AS max_internacoes, ROUND(AVG(total_internacoes), 0) AS media_internacoes FROM (SELECT \"CNES\", total_internacoes, NTILE(4) OVER (ORDER BY total_internacoes) AS ntile_grupo FROM (SELECT \"CNES\", COUNT(*) AS total_internacoes FROM internacoes GROUP BY \"CNES\") sub) ranked GROUP BY ntile_grupo ORDER BY ntile_grupo",
+  "duration_seconds": 0.065609,
+  "performance_class": "fast",
+  "row_count": 4,
+  "columns": [
+    "ntile_grupo",
+    "total_hospitais",
+    "min_internacoes",
+    "max_internacoes",
+    "media_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "ntile_grupo": 1,
+      "total_hospitais": 1481,
+      "min_internacoes": 1,
+      "max_internacoes": 1991,
+      "media_internacoes": 689.0
+    },
+    {
+      "ntile_grupo": 2,
+      "total_hospitais": 1481,
+      "min_internacoes": 1991,
+      "max_internacoes": 8163,
+      "media_internacoes": 4625.0
+    },
+    {
+      "ntile_grupo": 3,
+      "total_hospitais": 1480,
+      "min_internacoes": 8168,
+      "max_internacoes": 25327,
+      "media_internacoes": 14971.0
+    },
+    {
+      "ntile_grupo": 4,
+      "total_hospitais": 1480,
+      "min_internacoes": 25330,
+      "max_internacoes": 719254,
+      "media_internacoes": 77270.0
+    }
+  ],
+  "result_hash": "346c81bb2b465d3c5bf05ce1bed2ae99bdceb06a91878495a6acf4d4028d770a",
+  "semantic_disposition": "accepted"
+}

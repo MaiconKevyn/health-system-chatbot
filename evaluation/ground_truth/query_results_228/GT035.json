@@ -1,0 +1,22 @@
+{
+  "id": "GT035",
+  "question_pt": "Qual o diagn\u00f3stico mais comum nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:39.518187+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\" AS diagnostico, COUNT(*) AS total FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"DIAG_PRINC\" IS NOT NULL GROUP BY c.\"DESCRICAO\" ORDER BY total DESC LIMIT 1",
+  "duration_seconds": 0.384982,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "diagnostico",
+    "total"
+  ],
+  "preview_rows": [
+    {
+      "diagnostico": "Parto espontaneo cefalico",
+      "total": 10289544
+    }
+  ],
+  "result_hash": "51e3ca7be766f0e4af7e10b5ee4cbbcd5784b66b18796e1934e437b7fe179f34",
+  "semantic_disposition": "accepted"
+}

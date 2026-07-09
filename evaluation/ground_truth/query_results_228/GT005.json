@@ -1,0 +1,20 @@
+{
+  "id": "GT005",
+  "question_pt": "Quantos hospitais est\u00e3o cadastrados?",
+  "executed_at": "2026-07-09T00:36:37.335568+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_hospitais FROM hospital",
+  "duration_seconds": 0.000137,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_hospitais"
+  ],
+  "preview_rows": [
+    {
+      "total_hospitais": 0
+    }
+  ],
+  "result_hash": "49353b535cdb4991645735fff60891ade3afd19a46cf0817298c994f7e352046",
+  "semantic_disposition": "accepted"
+}

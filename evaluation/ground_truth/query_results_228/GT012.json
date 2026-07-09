@@ -1,0 +1,20 @@
+{
+  "id": "GT012",
+  "question_pt": "Quantos pacientes t\u00eam n\u00edvel de instru\u00e7\u00e3o informado?",
+  "executed_at": "2026-07-09T00:36:37.502143+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_instrucao FROM internacoes WHERE \"INSTRU\" IS NOT NULL AND \"INSTRU\" != 0",
+  "duration_seconds": 0.010534,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_instrucao"
+  ],
+  "preview_rows": [
+    {
+      "total_instrucao": 1205603
+    }
+  ],
+  "result_hash": "24c02d9212c049e0e5250a3d0e481e4ac5712451e324aaff8ab4564abf9a99eb",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "DENSE_TABLE_002",
+  "question_pt": "Quais codigos e descricoes existem para carater de internacao?",
+  "executed_at": "2026-07-08T23:09:05.346910+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT CAR_INT, DESCRICAO FROM car_int ORDER BY CAR_INT",
+  "duration_seconds": 0.000421,
+  "performance_class": "fast",
+  "row_count": 7,
+  "columns": [
+    "CAR_INT",
+    "DESCRICAO"
+  ],
+  "preview_rows": [
+    {
+      "CAR_INT": 0,
+      "DESCRICAO": "N\u00e3o informado"
+    },
+    {
+      "CAR_INT": 1,
+      "DESCRICAO": "Eletivo"
+    },
+    {
+      "CAR_INT": 2,
+      "DESCRICAO": "Urg\u00eancia"
+    },
+    {
+      "CAR_INT": 3,
+      "DESCRICAO": "Acidente no local trabalho ou a serv da empresa"
+    },
+    {
+      "CAR_INT": 4,
+      "DESCRICAO": "Acidente no trajeto para o trabalho"
+    },
+    {
+      "CAR_INT": 5,
+      "DESCRICAO": "Outros tipo de acidente de tr\u00e2nsito"
+    },
+    {
+      "CAR_INT": 6,
+      "DESCRICAO": "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos"
+    }
+  ],
+  "result_hash": "d418b83a90b34ad611c0bb4fda9ec755b5aa399d9db9a8bd0fbeb296c7c00328",
+  "semantic_disposition": "accepted"
+}

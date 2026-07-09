@@ -1,0 +1,26 @@
+{
+  "id": "GT176",
+  "question_pt": "Qual a idade media dos pacientes por sexo?",
+  "executed_at": "2026-07-09T00:36:54.124199+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT s.\"DESCRICAO\" AS sexo, ROUND(AVG(i.\"IDADE\"), 2) AS idade_media FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" WHERE i.\"IDADE\" IS NOT NULL GROUP BY s.\"DESCRICAO\" ORDER BY idade_media DESC",
+  "duration_seconds": 0.066436,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "sexo",
+    "idade_media"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Masculino",
+      "idade_media": 41.34
+    },
+    {
+      "sexo": "Feminino",
+      "idade_media": 37.17
+    }
+  ],
+  "result_hash": "db5e3ea042f627abda18cf9736c10fc60a5e1ebb12edaea2dc252db99bdee5e9",
+  "semantic_disposition": "accepted"
+}

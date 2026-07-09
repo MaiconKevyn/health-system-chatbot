@@ -1,0 +1,63 @@
+{
+  "id": "GT204",
+  "question_pt": "Quais sao os 3 CIDs com maior taxa de mortalidade em cada estado MA e RS, considerando CIDs com mais de 1000 internacoes?",
+  "executed_at": "2026-07-09T00:36:56.644070+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT m.\"SG_UF\" AS uf, c.\"DESCRICAO\" AS diagnostico, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes i LEFT JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE m.\"SG_UF\" IN ('MA', 'RS') GROUP BY m.\"SG_UF\", c.\"DESCRICAO\" HAVING COUNT(*) > 1000), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY uf ORDER BY taxa_mortalidade DESC, total_internacoes DESC) AS rn FROM agg) SELECT uf, diagnostico, total_internacoes, total_mortes, taxa_mortalidade FROM ranked WHERE rn <= 3 ORDER BY uf, rn",
+  "duration_seconds": 0.15802,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "uf",
+    "diagnostico",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "uf": "MA",
+      "diagnostico": "Choque cardiogenico",
+      "total_internacoes": 1249,
+      "total_mortes": 848,
+      "taxa_mortalidade": 67.89
+    },
+    {
+      "uf": "MA",
+      "diagnostico": "Outr septicemias estreptococicas",
+      "total_internacoes": 1506,
+      "total_mortes": 1004,
+      "taxa_mortalidade": 66.67
+    },
+    {
+      "uf": "MA",
+      "diagnostico": "Actinomicose NE",
+      "total_internacoes": 1885,
+      "total_mortes": 845,
+      "taxa_mortalidade": 44.83
+    },
+    {
+      "uf": "RS",
+      "diagnostico": "Parada cardiaca NE",
+      "total_internacoes": 4124,
+      "total_mortes": 3497,
+      "taxa_mortalidade": 84.8
+    },
+    {
+      "uf": "RS",
+      "diagnostico": "Choque cardiogenico",
+      "total_internacoes": 4368,
+      "total_mortes": 2811,
+      "taxa_mortalidade": 64.35
+    },
+    {
+      "uf": "RS",
+      "diagnostico": "Choque NE",
+      "total_internacoes": 1418,
+      "total_mortes": 850,
+      "taxa_mortalidade": 59.94
+    }
+  ],
+  "result_hash": "987bc94c9dc4c76558d09639a365f8b81823914869792a3942b8fd3b29f50536",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "GT217",
+  "question_pt": "Quais capitulos CID tem custo medio acima da media geral e mais de 100000 internacoes?",
+  "executed_at": "2026-07-09T00:37:00.058603+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH geral AS (SELECT AVG(\"VAL_TOT\") AS custo_medio_geral FROM internacoes WHERE \"VAL_TOT\" IS NOT NULL), por_capitulo AS (SELECT c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS total_internacoes, AVG(i.\"VAL_TOT\") AS custo_medio FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"VAL_TOT\" IS NOT NULL GROUP BY c.\"DS_CAPITULO\") SELECT p.capitulo_cid, p.total_internacoes, ROUND(p.custo_medio, 2) AS custo_medio FROM por_capitulo p, geral g WHERE p.total_internacoes > 100000 AND p.custo_medio > g.custo_medio_geral ORDER BY p.custo_medio DESC",
+  "duration_seconds": 0.464963,
+  "performance_class": "fast",
+  "row_count": 9,
+  "columns": [
+    "capitulo_cid",
+    "total_internacoes",
+    "custo_medio"
+  ],
+  "preview_rows": [
+    {
+      "capitulo_cid": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "total_internacoes": 3226095,
+      "custo_medio": 4391.81
+    },
+    {
+      "capitulo_cid": "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+      "total_internacoes": 914832,
+      "custo_medio": 3935.25
+    },
+    {
+      "capitulo_cid": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "total_internacoes": 13880974,
+      "custo_medio": 2823.37
+    },
+    {
+      "capitulo_cid": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "total_internacoes": 12770709,
+      "custo_medio": 2422.19
+    },
+    {
+      "capitulo_cid": "II. Neoplasias [tumores]",
+      "total_internacoes": 9103344,
+      "custo_medio": 2092.15
+    },
+    {
+      "capitulo_cid": "VIII. Doen\u00e7as do ouvido e da ap\u00f3fise mast\u00f3ide",
+      "total_internacoes": 203156,
+      "custo_medio": 2091.86
+    },
+    {
+      "capitulo_cid": "VI. Doen\u00e7as do sistema nervoso",
+      "total_internacoes": 2233656,
+      "custo_medio": 1851.28
+    },
+    {
+      "capitulo_cid": "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+      "total_internacoes": 2478743,
+      "custo_medio": 1728.39
+    },
+    {
+      "capitulo_cid": "V. Transtornos mentais e comportamentais",
+      "total_internacoes": 2898312,
+      "custo_medio": 1574.82
+    }
+  ],
+  "result_hash": "923a827910f8e4136ed3f795a2708fdf9a809918a431a002df58904ece541efd",
+  "semantic_disposition": "accepted"
+}

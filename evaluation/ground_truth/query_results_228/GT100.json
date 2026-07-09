@@ -1,0 +1,20 @@
+{
+  "id": "GT100",
+  "question_pt": "Qual o maior valor de servi\u00e7o profissional registrado em uma interna\u00e7\u00e3o?",
+  "executed_at": "2026-07-09T00:36:44.999314+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT MAX(\"VAL_SP\") AS maior_val_sp FROM internacoes WHERE \"VAL_SP\" IS NOT NULL",
+  "duration_seconds": 0.009221,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "maior_val_sp"
+  ],
+  "preview_rows": [
+    {
+      "maior_val_sp": 72642.67
+    }
+  ],
+  "result_hash": "759d644d0a4ab89d125dd87b4189bb9930966ae9bec39fe0e4528b81e27ba578",
+  "semantic_disposition": "accepted"
+}

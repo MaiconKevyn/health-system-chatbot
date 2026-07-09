@@ -1,0 +1,294 @@
+{
+  "id": "GT231",
+  "question_pt": "Qual percentual de internacoes possui diagnostico secundario preenchido por ano e por desfecho?",
+  "executed_at": "2026-07-09T00:37:02.116112+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH agg AS (SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, CASE WHEN \"MORTE\" = true THEN 'obito' ELSE 'sem_obito' END AS desfecho, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"DIAG_SECUN\" IS NOT NULL AND \"DIAG_SECUN\" <> '' THEN 1 ELSE 0 END) AS com_diag_secundario FROM internacoes WHERE \"DT_INTER\" IS NOT NULL GROUP BY ano, desfecho) SELECT ano, desfecho, total_internacoes, com_diag_secundario, ROUND(com_diag_secundario * 100.0 / NULLIF(total_internacoes, 0), 2) AS percentual_com_diag_secundario FROM agg ORDER BY ano, desfecho",
+  "duration_seconds": 0.223128,
+  "performance_class": "fast",
+  "row_count": 39,
+  "columns": [
+    "ano",
+    "desfecho",
+    "total_internacoes",
+    "com_diag_secundario",
+    "percentual_com_diag_secundario"
+  ],
+  "preview_rows": [
+    {
+      "ano": 1995,
+      "desfecho": "sem_obito",
+      "total_internacoes": 1,
+      "com_diag_secundario": 1,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 1998,
+      "desfecho": "sem_obito",
+      "total_internacoes": 1,
+      "com_diag_secundario": 1,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2000,
+      "desfecho": "sem_obito",
+      "total_internacoes": 3,
+      "com_diag_secundario": 3,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2005,
+      "desfecho": "sem_obito",
+      "total_internacoes": 3,
+      "com_diag_secundario": 3,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2006,
+      "desfecho": "sem_obito",
+      "total_internacoes": 4,
+      "com_diag_secundario": 4,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2007,
+      "desfecho": "obito",
+      "total_internacoes": 20642,
+      "com_diag_secundario": 20642,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2007,
+      "desfecho": "sem_obito",
+      "total_internacoes": 475901,
+      "com_diag_secundario": 475901,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2008,
+      "desfecho": "obito",
+      "total_internacoes": 255894,
+      "com_diag_secundario": 255894,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2008,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8291990,
+      "com_diag_secundario": 8291990,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2009,
+      "desfecho": "obito",
+      "total_internacoes": 277716,
+      "com_diag_secundario": 277716,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2009,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8435910,
+      "com_diag_secundario": 8435910,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2010,
+      "desfecho": "obito",
+      "total_internacoes": 296340,
+      "com_diag_secundario": 296340,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2010,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8608348,
+      "com_diag_secundario": 8608348,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2011,
+      "desfecho": "obito",
+      "total_internacoes": 304540,
+      "com_diag_secundario": 304540,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2011,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8503947,
+      "com_diag_secundario": 8503947,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2012,
+      "desfecho": "obito",
+      "total_internacoes": 308841,
+      "com_diag_secundario": 308841,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2012,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8345429,
+      "com_diag_secundario": 8345429,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2013,
+      "desfecho": "obito",
+      "total_internacoes": 323105,
+      "com_diag_secundario": 323105,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2013,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8420518,
+      "com_diag_secundario": 8420518,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2014,
+      "desfecho": "obito",
+      "total_internacoes": 331736,
+      "com_diag_secundario": 331736,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2014,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8544347,
+      "com_diag_secundario": 8544347,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2015,
+      "desfecho": "obito",
+      "total_internacoes": 353079,
+      "com_diag_secundario": 353079,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2015,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8518302,
+      "com_diag_secundario": 8518302,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2016,
+      "desfecho": "obito",
+      "total_internacoes": 366049,
+      "com_diag_secundario": 366049,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2016,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8432180,
+      "com_diag_secundario": 8432180,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2017,
+      "desfecho": "obito",
+      "total_internacoes": 368422,
+      "com_diag_secundario": 368422,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2017,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8653049,
+      "com_diag_secundario": 8653049,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2018,
+      "desfecho": "obito",
+      "total_internacoes": 378775,
+      "com_diag_secundario": 378775,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2018,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8944290,
+      "com_diag_secundario": 8944290,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2019,
+      "desfecho": "obito",
+      "total_internacoes": 394247,
+      "com_diag_secundario": 394247,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2019,
+      "desfecho": "sem_obito",
+      "total_internacoes": 9180725,
+      "com_diag_secundario": 9180725,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2020,
+      "desfecho": "obito",
+      "total_internacoes": 455333,
+      "com_diag_secundario": 455333,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2020,
+      "desfecho": "sem_obito",
+      "total_internacoes": 7792744,
+      "com_diag_secundario": 7792744,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2021,
+      "desfecho": "obito",
+      "total_internacoes": 578871,
+      "com_diag_secundario": 578871,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2021,
+      "desfecho": "sem_obito",
+      "total_internacoes": 8579018,
+      "com_diag_secundario": 8579018,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2022,
+      "desfecho": "obito",
+      "total_internacoes": 455291,
+      "com_diag_secundario": 455291,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2022,
+      "desfecho": "sem_obito",
+      "total_internacoes": 9347445,
+      "com_diag_secundario": 9347445,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2023,
+      "desfecho": "obito",
+      "total_internacoes": 408655,
+      "com_diag_secundario": 408655,
+      "percentual_com_diag_secundario": 100.0
+    },
+    {
+      "ano": 2023,
+      "desfecho": "sem_obito",
+      "total_internacoes": 9435081,
+      "com_diag_secundario": 9435081,
+      "percentual_com_diag_secundario": 100.0
+    }
+  ],
+  "result_hash": "ce13e44ca89cf8b75e60fe833cc3a6007a9f58142e6aaf25593382f695bf3b1f",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT146",
+  "question_pt": "Quantas internacoes de pacientes pardos foram registradas?",
+  "executed_at": "2026-07-09T00:36:48.924631+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_pacientes_pardos FROM internacoes WHERE \"RACA_COR\" = 3",
+  "duration_seconds": 0.097757,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_pacientes_pardos"
+  ],
+  "preview_rows": [
+    {
+      "total_pacientes_pardos": 55944720
+    }
+  ],
+  "result_hash": "ee7725fd71c4c2cfa0f4236061e1d823fac55eaff8fb80238ab21280676d1351",
+  "semantic_disposition": "accepted"
+}

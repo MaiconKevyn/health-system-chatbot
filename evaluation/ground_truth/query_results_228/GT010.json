@@ -1,0 +1,20 @@
+{
+  "id": "GT010",
+  "question_pt": "Quantos casos obst\u00e9tricos foram registrados?",
+  "executed_at": "2026-07-09T00:36:37.484691+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_obstetricos FROM internacoes WHERE \"ESPEC\" = 2",
+  "duration_seconds": 0.074615,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_obstetricos"
+  ],
+  "preview_rows": [
+    {
+      "total_obstetricos": 27397950
+    }
+  ],
+  "result_hash": "43b1939f4f792e997fa724674e263fd3e1670fa06c30167f61a9939f24597ca9",
+  "semantic_disposition": "accepted"
+}

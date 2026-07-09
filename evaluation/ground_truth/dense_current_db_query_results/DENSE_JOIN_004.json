@@ -1,0 +1,34 @@
+{
+  "id": "DENSE_JOIN_004",
+  "question_pt": "Quais descricoes de complexidade tem mais internacoes e qual o valor total?",
+  "executed_at": "2026-07-08T23:09:06.202537+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.DESCRICAO AS complexidade, COUNT(*) AS internacoes, ROUND(SUM(CAST(i.VAL_TOT AS DECIMAL(20,2))), 2) AS valor_total FROM internacoes i JOIN complexidade c ON i.COMPLEX = c.COMPLEX GROUP BY 1 ORDER BY internacoes DESC",
+  "duration_seconds": 0.310706,
+  "performance_class": "fast",
+  "row_count": 3,
+  "columns": [
+    "complexidade",
+    "internacoes",
+    "valor_total"
+  ],
+  "preview_rows": [
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "internacoes": 135358002,
+      "valor_total": 160868533754.1
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "internacoes": 9028761,
+      "valor_total": 51712299656.53
+    },
+    {
+      "complexidade": "N\u00e3o informado",
+      "internacoes": 9,
+      "valor_total": 2870.48
+    }
+  ],
+  "result_hash": "c1226e0870e95414dac72611a4456481a77a1a2da53d9e1ace609eb7bdc8254f",
+  "semantic_disposition": "accepted"
+}

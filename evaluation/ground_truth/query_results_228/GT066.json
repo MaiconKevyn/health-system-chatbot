@@ -1,0 +1,106 @@
+{
+  "id": "GT066",
+  "question_pt": "Qual o total de interna\u00e7\u00f5es por ano?",
+  "executed_at": "2026-07-09T00:36:40.869581+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes GROUP BY ano ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.051263,
+  "performance_class": "fast",
+  "row_count": 22,
+  "columns": [
+    "ano",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2023,
+      "total_internacoes": 9843736
+    },
+    {
+      "ano": 2022,
+      "total_internacoes": 9802736
+    },
+    {
+      "ano": 2019,
+      "total_internacoes": 9574972
+    },
+    {
+      "ano": 2018,
+      "total_internacoes": 9323065
+    },
+    {
+      "ano": 2021,
+      "total_internacoes": 9157889
+    },
+    {
+      "ano": 2017,
+      "total_internacoes": 9021471
+    },
+    {
+      "ano": 2010,
+      "total_internacoes": 8904688
+    },
+    {
+      "ano": 2014,
+      "total_internacoes": 8876083
+    },
+    {
+      "ano": 2015,
+      "total_internacoes": 8871381
+    },
+    {
+      "ano": 2011,
+      "total_internacoes": 8808487
+    },
+    {
+      "ano": 2016,
+      "total_internacoes": 8798229
+    },
+    {
+      "ano": 2013,
+      "total_internacoes": 8743623
+    },
+    {
+      "ano": 2009,
+      "total_internacoes": 8713626
+    },
+    {
+      "ano": 2012,
+      "total_internacoes": 8654270
+    },
+    {
+      "ano": 2008,
+      "total_internacoes": 8547884
+    },
+    {
+      "ano": 2020,
+      "total_internacoes": 8248077
+    },
+    {
+      "ano": 2007,
+      "total_internacoes": 496543
+    },
+    {
+      "ano": 2006,
+      "total_internacoes": 4
+    },
+    {
+      "ano": 2000,
+      "total_internacoes": 3
+    },
+    {
+      "ano": 2005,
+      "total_internacoes": 3
+    },
+    {
+      "ano": 1995,
+      "total_internacoes": 1
+    },
+    {
+      "ano": 1998,
+      "total_internacoes": 1
+    }
+  ],
+  "result_hash": "78e9bb1cdcb8007cb969cd0000ed16d43097a051c849273d48a891bdcd825534",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT164",
+  "question_pt": "Qual a populacao total registrada nos indicadores socioeconomicos de 2021?",
+  "executed_at": "2026-07-09T00:36:52.968621+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT SUM(\"QT_POPULACAO\") AS populacao_total_2021 FROM socioeconomico WHERE \"NU_ANO\" = 2021",
+  "duration_seconds": 0.000184,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "populacao_total_2021"
+  ],
+  "preview_rows": [
+    {
+      "populacao_total_2021": null
+    }
+  ],
+  "result_hash": "4d505784a954b8da166bb09e7f98e01b2e65382793135052ee1a6fcbf672407f",
+  "semantic_disposition": "accepted"
+}

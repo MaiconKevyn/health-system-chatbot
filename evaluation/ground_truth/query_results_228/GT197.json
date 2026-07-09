@@ -1,0 +1,38 @@
+{
+  "id": "GT197",
+  "question_pt": "Como as internacoes obstetricas se distribuem por faixa etaria?",
+  "executed_at": "2026-07-09T00:36:55.743208+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT CASE WHEN \"IDADE\" < 15 THEN '<15' WHEN \"IDADE\" BETWEEN 15 AND 19 THEN '15-19' WHEN \"IDADE\" BETWEEN 20 AND 34 THEN '20-34' WHEN \"IDADE\" BETWEEN 35 AND 49 THEN '35-49' ELSE '50+' END AS faixa_etaria, COUNT(*) AS total_obstetricas FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'O%' AND \"IDADE\" IS NOT NULL GROUP BY faixa_etaria ORDER BY MIN(CASE WHEN \"IDADE\" < 15 THEN 1 WHEN \"IDADE\" BETWEEN 15 AND 19 THEN 2 WHEN \"IDADE\" BETWEEN 20 AND 34 THEN 3 WHEN \"IDADE\" BETWEEN 35 AND 49 THEN 4 ELSE 5 END)",
+  "duration_seconds": 0.152724,
+  "performance_class": "fast",
+  "row_count": 5,
+  "columns": [
+    "faixa_etaria",
+    "total_obstetricas"
+  ],
+  "preview_rows": [
+    {
+      "faixa_etaria": "<15",
+      "total_obstetricas": 367944
+    },
+    {
+      "faixa_etaria": "15-19",
+      "total_obstetricas": 6216452
+    },
+    {
+      "faixa_etaria": "20-34",
+      "total_obstetricas": 20367462
+    },
+    {
+      "faixa_etaria": "35-49",
+      "total_obstetricas": 3368889
+    },
+    {
+      "faixa_etaria": "50+",
+      "total_obstetricas": 13504
+    }
+  ],
+  "result_hash": "0a06eb00016ed92a832f97ab34894f8ae974603d7fa5d54f25c33e6de2bd16a9",
+  "semantic_disposition": "accepted"
+}

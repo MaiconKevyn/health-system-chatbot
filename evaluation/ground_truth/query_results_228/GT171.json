@@ -1,0 +1,38 @@
+{
+  "id": "GT171",
+  "question_pt": "Qual a taxa de mortalidade por complexidade assistencial?",
+  "executed_at": "2026-07-09T00:36:53.469902+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT c.\"DESCRICAO\" AS complexidade, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes i JOIN complexidade c ON i.\"COMPLEX\" = c.\"COMPLEX\" GROUP BY c.\"DESCRICAO\" ORDER BY taxa_mortalidade DESC",
+  "duration_seconds": 0.208421,
+  "performance_class": "fast",
+  "row_count": 3,
+  "columns": [
+    "complexidade",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "complexidade": "M\u00e9dia complexidade",
+      "total_internacoes": 135358002,
+      "total_mortes": 5528305,
+      "taxa_mortalidade": 4.08
+    },
+    {
+      "complexidade": "Alta complexidade",
+      "total_internacoes": 9028761,
+      "total_mortes": 349231,
+      "taxa_mortalidade": 3.87
+    },
+    {
+      "complexidade": "N\u00e3o informado",
+      "total_internacoes": 9,
+      "total_mortes": 0,
+      "taxa_mortalidade": 0.0
+    }
+  ],
+  "result_hash": "26c676549016fd4c075115dba04cc094cf3bd28f91ba9f2d2e20e5a7afbb60a5",
+  "semantic_disposition": "accepted"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "GT064",
+  "question_pt": "Quantas interna\u00e7\u00f5es com idade acima de 60 anos?",
+  "executed_at": "2026-07-09T00:36:40.801478+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes WHERE \"IDADE\" > 60",
+  "duration_seconds": 0.012084,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "total_internacoes": 33558094
+    }
+  ],
+  "result_hash": "4e6b7ef2e0173881a225760cb9fbfa17b2fe643f29a4304977e51cf25c796948",
+  "semantic_disposition": "accepted"
+}

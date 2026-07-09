@@ -1,0 +1,26 @@
+{
+  "id": "GT177",
+  "question_pt": "Qual o custo medio de internacao por sexo?",
+  "executed_at": "2026-07-09T00:36:54.196564+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT s.\"DESCRICAO\" AS sexo, ROUND(AVG(i.\"VAL_TOT\"), 2) AS custo_medio FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" WHERE i.\"VAL_TOT\" IS NOT NULL GROUP BY s.\"DESCRICAO\" ORDER BY custo_medio DESC",
+  "duration_seconds": 0.072069,
+  "performance_class": "fast",
+  "row_count": 2,
+  "columns": [
+    "sexo",
+    "custo_medio"
+  ],
+  "preview_rows": [
+    {
+      "sexo": "Masculino",
+      "custo_medio": 1823.8
+    },
+    {
+      "sexo": "Feminino",
+      "custo_medio": 1229.65
+    }
+  ],
+  "result_hash": "ed0f1c81a0d58c0e44134547e274bfff3119039fcf604b88504c1f641e8f837d",
+  "semantic_disposition": "accepted"
+}

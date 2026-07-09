@@ -1,0 +1,106 @@
+{
+  "id": "DENSE_TABLE_004",
+  "question_pt": "Quantos CIDs existem por capitulo no catalogo CID?",
+  "executed_at": "2026-07-08T23:09:05.348266+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT DS_CAPITULO, COUNT(*) AS total_cids FROM cid GROUP BY 1 ORDER BY total_cids DESC, DS_CAPITULO",
+  "duration_seconds": 0.001042,
+  "performance_class": "fast",
+  "row_count": 22,
+  "columns": [
+    "DS_CAPITULO",
+    "total_cids"
+  ],
+  "preview_rows": [
+    {
+      "DS_CAPITULO": "XX. Causas externas de morbidade e de mortalidade",
+      "total_cids": 3692
+    },
+    {
+      "DS_CAPITULO": "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+      "total_cids": 1459
+    },
+    {
+      "DS_CAPITULO": "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+      "total_cids": 912
+    },
+    {
+      "DS_CAPITULO": "II. Neoplasias [tumores]",
+      "total_cids": 853
+    },
+    {
+      "DS_CAPITULO": "XVII. Malforma\u00e7\u00f5es cong\u00eanitas, deformidades e anomalias cromoss\u00f4micas",
+      "total_cids": 711
+    },
+    {
+      "DS_CAPITULO": "XXI. Fatores que influenciam o estado de sa\u00fade",
+      "total_cids": 711
+    },
+    {
+      "DS_CAPITULO": "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+      "total_cids": 626
+    },
+    {
+      "DS_CAPITULO": "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+      "total_cids": 502
+    },
+    {
+      "DS_CAPITULO": "XV. Gravidez, parto e puerp\u00e9rio",
+      "total_cids": 491
+    },
+    {
+      "DS_CAPITULO": "XI. Doen\u00e7as do aparelho digestivo",
+      "total_cids": 486
+    },
+    {
+      "DS_CAPITULO": "V. Transtornos mentais e comportamentais",
+      "total_cids": 467
+    },
+    {
+      "DS_CAPITULO": "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+      "total_cids": 455
+    },
+    {
+      "DS_CAPITULO": "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+      "total_cids": 411
+    },
+    {
+      "DS_CAPITULO": "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+      "total_cids": 395
+    },
+    {
+      "DS_CAPITULO": "XVIII. Sintomas, sinais e achados anormais",
+      "total_cids": 389
+    },
+    {
+      "DS_CAPITULO": "VI. Doen\u00e7as do sistema nervoso",
+      "total_cids": 387
+    },
+    {
+      "DS_CAPITULO": "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+      "total_cids": 387
+    },
+    {
+      "DS_CAPITULO": "VII. Doen\u00e7as do olho e anexos",
+      "total_cids": 307
+    },
+    {
+      "DS_CAPITULO": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+      "total_cids": 277
+    },
+    {
+      "DS_CAPITULO": "III. Doen\u00e7as do sangue e dos \u00f3rg\u00e3os hematopo\u00e9ticos",
+      "total_cids": 191
+    },
+    {
+      "DS_CAPITULO": "VIII. Doen\u00e7as do ouvido e da ap\u00f3fise mast\u00f3ide",
+      "total_cids": 135
+    },
+    {
+      "DS_CAPITULO": "XXII. C\u00f3digos para prop\u00f3sitos especiais",
+      "total_cids": 9
+    }
+  ],
+  "result_hash": "fb56c07a414bbf398e7008a8a2eead8d78d2a566afe4e7b8c61e8da2510bd396",
+  "semantic_disposition": "accepted"
+}

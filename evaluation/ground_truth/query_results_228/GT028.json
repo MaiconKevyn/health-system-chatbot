@@ -1,0 +1,80 @@
+{
+  "id": "GT028",
+  "question_pt": "Quais sao os 10 munic\u00edpios com mais de 100 interna\u00e7\u00f5es com a maior taxa de mortalidade?",
+  "executed_at": "2026-07-09T00:36:39.073703+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT mu.\"NO_MUNICIPIO\" AS municipio, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" GROUP BY mu.\"NO_MUNICIPIO\" HAVING COUNT(*) > 100 ORDER BY taxa_mortalidade DESC LIMIT 10",
+  "duration_seconds": 0.162686,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "municipio",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "municipio": "Cap\u00e3o Bonito",
+      "total_internacoes": 135,
+      "total_mortes": 15,
+      "taxa_mortalidade": 11.11
+    },
+    {
+      "municipio": "Mogi Mirim",
+      "total_internacoes": 109,
+      "total_mortes": 11,
+      "taxa_mortalidade": 10.09
+    },
+    {
+      "municipio": "Ourinhos",
+      "total_internacoes": 352,
+      "total_mortes": 35,
+      "taxa_mortalidade": 9.94
+    },
+    {
+      "municipio": "Iacri",
+      "total_internacoes": 266,
+      "total_mortes": 25,
+      "taxa_mortalidade": 9.4
+    },
+    {
+      "municipio": "Arapu\u00e1",
+      "total_internacoes": 1436,
+      "total_mortes": 132,
+      "taxa_mortalidade": 9.19
+    },
+    {
+      "municipio": "Nova Friburgo",
+      "total_internacoes": 136767,
+      "total_mortes": 12575,
+      "taxa_mortalidade": 9.19
+    },
+    {
+      "municipio": "Saquarema",
+      "total_internacoes": 56949,
+      "total_mortes": 5220,
+      "taxa_mortalidade": 9.17
+    },
+    {
+      "municipio": "Senador Jos\u00e9 Bento",
+      "total_internacoes": 1535,
+      "total_mortes": 132,
+      "taxa_mortalidade": 8.6
+    },
+    {
+      "municipio": "Maric\u00e1",
+      "total_internacoes": 100484,
+      "total_mortes": 8625,
+      "taxa_mortalidade": 8.58
+    },
+    {
+      "municipio": "Lorena",
+      "total_internacoes": 140,
+      "total_mortes": 12,
+      "taxa_mortalidade": 8.57
+    }
+  ],
+  "result_hash": "e9f2116f1498643aa070af6e8151f5ff93d26192666b90aa318003a95cb0c43f",
+  "semantic_disposition": "accepted"
+}

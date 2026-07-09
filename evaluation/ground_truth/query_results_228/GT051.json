@@ -1,0 +1,58 @@
+{
+  "id": "GT051",
+  "question_pt": "Quais s\u00e3o os 10 munic\u00edpios com mais interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:40.465261+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"NO_MUNICIPIO\" AS municipio, COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" GROUP BY m.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 10",
+  "duration_seconds": 0.326656,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "municipio",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "municipio": "Rio de Janeiro",
+      "total_internacoes": 3409255
+    },
+    {
+      "municipio": "Bras\u00edlia",
+      "total_internacoes": 2529580
+    },
+    {
+      "municipio": "Salvador",
+      "total_internacoes": 2246826
+    },
+    {
+      "municipio": "Fortaleza",
+      "total_internacoes": 2234648
+    },
+    {
+      "municipio": "Belo Horizonte",
+      "total_internacoes": 2146547
+    },
+    {
+      "municipio": "Curitiba",
+      "total_internacoes": 1771586
+    },
+    {
+      "municipio": "Manaus",
+      "total_internacoes": 1684827
+    },
+    {
+      "municipio": "Recife",
+      "total_internacoes": 1635535
+    },
+    {
+      "municipio": "Porto Alegre",
+      "total_internacoes": 1580967
+    },
+    {
+      "municipio": "Goi\u00e2nia",
+      "total_internacoes": 1274546
+    }
+  ],
+  "result_hash": "0ba6cac0754512ec092c8d6cfb9f2b130a3182afe25cde60ee0da544d0759ab2",
+  "semantic_disposition": "accepted"
+}

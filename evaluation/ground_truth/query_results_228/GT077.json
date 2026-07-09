@@ -1,0 +1,218 @@
+{
+  "id": "GT077",
+  "question_pt": "Qual a m\u00e9dia de dias de interna\u00e7\u00e3o por munic\u00edpio?",
+  "executed_at": "2026-07-09T00:36:42.582362+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT mu.\"NO_MUNICIPIO\" AS municipio, AVG(i.\"DIAS_PERM\") AS media_dias_internacao FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY media_dias_internacao DESC",
+  "duration_seconds": 0.144583,
+  "performance_class": "fast",
+  "row_count": 5290,
+  "columns": [
+    "municipio",
+    "media_dias_internacao"
+  ],
+  "preview_rows": [
+    {
+      "municipio": "Altair",
+      "media_dias_internacao": 42.4
+    },
+    {
+      "municipio": "Tejup\u00e1",
+      "media_dias_internacao": 32.0
+    },
+    {
+      "municipio": "Vit\u00f3ria Brasil",
+      "media_dias_internacao": 19.5
+    },
+    {
+      "municipio": "Meridiano",
+      "media_dias_internacao": 17.142857142857142
+    },
+    {
+      "municipio": "Getulina",
+      "media_dias_internacao": 16.714285714285715
+    },
+    {
+      "municipio": "Pracinha",
+      "media_dias_internacao": 16.714285714285715
+    },
+    {
+      "municipio": "Santa Rita d'Oeste",
+      "media_dias_internacao": 15.666666666666666
+    },
+    {
+      "municipio": "Pedran\u00f3polis",
+      "media_dias_internacao": 15.375
+    },
+    {
+      "municipio": "S\u00e3o Pedro de Alc\u00e2ntara",
+      "media_dias_internacao": 14.789505519431422
+    },
+    {
+      "municipio": "Cunha",
+      "media_dias_internacao": 14.23076923076923
+    },
+    {
+      "municipio": "Cristal\u00e2ndia",
+      "media_dias_internacao": 14.191780821917808
+    },
+    {
+      "municipio": "Agudos",
+      "media_dias_internacao": 13.772727272727273
+    },
+    {
+      "municipio": "Iaras",
+      "media_dias_internacao": 13.75
+    },
+    {
+      "municipio": "Lorena",
+      "media_dias_internacao": 13.492857142857142
+    },
+    {
+      "municipio": "Ocau\u00e7u",
+      "media_dias_internacao": 13.333333333333334
+    },
+    {
+      "municipio": "Lu\u00eds Ant\u00f4nio",
+      "media_dias_internacao": 13.3
+    },
+    {
+      "municipio": "S\u00e3o Jo\u00e3o do Pau d'Alho",
+      "media_dias_internacao": 13.0
+    },
+    {
+      "municipio": "Itirapina",
+      "media_dias_internacao": 12.954545454545455
+    },
+    {
+      "municipio": "Tupirama",
+      "media_dias_internacao": 12.333333333333334
+    },
+    {
+      "municipio": "Santo Ant\u00f4nio da Alegria",
+      "media_dias_internacao": 12.077922077922079
+    },
+    {
+      "municipio": "Monteiro Lobato",
+      "media_dias_internacao": 11.833333333333334
+    },
+    {
+      "municipio": "\u00c1lvares Florence",
+      "media_dias_internacao": 11.76923076923077
+    },
+    {
+      "municipio": "Bofete",
+      "media_dias_internacao": 11.705882352941176
+    },
+    {
+      "municipio": "Guarani d'Oeste",
+      "media_dias_internacao": 11.555555555555555
+    },
+    {
+      "municipio": "Sarapu\u00ed",
+      "media_dias_internacao": 11.285714285714286
+    },
+    {
+      "municipio": "Piquerobi",
+      "media_dias_internacao": 11.2
+    },
+    {
+      "municipio": "Brasil\u00e2ndia do Tocantins",
+      "media_dias_internacao": 11.162162162162161
+    },
+    {
+      "municipio": "Itaber\u00e1",
+      "media_dias_internacao": 11.05
+    },
+    {
+      "municipio": "Pedregulho",
+      "media_dias_internacao": 10.766666666666667
+    },
+    {
+      "municipio": "Piraju\u00ed",
+      "media_dias_internacao": 10.652173913043478
+    },
+    {
+      "municipio": "Crix\u00e1s do Tocantins",
+      "media_dias_internacao": 10.45
+    },
+    {
+      "municipio": "Santa Rita do Tocantins",
+      "media_dias_internacao": 10.16
+    },
+    {
+      "municipio": "Piraju",
+      "media_dias_internacao": 10.09433962264151
+    },
+    {
+      "municipio": "Rifaina",
+      "media_dias_internacao": 10.05
+    },
+    {
+      "municipio": "Porto Alegre do Tocantins",
+      "media_dias_internacao": 10.0
+    },
+    {
+      "municipio": "Petr\u00f3polis",
+      "media_dias_internacao": 9.986499998008261
+    },
+    {
+      "municipio": "Jeriquara",
+      "media_dias_internacao": 9.884615384615385
+    },
+    {
+      "municipio": "Almas",
+      "media_dias_internacao": 9.784615384615385
+    },
+    {
+      "municipio": "\u00c1lvaro de Carvalho",
+      "media_dias_internacao": 9.75
+    },
+    {
+      "municipio": "Mari\u00e1polis",
+      "media_dias_internacao": 9.75
+    },
+    {
+      "municipio": "Laranjal Paulista",
+      "media_dias_internacao": 9.75
+    },
+    {
+      "municipio": "Dois Irm\u00e3os do Tocantins",
+      "media_dias_internacao": 9.709090909090909
+    },
+    {
+      "municipio": "Ponte Alta do Tocantins",
+      "media_dias_internacao": 9.660377358490566
+    },
+    {
+      "municipio": "Pedro de Toledo",
+      "media_dias_internacao": 9.620689655172415
+    },
+    {
+      "municipio": "Pugmil",
+      "media_dias_internacao": 9.615384615384615
+    },
+    {
+      "municipio": "Niter\u00f3i",
+      "media_dias_internacao": 9.39638745690882
+    },
+    {
+      "municipio": "Vista Alegre do Alto",
+      "media_dias_internacao": 9.363636363636363
+    },
+    {
+      "municipio": "Pelotas",
+      "media_dias_internacao": 9.279385284276557
+    },
+    {
+      "municipio": "General Salgado",
+      "media_dias_internacao": 9.257142857142858
+    },
+    {
+      "municipio": "Caiabu",
+      "media_dias_internacao": 9.25
+    }
+  ],
+  "result_hash": "699bb8db13425a27df8f908795c0bc7b81d52ef11d66b7de77fbed14e297f5e3",
+  "semantic_disposition": "accepted"
+}

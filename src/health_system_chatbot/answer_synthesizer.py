@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from llama_index.core import PromptTemplate
 from pydantic import BaseModel
 
+from .agent_deps import AnswerDeps
+from .agents import build_answer_agent
 from .config import ChatbotConfig
 from .llm import build_openai_llm
 from .models import (
@@ -24,10 +27,23 @@ class NaturalAnswer(BaseModel):
     answer_pt: str
 
 
+NATURAL_ANSWER_ROW_LIMIT = 50
+
+
 def _format_value(value: object) -> str:
+    if isinstance(value, bool):
+        return str(value)
+    if isinstance(value, int):
+        return f"{value:,}".replace(",", ".")
     if isinstance(value, float):
         return f"{value:,.4f}".rstrip("0").rstrip(".")
     return str(value)
+
+
+def _format_field_value(key: str, value: object) -> str:
+    if "ano" in key.lower() and isinstance(value, int):
+        return str(value)
+    return _format_value(value)
 
 
 def _summarize_result(result: ExecutionResult) -> str:
@@ -35,11 +51,23 @@ def _summarize_result(result: ExecutionResult) -> str:
         return "A consulta executou, mas nao retornou linhas."
     if len(result.rows) == 1:
         row = result.rows[0]
-        return ", ".join(f"{key}={_format_value(value)}" for key, value in row.items())
+        return ", ".join(f"{key}={_format_field_value(key, value)}" for key, value in row.items())
     first = result.rows[0]
-    preview = ", ".join(f"{key}={_format_value(value)}" for key, value in first.items())
+    preview = ", ".join(f"{key}={_format_field_value(key, value)}" for key, value in first.items())
+    count_key = _count_column(first)
+    total = None
+    if count_key and all(isinstance(row.get(count_key), int | float) for row in result.rows):
+        total = sum(row[count_key] for row in result.rows)
+    total_summary = (
+        f" Soma de {count_key} nas linhas retornadas: {_format_value(total)}."
+        if total is not None
+        else ""
+    )
     suffix = " O resultado foi truncado." if result.truncated else ""
-    return f"A consulta retornou {result.row_count} linhas. Primeira linha: {preview}.{suffix}"
+    return (
+        f"A consulta retornou {result.row_count} linhas. "
+        f"Primeira linha: {preview}.{total_summary}{suffix}"
+    )
 
 
 def _humanize_key(key: str) -> str:
@@ -78,7 +106,7 @@ def _row_to_user_phrase(row: dict[str, Any]) -> str:
         return f"{description}: {_format_value(count_value)} {count_label}"
 
     return ", ".join(
-        f"{_humanize_key(key)}={_format_value(value)}" for key, value in row.items()
+        f"{_humanize_key(key)}={_format_field_value(key, value)}" for key, value in row.items()
     )
 
 
@@ -109,6 +137,82 @@ def _geography_label(value: str) -> str:
     }.get(value, value)
 
 
+def _year_column(row: dict[str, Any]) -> str | None:
+    for candidate in ("ano", "ano_entrada", "ano_saida", "year"):
+        if candidate in row:
+            return candidate
+    for key in row:
+        if "ano" in key.lower():
+            return key
+    return None
+
+
+def _count_label(count_key: str | None) -> str:
+    if not count_key:
+        return "registros"
+    label = _humanize_key(count_key)
+    if label == "total":
+        return "registros"
+    return label
+
+
+def _series_phrase(rows: list[dict[str, Any]]) -> str | None:
+    if not rows:
+        return None
+    year_key = _year_column(rows[0])
+    count_key = _count_column(rows[0])
+    if not year_key or not count_key:
+        return None
+    if not all(year_key in row and count_key in row for row in rows):
+        return None
+    visible_rows = rows[:24]
+    pairs = "; ".join(
+        f"{_format_field_value(year_key, row[year_key])}: {_format_value(row[count_key])}"
+        for row in visible_rows
+    )
+    suffix = "; ..." if len(rows) > len(visible_rows) else ""
+    return f"Por ano: {pairs}{suffix}."
+
+
+TECHNICAL_ANSWER_PREFIXES = (
+    "base temporal",
+    "caveat",
+    "caveats",
+    "observacao",
+    "observacoes",
+    "detalhe",
+    "detalhes",
+    "metrica",
+    "metricas",
+    "filtro",
+    "filtros",
+    "sql",
+    "validacao",
+    "contexto anterior",
+)
+
+
+def _strip_developer_details(answer: str) -> str:
+    paragraphs = [paragraph.strip() for paragraph in answer.splitlines() if paragraph.strip()]
+    kept = []
+    for paragraph in paragraphs:
+        normalized = normalize_text(paragraph).strip()
+        if any(normalized.startswith(prefix) for prefix in TECHNICAL_ANSWER_PREFIXES):
+            continue
+        if "considerei o contexto anterior" in normalized:
+            continue
+        paragraph = re.split(
+            r"\s+(?:Base temporal|Caveats?|Observações?|Observacoes?|Detalhes?|M[eé]trica|SQL|Validação|Validacao):",
+            paragraph,
+            maxsplit=1,
+            flags=re.I,
+        )[0].strip()
+        if not paragraph:
+            continue
+        kept.append(paragraph)
+    return "\n\n".join(kept).strip() or answer.strip()
+
+
 def _build_user_answer(
     *,
     question: str,
@@ -120,46 +224,41 @@ def _build_user_answer(
     presentation_rows = _presentation_rows(question, execution.rows)
 
     if not presentation_rows:
-        answer = (
-            f"Para a pergunta '{question}', a consulta executou com sucesso, "
-            "mas nao encontrou linhas para os filtros usados."
-        )
+        return "Não encontrei registros para essa pergunta."
     elif len(presentation_rows) == 1:
-        answer = (
-            f"Para a pergunta '{question}', o resultado calculado foi: "
-            f"{_row_to_user_phrase(presentation_rows[0])}."
-        )
+        row = presentation_rows[0]
+        count_key = _count_column(row)
+        if count_key and len(row) == 1:
+            return f"Foram {_format_value(row[count_key])} {_count_label(count_key)}."
+        return f"O resultado foi: {_row_to_user_phrase(row)}."
     else:
-        rows = [
-            f"{idx}. {_row_to_user_phrase(row)}"
-            for idx, row in enumerate(presentation_rows, start=1)
-        ]
-        answer = (
-            f"Para a pergunta '{question}', os resultados retornados foram: "
-            + "; ".join(rows)
-            + "."
-        )
+        if _should_rank_by_count(question):
+            rows = [
+                f"{idx}. {_row_to_user_phrase(row)}"
+                for idx, row in enumerate(presentation_rows[:10], start=1)
+            ]
+            suffix = "; ..." if len(presentation_rows) > 10 else ""
+            return "Os resultados foram: " + "; ".join(rows) + suffix + "."
 
-    context_parts = []
-    if plan.metric_basis:
-        context_parts.append(f"metrica: {', '.join(plan.metric_basis)}")
-    if plan.date_basis and plan.date_basis not in {"unknown", "none"}:
-        context_parts.append(f"base temporal: {plan.date_basis}")
-    if plan.geography_basis != "none":
-        context_parts.append(f"geografia: {_geography_label(plan.geography_basis)}")
-    if context_parts:
-        answer += " A leitura considera " + "; ".join(context_parts) + "."
+        count_key = _count_column(presentation_rows[0])
+        total = None
+        if count_key and all(
+            isinstance(row.get(count_key), int | float) for row in presentation_rows
+        ):
+            total = sum(row[count_key] for row in presentation_rows)
+        if total is not None:
+            answer = f"Foram {_format_value(total)} {_count_label(count_key)} no período analisado."
+        else:
+            rows = [
+                f"{idx}. {_row_to_user_phrase(row)}"
+                for idx, row in enumerate(presentation_rows[:10], start=1)
+            ]
+            suffix = "; ..." if len(presentation_rows) > 10 else ""
+            answer = "Os resultados foram: " + "; ".join(rows) + suffix + "."
 
-    if related_context:
-        answer += (
-            " Tambem considerei contexto anterior relacionado registrado no audit log "
-            "para manter continuidade da analise."
-        )
-
-    if caveats:
-        answer += " Observacoes: " + " ".join(caveats)
-
-    return answer
+        if series := _series_phrase(presentation_rows):
+            answer += f"\n\n{series}"
+        return answer
 
 
 def _build_developer_context(
@@ -179,13 +278,29 @@ def _build_developer_context(
         "join_assumptions": plan.join_assumptions,
         "retrieved_tables": context.tables if context else [],
         "retrieval_mode": context.retrieval_mode if context else "",
+        "business_metrics": [metric.model_dump() for metric in context.business_metrics]
+        if context
+        else [],
+        "value_hints": [hint.model_dump() for hint in context.value_hints] if context else [],
+        "query_examples": [
+            {
+                "id": example.id,
+                "question_pt": example.question_pt,
+                "expected_result_type": example.expected_result_type,
+            }
+            for example in context.query_examples
+        ]
+        if context
+        else [],
         "warnings": validation.warnings,
         "caveats": caveats,
         "related_context": related_context,
     }
 
 
-def _compact_result_rows(rows: list[dict[str, Any]], *, limit: int = 8) -> list[dict[str, Any]]:
+def _compact_result_rows(
+    rows: list[dict[str, Any]], *, limit: int = NATURAL_ANSWER_ROW_LIMIT
+) -> list[dict[str, Any]]:
     return rows[:limit]
 
 
@@ -245,6 +360,36 @@ def _natural_answer_context(
     }
 
 
+def _contextual_caveats(question: str, context: RetrievedContext | None) -> list[str]:
+    if context is None:
+        return []
+
+    normalized_question = normalize_text(question)
+    municipality_ufs: dict[str, set[str]] = {}
+    display_names: dict[str, str] = {}
+    for hint in context.value_hints:
+        if hint.table != "municipios" or hint.column != "NO_MUNICIPIO":
+            continue
+        name = str(hint.value)
+        normalized_name = normalize_text(name)
+        if normalized_name not in normalized_question:
+            continue
+        display_names.setdefault(normalized_name, name)
+        if hint.label:
+            municipality_ufs.setdefault(normalized_name, set()).add(str(hint.label))
+
+    caveats = []
+    for normalized_name, ufs in municipality_ufs.items():
+        if len(ufs) <= 1:
+            continue
+        caveats.append(
+            f"O municipio '{display_names[normalized_name]}' aparece em mais de uma UF "
+            f"nos hints ({', '.join(sorted(ufs))}); sem UF explicita, a consulta pode "
+            "incluir municipios homonimos."
+        )
+    return caveats
+
+
 def _build_llm_user_answer(
     *,
     question: str,
@@ -268,6 +413,90 @@ def _build_llm_user_answer(
         return fallback, "Natural-language LLM synthesis disabled; used deterministic fallback."
     if config is None:
         return fallback, "Missing ChatbotConfig; used deterministic fallback."
+    if config.agent_framework == "pydantic_ai":
+        return _build_pydantic_ai_user_answer(
+            question=question,
+            plan=plan,
+            validation=validation,
+            execution=execution,
+            result_summary=result_summary,
+            caveats=caveats,
+            related_context=related_context,
+            config=config,
+            fallback=fallback,
+        )
+    if config.agent_framework != "llamaindex":
+        return fallback, f"Unsupported agent framework {config.agent_framework}; used deterministic fallback."
+    return _build_llamaindex_user_answer(
+        question=question,
+        plan=plan,
+        validation=validation,
+        execution=execution,
+        result_summary=result_summary,
+        caveats=caveats,
+        related_context=related_context,
+        config=config,
+        fallback=fallback,
+    )
+
+
+def _build_pydantic_ai_user_answer(
+    *,
+    question: str,
+    plan: SqlPlan,
+    validation: ValidationResult,
+    execution: ExecutionResult,
+    result_summary: str,
+    caveats: list[str],
+    related_context: list[dict[str, Any]],
+    config: ChatbotConfig,
+    fallback: str,
+) -> tuple[str, str | None]:
+    try:
+        agent = build_answer_agent(config)
+        deps = AnswerDeps(
+            config=config,
+            question=question,
+            plan=plan,
+            validation=validation,
+            execution=execution,
+            caveats=caveats,
+            related_context=related_context,
+        )
+        answer = agent.run_sync(
+            NATURAL_ANSWER_PROMPT.format(
+                **_natural_answer_context(
+                    question=question,
+                    plan=plan,
+                    validation=validation,
+                    execution=execution,
+                    result_summary=result_summary,
+                    caveats=caveats,
+                    related_context=related_context,
+                )
+            ),
+            deps=deps,
+        )
+        answer_pt = _strip_developer_details(answer.output.answer_pt.strip())
+        if answer_pt:
+            return answer_pt, None
+        return fallback, "Natural-language Pydantic AI synthesis returned an empty answer; used deterministic fallback."
+    except Exception as exc:
+        return fallback, f"Natural-language Pydantic AI synthesis failed; used deterministic fallback: {exc}"
+
+
+def _build_llamaindex_user_answer(
+    *,
+    question: str,
+    plan: SqlPlan,
+    validation: ValidationResult,
+    execution: ExecutionResult,
+    result_summary: str,
+    caveats: list[str],
+    related_context: list[dict[str, Any]],
+    config: ChatbotConfig,
+    fallback: str,
+) -> tuple[str, str | None]:
     try:
         llm = build_openai_llm(config)
         answer = llm.structured_predict(
@@ -283,7 +512,7 @@ def _build_llm_user_answer(
                 related_context=related_context,
             ),
         )
-        answer_pt = answer.answer_pt.strip()
+        answer_pt = _strip_developer_details(answer.answer_pt.strip())
         if answer_pt:
             return answer_pt, None
         return fallback, "Natural-language LLM returned an empty answer; used deterministic fallback."
@@ -321,7 +550,7 @@ def synthesize_answer(
     caveats = []
     caveats.extend(intent.required_caveats)
     caveats.extend(plan.caveats)
-    caveats.extend(validation.warnings)
+    caveats.extend(_contextual_caveats(question, context))
     caveats = [c for c in dict.fromkeys(caveats) if c]
     related_context = related_context or []
 
@@ -337,6 +566,13 @@ def synthesize_answer(
         config=config,
         allow_llm=allow_llm,
     )
+    answer_source = "deterministic_fallback"
+    if allow_llm and config is not None and not natural_answer_warning:
+        answer_source = (
+            "pydantic_ai_openai"
+            if config.agent_framework == "pydantic_ai"
+            else "llamaindex_openai"
+        )
     developer_context = _build_developer_context(
         plan=plan,
         validation=validation,
@@ -345,6 +581,7 @@ def synthesize_answer(
         related_context=related_context,
         caveats=caveats,
     )
+    developer_context["answer_source"] = answer_source
     if natural_answer_warning:
         developer_context["natural_answer_warning"] = natural_answer_warning
 
@@ -360,6 +597,7 @@ def synthesize_answer(
             "row_count": execution.row_count,
             "truncated": execution.truncated,
             "plan_source": plan.source,
+            "answer_source": answer_source,
         },
         status="answered",
     )

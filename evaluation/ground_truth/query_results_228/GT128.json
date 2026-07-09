@@ -1,0 +1,91 @@
+{
+  "id": "GT128",
+  "question_pt": "Quais s\u00e3o os 10 munic\u00edpios com mais de 1000 interna\u00e7\u00f5es que t\u00eam taxa de interna\u00e7\u00e3o em UTI mais de duas vezes acima da m\u00e9dia nacional?",
+  "executed_at": "2026-07-09T00:36:47.612215+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH media_nacional AS (\n    SELECT SUM(CASE WHEN \"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS taxa_uti_nacional\n    FROM internacoes\n)\nSELECT mu.\"NO_MUNICIPIO\" AS nome,\n       mu.\"SG_UF\" AS estado,\n       COUNT(*) AS total_internacoes,\n       ROUND(SUM(CASE WHEN i.\"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_uti_local,\n       ROUND(mn.taxa_uti_nacional, 2) AS taxa_uti_nacional\nFROM internacoes i\nJOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\", media_nacional mn\nGROUP BY mu.\"NO_MUNICIPIO\", mu.\"SG_UF\", mn.taxa_uti_nacional\nHAVING COUNT(*) > 1000\n   AND SUM(CASE WHEN i.\"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) > 2 * mn.taxa_uti_nacional\nORDER BY taxa_uti_local DESC\nLIMIT 10",
+  "duration_seconds": 0.376791,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "nome",
+    "estado",
+    "total_internacoes",
+    "taxa_uti_local",
+    "taxa_uti_nacional"
+  ],
+  "preview_rows": [
+    {
+      "nome": "Lidian\u00f3polis",
+      "estado": "PR",
+      "total_internacoes": 6831,
+      "taxa_uti_local": 23.06,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Arapu\u00e1",
+      "estado": "MG",
+      "total_internacoes": 1436,
+      "taxa_uti_local": 22.56,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Arapu\u00e3",
+      "estado": "PR",
+      "total_internacoes": 5389,
+      "taxa_uti_local": 22.53,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Rio Branco do Iva\u00ed",
+      "estado": "PR",
+      "total_internacoes": 3871,
+      "taxa_uti_local": 20.87,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Ariranha do Iva\u00ed",
+      "estado": "PR",
+      "total_internacoes": 4184,
+      "taxa_uti_local": 20.82,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "S\u00e3o Geraldo",
+      "estado": "MG",
+      "total_internacoes": 10885,
+      "taxa_uti_local": 20.4,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Guiricema",
+      "estado": "MG",
+      "total_internacoes": 10406,
+      "taxa_uti_local": 20.37,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Cruzmaltina",
+      "estado": "PR",
+      "total_internacoes": 4071,
+      "taxa_uti_local": 19.8,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Godoy Moreira",
+      "estado": "PR",
+      "total_internacoes": 4137,
+      "taxa_uti_local": 19.75,
+      "taxa_uti_nacional": 6.37
+    },
+    {
+      "nome": "Visconde do Rio Branco",
+      "estado": "MG",
+      "total_internacoes": 58052,
+      "taxa_uti_local": 19.35,
+      "taxa_uti_nacional": 6.37
+    }
+  ],
+  "result_hash": "287a8af63513f8a59ed6c99f8621b69efadb259a55ff477131116fe38751298a",
+  "semantic_disposition": "accepted"
+}

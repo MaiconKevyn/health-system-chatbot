@@ -9,6 +9,12 @@ from dotenv import load_dotenv
 
 DEFAULT_LLM_MODEL = "gpt-4.1-mini"
 DEFAULT_EMBED_MODEL = "text-embedding-3-small"
+DEFAULT_LLM_PROVIDER = "openai"
+DEFAULT_AGENT_FRAMEWORK = "pydantic_ai"
+DEFAULT_SCHEMA_RETRIEVAL_MODE = "auto"
+VALID_LLM_PROVIDERS = {"openai"}
+VALID_AGENT_FRAMEWORKS = {"pydantic_ai", "llamaindex"}
+VALID_SCHEMA_RETRIEVAL_MODES = {"auto", "keyword", "llamaindex_vector"}
 
 
 @dataclass(frozen=True)
@@ -18,8 +24,14 @@ class ChatbotConfig:
     openai_api_key: str | None
     llm_model: str = DEFAULT_LLM_MODEL
     embed_model: str = DEFAULT_EMBED_MODEL
+    llm_provider: str = DEFAULT_LLM_PROVIDER
+    agent_framework: str = DEFAULT_AGENT_FRAMEWORK
+    schema_retrieval_mode: str = DEFAULT_SCHEMA_RETRIEVAL_MODE
     max_rows: int = 200
     query_timeout_seconds: int = 60
+    sql_correction_attempts: int = 2
+    sql_candidates: int = 1
+    enable_multi_candidate: bool = False
     index_dir: Path | None = None
     audit_log_path: Path | None = None
 
@@ -35,8 +47,14 @@ class ChatbotConfig:
             "openai_api_key_set": self.has_openai_key,
             "llm_model": self.llm_model,
             "embed_model": self.embed_model,
+            "llm_provider": self.llm_provider,
+            "agent_framework": self.agent_framework,
+            "schema_retrieval_mode": self.schema_retrieval_mode,
             "max_rows": self.max_rows,
             "query_timeout_seconds": self.query_timeout_seconds,
+            "sql_correction_attempts": self.sql_correction_attempts,
+            "sql_candidates": self.sql_candidates,
+            "enable_multi_candidate": self.enable_multi_candidate,
             "index_dir": str(self.index_dir or self.project_root / ".chatbot_index"),
             "audit_log_path": str(
                 self.audit_log_path
@@ -63,6 +81,26 @@ def _int_env(name: str, default: int) -> int:
         raise ValueError(f"{name} must be an integer") from exc
 
 
+def _bool_env(name: str, default: bool) -> bool:
+    value = os.environ.get(name)
+    if value is None or value == "":
+        return default
+    normalized = value.strip().lower()
+    if normalized in {"1", "true", "yes", "y", "on"}:
+        return True
+    if normalized in {"0", "false", "no", "n", "off"}:
+        return False
+    raise ValueError(f"{name} must be a boolean")
+
+
+def _choice_env(name: str, default: str, allowed: set[str]) -> str:
+    value = os.environ.get(name, default).strip().lower()
+    if value not in allowed:
+        choices = ", ".join(sorted(allowed))
+        raise ValueError(f"{name} must be one of: {choices}")
+    return value
+
+
 def load_config(project_root: Path | None = None) -> ChatbotConfig:
     root = find_project_root(project_root)
     load_dotenv(root / ".env")
@@ -87,8 +125,22 @@ def load_config(project_root: Path | None = None) -> ChatbotConfig:
         openai_api_key=os.environ.get("OPENAI_API_KEY"),
         llm_model=os.environ.get("CHATBOT_LLM_MODEL", DEFAULT_LLM_MODEL),
         embed_model=os.environ.get("CHATBOT_EMBED_MODEL", DEFAULT_EMBED_MODEL),
+        llm_provider=_choice_env("CHATBOT_LLM_PROVIDER", DEFAULT_LLM_PROVIDER, VALID_LLM_PROVIDERS),
+        agent_framework=_choice_env(
+            "CHATBOT_AGENT_FRAMEWORK",
+            DEFAULT_AGENT_FRAMEWORK,
+            VALID_AGENT_FRAMEWORKS,
+        ),
+        schema_retrieval_mode=_choice_env(
+            "CHATBOT_SCHEMA_RETRIEVAL_MODE",
+            DEFAULT_SCHEMA_RETRIEVAL_MODE,
+            VALID_SCHEMA_RETRIEVAL_MODES,
+        ),
         max_rows=_int_env("CHATBOT_MAX_ROWS", 200),
         query_timeout_seconds=_int_env("CHATBOT_QUERY_TIMEOUT_SECONDS", 60),
+        sql_correction_attempts=_int_env("CHATBOT_SQL_CORRECTION_ATTEMPTS", 2),
+        sql_candidates=_int_env("CHATBOT_SQL_CANDIDATES", 1),
+        enable_multi_candidate=_bool_env("CHATBOT_ENABLE_MULTI_CANDIDATE", False),
         index_dir=index_dir,
         audit_log_path=audit_log_path,
     )

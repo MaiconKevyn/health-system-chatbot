@@ -1,0 +1,91 @@
+{
+  "id": "GT213",
+  "question_pt": "Como a taxa de mortalidade compara internacoes de urgencia e eletivas por faixa etaria?",
+  "executed_at": "2026-07-09T00:36:59.253589+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT CASE WHEN \"IDADE\" < 18 THEN '<18' WHEN \"IDADE\" BETWEEN 18 AND 39 THEN '18-39' WHEN \"IDADE\" BETWEEN 40 AND 59 THEN '40-59' WHEN \"IDADE\" BETWEEN 60 AND 79 THEN '60-79' ELSE '80+' END AS faixa_etaria, CASE WHEN \"IDADE\" < 18 THEN 1 WHEN \"IDADE\" BETWEEN 18 AND 39 THEN 2 WHEN \"IDADE\" BETWEEN 40 AND 59 THEN 3 WHEN \"IDADE\" BETWEEN 60 AND 79 THEN 4 ELSE 5 END AS ordem, CASE WHEN \"CAR_INT\" = 1 THEN 'eletiva' WHEN \"CAR_INT\" = 2 THEN 'urgencia' ELSE 'outros' END AS carater, \"MORTE\" FROM internacoes WHERE \"IDADE\" IS NOT NULL AND \"CAR_INT\" IN (1, 2)) SELECT faixa_etaria, carater, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM base GROUP BY faixa_etaria, ordem, carater ORDER BY ordem, carater",
+  "duration_seconds": 0.436428,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "faixa_etaria",
+    "carater",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "faixa_etaria": "<18",
+      "carater": "eletiva",
+      "total_internacoes": 3928508,
+      "total_mortes": 21571,
+      "taxa_mortalidade": 0.55
+    },
+    {
+      "faixa_etaria": "<18",
+      "carater": "urgencia",
+      "total_internacoes": 24252648,
+      "total_mortes": 308249,
+      "taxa_mortalidade": 1.27
+    },
+    {
+      "faixa_etaria": "18-39",
+      "carater": "eletiva",
+      "total_internacoes": 7487291,
+      "total_mortes": 33330,
+      "taxa_mortalidade": 0.45
+    },
+    {
+      "faixa_etaria": "18-39",
+      "carater": "urgencia",
+      "total_internacoes": 43376836,
+      "total_mortes": 403777,
+      "taxa_mortalidade": 0.93
+    },
+    {
+      "faixa_etaria": "40-59",
+      "carater": "eletiva",
+      "total_internacoes": 8508555,
+      "total_mortes": 113028,
+      "taxa_mortalidade": 1.33
+    },
+    {
+      "faixa_etaria": "40-59",
+      "carater": "urgencia",
+      "total_internacoes": 20894048,
+      "total_mortes": 1122745,
+      "taxa_mortalidade": 5.37
+    },
+    {
+      "faixa_etaria": "60-79",
+      "carater": "eletiva",
+      "total_internacoes": 5967346,
+      "total_mortes": 201158,
+      "taxa_mortalidade": 3.37
+    },
+    {
+      "faixa_etaria": "60-79",
+      "carater": "urgencia",
+      "total_internacoes": 20717956,
+      "total_mortes": 2237973,
+      "taxa_mortalidade": 10.8
+    },
+    {
+      "faixa_etaria": "80+",
+      "carater": "eletiva",
+      "total_internacoes": 924063,
+      "total_mortes": 79741,
+      "taxa_mortalidade": 8.63
+    },
+    {
+      "faixa_etaria": "80+",
+      "carater": "urgencia",
+      "total_internacoes": 7311759,
+      "total_mortes": 1326962,
+      "taxa_mortalidade": 18.15
+    }
+  ],
+  "result_hash": "40dc3fdc9e14daac7bbbb5b36e50484e97cb61ad1c378245fb1b93a8fff1e203",
+  "semantic_disposition": "accepted"
+}

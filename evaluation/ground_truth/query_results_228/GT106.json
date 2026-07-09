@@ -1,0 +1,82 @@
+{
+  "id": "GT106",
+  "question_pt": "Qual o custo m\u00e9dio de interna\u00e7\u00e3o por especialidade m\u00e9dica?",
+  "executed_at": "2026-07-09T00:36:45.230414+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT e.\"DESCRICAO\" AS especialidade, ROUND(AVG(i.\"VAL_TOT\"), 2) AS custo_medio FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" WHERE i.\"VAL_TOT\" IS NOT NULL GROUP BY e.\"DESCRICAO\" ORDER BY custo_medio DESC",
+  "duration_seconds": 0.07546,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "especialidade",
+    "custo_medio"
+  ],
+  "preview_rows": [
+    {
+      "especialidade": "N\u00e3o Documentado",
+      "custo_medio": 27671.2
+    },
+    {
+      "especialidade": "Cr\u00f4nicos",
+      "custo_medio": 5041.52
+    },
+    {
+      "especialidade": "Pneumologia Sanit\u00e1ria",
+      "custo_medio": 2236.97
+    },
+    {
+      "especialidade": "Cir\u00fargico",
+      "custo_medio": 2022.4
+    },
+    {
+      "especialidade": "Psiquiatria",
+      "custo_medio": 1990.03
+    },
+    {
+      "especialidade": "Pedi\u00e1trico",
+      "custo_medio": 1670.35
+    },
+    {
+      "especialidade": "Cl\u00ednico",
+      "custo_medio": 1377.88
+    },
+    {
+      "especialidade": "Leito Dia / Intercorr\u00eancia P\u00f3s-Transplante",
+      "custo_medio": 1128.77
+    },
+    {
+      "especialidade": "Leito Dia / Fibrose C\u00edstica",
+      "custo_medio": 829.57
+    },
+    {
+      "especialidade": "Leito Dia / Sa\u00fade Mental",
+      "custo_medio": 716.01
+    },
+    {
+      "especialidade": "Leito Dia / Cir\u00fargico",
+      "custo_medio": 654.2
+    },
+    {
+      "especialidade": "Reabilita\u00e7\u00e3o",
+      "custo_medio": 614.22
+    },
+    {
+      "especialidade": "Obst\u00e9trico",
+      "custo_medio": 601.17
+    },
+    {
+      "especialidade": "Leito Dia / AIDS",
+      "custo_medio": 184.77
+    },
+    {
+      "especialidade": "Leito Dia / Geriatria",
+      "custo_medio": 79.57
+    },
+    {
+      "especialidade": "Sa\u00fade Mental - Longa Perman\u00eancia",
+      "custo_medio": 0.0
+    }
+  ],
+  "result_hash": "ffcd9485a93d70ba8fda983dea3ad9537fb80ed1ecd63b177dc3f8c12a5e1ae0",
+  "semantic_disposition": "accepted"
+}

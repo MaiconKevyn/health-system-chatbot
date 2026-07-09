@@ -1,0 +1,20 @@
+{
+  "id": "DENSE_TABLE_014",
+  "question_pt": "Quantos registros existem na dimensao de nacionalidade?",
+  "executed_at": "2026-07-08T23:09:05.518758+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS total_nacionalidades FROM nacionalidade",
+  "duration_seconds": 0.000136,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "total_nacionalidades"
+  ],
+  "preview_rows": [
+    {
+      "total_nacionalidades": 333
+    }
+  ],
+  "result_hash": "35f833ec8d02fa270345baee97e6c1f47927f26de43314c9da6285773b7ad7e5",
+  "semantic_disposition": "accepted"
+}

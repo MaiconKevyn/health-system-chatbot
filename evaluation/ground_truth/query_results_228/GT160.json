@@ -1,0 +1,20 @@
+{
+  "id": "GT160",
+  "question_pt": "Quantas internacoes tem data de entrada fora do periodo de 2007 a 2023?",
+  "executed_at": "2026-07-09T00:36:52.966800+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_fora_periodo_2007_2023 FROM internacoes WHERE \"DT_INTER\" < DATE '2007-01-01' OR \"DT_INTER\" > DATE '2023-12-31'",
+  "duration_seconds": 0.001258,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_fora_periodo_2007_2023"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_fora_periodo_2007_2023": 12
+    }
+  ],
+  "result_hash": "700a711f8856f9522c5d11ba154fa85b6ba3ad1d21465dc7acd2a6e79e20d91e",
+  "semantic_disposition": "accepted"
+}

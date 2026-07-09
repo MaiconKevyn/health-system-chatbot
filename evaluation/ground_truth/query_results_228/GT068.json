@@ -1,0 +1,69 @@
+{
+  "id": "GT068",
+  "question_pt": "Quais s\u00e3o os 10 procedimentos principais mais comuns nas interna\u00e7\u00f5es?",
+  "executed_at": "2026-07-09T00:36:41.341572+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total_procedimentos DESC LIMIT 10",
+  "duration_seconds": 0.425838,
+  "performance_class": "fast",
+  "row_count": 10,
+  "columns": [
+    "PROC_REA",
+    "NOME_PROC",
+    "total_procedimentos"
+  ],
+  "preview_rows": [
+    {
+      "PROC_REA": "0310010039",
+      "NOME_PROC": "PARTO NORMAL",
+      "total_procedimentos": 13399545
+    },
+    {
+      "PROC_REA": "0303140151",
+      "NOME_PROC": "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+      "total_procedimentos": 8575497
+    },
+    {
+      "PROC_REA": "0411010034",
+      "NOME_PROC": "PARTO CESARIANO",
+      "total_procedimentos": 8390010
+    },
+    {
+      "PROC_REA": "0303010061",
+      "NOME_PROC": "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+      "total_procedimentos": 4218758
+    },
+    {
+      "PROC_REA": "0303140046",
+      "NOME_PROC": "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+      "total_procedimentos": 3226173
+    },
+    {
+      "PROC_REA": "0303010037",
+      "NOME_PROC": "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+      "total_procedimentos": 3011901
+    },
+    {
+      "PROC_REA": "0303060212",
+      "NOME_PROC": "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+      "total_procedimentos": 2935061
+    },
+    {
+      "PROC_REA": "0415010012",
+      "NOME_PROC": "TRATAMENTO C/ CIRURGIAS MULTIPLAS",
+      "total_procedimentos": 2541270
+    },
+    {
+      "PROC_REA": "0303040149",
+      "NOME_PROC": "TRATAMENTO DE ACIDENTE VASCULAR CEREBRAL - AVC (ISQUEMICO OU HEMORRAGICO AGUDO)",
+      "total_procedimentos": 2385656
+    },
+    {
+      "PROC_REA": "0303100044",
+      "NOME_PROC": "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ",
+      "total_procedimentos": 2366262
+    }
+  ],
+  "result_hash": "d9a60938d3ea757c287db3f89bb21cde77c2a196151a7cfc8e0d6e4cda7fae30",
+  "semantic_disposition": "accepted"
+}

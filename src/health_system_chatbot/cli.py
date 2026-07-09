@@ -117,7 +117,7 @@ def main(argv: list[str] | None = None) -> int:
         _print_json(config.safe_summary())
         return 0
 
-    ctx = load_stage1_context(config.project_root)
+    ctx = load_stage1_context(config.project_root, db_path=config.db_path)
 
     if args.command == "ask":
         answer = run_chat(

@@ -1,0 +1,56 @@
+{
+  "id": "GT202",
+  "question_pt": "Quais faixas etarias tiveram maior taxa de mortalidade em internacoes por COVID ou coronavirus, considerando apenas faixas com mais de 10000 internacoes?",
+  "executed_at": "2026-07-09T00:36:56.368525+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "WITH base AS (SELECT CASE WHEN \"IDADE\" < 40 THEN '00-39' WHEN \"IDADE\" BETWEEN 40 AND 49 THEN '40-49' WHEN \"IDADE\" BETWEEN 50 AND 59 THEN '50-59' WHEN \"IDADE\" BETWEEN 60 AND 69 THEN '60-69' WHEN \"IDADE\" BETWEEN 70 AND 79 THEN '70-79' ELSE '80+' END AS faixa_etaria, CASE WHEN \"IDADE\" < 40 THEN 1 WHEN \"IDADE\" BETWEEN 40 AND 49 THEN 2 WHEN \"IDADE\" BETWEEN 50 AND 59 THEN 3 WHEN \"IDADE\" BETWEEN 60 AND 69 THEN 4 WHEN \"IDADE\" BETWEEN 70 AND 79 THEN 5 ELSE 6 END AS ordem, \"MORTE\" FROM internacoes WHERE \"DIAG_PRINC\" IN ('B342', 'B972') AND \"IDADE\" IS NOT NULL) SELECT faixa_etaria, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM base GROUP BY faixa_etaria, ordem HAVING COUNT(*) > 10000 ORDER BY taxa_mortalidade DESC",
+  "duration_seconds": 0.082886,
+  "performance_class": "fast",
+  "row_count": 6,
+  "columns": [
+    "faixa_etaria",
+    "total_internacoes",
+    "total_mortes",
+    "taxa_mortalidade"
+  ],
+  "preview_rows": [
+    {
+      "faixa_etaria": "80+",
+      "total_internacoes": 173551,
+      "total_mortes": 62942,
+      "taxa_mortalidade": 36.27
+    },
+    {
+      "faixa_etaria": "70-79",
+      "total_internacoes": 232191,
+      "total_mortes": 70128,
+      "taxa_mortalidade": 30.2
+    },
+    {
+      "faixa_etaria": "60-69",
+      "total_internacoes": 278710,
+      "total_mortes": 68043,
+      "taxa_mortalidade": 24.41
+    },
+    {
+      "faixa_etaria": "50-59",
+      "total_internacoes": 277506,
+      "total_mortes": 48733,
+      "taxa_mortalidade": 17.56
+    },
+    {
+      "faixa_etaria": "40-49",
+      "total_internacoes": 213992,
+      "total_mortes": 27581,
+      "taxa_mortalidade": 12.89
+    },
+    {
+      "faixa_etaria": "00-39",
+      "total_internacoes": 261756,
+      "total_mortes": 19375,
+      "taxa_mortalidade": 7.4
+    }
+  ],
+  "result_hash": "137673f4f78b90ecbd75c40f7aea56c71c48c7f64c321f3a77a1456b2ebe4ee9",
+  "semantic_disposition": "accepted"
+}

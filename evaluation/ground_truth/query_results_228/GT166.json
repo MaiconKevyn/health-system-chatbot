@@ -1,0 +1,20 @@
+{
+  "id": "GT166",
+  "question_pt": "Quantas interna\u00e7\u00f5es est\u00e3o sem c\u00f3digo de procedimento principal realizado?",
+  "executed_at": "2026-07-09T00:36:52.969080+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_sem_codigo_procedimento FROM internacoes WHERE \"PROC_REA\" IS NULL",
+  "duration_seconds": 0.000126,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_sem_codigo_procedimento"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_sem_codigo_procedimento": 0
+    }
+  ],
+  "result_hash": "bd4aa6812952e92bd9af1d8cef7e2b5213afdd5e29a0f56171f4ad7013f3cf51",
+  "semantic_disposition": "accepted"
+}

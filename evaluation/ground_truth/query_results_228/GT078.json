@@ -1,0 +1,169 @@
+{
+  "id": "GT078",
+  "question_pt": "Quais s\u00e3o os 10 principais motivos de interna\u00e7\u00e3o para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?",
+  "executed_at": "2026-07-09T00:36:43.129408+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT faixa_etaria, \"DESCRICAO\", total_internacoes FROM (SELECT CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa_etaria, c.\"DESCRICAO\", COUNT(*) AS total_internacoes, ROW_NUMBER() OVER (PARTITION BY CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END ORDER BY COUNT(*) DESC) AS rn FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY faixa_etaria, c.\"DESCRICAO\") subquery WHERE rn <= 10 ORDER BY faixa_etaria, rn",
+  "duration_seconds": 0.544008,
+  "performance_class": "fast",
+  "row_count": 30,
+  "columns": [
+    "faixa_etaria",
+    "DESCRICAO",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Parto espontaneo cefalico",
+      "total_internacoes": 8971027
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Parto unico espontaneo NE",
+      "total_internacoes": 2143909
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Parto p/cesariana de emergencia",
+      "total_internacoes": 1287229
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Parto p/cesariana NE",
+      "total_internacoes": 1143419
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Incompleto s/complic",
+      "total_internacoes": 1135087
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Esterilizacao",
+      "total_internacoes": 1041259
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Infecc do trato urinario de localiz NE",
+      "total_internacoes": 960634
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Outr tipos de parto unico espontaneo",
+      "total_internacoes": 895981
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Pneumonia NE",
+      "total_internacoes": 884061
+    },
+    {
+      "faixa_etaria": "18 a 64",
+      "DESCRICAO": "Infecc p/coronavirus NE",
+      "total_internacoes": 841437
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Pneumonia NE",
+      "total_internacoes": 1121652
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Acid vasc cerebr NE como hemorrag isquemico",
+      "total_internacoes": 1096353
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Insuf cardiaca congestiva",
+      "total_internacoes": 870590
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Insuf cardiaca NE",
+      "total_internacoes": 829154
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Doenc pulmonar obstrutiva cronica NE",
+      "total_internacoes": 557830
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Infecc p/coronavirus NE",
+      "total_internacoes": 543037
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Infecc do trato urinario de localiz NE",
+      "total_internacoes": 537074
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Angina instavel",
+      "total_internacoes": 438972
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Septicemia NE",
+      "total_internacoes": 393424
+    },
+    {
+      "faixa_etaria": "65 ou mais",
+      "DESCRICAO": "Infarto agudo do miocardio NE",
+      "total_internacoes": 385506
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Parto espontaneo cefalico",
+      "total_internacoes": 1318383
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Pneumonia NE",
+      "total_internacoes": 1288000
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Diarreia e gastroenterite orig infecc presum",
+      "total_internacoes": 1203203
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Asma NE",
+      "total_internacoes": 869472
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Ictericia neonatal NE",
+      "total_internacoes": 577974
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Outr pneumonias bacter",
+      "total_internacoes": 517334
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Infecc intestinal bacter NE",
+      "total_internacoes": 486761
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Outr recem-nascidos de pre-termo",
+      "total_internacoes": 478765
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Broncopneumonia NE",
+      "total_internacoes": 454941
+    },
+    {
+      "faixa_etaria": "Menor de 18",
+      "DESCRICAO": "Infecc do trato urinario de localiz NE",
+      "total_internacoes": 388665
+    }
+  ],
+  "result_hash": "b81ba7e9ab1501cb9e3e8907b9f8cab636890a802b2f7290dca640ed6f067a70",
+  "semantic_disposition": "accepted"
+}

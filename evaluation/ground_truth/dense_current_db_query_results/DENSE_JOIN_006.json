@@ -1,0 +1,86 @@
+{
+  "id": "DENSE_JOIN_006",
+  "question_pt": "Como as internacoes se distribuem por marca de UTI?",
+  "executed_at": "2026-07-08T23:09:06.317809+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.DESCRICAO AS marca_uti, COUNT(*) AS internacoes FROM internacoes i JOIN marca_uti m ON i.MARCA_UTI = m.MARCA_UTI GROUP BY 1 ORDER BY internacoes DESC",
+  "duration_seconds": 0.060795,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "marca_uti",
+    "internacoes"
+  ],
+  "preview_rows": [
+    {
+      "marca_uti": "N\u00e3o utilizou UTI",
+      "internacoes": 135279575
+    },
+    {
+      "marca_uti": "UTI adulto - tipo II",
+      "internacoes": 5752388
+    },
+    {
+      "marca_uti": "UTI neonatal - tipo II",
+      "internacoes": 965018
+    },
+    {
+      "marca_uti": "UTI adulto - tipo III",
+      "internacoes": 779707
+    },
+    {
+      "marca_uti": "UTI infantil - tipo II",
+      "internacoes": 504908
+    },
+    {
+      "marca_uti": "UTI adulto - tipo II COVID 19",
+      "internacoes": 364948
+    },
+    {
+      "marca_uti": "UTI adulto - tipo I",
+      "internacoes": 215865
+    },
+    {
+      "marca_uti": "UTI coronariana tipo II - UCO tipo II",
+      "internacoes": 137189
+    },
+    {
+      "marca_uti": "UTI infantil - tipo III",
+      "internacoes": 127859
+    },
+    {
+      "marca_uti": "UTI neonatal - tipo III",
+      "internacoes": 124856
+    },
+    {
+      "marca_uti": "Utilizou mais de um tipo de UTI",
+      "internacoes": 38680
+    },
+    {
+      "marca_uti": "UTI Doador",
+      "internacoes": 33186
+    },
+    {
+      "marca_uti": "UTI infantil - tipo I",
+      "internacoes": 25320
+    },
+    {
+      "marca_uti": "UTI de queimados",
+      "internacoes": 17712
+    },
+    {
+      "marca_uti": "UTI neonatal - tipo I",
+      "internacoes": 9656
+    },
+    {
+      "marca_uti": "UTI coronariana tipo III - UCO tipo III",
+      "internacoes": 5347
+    },
+    {
+      "marca_uti": "UTI pedi\u00e1trica - tipo II COVID 19",
+      "internacoes": 4558
+    }
+  ],
+  "result_hash": "8106118393712c060ba71bdc444d1e4ff3a03f03a4d726125d8a989c140150c7",
+  "semantic_disposition": "accepted"
+}

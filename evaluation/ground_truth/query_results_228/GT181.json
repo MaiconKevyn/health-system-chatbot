@@ -1,0 +1,86 @@
+{
+  "id": "GT181",
+  "question_pt": "Qual a evolucao anual das internacoes por doencas respiratorias?",
+  "executed_at": "2026-07-09T00:36:54.855058+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_respiratorias FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'J%' AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+  "duration_seconds": 0.06786,
+  "performance_class": "fast",
+  "row_count": 17,
+  "columns": [
+    "ano",
+    "total_respiratorias"
+  ],
+  "preview_rows": [
+    {
+      "ano": 2007,
+      "total_respiratorias": 55968
+    },
+    {
+      "ano": 2008,
+      "total_respiratorias": 1148168
+    },
+    {
+      "ano": 2009,
+      "total_respiratorias": 1255574
+    },
+    {
+      "ano": 2010,
+      "total_respiratorias": 1185758
+    },
+    {
+      "ano": 2011,
+      "total_respiratorias": 1142600
+    },
+    {
+      "ano": 2012,
+      "total_respiratorias": 1059768
+    },
+    {
+      "ano": 2013,
+      "total_respiratorias": 1057367
+    },
+    {
+      "ano": 2014,
+      "total_respiratorias": 1002632
+    },
+    {
+      "ano": 2015,
+      "total_respiratorias": 967353
+    },
+    {
+      "ano": 2016,
+      "total_respiratorias": 911928
+    },
+    {
+      "ano": 2017,
+      "total_respiratorias": 944259
+    },
+    {
+      "ano": 2018,
+      "total_respiratorias": 940859
+    },
+    {
+      "ano": 2019,
+      "total_respiratorias": 955671
+    },
+    {
+      "ano": 2020,
+      "total_respiratorias": 574236
+    },
+    {
+      "ano": 2021,
+      "total_respiratorias": 626024
+    },
+    {
+      "ano": 2022,
+      "total_respiratorias": 990573
+    },
+    {
+      "ano": 2023,
+      "total_respiratorias": 1002605
+    }
+  ],
+  "result_hash": "04b1d93644c32bbfe048e7d3f257cc1e356199223034f0ac09f0904ce85c1670",
+  "semantic_disposition": "accepted"
+}

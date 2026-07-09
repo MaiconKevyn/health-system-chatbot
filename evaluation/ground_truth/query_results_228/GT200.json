@@ -1,0 +1,82 @@
+{
+  "id": "GT200",
+  "question_pt": "Qual a distribuicao de internacoes por tipo de UTI registrada?",
+  "executed_at": "2026-07-09T00:36:56.204684+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT m.\"DESCRICAO\" AS tipo_uti, COUNT(*) AS total_internacoes FROM internacoes i JOIN marca_uti m ON i.\"MARCA_UTI\" = m.\"MARCA_UTI\" WHERE i.\"MARCA_UTI\" <> 0 GROUP BY m.\"DESCRICAO\" ORDER BY total_internacoes DESC",
+  "duration_seconds": 0.021608,
+  "performance_class": "fast",
+  "row_count": 16,
+  "columns": [
+    "tipo_uti",
+    "total_internacoes"
+  ],
+  "preview_rows": [
+    {
+      "tipo_uti": "UTI adulto - tipo II",
+      "total_internacoes": 5752388
+    },
+    {
+      "tipo_uti": "UTI neonatal - tipo II",
+      "total_internacoes": 965018
+    },
+    {
+      "tipo_uti": "UTI adulto - tipo III",
+      "total_internacoes": 779707
+    },
+    {
+      "tipo_uti": "UTI infantil - tipo II",
+      "total_internacoes": 504908
+    },
+    {
+      "tipo_uti": "UTI adulto - tipo II COVID 19",
+      "total_internacoes": 364948
+    },
+    {
+      "tipo_uti": "UTI adulto - tipo I",
+      "total_internacoes": 215865
+    },
+    {
+      "tipo_uti": "UTI coronariana tipo II - UCO tipo II",
+      "total_internacoes": 137189
+    },
+    {
+      "tipo_uti": "UTI infantil - tipo III",
+      "total_internacoes": 127859
+    },
+    {
+      "tipo_uti": "UTI neonatal - tipo III",
+      "total_internacoes": 124856
+    },
+    {
+      "tipo_uti": "Utilizou mais de um tipo de UTI",
+      "total_internacoes": 38680
+    },
+    {
+      "tipo_uti": "UTI Doador",
+      "total_internacoes": 33186
+    },
+    {
+      "tipo_uti": "UTI infantil - tipo I",
+      "total_internacoes": 25320
+    },
+    {
+      "tipo_uti": "UTI de queimados",
+      "total_internacoes": 17712
+    },
+    {
+      "tipo_uti": "UTI neonatal - tipo I",
+      "total_internacoes": 9656
+    },
+    {
+      "tipo_uti": "UTI coronariana tipo III - UCO tipo III",
+      "total_internacoes": 5347
+    },
+    {
+      "tipo_uti": "UTI pedi\u00e1trica - tipo II COVID 19",
+      "total_internacoes": 4558
+    }
+  ],
+  "result_hash": "da34808576a91ce150b8d801587b587aa1824c00ad48d53f1d0dd5cd8d59c3c2",
+  "semantic_disposition": "accepted"
+}

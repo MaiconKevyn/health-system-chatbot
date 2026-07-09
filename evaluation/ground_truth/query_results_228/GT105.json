@@ -1,0 +1,20 @@
+{
+  "id": "GT105",
+  "question_pt": "Quantas interna\u00e7\u00f5es ocorreram em fins de semana (s\u00e1bado e domingo)?",
+  "executed_at": "2026-07-09T00:36:45.154631+00:00",
+  "database_file": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "sql": "SELECT COUNT(*) AS internacoes_fds FROM internacoes WHERE EXTRACT(DOW FROM \"DT_INTER\") IN (0, 6) AND \"DT_INTER\" IS NOT NULL",
+  "duration_seconds": 0.103474,
+  "performance_class": "fast",
+  "row_count": 1,
+  "columns": [
+    "internacoes_fds"
+  ],
+  "preview_rows": [
+    {
+      "internacoes_fds": 29070655
+    }
+  ],
+  "result_hash": "f4a2b2ac44d60cf461ec334311a3fe3fcdf57c202f1312c417fd7d02d646f5a6",
+  "semantic_disposition": "accepted"
+}
