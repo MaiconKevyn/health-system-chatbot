@@ -34,6 +34,7 @@ class ChatbotConfig:
     sql_correction_attempts: int = 2
     sql_candidates: int = 1
     enable_multi_candidate: bool = False
+    context_enrichment_enabled: bool = True
     catalog_tools_enabled: bool = True
     catalog_retrieval_mode: str = DEFAULT_CATALOG_RETRIEVAL_MODE
     index_dir: Path | None = None
@@ -60,6 +61,7 @@ class ChatbotConfig:
             "sql_correction_attempts": self.sql_correction_attempts,
             "sql_candidates": self.sql_candidates,
             "enable_multi_candidate": self.enable_multi_candidate,
+            "context_enrichment_enabled": self.context_enrichment_enabled,
             "catalog_tools_enabled": self.catalog_tools_enabled,
             "catalog_retrieval_mode": self.catalog_retrieval_mode,
             "index_dir": str(self.index_dir or self.project_root / ".chatbot_index"),
@@ -155,6 +157,7 @@ def load_config(project_root: Path | None = None) -> ChatbotConfig:
         sql_correction_attempts=_int_env("CHATBOT_SQL_CORRECTION_ATTEMPTS", 2),
         sql_candidates=_int_env("CHATBOT_SQL_CANDIDATES", 1),
         enable_multi_candidate=_bool_env("CHATBOT_ENABLE_MULTI_CANDIDATE", False),
+        context_enrichment_enabled=_bool_env("CHATBOT_CONTEXT_ENRICHMENT_ENABLED", True),
         catalog_tools_enabled=_bool_env("CHATBOT_CATALOG_TOOLS_ENABLED", True),
         catalog_retrieval_mode=_choice_env(
             "CHATBOT_CATALOG_RETRIEVAL_MODE",

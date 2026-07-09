@@ -476,6 +476,25 @@ pnpm test
   --run-id chart_smoke
 ```
 
+Run a Text-to-SQL ablation or direct OpenAI baseline evaluation:
+
+```bash
+.venv/bin/python evaluation/chatbot/run_ablation.py \
+  --suite smoke_10 \
+  --run-id ablation_smoke_10 \
+  --overwrite
+```
+
+Example focused run without OpenAI baselines:
+
+```bash
+.venv/bin/python evaluation/chatbot/run_ablation.py \
+  --dataset evaluation/ground_truth/stage1_questions_v2.jsonl \
+  --variants full_agent,no_catalog_tools,no_self_correction \
+  --limit 10 \
+  --run-id agent_ablation_10
+```
+
 Evaluation artifacts are written under `evaluation/chatbot/results/`. Chat
 traces and audit logs are stored under `evaluation/chatbot/` for inspection and
 debugging.

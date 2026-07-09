@@ -376,6 +376,8 @@ def retrieve_context(
             top_k_tables=top_k_tables,
         )
         if vector_context.table_context:
+            if not config.context_enrichment_enabled:
+                return vector_context
             from .context_retrieval import enrich_retrieved_context
 
             return enrich_retrieved_context(
@@ -424,6 +426,8 @@ def retrieve_context(
         data_quality_caveats=caveats[:8],
         retrieval_mode="schema_keyword",
     )
+    if config is not None and not config.context_enrichment_enabled:
+        return retrieved
     from .context_retrieval import enrich_retrieved_context
 
     return enrich_retrieved_context(

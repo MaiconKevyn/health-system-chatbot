@@ -1,0 +1,37 @@
+{
+  "smoke_10": {
+    "dataset": "evaluation/ground_truth/stage1_questions_v2.jsonl",
+    "limit": 10,
+    "variants": [
+      "full_agent",
+      "no_catalog_tools",
+      "no_self_correction",
+      "openai_raw_retrieved_schema"
+    ],
+    "description": "Short Text-to-SQL smoke suite for local ablation iteration."
+  },
+  "gt228_full": {
+    "dataset": "evaluation/ground_truth/ground_truth_228_validated.jsonl",
+    "variants": [
+      "full_agent",
+      "no_catalog_tools",
+      "no_context_enrichment",
+      "no_self_correction",
+      "openai_raw_minimal_schema",
+      "openai_raw_retrieved_schema",
+      "openai_raw_full_context",
+      "openai_raw_one_retry"
+    ],
+    "description": "Main validated ground-truth suite for architecture decisions."
+  },
+  "cid_focused": {
+    "dataset": "evaluation/ground_truth/cid_disease_tooling_eval.jsonl",
+    "variants": [
+      "full_agent",
+      "no_catalog_tools",
+      "openai_raw_retrieved_schema",
+      "openai_raw_full_context"
+    ],
+    "description": "Focused suite for CID and disease-name grounding."
+  }
+}

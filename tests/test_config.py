@@ -25,10 +25,12 @@ def test_load_config_exposes_pydantic_ai_defaults(monkeypatch, tmp_path):
     assert config.sql_correction_attempts == 2
     assert config.sql_candidates == 1
     assert config.enable_multi_candidate is False
+    assert config.context_enrichment_enabled is True
     assert config.catalog_tools_enabled is True
     assert config.catalog_retrieval_mode == "lexical"
     assert config.safe_summary()["agent_framework"] == "pydantic_ai"
     assert config.safe_summary()["schema_retrieval_mode"] == "auto"
+    assert config.safe_summary()["context_enrichment_enabled"] is True
     assert config.safe_summary()["catalog_tools_enabled"] is True
     assert config.safe_summary()["openai_api_key_set"] is False
 
@@ -65,6 +67,15 @@ def test_load_config_accepts_catalog_tool_settings(monkeypatch, tmp_path):
     assert config.catalog_tools_enabled is False
     assert config.catalog_retrieval_mode == "lexical"
     assert config.catalog_index_dir == root / "catalog-index"
+
+
+def test_load_config_accepts_context_enrichment_setting(monkeypatch, tmp_path):
+    root = _project_root(tmp_path)
+    monkeypatch.setenv("CHATBOT_CONTEXT_ENRICHMENT_ENABLED", "false")
+
+    config = load_config(root)
+
+    assert config.context_enrichment_enabled is False
 
 
 def test_load_config_rejects_unimplemented_catalog_retrieval_mode(monkeypatch, tmp_path):
