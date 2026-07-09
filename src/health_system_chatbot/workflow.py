@@ -116,6 +116,31 @@ def _write_observability_record(
         )
 
 
+def _append_catalog_tool_trace(trace: dict[str, Any], context: RetrievedContext) -> None:
+    if not context.catalog_tool_calls:
+        return
+    existing_steps = [
+        step
+        for step in trace.get("steps", [])
+        if step.get("name") == "catalog_tool_calls"
+    ]
+    if existing_steps:
+        existing_steps[-1]["payload"] = {
+            "items": [call.model_dump() for call in context.catalog_tool_calls]
+        }
+        return
+    trace["steps"].append(
+        {
+            "name": "catalog_tool_calls",
+            "payload": {"items": [call.model_dump() for call in context.catalog_tool_calls]},
+        }
+    )
+
+
+def _has_catalog_decision_warning(validation_errors_or_warnings: list[str]) -> bool:
+    return any("catalog decision" in item for item in validation_errors_or_warnings)
+
+
 def run_chat(
     question: str,
     *,
@@ -179,6 +204,7 @@ def run_chat(
                 plan = selected.plan
                 validation = selected.validation
                 execution = selected.execution
+                _append_catalog_tool_trace(trace, context)
                 trace["steps"].append({"name": "sql_plan", "payload": plan.model_dump()})
                 trace["steps"].append(
                     {"name": "validation", "payload": validation.model_dump()}
@@ -198,6 +224,7 @@ def run_chat(
                     question=question,
                     plan=plan,
                 )
+                _append_catalog_tool_trace(trace, context)
                 trace["steps"].append({"name": "sql_plan", "payload": plan.model_dump()})
                 trace["steps"].append(
                     {"name": "validation", "payload": validation.model_dump()}
@@ -210,6 +237,7 @@ def run_chat(
                 config,
                 allow_llm=allow_llm,
             )
+            _append_catalog_tool_trace(trace, context)
             trace["steps"].append({"name": "sql_plan", "payload": plan.model_dump()})
             validation = validate_sql(plan.sql, stage1_context, question=question, plan=plan)
             trace["steps"].append({"name": "validation", "payload": validation.model_dump()})
@@ -277,6 +305,51 @@ def run_chat(
             config, trace, write_trace=write_trace, write_audit_log=write_audit_log
         )
         return answer
+
+    if (
+        validation.is_valid
+        and _has_catalog_decision_warning(validation.warnings)
+        and allow_llm
+        and config.agent_framework == "pydantic_ai"
+        and config.sql_correction_attempts > 0
+    ):
+        try:
+            corrected_plan = refine_sql_plan(
+                question=question,
+                context=context,
+                stage1_context=stage1_context,
+                rejected_plan=plan,
+                validation_errors=validation.warnings,
+                execution_error="Catalog decision warning before execution.",
+                config=config,
+            )
+            corrected_validation = validate_sql(
+                corrected_plan.sql,
+                stage1_context,
+                question=question,
+                plan=corrected_plan,
+            )
+            trace["steps"].append(
+                {
+                    "name": "catalog_warning_correction",
+                    "payload": {
+                        "plan": corrected_plan.model_dump(),
+                        "validation": corrected_validation.model_dump(),
+                    },
+                }
+            )
+            if corrected_validation.is_valid and not _has_catalog_decision_warning(
+                corrected_validation.warnings
+            ):
+                plan = corrected_plan
+                validation = corrected_validation
+        except Exception as exc:
+            trace["steps"].append(
+                {
+                    "name": "catalog_warning_correction",
+                    "payload": {"errors": [str(exc)]},
+                }
+            )
 
     execution_error: str | None = None
     if execution is None:

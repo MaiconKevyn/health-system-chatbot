@@ -127,6 +127,21 @@ def test_retrieval_adds_parto_context():
     )
 
 
+def test_retrieval_does_not_prioritize_procedure_metric_for_internacoes_por_parto():
+    ctx = load_stage1_context()
+
+    retrieved = retrieve_context(
+        "Qual a evolucao anual das internacoes por parto cesariano?",
+        ctx,
+        use_vector=False,
+    )
+
+    metric_names = {metric.name for metric in retrieved.business_metrics}
+    assert "total_partos" not in metric_names
+    assert "partos_cesarianos" not in metric_names
+    assert "total_internacoes" in metric_names
+
+
 def test_retrieval_adds_municipality_value_hints(tmp_path):
     import duckdb
 
@@ -234,17 +249,22 @@ def test_retrieval_adds_dimension_table_for_business_readable_distribution():
     assert "marca_uti.DESCRICAO" in retrieved.columns
 
 
-def test_retrieval_adds_cid_cancer_value_hints(tmp_path):
+def test_retrieval_adds_cid_cancer_catalog_candidates(tmp_path):
     import duckdb
 
     db_path = tmp_path / "test.duckdb"
     con = duckdb.connect(str(db_path))
     try:
         con.execute(
-            "CREATE TABLE cid (CID VARCHAR, DESCRICAO VARCHAR, DS_CAPITULO VARCHAR)"
+            "CREATE TABLE cid ("
+            "CID VARCHAR, DESCRICAO VARCHAR, DS_CATEGORIA VARCHAR, "
+            "DS_GRUPO VARCHAR, DS_CAPITULO VARCHAR)"
         )
         con.execute(
-            "INSERT INTO cid VALUES ('C00', 'Neopl malig do labio', 'II. Neoplasias [tumores]')"
+            "INSERT INTO cid VALUES ("
+            "'C00', 'Neopl malig do labio', 'Neopl malig do labio', "
+            "'C00-C14 Neoplasias malignas do labio, cavidade oral e faringe', "
+            "'II. Neoplasias [tumores]')"
         )
     finally:
         con.close()
@@ -268,15 +288,18 @@ def test_retrieval_adds_cid_cancer_value_hints(tmp_path):
     )
 
     assert any(
-        hint.table == "cid"
-        and hint.column == "CID"
-        and hint.value == "C00"
-        and "II. Neoplasias [tumores]" in hint.label
-        for hint in result.value_hints
+        candidate.catalog == "cid"
+        and candidate.filter.column in {"DIAG_PRINC", "DS_GRUPO", "DS_CAPITULO"}
+        and (
+            candidate.filter.value == "C%"
+            or "Neoplasias" in str(candidate.filter.value)
+            or str(candidate.code).startswith("C")
+        )
+        for candidate in result.catalog_candidates
     )
 
 
-def test_retrieval_adds_generic_cid_group_hint_for_diagnosis_parto(tmp_path):
+def test_retrieval_adds_generic_cid_group_candidate_for_diagnosis_parto(tmp_path):
     import duckdb
 
     db_path = tmp_path / "test.duckdb"
@@ -317,14 +340,14 @@ def test_retrieval_adds_generic_cid_group_hint_for_diagnosis_parto(tmp_path):
     assert "cid" in retrieved.tables
     assert "total_partos" not in {metric.name for metric in retrieved.business_metrics}
     assert any(
-        hint.table == "cid"
-        and hint.column == "DS_GRUPO"
-        and hint.value == "O80-O84 Parto"
-        for hint in retrieved.value_hints
+        candidate.catalog == "cid"
+        and candidate.filter.column == "DS_GRUPO"
+        and candidate.filter.value == "O80-O84 Parto"
+        for candidate in retrieved.catalog_candidates
     )
 
 
-def test_retrieval_adds_generic_cid_chapter_hint_for_infections(tmp_path):
+def test_retrieval_adds_generic_cid_chapter_candidate_for_infections(tmp_path):
     import duckdb
 
     db_path = tmp_path / "test.duckdb"
@@ -362,8 +385,8 @@ def test_retrieval_adds_generic_cid_chapter_hint_for_infections(tmp_path):
 
     assert "cid" in retrieved.tables
     assert any(
-        hint.table == "cid"
-        and hint.column == "DS_CAPITULO"
-        and "infecciosas" in hint.value
-        for hint in retrieved.value_hints
+        candidate.catalog == "cid"
+        and candidate.filter.column == "DS_CAPITULO"
+        and "infecciosas" in str(candidate.filter.value)
+        for candidate in retrieved.catalog_candidates
     )

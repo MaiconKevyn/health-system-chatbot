@@ -1,4 +1,5 @@
 import health_system_chatbot.workflow as workflow_module
+from health_system_chatbot.catalogs.models import CatalogDecision
 from health_system_chatbot.candidate_ranking import RankedSqlCandidate, SqlCandidateSelection
 from health_system_chatbot.config import ChatbotConfig
 from health_system_chatbot.models import (
@@ -158,6 +159,96 @@ def test_run_chat_refines_after_execution_error(monkeypatch, tmp_path):
     ]
     assert captured_refine_kwargs["validation_errors"] == []
     assert captured_refine_kwargs["execution_error"] == "DuckDB binder error"
+
+
+def test_run_chat_refines_catalog_decision_warning_before_execution(monkeypatch, tmp_path):
+    generated_plan = SqlPlan(
+        question="Quantas internacoes com diagnostico de parto?",
+        sql=(
+            "SELECT COUNT(*) AS internacoes FROM internacoes "
+            "WHERE DIAG_PRINC IN ('O80','O81','O82','O83','O84')"
+        ),
+        catalog_decisions=[
+            CatalogDecision(
+                catalog="cid",
+                query="parto",
+                selected_candidate_label="O80-O84 Parto",
+                selected_filter="cid.DS_GRUPO = 'O80-O84 Parto'",
+                confidence="high",
+            )
+        ],
+    )
+    corrected_plan = SqlPlan(
+        question="Quantas internacoes com diagnostico de parto?",
+        sql=(
+            "SELECT COUNT(*) AS internacoes FROM internacoes i "
+            "JOIN cid c ON i.DIAG_PRINC = c.CID "
+            "WHERE c.DS_GRUPO = 'O80-O84 Parto'"
+        ),
+        source="pydantic_ai_refiner",
+    )
+    executed = {}
+
+    monkeypatch.setattr(
+        workflow_module,
+        "retrieve_context",
+        lambda question, stage1_context, config: RetrievedContext(tables=["internacoes", "cid"]),
+    )
+    monkeypatch.setattr(
+        workflow_module,
+        "generate_sql_plan",
+        lambda question, context, stage1_context, config, allow_llm: generated_plan,
+    )
+    monkeypatch.setattr(workflow_module, "refine_sql_plan", lambda **kwargs: corrected_plan)
+
+    def fake_execute(validation, *, db_path, max_rows):
+        executed["sql"] = validation.safe_sql
+        return ExecutionResult(
+            sql=validation.safe_sql or "",
+            columns=["internacoes"],
+            rows=[{"internacoes": 18576357}],
+            row_count=1,
+            result_hash="abc",
+        )
+
+    monkeypatch.setattr(workflow_module, "execute_validated_sql", fake_execute)
+    monkeypatch.setattr(
+        workflow_module,
+        "synthesize_answer",
+        lambda **kwargs: ChatbotAnswer(answer_pt="ok", status="answered"),
+    )
+
+    config = ChatbotConfig(
+        project_root=tmp_path,
+        db_path=tmp_path / "test.duckdb",
+        openai_api_key="test",
+        agent_framework="pydantic_ai",
+        sql_correction_attempts=2,
+    )
+    ctx = load_ctx = Stage1Context(
+        project_root=str(tmp_path),
+        tables={
+            "internacoes": TableContext(
+                table_name="internacoes",
+                column_types={"DIAG_PRINC": "VARCHAR"},
+            ),
+            "cid": TableContext(
+                table_name="cid",
+                column_types={"CID": "VARCHAR", "DS_GRUPO": "VARCHAR"},
+            ),
+        },
+    )
+
+    answer = run_chat(
+        "Quantas internacoes com diagnostico de parto?",
+        config=config,
+        stage1_context=load_ctx,
+        write_trace=False,
+        write_audit_log=False,
+    )
+
+    assert answer.status == "answered"
+    assert executed["sql"] == corrected_plan.sql
 
 
 def test_run_chat_uses_ranked_multi_candidate_execution(monkeypatch, tmp_path):

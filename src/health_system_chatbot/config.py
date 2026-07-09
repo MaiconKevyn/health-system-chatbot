@@ -12,9 +12,11 @@ DEFAULT_EMBED_MODEL = "text-embedding-3-small"
 DEFAULT_LLM_PROVIDER = "openai"
 DEFAULT_AGENT_FRAMEWORK = "pydantic_ai"
 DEFAULT_SCHEMA_RETRIEVAL_MODE = "auto"
+DEFAULT_CATALOG_RETRIEVAL_MODE = "lexical"
 VALID_LLM_PROVIDERS = {"openai"}
 VALID_AGENT_FRAMEWORKS = {"pydantic_ai", "llamaindex"}
 VALID_SCHEMA_RETRIEVAL_MODES = {"auto", "keyword", "llamaindex_vector"}
+VALID_CATALOG_RETRIEVAL_MODES = {"lexical"}
 
 
 @dataclass(frozen=True)
@@ -32,7 +34,10 @@ class ChatbotConfig:
     sql_correction_attempts: int = 2
     sql_candidates: int = 1
     enable_multi_candidate: bool = False
+    catalog_tools_enabled: bool = True
+    catalog_retrieval_mode: str = DEFAULT_CATALOG_RETRIEVAL_MODE
     index_dir: Path | None = None
+    catalog_index_dir: Path | None = None
     audit_log_path: Path | None = None
 
     @property
@@ -55,7 +60,12 @@ class ChatbotConfig:
             "sql_correction_attempts": self.sql_correction_attempts,
             "sql_candidates": self.sql_candidates,
             "enable_multi_candidate": self.enable_multi_candidate,
+            "catalog_tools_enabled": self.catalog_tools_enabled,
+            "catalog_retrieval_mode": self.catalog_retrieval_mode,
             "index_dir": str(self.index_dir or self.project_root / ".chatbot_index"),
+            "catalog_index_dir": str(
+                self.catalog_index_dir or self.project_root / ".chatbot_catalog_index"
+            ),
             "audit_log_path": str(
                 self.audit_log_path
                 or self.project_root / "evaluation/chatbot/audit/chat_audit.jsonl"
@@ -113,6 +123,10 @@ def load_config(project_root: Path | None = None) -> ChatbotConfig:
     if not index_dir.is_absolute():
         index_dir = root / index_dir
 
+    catalog_index_dir = Path(os.environ.get("CHATBOT_CATALOG_INDEX_DIR", ".chatbot_catalog_index"))
+    if not catalog_index_dir.is_absolute():
+        catalog_index_dir = root / catalog_index_dir
+
     audit_log_path = Path(
         os.environ.get("CHATBOT_AUDIT_LOG_PATH", "evaluation/chatbot/audit/chat_audit.jsonl")
     )
@@ -141,6 +155,13 @@ def load_config(project_root: Path | None = None) -> ChatbotConfig:
         sql_correction_attempts=_int_env("CHATBOT_SQL_CORRECTION_ATTEMPTS", 2),
         sql_candidates=_int_env("CHATBOT_SQL_CANDIDATES", 1),
         enable_multi_candidate=_bool_env("CHATBOT_ENABLE_MULTI_CANDIDATE", False),
+        catalog_tools_enabled=_bool_env("CHATBOT_CATALOG_TOOLS_ENABLED", True),
+        catalog_retrieval_mode=_choice_env(
+            "CHATBOT_CATALOG_RETRIEVAL_MODE",
+            DEFAULT_CATALOG_RETRIEVAL_MODE,
+            VALID_CATALOG_RETRIEVAL_MODES,
+        ),
         index_dir=index_dir,
+        catalog_index_dir=catalog_index_dir,
         audit_log_path=audit_log_path,
     )

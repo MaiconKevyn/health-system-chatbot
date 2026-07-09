@@ -14,6 +14,9 @@ def test_summarize_records_computes_rates():
             executed=True,
             result_match=True,
             latency_seconds=0.1,
+            catalog_candidates_count=2,
+            catalog_tool_calls_count=1,
+            catalog_decisions_count=1,
         ),
         EvaluationRecord(
             id="Q2",
@@ -38,4 +41,7 @@ def test_summarize_records_computes_rates():
     assert summary["result_match_rate"] == 0.5
     assert summary["failure_by_difficulty"] == {"L2": 1}
     assert summary["failure_by_category"] == {"sql_validation_error": 1}
+    assert summary["catalog_candidates_rate"] == 0.5
+    assert summary["catalog_tool_call_rate"] == 0.5
+    assert summary["catalog_decision_rate"] == 0.5
     assert len(summary["failures"]) == 1

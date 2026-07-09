@@ -8,6 +8,16 @@ def test_ambiguous_cost_location_requires_clarification():
     assert intent.ambiguities
 
 
+def test_cost_rankings_with_explicit_total_or_average_are_answerable():
+    total = classify_question("Quais capitulos CID tem maior custo total de internacoes?")
+    average = classify_question(
+        "Quais capitulos CID tem custo medio acima da media geral e mais de 100000 internacoes?"
+    )
+
+    assert total.status == "answerable"
+    assert average.status == "answerable"
+
+
 def test_patient_unique_is_refused_without_reliable_identifier():
     intent = classify_question("Quantos pacientes unicos existem na base?")
 

@@ -413,6 +413,26 @@ def _shape_policy_errors(safe_sql: str, question: str) -> list[str]:
     return errors
 
 
+def _catalog_decision_warnings(safe_sql: str, plan: SqlPlan | None) -> list[str]:
+    if plan is None or not plan.catalog_decisions:
+        return []
+    upper = safe_sql.upper()
+    warnings: list[str] = []
+    for decision in plan.catalog_decisions:
+        selected_filter = decision.selected_filter.upper()
+        if "DS_GRUPO" in selected_filter and "DIAG_PRINC IN" in upper and "DS_GRUPO" not in upper:
+            warnings.append(
+                "SQL appears to transform a CID group catalog decision into a short "
+                "DIAG_PRINC IN list. Prefer joining cid and filtering the selected DS_GRUPO."
+            )
+        if "DS_CAPITULO" in selected_filter and "DIAG_PRINC IN" in upper and "DS_CAPITULO" not in upper:
+            warnings.append(
+                "SQL appears to transform a CID chapter catalog decision into a short "
+                "DIAG_PRINC IN list. Prefer joining cid and filtering the selected DS_CAPITULO."
+            )
+    return warnings
+
+
 def validate_sql(
     sql: str,
     ctx: Stage1Context,
@@ -462,6 +482,7 @@ def validate_sql(
                 )
             )
             warnings.extend(_shape_policy_errors(safe_sql, question))
+            warnings.extend(_catalog_decision_warnings(safe_sql, plan))
 
     for table in tables:
         if table.startswith("main_dbt_test__audit") or table.startswith("dbt_"):

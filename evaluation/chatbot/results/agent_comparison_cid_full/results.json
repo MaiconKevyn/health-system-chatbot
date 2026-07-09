@@ -1,0 +1,2058 @@
+{
+  "created_at": "2026-07-09T15:50:39.581839+00:00",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/cid_disease_tooling_eval.jsonl",
+  "items": 15,
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "max_rows": 1000,
+  "summaries": {
+    "pydantic_ai": {
+      "total": 15,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 1.0,
+      "sql_generated_rate": 1.0,
+      "sql_execution_rate": 1.0,
+      "content_match_rate": 0.9333333333333333,
+      "strict_match_rate": 0.26666666666666666,
+      "scalar_answer_match_rate": 1.0,
+      "scalar_answer_items": 5,
+      "avg_agent_elapsed_s": 9.354644636199373,
+      "by_difficulty": {
+        "easy": {
+          "total": 5,
+          "gold_success": 5,
+          "content_match_rate": 1.0,
+          "sql_execution_rate": 1.0
+        },
+        "hard": {
+          "total": 5,
+          "gold_success": 5,
+          "content_match_rate": 1.0,
+          "sql_execution_rate": 1.0
+        },
+        "medium": {
+          "total": 5,
+          "gold_success": 5,
+          "content_match_rate": 0.8,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {
+        "content_mismatch": 1
+      }
+    },
+    "langgraph_simple": {
+      "total": 15,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 1.0,
+      "sql_generated_rate": 1.0,
+      "sql_execution_rate": 1.0,
+      "content_match_rate": 0.26666666666666666,
+      "strict_match_rate": 0.0,
+      "scalar_answer_match_rate": 0.4,
+      "scalar_answer_items": 5,
+      "avg_agent_elapsed_s": 4.247312514066774,
+      "by_difficulty": {
+        "easy": {
+          "total": 5,
+          "gold_success": 5,
+          "content_match_rate": 0.4,
+          "sql_execution_rate": 1.0
+        },
+        "hard": {
+          "total": 5,
+          "gold_success": 5,
+          "content_match_rate": 0.2,
+          "sql_execution_rate": 1.0
+        },
+        "medium": {
+          "total": 5,
+          "gold_success": 5,
+          "content_match_rate": 0.2,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {
+        "content_or_alias_mismatch": 9,
+        "row_count_mismatch": 2
+      }
+    }
+  },
+  "records": [
+    {
+      "agent": "pydantic_ai",
+      "id": "CID001",
+      "difficulty": "easy",
+      "question": "Quantas internações tiveram diagnóstico principal de diabetes mellitus?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_diabetes_mellitus\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%')",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_diabetes_mellitus"
+      ],
+      "gold_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 7.71390354200048,
+      "sql_elapsed_s": 0.1858476250017702,
+      "answer": "Foram registradas 1.820.001 internações com diagnóstico principal de diabetes mellitus.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID002",
+      "difficulty": "easy",
+      "question": "Quantas internações por pneumonia foram registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'J12%' OR i.DIAG_PRINC LIKE 'J13%' OR i.DIAG_PRINC LIKE 'J14%' OR i.DIAG_PRINC LIKE 'J15%' OR i.DIAG_PRINC LIKE 'J16%' OR i.DIAG_PRINC LIKE 'J17%' OR i.DIAG_PRINC LIKE 'J18%')",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          8200676
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          8200676
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 8.906517375002295,
+      "sql_elapsed_s": 0.1995657499974186,
+      "answer": "Foram registradas 8.200.676 internações por pneumonia.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID003",
+      "difficulty": "easy",
+      "question": "Quantas internações por asma aconteceram?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS internacoes\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%')",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          1694416
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1694416
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.529889666999225,
+      "sql_elapsed_s": 0.12173824999990757,
+      "answer": "Foram registradas 1.694.416 internações por asma.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID004",
+      "difficulty": "easy",
+      "question": "Quantas internações por dengue existem no banco?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'A90%' OR i.DIAG_PRINC LIKE 'A91%')",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          746265
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          746265
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 19.763669666997885,
+      "sql_elapsed_s": 0.10847141600243049,
+      "answer": "Há 746.265 internações por dengue no banco.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID005",
+      "difficulty": "easy",
+      "question": "Quantas internações por câncer de mama existem?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes\nFROM internacoes i\nWHERE i.DIAG_PRINC LIKE 'C50%'",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          703740
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          703740
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.940382834000047,
+      "sql_elapsed_s": 0.10425041700000293,
+      "answer": "Há 703.740 internações por câncer de mama.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID006",
+      "difficulty": "medium",
+      "question": "Quantas mortes hospitalares por tuberculose ocorreram por ano?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares\nFROM internacoes i\nWHERE i.MORTE = TRUE\n  AND (i.DIAG_PRINC LIKE 'A15%' OR i.DIAG_PRINC LIKE 'A16%' OR i.DIAG_PRINC LIKE 'A17%' OR i.DIAG_PRINC LIKE 'A18%' OR i.DIAG_PRINC LIKE 'A19%')\n  AND i.DT_INTER IS NOT NULL\nGROUP BY 1\nORDER BY 1",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "mortes"
+      ],
+      "predicted_columns": [
+        "ano",
+        "mortes_hospitalares"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          99
+        ],
+        [
+          2008,
+          1056
+        ],
+        [
+          2009,
+          944
+        ],
+        [
+          2010,
+          908
+        ],
+        [
+          2011,
+          958
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2007,
+          99
+        ],
+        [
+          2008,
+          1056
+        ],
+        [
+          2009,
+          944
+        ],
+        [
+          2010,
+          908
+        ],
+        [
+          2011,
+          958
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 20.707757457999833,
+      "sql_elapsed_s": 0.14509687500321888,
+      "answer": "Foram 14.255 mortes hospitalares por tuberculose no período de 2007 a 2023. Por ano: 2007 (99), 2008 (1.056), 2009 (944), 2010 (908), 2011 (958), 2012 (944), 2013 (788), 2014 (776), 2015 (880), 2016 (834), 2017 (844), 2018 (898), 2019 (1.020), 2020 (995), 2021 (1.275), 2022 (1.349) e 2023 (1.315).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID007",
+      "difficulty": "medium",
+      "question": "Quais são os 10 municípios do RS com mais internações por diabetes mellitus?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH agg AS (\n    SELECT\n        m.NO_MUNICIPIO AS municipio,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    LEFT JOIN municipios m\n        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\n       AND m.SG_UF = 'RS'\n    WHERE (\n        i.DIAG_PRINC LIKE 'E10%'\n        OR i.DIAG_PRINC LIKE 'E11%'\n        OR i.DIAG_PRINC LIKE 'E12%'\n        OR i.DIAG_PRINC LIKE 'E13%'\n        OR i.DIAG_PRINC LIKE 'E14%'\n    )\n    GROUP BY m.NO_MUNICIPIO\n)\nSELECT\n    COALESCE(municipio, 'Nao mapeado') AS municipio,\n    internacoes\nFROM agg\nORDER BY internacoes DESC, municipio ASC\nLIMIT 10",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "municipio",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Porto Alegre",
+          14912
+        ],
+        [
+          "Canoas",
+          4561
+        ],
+        [
+          "Pelotas",
+          3203
+        ],
+        [
+          "Bagé",
+          2782
+        ],
+        [
+          "Passo Fundo",
+          2672
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Nao mapeado",
+          1671766
+        ],
+        [
+          "Porto Alegre",
+          14912
+        ],
+        [
+          "Canoas",
+          4561
+        ],
+        [
+          "Pelotas",
+          3203
+        ],
+        [
+          "Bagé",
+          2782
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 7.02460620799684,
+      "sql_elapsed_s": 0.1983674160001101,
+      "answer": "Os 10 municípios do RS com mais internações por diabetes mellitus foram: Nao mapeado (1.671.766), Porto Alegre (14.912), Canoas (4.561), Pelotas (3.203), Bagé (2.782), Passo Fundo (2.672), São Borja (2.366), São Leopoldo (2.310), Viamão (2.292) e Alvorada (2.262).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID008",
+      "difficulty": "medium",
+      "question": "Qual foi a evolução anual das internações por HIV/AIDS entre 2019 e 2023?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n  COUNT(*) AS internacoes\nFROM internacoes i\nWHERE i.DT_INTER IS NOT NULL\n  AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023\n  AND (\n    i.DIAG_PRINC LIKE 'B20%'\n    OR i.DIAG_PRINC LIKE 'B21%'\n    OR i.DIAG_PRINC LIKE 'B22%'\n    OR i.DIAG_PRINC LIKE 'B23%'\n    OR i.DIAG_PRINC LIKE 'B24%'\n  )\nGROUP BY ano\nORDER BY ano",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          2019,
+          25103
+        ],
+        [
+          2020,
+          18441
+        ],
+        [
+          2021,
+          19566
+        ],
+        [
+          2022,
+          21929
+        ],
+        [
+          2023,
+          20697
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2019,
+          25103
+        ],
+        [
+          2020,
+          18441
+        ],
+        [
+          2021,
+          19566
+        ],
+        [
+          2022,
+          21929
+        ],
+        [
+          2023,
+          20697
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 6.4049933749993215,
+      "sql_elapsed_s": 0.1776663329983421,
+      "answer": "Entre 2019 e 2023, houve 105.736 internações por HIV/AIDS. A série anual foi: 2019 (25.103), 2020 (18.441), 2021 (19.566), 2022 (21.929) e 2023 (20.697).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID009",
+      "difficulty": "medium",
+      "question": "Como as internações por hipertensão essencial se distribuem por caráter de internação?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n  SELECT\n    i.CAR_INT,\n    c.DESCRICAO AS carater_internacao\n  FROM internacoes i\n  JOIN car_int c\n    ON i.CAR_INT = c.CAR_INT\n  WHERE i.DIAG_PRINC LIKE 'I10%'\n)\nSELECT\n  carater_internacao,\n  COUNT(*) AS internacoes\nFROM base\nGROUP BY carater_internacao\nORDER BY internacoes DESC, carater_internacao ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "carater",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "carater_internacao",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Urgência",
+          803208
+        ],
+        [
+          "Eletivo",
+          56774
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          58
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          4
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Urgência",
+          803208
+        ],
+        [
+          "Eletivo",
+          56774
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          58
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          4
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 4,
+      "agent_elapsed_s": 5.897925584002223,
+      "sql_elapsed_s": 0.12866416700126138,
+      "answer": "As internações por hipertensão essencial se concentraram principalmente em Urgência, com 803.208 registros, seguidas por Eletivo, com 56.774. As demais categorias tiveram volumes residuais: 58 em “Outros tipo de acidente de trânsito” e 4 em “Out tp lesões e envenen por agent quím físicos”.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID010",
+      "difficulty": "hard",
+      "question": "Entre 2019 e 2023, qual percentual das internações por doenças isquêmicas do coração foi infarto do miocárdio por ano?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n        COUNT(*) AS total_doencas_isquemicas,\n        SUM(CASE WHEN (i.DIAG_PRINC LIKE 'I21%' OR i.DIAG_PRINC LIKE 'I22%') THEN 1 ELSE 0 END) AS total_infarto\n    FROM internacoes i\n    WHERE i.DT_INTER IS NOT NULL\n      AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023\n      AND (\n          i.DIAG_PRINC LIKE 'I20%'\n          OR i.DIAG_PRINC LIKE 'I21%'\n          OR i.DIAG_PRINC LIKE 'I22%'\n          OR i.DIAG_PRINC LIKE 'I23%'\n          OR i.DIAG_PRINC LIKE 'I24%'\n          OR i.DIAG_PRINC LIKE 'I25%'\n      )\n    GROUP BY 1\n)\nSELECT\n    ano,\n    total_doencas_isquemicas,\n    total_infarto,\n    ROUND(total_infarto * 100.0 / NULLIF(total_doencas_isquemicas, 0), 2) AS percentual_infarto\nFROM base\nORDER BY ano",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes_isquemicas",
+        "internacoes_infarto",
+        "percentual_infarto"
+      ],
+      "predicted_columns": [
+        "ano",
+        "total_doencas_isquemicas",
+        "total_infarto",
+        "percentual_infarto"
+      ],
+      "gold_rows_sample": [
+        [
+          2019,
+          215893,
+          94169,
+          43.62
+        ],
+        [
+          2020,
+          189234,
+          92826,
+          49.05
+        ],
+        [
+          2021,
+          201615,
+          103904,
+          51.54
+        ],
+        [
+          2022,
+          225503,
+          119638,
+          53.05
+        ],
+        [
+          2023,
+          219229,
+          115969,
+          52.9
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2019,
+          215893,
+          94169,
+          43.62
+        ],
+        [
+          2020,
+          189234,
+          92826,
+          49.05
+        ],
+        [
+          2021,
+          201615,
+          103904,
+          51.54
+        ],
+        [
+          2022,
+          225503,
+          119638,
+          53.05
+        ],
+        [
+          2023,
+          219229,
+          115969,
+          52.9
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 12.239287750002404,
+      "sql_elapsed_s": 0.1937863329985703,
+      "answer": "Entre 2019 e 2023, a participação do infarto do miocárdio nas internações por doenças isquêmicas do coração ficou entre 43,62% e 53,05% ao ano. Em 2019 foi 43,62%; em 2020, 49,05%; em 2021, 51,54%; em 2022, 53,05%; e em 2023, 52,90%.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID011",
+      "difficulty": "hard",
+      "question": "Qual a taxa de mortalidade hospitalar por doenças cerebrovasculares ao longo dos anos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n        COUNT(*) AS internacoes,\n        SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) AS total_mortes\n    FROM internacoes i\n    WHERE (i.DIAG_PRINC LIKE 'I60%' OR i.DIAG_PRINC LIKE 'I61%' OR i.DIAG_PRINC LIKE 'I62%' OR i.DIAG_PRINC LIKE 'I63%' OR i.DIAG_PRINC LIKE 'I64%' OR i.DIAG_PRINC LIKE 'I65%' OR i.DIAG_PRINC LIKE 'I66%' OR i.DIAG_PRINC LIKE 'I67%' OR i.DIAG_PRINC LIKE 'I68%' OR i.DIAG_PRINC LIKE 'I69%')\n    GROUP BY 1\n)\nSELECT\n    ano,\n    internacoes,\n    total_mortes,\n    ROUND(total_mortes * 100.0 / NULLIF(internacoes, 0), 2) AS taxa_mortalidade_hospitalar\nFROM base\nORDER BY ano",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes",
+        "mortes",
+        "taxa_mortalidade_percentual"
+      ],
+      "predicted_columns": [
+        "ano",
+        "internacoes",
+        "total_mortes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          9443,
+          1825,
+          19.33
+        ],
+        [
+          2008,
+          121229,
+          21783,
+          17.97
+        ],
+        [
+          2009,
+          134000,
+          23459,
+          17.51
+        ],
+        [
+          2010,
+          140765,
+          24487,
+          17.4
+        ],
+        [
+          2011,
+          146756,
+          24735,
+          16.85
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2007,
+          9443,
+          1825,
+          19.33
+        ],
+        [
+          2008,
+          121229,
+          21783,
+          17.97
+        ],
+        [
+          2009,
+          134000,
+          23459,
+          17.51
+        ],
+        [
+          2010,
+          140765,
+          24487,
+          17.4
+        ],
+        [
+          2011,
+          146756,
+          24735,
+          16.85
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 8.959634666996863,
+      "sql_elapsed_s": 0.28045662499789614,
+      "answer": "A taxa de mortalidade hospitalar por doenças cerebrovasculares caiu no período, saindo de 19,33% em 2007 para 14,25% em 2023. No total, variou de 19,33% em 2007 para 17,97% em 2008, 17,51% em 2009, 17,40% em 2010, 16,85% em 2011, 16,50% em 2012, 15,94% em 2013, 15,49% em 2014, 16,01% em 2015, 16,21% em 2016, 15,60% em 2017, 15,29% em 2018, 15,07% em 2019, 15,66% em 2020, 16,30% em 2021, 15,17% em 2022 e 14,25% em 2023.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID012",
+      "difficulty": "hard",
+      "question": "Compare por ano, de 2019 a 2023, as internações por câncer de mama e câncer de próstata.",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano,\n        CASE\n            WHEN i.\"DIAG_PRINC\" LIKE 'C50%' THEN 'Cancer de mama'\n            WHEN i.\"DIAG_PRINC\" LIKE 'C61%' THEN 'Cancer de prostata'\n        END AS grupo,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2019 AND 2023\n      AND (\n          i.\"DIAG_PRINC\" LIKE 'C50%'\n          OR i.\"DIAG_PRINC\" LIKE 'C61%'\n      )\n    GROUP BY 1, 2\n)\nSELECT\n    ano,\n    SUM(CASE WHEN grupo = 'Cancer de mama' THEN internacoes ELSE 0 END) AS cancer_de_mama,\n    SUM(CASE WHEN grupo = 'Cancer de prostata' THEN internacoes ELSE 0 END) AS cancer_de_prostata\nFROM base\nGROUP BY ano\nORDER BY ano",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes_cancer_mama",
+        "internacoes_cancer_prostata"
+      ],
+      "predicted_columns": [
+        "ano",
+        "cancer_de_mama",
+        "cancer_de_prostata"
+      ],
+      "gold_rows_sample": [
+        [
+          2019,
+          53856,
+          25815
+        ],
+        [
+          2020,
+          48297,
+          21725
+        ],
+        [
+          2021,
+          51804,
+          23283
+        ],
+        [
+          2022,
+          59178,
+          27294
+        ],
+        [
+          2023,
+          59907,
+          28287
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2019,
+          53856,
+          25815
+        ],
+        [
+          2020,
+          48297,
+          21725
+        ],
+        [
+          2021,
+          51804,
+          23283
+        ],
+        [
+          2022,
+          59178,
+          27294
+        ],
+        [
+          2023,
+          59907,
+          28287
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 9.490145332998509,
+      "sql_elapsed_s": 0.15145195899822284,
+      "answer": "De 2019 a 2023, as internações por câncer de mama foram maiores que as por câncer de próstata em todos os anos. Em 2019, foram 53.856 vs. 25.815; em 2020, 48.297 vs. 21.725; em 2021, 51.804 vs. 23.283; em 2022, 59.178 vs. 27.294; e em 2023, 59.907 vs. 28.287.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID013",
+      "difficulty": "hard",
+      "question": "Quais são os 10 CIDs de diagnóstico principal mais frequentes dentro de apendicite, com descrição?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        i.DIAG_PRINC,\n        c.CID,\n        c.DESCRICAO\n    FROM internacoes i\n    JOIN cid c\n        ON i.DIAG_PRINC = c.CID\n    WHERE (i.DIAG_PRINC LIKE 'K35%' OR i.DIAG_PRINC LIKE 'K36%' OR i.DIAG_PRINC LIKE 'K37%')\n)\nSELECT\n    CID,\n    DESCRICAO,\n    COUNT(*) AS total_internacoes\nFROM base\nGROUP BY CID, DESCRICAO\nORDER BY total_internacoes DESC, CID ASC\nLIMIT 10",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "cid",
+        "diagnostico",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "CID",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "K359",
+          "Apendicite aguda SOE",
+          1014859
+        ],
+        [
+          "K36",
+          "Outr form de apendicite",
+          112553
+        ],
+        [
+          "K351",
+          "Apendicite aguda c/abscesso peritonial",
+          101376
+        ],
+        [
+          "K350",
+          "Apendicite aguda c/peritonite generalizada",
+          82666
+        ],
+        [
+          "K35",
+          "Apendicite aguda",
+          10979
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "K359",
+          "Apendicite aguda SOE",
+          1014859
+        ],
+        [
+          "K36",
+          "Outr form de apendicite",
+          112553
+        ],
+        [
+          "K351",
+          "Apendicite aguda c/abscesso peritonial",
+          101376
+        ],
+        [
+          "K350",
+          "Apendicite aguda c/peritonite generalizada",
+          82666
+        ],
+        [
+          "K35",
+          "Apendicite aguda",
+          10979
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 6.177798624998104,
+      "sql_elapsed_s": 0.14473854199968628,
+      "answer": "Os 6 CIDs de diagnóstico principal mais frequentes dentro de apendicite foram: K359 — Apendicite aguda SOE (1.014.859), K36 — Outr form de apendicite (112.553), K351 — Apendicite aguda c/abscesso peritonial (101.376), K350 — Apendicite aguda c/peritonite generalizada (82.666), K35 — Apendicite aguda (10.979) e K37 — Apendicite SOE (7.168).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID014",
+      "difficulty": "medium",
+      "question": "Entre as mortes hospitalares por insuficiência renal, qual a distribuição por sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        i.SEXO,\n        COUNT(*) AS mortes\n    FROM internacoes i\n    WHERE i.MORTE = TRUE\n      AND (i.DIAG_PRINC LIKE 'N17%' OR i.DIAG_PRINC LIKE 'N18%' OR i.DIAG_PRINC LIKE 'N19%')\n    GROUP BY i.SEXO\n)\nSELECT\n    s.DESCRICAO AS sexo,\n    b.mortes\nFROM base b\nJOIN sexo s\n  ON b.SEXO = s.SEXO\nORDER BY b.mortes DESC, sexo ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "mortes"
+      ],
+      "predicted_columns": [
+        "sexo",
+        "mortes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Masculino",
+          88873
+        ],
+        [
+          "Feminino",
+          69577
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Masculino",
+          88873
+        ],
+        [
+          "Feminino",
+          69577
+        ]
+      ],
+      "gold_row_count": 2,
+      "predicted_row_count": 2,
+      "agent_elapsed_s": 7.249775791999127,
+      "sql_elapsed_s": 0.1436180000018794,
+      "answer": "Entre as mortes hospitalares por insuficiência renal, 88.873 foram em homens e 69.577 em mulheres, com predominância do sexo masculino.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID015",
+      "difficulty": "hard",
+      "question": "Por ano, quantas internações por colelitíase ocorreram e qual foi a permanência média?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n  SELECT\n    EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n    i.DIAS_PERM\n  FROM internacoes i\n  WHERE i.DIAG_PRINC LIKE 'K80%'\n    AND i.DT_INTER IS NOT NULL\n)\nSELECT\n  ano,\n  COUNT(*) AS internacoes,\n  ROUND(AVG(DIAS_PERM), 2) AS permanencia_media\nFROM base\nGROUP BY ano\nORDER BY ano",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes",
+        "permanencia_media"
+      ],
+      "predicted_columns": [
+        "ano",
+        "internacoes",
+        "permanencia_media"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          4028,
+          5.6
+        ],
+        [
+          2008,
+          87426,
+          3.74
+        ],
+        [
+          2009,
+          95356,
+          3.71
+        ],
+        [
+          2010,
+          102419,
+          3.6
+        ],
+        [
+          2011,
+          104444,
+          3.57
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2007,
+          4028,
+          5.6
+        ],
+        [
+          2008,
+          87426,
+          3.74
+        ],
+        [
+          2009,
+          95356,
+          3.71
+        ],
+        [
+          2010,
+          102419,
+          3.6
+        ],
+        [
+          2011,
+          104444,
+          3.57
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 8.31338166599744,
+      "sql_elapsed_s": 0.14597266700002365,
+      "answer": "Foram 2.098.875 internações por colelitíase no total, com permanência média variando de 5,6 dias em 2007 para 2,77 dias em 2023. Por ano: 2007 (4.028; 5,6), 2008 (87.426; 3,74), 2009 (95.356; 3,71), 2010 (102.419; 3,6), 2011 (104.444; 3,57), 2012 (110.376; 3,56), 2013 (117.907; 3,48), 2014 (127.220; 3,39), 2015 (127.521; 3,37), 2016 (132.190; 3,31), 2017 (140.356; 3,28), 2018 (154.589; 3,23), 2019 (162.298; 3,17), 2020 (99.224; 3,62), 2021 (114.883; 3,63), 2022 (194.979; 3,06) e 2023 (223.659; 2,77).",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID001",
+      "difficulty": "easy",
+      "question": "Quantas internações tiveram diagnóstico principal de diabetes mellitus?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%';",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.0636489589996927,
+      "sql_elapsed_s": 0.1573736669997743,
+      "answer": "Foram registradas **1.820.001 internações** com diagnóstico principal de diabetes mellitus.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID002",
+      "difficulty": "easy",
+      "question": "Quantas internações por pneumonia foram registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_pneumonia FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J18%';",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_pneumonia"
+      ],
+      "gold_rows_sample": [
+        [
+          8200676
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5013865
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.59478825000042,
+      "sql_elapsed_s": 0.10424979099843767,
+      "answer": "Foram registradas **5.013.865 internações por pneumonia**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID003",
+      "difficulty": "easy",
+      "question": "Quantas internações por asma aconteceram?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_asma FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J45%';",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_asma"
+      ],
+      "gold_rows_sample": [
+        [
+          1694416
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1532138
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.1499754169999505,
+      "sql_elapsed_s": 0.10332162499980768,
+      "answer": "Foram registradas **1.532.138 internações por asma**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID004",
+      "difficulty": "easy",
+      "question": "Quantas internações por dengue existem no banco?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_dengue FROM internacoes i WHERE i.DIAG_PRINC LIKE 'A90%';",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_dengue"
+      ],
+      "gold_rows_sample": [
+        [
+          746265
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          705915
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 9.992221917000279,
+      "sql_elapsed_s": 0.10805054199954611,
+      "answer": "Existem **705.915 internações por dengue** no banco.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID005",
+      "difficulty": "easy",
+      "question": "Quantas internações por câncer de mama existem?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH internacoes_mama AS ( SELECT i.N_AIH FROM main.internacoes i WHERE i.DIAG_PRINC LIKE 'C50%' ) SELECT COUNT(*) AS total_internacoes FROM internacoes_mama;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          703740
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          703740
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.942047583001113,
+      "sql_elapsed_s": 0.10959533300047042,
+      "answer": "Existem **703.740 internações** por câncer de mama.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID006",
+      "difficulty": "medium",
+      "question": "Quantas mortes hospitalares por tuberculose ocorreram por ano?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH tuberculose_mortes AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares FROM internacoes i WHERE i.MORTE = TRUE AND i.DIAG_PRINC ILIKE 'A15%' GROUP BY 1 ) SELECT ano, mortes_hospitalares FROM tuberculose_mortes ORDER BY ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "mortes"
+      ],
+      "predicted_columns": [
+        "ano",
+        "mortes_hospitalares"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          99
+        ],
+        [
+          2008,
+          1056
+        ],
+        [
+          2009,
+          944
+        ],
+        [
+          2010,
+          908
+        ],
+        [
+          2011,
+          958
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2007,
+          88
+        ],
+        [
+          2008,
+          1001
+        ],
+        [
+          2009,
+          905
+        ],
+        [
+          2010,
+          855
+        ],
+        [
+          2011,
+          881
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 3.374875207999139,
+      "sql_elapsed_s": 0.13238300000011805,
+      "answer": "As mortes hospitalares por tuberculose por ano foram:\n\n- 2007: 88\n- 2008: 1001\n- 2009: 905\n- 2010: 855\n- 2011: 881\n- 2012: 863\n- 2013: 720\n- 2014: 694\n- 2015: 777\n- 2016: 745\n- 2017: 745\n- 2018: 775\n- 2019: 864\n- 2020: 840\n- 2021: 1076\n- 2022: 1136\n- 2023: 1129",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID007",
+      "difficulty": "medium",
+      "question": "Quais são os 10 municípios do RS com mais internações por diabetes mellitus?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH internacoes_diabetes AS ( SELECT i.MUNIC_RES, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RS' AND ( i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%' ) GROUP BY i.MUNIC_RES ), ranking AS ( SELECT m.NO_MUNICIPIO, d.total_internacoes, ROW_NUMBER() OVER (ORDER BY d.total_internacoes DESC, m.NO_MUNICIPIO) AS rn FROM internacoes_diabetes d JOIN municipios m ON d.MUNIC_RES = m.CO_MUNICIPIO_6D ) SELECT NO_MUNICIPIO, total_internacoes FROM ranking WHERE rn <= 10 ORDER BY total_internacoes DESC, NO_MUNICIPIO;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "NO_MUNICIPIO",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Porto Alegre",
+          14912
+        ],
+        [
+          "Canoas",
+          4561
+        ],
+        [
+          "Pelotas",
+          3203
+        ],
+        [
+          "Bagé",
+          2782
+        ],
+        [
+          "Passo Fundo",
+          2672
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Porto Alegre",
+          14912
+        ],
+        [
+          "Canoas",
+          4561
+        ],
+        [
+          "Pelotas",
+          3203
+        ],
+        [
+          "Bagé",
+          2782
+        ],
+        [
+          "Passo Fundo",
+          2672
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 4.227406209000037,
+      "sql_elapsed_s": 0.1212310000009893,
+      "answer": "Os 10 municípios do RS com mais internações por diabetes mellitus são:\n\n1. Porto Alegre — 14.912  \n2. Canoas — 4.561  \n3. Pelotas — 3.203  \n4. Bagé — 2.782  \n5. Passo Fundo — 2.672  \n6. São Borja — 2.366  \n7. São Leopoldo — 2.310  \n8. Viamão — 2.292  \n9. Alvorada — 2.262  \n10. Rio Grande — 2.260",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID008",
+      "difficulty": "medium",
+      "question": "Qual foi a evolução anual das internações por HIV/AIDS entre 2019 e 2023?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT EXTRACT(YEAR FROM DT_INTER) AS ano, COUNT(*) AS internacoes FROM internacoes WHERE DT_INTER >= DATE '2019-01-01' AND DT_INTER < DATE '2024-01-01' AND ( DIAG_PRINC LIKE 'B20%' OR DIAG_PRINC LIKE 'B21%' OR DIAG_PRINC LIKE 'B22%' OR DIAG_PRINC LIKE 'B24%' ) GROUP BY 1 ) SELECT ano, internacoes, internacoes - LAG(internacoes) OVER (ORDER BY ano) AS variacao_absoluta, CASE WHEN LAG(internacoes) OVER (ORDER BY ano) IS NULL OR LAG(internacoes) OVER (ORDER BY ano) = 0 THEN NULL ELSE 100.0 * (internacoes - LAG(internacoes) OVER (ORDER BY ano)) / LAG(internacoes) OVER (ORDER BY ano) END AS variacao_percentual FROM base ORDER BY ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "ano",
+        "internacoes",
+        "variacao_absoluta",
+        "variacao_percentual"
+      ],
+      "gold_rows_sample": [
+        [
+          2019,
+          25103
+        ],
+        [
+          2020,
+          18441
+        ],
+        [
+          2021,
+          19566
+        ],
+        [
+          2022,
+          21929
+        ],
+        [
+          2023,
+          20697
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2019,
+          21630,
+          null,
+          null
+        ],
+        [
+          2020,
+          16293,
+          -5337,
+          -24.67406380027739
+        ],
+        [
+          2021,
+          17300,
+          1007,
+          6.180568342232861
+        ],
+        [
+          2022,
+          19693,
+          2393,
+          13.832369942196532
+        ],
+        [
+          2023,
+          18454,
+          -1239,
+          -6.291575686792261
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 7.235301791999518,
+      "sql_elapsed_s": 0.1509964159995434,
+      "answer": "A evolução anual das internações por HIV/AIDS foi a seguinte:\n\n- **2019:** 21.630 internações  \n- **2020:** 16.293 internações (**-5.337; -24,7%**)  \n- **2021:** 17.300 internações (**+1.007; +6,2%**)  \n- **2022:** 19.693 internações (**+2.393; +13,8%**)  \n- **2023:** 18.454 internações (**-1.239; -6,3%**)  \n\n**Resumo:** houve uma queda forte em 2020, recuperação em 2021 e 2022, e nova redução em 2023.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID009",
+      "difficulty": "medium",
+      "question": "Como as internações por hipertensão essencial se distribuem por caráter de internação?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT i.CAR_INT, COUNT(*) AS total FROM internacoes i WHERE i.DIAG_PRINC LIKE 'I10%' GROUP BY i.CAR_INT ), total_geral AS ( SELECT SUM(total) AS total_geral FROM base ) SELECT c.DESCRICAO AS carater_internacao, b.total AS quantidade_internacoes, 100.0 * b.total / tg.total_geral AS percentual FROM base b JOIN car_int c ON b.CAR_INT = c.CAR_INT CROSS JOIN total_geral tg ORDER BY b.total DESC, carater_internacao;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "carater",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "carater_internacao",
+        "quantidade_internacoes",
+        "percentual"
+      ],
+      "gold_rows_sample": [
+        [
+          "Urgência",
+          803208
+        ],
+        [
+          "Eletivo",
+          56774
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          58
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          4
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Urgência",
+          803208,
+          93.39150089995395
+        ],
+        [
+          "Eletivo",
+          56774,
+          6.601290166549618
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          58,
+          0.006743841012785392
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          4,
+          0.0004650924836403719
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 4,
+      "agent_elapsed_s": 4.05860762500015,
+      "sql_elapsed_s": 0.12876950000281795,
+      "answer": "As internações por hipertensão essencial são, em sua grande maioria, de **Urgência**: **803.208** casos (**93,39%**).\n\nDepois vêm:\n- **Eletivo**: **56.774** casos (**6,60%**)\n- **Outros tipo de acidente de trânsito**: **58** casos (**0,01%**)\n- **Out tp lesões e envenen por agent quím físicos**: **4** casos (**0,00%**)",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID010",
+      "difficulty": "hard",
+      "question": "Entre 2019 e 2023, qual percentual das internações por doenças isquêmicas do coração foi infarto do miocárdio por ano?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS total_isquemicas, SUM(CASE WHEN i.DIAG_PRINC LIKE 'I21%' THEN 1 ELSE 0 END) AS total_infarto FROM internacoes i WHERE EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023 AND i.DIAG_PRINC LIKE 'I2%' AND i.DIAG_PRINC < 'I26' GROUP BY 1 ) SELECT ano, 100.0 * total_infarto / NULLIF(total_isquemicas, 0) AS percentual_infarto_miocardio FROM base ORDER BY ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes_isquemicas",
+        "internacoes_infarto",
+        "percentual_infarto"
+      ],
+      "predicted_columns": [
+        "ano",
+        "percentual_infarto_miocardio"
+      ],
+      "gold_rows_sample": [
+        [
+          2019,
+          215893,
+          94169,
+          43.62
+        ],
+        [
+          2020,
+          189234,
+          92826,
+          49.05
+        ],
+        [
+          2021,
+          201615,
+          103904,
+          51.54
+        ],
+        [
+          2022,
+          225503,
+          119638,
+          53.05
+        ],
+        [
+          2023,
+          219229,
+          115969,
+          52.9
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2019,
+          42.68966571403427
+        ],
+        [
+          2020,
+          48.076984051491806
+        ],
+        [
+          2021,
+          50.52501053989039
+        ],
+        [
+          2022,
+          51.95407599898893
+        ],
+        [
+          2023,
+          51.799260134380035
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 3.979004040997097,
+      "sql_elapsed_s": 0.13442929099983303,
+      "answer": "Entre 2019 e 2023, o percentual de internações por doenças isquêmicas do coração que foram por infarto do miocárdio foi:\n\n- **2019:** 42,69%\n- **2020:** 48,08%\n- **2021:** 50,53%\n- **2022:** 51,95%\n- **2023:** 51,80%\n\nHouve aumento ao longo do período, com leve estabilidade entre 2022 e 2023.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID011",
+      "difficulty": "hard",
+      "question": "Qual a taxa de mortalidade hospitalar por doenças cerebrovasculares ao longo dos anos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE THEN 1 ELSE 0 END) AS obitos FROM internacoes i WHERE i.DIAG_PRINC LIKE 'I6%' AND i.DT_INTER IS NOT NULL GROUP BY 1 ) SELECT ano, obitos, total_internacoes, 100.0 * obitos / NULLIF(total_internacoes, 0) AS taxa_mortalidade_hospitalar_percentual FROM base ORDER BY ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes",
+        "mortes",
+        "taxa_mortalidade_percentual"
+      ],
+      "predicted_columns": [
+        "ano",
+        "obitos",
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar_percentual"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          9443,
+          1825,
+          19.33
+        ],
+        [
+          2008,
+          121229,
+          21783,
+          17.97
+        ],
+        [
+          2009,
+          134000,
+          23459,
+          17.51
+        ],
+        [
+          2010,
+          140765,
+          24487,
+          17.4
+        ],
+        [
+          2011,
+          146756,
+          24735,
+          16.85
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2007,
+          1825,
+          9443,
+          19.32648522715239
+        ],
+        [
+          2008,
+          21783,
+          121229,
+          17.968472890150046
+        ],
+        [
+          2009,
+          23459,
+          134000,
+          17.506716417910447
+        ],
+        [
+          2010,
+          24487,
+          140765,
+          17.395659432387312
+        ],
+        [
+          2011,
+          24735,
+          146756,
+          16.854506800403392
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 3.570805167000799,
+      "sql_elapsed_s": 0.14989362499909475,
+      "answer": "A taxa de mortalidade hospitalar por doenças cerebrovasculares apresentou tendência de queda ao longo do período, com algumas oscilações.\n\n- **2007:** 19,33%\n- **2010:** 17,40%\n- **2015:** 16,01%\n- **2020:** 15,66%\n- **2023:** 14,25%\n\n**Maior taxa:** 19,33% em 2007  \n**Menor taxa:** 14,25% em 2023\n\nSe quiser, posso também organizar isso em uma tabela completa ano a ano.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID012",
+      "difficulty": "hard",
+      "question": "Compare por ano, de 2019 a 2023, as internações por câncer de mama e câncer de próstata.",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, CASE WHEN i.DIAG_PRINC LIKE 'C50%' THEN 'Câncer de mama' WHEN i.DIAG_PRINC LIKE 'C61%' THEN 'Câncer de próstata' END AS cancer, COUNT(*) AS internacoes FROM internacoes i WHERE i.DT_INTER >= DATE '2019-01-01' AND i.DT_INTER < DATE '2024-01-01' AND ( i.DIAG_PRINC LIKE 'C50%' OR i.DIAG_PRINC LIKE 'C61%' ) GROUP BY 1, 2 ) SELECT ano, cancer, internacoes FROM base ORDER BY ano, cancer;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes_cancer_mama",
+        "internacoes_cancer_prostata"
+      ],
+      "predicted_columns": [
+        "ano",
+        "cancer",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          2019,
+          53856,
+          25815
+        ],
+        [
+          2020,
+          48297,
+          21725
+        ],
+        [
+          2021,
+          51804,
+          23283
+        ],
+        [
+          2022,
+          59178,
+          27294
+        ],
+        [
+          2023,
+          59907,
+          28287
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2019,
+          "Câncer de mama",
+          53856
+        ],
+        [
+          2019,
+          "Câncer de próstata",
+          25815
+        ],
+        [
+          2020,
+          "Câncer de mama",
+          48297
+        ],
+        [
+          2020,
+          "Câncer de próstata",
+          21725
+        ],
+        [
+          2021,
+          "Câncer de mama",
+          51804
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 4.08247804200073,
+      "sql_elapsed_s": 0.14808624999932363,
+      "answer": "De 2019 a 2023, as internações por câncer de mama foram maiores que as de câncer de próstata em todos os anos:\n\n- 2019: mama 53.856 | próstata 25.815\n- 2020: mama 48.297 | próstata 21.725\n- 2021: mama 51.804 | próstata 23.283\n- 2022: mama 59.178 | próstata 27.294\n- 2023: mama 59.907 | próstata 28.287\n\nResumo: houve queda em 2020 para ambos, seguida de recuperação e crescimento até 2023.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID013",
+      "difficulty": "hard",
+      "question": "Quais são os 10 CIDs de diagnóstico principal mais frequentes dentro de apendicite, com descrição?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH apendicite AS ( SELECT i.DIAG_PRINC AS cid, COUNT(*) AS frequencia FROM internacoes i WHERE i.DIAG_PRINC LIKE 'K35%' OR i.DIAG_PRINC LIKE 'K36%' OR i.DIAG_PRINC LIKE 'K37%' GROUP BY i.DIAG_PRINC ), ranked AS ( SELECT a.cid, c.DESCRICAO, a.frequencia, ROW_NUMBER() OVER (ORDER BY a.frequencia DESC, a.cid) AS rn FROM apendicite a LEFT JOIN cid c ON a.cid = c.CID ) SELECT cid AS cid_diagnostico_principal, DESCRICAO AS descricao, frequencia FROM ranked WHERE rn <= 10 ORDER BY frequencia DESC, cid_diagnostico_principal;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "cid",
+        "diagnostico",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "cid_diagnostico_principal",
+        "descricao",
+        "frequencia"
+      ],
+      "gold_rows_sample": [
+        [
+          "K359",
+          "Apendicite aguda SOE",
+          1014859
+        ],
+        [
+          "K36",
+          "Outr form de apendicite",
+          112553
+        ],
+        [
+          "K351",
+          "Apendicite aguda c/abscesso peritonial",
+          101376
+        ],
+        [
+          "K350",
+          "Apendicite aguda c/peritonite generalizada",
+          82666
+        ],
+        [
+          "K35",
+          "Apendicite aguda",
+          10979
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "K359",
+          "Apendicite aguda SOE",
+          1014859
+        ],
+        [
+          "K36",
+          "Outr form de apendicite",
+          112553
+        ],
+        [
+          "K351",
+          "Apendicite aguda c/abscesso peritonial",
+          101376
+        ],
+        [
+          "K350",
+          "Apendicite aguda c/peritonite generalizada",
+          82666
+        ],
+        [
+          "K35",
+          "Apendicite aguda",
+          10979
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 3.800577959002112,
+      "sql_elapsed_s": 0.137392209002428,
+      "answer": "Dentro do grupo de apendicite, os CIDs de diagnóstico principal mais frequentes foram:\n\n1. **K359** — *Apendicite aguda SOE* — **1.014.859**\n2. **K36** — *Outr form de apendicite* — **112.553**\n3. **K351** — *Apendicite aguda c/abscesso peritonial* — **101.376**\n4. **K350** — *Apendicite aguda c/peritonite generalizada* — **82.666**\n5. **K35** — *Apendicite aguda* — **10.979**\n6. **K37** — *Apendicite SOE* — **7.168**\n\nO resultado SQL trouxe **6 CIDs** no total, não 10.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID014",
+      "difficulty": "medium",
+      "question": "Entre as mortes hospitalares por insuficiência renal, qual a distribuição por sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH mortes_insuficiencia_renal AS ( SELECT i.SEXO, COUNT(*) AS obitos FROM internacoes i WHERE i.MORTE = TRUE AND ( i.DIAG_PRINC LIKE 'N18%' OR i.DIAG_PRINC LIKE 'N19%' OR i.DIAG_PRINC LIKE 'N17%' ) GROUP BY i.SEXO ), total_mortes AS ( SELECT SUM(obitos) AS total_obitos FROM mortes_insuficiencia_renal ) SELECT s.DESCRICAO AS sexo, m.obitos, ROUND(100.0 * m.obitos / t.total_obitos, 2) AS percentual FROM mortes_insuficiencia_renal m JOIN sexo s ON s.SEXO = m.SEXO CROSS JOIN total_mortes t ORDER BY m.obitos DESC, sexo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "mortes"
+      ],
+      "predicted_columns": [
+        "sexo",
+        "obitos",
+        "percentual"
+      ],
+      "gold_rows_sample": [
+        [
+          "Masculino",
+          88873
+        ],
+        [
+          "Feminino",
+          69577
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Masculino",
+          88873,
+          56.09
+        ],
+        [
+          "Feminino",
+          69577,
+          43.91
+        ]
+      ],
+      "gold_row_count": 2,
+      "predicted_row_count": 2,
+      "agent_elapsed_s": 4.423562791998847,
+      "sql_elapsed_s": 0.14263320800091606,
+      "answer": "Entre as mortes hospitalares por insuficiência renal, a distribuição por sexo é:\n\n- **Masculino:** 88.873 óbitos (**56,09%**)\n- **Feminino:** 69.577 óbitos (**43,91%**)\n\nPredominaram os óbitos no sexo masculino.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID015",
+      "difficulty": "hard",
+      "question": "Por ano, quantas internações por colelitíase ocorreram e qual foi a permanência média?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH colelitiases AS ( SELECT EXTRACT(YEAR FROM DT_INTER) AS ano, DIAS_PERM FROM internacoes WHERE DIAG_PRINC IN ( SELECT CID FROM cid WHERE DESCRICAO ILIKE '%colelitíase%' OR DESCRICAO ILIKE '%colecistolitíase%' OR DESCRICAO ILIKE '%cálculo da vesícula biliar%' OR DESCRICAO ILIKE '%calculo da vesicula biliar%' ) ) SELECT ano, COUNT(*) AS internacoes, AVG(DIAS_PERM) AS permanencia_media FROM colelitiases GROUP BY ano ORDER BY ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes",
+        "permanencia_media"
+      ],
+      "predicted_columns": [
+        "ano",
+        "internacoes",
+        "permanencia_media"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          4028,
+          5.6
+        ],
+        [
+          2008,
+          87426,
+          3.74
+        ],
+        [
+          2009,
+          95356,
+          3.71
+        ],
+        [
+          2010,
+          102419,
+          3.6
+        ],
+        [
+          2011,
+          104444,
+          3.57
+        ]
+      ],
+      "predicted_rows_sample": [],
+      "gold_row_count": 17,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 2.2143867500017222,
+      "sql_elapsed_s": 0.039021874999889405,
+      "answer": "A consulta foi executada, mas nao retornou linhas.",
+      "agent_error": ""
+    }
+  ]
+}

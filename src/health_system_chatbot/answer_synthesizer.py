@@ -282,6 +282,13 @@ def _build_developer_context(
         if context
         else [],
         "value_hints": [hint.model_dump() for hint in context.value_hints] if context else [],
+        "catalog_candidates": [candidate.model_dump() for candidate in context.catalog_candidates]
+        if context
+        else [],
+        "catalog_tool_calls": [call.model_dump() for call in context.catalog_tool_calls]
+        if context
+        else [],
+        "catalog_decisions": [decision.model_dump() for decision in plan.catalog_decisions],
         "query_examples": [
             {
                 "id": example.id,

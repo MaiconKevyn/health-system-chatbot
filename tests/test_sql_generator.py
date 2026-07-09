@@ -2,6 +2,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import health_system_chatbot.sql_generator as sql_generator_module
+from health_system_chatbot.catalogs.models import CatalogCandidate, CatalogDecision, CatalogFilter
 from health_system_chatbot.config import ChatbotConfig
 from health_system_chatbot.models import (
     BusinessMetric,
@@ -319,3 +320,163 @@ def test_prompt_includes_canonical_parto_metric(monkeypatch, tmp_path):
     assert "internacoes.PROC_REA IN" in captured["prompt"]
     assert "0310010039" in captured["prompt"]
     assert "Nao use DIAG_PRINC LIKE 'O8%'" in captured["prompt"]
+
+
+def test_prompt_distinguishes_internacoes_por_cesarean_from_procedure(monkeypatch, tmp_path):
+    captured = {}
+
+    class FakeAgent:
+        def run_sync(self, prompt, *, deps):
+            captured["prompt"] = prompt
+            return SimpleNamespace(
+                output=SqlPlan(
+                    question="Qual a evolucao anual das internacoes por parto cesariano?",
+                    sql=(
+                        "SELECT EXTRACT(YEAR FROM DT_INTER) AS ano, COUNT(*) AS total "
+                        "FROM internacoes WHERE DIAG_PRINC LIKE 'O82%' GROUP BY 1 ORDER BY 1"
+                    ),
+                )
+            )
+
+    monkeypatch.setattr(sql_generator_module, "build_sql_plan_agent", lambda config: FakeAgent())
+    config = ChatbotConfig(
+        project_root=tmp_path,
+        db_path=tmp_path / "test.duckdb",
+        openai_api_key="test",
+        agent_framework="pydantic_ai",
+    )
+
+    generate_sql_plan(
+        "Qual a evolucao anual das internacoes por parto cesariano?",
+        RetrievedContext(
+            tables=["internacoes", "cid"],
+            columns=["internacoes.DIAG_PRINC", "cid.CID", "cid.DS_CATEGORIA"],
+            table_context=[
+                "table=internacoes\ncolumns=DIAG_PRINC, DT_INTER",
+                "table=cid\ncolumns=CID, DS_CATEGORIA",
+            ],
+            retrieval_mode="test",
+        ),
+        Stage1Context(project_root=str(tmp_path)),
+        config,
+    )
+
+    assert "internacoes por/de parto cesariano" in captured["prompt"]
+    assert "internacoes.DIAG_PRINC LIKE 'O82%'" in captured["prompt"]
+
+
+def test_generate_sql_plan_records_catalog_tool_calls(monkeypatch, tmp_path):
+    import duckdb
+
+    from health_system_chatbot.tools.catalog_tools import search_cid_catalog
+
+    db_path = tmp_path / "test.duckdb"
+    con = duckdb.connect(str(db_path))
+    try:
+        con.execute(
+            "CREATE TABLE cid (CID VARCHAR, DESCRICAO VARCHAR, DS_CATEGORIA VARCHAR, DS_GRUPO VARCHAR, DS_CAPITULO VARCHAR)"
+        )
+        con.execute(
+            "INSERT INTO cid VALUES ('O80', 'Parto unico espontaneo', 'Parto unico espontaneo', 'O80-O84 Parto', 'XV. Gravidez, parto e puerperio')"
+        )
+    finally:
+        con.close()
+
+    class FakeAgent:
+        def run_sync(self, prompt, *, deps):
+            search_cid_catalog(deps, query="parto", scope="diagnosis")
+            return SimpleNamespace(
+                output=SqlPlan(
+                    question="Quantas internacoes com diagnostico de parto?",
+                    sql=(
+                        "SELECT COUNT(*) AS internacoes FROM internacoes i "
+                        "JOIN cid c ON i.DIAG_PRINC = c.CID "
+                        "WHERE c.DS_GRUPO = 'O80-O84 Parto'"
+                    ),
+                )
+            )
+
+    monkeypatch.setattr(sql_generator_module, "build_sql_plan_agent", lambda config: FakeAgent())
+    config = ChatbotConfig(
+        project_root=tmp_path,
+        db_path=db_path,
+        openai_api_key="test",
+        agent_framework="pydantic_ai",
+    )
+    context = RetrievedContext(tables=["internacoes", "cid"])
+
+    plan = generate_sql_plan(
+        "Quantas internacoes com diagnostico de parto?",
+        context,
+        Stage1Context(project_root=str(tmp_path)),
+        config,
+    )
+
+    assert context.catalog_tool_calls
+    assert context.catalog_tool_calls[0].tool == "search_cid_catalog"
+    assert context.catalog_tool_calls[0].result is not None
+    assert context.catalog_tool_calls[0].result.candidates[0].filter.value == "O80-O84 Parto"
+    assert plan.catalog_decisions
+    assert plan.catalog_decisions[0].selected_candidate_label == "O80-O84 Parto"
+
+
+def test_generate_sql_plan_drops_unused_catalog_decisions(monkeypatch, tmp_path):
+    class FakeAgent:
+        def run_sync(self, prompt, *, deps):
+            return SimpleNamespace(
+                output=SqlPlan(
+                    question="Qual percentual foi por capitulo CID?",
+                    sql=(
+                        "SELECT c.DS_CAPITULO AS capitulo_cid, COUNT(*) AS internacoes "
+                        "FROM internacoes i JOIN cid c ON i.DIAG_PRINC = c.CID "
+                        "GROUP BY 1 ORDER BY internacoes DESC"
+                    ),
+                    catalog_decisions=[
+                        CatalogDecision(
+                            catalog="cid",
+                            query="capitulo CID",
+                            selected_candidate_label=(
+                                "XII. Doencas da pele e do tecido subcutaneo"
+                            ),
+                            selected_filter="c.DS_CAPITULO = ?",
+                        )
+                    ],
+                )
+            )
+
+    monkeypatch.setattr(sql_generator_module, "build_sql_plan_agent", lambda config: FakeAgent())
+    config = ChatbotConfig(
+        project_root=tmp_path,
+        db_path=tmp_path / "test.duckdb",
+        openai_api_key="test",
+        agent_framework="pydantic_ai",
+    )
+    context = RetrievedContext(
+        tables=["internacoes", "cid"],
+        catalog_candidates=[
+            CatalogCandidate(
+                catalog="cid",
+                level="chapter",
+                code="XII",
+                label="XII. Doencas da pele e do tecido subcutaneo",
+                source_table="cid",
+                source_column="DS_CAPITULO",
+                filter=CatalogFilter(
+                    table="cid",
+                    column="DS_CAPITULO",
+                    operator="=",
+                    value="XII. Doencas da pele e do tecido subcutaneo",
+                    where_sql_template="c.DS_CAPITULO = ?",
+                ),
+            )
+        ],
+    )
+
+    plan = generate_sql_plan(
+        "Qual percentual foi por capitulo CID?",
+        context,
+        Stage1Context(project_root=str(tmp_path)),
+        config,
+    )
+
+    assert plan.catalog_decisions == []

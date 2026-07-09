@@ -44,7 +44,18 @@ def classify_question(question: str, ctx: Stage1Context | None = None) -> Questi
 
     if "custo" in normalized and not any(
         token in normalized
-        for token in ("val_tot", "val_sh", "val_sp", "val_uti", "valor total", "aprovado")
+        for token in (
+            "val_tot",
+            "val_sh",
+            "val_sp",
+            "val_uti",
+            "valor total",
+            "aprovado",
+            "custo total",
+            "custo medio",
+            "media geral",
+            "maior custo",
+        )
     ):
         ambiguities.append("Definir se custo significa VAL_TOT, VAL_SH, VAL_SP, VAL_UTI ou outra metrica.")
 

@@ -1,0 +1,211 @@
+{
+  "created_at": "2026-07-09T15:46:59.681354+00:00",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/cid_disease_tooling_eval.jsonl",
+  "items": 2,
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "max_rows": 1000,
+  "summaries": {
+    "pydantic_ai": {
+      "total": 2,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 1.0,
+      "sql_generated_rate": 1.0,
+      "sql_execution_rate": 1.0,
+      "content_match_rate": 1.0,
+      "strict_match_rate": 0.0,
+      "scalar_answer_match_rate": 1.0,
+      "scalar_answer_items": 2,
+      "avg_agent_elapsed_s": 7.6445943335002084,
+      "by_difficulty": {
+        "easy": {
+          "total": 2,
+          "gold_success": 2,
+          "content_match_rate": 1.0,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {}
+    },
+    "langgraph_simple": {
+      "total": 2,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 1.0,
+      "sql_generated_rate": 1.0,
+      "sql_execution_rate": 1.0,
+      "content_match_rate": 0.5,
+      "strict_match_rate": 0.0,
+      "scalar_answer_match_rate": 0.5,
+      "scalar_answer_items": 2,
+      "avg_agent_elapsed_s": 5.004855874502027,
+      "by_difficulty": {
+        "easy": {
+          "total": 2,
+          "gold_success": 2,
+          "content_match_rate": 0.5,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {
+        "content_or_alias_mismatch": 1
+      }
+    }
+  },
+  "records": [
+    {
+      "agent": "pydantic_ai",
+      "id": "CID001",
+      "difficulty": "easy",
+      "question": "Quantas internações tiveram diagnóstico principal de diabetes mellitus?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_diabetes\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%')",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_diabetes"
+      ],
+      "gold_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 9.150930333998986,
+      "sql_elapsed_s": 0.16053695899972809,
+      "answer": "Foram registradas 1.820.001 internações com diagnóstico principal de diabetes mellitus.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "CID002",
+      "difficulty": "easy",
+      "question": "Quantas internações por pneumonia foram registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_pneumonia\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'J12%'\n    OR i.DIAG_PRINC LIKE 'J13%'\n    OR i.DIAG_PRINC LIKE 'J14%'\n    OR i.DIAG_PRINC LIKE 'J15%'\n    OR i.DIAG_PRINC LIKE 'J16%'\n    OR i.DIAG_PRINC LIKE 'J17%'\n    OR i.DIAG_PRINC LIKE 'J18%')",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_pneumonia"
+      ],
+      "gold_rows_sample": [
+        [
+          8200676
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          8200676
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 6.138258333001431,
+      "sql_elapsed_s": 0.18416845799947623,
+      "answer": "Foram registradas 8.200.676 internações por pneumonia.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID001",
+      "difficulty": "easy",
+      "question": "Quantas internações tiveram diagnóstico principal de diabetes mellitus?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_diabetes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%';",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_diabetes"
+      ],
+      "gold_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1820001
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 7.553051333001349,
+      "sql_elapsed_s": 0.14466441699914867,
+      "answer": "Foram registradas **1.820.001 internações** com diagnóstico principal de **diabetes mellitus**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "CID002",
+      "difficulty": "easy",
+      "question": "Quantas internações por pneumonia foram registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_pneumonia FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J18%';",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_pneumonia"
+      ],
+      "gold_rows_sample": [
+        [
+          8200676
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5013865
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.4566604160027055,
+      "sql_elapsed_s": 0.0850260419974802,
+      "answer": "Foram registradas **5.013.865 internações por pneumonia**.",
+      "agent_error": ""
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+agent,id,difficulty,gold_success,agent_success,sql_generated,prediction_success,content_match,strict_match,answer_scalar_match,gold_row_count,predicted_row_count,agent_elapsed_s,prediction_error,agent_error,question,generated_sql
+pydantic_ai,CID001,easy,True,True,True,True,True,False,True,1,1,7.71390354200048,,,Quantas internações tiveram diagnóstico principal de diabetes mellitus?,"SELECT COUNT(*) AS total_diabetes_mellitus
+FROM internacoes i
+WHERE (i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%')"
+pydantic_ai,CID002,easy,True,True,True,True,True,False,True,1,1,8.906517375002295,,,Quantas internações por pneumonia foram registradas?,"SELECT COUNT(*) AS total_internacoes
+FROM internacoes i
+WHERE (i.DIAG_PRINC LIKE 'J12%' OR i.DIAG_PRINC LIKE 'J13%' OR i.DIAG_PRINC LIKE 'J14%' OR i.DIAG_PRINC LIKE 'J15%' OR i.DIAG_PRINC LIKE 'J16%' OR i.DIAG_PRINC LIKE 'J17%' OR i.DIAG_PRINC LIKE 'J18%')"
+pydantic_ai,CID003,easy,True,True,True,True,True,True,True,1,1,5.529889666999225,,,Quantas internações por asma aconteceram?,"SELECT COUNT(*) AS internacoes
+FROM internacoes i
+WHERE (i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%')"
+pydantic_ai,CID004,easy,True,True,True,True,True,False,True,1,1,19.763669666997885,,,Quantas internações por dengue existem no banco?,"SELECT COUNT(*) AS total_internacoes
+FROM internacoes i
+WHERE (i.DIAG_PRINC LIKE 'A90%' OR i.DIAG_PRINC LIKE 'A91%')"
+pydantic_ai,CID005,easy,True,True,True,True,True,False,True,1,1,5.940382834000047,,,Quantas internações por câncer de mama existem?,"SELECT COUNT(*) AS total_internacoes
+FROM internacoes i
+WHERE i.DIAG_PRINC LIKE 'C50%'"
+pydantic_ai,CID006,medium,True,True,True,True,True,False,,17,17,20.707757457999833,,,Quantas mortes hospitalares por tuberculose ocorreram por ano?,"SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares
+FROM internacoes i
+WHERE i.MORTE = TRUE
+  AND (i.DIAG_PRINC LIKE 'A15%' OR i.DIAG_PRINC LIKE 'A16%' OR i.DIAG_PRINC LIKE 'A17%' OR i.DIAG_PRINC LIKE 'A18%' OR i.DIAG_PRINC LIKE 'A19%')
+  AND i.DT_INTER IS NOT NULL
+GROUP BY 1
+ORDER BY 1"
+pydantic_ai,CID007,medium,True,True,True,True,False,False,,10,10,7.02460620799684,,,Quais são os 10 municípios do RS com mais internações por diabetes mellitus?,"WITH agg AS (
+    SELECT
+        m.NO_MUNICIPIO AS municipio,
+        COUNT(*) AS internacoes
+    FROM internacoes i
+    LEFT JOIN municipios m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+       AND m.SG_UF = 'RS'
+    WHERE (
+        i.DIAG_PRINC LIKE 'E10%'
+        OR i.DIAG_PRINC LIKE 'E11%'
+        OR i.DIAG_PRINC LIKE 'E12%'
+        OR i.DIAG_PRINC LIKE 'E13%'
+        OR i.DIAG_PRINC LIKE 'E14%'
+    )
+    GROUP BY m.NO_MUNICIPIO
+)
+SELECT
+    COALESCE(municipio, 'Nao mapeado') AS municipio,
+    internacoes
+FROM agg
+ORDER BY internacoes DESC, municipio ASC
+LIMIT 10"
+pydantic_ai,CID008,medium,True,True,True,True,True,True,,5,5,6.4049933749993215,,,Qual foi a evolução anual das internações por HIV/AIDS entre 2019 e 2023?,"SELECT
+  EXTRACT(YEAR FROM i.DT_INTER) AS ano,
+  COUNT(*) AS internacoes
+FROM internacoes i
+WHERE i.DT_INTER IS NOT NULL
+  AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023
+  AND (
+    i.DIAG_PRINC LIKE 'B20%'
+    OR i.DIAG_PRINC LIKE 'B21%'
+    OR i.DIAG_PRINC LIKE 'B22%'
+    OR i.DIAG_PRINC LIKE 'B23%'
+    OR i.DIAG_PRINC LIKE 'B24%'
+  )
+GROUP BY ano
+ORDER BY ano"
+pydantic_ai,CID009,medium,True,True,True,True,True,False,,4,4,5.897925584002223,,,Como as internações por hipertensão essencial se distribuem por caráter de internação?,"WITH base AS (
+  SELECT
+    i.CAR_INT,
+    c.DESCRICAO AS carater_internacao
+  FROM internacoes i
+  JOIN car_int c
+    ON i.CAR_INT = c.CAR_INT
+  WHERE i.DIAG_PRINC LIKE 'I10%'
+)
+SELECT
+  carater_internacao,
+  COUNT(*) AS internacoes
+FROM base
+GROUP BY carater_internacao
+ORDER BY internacoes DESC, carater_internacao ASC"
+pydantic_ai,CID010,hard,True,True,True,True,True,False,,5,5,12.239287750002404,,,"Entre 2019 e 2023, qual percentual das internações por doenças isquêmicas do coração foi infarto do miocárdio por ano?","WITH base AS (
+    SELECT
+        EXTRACT(YEAR FROM i.DT_INTER) AS ano,
+        COUNT(*) AS total_doencas_isquemicas,
+        SUM(CASE WHEN (i.DIAG_PRINC LIKE 'I21%' OR i.DIAG_PRINC LIKE 'I22%') THEN 1 ELSE 0 END) AS total_infarto
+    FROM internacoes i
+    WHERE i.DT_INTER IS NOT NULL
+      AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023
+      AND (
+          i.DIAG_PRINC LIKE 'I20%'
+          OR i.DIAG_PRINC LIKE 'I21%'
+          OR i.DIAG_PRINC LIKE 'I22%'
+          OR i.DIAG_PRINC LIKE 'I23%'
+          OR i.DIAG_PRINC LIKE 'I24%'
+          OR i.DIAG_PRINC LIKE 'I25%'
+      )
+    GROUP BY 1
+)
+SELECT
+    ano,
+    total_doencas_isquemicas,
+    total_infarto,
+    ROUND(total_infarto * 100.0 / NULLIF(total_doencas_isquemicas, 0), 2) AS percentual_infarto
+FROM base
+ORDER BY ano"
+pydantic_ai,CID011,hard,True,True,True,True,True,False,,17,17,8.959634666996863,,,Qual a taxa de mortalidade hospitalar por doenças cerebrovasculares ao longo dos anos?,"WITH base AS (
+    SELECT
+        EXTRACT(YEAR FROM i.DT_INTER) AS ano,
+        COUNT(*) AS internacoes,
+        SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) AS total_mortes
+    FROM internacoes i
+    WHERE (i.DIAG_PRINC LIKE 'I60%' OR i.DIAG_PRINC LIKE 'I61%' OR i.DIAG_PRINC LIKE 'I62%' OR i.DIAG_PRINC LIKE 'I63%' OR i.DIAG_PRINC LIKE 'I64%' OR i.DIAG_PRINC LIKE 'I65%' OR i.DIAG_PRINC LIKE 'I66%' OR i.DIAG_PRINC LIKE 'I67%' OR i.DIAG_PRINC LIKE 'I68%' OR i.DIAG_PRINC LIKE 'I69%')
+    GROUP BY 1
+)
+SELECT
+    ano,
+    internacoes,
+    total_mortes,
+    ROUND(total_mortes * 100.0 / NULLIF(internacoes, 0), 2) AS taxa_mortalidade_hospitalar
+FROM base
+ORDER BY ano"
+pydantic_ai,CID012,hard,True,True,True,True,True,False,,5,5,9.490145332998509,,,"Compare por ano, de 2019 a 2023, as internações por câncer de mama e câncer de próstata.","WITH base AS (
+    SELECT
+        EXTRACT(YEAR FROM i.""DT_INTER"") AS ano,
+        CASE
+            WHEN i.""DIAG_PRINC"" LIKE 'C50%' THEN 'Cancer de mama'
+            WHEN i.""DIAG_PRINC"" LIKE 'C61%' THEN 'Cancer de prostata'
+        END AS grupo,
+        COUNT(*) AS internacoes
+    FROM internacoes i
+    WHERE EXTRACT(YEAR FROM i.""DT_INTER"") BETWEEN 2019 AND 2023
+      AND (
+          i.""DIAG_PRINC"" LIKE 'C50%'
+          OR i.""DIAG_PRINC"" LIKE 'C61%'
+      )
+    GROUP BY 1, 2
+)
+SELECT
+    ano,
+    SUM(CASE WHEN grupo = 'Cancer de mama' THEN internacoes ELSE 0 END) AS cancer_de_mama,
+    SUM(CASE WHEN grupo = 'Cancer de prostata' THEN internacoes ELSE 0 END) AS cancer_de_prostata
+FROM base
+GROUP BY ano
+ORDER BY ano"
+pydantic_ai,CID013,hard,True,True,True,True,True,False,,6,6,6.177798624998104,,,"Quais são os 10 CIDs de diagnóstico principal mais frequentes dentro de apendicite, com descrição?","WITH base AS (
+    SELECT
+        i.DIAG_PRINC,
+        c.CID,
+        c.DESCRICAO
+    FROM internacoes i
+    JOIN cid c
+        ON i.DIAG_PRINC = c.CID
+    WHERE (i.DIAG_PRINC LIKE 'K35%' OR i.DIAG_PRINC LIKE 'K36%' OR i.DIAG_PRINC LIKE 'K37%')
+)
+SELECT
+    CID,
+    DESCRICAO,
+    COUNT(*) AS total_internacoes
+FROM base
+GROUP BY CID, DESCRICAO
+ORDER BY total_internacoes DESC, CID ASC
+LIMIT 10"
+pydantic_ai,CID014,medium,True,True,True,True,True,True,,2,2,7.249775791999127,,,"Entre as mortes hospitalares por insuficiência renal, qual a distribuição por sexo?","WITH base AS (
+    SELECT
+        i.SEXO,
+        COUNT(*) AS mortes
+    FROM internacoes i
+    WHERE i.MORTE = TRUE
+      AND (i.DIAG_PRINC LIKE 'N17%' OR i.DIAG_PRINC LIKE 'N18%' OR i.DIAG_PRINC LIKE 'N19%')
+    GROUP BY i.SEXO
+)
+SELECT
+    s.DESCRICAO AS sexo,
+    b.mortes
+FROM base b
+JOIN sexo s
+  ON b.SEXO = s.SEXO
+ORDER BY b.mortes DESC, sexo ASC"
+pydantic_ai,CID015,hard,True,True,True,True,True,True,,17,17,8.31338166599744,,,"Por ano, quantas internações por colelitíase ocorreram e qual foi a permanência média?","WITH base AS (
+  SELECT
+    EXTRACT(YEAR FROM i.DT_INTER) AS ano,
+    i.DIAS_PERM
+  FROM internacoes i
+  WHERE i.DIAG_PRINC LIKE 'K80%'
+    AND i.DT_INTER IS NOT NULL
+)
+SELECT
+  ano,
+  COUNT(*) AS internacoes,
+  ROUND(AVG(DIAS_PERM), 2) AS permanencia_media
+FROM base
+GROUP BY ano
+ORDER BY ano"
+langgraph_simple,CID001,easy,True,True,True,True,True,False,True,1,1,3.0636489589996927,,,Quantas internações tiveram diagnóstico principal de diabetes mellitus?,SELECT COUNT(*) AS total_internacoes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%';
+langgraph_simple,CID002,easy,True,True,True,True,False,False,False,1,1,2.59478825000042,,,Quantas internações por pneumonia foram registradas?,SELECT COUNT(*) AS total_internacoes_pneumonia FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J18%';
+langgraph_simple,CID003,easy,True,True,True,True,False,False,False,1,1,4.1499754169999505,,,Quantas internações por asma aconteceram?,SELECT COUNT(*) AS total_internacoes_asma FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J45%';
+langgraph_simple,CID004,easy,True,True,True,True,False,False,False,1,1,9.992221917000279,,,Quantas internações por dengue existem no banco?,SELECT COUNT(*) AS total_internacoes_dengue FROM internacoes i WHERE i.DIAG_PRINC LIKE 'A90%';
+langgraph_simple,CID005,easy,True,True,True,True,True,False,True,1,1,2.942047583001113,,,Quantas internações por câncer de mama existem?,WITH internacoes_mama AS ( SELECT i.N_AIH FROM main.internacoes i WHERE i.DIAG_PRINC LIKE 'C50%' ) SELECT COUNT(*) AS total_internacoes FROM internacoes_mama;
+langgraph_simple,CID006,medium,True,True,True,True,False,False,,17,17,3.374875207999139,,,Quantas mortes hospitalares por tuberculose ocorreram por ano?,"WITH tuberculose_mortes AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares FROM internacoes i WHERE i.MORTE = TRUE AND i.DIAG_PRINC ILIKE 'A15%' GROUP BY 1 ) SELECT ano, mortes_hospitalares FROM tuberculose_mortes ORDER BY ano;"
+langgraph_simple,CID007,medium,True,True,True,True,True,False,,10,10,4.227406209000037,,,Quais são os 10 municípios do RS com mais internações por diabetes mellitus?,"WITH internacoes_diabetes AS ( SELECT i.MUNIC_RES, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RS' AND ( i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%' ) GROUP BY i.MUNIC_RES ), ranking AS ( SELECT m.NO_MUNICIPIO, d.total_internacoes, ROW_NUMBER() OVER (ORDER BY d.total_internacoes DESC, m.NO_MUNICIPIO) AS rn FROM internacoes_diabetes d JOIN municipios m ON d.MUNIC_RES = m.CO_MUNICIPIO_6D ) SELECT NO_MUNICIPIO, total_internacoes FROM ranking WHERE rn <= 10 ORDER BY total_internacoes DESC, NO_MUNICIPIO;"
+langgraph_simple,CID008,medium,True,True,True,True,False,False,,5,5,7.235301791999518,,,Qual foi a evolução anual das internações por HIV/AIDS entre 2019 e 2023?,"WITH base AS ( SELECT EXTRACT(YEAR FROM DT_INTER) AS ano, COUNT(*) AS internacoes FROM internacoes WHERE DT_INTER >= DATE '2019-01-01' AND DT_INTER < DATE '2024-01-01' AND ( DIAG_PRINC LIKE 'B20%' OR DIAG_PRINC LIKE 'B21%' OR DIAG_PRINC LIKE 'B22%' OR DIAG_PRINC LIKE 'B24%' ) GROUP BY 1 ) SELECT ano, internacoes, internacoes - LAG(internacoes) OVER (ORDER BY ano) AS variacao_absoluta, CASE WHEN LAG(internacoes) OVER (ORDER BY ano) IS NULL OR LAG(internacoes) OVER (ORDER BY ano) = 0 THEN NULL ELSE 100.0 * (internacoes - LAG(internacoes) OVER (ORDER BY ano)) / LAG(internacoes) OVER (ORDER BY ano) END AS variacao_percentual FROM base ORDER BY ano;"
+langgraph_simple,CID009,medium,True,True,True,True,False,False,,4,4,4.05860762500015,,,Como as internações por hipertensão essencial se distribuem por caráter de internação?,"WITH base AS ( SELECT i.CAR_INT, COUNT(*) AS total FROM internacoes i WHERE i.DIAG_PRINC LIKE 'I10%' GROUP BY i.CAR_INT ), total_geral AS ( SELECT SUM(total) AS total_geral FROM base ) SELECT c.DESCRICAO AS carater_internacao, b.total AS quantidade_internacoes, 100.0 * b.total / tg.total_geral AS percentual FROM base b JOIN car_int c ON b.CAR_INT = c.CAR_INT CROSS JOIN total_geral tg ORDER BY b.total DESC, carater_internacao;"
+langgraph_simple,CID010,hard,True,True,True,True,False,False,,5,5,3.979004040997097,,,"Entre 2019 e 2023, qual percentual das internações por doenças isquêmicas do coração foi infarto do miocárdio por ano?","WITH base AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS total_isquemicas, SUM(CASE WHEN i.DIAG_PRINC LIKE 'I21%' THEN 1 ELSE 0 END) AS total_infarto FROM internacoes i WHERE EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023 AND i.DIAG_PRINC LIKE 'I2%' AND i.DIAG_PRINC < 'I26' GROUP BY 1 ) SELECT ano, 100.0 * total_infarto / NULLIF(total_isquemicas, 0) AS percentual_infarto_miocardio FROM base ORDER BY ano;"
+langgraph_simple,CID011,hard,True,True,True,True,False,False,,17,17,3.570805167000799,,,Qual a taxa de mortalidade hospitalar por doenças cerebrovasculares ao longo dos anos?,"WITH base AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE THEN 1 ELSE 0 END) AS obitos FROM internacoes i WHERE i.DIAG_PRINC LIKE 'I6%' AND i.DT_INTER IS NOT NULL GROUP BY 1 ) SELECT ano, obitos, total_internacoes, 100.0 * obitos / NULLIF(total_internacoes, 0) AS taxa_mortalidade_hospitalar_percentual FROM base ORDER BY ano;"
+langgraph_simple,CID012,hard,True,True,True,True,False,False,,5,10,4.08247804200073,,,"Compare por ano, de 2019 a 2023, as internações por câncer de mama e câncer de próstata.","WITH base AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, CASE WHEN i.DIAG_PRINC LIKE 'C50%' THEN 'Câncer de mama' WHEN i.DIAG_PRINC LIKE 'C61%' THEN 'Câncer de próstata' END AS cancer, COUNT(*) AS internacoes FROM internacoes i WHERE i.DT_INTER >= DATE '2019-01-01' AND i.DT_INTER < DATE '2024-01-01' AND ( i.DIAG_PRINC LIKE 'C50%' OR i.DIAG_PRINC LIKE 'C61%' ) GROUP BY 1, 2 ) SELECT ano, cancer, internacoes FROM base ORDER BY ano, cancer;"
+langgraph_simple,CID013,hard,True,True,True,True,True,False,,6,6,3.800577959002112,,,"Quais são os 10 CIDs de diagnóstico principal mais frequentes dentro de apendicite, com descrição?","WITH apendicite AS ( SELECT i.DIAG_PRINC AS cid, COUNT(*) AS frequencia FROM internacoes i WHERE i.DIAG_PRINC LIKE 'K35%' OR i.DIAG_PRINC LIKE 'K36%' OR i.DIAG_PRINC LIKE 'K37%' GROUP BY i.DIAG_PRINC ), ranked AS ( SELECT a.cid, c.DESCRICAO, a.frequencia, ROW_NUMBER() OVER (ORDER BY a.frequencia DESC, a.cid) AS rn FROM apendicite a LEFT JOIN cid c ON a.cid = c.CID ) SELECT cid AS cid_diagnostico_principal, DESCRICAO AS descricao, frequencia FROM ranked WHERE rn <= 10 ORDER BY frequencia DESC, cid_diagnostico_principal;"
+langgraph_simple,CID014,medium,True,True,True,True,False,False,,2,2,4.423562791998847,,,"Entre as mortes hospitalares por insuficiência renal, qual a distribuição por sexo?","WITH mortes_insuficiencia_renal AS ( SELECT i.SEXO, COUNT(*) AS obitos FROM internacoes i WHERE i.MORTE = TRUE AND ( i.DIAG_PRINC LIKE 'N18%' OR i.DIAG_PRINC LIKE 'N19%' OR i.DIAG_PRINC LIKE 'N17%' ) GROUP BY i.SEXO ), total_mortes AS ( SELECT SUM(obitos) AS total_obitos FROM mortes_insuficiencia_renal ) SELECT s.DESCRICAO AS sexo, m.obitos, ROUND(100.0 * m.obitos / t.total_obitos, 2) AS percentual FROM mortes_insuficiencia_renal m JOIN sexo s ON s.SEXO = m.SEXO CROSS JOIN total_mortes t ORDER BY m.obitos DESC, sexo;"
+langgraph_simple,CID015,hard,True,True,True,True,False,False,,17,0,2.2143867500017222,,,"Por ano, quantas internações por colelitíase ocorreram e qual foi a permanência média?","WITH colelitiases AS ( SELECT EXTRACT(YEAR FROM DT_INTER) AS ano, DIAS_PERM FROM internacoes WHERE DIAG_PRINC IN ( SELECT CID FROM cid WHERE DESCRICAO ILIKE '%colelitíase%' OR DESCRICAO ILIKE '%colecistolitíase%' OR DESCRICAO ILIKE '%cálculo da vesícula biliar%' OR DESCRICAO ILIKE '%calculo da vesicula biliar%' ) ) SELECT ano, COUNT(*) AS internacoes, AVG(DIAS_PERM) AS permanencia_media FROM colelitiases GROUP BY ano ORDER BY ano;"

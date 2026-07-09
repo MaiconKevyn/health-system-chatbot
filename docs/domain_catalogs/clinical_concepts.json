@@ -1,0 +1,155 @@
+[
+  {
+    "id": "diabetes_mellitus",
+    "label": "Diabetes mellitus",
+    "description": "Diabetes mellitus, bloco CID-10 E10-E14.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["diabetes", "diabetes mellitus"],
+    "code_prefixes": ["E10", "E11", "E12", "E13", "E14"],
+    "evidence": ["OMS: Diabetes mellitus E10-E14"]
+  },
+  {
+    "id": "pneumonia",
+    "label": "Pneumonia",
+    "description": "Pneumonia, bloco CID-10 J12-J18. Diferente do grupo local J09-J18, que tambem inclui influenza.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["pneumonia", "pneumonias"],
+    "code_prefixes": ["J12", "J13", "J14", "J15", "J16", "J17", "J18"],
+    "evidence": ["Lista ICD-10 de mortalidade: Pneumonia J12-J18"]
+  },
+  {
+    "id": "asthma",
+    "label": "Asma",
+    "description": "Asma, bloco CID-10 J45-J46.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["asma", "asmatico", "asmatica", "estado de mal asmatico"],
+    "code_prefixes": ["J45", "J46"],
+    "evidence": ["OMS: Asthma J45-J46"]
+  },
+  {
+    "id": "dengue",
+    "label": "Dengue",
+    "description": "Dengue no catalogo local, usando A90 e A91. A OMS tambem lista A97, ausente no DuckDB atual.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["dengue", "febre dengue", "febre hemorragica dengue"],
+    "code_prefixes": ["A90", "A91"],
+    "evidence": ["OMS: Dengue A90-A91, A97; local: A90-A91 disponiveis"]
+  },
+  {
+    "id": "tuberculosis",
+    "label": "Tuberculose",
+    "description": "Tuberculose, bloco CID-10 A15-A19.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["tuberculose", "tuberc", "tb"],
+    "code_prefixes": ["A15", "A16", "A17", "A18", "A19"],
+    "evidence": ["OMS: Tuberculosis A15-A19, B90; local de internacao usa A15-A19"]
+  },
+  {
+    "id": "hiv_aids",
+    "label": "HIV/AIDS",
+    "description": "Doenca pelo HIV/AIDS, bloco CID-10 B20-B24.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["hiv", "aids", "hiv aids", "imunodeficiencia humana"],
+    "code_prefixes": ["B20", "B21", "B22", "B23", "B24"],
+    "evidence": ["OMS: HIV/AIDS B20-B24"]
+  },
+  {
+    "id": "breast_cancer",
+    "label": "Cancer de mama",
+    "description": "Neoplasia maligna da mama, CID-10 C50.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["cancer de mama", "neoplasia maligna da mama", "tumor maligno da mama"],
+    "code_prefixes": ["C50"],
+    "evidence": ["OMS: Breast cancer C50"]
+  },
+  {
+    "id": "prostate_cancer",
+    "label": "Cancer de prostata",
+    "description": "Neoplasia maligna da prostata, CID-10 C61.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["cancer de prostata", "neoplasia maligna da prostata", "tumor maligno da prostata"],
+    "code_prefixes": ["C61"],
+    "evidence": ["OMS: Prostate cancer C61"]
+  },
+  {
+    "id": "hypertensive_diseases",
+    "label": "Doencas hipertensivas",
+    "description": "Doencas hipertensivas, bloco CID-10 I10-I15.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["hipertensao", "doencas hipertensivas", "hipertensiva", "hipertensivas"],
+    "code_prefixes": ["I10", "I11", "I12", "I13", "I15"],
+    "evidence": ["OMS: Hypertensive heart disease I11-I15; local: I10-I15 Doencas hipertensivas"]
+  },
+  {
+    "id": "essential_hypertension",
+    "label": "Hipertensao essencial",
+    "description": "Hipertensao essencial primaria, CID-10 I10.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["hipertensao essencial", "hipertensao primaria"],
+    "code_prefixes": ["I10"],
+    "evidence": ["Catalogo local CID: I10 Hipertensao essencial"]
+  },
+  {
+    "id": "acute_myocardial_infarction",
+    "label": "Infarto agudo do miocardio",
+    "description": "Infarto agudo do miocardio e recorrente, CID-10 I21-I22.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["infarto agudo do miocardio", "infarto do miocardio", "iam", "infarto"],
+    "code_prefixes": ["I21", "I22"],
+    "evidence": ["Lista ICD-10: Acute myocardial infarction I21-I22"]
+  },
+  {
+    "id": "ischemic_heart_disease",
+    "label": "Doencas isquemicas do coracao",
+    "description": "Doencas isquemicas do coracao, bloco CID-10 I20-I25.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["doencas isquemicas do coracao", "doenca isquemica do coracao", "cardiopatia isquemica", "isquemica do coracao"],
+    "code_prefixes": ["I20", "I21", "I22", "I23", "I24", "I25"],
+    "evidence": ["OMS: Ischaemic heart disease I20-I25"]
+  },
+  {
+    "id": "cerebrovascular_disease",
+    "label": "Doencas cerebrovasculares",
+    "description": "Doencas cerebrovasculares, bloco CID-10 I60-I69.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["doencas cerebrovasculares", "doenca cerebrovascular", "avc", "acidente vascular cerebral"],
+    "code_prefixes": ["I60", "I61", "I62", "I63", "I64", "I65", "I66", "I67", "I68", "I69"],
+    "evidence": ["OMS: Cerebrovascular disease I60-I69"]
+  },
+  {
+    "id": "appendicitis",
+    "label": "Apendicite",
+    "description": "Apendicite, CID-10 K35-K37.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["apendicite", "apendicite aguda"],
+    "code_prefixes": ["K35", "K36", "K37"],
+    "evidence": ["OMS: Appendicitis K35-K37"]
+  },
+  {
+    "id": "cholelithiasis",
+    "label": "Colelitiase",
+    "description": "Colelitiase, CID-10 K80.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["colelitiase", "calculo biliar", "calculos biliares", "pedra na vesicula"],
+    "code_prefixes": ["K80"],
+    "evidence": ["Catalogo local CID: K80 Colelitiase"]
+  },
+  {
+    "id": "renal_failure",
+    "label": "Insuficiencia renal",
+    "description": "Insuficiencia renal, bloco CID-10 N17-N19.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["insuficiencia renal", "falencia renal", "doenca renal terminal"],
+    "code_prefixes": ["N17", "N18", "N19"],
+    "evidence": ["Lista ICD-10: Renal failure N17-N19"]
+  },
+  {
+    "id": "cataracts",
+    "label": "Catarata",
+    "description": "Catarata, bloco CID-10 H25-H26.",
+    "scopes": ["diagnosis", "death_cause", "unknown"],
+    "synonyms": ["catarata", "cataratas"],
+    "code_prefixes": ["H25", "H26"],
+    "evidence": ["OMS: Cataracts H25-H26"]
+  }
+]

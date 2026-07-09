@@ -57,6 +57,9 @@ def evaluate_item(
     sql_valid = False
     error_category: str | None = None
     phase = "intent"
+    catalog_candidates_count = 0
+    catalog_tool_calls_count = 0
+    catalog_decisions_count = 0
 
     intent = classify_question(item.question_pt, ctx)
     if intent.status != "answerable":
@@ -77,6 +80,7 @@ def evaluate_item(
     try:
         phase = "context_retrieval"
         retrieved = retrieve_context(item.question_pt, ctx, config=config)
+        catalog_candidates_count = len(retrieved.catalog_candidates)
         phase = "sql_generation"
         execution = None
         if should_use_multi_candidate(config, allow_llm=allow_llm):
@@ -116,6 +120,8 @@ def evaluate_item(
 
         phase = "sql_validation"
         validation = validation or validate_sql(plan.sql, ctx, question=item.question_pt, plan=plan)
+        catalog_tool_calls_count = len(retrieved.catalog_tool_calls)
+        catalog_decisions_count = len(plan.catalog_decisions)
         sql_valid = validation.is_valid
         warnings.extend(validation.warnings)
         if not validation.is_valid:
@@ -162,6 +168,9 @@ def evaluate_item(
         error_category=error_category,
         errors=errors,
         warnings=warnings,
+        catalog_candidates_count=catalog_candidates_count,
+        catalog_tool_calls_count=catalog_tool_calls_count,
+        catalog_decisions_count=catalog_decisions_count,
     )
 
 
@@ -170,6 +179,9 @@ def summarize_records(records: list[EvaluationRecord]) -> dict[str, Any]:
     latencies = [r.latency_seconds for r in records]
     failures_by_difficulty: dict[str, int] = {}
     failures_by_category: dict[str, int] = {}
+    records_with_catalog_candidates = 0
+    records_with_catalog_tool_calls = 0
+    records_with_catalog_decisions = 0
     for record in records:
         if record.errors:
             key = record.difficulty or "unknown"
@@ -178,6 +190,12 @@ def summarize_records(records: list[EvaluationRecord]) -> dict[str, Any]:
             failures_by_category[record.error_category] = (
                 failures_by_category.get(record.error_category, 0) + 1
             )
+        if record.catalog_candidates_count:
+            records_with_catalog_candidates += 1
+        if record.catalog_tool_calls_count:
+            records_with_catalog_tool_calls += 1
+        if record.catalog_decisions_count:
+            records_with_catalog_decisions += 1
     return {
         "total": total,
         "intent_accuracy": sum(r.intent_status == "answerable" for r in records) / total if total else 0,
@@ -194,6 +212,9 @@ def summarize_records(records: list[EvaluationRecord]) -> dict[str, Any]:
         "cost_estimate": {"usd": None, "method": "not_tracked_yet"},
         "failure_by_difficulty": failures_by_difficulty,
         "failure_by_category": failures_by_category,
+        "catalog_candidates_rate": records_with_catalog_candidates / total if total else 0,
+        "catalog_tool_call_rate": records_with_catalog_tool_calls / total if total else 0,
+        "catalog_decision_rate": records_with_catalog_decisions / total if total else 0,
         "failures": [r.model_dump() for r in records if r.errors or r.error_category],
     }
 

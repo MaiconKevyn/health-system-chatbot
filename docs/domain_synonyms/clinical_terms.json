@@ -1,0 +1,8 @@
+{
+  "cancer": ["cancer", "neoplasia", "neoplasias", "neopl", "tumor maligno", "tumores malignos"],
+  "infeccoes": ["infeccao", "infeccoes", "infecciosa", "infecciosas", "infecc"],
+  "parto": ["parto", "partos", "nascimento"],
+  "cesariana": ["cesariana", "cesarianas", "cesariano", "cesarianos", "cesar"],
+  "diabetes": ["diabetes", "diabet"],
+  "pneumonia": ["pneumonia", "pneumon"]
+}

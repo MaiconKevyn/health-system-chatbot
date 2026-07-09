@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from .agent_deps import ChatDeps
 from .agents import build_sql_plan_agent
+from .catalogs.models import CatalogCandidate, CatalogDecision
+from .catalogs.retriever import CatalogRetriever
 from .config import ChatbotConfig
 from .models import RetrievedContext, SqlPlan, Stage1Context
 from .prompts import SQL_GENERATION_PROMPT
@@ -91,12 +93,31 @@ def _shape_guidance(question: str) -> str:
     if tokens & {"mais", "maiores", "ranking", "top"}:
         lines.append(
             "- Pergunta de ranking: retorne dimensao + metrica, ordene pela metrica DESC "
-            "e use LIMIT 20 se o usuario nao pedir outro limite."
+            "e use LIMIT 20 se o usuario nao pedir outro limite. Acrescente desempate "
+            "deterministico por dimensao legivel quando houver empate na metrica."
+        )
+    if any(term in text for term in ("percentual", "porcentagem", "participacao", "taxa", "media")):
+        lines.append(
+            "- Quando ordenar percentual, taxa ou media, inclua desempate deterministico "
+            "por dimensoes retornadas, sem mudar o shape da resposta; por exemplo: "
+            "ORDER BY ano, percentual_no_ano DESC, capitulo_cid ASC."
         )
     if any(term in text for term in ("distribuicao", "distribuem", "por carater", "por sexo", "por marca", "por uf")):
         lines.append(
             "- Pergunta de distribuicao: retorne a dimensao legivel e a metrica principal; "
             "nao adicione percentual, codigo auxiliar ou coluna extra sem pedido explicito."
+        )
+    if "rs" in tokens or "uf" in tokens or "estado" in tokens:
+        lines.append(
+            "- Colunas usadas apenas como filtro constante, como SG_UF = 'RS', nao devem "
+            "aparecer na saida salvo se o usuario pedir explicitamente UF/estado como coluna."
+        )
+    if any(term in text for term in ("compare", "comparar", "comparacao")) and any(
+        term in text for term in ("por ano", "ao longo dos anos", "evolucao anual")
+    ):
+        lines.append(
+            "- Comparacao temporal entre grupos nomeados: use uma linha por ano e uma coluna "
+            "de metrica para cada grupo comparado, salvo se o usuario pedir formato longo."
         )
     if any(term in text for term in ("auditoria", "sem correspondencia", "nao mapeado", "orfa")):
         lines.append(
@@ -183,10 +204,19 @@ def _domain_guidance(question: str, context: RetrievedContext) -> str:
             "subcodigos como O800/O821; nao use apenas DIAG_PRINC IN ('O80','O81','O82','O83','O84')."
         )
     if tokens & {"cesariano", "cesarianos", "cesariana", "cesarianas"}:
-        lines.append(
-            "- Para partos cesarianos, use procedimento principal: internacoes.PROC_REA "
-            "IN ('0411010026','0411010034','0411010042')."
-        )
+        if "internacoes por" in text or "internacoes de" in text or "diagnostico" in text:
+            lines.append(
+                "- Quando a pergunta disser internacoes por/de parto cesariano, trate como "
+                "diagnostico principal e use CID O82: internacoes.DIAG_PRINC LIKE 'O82%' "
+                "ou JOIN cid com candidato de catalogo equivalente. Use procedimento "
+                "apenas se a pergunta falar em procedimento realizado ou partos que aconteceram."
+            )
+        else:
+            lines.append(
+                "- Para partos cesarianos que aconteceram ou procedimento realizado, use "
+                "procedimento principal: internacoes.PROC_REA IN "
+                "('0411010026','0411010034','0411010042')."
+            )
     if "cid c" in text or "cid-c" in text:
         lines.append(
             "- Quando a pergunta disser CID C, use prefixo de codigo: "
@@ -312,6 +342,14 @@ def _context_to_prompt(context: RetrievedContext, question: str = "") -> str:
         f"- {hint.table}.{hint.column}={hint.value} ({hint.label}) [{hint.match_reason}]"
         for hint in context.value_hints[:12]
     )
+    catalog_candidates = "\n".join(
+        "- "
+        f"{candidate.catalog}.{candidate.source_column}: {candidate.label}; "
+        f"level={candidate.level}; filter={candidate.filter.where_sql_template}; "
+        f"value={candidate.filter.value}; confidence={candidate.confidence}; "
+        f"evidence={'; '.join(candidate.evidence[:2])}"
+        for candidate in context.catalog_candidates[:12]
+    )
     normalized_question = normalize_text(question)
     example_lines = []
     for example in context.query_examples[:4]:
@@ -333,6 +371,7 @@ def _context_to_prompt(context: RetrievedContext, question: str = "") -> str:
         f"Colunas recuperadas:\n{columns}\n\n"
         f"Metricas de negocio:\n{metrics}\n\n"
         f"Value hints:\n{value_hints}\n\n"
+        f"Catalog candidates:\n{catalog_candidates}\n\n"
         f"Exemplos few-shot relacionados:\n{examples}\n\n"
         "Orientacoes aplicaveis para geracao SQL "
         "(prevalecem sobre exemplos legados quando houver conflito):\n"
@@ -365,7 +404,7 @@ def generate_sql_plan(
             generation_hint=generation_hint,
         )
         plan.source = "pydantic_ai_openai"
-        return _finalize_plan(question, plan)
+        return _finalize_plan(question, plan, context=context)
 
     if config.agent_framework != "llamaindex":
         raise RuntimeError(f"Unsupported agent framework: {config.agent_framework}")
@@ -378,7 +417,11 @@ def generate_sql_plan(
     )
 
 
-def _finalize_plan(question: str, plan: SqlPlan) -> SqlPlan:
+def _finalize_plan(
+    question: str,
+    plan: SqlPlan,
+    context: RetrievedContext | None = None,
+) -> SqlPlan:
     if not plan.metric_basis:
         plan.metric_basis = _infer_metric_basis(plan.sql)
     if plan.date_basis in {"", "none"}:
@@ -387,7 +430,103 @@ def _finalize_plan(question: str, plan: SqlPlan) -> SqlPlan:
         plan.grain = _infer_grain(question, plan.sql)
     if plan.geography_basis in {"", "none"}:
         plan.geography_basis = _infer_geography(question, plan.sql)
+    if context is not None:
+        existing_decisions = _filter_catalog_decisions_used_in_sql(
+            plan.sql,
+            plan.catalog_decisions,
+            context.catalog_candidates,
+        )
+        plan.catalog_decisions = _merge_catalog_decisions(
+            existing_decisions,
+            _infer_catalog_decisions(plan.sql, context.catalog_candidates),
+        )
     return plan
+
+
+def _filter_catalog_decisions_used_in_sql(
+    sql: str,
+    decisions: list[CatalogDecision],
+    candidates: list[CatalogCandidate],
+) -> list[CatalogDecision]:
+    if not decisions:
+        return []
+    upper = sql.upper()
+    filtered: list[CatalogDecision] = []
+    for decision in decisions:
+        matching_candidates = [
+            candidate
+            for candidate in candidates
+            if candidate.catalog == decision.catalog
+            and candidate.label == decision.selected_candidate_label
+        ]
+        if any(_candidate_used_in_sql(candidate, upper) for candidate in matching_candidates):
+            filtered.append(decision)
+    return filtered
+
+
+def _merge_catalog_decisions(
+    existing: list[CatalogDecision],
+    inferred: list[CatalogDecision],
+) -> list[CatalogDecision]:
+    if existing:
+        existing_catalogs = {decision.catalog for decision in existing}
+        inferred = [
+            decision for decision in inferred if decision.catalog not in existing_catalogs
+        ]
+    merged: list[CatalogDecision] = []
+    seen: set[tuple[str, str, str]] = set()
+    for decision in [*existing, *inferred]:
+        key = (
+            decision.catalog,
+            decision.query,
+            decision.selected_candidate_label,
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        merged.append(decision)
+    return merged
+
+
+def _infer_catalog_decisions(
+    sql: str,
+    candidates: list[CatalogCandidate],
+) -> list[CatalogDecision]:
+    upper = sql.upper()
+    decisions: list[CatalogDecision] = []
+    for candidate in candidates:
+        if not _candidate_used_in_sql(candidate, upper):
+            continue
+        decisions.append(
+            CatalogDecision(
+                catalog=candidate.catalog,
+                query=candidate.label,
+                selected_candidate_label=candidate.label,
+                selected_filter=_candidate_filter_text(candidate),
+                confidence=candidate.confidence,
+                alternatives=[],
+            )
+        )
+    return decisions[:8]
+
+
+def _candidate_used_in_sql(candidate: CatalogCandidate, upper_sql: str) -> bool:
+    column = candidate.filter.column.upper()
+    if column not in upper_sql:
+        return False
+    value = candidate.filter.value
+    if isinstance(value, list):
+        return any(str(item).upper() in upper_sql for item in value)
+    return str(value).upper() in upper_sql
+
+
+def _candidate_filter_text(candidate: CatalogCandidate) -> str:
+    value = candidate.filter.value
+    if isinstance(value, list):
+        value_text = "(" + ", ".join(repr(item) for item in value) + ")"
+    else:
+        value_text = repr(value)
+    return f"{candidate.filter.table}.{candidate.filter.column} {candidate.filter.operator} {value_text}"
 
 
 def _generate_sql_plan_with_pydantic_ai(
@@ -399,10 +538,16 @@ def _generate_sql_plan_with_pydantic_ai(
     generation_hint: str = "",
 ) -> SqlPlan:
     agent = build_sql_plan_agent(config)
+    catalog_retriever = (
+        CatalogRetriever.from_config(config)
+        if config.catalog_tools_enabled and config.db_path.exists()
+        else None
+    )
     deps = ChatDeps(
         config=config,
         stage1_context=stage1_context,
         retrieved_context=context,
+        catalog_retriever=catalog_retriever,
     )
     prompt = SQL_GENERATION_PROMPT.format(
         question=question,
@@ -411,6 +556,11 @@ def _generate_sql_plan_with_pydantic_ai(
     if generation_hint:
         prompt += f"\n\nInstrucao adicional para esta candidata:\n{generation_hint}\n"
     result = agent.run_sync(prompt, deps=deps)
+    if catalog_retriever is not None and catalog_retriever.tool_calls:
+        context.catalog_tool_calls.extend(catalog_retriever.tool_calls)
+        for call in catalog_retriever.tool_calls:
+            if call.result is not None:
+                context.catalog_candidates.extend(call.result.candidates)
     return result.output
 
 
@@ -437,4 +587,4 @@ def _generate_sql_plan_with_llamaindex(
         context=prompt_context,
     )
     plan.source = "llamaindex_openai"
-    return _finalize_plan(question, plan)
+    return _finalize_plan(question, plan, context=context)

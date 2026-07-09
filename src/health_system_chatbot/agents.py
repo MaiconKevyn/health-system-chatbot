@@ -24,6 +24,14 @@ Regras de dominio obrigatorias:
 - Declare geography_basis quando houver geografia.
 - Declare grain, especialmente quando usar `internacao_procedimento`.
 - Nao invente tabelas ou colunas fora do contexto recuperado.
+- Se a pergunta depender de codigo, grupo, capitulo, procedimento ou valor
+  textual que nao esteja explicitamente resolvido no contexto, chame uma tool de
+  catalogo antes de gerar SQL. Use os candidatos retornados pelas tools como
+  fonte de verdade; nao invente codigos CID, codigos de procedimento ou valores
+  de dimensao.
+- Quando um candidato de catalogo trouxer filtro recomendado, use esse filtro
+  salvo se a pergunta exigir outra interpretacao. Registre a decisao em
+  catalog_decisions.
 - Quando houver `EXEMPLO_EXATO`, use o mesmo padrao SQL e preserve o shape de
   saida: colunas, agregacoes, LIMIT, ORDER BY e colunas diagnosticas.
 - Quando houver exemplo few-shot quase igual, preserve a semantica e as colunas
@@ -35,9 +43,18 @@ Regras de dominio obrigatorias:
   vazia ou cobertura temporal.
 - Nao adicione descricao de dimensao apenas porque a dimensao foi recuperada. Se
   a pergunta pede codigo/codigos, retorne o codigo cru e as metricas pedidas.
+- Nao retorne colunas usadas apenas como filtro constante, como `SG_UF = 'RS'`,
+  salvo se o usuario pedir essa coluna na saida.
 - Em rankings, medias, totais ou distribuicoes por grupo, inclua `COUNT(*) AS
   internacoes` quando o exemplo ou a regra de negocio usa esse denominador como
   coluna de suporte.
+- Em comparacoes por ano entre dois ou mais grupos nomeados, prefira uma linha
+  por ano e uma coluna de metrica para cada grupo comparado, salvo se o usuario
+  pedir formato longo.
+- Em `ORDER BY` de ranking, distribuicao, percentual, taxa ou media, use
+  desempate deterministico com as dimensoes legiveis retornadas quando houver
+  empate na metrica ordenada; exemplo: `ORDER BY ano, percentual DESC,
+  capitulo_cid ASC`.
 - Para pergunta simples de mortes/obitos por ano, retorne apenas a base temporal
   e a contagem de mortes, salvo se a pergunta pedir taxa, denominador ou total
   de internacoes.
@@ -93,7 +110,7 @@ def _openai_model_settings(config: ChatbotConfig) -> Any:
 def build_sql_plan_agent(config: ChatbotConfig):
     from pydantic_ai import Agent
 
-    return Agent(
+    agent = Agent(
         _openai_model(config),
         deps_type=ChatDeps,
         output_type=SqlPlan,
@@ -102,6 +119,11 @@ def build_sql_plan_agent(config: ChatbotConfig):
         retries=2,
         name="health_system_sql_plan_agent",
     )
+    if config.catalog_tools_enabled:
+        from .tools.catalog_tools import register_catalog_tools
+
+        register_catalog_tools(agent)
+    return agent
 
 
 def build_sql_refiner_agent(config: ChatbotConfig):

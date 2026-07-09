@@ -1,0 +1,2192 @@
+{
+  "run_id": "cid_disease_tooling_eval_v1",
+  "run_dir": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/cid_disease_tooling_eval_v1",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/cid_disease_tooling_eval.jsonl",
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "limit": null,
+  "ids": [
+    "CID001",
+    "CID002",
+    "CID003",
+    "CID004",
+    "CID005",
+    "CID006",
+    "CID007",
+    "CID008",
+    "CID009",
+    "CID010",
+    "CID011",
+    "CID012",
+    "CID013",
+    "CID014",
+    "CID015"
+  ],
+  "allow_llm": true,
+  "catalog_tools_enabled": true,
+  "catalog_retrieval_mode": "lexical",
+  "numeric_tolerance": 1e-06,
+  "max_rows": 10000,
+  "timeout_seconds": 60,
+  "trace_path": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/cid_disease_tooling_eval_v1/trace.jsonl",
+  "summary": {
+    "total": 15,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 1.0,
+    "sql_validation_rate": 1.0,
+    "sql_valid_rate": 1.0,
+    "sql_execution_rate": 1.0,
+    "result_value_match_rate": 0.8,
+    "result_match_rate": 0.8,
+    "correction_success_rate": null,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "catalog_candidates_rate": 0.8666666666666667,
+    "catalog_tool_call_rate": 1.0,
+    "catalog_decision_rate": 1.0,
+    "catalog_tool_call_count": 16,
+    "catalog_decision_count": 16,
+    "latency_p50": 5.603662875000737,
+    "latency_p95": 7.9534764170020935,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 7,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "shape_mismatch_count": 3,
+    "value_mismatch_count": 0,
+    "error_category_counts": {
+      "shape_mismatch": 3
+    },
+    "failures_by_difficulty": {
+      "medium": 1,
+      "hard": 2
+    }
+  },
+  "records": [
+    {
+      "id": "CID001",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es tiveram diagn\u00f3stico principal de diabetes mellitus?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Diabetes mellitus",
+        "E10-E14 Diabetes mellitus",
+        "Diabetes mellitus insulino-dependente",
+        "Diabetes mellitus nao-insulino-dependemte",
+        "Diabetes mellitus relac c/a desnutr"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "diabetes mellitus",
+          "selected_candidate_label": "Diabetes mellitus",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%')",
+          "confidence": "high",
+          "alternatives": [
+            "E10-E14 Diabetes mellitus",
+            "Diabetes mellitus insulino-dependente",
+            "Diabetes mellitus nao-insulino-dependemte",
+            "Diabetes mellitus relac c/a desnutr"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT141",
+        "GT043",
+        "GT139",
+        "GT104"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_diabetes\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%');",
+      "ground_truth_sql": "SELECT COUNT(*) AS internacoes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "internacoes"
+      ],
+      "actual_columns": [
+        "total_diabetes"
+      ],
+      "expected_preview_values": [
+        [
+          1820001
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          1820001
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 6.093614666999201
+    },
+    {
+      "id": "CID002",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es por pneumonia foram registradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Pneumonia",
+        "J09-J18 Influenza [gripe] e pneumonia",
+        "Pneumonia viral NCOP",
+        "Pneumonia dev Streptococcus pneumoniae",
+        "Pneumonia dev Haemophilus infuenzae"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "pneumonia",
+          "selected_candidate_label": "Pneumonia",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'J12%' OR i.DIAG_PRINC LIKE 'J13%' OR i.DIAG_PRINC LIKE 'J14%' OR i.DIAG_PRINC LIKE 'J15%' OR i.DIAG_PRINC LIKE 'J16%' OR i.DIAG_PRINC LIKE 'J17%' OR i.DIAG_PRINC LIKE 'J18%')",
+          "confidence": "high",
+          "alternatives": [
+            "J09-J18 Influenza [gripe] e pneumonia",
+            "Pneumonia viral NCOP",
+            "Pneumonia dev Streptococcus pneumoniae",
+            "Pneumonia dev Haemophilus infuenzae"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT140",
+        "GT141",
+        "GT142",
+        "GT143"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_pneumonia\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'J12%' OR i.DIAG_PRINC LIKE 'J13%' OR i.DIAG_PRINC LIKE 'J14%' OR i.DIAG_PRINC LIKE 'J15%' OR i.DIAG_PRINC LIKE 'J16%' OR i.DIAG_PRINC LIKE 'J17%' OR i.DIAG_PRINC LIKE 'J18%');",
+      "ground_truth_sql": "SELECT COUNT(*) AS internacoes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J12%' OR i.DIAG_PRINC LIKE 'J13%' OR i.DIAG_PRINC LIKE 'J14%' OR i.DIAG_PRINC LIKE 'J15%' OR i.DIAG_PRINC LIKE 'J16%' OR i.DIAG_PRINC LIKE 'J17%' OR i.DIAG_PRINC LIKE 'J18%'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "internacoes"
+      ],
+      "actual_columns": [
+        "total_internacoes_pneumonia"
+      ],
+      "expected_preview_values": [
+        [
+          8200676
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          8200676
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.315547082998819
+    },
+    {
+      "id": "CID003",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es por asma aconteceram?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Asma",
+        "Asma",
+        "J45 Asma",
+        "J450 Asma predom alergica",
+        "J451 Asma nao-alergica"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "asma",
+          "selected_candidate_label": "Asma",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%')",
+          "confidence": "high",
+          "alternatives": [
+            "J45 Asma",
+            "J450 Asma predom alergica",
+            "J451 Asma nao-alergica"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT014",
+        "GT047",
+        "GT140",
+        "GT141"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS internacoes\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%');",
+      "ground_truth_sql": "SELECT COUNT(*) AS internacoes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "internacoes"
+      ],
+      "actual_columns": [
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          1694416
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          1694416
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 6.284364082999673
+    },
+    {
+      "id": "CID004",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es por dengue existem no banco?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Dengue",
+        "Dengue",
+        "A90 Dengue",
+        "Febre hemorragica dev virus do dengue",
+        "A91 Febre hemorragica dev virus do dengue"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "dengue",
+          "selected_candidate_label": "Dengue",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'A90%' OR i.DIAG_PRINC LIKE 'A91%')",
+          "confidence": "high",
+          "alternatives": [
+            "c.DS_CATEGORIA = 'Dengue' via JOIN cid c ON i.DIAG_PRINC = c.CID",
+            "i.DIAG_PRINC LIKE 'A90%'",
+            "i.DIAG_PRINC LIKE 'A91%'"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT228",
+        "GT014",
+        "GT047",
+        "GT140"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS internacoes\nFROM internacoes i\nWHERE (i.DIAG_PRINC LIKE 'A90%' OR i.DIAG_PRINC LIKE 'A91%');",
+      "ground_truth_sql": "SELECT COUNT(*) AS internacoes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'A90%' OR i.DIAG_PRINC LIKE 'A91%'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "internacoes"
+      ],
+      "actual_columns": [
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          746265
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          746265
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.8979104579993873
+    },
+    {
+      "id": "CID005",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es por c\u00e2ncer de mama existem?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Cancer de mama",
+        "II. Neoplasias [tumores]",
+        "C00-C75 Neoplasias malignas",
+        "C76-C80 Neoplasias malignas de localiza\u00e7\u00f5es mal definidas",
+        "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "cancer de mama",
+          "selected_candidate_label": "Cancer de mama",
+          "selected_filter": "i.DIAG_PRINC LIKE 'C50%'",
+          "confidence": "high",
+          "alternatives": [
+            "II. Neoplasias [tumores]",
+            "C00-C75 Neoplasias malignas",
+            "C76-C80 Neoplasias malignas de localiza\u00e7\u00f5es mal definidas",
+            "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT014",
+        "GT047",
+        "GT140",
+        "GT141"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS internacoes\nFROM internacoes i\nWHERE i.DIAG_PRINC LIKE 'C50%';",
+      "ground_truth_sql": "SELECT COUNT(*) AS internacoes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'C50%'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "internacoes"
+      ],
+      "actual_columns": [
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          703740
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          703740
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 4.334471834001306
+    },
+    {
+      "id": "CID006",
+      "difficulty": "medium",
+      "expected_result_type": "time_series",
+      "question_pt": "Quantas mortes hospitalares por tuberculose ocorreram por ano?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "raca_cor",
+        "tempo"
+      ],
+      "retrieved_columns_count": 53,
+      "business_metrics": [
+        "total_mortes_hospitalares",
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "tuberculose",
+          "selected_candidate_label": "Tuberculose",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'A15%' OR i.DIAG_PRINC LIKE 'A16%' OR i.DIAG_PRINC LIKE 'A17%' OR i.DIAG_PRINC LIKE 'A18%' OR i.DIAG_PRINC LIKE 'A19%')",
+          "confidence": "high",
+          "alternatives": [
+            "A15-A19 Tuberculose",
+            "A15 Tuberc respirat c/conf bacteriol e histolog"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT228",
+        "GT182",
+        "GT002",
+        "GT014"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n  SELECT\n    EXTRACT(YEAR FROM i.DT_INTER) AS ano\n  FROM internacoes i\n  WHERE i.MORTE = TRUE\n    AND i.DT_INTER IS NOT NULL\n    AND (\n      i.DIAG_PRINC LIKE 'A15%'\n      OR i.DIAG_PRINC LIKE 'A16%'\n      OR i.DIAG_PRINC LIKE 'A17%'\n      OR i.DIAG_PRINC LIKE 'A18%'\n      OR i.DIAG_PRINC LIKE 'A19%'\n    )\n)\nSELECT\n  ano,\n  COUNT(*) AS mortes_hospitalares\nFROM base\nGROUP BY ano\nORDER BY ano",
+      "ground_truth_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes FROM internacoes i WHERE i.MORTE = TRUE AND i.DT_INTER IS NOT NULL AND (i.DIAG_PRINC LIKE 'A15%' OR i.DIAG_PRINC LIKE 'A16%' OR i.DIAG_PRINC LIKE 'A17%' OR i.DIAG_PRINC LIKE 'A18%' OR i.DIAG_PRINC LIKE 'A19%') GROUP BY ano ORDER BY ano",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "mortes"
+      ],
+      "actual_columns": [
+        "ano",
+        "mortes_hospitalares"
+      ],
+      "expected_preview_values": [
+        [
+          2007,
+          99
+        ],
+        [
+          2008,
+          1056
+        ],
+        [
+          2009,
+          944
+        ],
+        [
+          2010,
+          908
+        ],
+        [
+          2011,
+          958
+        ],
+        [
+          2012,
+          944
+        ],
+        [
+          2013,
+          788
+        ],
+        [
+          2014,
+          776
+        ],
+        [
+          2015,
+          880
+        ],
+        [
+          2016,
+          834
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2007,
+          99
+        ],
+        [
+          2008,
+          1056
+        ],
+        [
+          2009,
+          944
+        ],
+        [
+          2010,
+          908
+        ],
+        [
+          2011,
+          958
+        ],
+        [
+          2012,
+          944
+        ],
+        [
+          2013,
+          788
+        ],
+        [
+          2014,
+          776
+        ],
+        [
+          2015,
+          880
+        ],
+        [
+          2016,
+          834
+        ]
+      ],
+      "expected_row_count": 17,
+      "actual_row_count": 17,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.128760625000723
+    },
+    {
+      "id": "CID007",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 10 munic\u00edpios do RS com mais interna\u00e7\u00f5es por diabetes mellitus?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "hospital",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 64,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 3,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Diabetes mellitus",
+        "E10-E14 Diabetes mellitus",
+        "Diabetes mellitus insulino-dependente",
+        "Diabetes mellitus nao-insulino-dependemte",
+        "Diabetes mellitus relac c/a desnutr"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "diabetes mellitus",
+          "selected_candidate_label": "Diabetes mellitus",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%')",
+          "confidence": "high",
+          "alternatives": [
+            "E10-E14 Diabetes mellitus",
+            "Diabetes mellitus insulino-dependente",
+            "Diabetes mellitus nao-insulino-dependemte",
+            "Diabetes mellitus relac c/a desnutr"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT204",
+        "GT221",
+        "GT019",
+        "GT028"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH agg AS (\n    SELECT\n        m.NO_MUNICIPIO AS municipio,\n        m.SG_UF AS uf,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    LEFT JOIN municipios m\n        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\n    WHERE m.SG_UF = 'RS'\n      AND (\n        i.DIAG_PRINC LIKE 'E10%'\n        OR i.DIAG_PRINC LIKE 'E11%'\n        OR i.DIAG_PRINC LIKE 'E12%'\n        OR i.DIAG_PRINC LIKE 'E13%'\n        OR i.DIAG_PRINC LIKE 'E14%'\n      )\n    GROUP BY m.NO_MUNICIPIO, m.SG_UF\n)\nSELECT\n    municipio,\n    uf,\n    internacoes\nFROM agg\nORDER BY internacoes DESC, municipio ASC\nLIMIT 10",
+      "ground_truth_sql": "SELECT m.NO_MUNICIPIO AS municipio, COUNT(*) AS internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RS' AND (i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%') GROUP BY m.NO_MUNICIPIO ORDER BY internacoes DESC, municipio ASC LIMIT 10",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [
+        "municipio",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "municipio",
+        "uf",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Porto Alegre",
+          14912
+        ],
+        [
+          "Canoas",
+          4561
+        ],
+        [
+          "Pelotas",
+          3203
+        ],
+        [
+          "Bag\u00e9",
+          2782
+        ],
+        [
+          "Passo Fundo",
+          2672
+        ],
+        [
+          "S\u00e3o Borja",
+          2366
+        ],
+        [
+          "S\u00e3o Leopoldo",
+          2310
+        ],
+        [
+          "Viam\u00e3o",
+          2292
+        ],
+        [
+          "Alvorada",
+          2262
+        ],
+        [
+          "Rio Grande",
+          2260
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Porto Alegre",
+          "RS",
+          14912
+        ],
+        [
+          "Canoas",
+          "RS",
+          4561
+        ],
+        [
+          "Pelotas",
+          "RS",
+          3203
+        ],
+        [
+          "Bag\u00e9",
+          "RS",
+          2782
+        ],
+        [
+          "Passo Fundo",
+          "RS",
+          2672
+        ],
+        [
+          "S\u00e3o Borja",
+          "RS",
+          2366
+        ],
+        [
+          "S\u00e3o Leopoldo",
+          "RS",
+          2310
+        ],
+        [
+          "Viam\u00e3o",
+          "RS",
+          2292
+        ],
+        [
+          "Alvorada",
+          "RS",
+          2262
+        ],
+        [
+          "Rio Grande",
+          "RS",
+          2260
+        ]
+      ],
+      "expected_row_count": 10,
+      "actual_row_count": 10,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "shape_mismatch",
+      "error_message": "Result shape differs: expected 10x2, actual 10x3.",
+      "latency_seconds": 5.603662875000737
+    },
+    {
+      "id": "CID008",
+      "difficulty": "medium",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual foi a evolu\u00e7\u00e3o anual das interna\u00e7\u00f5es por HIV/AIDS entre 2019 e 2023?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "HIV/AIDS",
+        "B20-B24 Doen\u00e7a pelo v\u00edrus da imunodefici\u00eancia humana [HIV]",
+        "Doenc p/HIV result doenc infecc e parasit",
+        "Doenc p/HIV result em neopl malig",
+        "Doenc p/HIV result em outr doenc espec"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "HIV/AIDS",
+          "selected_candidate_label": "HIV/AIDS",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'B20%' OR i.DIAG_PRINC LIKE 'B21%' OR i.DIAG_PRINC LIKE 'B22%' OR i.DIAG_PRINC LIKE 'B23%' OR i.DIAG_PRINC LIKE 'B24%')",
+          "confidence": "high",
+          "alternatives": [
+            "B20-B24 Doen\u00e7a pelo v\u00edrus da imunodefici\u00eancia humana [HIV]",
+            "Doenc p/HIV result doenc infecc e parasit",
+            "Doenc p/HIV result em neopl malig",
+            "Doenc p/HIV result em outr doenc espec"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT211",
+        "GT181",
+        "GT183",
+        "GT194"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS internacoes\nFROM internacoes i\nWHERE EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023\n  AND (i.DIAG_PRINC LIKE 'B20%' OR i.DIAG_PRINC LIKE 'B21%' OR i.DIAG_PRINC LIKE 'B22%' OR i.DIAG_PRINC LIKE 'B23%' OR i.DIAG_PRINC LIKE 'B24%')\nGROUP BY ano\nORDER BY ano",
+      "ground_truth_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS internacoes FROM internacoes i WHERE i.DT_INTER IS NOT NULL AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023 AND (i.DIAG_PRINC LIKE 'B20%' OR i.DIAG_PRINC LIKE 'B21%' OR i.DIAG_PRINC LIKE 'B22%' OR i.DIAG_PRINC LIKE 'B23%' OR i.DIAG_PRINC LIKE 'B24%') GROUP BY ano ORDER BY ano",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          2019,
+          25103
+        ],
+        [
+          2020,
+          18441
+        ],
+        [
+          2021,
+          19566
+        ],
+        [
+          2022,
+          21929
+        ],
+        [
+          2023,
+          20697
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2019,
+          25103
+        ],
+        [
+          2020,
+          18441
+        ],
+        [
+          2021,
+          19566
+        ],
+        [
+          2022,
+          21929
+        ],
+        [
+          2023,
+          20697
+        ]
+      ],
+      "expected_row_count": 5,
+      "actual_row_count": 5,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 6.904637792002177
+    },
+    {
+      "id": "CID009",
+      "difficulty": "medium",
+      "expected_result_type": "distribution",
+      "question_pt": "Como as interna\u00e7\u00f5es por hipertens\u00e3o essencial se distribuem por car\u00e1ter de interna\u00e7\u00e3o?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "_staging_internacoes",
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 95,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Hipertensao essencial",
+        "Doencas hipertensivas",
+        "Hipertensao essencial",
+        "I10-I15 Doen\u00e7as hipertensivas",
+        "Hipertensao secund"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "Hipertens\u00e3o essencial",
+          "selected_candidate_label": "Hipertensao essencial",
+          "selected_filter": "i.DIAG_PRINC LIKE 'I10%'",
+          "confidence": "high",
+          "alternatives": [
+            "Doencas hipertensivas",
+            "Hipertensao essencial (DS_CATEGORIA)",
+            "I10-I15 Doen\u00e7as hipertensivas"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT126",
+        "GT142",
+        "GT197",
+        "GT213"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  car_int.DESCRICAO AS carater_internacao,\n  COUNT(*) AS internacoes\nFROM internacoes i\nJOIN car_int ON i.CAR_INT = car_int.CAR_INT\nWHERE i.DIAG_PRINC LIKE 'I10%'\nGROUP BY car_int.DESCRICAO\nORDER BY internacoes DESC, carater_internacao ASC",
+      "ground_truth_sql": "SELECT ci.DESCRICAO AS carater, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN car_int ci ON i.CAR_INT = ci.CAR_INT WHERE i.DIAG_PRINC LIKE 'I10%' GROUP BY ci.DESCRICAO ORDER BY internacoes DESC, carater ASC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "carater",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "carater_internacao",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Urg\u00eancia",
+          803208
+        ],
+        [
+          "Eletivo",
+          56774
+        ],
+        [
+          "Outros tipo de acidente de tr\u00e2nsito",
+          58
+        ],
+        [
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          4
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Urg\u00eancia",
+          803208
+        ],
+        [
+          "Eletivo",
+          56774
+        ],
+        [
+          "Outros tipo de acidente de tr\u00e2nsito",
+          58
+        ],
+        [
+          "Out tp les\u00f5es e envenen por agent qu\u00edm f\u00edsicos",
+          4
+        ]
+      ],
+      "expected_row_count": 4,
+      "actual_row_count": 4,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 4.609672333001072
+    },
+    {
+      "id": "CID010",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Entre 2019 e 2023, qual percentual das interna\u00e7\u00f5es por doen\u00e7as isqu\u00eamicas do cora\u00e7\u00e3o foi infarto do mioc\u00e1rdio por ano?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "raca_cor",
+        "tempo"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "I20-I25 Doen\u00e7as isqu\u00eamicas do cora\u00e7\u00e3o",
+        "Doencas isquemicas do coracao",
+        "Infarto agudo do miocardio",
+        "I05-I09 Doen\u00e7as reum\u00e1ticas cr\u00f4nicas do cora\u00e7\u00e3o",
+        "Outr doenc isquemicas agudas do coracao"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "doen\u00e7as isqu\u00eamicas do cora\u00e7\u00e3o infarto do mioc\u00e1rdio",
+          "selected_candidate_label": "Infarto agudo do miocardio",
+          "selected_filter": "i.DIAG_PRINC LIKE 'I21%' OR i.DIAG_PRINC LIKE 'I22%'",
+          "confidence": "high",
+          "alternatives": [
+            "I24 Outr doenc isquemicas agudas do coracao",
+            "I25 Doenc isquemica cronica do coracao"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT211",
+        "GT112",
+        "GT120",
+        "GT181"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n    SELECT\n        EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n        CASE\n            WHEN i.DIAG_PRINC LIKE 'I21%' OR i.DIAG_PRINC LIKE 'I22%' THEN 'infarto_do_miocardio'\n            WHEN i.DIAG_PRINC LIKE 'I20%' OR i.DIAG_PRINC LIKE 'I23%' OR i.DIAG_PRINC LIKE 'I24%' OR i.DIAG_PRINC LIKE 'I25%' THEN 'outras_doencas_isquemicas_do_coracao'\n        END AS grupo_cid\n    FROM internacoes i\n    WHERE i.DT_INTER IS NOT NULL\n      AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023\n      AND (\n          i.DIAG_PRINC LIKE 'I20%'\n          OR i.DIAG_PRINC LIKE 'I21%'\n          OR i.DIAG_PRINC LIKE 'I22%'\n          OR i.DIAG_PRINC LIKE 'I23%'\n          OR i.DIAG_PRINC LIKE 'I24%'\n          OR i.DIAG_PRINC LIKE 'I25%'\n      )\n), agg AS (\n    SELECT\n        ano,\n        SUM(CASE WHEN grupo_cid = 'infarto_do_miocardio' THEN 1 ELSE 0 END) AS internacoes_infarto,\n        COUNT(*) AS internacoes\n    FROM base\n    GROUP BY ano\n)\nSELECT\n    ano,\n    internacoes,\n    internacoes_infarto,\n    ROUND(internacoes_infarto * 100.0 / NULLIF(internacoes, 0), 2) AS percentual_infarto\nFROM agg\nORDER BY ano;",
+      "ground_truth_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS internacoes_isquemicas, SUM(CASE WHEN i.DIAG_PRINC LIKE 'I21%' OR i.DIAG_PRINC LIKE 'I22%' THEN 1 ELSE 0 END) AS internacoes_infarto, ROUND(SUM(CASE WHEN i.DIAG_PRINC LIKE 'I21%' OR i.DIAG_PRINC LIKE 'I22%' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS percentual_infarto FROM internacoes i WHERE i.DT_INTER IS NOT NULL AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023 AND (i.DIAG_PRINC LIKE 'I20%' OR i.DIAG_PRINC LIKE 'I21%' OR i.DIAG_PRINC LIKE 'I22%' OR i.DIAG_PRINC LIKE 'I23%' OR i.DIAG_PRINC LIKE 'I24%' OR i.DIAG_PRINC LIKE 'I25%') GROUP BY ano ORDER BY ano",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "internacoes_isquemicas",
+        "internacoes_infarto",
+        "percentual_infarto"
+      ],
+      "actual_columns": [
+        "ano",
+        "internacoes",
+        "internacoes_infarto",
+        "percentual_infarto"
+      ],
+      "expected_preview_values": [
+        [
+          2019,
+          215893,
+          94169,
+          43.62
+        ],
+        [
+          2020,
+          189234,
+          92826,
+          49.05
+        ],
+        [
+          2021,
+          201615,
+          103904,
+          51.54
+        ],
+        [
+          2022,
+          225503,
+          119638,
+          53.05
+        ],
+        [
+          2023,
+          219229,
+          115969,
+          52.9
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2019,
+          215893,
+          94169,
+          43.62
+        ],
+        [
+          2020,
+          189234,
+          92826,
+          49.05
+        ],
+        [
+          2021,
+          201615,
+          103904,
+          51.54
+        ],
+        [
+          2022,
+          225503,
+          119638,
+          53.05
+        ],
+        [
+          2023,
+          219229,
+          115969,
+          52.9
+        ]
+      ],
+      "expected_row_count": 5,
+      "actual_row_count": 5,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 7.9534764170020935
+    },
+    {
+      "id": "CID011",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual a taxa de mortalidade hospitalar por doen\u00e7as cerebrovasculares ao longo dos anos?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid",
+        "hospital",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 53,
+      "business_metrics": [
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Doencas cerebrovasculares",
+        "I60-I69 Doen\u00e7as cerebrovasculares",
+        "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+        "III. Doen\u00e7as do sangue e dos \u00f3rg\u00e3os hematopo\u00e9ticos",
+        "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "doen\u00e7as cerebrovasculares",
+          "selected_candidate_label": "Doencas cerebrovasculares",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'I60%' OR i.DIAG_PRINC LIKE 'I61%' OR i.DIAG_PRINC LIKE 'I62%' OR i.DIAG_PRINC LIKE 'I63%' OR i.DIAG_PRINC LIKE 'I64%' OR i.DIAG_PRINC LIKE 'I65%' OR i.DIAG_PRINC LIKE 'I66%' OR i.DIAG_PRINC LIKE 'I67%' OR i.DIAG_PRINC LIKE 'I68%' OR i.DIAG_PRINC LIKE 'I69%')",
+          "confidence": "high",
+          "alternatives": [
+            "I60-I69 Doen\u00e7as cerebrovasculares"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT216",
+        "GT085",
+        "GT171",
+        "GT175"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH anual AS (\n    SELECT\n        EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n        COUNT(*) AS internacoes,\n        SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) AS mortes\n    FROM internacoes i\n    WHERE (i.DIAG_PRINC LIKE 'I60%' OR i.DIAG_PRINC LIKE 'I61%' OR i.DIAG_PRINC LIKE 'I62%' OR i.DIAG_PRINC LIKE 'I63%' OR i.DIAG_PRINC LIKE 'I64%' OR i.DIAG_PRINC LIKE 'I65%' OR i.DIAG_PRINC LIKE 'I66%' OR i.DIAG_PRINC LIKE 'I67%' OR i.DIAG_PRINC LIKE 'I68%' OR i.DIAG_PRINC LIKE 'I69%')\n    GROUP BY 1\n)\nSELECT\n    ano,\n    internacoes,\n    mortes,\n    ROUND(mortes * 100.0 / NULLIF(internacoes, 0), 2) AS taxa_mortalidade\nFROM anual\nORDER BY ano",
+      "ground_truth_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS internacoes, COUNT(*) FILTER (WHERE i.MORTE = TRUE) AS mortes, ROUND(COUNT(*) FILTER (WHERE i.MORTE = TRUE) * 100.0 / COUNT(*), 2) AS taxa_mortalidade_percentual FROM internacoes i WHERE i.DT_INTER IS NOT NULL AND (i.DIAG_PRINC LIKE 'I60%' OR i.DIAG_PRINC LIKE 'I61%' OR i.DIAG_PRINC LIKE 'I62%' OR i.DIAG_PRINC LIKE 'I63%' OR i.DIAG_PRINC LIKE 'I64%' OR i.DIAG_PRINC LIKE 'I65%' OR i.DIAG_PRINC LIKE 'I66%' OR i.DIAG_PRINC LIKE 'I67%' OR i.DIAG_PRINC LIKE 'I68%' OR i.DIAG_PRINC LIKE 'I69%') GROUP BY ano ORDER BY ano",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "internacoes",
+        "mortes",
+        "taxa_mortalidade_percentual"
+      ],
+      "actual_columns": [
+        "ano",
+        "internacoes",
+        "mortes",
+        "taxa_mortalidade"
+      ],
+      "expected_preview_values": [
+        [
+          2007,
+          9443,
+          1825,
+          19.33
+        ],
+        [
+          2008,
+          121229,
+          21783,
+          17.97
+        ],
+        [
+          2009,
+          134000,
+          23459,
+          17.51
+        ],
+        [
+          2010,
+          140765,
+          24487,
+          17.4
+        ],
+        [
+          2011,
+          146756,
+          24735,
+          16.85
+        ],
+        [
+          2012,
+          145406,
+          23995,
+          16.5
+        ],
+        [
+          2013,
+          150283,
+          23961,
+          15.94
+        ],
+        [
+          2014,
+          157306,
+          24369,
+          15.49
+        ],
+        [
+          2015,
+          160574,
+          25712,
+          16.01
+        ],
+        [
+          2016,
+          163193,
+          26461,
+          16.21
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2007,
+          9443,
+          1825,
+          19.33
+        ],
+        [
+          2008,
+          121229,
+          21783,
+          17.97
+        ],
+        [
+          2009,
+          134000,
+          23459,
+          17.51
+        ],
+        [
+          2010,
+          140765,
+          24487,
+          17.4
+        ],
+        [
+          2011,
+          146756,
+          24735,
+          16.85
+        ],
+        [
+          2012,
+          145406,
+          23995,
+          16.5
+        ],
+        [
+          2013,
+          150283,
+          23961,
+          15.94
+        ],
+        [
+          2014,
+          157306,
+          24369,
+          15.49
+        ],
+        [
+          2015,
+          160574,
+          25712,
+          16.01
+        ],
+        [
+          2016,
+          163193,
+          26461,
+          16.21
+        ]
+      ],
+      "expected_row_count": 17,
+      "actual_row_count": 17,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 7.956864999996469
+    },
+    {
+      "id": "CID012",
+      "difficulty": "hard",
+      "expected_result_type": "comparison",
+      "question_pt": "Compare por ano, de 2019 a 2023, as interna\u00e7\u00f5es por c\u00e2ncer de mama e c\u00e2ncer de pr\u00f3stata.",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "tempo"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Cancer de prostata",
+        "Cancer de mama",
+        "II. Neoplasias [tumores]",
+        "Exame especial rastr de neoplasias",
+        "Z125 Exame especial rastr de neoplasia prostata"
+      ],
+      "catalog_tool_calls_count": 2,
+      "catalog_tools": [
+        "search_cid_catalog",
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 2,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "cancer de mama",
+          "selected_candidate_label": "Cancer de mama",
+          "selected_filter": "i.DIAG_PRINC LIKE 'C50%'",
+          "confidence": "high",
+          "alternatives": [
+            "II. Neoplasias [tumores]",
+            "C00-C75 Neoplasias malignas",
+            "C76-C80 Neoplasias malignas de localiza\u00e7\u00f5es mal definidas",
+            "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico"
+          ]
+        },
+        {
+          "catalog": "cid",
+          "query": "cancer de prostata",
+          "selected_candidate_label": "Cancer de prostata",
+          "selected_filter": "i.DIAG_PRINC LIKE 'C61%'",
+          "confidence": "high",
+          "alternatives": [
+            "II. Neoplasias [tumores]",
+            "Exame especial rastr de neoplasias",
+            "Z125 Exame especial rastr de neoplasia prostata",
+            "C00-C75 Neoplasias malignas"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT211",
+        "GT066",
+        "GT116",
+        "GT124"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n    SELECT\n        EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n        CASE\n            WHEN i.DIAG_PRINC LIKE 'C50%' THEN 'Cancer de mama'\n            WHEN i.DIAG_PRINC LIKE 'C61%' THEN 'Cancer de prostata'\n        END AS diagnostico,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    WHERE EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023\n      AND (\n            i.DIAG_PRINC LIKE 'C50%'\n         OR i.DIAG_PRINC LIKE 'C61%'\n      )\n    GROUP BY 1, 2\n)\nSELECT\n    ano,\n    diagnostico,\n    internacoes\nFROM base\nORDER BY ano ASC, diagnostico ASC;",
+      "ground_truth_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, SUM(CASE WHEN i.DIAG_PRINC LIKE 'C50%' THEN 1 ELSE 0 END) AS internacoes_cancer_mama, SUM(CASE WHEN i.DIAG_PRINC LIKE 'C61%' THEN 1 ELSE 0 END) AS internacoes_cancer_prostata FROM internacoes i WHERE i.DT_INTER IS NOT NULL AND EXTRACT(YEAR FROM i.DT_INTER) BETWEEN 2019 AND 2023 AND (i.DIAG_PRINC LIKE 'C50%' OR i.DIAG_PRINC LIKE 'C61%') GROUP BY ano ORDER BY ano",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [
+        "ano",
+        "internacoes_cancer_mama",
+        "internacoes_cancer_prostata"
+      ],
+      "actual_columns": [
+        "ano",
+        "diagnostico",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          2019,
+          53856,
+          25815
+        ],
+        [
+          2020,
+          48297,
+          21725
+        ],
+        [
+          2021,
+          51804,
+          23283
+        ],
+        [
+          2022,
+          59178,
+          27294
+        ],
+        [
+          2023,
+          59907,
+          28287
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2019,
+          "Cancer de mama",
+          53856
+        ],
+        [
+          2019,
+          "Cancer de prostata",
+          25815
+        ],
+        [
+          2020,
+          "Cancer de mama",
+          48297
+        ],
+        [
+          2020,
+          "Cancer de prostata",
+          21725
+        ],
+        [
+          2021,
+          "Cancer de mama",
+          51804
+        ],
+        [
+          2021,
+          "Cancer de prostata",
+          23283
+        ],
+        [
+          2022,
+          "Cancer de mama",
+          59178
+        ],
+        [
+          2022,
+          "Cancer de prostata",
+          27294
+        ],
+        [
+          2023,
+          "Cancer de mama",
+          59907
+        ],
+        [
+          2023,
+          "Cancer de prostata",
+          28287
+        ]
+      ],
+      "expected_row_count": 5,
+      "actual_row_count": 10,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "shape_mismatch",
+      "error_message": "Result shape differs: expected 5x3, actual 10x3.",
+      "latency_seconds": 7.778715000000375
+    },
+    {
+      "id": "CID013",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 10 diagn\u00f3sticos principais mais frequentes dentro de apendicite?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 47,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Apendicite",
+        "Menstruacao excessiva frequente e irregular",
+        "N92 Menstruacao excessiva frequente e irregular",
+        "K35-K38 Doen\u00e7as do ap\u00eandice",
+        "Apendicite aguda"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "apendicite",
+          "selected_candidate_label": "Apendicite",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'K35%' OR i.DIAG_PRINC LIKE 'K36%' OR i.DIAG_PRINC LIKE 'K37%')",
+          "confidence": "high",
+          "alternatives": [
+            "K35-K38 Doen\u00e7as do ap\u00eandice",
+            "Apendicite aguda",
+            "Outr form de apendicite",
+            "Apendicite SOE"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT082",
+        "GT021",
+        "GT039",
+        "GT068"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n    SELECT\n        c.DESCRICAO,\n        COUNT(*) AS total\n    FROM internacoes i\n    JOIN cid c\n      ON i.DIAG_PRINC = c.CID\n    WHERE (i.DIAG_PRINC LIKE 'K35%' OR i.DIAG_PRINC LIKE 'K36%' OR i.DIAG_PRINC LIKE 'K37%')\n    GROUP BY c.DESCRICAO\n)\nSELECT\n    DESCRICAO,\n    total\nFROM base\nORDER BY total DESC, DESCRICAO ASC\nLIMIT 10",
+      "ground_truth_sql": "SELECT c.CID AS cid, c.DESCRICAO AS diagnostico, COUNT(*) AS internacoes FROM internacoes i JOIN cid c ON i.DIAG_PRINC = c.CID WHERE i.DIAG_PRINC LIKE 'K35%' OR i.DIAG_PRINC LIKE 'K36%' OR i.DIAG_PRINC LIKE 'K37%' GROUP BY c.CID, c.DESCRICAO ORDER BY internacoes DESC, cid ASC LIMIT 10",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [
+        "cid",
+        "diagnostico",
+        "internacoes"
+      ],
+      "actual_columns": [
+        "DESCRICAO",
+        "total"
+      ],
+      "expected_preview_values": [
+        [
+          "K359",
+          "Apendicite aguda SOE",
+          1014859
+        ],
+        [
+          "K36",
+          "Outr form de apendicite",
+          112553
+        ],
+        [
+          "K351",
+          "Apendicite aguda c/abscesso peritonial",
+          101376
+        ],
+        [
+          "K350",
+          "Apendicite aguda c/peritonite generalizada",
+          82666
+        ],
+        [
+          "K35",
+          "Apendicite aguda",
+          10979
+        ],
+        [
+          "K37",
+          "Apendicite SOE",
+          7168
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Apendicite aguda SOE",
+          1014859
+        ],
+        [
+          "Outr form de apendicite",
+          112553
+        ],
+        [
+          "Apendicite aguda c/abscesso peritonial",
+          101376
+        ],
+        [
+          "Apendicite aguda c/peritonite generalizada",
+          82666
+        ],
+        [
+          "Apendicite aguda",
+          10979
+        ],
+        [
+          "Apendicite SOE",
+          7168
+        ]
+      ],
+      "expected_row_count": 6,
+      "actual_row_count": 6,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "shape_mismatch",
+      "error_message": "Result shape differs: expected 6x3, actual 6x2.",
+      "latency_seconds": 6.482965625000361
+    },
+    {
+      "id": "CID014",
+      "difficulty": "medium",
+      "expected_result_type": "distribution",
+      "question_pt": "Entre as mortes hospitalares por insufici\u00eancia renal, qual a distribui\u00e7\u00e3o por sexo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "municipios",
+        "sexo"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_mortes_hospitalares",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 4,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "insufici\u00eancia renal",
+          "selected_candidate_label": "Insuficiencia renal",
+          "selected_filter": "(i.DIAG_PRINC LIKE 'N17%' OR i.DIAG_PRINC LIKE 'N18%' OR i.DIAG_PRINC LIKE 'N19%')",
+          "confidence": "high",
+          "alternatives": [
+            "N17-N19 Insufici\u00eancia renal",
+            "I130 Doenc cardiaca e renal hipert c/insufic card"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT168",
+        "GT117",
+        "GT175",
+        "GT176"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n  SELECT\n    i.SEXO,\n    COUNT(*) AS internacoes\n  FROM internacoes i\n  WHERE i.MORTE = TRUE\n    AND (i.DIAG_PRINC LIKE 'N17%' OR i.DIAG_PRINC LIKE 'N18%' OR i.DIAG_PRINC LIKE 'N19%')\n  GROUP BY i.SEXO\n)\nSELECT\n  s.DESCRICAO AS sexo,\n  b.internacoes\nFROM base b\nJOIN sexo s\n  ON b.SEXO = s.SEXO\nORDER BY b.internacoes DESC, sexo ASC;",
+      "ground_truth_sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS mortes FROM internacoes i LEFT JOIN sexo s ON i.SEXO = s.SEXO WHERE i.MORTE = TRUE AND (i.DIAG_PRINC LIKE 'N17%' OR i.DIAG_PRINC LIKE 'N18%' OR i.DIAG_PRINC LIKE 'N19%') GROUP BY s.DESCRICAO ORDER BY mortes DESC, sexo ASC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'municipio de residencia'. Join municipios.CO_MUNICIPIO_6D and return municipios.NO_MUNICIPIO/municipios.SG_UF; do not group only by raw code internacoes.MUNIC_RES."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "sexo",
+        "mortes"
+      ],
+      "actual_columns": [
+        "sexo",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Masculino",
+          88873
+        ],
+        [
+          "Feminino",
+          69577
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Masculino",
+          88873
+        ],
+        [
+          "Feminino",
+          69577
+        ]
+      ],
+      "expected_row_count": 2,
+      "actual_row_count": 2,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 4.848074749999796
+    },
+    {
+      "id": "CID015",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Por ano, quantas interna\u00e7\u00f5es por colelit\u00edase ocorreram e qual foi a perman\u00eancia m\u00e9dia?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "raca_cor",
+        "tempo"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes",
+        "permanencia_media"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Colelitiase",
+        "Colelitiase",
+        "K800 Calculose vesicula biliar c/colicistite agud",
+        "K801 Calculose vesic biliar c/outr form colecist",
+        "K802 Calculose da vesicula biliar s/colecistite"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "colelit\u00edase",
+          "selected_candidate_label": "Colelitiase",
+          "selected_filter": "i.DIAG_PRINC LIKE 'K80%'",
+          "confidence": "high",
+          "alternatives": [
+            "c.DS_CATEGORIA = 'Colelitiase'",
+            "i.DIAG_PRINC = 'K800'",
+            "i.DIAG_PRINC = 'K801'",
+            "i.DIAG_PRINC = 'K802'"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT184",
+        "GT124",
+        "GT211",
+        "GT216"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n  SELECT\n    EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n    i.DIAS_PERM\n  FROM internacoes i\n  WHERE i.DIAG_PRINC LIKE 'K80%'\n    AND i.DT_INTER IS NOT NULL\n)\nSELECT\n  ano,\n  COUNT(*) AS internacoes,\n  ROUND(AVG(DIAS_PERM), 2) AS permanencia_media\nFROM base\nGROUP BY ano\nORDER BY ano",
+      "ground_truth_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS internacoes, ROUND(AVG(i.DIAS_PERM), 2) AS permanencia_media FROM internacoes i WHERE i.DT_INTER IS NOT NULL AND i.DIAG_PRINC LIKE 'K80%' GROUP BY ano ORDER BY ano",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "internacoes",
+        "permanencia_media"
+      ],
+      "actual_columns": [
+        "ano",
+        "internacoes",
+        "permanencia_media"
+      ],
+      "expected_preview_values": [
+        [
+          2007,
+          4028,
+          5.6
+        ],
+        [
+          2008,
+          87426,
+          3.74
+        ],
+        [
+          2009,
+          95356,
+          3.71
+        ],
+        [
+          2010,
+          102419,
+          3.6
+        ],
+        [
+          2011,
+          104444,
+          3.57
+        ],
+        [
+          2012,
+          110376,
+          3.56
+        ],
+        [
+          2013,
+          117907,
+          3.48
+        ],
+        [
+          2014,
+          127220,
+          3.39
+        ],
+        [
+          2015,
+          127521,
+          3.37
+        ],
+        [
+          2016,
+          132190,
+          3.31
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2007,
+          4028,
+          5.6
+        ],
+        [
+          2008,
+          87426,
+          3.74
+        ],
+        [
+          2009,
+          95356,
+          3.71
+        ],
+        [
+          2010,
+          102419,
+          3.6
+        ],
+        [
+          2011,
+          104444,
+          3.57
+        ],
+        [
+          2012,
+          110376,
+          3.56
+        ],
+        [
+          2013,
+          117907,
+          3.48
+        ],
+        [
+          2014,
+          127220,
+          3.39
+        ],
+        [
+          2015,
+          127521,
+          3.37
+        ],
+        [
+          2016,
+          132190,
+          3.31
+        ]
+      ],
+      "expected_row_count": 17,
+      "actual_row_count": 17,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.275763333000214
+    }
+  ]
+}

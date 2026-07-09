@@ -1,0 +1,1486 @@
+{
+  "run_id": "catalog_tools_on_focused_cid_proc",
+  "run_dir": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/catalog_tools_on_focused_cid_proc",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_228_validated.jsonl",
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "limit": null,
+  "ids": [
+    "GT120",
+    "GT141",
+    "GT143",
+    "GT173",
+    "GT174",
+    "GT196",
+    "GT198",
+    "GT210",
+    "GT211",
+    "GT217"
+  ],
+  "allow_llm": true,
+  "catalog_tools_enabled": true,
+  "catalog_retrieval_mode": "lexical",
+  "numeric_tolerance": 1e-06,
+  "max_rows": 10000,
+  "timeout_seconds": 60,
+  "trace_path": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/results/catalog_tools_on_focused_cid_proc/trace.jsonl",
+  "summary": {
+    "total": 10,
+    "answerable_rate": 0.8,
+    "intent_accuracy": 0.8,
+    "sql_generation_rate": 0.8,
+    "sql_validation_rate": 0.8,
+    "sql_valid_rate": 0.8,
+    "sql_execution_rate": 0.8,
+    "result_value_match_rate": 0.875,
+    "result_match_rate": 0.875,
+    "correction_success_rate": 1.0,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "catalog_candidates_rate": 1.0,
+    "catalog_tool_call_rate": 0.75,
+    "catalog_decision_rate": 1.0,
+    "catalog_tool_call_count": 7,
+    "catalog_decision_count": 9,
+    "latency_p50": 5.506165957998746,
+    "latency_p95": 8.487959041998693,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 2,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 1,
+    "shape_mismatch_count": 0,
+    "value_mismatch_count": 0,
+    "error_category_counts": {
+      "intent_not_answerable": 2,
+      "order_only_mismatch": 1
+    },
+    "failures_by_difficulty": {
+      "medium": 1,
+      "hard": 2
+    }
+  },
+  "records": [
+    {
+      "id": "GT120",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual o total e o percentual de interna\u00e7\u00f5es por doen\u00e7as respirat\u00f3rias (CID J%) em cada trimestre do ano no estado do RS?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "tempo"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "J80-J84 Outras doen\u00e7as respirat\u00f3rias do interst\u00edcio",
+        "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+        "J95-J99 Outras doen\u00e7as do aparelho respirat\u00f3rio",
+        "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+        "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "doen\u00e7as respirat\u00f3rias CID J%",
+          "selected_candidate_label": "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+          "selected_filter": "c.DS_CAPITULO = 'X. Doen\u00e7as do aparelho respirat\u00f3rio'",
+          "confidence": "high",
+          "alternatives": [
+            "J80-J84 Outras doen\u00e7as respirat\u00f3rias do interst\u00edcio",
+            "J95-J99 Outras doen\u00e7as do aparelho respirat\u00f3rio"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT120",
+        "GT211",
+        "GT220",
+        "GT181"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n    SELECT\n        EXTRACT(QUARTER FROM i.\"DT_INTER\") AS trimestre,\n        COUNT(*) AS total_respiratorias\n    FROM internacoes i\n    JOIN municipios mu\n        ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE i.\"DIAG_PRINC\" LIKE 'J%'\n      AND mu.\"SG_UF\" = 'RS'\n      AND i.\"DT_INTER\" IS NOT NULL\n    GROUP BY 1\n)\nSELECT\n    trimestre,\n    total_respiratorias,\n    ROUND(total_respiratorias * 100.0 / SUM(total_respiratorias) OVER (), 2) AS pct_anual\nFROM base\nORDER BY trimestre",
+      "ground_truth_sql": "SELECT EXTRACT(QUARTER FROM i.\"DT_INTER\") AS trimestre, COUNT(*) AS total_respiratorio, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_anual FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"DIAG_PRINC\" LIKE 'J%' AND mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL GROUP BY trimestre ORDER BY trimestre",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC.",
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "trimestre",
+        "total_respiratorio",
+        "pct_anual"
+      ],
+      "actual_columns": [
+        "trimestre",
+        "total_respiratorias",
+        "pct_anual"
+      ],
+      "expected_preview_values": [
+        [
+          1,
+          282441,
+          18.11
+        ],
+        [
+          2,
+          436141,
+          27.96
+        ],
+        [
+          3,
+          488759,
+          31.33
+        ],
+        [
+          4,
+          352537,
+          22.6
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          1,
+          282441,
+          18.11
+        ],
+        [
+          2,
+          436141,
+          27.96
+        ],
+        [
+          3,
+          488759,
+          31.33
+        ],
+        [
+          4,
+          352537,
+          22.6
+        ]
+      ],
+      "expected_row_count": 4,
+      "actual_row_count": 4,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 8.487959041998693
+    },
+    {
+      "id": "GT141",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas internacoes por diabetes foram registradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "E10-E14 Diabetes mellitus",
+        "Diabetes mellitus insulino-dependente",
+        "Diabetes mellitus nao-insulino-dependemte",
+        "Diabetes mellitus relac c/a desnutr",
+        "Outr tipos espec de diabetes mellitus"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "diabetes",
+          "selected_candidate_label": "E10-E14 Diabetes mellitus",
+          "selected_filter": "c.DS_GRUPO = 'E10-E14 Diabetes mellitus'",
+          "confidence": "high",
+          "alternatives": [
+            "Diabetes mellitus insulino-dependente",
+            "Diabetes mellitus nao-insulino-dependemte",
+            "Diabetes mellitus relac c/a desnutr",
+            "Outr tipos espec de diabetes mellitus"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT141",
+        "GT140",
+        "GT142",
+        "GT143"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_diabetes\nFROM internacoes i\nWHERE i.DIAG_PRINC LIKE 'E10%'\n   OR i.DIAG_PRINC LIKE 'E11%'\n   OR i.DIAG_PRINC LIKE 'E12%'\n   OR i.DIAG_PRINC LIKE 'E13%'\n   OR i.DIAG_PRINC LIKE 'E14%';",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_diabetes FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'E10%' OR \"DIAG_PRINC\" LIKE 'E11%' OR \"DIAG_PRINC\" LIKE 'E12%' OR \"DIAG_PRINC\" LIKE 'E13%' OR \"DIAG_PRINC\" LIKE 'E14%'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_diabetes"
+      ],
+      "actual_columns": [
+        "total_diabetes"
+      ],
+      "expected_preview_values": [
+        [
+          1820001
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          1820001
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.506165957998746
+    },
+    {
+      "id": "GT143",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas internacoes por acidente vascular cerebral inespecifico foram registradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Hist fam alg incap doenc cron incapacitacao",
+        "Z823 Historia familiar de acid vascular cerebral",
+        "I60-I69 Doen\u00e7as cerebrovasculares",
+        "Sindr vasc cerebr q ocorr doenc cerebrovasc",
+        "G463 Sindr vasculares do tronco cerebral"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "acidente vascular cerebral inespecifico",
+          "selected_candidate_label": "I64 (via padr\u00e3o de CID para AVC inespec\u00edfico)",
+          "selected_filter": "i.DIAG_PRINC LIKE 'I64%'",
+          "confidence": "high",
+          "alternatives": [
+            "I64 - Acidente vascular cerebral, n\u00e3o especificado como hemorr\u00e1gico ou isqu\u00eamico",
+            "I60-I69 Doen\u00e7as cerebrovasculares"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT143",
+        "GT140",
+        "GT141",
+        "GT142"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_avc_i64 FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'I64%'",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_avc_i64 FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'I64%'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_avc_i64"
+      ],
+      "actual_columns": [
+        "total_avc_i64"
+      ],
+      "expected_preview_values": [
+        [
+          1806376
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          1806376
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.049405750000005
+    },
+    {
+      "id": "GT173",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais sao os 10 CIDs de infarto agudo do miocardio mais frequentes nas internacoes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "hospital",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 68,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Infarto agudo do miocardio",
+        "I21 Infarto agudo do miocardio",
+        "I212 Infarto agudo transmural miocardio outr loc",
+        "I213 Infarto agudo transmural miocardio loc NE",
+        "I214 Infarto agudo subendocardico do miocardio"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "infarto agudo do miocardio",
+          "selected_candidate_label": "I21 Infarto agudo do miocardio",
+          "selected_filter": "i.DIAG_PRINC LIKE 'I21%'",
+          "confidence": "high",
+          "alternatives": [
+            "c.DS_CATEGORIA = 'Infarto agudo do miocardio'",
+            "i.DIAG_PRINC = 'I212'",
+            "i.DIAG_PRINC = 'I213'",
+            "i.DIAG_PRINC = 'I214'",
+            "i.DIAG_PRINC = 'I219'",
+            "i.DIAG_PRINC = 'I210'",
+            "i.DIAG_PRINC = 'I211'",
+            "i.DIAG_PRINC LIKE 'I22%'"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT173",
+        "GT021",
+        "GT039",
+        "GT068"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT c.\"CID\", c.\"DESCRICAO\", COUNT(*) AS total_internacoes\nFROM internacoes i\nJOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\nWHERE i.\"DIAG_PRINC\" LIKE 'I21%'\nGROUP BY c.\"CID\", c.\"DESCRICAO\"\nORDER BY total_internacoes DESC\nLIMIT 10",
+      "ground_truth_sql": "SELECT c.\"CID\", c.\"DESCRICAO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"DIAG_PRINC\" LIKE 'I21%' GROUP BY c.\"CID\", c.\"DESCRICAO\" ORDER BY total_internacoes DESC LIMIT 10",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "CID",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "CID",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "I219",
+          "Infarto agudo do miocardio NE",
+          834684
+        ],
+        [
+          "I210",
+          "Infarto agudo transmural parede ant miocard",
+          188970
+        ],
+        [
+          "I214",
+          "Infarto agudo subendocardico do miocardio",
+          62068
+        ],
+        [
+          "I211",
+          "Infarto agudo transmural parede inf miocard",
+          53016
+        ],
+        [
+          "I213",
+          "Infarto agudo transmural miocardio loc NE",
+          40622
+        ],
+        [
+          "I212",
+          "Infarto agudo transmural miocardio outr loc",
+          18363
+        ],
+        [
+          "I21",
+          "Infarto agudo do miocardio",
+          7873
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "I219",
+          "Infarto agudo do miocardio NE",
+          834684
+        ],
+        [
+          "I210",
+          "Infarto agudo transmural parede ant miocard",
+          188970
+        ],
+        [
+          "I214",
+          "Infarto agudo subendocardico do miocardio",
+          62068
+        ],
+        [
+          "I211",
+          "Infarto agudo transmural parede inf miocard",
+          53016
+        ],
+        [
+          "I213",
+          "Infarto agudo transmural miocardio loc NE",
+          40622
+        ],
+        [
+          "I212",
+          "Infarto agudo transmural miocardio outr loc",
+          18363
+        ],
+        [
+          "I21",
+          "Infarto agudo do miocardio",
+          7873
+        ]
+      ],
+      "expected_row_count": 7,
+      "actual_row_count": 7,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.5935517080033605
+    },
+    {
+      "id": "GT174",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais capitulos CID aparecem com maior volume de internacoes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+        "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+        "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico",
+        "D37-D48 Neoplasias de comportamento incerto ou desconhecido",
+        "L00-L08 Infec\u00e7\u00f5es da pele e do tecido subcut\u00e2neo"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid.DS_CAPITULO",
+          "query": "capitulos CID com maior volume de internacoes",
+          "selected_candidate_label": "DS_CAPITULO",
+          "selected_filter": "none",
+          "confidence": "high",
+          "alternatives": [
+            "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+            "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT174",
+        "GT090",
+        "GT198",
+        "GT207"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS total_internacoes\nFROM internacoes i\nJOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\nGROUP BY c.\"DS_CAPITULO\"\nORDER BY total_internacoes DESC\nLIMIT 10",
+      "ground_truth_sql": "SELECT c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY c.\"DS_CAPITULO\" ORDER BY total_internacoes DESC LIMIT 10",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "capitulo_cid",
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "capitulo_cid",
+        "total_internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          30334251
+        ],
+        [
+          "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+          15821343
+        ],
+        [
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          13890509
+        ],
+        [
+          "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+          13880974
+        ],
+        [
+          "XI. Doen\u00e7as do aparelho digestivo",
+          13340857
+        ],
+        [
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          12770709
+        ],
+        [
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          9775026
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          9103344
+        ],
+        [
+          "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+          3320630
+        ],
+        [
+          "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+          3226095
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          30334251
+        ],
+        [
+          "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+          15821343
+        ],
+        [
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          13890509
+        ],
+        [
+          "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+          13880974
+        ],
+        [
+          "XI. Doen\u00e7as do aparelho digestivo",
+          13340857
+        ],
+        [
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          12770709
+        ],
+        [
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          9775026
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          9103344
+        ],
+        [
+          "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+          3320630
+        ],
+        [
+          "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+          3226095
+        ]
+      ],
+      "expected_row_count": 10,
+      "actual_row_count": 10,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 5.6652423339983216
+    },
+    {
+      "id": "GT196",
+      "difficulty": "medium",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual a evolucao anual das internacoes por parto cesariano?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 3,
+      "catalog_candidates_count": 10,
+      "catalog_candidate_labels": [
+        "Parto unico p/cesariana",
+        "Outr complic do trab parto e do parto NCOP",
+        "O757 Parto vaginal subseq cesariana anterior",
+        "O82 Parto unico p/cesariana",
+        "O820 Parto p/cesariana eletiva",
+        "Procedimentos correspondentes a 'Qual a evolucao anual das internacoes por parto cesariano?'",
+        "CADASTRO DE SERVICOS HOSPITALARES DE ATENCAO AO PARTO E A CRIANCA",
+        "INSPECAO SANITARIA DE SERVICOS HOSPITALARES DE ATENCAO AO PARTO E A CRIANCA",
+        "LICENCIAMENTO SANITARIO DE SERVICOS HOSPITALARES DE ATENCAO AO PARTO E A CRIANCA",
+        "TOCOCARDIOGRAFIA ANTE-PARTO"
+      ],
+      "catalog_tool_calls_count": 2,
+      "catalog_tools": [
+        "search_procedure_catalog",
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "parto cesariano",
+          "selected_candidate_label": "O82 Parto unico p/cesariana",
+          "selected_filter": "i.DIAG_PRINC LIKE 'O82%'",
+          "confidence": "high",
+          "alternatives": [
+            "c.DS_CATEGORIA = 'Parto unico p/cesariana'",
+            "i.DIAG_PRINC = 'O820'"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT196",
+        "GT116",
+        "GT122",
+        "GT211"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS total_cesarianas\nFROM internacoes i\nWHERE i.DIAG_PRINC LIKE 'O82%'\n  AND i.DT_INTER IS NOT NULL\nGROUP BY ano\nORDER BY ano",
+      "ground_truth_sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_cesarianas FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'O82%' AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "total_cesarianas"
+      ],
+      "actual_columns": [
+        "ano",
+        "total_cesarianas"
+      ],
+      "expected_preview_values": [
+        [
+          2007,
+          14140
+        ],
+        [
+          2008,
+          226089
+        ],
+        [
+          2009,
+          253066
+        ],
+        [
+          2010,
+          268514
+        ],
+        [
+          2011,
+          290231
+        ],
+        [
+          2012,
+          294161
+        ],
+        [
+          2013,
+          303432
+        ],
+        [
+          2014,
+          328357
+        ],
+        [
+          2015,
+          315565
+        ],
+        [
+          2016,
+          275820
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2007,
+          14140
+        ],
+        [
+          2008,
+          226089
+        ],
+        [
+          2009,
+          253066
+        ],
+        [
+          2010,
+          268514
+        ],
+        [
+          2011,
+          290231
+        ],
+        [
+          2012,
+          294161
+        ],
+        [
+          2013,
+          303432
+        ],
+        [
+          2014,
+          328357
+        ],
+        [
+          2015,
+          315565
+        ],
+        [
+          2016,
+          275820
+        ]
+      ],
+      "expected_row_count": 17,
+      "actual_row_count": 17,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 6.755724750000809
+    },
+    {
+      "id": "GT198",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais capitulos CID tem maior custo total de internacoes?",
+      "intent_status": "needs_clarification",
+      "retrieval_mode": null,
+      "retrieved_tables": [],
+      "retrieved_columns_count": 0,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT c.\"DS_CAPITULO\" AS capitulo_cid, ROUND(SUM(i.\"VAL_TOT\"), 2) AS custo_total FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"VAL_TOT\" IS NOT NULL GROUP BY c.\"DS_CAPITULO\" ORDER BY custo_total DESC LIMIT 10",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "skipped",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [],
+      "actual_columns": [],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "intent_not_answerable",
+      "error_message": "Pergunta contem termo ambiguo para a semantica documentada.",
+      "latency_seconds": 4.325000190874562e-05
+    },
+    {
+      "id": "GT210",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual procedimento principal mais frequente em cada cap\u00edtulo CID?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid",
+        "internacoes",
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 49,
+      "business_metrics": [
+        "procedimentos_ocorrencias"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 10,
+      "catalog_candidate_labels": [
+        "R83-R89 Achados anormais de exames de outros l\u00edquidos e tecidos",
+        "Complic de proced NCOP",
+        "T812 Perfuracao lacerac acid durante proced NCOP",
+        "Z40-Z54 Pessoas em contato com servi\u00e7os de sa\u00fade \u2014 procedimentos",
+        "Menstruacao excessiva frequente e irregular",
+        "Procedimentos correspondentes a 'Qual procedimento principal mais frequente em cada cap\u00edtulo CID?'",
+        "PASTEURIZACAO DO LEITE HUMANO (CADA 5 LITROS)",
+        "DISPENSACAO DE SUPLEMENTO DE ACIDO FOLICO\u00c7\u00a8",
+        "SESSAO DE ANTROPOSOFIA APLICADA A SAUDE",
+        "CADASTRO DE ESTABELECIMENTOS SUJEITOS A VIGILANCIA SANITARIA"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_procedure_catalog"
+      ],
+      "catalog_decisions_count": 2,
+      "catalog_decisions": [
+        {
+          "catalog": "cid.DS_CAPITULO",
+          "query": "cap\u00edtulo CID",
+          "selected_candidate_label": "DS_CAPITULO",
+          "selected_filter": "c.\"DS_CAPITULO\"",
+          "confidence": "high",
+          "alternatives": [
+            "cid.DS_GRUPO",
+            "cid.DS_CATEGORIA"
+          ]
+        },
+        {
+          "catalog": "procedimentos.PROC_REA",
+          "query": "procedimento principal",
+          "selected_candidate_label": "PROC_REA",
+          "selected_filter": "p.\"PROC_REA\"",
+          "confidence": "high",
+          "alternatives": [
+            "internacoes.PROC_REA"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT210",
+        "GT211",
+        "GT081",
+        "GT084"
+      ],
+      "plan_source": "pydantic_ai_refiner",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "validation",
+          "input_errors": [
+            "Unknown or ambiguous column: PROC_REA"
+          ],
+          "sql": "WITH agg AS (\n    SELECT\n        c.\"DS_CAPITULO\" AS capitulo_cid,\n        p.\"PROC_REA\" AS proc_rea,\n        p.\"NOME_PROC\" AS procedimento,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    JOIN cid c\n        ON i.\"DIAG_PRINC\" = c.\"CID\"\n    JOIN procedimentos p\n        ON i.\"PROC_REA\" = p.\"PROC_REA\"\n    GROUP BY\n        c.\"DS_CAPITULO\",\n        p.\"PROC_REA\",\n        p.\"NOME_PROC\"\n), ranked AS (\n    SELECT\n        capitulo_cid,\n        proc_rea,\n        procedimento,\n        internacoes,\n        ROW_NUMBER() OVER (\n            PARTITION BY capitulo_cid\n            ORDER BY internacoes DESC, proc_rea\n        ) AS rn\n    FROM agg\n)\nSELECT\n    capitulo_cid,\n    proc_rea AS \"PROC_REA\",\n    procedimento,\n    internacoes\nFROM ranked\nWHERE rn = 1\nORDER BY internacoes DESC\nLIMIT 20",
+          "source": "pydantic_ai_refiner",
+          "validation_errors": [],
+          "validation_warnings": [
+            "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC."
+          ],
+          "success": true
+        }
+      ],
+      "correction_success": true,
+      "generated_sql": "WITH agg AS (\n    SELECT\n        c.\"DS_CAPITULO\" AS capitulo_cid,\n        p.\"PROC_REA\" AS proc_rea,\n        p.\"NOME_PROC\" AS procedimento,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    JOIN cid c\n        ON i.\"DIAG_PRINC\" = c.\"CID\"\n    JOIN procedimentos p\n        ON i.\"PROC_REA\" = p.\"PROC_REA\"\n    GROUP BY\n        c.\"DS_CAPITULO\",\n        p.\"PROC_REA\",\n        p.\"NOME_PROC\"\n), ranked AS (\n    SELECT\n        capitulo_cid,\n        proc_rea,\n        procedimento,\n        internacoes,\n        ROW_NUMBER() OVER (\n            PARTITION BY capitulo_cid\n            ORDER BY internacoes DESC, proc_rea\n        ) AS rn\n    FROM agg\n)\nSELECT\n    capitulo_cid,\n    proc_rea AS \"PROC_REA\",\n    procedimento,\n    internacoes\nFROM ranked\nWHERE rn = 1\nORDER BY internacoes DESC\nLIMIT 20",
+      "ground_truth_sql": "WITH agg AS (SELECT c.\"DS_CAPITULO\" AS capitulo_cid, p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY c.\"DS_CAPITULO\", p.\"PROC_REA\", p.\"NOME_PROC\"), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY capitulo_cid ORDER BY total_procedimentos DESC) AS rn FROM agg) SELECT capitulo_cid, \"PROC_REA\", procedimento, total_procedimentos FROM ranked WHERE rn = 1 ORDER BY total_procedimentos DESC LIMIT 20",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "capitulo_cid",
+        "PROC_REA",
+        "procedimento",
+        "total_procedimentos"
+      ],
+      "actual_columns": [
+        "capitulo_cid",
+        "PROC_REA",
+        "procedimento",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          "0310010039",
+          "PARTO NORMAL",
+          13349747
+        ],
+        [
+          "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8366184
+        ],
+        [
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4194787
+        ],
+        [
+          "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+          "0303060212",
+          "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+          2922785
+        ],
+        [
+          "XI. Doen\u00e7as do aparelho digestivo",
+          "0407030026",
+          "COLECISTECTOMIA",
+          1654785
+        ],
+        [
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          "0303150050",
+          "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO URINARIO",
+          1650647
+        ],
+        [
+          "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+          "0303030038",
+          "TRATAMENTO DE DIABETES MELLITUS",
+          1401456
+        ],
+        [
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          "0308010019",
+          "TRATAMENTO DE TRAUMATISMOS DE LOCALIZACAO ESPECIFICADA / NAO ESPECIFICADA",
+          1353941
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          "0304100021",
+          "TRATAMENTO CLINICO DE PACIENTE ONCOLOGICO",
+          1292506
+        ],
+        [
+          "V. Transtornos mentais e comportamentais",
+          "0303170093",
+          "TRATAMENTO EM PSIQUIATRIA (POR DIA)",
+          1178615
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          "0310010039",
+          "PARTO NORMAL",
+          13349747
+        ],
+        [
+          "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8366184
+        ],
+        [
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4194787
+        ],
+        [
+          "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+          "0303060212",
+          "TRATAMENTO DE INSUFICIENCIA CARDIACA",
+          2922785
+        ],
+        [
+          "XI. Doen\u00e7as do aparelho digestivo",
+          "0407030026",
+          "COLECISTECTOMIA",
+          1654785
+        ],
+        [
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          "0303150050",
+          "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO URINARIO",
+          1650647
+        ],
+        [
+          "IV. Doen\u00e7as end\u00f3crinas, nutricionais e metab\u00f3licas",
+          "0303030038",
+          "TRATAMENTO DE DIABETES MELLITUS",
+          1401456
+        ],
+        [
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          "0308010019",
+          "TRATAMENTO DE TRAUMATISMOS DE LOCALIZACAO ESPECIFICADA / NAO ESPECIFICADA",
+          1353941
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          "0304100021",
+          "TRATAMENTO CLINICO DE PACIENTE ONCOLOGICO",
+          1292506
+        ],
+        [
+          "V. Transtornos mentais e comportamentais",
+          "0303170093",
+          "TRATAMENTO EM PSIQUIATRIA (POR DIA)",
+          1178615
+        ]
+      ],
+      "expected_row_count": 20,
+      "actual_row_count": 20,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 14.900666292000096
+    },
+    {
+      "id": "GT211",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual percentual de internacoes de cada ano entre 2019 e 2023 foi por capitulo CID?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "tempo"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+        "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+        "Anomalias dentofaciais",
+        "K072 Anomalias relacao entre as arcadas dentarias",
+        "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid.DS_CAPITULO",
+          "query": "capitulo CID",
+          "selected_candidate_label": "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+          "selected_filter": "c.DS_CAPITULO = ?",
+          "confidence": "medium",
+          "alternatives": [
+            "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+            "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico"
+          ]
+        }
+      ],
+      "query_examples": [
+        "GT211",
+        "GT120",
+        "GT116",
+        "GT218"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH agg AS (\n  SELECT\n    EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano,\n    c.\"DS_CAPITULO\" AS capitulo_cid,\n    COUNT(*) AS total_internacoes\n  FROM internacoes i\n  JOIN cid c\n    ON i.\"DIAG_PRINC\" = c.\"CID\"\n  WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2019 AND 2023\n  GROUP BY 1, 2\n)\nSELECT\n  ano,\n  capitulo_cid,\n  total_internacoes,\n  ROUND(total_internacoes * 100.0 / SUM(total_internacoes) OVER (PARTITION BY ano), 2) AS percentual_no_ano\nFROM agg\nORDER BY ano, percentual_no_ano DESC",
+      "ground_truth_sql": "WITH agg AS (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2019 AND 2023 GROUP BY ano, c.\"DS_CAPITULO\") SELECT ano, capitulo_cid, total_internacoes, ROUND(total_internacoes * 100.0 / SUM(total_internacoes) OVER (PARTITION BY ano), 2) AS percentual_no_ano FROM agg ORDER BY ano, percentual_no_ano DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": true,
+      "shape_match": true,
+      "expected_columns": [
+        "ano",
+        "capitulo_cid",
+        "total_internacoes",
+        "percentual_no_ano"
+      ],
+      "actual_columns": [
+        "ano",
+        "capitulo_cid",
+        "total_internacoes",
+        "percentual_no_ano"
+      ],
+      "expected_preview_values": [
+        [
+          2019,
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          1977117,
+          20.65
+        ],
+        [
+          2019,
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          983779,
+          10.27
+        ],
+        [
+          2019,
+          "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+          955671,
+          9.98
+        ],
+        [
+          2019,
+          "XI. Doen\u00e7as do aparelho digestivo",
+          929527,
+          9.71
+        ],
+        [
+          2019,
+          "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+          900500,
+          9.4
+        ],
+        [
+          2019,
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          692256,
+          7.23
+        ],
+        [
+          2019,
+          "II. Neoplasias [tumores]",
+          675532,
+          7.06
+        ],
+        [
+          2019,
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          674222,
+          7.04
+        ],
+        [
+          2019,
+          "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+          239572,
+          2.5
+        ],
+        [
+          2019,
+          "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+          224054,
+          2.34
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          2019,
+          "XV. Gravidez, parto e puerp\u00e9rio",
+          1977117,
+          20.65
+        ],
+        [
+          2019,
+          "XIX. Les\u00f5es, envenenamento e outras consequ\u00eancias de causas externas",
+          983779,
+          10.27
+        ],
+        [
+          2019,
+          "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+          955671,
+          9.98
+        ],
+        [
+          2019,
+          "XI. Doen\u00e7as do aparelho digestivo",
+          929527,
+          9.71
+        ],
+        [
+          2019,
+          "IX. Doen\u00e7as do aparelho circulat\u00f3rio",
+          900500,
+          9.4
+        ],
+        [
+          2019,
+          "I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias",
+          692256,
+          7.23
+        ],
+        [
+          2019,
+          "II. Neoplasias [tumores]",
+          675532,
+          7.06
+        ],
+        [
+          2019,
+          "XIV. Doen\u00e7as do aparelho geniturin\u00e1rio",
+          674222,
+          7.04
+        ],
+        [
+          2019,
+          "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+          239572,
+          2.5
+        ],
+        [
+          2019,
+          "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+          224054,
+          2.34
+        ]
+      ],
+      "expected_row_count": 105,
+      "actual_row_count": 105,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "order_only_mismatch",
+      "error_message": "Rows contain the same values but in a different order.",
+      "latency_seconds": 5.204704916999617
+    },
+    {
+      "id": "GT217",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais capitulos CID tem custo medio acima da media geral e mais de 100000 internacoes?",
+      "intent_status": "needs_clarification",
+      "retrieval_mode": null,
+      "retrieved_tables": [],
+      "retrieved_columns_count": 0,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "WITH geral AS (SELECT AVG(\"VAL_TOT\") AS custo_medio_geral FROM internacoes WHERE \"VAL_TOT\" IS NOT NULL), por_capitulo AS (SELECT c.\"DS_CAPITULO\" AS capitulo_cid, COUNT(*) AS total_internacoes, AVG(i.\"VAL_TOT\") AS custo_medio FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"VAL_TOT\" IS NOT NULL GROUP BY c.\"DS_CAPITULO\") SELECT p.capitulo_cid, p.total_internacoes, ROUND(p.custo_medio, 2) AS custo_medio FROM por_capitulo p, geral g WHERE p.total_internacoes > 100000 AND p.custo_medio > g.custo_medio_geral ORDER BY p.custo_medio DESC",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "skipped",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [],
+      "actual_columns": [],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "intent_not_answerable",
+      "error_message": "Pergunta contem termo ambiguo para a semantica documentada.",
+      "latency_seconds": 4.266600080882199e-05
+    }
+  ]
+}

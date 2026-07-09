@@ -1,4 +1,5 @@
 from health_system_chatbot.artifacts import load_stage1_context
+from health_system_chatbot.catalogs.models import CatalogDecision
 from health_system_chatbot.models import SqlPlan
 from health_system_chatbot.sql_validator import validate_sql
 
@@ -323,3 +324,30 @@ def test_cancer_city_question_is_not_blocked_by_advisory_schema_warnings():
     assert result.is_valid
     assert result.errors == []
     assert result.safe_sql == sql
+
+
+def test_catalog_decision_warns_when_group_becomes_short_code_list():
+    ctx = load_stage1_context()
+    sql = (
+        "SELECT COUNT(*) AS internacoes "
+        "FROM internacoes "
+        "WHERE DIAG_PRINC IN ('O80', 'O81', 'O82', 'O83', 'O84')"
+    )
+    plan = SqlPlan(
+        question="Quantas internacoes com diagnostico de parto?",
+        sql=sql,
+        catalog_decisions=[
+            CatalogDecision(
+                catalog="cid",
+                query="parto",
+                selected_candidate_label="O80-O84 Parto",
+                selected_filter="cid.DS_GRUPO = 'O80-O84 Parto'",
+                confidence="high",
+            )
+        ],
+    )
+
+    result = validate_sql(sql, ctx, question=plan.question, plan=plan)
+
+    assert result.is_valid
+    assert any("CID group catalog decision" in warning for warning in result.warnings)

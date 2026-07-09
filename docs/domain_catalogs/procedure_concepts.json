@@ -1,0 +1,57 @@
+[
+  {
+    "id": "partos_total",
+    "label": "Partos realizados",
+    "description": "Procedimentos principais que representam parto realizado na internacao.",
+    "scopes": ["performed_procedure", "unknown"],
+    "synonyms": [
+      "parto",
+      "partos",
+      "partos realizados",
+      "partos aconteceram",
+      "nascimento"
+    ],
+    "codes": [
+      "0310010039",
+      "0310010047",
+      "0310010055",
+      "0411010026",
+      "0411010034",
+      "0411010042"
+    ],
+    "evidence": [
+      "0310010039 PARTO NORMAL",
+      "0310010047 PARTO NORMAL EM GESTACAO DE ALTO RISCO",
+      "0310010055 PARTO NORMAL EM CENTRO DE PARTO NORMAL (CPN)",
+      "0411010026 PARTO CESARIANO EM GESTACAO DE ALTO RISCO",
+      "0411010034 PARTO CESARIANO",
+      "0411010042 PARTO CESARIANO C/ LAQUEADURA TUBARIA"
+    ]
+  },
+  {
+    "id": "partos_cesarianos",
+    "label": "Partos cesarianos realizados",
+    "description": "Procedimentos principais que representam parto cesariano realizado na internacao.",
+    "scopes": ["performed_procedure", "unknown"],
+    "synonyms": [
+      "parto cesariano",
+      "partos cesarianos",
+      "parto cesariana",
+      "partos cesarianas",
+      "cesariana",
+      "cesarianas",
+      "cesariano",
+      "cesarianos"
+    ],
+    "codes": [
+      "0411010026",
+      "0411010034",
+      "0411010042"
+    ],
+    "evidence": [
+      "0411010026 PARTO CESARIANO EM GESTACAO DE ALTO RISCO",
+      "0411010034 PARTO CESARIANO",
+      "0411010042 PARTO CESARIANO C/ LAQUEADURA TUBARIA"
+    ]
+  }
+]

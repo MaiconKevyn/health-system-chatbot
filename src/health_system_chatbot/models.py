@@ -4,6 +4,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+from .catalogs.models import CatalogCandidate, CatalogDecision, CatalogToolCall
+
 
 IntentStatus = Literal["answerable", "needs_clarification", "refused"]
 AnswerStatus = Literal["answered", "clarified", "refused", "failed"]
@@ -104,6 +106,8 @@ class RetrievedContext(BaseModel):
     join_policies: list[JoinPolicy] = Field(default_factory=list)
     business_metrics: list[BusinessMetric] = Field(default_factory=list)
     value_hints: list[ValueHint] = Field(default_factory=list)
+    catalog_candidates: list[CatalogCandidate] = Field(default_factory=list)
+    catalog_tool_calls: list[CatalogToolCall] = Field(default_factory=list)
     query_examples: list[GroundTruthItem] = Field(default_factory=list)
     data_quality_caveats: list[str] = Field(default_factory=list)
     retrieval_mode: str = "schema"
@@ -114,6 +118,7 @@ class SqlPlan(BaseModel):
     sql: str
     tables_used: list[str] = Field(default_factory=list)
     columns_used: list[str] = Field(default_factory=list)
+    catalog_decisions: list[CatalogDecision] = Field(default_factory=list)
     metric_basis: list[str] = Field(default_factory=list)
     grain: Grain = "other"
     date_basis: str = "unknown"
@@ -165,3 +170,6 @@ class EvaluationRecord(BaseModel):
     error_category: str | None = None
     errors: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
+    catalog_candidates_count: int = 0
+    catalog_tool_calls_count: int = 0
+    catalog_decisions_count: int = 0

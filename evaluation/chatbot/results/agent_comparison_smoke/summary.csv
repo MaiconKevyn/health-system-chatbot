@@ -1,0 +1,15 @@
+agent,id,difficulty,gold_success,agent_success,sql_generated,prediction_success,content_match,strict_match,answer_scalar_match,gold_row_count,predicted_row_count,agent_elapsed_s,prediction_error,agent_error,question,generated_sql
+pydantic_ai,CID001,easy,True,True,True,True,True,False,True,1,1,9.150930333998986,,,Quantas internações tiveram diagnóstico principal de diabetes mellitus?,"SELECT COUNT(*) AS total_diabetes
+FROM internacoes i
+WHERE (i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%')"
+pydantic_ai,CID002,easy,True,True,True,True,True,False,True,1,1,6.138258333001431,,,Quantas internações por pneumonia foram registradas?,"SELECT COUNT(*) AS total_internacoes_pneumonia
+FROM internacoes i
+WHERE (i.DIAG_PRINC LIKE 'J12%'
+    OR i.DIAG_PRINC LIKE 'J13%'
+    OR i.DIAG_PRINC LIKE 'J14%'
+    OR i.DIAG_PRINC LIKE 'J15%'
+    OR i.DIAG_PRINC LIKE 'J16%'
+    OR i.DIAG_PRINC LIKE 'J17%'
+    OR i.DIAG_PRINC LIKE 'J18%')"
+langgraph_simple,CID001,easy,True,True,True,True,True,False,True,1,1,7.553051333001349,,,Quantas internações tiveram diagnóstico principal de diabetes mellitus?,SELECT COUNT(*) AS total_internacoes_diabetes FROM internacoes i WHERE i.DIAG_PRINC LIKE 'E10%' OR i.DIAG_PRINC LIKE 'E11%' OR i.DIAG_PRINC LIKE 'E12%' OR i.DIAG_PRINC LIKE 'E13%' OR i.DIAG_PRINC LIKE 'E14%';
+langgraph_simple,CID002,easy,True,True,True,True,False,False,False,1,1,2.4566604160027055,,,Quantas internações por pneumonia foram registradas?,SELECT COUNT(*) AS total_internacoes_pneumonia FROM internacoes i WHERE i.DIAG_PRINC LIKE 'J18%';

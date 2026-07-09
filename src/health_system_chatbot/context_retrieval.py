@@ -4,6 +4,8 @@ import re
 from functools import lru_cache
 from typing import Any
 
+from .catalogs.models import CatalogCandidate
+from .catalogs.retriever import CatalogRetriever
 from .config import ChatbotConfig
 from .models import BusinessMetric, GroundTruthItem, RetrievedContext, Stage1Context, ValueHint
 from .text import normalize_text, tokenize
@@ -132,7 +134,12 @@ PLACE_QUERY_RE = re.compile(
 def retrieve_metric_context(question: str) -> list[BusinessMetric]:
     question_tokens = tokenize(question)
     normalized = normalize_text(question)
-    asks_diagnosis_scope = "diagnostico" in normalized or "cid" in normalized
+    asks_diagnosis_scope = (
+        "diagnostico" in normalized
+        or "cid" in normalized
+        or "internacoes por" in normalized
+        or "internacoes de" in normalized
+    )
     selected = []
     for metric in BUSINESS_METRICS:
         if asks_diagnosis_scope and metric.name in {"total_partos", "partos_cesarianos"}:
@@ -151,63 +158,6 @@ PARTO_PROCEDURE_CODES = (
     ("0411010034", "PARTO CESARIANO"),
     ("0411010042", "PARTO CESARIANO C/ LAQUEADURA TUBARIA"),
 )
-
-CID_LOOKUP_STOPWORDS = {
-    "acima",
-    "abaixo",
-    "aconteceram",
-    "aconteceu",
-    "anos",
-    "ano",
-    "cidade",
-    "codigo",
-    "codigos",
-    "com",
-    "como",
-    "diagnostico",
-    "diagnosticos",
-    "estado",
-    "hospital",
-    "hospitalar",
-    "internacao",
-    "internacoes",
-    "mulher",
-    "mulheres",
-    "morte",
-    "mortes",
-    "morreu",
-    "morreram",
-    "municipio",
-    "obito",
-    "obitos",
-    "por",
-    "principal",
-    "quantas",
-    "quantos",
-    "total",
-}
-
-CID_LOOKUP_ALIASES: dict[str, tuple[str, ...]] = {
-    "cancer": ("neopl",),
-    "neoplasia": ("neopl",),
-    "neoplasias": ("neopl",),
-    "tumor": ("neopl",),
-    "tumores": ("neopl",),
-    "parto": ("parto",),
-    "partos": ("parto",),
-    "cesariana": ("cesar",),
-    "cesarianas": ("cesar",),
-    "cesariano": ("cesar",),
-    "cesarianos": ("cesar",),
-    "infeccao": ("infecc",),
-    "infeccoes": ("infecc",),
-    "infecciosa": ("infecc",),
-    "infecciosas": ("infecc",),
-    "infeccioso": ("infecc",),
-    "infecciosos": ("infecc",),
-}
-
-CID_CHAPTER_LOOKUP_TERMS = {"infecc", "neopl", "parasit"}
 
 
 def retrieve_query_examples(
@@ -318,191 +268,6 @@ def _query_sex_hints(db_path: str) -> tuple[tuple[Any, ...], ...]:
         con.close()
 
 
-@lru_cache(maxsize=8)
-def _query_cid_cancer_hints(db_path: str) -> tuple[tuple[Any, ...], ...]:
-    import duckdb
-
-    con = duckdb.connect(db_path, read_only=True)
-    try:
-        return tuple(
-            con.execute(
-                """
-                SELECT CID, DESCRICAO, DS_CAPITULO
-                FROM cid
-                WHERE CID LIKE 'C%'
-                ORDER BY CID
-                LIMIT 5
-                """
-            ).fetchall()
-        )
-    finally:
-        con.close()
-
-
-def _extract_cid_lookup_terms(question: str) -> tuple[str, ...]:
-    normalized = normalize_text(question)
-    terms: list[str] = []
-    for trigger, variants in CID_LOOKUP_ALIASES.items():
-        if trigger in normalized:
-            terms.extend(variants)
-
-    for token in tokenize(question):
-        if token in CID_LOOKUP_STOPWORDS or token.startswith("cid"):
-            continue
-        terms.append(token)
-        if token.endswith("s") and len(token) > 5:
-            terms.append(token[:-1])
-
-    deduped: list[str] = []
-    seen: set[str] = set()
-    for term in terms:
-        key = normalize_text(term)
-        if len(key) < 4 or key in seen:
-            continue
-        seen.add(key)
-        deduped.append(key)
-    return tuple(deduped[:6])
-
-
-def _cid_group_tail(group: str) -> str:
-    tail = re.sub(r"^[A-Z][0-9]{2}(?:-[A-Z]?[0-9]{2})?\s+", "", group.strip(), flags=re.I)
-    return normalize_text(tail)
-
-
-def _update_best(
-    best: dict[str, tuple[int, str, str, str, str]],
-    key: str,
-    candidate: tuple[int, str, str, str, str],
-) -> None:
-    current = best.get(key)
-    if current is None or candidate[0] > current[0]:
-        best[key] = candidate
-
-
-@lru_cache(maxsize=256)
-def _query_cid_lookup_hints(
-    db_path: str,
-    terms: tuple[str, ...],
-) -> tuple[tuple[str, Any, str, str], ...]:
-    if not terms:
-        return tuple()
-
-    import duckdb
-
-    conditions: list[str] = []
-    params: list[str] = []
-    for term in terms:
-        like = f"%{term}%"
-        columns = ["LOWER(CID)", "LOWER(DESCRICAO)", "LOWER(DS_CATEGORIA)", "LOWER(DS_GRUPO)"]
-        if term in CID_CHAPTER_LOOKUP_TERMS:
-            columns.append("LOWER(DS_CAPITULO)")
-        conditions.append("(" + " OR ".join(f"{column} LIKE ?" for column in columns) + ")")
-        params.extend([like] * len(columns))
-
-    con = duckdb.connect(db_path, read_only=True)
-    try:
-        rows = con.execute(
-            f"""
-            SELECT CID, DESCRICAO, DS_CATEGORIA, DS_GRUPO, DS_CAPITULO
-            FROM cid
-            WHERE {" OR ".join(conditions)}
-            ORDER BY CID
-            LIMIT 250
-            """,
-            params,
-        ).fetchall()
-    finally:
-        con.close()
-
-    chapters: dict[str, tuple[int, str, str, str, str]] = {}
-    groups: dict[str, tuple[int, str, str, str, str]] = {}
-    codes: dict[str, tuple[int, str, str, str, str]] = {}
-    for cid, description, category, group, chapter in rows:
-        cid_text = str(cid or "")
-        description_text = str(description or "")
-        category_text = str(category or "")
-        group_text = str(group or "")
-        chapter_text = str(chapter or "")
-        normalized_fields = {
-            "cid": normalize_text(cid_text),
-            "description": normalize_text(description_text),
-            "category": normalize_text(category_text),
-            "group": normalize_text(group_text),
-            "chapter": normalize_text(chapter_text),
-        }
-        for term in terms:
-            if term in CID_CHAPTER_LOOKUP_TERMS and term in normalized_fields["chapter"]:
-                score = 70
-                _update_best(
-                    chapters,
-                    chapter_text,
-                    (score, cid_text, description_text, chapter_text, term),
-                )
-            if group_text and term in normalized_fields["group"]:
-                score = 80
-                if _cid_group_tail(group_text) == term:
-                    score += 40
-                _update_best(
-                    groups,
-                    group_text,
-                    (score, cid_text, description_text, chapter_text, term),
-                )
-            if (
-                term in normalized_fields["cid"]
-                or term in normalized_fields["description"]
-                or term in normalized_fields["category"]
-            ):
-                score = 40
-                if term in normalized_fields["category"]:
-                    score += 10
-                if term in normalized_fields["cid"]:
-                    score += 30
-                _update_best(
-                    codes,
-                    cid_text,
-                    (score, cid_text, description_text, chapter_text, term),
-                )
-
-    hints: list[tuple[str, Any, str, str]] = []
-    for chapter, (_, cid, description, _, term) in sorted(
-        chapters.items(),
-        key=lambda item: (-item[1][0], item[0]),
-    )[:2]:
-        hints.append(
-            (
-                "DS_CAPITULO",
-                chapter,
-                f"exemplo={cid} {description}",
-                f"CID lookup term: {term}",
-            )
-        )
-    for group, (_, cid, description, chapter, term) in sorted(
-        groups.items(),
-        key=lambda item: (-item[1][0], item[0]),
-    )[:6]:
-        hints.append(
-            (
-                "DS_GRUPO",
-                group,
-                f"exemplo={cid} {description}; capitulo={chapter}",
-                f"CID lookup term: {term}",
-            )
-        )
-    for cid, (_, _, description, chapter, term) in sorted(
-        codes.items(),
-        key=lambda item: (-item[1][0], item[0]),
-    )[:4]:
-        hints.append(
-            (
-                "CID",
-                cid,
-                f"{description}; capitulo={chapter}",
-                f"CID lookup term: {term}",
-            )
-        )
-    return tuple(hints[:8])
-
-
 def retrieve_value_hints(
     question: str,
     config: ChatbotConfig | None,
@@ -556,44 +321,6 @@ def retrieve_value_hints(
         except Exception:
             pass
 
-    if (
-        "cid" in retrieved.tables
-        and config is not None
-        and config.db_path.exists()
-        and any(token in normalized for token in ("cid c", "cid-c", "cancer", "neoplasia"))
-    ):
-        try:
-            for cid, description, chapter in _query_cid_cancer_hints(str(config.db_path)):
-                hints.append(
-                    ValueHint(
-                        table="cid",
-                        column="CID",
-                        value=cid,
-                        label=f"{description}; capitulo={chapter}",
-                        match_reason="question mentions CID C/cancer/neoplasia",
-                    )
-                )
-        except Exception:
-            pass
-
-    if "cid" in retrieved.tables and config is not None and config.db_path.exists():
-        try:
-            for column, value, label, match_reason in _query_cid_lookup_hints(
-                str(config.db_path),
-                _extract_cid_lookup_terms(question),
-            ):
-                hints.append(
-                    ValueHint(
-                        table="cid",
-                        column=column,
-                        value=value,
-                        label=label,
-                        match_reason=match_reason,
-                    )
-                )
-        except Exception:
-            pass
-
     if "procedimentos" in retrieved.tables and any(
         token in normalized for token in ("parto", "partos", "cesariano", "cesarianos", "cesariana")
     ):
@@ -613,6 +340,34 @@ def retrieve_value_hints(
     return hints[:12]
 
 
+def retrieve_catalog_candidates(
+    question: str,
+    config: ChatbotConfig | None,
+    retrieved: RetrievedContext,
+) -> list[CatalogCandidate]:
+    if config is None or not config.catalog_tools_enabled or not config.db_path.exists():
+        return []
+    try:
+        retriever = CatalogRetriever.from_config(config)
+    except Exception:
+        return []
+
+    candidates: list[CatalogCandidate] = []
+    if "cid" in retrieved.tables:
+        try:
+            result = retriever.search_cid(question, limit=5)
+            candidates.extend(result.candidates)
+        except Exception:
+            pass
+    if "procedimentos" in retrieved.tables:
+        try:
+            result = retriever.search_procedures(question, limit=5)
+            candidates.extend(result.candidates)
+        except Exception:
+            pass
+    return candidates[:10]
+
+
 def enrich_retrieved_context(
     *,
     question: str,
@@ -625,5 +380,6 @@ def enrich_retrieved_context(
             "business_metrics": retrieve_metric_context(question),
             "query_examples": retrieve_query_examples(question, ctx),
             "value_hints": retrieve_value_hints(question, config, retrieved),
+            "catalog_candidates": retrieve_catalog_candidates(question, config, retrieved),
         }
     )

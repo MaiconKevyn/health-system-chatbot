@@ -15,7 +15,8 @@ import math
 import re
 import sys
 import time
-from dataclasses import dataclass, field
+from collections import Counter
+from dataclasses import dataclass, field, replace
 from datetime import UTC, date, datetime
 from decimal import Decimal
 from pathlib import Path
@@ -318,6 +319,109 @@ def _unordered_values_match(
     return True
 
 
+def _canonical_row(row: tuple[Any, ...], *, numeric_tolerance: float) -> tuple[Any, ...]:
+    return tuple(normalize_value(value, numeric_tolerance=numeric_tolerance) for value in row)
+
+
+def _column_is_constant(
+    rows: list[tuple[Any, ...]],
+    column_index: int,
+    *,
+    numeric_tolerance: float,
+) -> bool:
+    if not rows:
+        return False
+    first = rows[0][column_index]
+    return all(
+        _values_equal(first, row[column_index], numeric_tolerance=numeric_tolerance)
+        for row in rows[1:]
+    )
+
+
+def _column_has_numeric_variation(
+    rows: list[tuple[Any, ...]],
+    column_index: int,
+    *,
+    numeric_tolerance: float,
+) -> bool:
+    values = [row[column_index] for row in rows]
+    if not any(_is_numeric(value) for value in values):
+        return False
+    first = values[0]
+    return any(
+        not _values_equal(first, value, numeric_tolerance=numeric_tolerance)
+        for value in values[1:]
+    )
+
+
+def _segment_has_tied_sort_value(
+    rows: list[tuple[Any, ...]],
+    *,
+    numeric_tolerance: float,
+) -> bool:
+    if len(rows) < 2 or not rows[0]:
+        return False
+    column_count = len(rows[0])
+    for column_index in range(column_count):
+        if not _column_is_constant(rows, column_index, numeric_tolerance=numeric_tolerance):
+            continue
+        if column_index > 0:
+            return True
+        later_numeric_variation = any(
+            _column_has_numeric_variation(
+                rows,
+                later_index,
+                numeric_tolerance=numeric_tolerance,
+            )
+            for later_index in range(1, column_count)
+        )
+        if not later_numeric_variation:
+            return True
+    return False
+
+
+def _ordered_values_match_with_tie_tolerance(
+    expected_rows: list[tuple[Any, ...]],
+    actual_rows: list[tuple[Any, ...]],
+    *,
+    numeric_tolerance: float,
+) -> bool:
+    if len(expected_rows) != len(actual_rows):
+        return False
+    expected_canonical = [
+        _canonical_row(row, numeric_tolerance=numeric_tolerance) for row in expected_rows
+    ]
+    actual_canonical = [
+        _canonical_row(row, numeric_tolerance=numeric_tolerance) for row in actual_rows
+    ]
+    if Counter(expected_canonical) != Counter(actual_canonical):
+        return False
+
+    index = 0
+    total = len(expected_rows)
+    while index < total:
+        if expected_canonical[index] == actual_canonical[index]:
+            index += 1
+            continue
+
+        end = index + 2
+        while end <= total:
+            if Counter(expected_canonical[index:end]) == Counter(actual_canonical[index:end]):
+                break
+            end += 1
+        if end > total:
+            return False
+
+        if not _segment_has_tied_sort_value(
+            expected_rows[index:end],
+            numeric_tolerance=numeric_tolerance,
+        ):
+            return False
+        index = end
+
+    return True
+
+
 def _strict_rows_equal(expected: tuple[Any, ...], actual: tuple[Any, ...]) -> bool:
     if len(expected) != len(actual):
         return False
@@ -413,7 +517,16 @@ def compare_results(
         value_match = unordered_match
         order_only_mismatch = False
     else:
-        value_match = ordered_match
+        tie_tolerant_order_match = (
+            not ordered_match
+            and unordered_match
+            and _ordered_values_match_with_tie_tolerance(
+                expected_rows,
+                actual_rows,
+                numeric_tolerance=numeric_tolerance,
+            )
+        )
+        value_match = ordered_match or tie_tolerant_order_match
         order_only_mismatch = not ordered_match and unordered_match
 
     if not value_match:
@@ -437,12 +550,16 @@ def compare_results(
         expected_rows,
         actual_rows,
     )
-    strict_match = strict_unordered_match if mode == "unordered" else strict_ordered_match
+    strict_match = (
+        strict_unordered_match
+        if mode == "unordered" or order_only_mismatch
+        else strict_ordered_match
+    )
     return ComparisonResult(
         result_match=True,
         alias_only_difference=expected_columns != actual_columns,
         type_only_difference=not strict_match,
-        order_only_mismatch=False,
+        order_only_mismatch=order_only_mismatch,
         shape_match=True,
         value_match=True,
     )
@@ -800,6 +917,12 @@ def evaluate_item(
         "retrieved_columns_count": 0,
         "business_metrics": [],
         "value_hints_count": 0,
+        "catalog_candidates_count": 0,
+        "catalog_candidate_labels": [],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
         "query_examples": [],
         "plan_source": "",
         "candidate_count": 0,
@@ -849,6 +972,10 @@ def evaluate_item(
         record["retrieved_columns_count"] = len(retrieved.columns)
         record["business_metrics"] = [metric.name for metric in retrieved.business_metrics]
         record["value_hints_count"] = len(retrieved.value_hints)
+        record["catalog_candidates_count"] = len(retrieved.catalog_candidates)
+        record["catalog_candidate_labels"] = [
+            candidate.label for candidate in retrieved.catalog_candidates[:12]
+        ]
         record["query_examples"] = [example.id for example in retrieved.query_examples]
 
         expected_precheck = execute_sql(
@@ -890,6 +1017,12 @@ def evaluate_item(
 
         record["generated_sql"] = plan.sql
         record["plan_source"] = plan.source
+        record["catalog_tool_calls_count"] = len(retrieved.catalog_tool_calls)
+        record["catalog_tools"] = [call.tool for call in retrieved.catalog_tool_calls]
+        record["catalog_decisions_count"] = len(plan.catalog_decisions)
+        record["catalog_decisions"] = [
+            decision.model_dump() for decision in plan.catalog_decisions
+        ]
         validation = validation or validate_sql(plan.sql, ctx, question=item.question_pt, plan=plan)
         plan, validation = _try_refine_after_validation_error(
             item=item,
@@ -903,6 +1036,12 @@ def evaluate_item(
         )
         record["generated_sql"] = plan.sql
         record["plan_source"] = plan.source
+        record["catalog_tool_calls_count"] = len(retrieved.catalog_tool_calls)
+        record["catalog_tools"] = [call.tool for call in retrieved.catalog_tool_calls]
+        record["catalog_decisions_count"] = len(plan.catalog_decisions)
+        record["catalog_decisions"] = [
+            decision.model_dump() for decision in plan.catalog_decisions
+        ]
         record["generated_sql_valid"] = validation.is_valid
         record["generated_sql_validation_errors"] = validation.errors
         record["generated_sql_validation_warnings"] = validation.warnings
@@ -1020,6 +1159,15 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
             categories[category] = categories.get(category, 0) + 1
     correction_records = [record for record in records if record.get("correction_attempts")]
     candidate_records = [record for record in records if record.get("candidate_count", 0) > 1]
+    catalog_candidate_records = [
+        record for record in records if record.get("catalog_candidates_count", 0) > 0
+    ]
+    catalog_tool_records = [
+        record for record in records if record.get("catalog_tool_calls_count", 0) > 0
+    ]
+    catalog_decision_records = [
+        record for record in records if record.get("catalog_decisions_count", 0) > 0
+    ]
     latencies = sorted(float(record.get("latency_seconds") or 0) for record in records)
     failures_by_difficulty: dict[str, int] = {}
     for record in records:
@@ -1060,6 +1208,21 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
             / len(candidate_records)
             if candidate_records
             else None
+        ),
+        "catalog_candidates_rate": (
+            len(catalog_candidate_records) / len(answerable) if answerable else 0
+        ),
+        "catalog_tool_call_rate": (
+            len(catalog_tool_records) / len(answerable) if answerable else 0
+        ),
+        "catalog_decision_rate": (
+            len(catalog_decision_records) / len(answerable) if answerable else 0
+        ),
+        "catalog_tool_call_count": sum(
+            int(record.get("catalog_tool_calls_count") or 0) for record in records
+        ),
+        "catalog_decision_count": sum(
+            int(record.get("catalog_decisions_count") or 0) for record in records
         ),
         "latency_p50": percentile(latencies, 0.5),
         "latency_p95": percentile(latencies, 0.95),
@@ -1134,6 +1297,9 @@ def write_failure_examples(records: list[dict[str, Any]], path: Path) -> None:
                 "actual_preview_values": record.get("actual_preview_values", []),
                 "retrieved_tables": record.get("retrieved_tables", []),
                 "business_metrics": record.get("business_metrics", []),
+                "catalog_candidate_labels": record.get("catalog_candidate_labels", []),
+                "catalog_tools": record.get("catalog_tools", []),
+                "catalog_decisions": record.get("catalog_decisions", []),
                 "selected_candidate_id": record.get("selected_candidate_id"),
                 "correction_attempts": record.get("correction_attempts", []),
             }
@@ -1265,6 +1431,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--timeout-seconds", type=int, default=60)
     parser.add_argument("--no-llm", action="store_true")
     parser.add_argument(
+        "--catalog-tools",
+        choices=["auto", "on", "off"],
+        default="auto",
+        help="Override CHATBOT_CATALOG_TOOLS_ENABLED for A/B evaluation.",
+    )
+    parser.add_argument(
+        "--catalog-retrieval-mode",
+        choices=["lexical"],
+        default=None,
+        help="Override CHATBOT_CATALOG_RETRIEVAL_MODE for this run.",
+    )
+    parser.add_argument(
         "--quiet",
         action="store_true",
         help="Disable per-question progress logs. Final summary is still printed.",
@@ -1275,6 +1453,16 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     args = build_parser().parse_args()
     config = load_config(ROOT)
+    if args.catalog_tools != "auto" or args.catalog_retrieval_mode:
+        config = replace(
+            config,
+            catalog_tools_enabled=(
+                config.catalog_tools_enabled
+                if args.catalog_tools == "auto"
+                else args.catalog_tools == "on"
+            ),
+            catalog_retrieval_mode=args.catalog_retrieval_mode or config.catalog_retrieval_mode,
+        )
     dataset = config.project_root / Path(args.dataset)
     run_id = build_run_id(args.run_id)
     run_paths = resolve_run_paths(
@@ -1320,6 +1508,8 @@ def main() -> int:
         "limit": args.limit,
         "ids": [item.id for item in items],
         "allow_llm": not args.no_llm,
+        "catalog_tools_enabled": config.catalog_tools_enabled,
+        "catalog_retrieval_mode": config.catalog_retrieval_mode,
         "numeric_tolerance": args.numeric_tolerance,
         "max_rows": args.max_rows,
         "timeout_seconds": args.timeout_seconds,

@@ -39,9 +39,18 @@ Regras obrigatorias:
 - Nao adicione descricao de dimensao somente porque uma tabela de dimensao foi
   recuperada. Se a pergunta pede `codigo`/`codigos`, retorne o codigo cru e as
   metricas pedidas; inclua descricao apenas quando a pergunta ou exemplo pedir.
+- Nao retorne colunas usadas apenas como filtro constante, como `SG_UF = 'RS'`,
+  salvo se o usuario pedir essa coluna na saida.
 - Em rankings, medias, totais ou distribuicoes por grupo, inclua `COUNT(*) AS
   internacoes` quando o exemplo ou a regra de negocio usa esse denominador como
   coluna de suporte.
+- Em comparacoes por ano entre dois ou mais grupos nomeados, prefira uma linha
+  por ano e uma coluna de metrica para cada grupo comparado, salvo se o usuario
+  pedir formato longo.
+- Em `ORDER BY` de ranking, distribuicao, percentual, taxa ou media, use
+  desempate deterministico com as dimensoes legiveis retornadas quando houver
+  empate na metrica ordenada; exemplo: `ORDER BY ano, percentual DESC,
+  capitulo_cid ASC`.
 - Para pergunta simples de mortes/obitos por ano, retorne apenas a base temporal
   e a contagem de mortes, salvo se a pergunta pedir taxa, denominador ou total
   de internacoes.

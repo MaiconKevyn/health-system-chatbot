@@ -87,6 +87,20 @@ def test_ordered_mode_reports_order_only_mismatch():
     assert result.error_category == "order_only_mismatch"
 
 
+def test_ordered_mode_accepts_reordering_inside_tied_metric_block():
+    result = compare_results(
+        ["ano", "capitulo", "total", "percentual"],
+        [(2020, "II. Neoplasias", 573971, 6.96), (2020, "X. Respiratorias", 574236, 6.96)],
+        ["ano", "capitulo", "total", "percentual"],
+        [(2020, "X. Respiratorias", 574236, 6.96), (2020, "II. Neoplasias", 573971, 6.96)],
+        mode="ordered",
+    )
+
+    assert result.result_match is True
+    assert result.order_only_mismatch is True
+    assert result.error_category is None
+
+
 def test_numeric_tolerance_accepts_small_decimal_difference():
     result = compare_results(
         ["taxa"],
@@ -158,6 +172,9 @@ def test_summary_is_json_serializable_and_counts_categories():
             "correction_success": True,
             "candidate_count": 2,
             "candidate_selection_correct": False,
+            "catalog_candidates_count": 2,
+            "catalog_tool_calls_count": 1,
+            "catalog_decisions_count": 1,
             "latency_seconds": 0.2,
         },
     ]
@@ -171,6 +188,11 @@ def test_summary_is_json_serializable_and_counts_categories():
     assert payload["value_mismatch_count"] == 1
     assert payload["correction_success_rate"] == 1.0
     assert payload["candidate_selection_accuracy"] == 0.0
+    assert payload["catalog_candidates_rate"] == 0.5
+    assert payload["catalog_tool_call_rate"] == 0.5
+    assert payload["catalog_decision_rate"] == 0.5
+    assert payload["catalog_tool_call_count"] == 1
+    assert payload["catalog_decision_count"] == 1
     assert payload["failures_by_difficulty"] == {"L1": 1}
     json.dumps(payload)
 
@@ -264,6 +286,10 @@ def test_progress_messages_include_item_status_and_elapsed_time():
 
 
 def test_parser_supports_quiet_mode_for_progress_logs():
-    args = build_parser().parse_args(["--quiet"])
+    args = build_parser().parse_args(
+        ["--quiet", "--catalog-tools", "off", "--catalog-retrieval-mode", "lexical"]
+    )
 
     assert args.quiet is True
+    assert args.catalog_tools == "off"
+    assert args.catalog_retrieval_mode == "lexical"

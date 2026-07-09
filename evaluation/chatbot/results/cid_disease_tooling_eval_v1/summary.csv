@@ -1,0 +1,28 @@
+metric,value
+total,15
+answerable_rate,1.0
+intent_accuracy,1.0
+sql_generation_rate,1.0
+sql_validation_rate,1.0
+sql_valid_rate,1.0
+sql_execution_rate,1.0
+result_value_match_rate,0.8
+result_match_rate,0.8
+correction_success_rate,
+retrieval_miss_rate,0.0
+candidate_selection_accuracy,
+catalog_candidates_rate,0.8666666666666667
+catalog_tool_call_rate,1.0
+catalog_decision_rate,1.0
+catalog_tool_call_count,16
+catalog_decision_count,16
+latency_p50,5.603662875000737
+latency_p95,7.9534764170020935
+token_cost_estimate,"{""usd"": null, ""method"": ""provider_usage_not_tracked_yet""}"
+alias_only_difference_count,7
+type_only_difference_count,0
+order_only_mismatch_count,0
+shape_mismatch_count,3
+value_mismatch_count,0
+error_category_counts,"{""shape_mismatch"": 3}"
+failures_by_difficulty,"{""medium"": 1, ""hard"": 2}"
