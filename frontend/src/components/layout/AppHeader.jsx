@@ -63,10 +63,10 @@ export function AppHeader({
           </div>
           <div className="min-w-0">
             <h1 className="truncate text-xl leading-tight text-foreground sm:text-2xl">
-              Health System Chatbot
+              Datasus Health System Chatbot
             </h1>
             <p className="text-sm font-medium text-muted-foreground">
-              Pydantic AI Text-to-SQL workspace
+              DaVint Lab - Pydantic AI
             </p>
           </div>
         </div>
