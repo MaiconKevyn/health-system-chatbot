@@ -8,6 +8,7 @@ from .models import ExecutionResult, RetrievedContext, SqlPlan, Stage1Context, V
 
 if TYPE_CHECKING:
     from .catalogs.retriever import CatalogRetriever
+    from .visualization.schema import ChartPlan, VisualizationIntent
 
 
 @dataclass(frozen=True)
@@ -17,6 +18,15 @@ class ChatDeps:
     retrieved_context: RetrievedContext
     catalog_retriever: "CatalogRetriever | None" = None
     related_context: list[dict[str, Any]] = field(default_factory=list)
+    chart_plan: "ChartPlan | None" = None
+
+
+@dataclass(frozen=True)
+class ChartDeps:
+    config: ChatbotConfig
+    question: str
+    visualization_intent: "VisualizationIntent"
+    retrieved_context: RetrievedContext | None = None
 
 
 @dataclass(frozen=True)
@@ -37,5 +47,6 @@ class RefinerDeps:
     retrieved_context: RetrievedContext
     rejected_plan: SqlPlan
     catalog_retriever: "CatalogRetriever | None" = None
+    chart_plan: "ChartPlan | None" = None
     validation_errors: list[str] = field(default_factory=list)
     execution_error: str | None = None

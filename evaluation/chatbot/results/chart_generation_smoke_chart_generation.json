@@ -1,0 +1,67 @@
+{
+  "run_id": "smoke_chart_generation",
+  "created_at": "2026-07-09T18:15:20.355597+00:00",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/chatbot/chart_eval_questions.jsonl",
+  "model": "gpt-5.4-mini",
+  "summary": {
+    "total": 2,
+    "chart_cases": 2,
+    "no_chart_regression_cases": 0,
+    "answer_success_rate": 1.0,
+    "chart_payload_rate": 1.0,
+    "chartable_rate": 1.0,
+    "echarts_option_rate": 1.0,
+    "chart_type_match_rate": 1.0,
+    "no_chart_regression_pass_rate": 0.0,
+    "no_internal_details_in_answer_rate": 1.0,
+    "average_latency_seconds": 13.168269020501612
+  },
+  "results": [
+    {
+      "id": "chart_001_bar_sexo",
+      "question": "Gere um grafico de barras com a distribuicao de internacoes por sexo.",
+      "difficulty": "easy",
+      "expected_chart_requested": true,
+      "expected_chart_type": "bar",
+      "status": "answered",
+      "latency_seconds": 13.054633500003547,
+      "answer_pt": "A distribui\u00e7\u00e3o de interna\u00e7\u00f5es por sexo mostra predomin\u00e2ncia do sexo feminino, com 85.419.029 interna\u00e7\u00f5es, seguido do masculino, com 58.967.743.",
+      "sql": "SELECT s.DESCRICAO AS sexo, COUNT(i.N_AIH) AS total_internacoes\nFROM internacoes i\nJOIN sexo s ON i.SEXO = s.SEXO\nGROUP BY s.DESCRICAO\nORDER BY total_internacoes DESC, sexo ASC",
+      "chart_requested": true,
+      "chartable": true,
+      "chart_type": "bar",
+      "echarts_present": true,
+      "chart_type_match": true,
+      "row_count": 2,
+      "answer_has_internal_details": false,
+      "warnings": [
+        "chart contract: SQL does not output chart required column: internacoes.N_AIH"
+      ],
+      "chart_warnings": []
+    },
+    {
+      "id": "chart_002_line_mortes_cancer",
+      "question": "Mostre em grafico a evolucao anual de mortes por cancer.",
+      "difficulty": "medium",
+      "expected_chart_requested": true,
+      "expected_chart_type": "line",
+      "status": "answered",
+      "latency_seconds": 13.281904540999676,
+      "answer_pt": "A s\u00e9rie anual mostra 17 anos de registros, com crescimento de 2.096 mortes em 2007 para 48.415 em 2023, somando 659.981 no per\u00edodo.\n\nValores por ano: 2007: 2.096; 2008: 27.514; 2009: 30.455; 2010: 32.175; 2011: 33.936; 2012: 36.079; 2013: 38.105; 2014: 39.962; 2015: 42.546; 2016: 44.008; 2017: 45.566; 2018: 47.229; 2019: 49.314; 2020: 46.136; 2021: 48.045; 2022: 50.401; 2023: 48.415.",
+      "sql": "WITH base AS (\n  SELECT\n    EXTRACT(YEAR FROM i.DT_INTER) AS ano,\n    i.MORTE,\n    i.DIAG_PRINC,\n    c.DESCRICAO\n  FROM internacoes i\n  JOIN cid c\n    ON i.DIAG_PRINC = c.CID\n  WHERE i.DT_INTER IS NOT NULL\n    AND i.MORTE = TRUE\n    AND i.DIAG_PRINC LIKE 'C%'\n)\nSELECT\n  ano,\n  COUNT(*) AS total_mortes_hospitalares\nFROM base\nGROUP BY ano\nORDER BY ano",
+      "chart_requested": true,
+      "chartable": true,
+      "chart_type": "line",
+      "echarts_present": true,
+      "chart_type_match": true,
+      "row_count": 17,
+      "answer_has_internal_details": false,
+      "warnings": [
+        "chart contract: SQL does not output chart required column: DT_INTER",
+        "chart contract: SQL does not output chart required column: DIAG_PRINC",
+        "chart contract: SQL does not output chart required column: CID.DESCRICAO"
+      ],
+      "chart_warnings": []
+    }
+  ]
+}

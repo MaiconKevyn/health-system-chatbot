@@ -6,6 +6,8 @@ from .config import ChatbotConfig
 from .duckdb_executor import execute_validated_sql
 from .models import ExecutionResult, SqlPlan, Stage1Context, ValidationResult
 from .sql_validator import validate_sql
+from .visualization.schema import ChartPlan
+from .visualization.sql_shape import validate_sql_against_chart_plan
 
 
 class RankedSqlCandidate(BaseModel):
@@ -50,6 +52,7 @@ def _score_candidate(
 
     score = 100.0
     score -= len(validation.warnings) * 2
+    score -= len(errors) * 3
     if execution.row_count > 0:
         score += 10.0
     if execution.truncated:
@@ -64,6 +67,7 @@ def rank_sql_candidates(
     question: str,
     stage1_context: Stage1Context,
     config: ChatbotConfig,
+    chart_plan: ChartPlan | None = None,
 ) -> SqlCandidateSelection:
     ranked: list[RankedSqlCandidate] = []
 
@@ -73,6 +77,11 @@ def rank_sql_candidates(
         execution: ExecutionResult | None = None
         errors = list(validation.errors)
         warnings = list(validation.warnings)
+        if chart_plan is not None and chart_plan.requested:
+            chart_validation = validate_sql_against_chart_plan(chart_plan, plan.sql)
+            errors.extend(f"chart: {error}" for error in chart_validation.errors)
+            warnings.extend(f"chart: {warning}" for warning in chart_validation.warnings)
+            validation = validation.model_copy(update={"warnings": warnings})
 
         if validation.is_valid:
             try:

@@ -5,6 +5,7 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field
 
 from .catalogs.models import CatalogCandidate, CatalogDecision, CatalogToolCall
+from .visualization.schema import ChartPayload
 
 
 IntentStatus = Literal["answerable", "needs_clarification", "refused"]
@@ -154,6 +155,7 @@ class ChatbotAnswer(BaseModel):
     caveats: list[str] = Field(default_factory=list)
     evidence: dict[str, Any] = Field(default_factory=dict)
     developer_context: dict[str, Any] = Field(default_factory=dict)
+    chart: ChartPayload | None = None
     status: AnswerStatus
 
 

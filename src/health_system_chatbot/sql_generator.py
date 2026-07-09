@@ -9,6 +9,7 @@ from .models import RetrievedContext, SqlPlan, Stage1Context
 from .prompts import SQL_GENERATION_PROMPT
 from .schema_linking import DIMENSION_LINKS, description_required_for_link
 from .text import normalize_text
+from .visualization.schema import ChartPlan
 
 
 def _infer_grain(question: str, sql: str) -> str:
@@ -389,6 +390,7 @@ def generate_sql_plan(
     *,
     allow_llm: bool = True,
     generation_hint: str = "",
+    chart_plan: ChartPlan | None = None,
 ) -> SqlPlan:
     if not allow_llm:
         raise RuntimeError(
@@ -402,6 +404,7 @@ def generate_sql_plan(
             stage1_context,
             config,
             generation_hint=generation_hint,
+            chart_plan=chart_plan,
         )
         plan.source = "pydantic_ai_openai"
         return _finalize_plan(question, plan, context=context)
@@ -414,6 +417,7 @@ def generate_sql_plan(
         context,
         config,
         generation_hint=generation_hint,
+        chart_plan=chart_plan,
     )
 
 
@@ -536,6 +540,7 @@ def _generate_sql_plan_with_pydantic_ai(
     config: ChatbotConfig,
     *,
     generation_hint: str = "",
+    chart_plan: ChartPlan | None = None,
 ) -> SqlPlan:
     agent = build_sql_plan_agent(config)
     catalog_retriever = (
@@ -548,6 +553,7 @@ def _generate_sql_plan_with_pydantic_ai(
         stage1_context=stage1_context,
         retrieved_context=context,
         catalog_retriever=catalog_retriever,
+        chart_plan=chart_plan,
     )
     prompt = SQL_GENERATION_PROMPT.format(
         question=question,
@@ -555,6 +561,8 @@ def _generate_sql_plan_with_pydantic_ai(
     )
     if generation_hint:
         prompt += f"\n\nInstrucao adicional para esta candidata:\n{generation_hint}\n"
+    if chart_plan is not None and chart_plan.requested:
+        prompt += "\n\n" + chart_plan.to_prompt_block() + "\n"
     result = agent.run_sync(prompt, deps=deps)
     if catalog_retriever is not None and catalog_retriever.tool_calls:
         context.catalog_tool_calls.extend(catalog_retriever.tool_calls)
@@ -570,6 +578,7 @@ def _generate_sql_plan_with_llamaindex(
     config: ChatbotConfig,
     *,
     generation_hint: str = "",
+    chart_plan: ChartPlan | None = None,
 ) -> SqlPlan:
     from llama_index.core import PromptTemplate
 
@@ -580,6 +589,8 @@ def _generate_sql_plan_with_llamaindex(
     prompt_context = _context_to_prompt(context, question)
     if generation_hint:
         prompt_context += f"\n\nInstrucao adicional para esta candidata:\n{generation_hint}\n"
+    if chart_plan is not None and chart_plan.requested:
+        prompt_context += "\n\n" + chart_plan.to_prompt_block() + "\n"
     plan = llm.structured_predict(
         SqlPlan,
         prompt,

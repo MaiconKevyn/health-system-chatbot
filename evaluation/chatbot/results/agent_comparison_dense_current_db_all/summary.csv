@@ -1,0 +1,384 @@
+agent,id,difficulty,gold_success,agent_success,sql_generated,prediction_success,content_match,strict_match,answer_scalar_match,gold_row_count,predicted_row_count,agent_elapsed_s,prediction_error,agent_error,question,generated_sql
+pydantic_ai,DENSE_TABLE_001,L1,True,True,True,True,True,False,True,1,1,3.8806209999966086,,,Quantos registros existem na tabela de staging de internacoes?,"SELECT COUNT(*) AS total_registros
+FROM _staging_internacoes"
+pydantic_ai,DENSE_TABLE_002,L1,True,True,True,True,True,True,,7,7,4.501140707998275,,,Quais codigos e descricoes existem para carater de internacao?,"SELECT DISTINCT
+  c.CAR_INT,
+  c.DESCRICAO
+FROM car_int c
+ORDER BY c.CAR_INT"
+pydantic_ai,DENSE_TABLE_003,L1,True,True,True,True,True,False,True,1,1,3.630623792003462,,,Quantos codigos ocupacionais existem na dimensao CBOR?,"SELECT COUNT(DISTINCT CBOR) AS total_codigos_ocupacionais
+FROM cbor"
+pydantic_ai,DENSE_TABLE_004,L1,True,True,True,True,True,False,,22,22,4.974783459001628,,,Quantos CIDs existem por capitulo no catalogo CID?,"SELECT
+  c.""DS_CAPITULO"" AS capitulo_cid,
+  COUNT(DISTINCT c.""CID"") AS total_cids
+FROM cid c
+GROUP BY c.""DS_CAPITULO""
+ORDER BY total_cids DESC, capitulo_cid ASC"
+pydantic_ai,DENSE_TABLE_005,L1,True,True,True,True,True,False,,4,4,3.9351559999995516,,,Quais codigos e descricoes existem para complexidade?,"SELECT c.COMPLEX AS codigo, c.DESCRICAO AS descricao
+FROM complexidade c
+ORDER BY c.COMPLEX ASC, c.DESCRICAO ASC"
+pydantic_ai,DENSE_TABLE_006,L1,True,True,True,True,True,True,True,1,1,4.453623375000461,,,Quantos tipos de contraceptivos existem no catalogo?,"SELECT COUNT(*) AS total_contraceptivos
+FROM contraceptivos"
+pydantic_ai,DENSE_TABLE_007,L1,True,True,True,True,True,True,,39,39,5.037180958002864,,,Quais especialidades existem no catalogo de especialidade?,"SELECT ESPEC, DESCRICAO
+FROM especialidade
+ORDER BY ESPEC"
+pydantic_ai,DENSE_TABLE_008,L1,True,True,True,True,True,False,True,1,1,7.769721500000742,,,Quantos registros existem na dimensao de etnia?,SELECT COUNT(*) AS registros FROM etnia
+pydantic_ai,DENSE_TABLE_009,L1,True,True,True,True,True,True,True,1,1,2.568331708000187,,,Quantos hospitais existem no cadastro hospitalar carregado?,"SELECT COUNT(*) AS total_hospitais
+FROM hospital"
+pydantic_ai,DENSE_TABLE_010,L1,True,True,True,True,True,True,,6,6,3.8796856670014677,,,Quais codigos e descricoes existem para instrucao?,"SELECT ""INSTRU"", ""DESCRICAO""
+FROM instrucao
+ORDER BY ""INSTRU"""
+pydantic_ai,DENSE_TABLE_011,L1,True,True,True,True,True,False,,1,1,3.177823667003395,,,"Qual e o volume, mortes e valor total na tabela de internacoes?","SELECT
+  COUNT(*) AS volume,
+  COUNT(*) FILTER (WHERE MORTE = TRUE) AS mortes,
+  SUM(VAL_TOT) AS valor_total
+FROM internacoes"
+pydantic_ai,DENSE_TABLE_012,L1,True,True,True,True,True,False,,17,17,4.915289167001902,,,Quais codigos e descricoes existem para marca de UTI?,"SELECT m.""MARCA_UTI"" AS codigo, m.""DESCRICAO"" AS descricao
+FROM marca_uti m
+ORDER BY m.""MARCA_UTI"" ASC"
+pydantic_ai,DENSE_TABLE_013,L1,True,True,True,True,False,False,,1,1,3.3998484999974607,,,Quantos municipios existem e quantas UFs validas aparecem na dimensao territorial?,"SELECT
+  COUNT(*) AS municipios,
+  COUNT(DISTINCT SG_UF) AS ufs_validas
+FROM municipios
+WHERE SG_UF IS NOT NULL"
+pydantic_ai,DENSE_TABLE_014,L1,True,True,True,True,True,False,True,1,1,2.6414719999993395,,,Quantos registros existem na dimensao de nacionalidade?,"SELECT COUNT(*) AS registros
+FROM nacionalidade"
+pydantic_ai,DENSE_TABLE_015,L1,True,True,True,True,True,True,True,1,1,3.9287057499968796,,,Quantos procedimentos existem no catalogo de procedimentos?,SELECT COUNT(*) AS total_procedimentos FROM procedimentos
+pydantic_ai,DENSE_TABLE_016,L1,True,True,True,True,True,True,,7,7,5.20339199999944,,,Quais codigos e descricoes existem para raca cor?,"SELECT ""RACA_COR"", ""DESCRICAO""
+FROM raca_cor
+ORDER BY ""RACA_COR"""
+pydantic_ai,DENSE_TABLE_017,L1,True,True,True,True,True,False,,4,4,4.336839042000065,,,Quais codigos e descricoes existem para sexo?,"SELECT s.""SEXO"" AS codigo, s.""DESCRICAO"" AS descricao
+FROM sexo s
+ORDER BY s.""SEXO"""
+pydantic_ai,DENSE_TABLE_018,L1,True,True,True,True,True,True,,1,1,5.144381500002055,,,Qual e o intervalo de anos e total de registros socioeconomicos carregados?,"WITH base AS (
+  SELECT
+    MIN(""NU_ANO"") AS primeiro_ano,
+    MAX(""NU_ANO"") AS ultimo_ano,
+    COUNT(*) AS registros
+  FROM socioeconomico
+)
+SELECT primeiro_ano, ultimo_ano, registros
+FROM base"
+pydantic_ai,DENSE_TABLE_019,L1,True,True,True,True,True,False,,1,1,2.575624124998285,,,Qual e o intervalo de datas disponivel na dimensao tempo?,"SELECT MIN(data) AS primeira_data, MAX(data) AS ultima_data, COUNT(*) AS registros
+FROM tempo"
+pydantic_ai,DENSE_TABLE_020,L1,True,True,True,True,True,False,,7,7,4.9131432920003135,,,Quais codigos e descricoes existem para vinculo previdenciario?,"SELECT ""VINCPREV"" AS codigo, ""DESCRICAO"" AS descricao
+FROM vincprev
+ORDER BY ""VINCPREV"""
+pydantic_ai,DENSE_JOIN_001,L2,True,True,True,True,True,True,,2,2,4.416110583999398,,,Como as internacoes se distribuem por sexo?,"SELECT s.DESCRICAO AS sexo, COUNT(*) AS internacoes
+FROM internacoes i
+JOIN sexo s ON i.SEXO = s.SEXO
+GROUP BY s.DESCRICAO
+ORDER BY internacoes DESC, sexo ASC"
+pydantic_ai,DENSE_JOIN_002,L2,True,True,True,True,True,False,,6,6,4.913395874998969,,,Como as internacoes se distribuem por carater de internacao?,"SELECT car_int.DESCRICAO AS carater_internacao, COUNT(*) AS internacoes
+FROM internacoes
+LEFT JOIN car_int
+  ON internacoes.CAR_INT = car_int.CAR_INT
+GROUP BY car_int.DESCRICAO
+ORDER BY internacoes DESC, carater_internacao ASC"
+pydantic_ai,DENSE_JOIN_003,L2,True,True,True,True,True,False,,3,3,5.736101541999233,,,Qual e o total de internacoes e valor total por codigo de complexidade validado na dimensao?,"WITH base AS (
+    SELECT
+        i.COMPLEX,
+        COUNT(*) AS internacoes,
+        SUM(i.VAL_TOT) AS valor_total
+    FROM internacoes i
+    GROUP BY i.COMPLEX
+)
+SELECT
+    b.COMPLEX AS codigo_complexidade,
+    b.internacoes,
+    b.valor_total
+FROM base b
+JOIN complexidade c
+    ON b.COMPLEX = c.COMPLEX
+GROUP BY
+    b.COMPLEX,
+    b.internacoes,
+    b.valor_total
+ORDER BY b.COMPLEX ASC"
+pydantic_ai,DENSE_JOIN_004,L2,True,True,True,True,True,True,,3,3,6.956718166002247,,,Quais descricoes de complexidade tem mais internacoes e qual o valor total?,"WITH base AS (
+    SELECT
+        i.""COMPLEX"",
+        c.""DESCRICAO"" AS complexidade,
+        i.""VAL_TOT""
+    FROM internacoes i
+    LEFT JOIN complexidade c
+        ON i.""COMPLEX"" = c.""COMPLEX""
+)
+SELECT
+    COALESCE(complexidade, 'Nao mapeado') AS complexidade,
+    COUNT(*) AS internacoes,
+    ROUND(SUM(VAL_TOT), 2) AS valor_total
+FROM base
+GROUP BY 1
+ORDER BY internacoes DESC, complexidade ASC
+LIMIT 20"
+pydantic_ai,DENSE_JOIN_005,L2,True,True,True,True,True,True,,16,16,5.341680875000748,,,Quais especialidades tiveram mais internacoes?,"SELECT e.DESCRICAO AS especialidade, COUNT(*) AS internacoes
+FROM internacoes i
+LEFT JOIN especialidade e ON i.ESPEC = e.ESPEC
+GROUP BY e.DESCRICAO
+ORDER BY internacoes DESC, especialidade ASC
+LIMIT 20"
+pydantic_ai,DENSE_JOIN_006,L2,True,True,True,True,True,True,,17,17,5.626486583001679,,,Como as internacoes se distribuem por marca de UTI?,"WITH base AS (
+  SELECT
+    i.MARCA_UTI,
+    m.DESCRICAO AS marca_uti_descricao
+  FROM internacoes i
+  LEFT JOIN marca_uti m
+    ON i.MARCA_UTI = m.MARCA_UTI
+)
+SELECT
+  COALESCE(marca_uti_descricao, 'Nao mapeado') AS marca_uti,
+  COUNT(*) AS internacoes
+FROM base
+GROUP BY 1
+ORDER BY internacoes DESC, marca_uti ASC"
+pydantic_ai,DENSE_JOIN_007,L2,True,True,True,True,True,True,,20,20,5.214163832999475,,,Quais nacionalidades tiveram mais internacoes?,"SELECT n.DESCRICAO AS nacionalidade, COUNT(*) AS internacoes
+FROM internacoes i
+LEFT JOIN nacionalidade n
+  ON i.NACIONAL = n.NACIONAL
+GROUP BY n.DESCRICAO
+ORDER BY internacoes DESC, nacionalidade ASC
+LIMIT 20"
+pydantic_ai,DENSE_JOIN_008,L2,True,True,True,True,True,True,,20,20,7.2706339999967895,,,Quais diagnosticos principais foram mais frequentes com descricao CID?,"SELECT c.CID, c.DESCRICAO, COUNT(*) AS internacoes
+FROM internacoes i
+JOIN cid c ON i.DIAG_PRINC = c.CID
+WHERE i.DIAG_PRINC IS NOT NULL
+GROUP BY c.CID, c.DESCRICAO
+ORDER BY internacoes DESC, c.DESCRICAO ASC
+LIMIT 20"
+pydantic_ai,DENSE_JOIN_009,L3,True,True,True,True,True,False,,27,27,5.830953458000295,,,Qual e o total de internacoes por UF de residencia mapeada?,"SELECT
+  m.SG_UF AS uf_residencia,
+  COUNT(*) AS total_internacoes
+FROM internacoes i
+LEFT JOIN municipios m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF IS NOT NULL
+GROUP BY m.SG_UF
+ORDER BY total_internacoes DESC, m.SG_UF ASC"
+pydantic_ai,DENSE_JOIN_010,L3,True,True,True,True,False,False,,20,20,5.918047916999058,,,Quais regioes de saude tiveram mais internacoes por residencia mapeada?,"WITH base AS (
+    SELECT
+        m.NO_REGIAO_SAUDE AS regiao_saude,
+        i.MUNIC_RES
+    FROM internacoes i
+    LEFT JOIN municipios m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+)
+SELECT
+    COALESCE(regiao_saude, 'Nao mapeada') AS regiao_saude,
+    COUNT(*) AS internacoes,
+    SUM(CASE WHEN MUNIC_RES IS NOT NULL AND regiao_saude IS NOT NULL THEN 1 ELSE 0 END) AS internacoes_mapeadas
+FROM base
+GROUP BY 1
+ORDER BY internacoes_mapeadas DESC, regiao_saude ASC
+LIMIT 20"
+pydantic_ai,DENSE_JOIN_011,L2,True,True,True,True,True,False,,20,20,6.393006582999078,,,Quais procedimentos principais das internacoes aparecem mais no catalogo de procedimentos?,"SELECT p.PROC_REA, p.NOME_PROC AS procedimento, COUNT(*) AS internacoes
+FROM internacoes i
+JOIN procedimentos p ON i.PROC_REA = p.PROC_REA
+GROUP BY p.PROC_REA, p.NOME_PROC
+ORDER BY internacoes DESC, procedimento ASC
+LIMIT 20"
+pydantic_ai,DENSE_JOIN_012,L2,True,True,True,True,True,True,,16,16,4.394680541001435,,,Quantas internacoes ocorreram por ano usando a dimensao tempo?,"WITH base AS (
+  SELECT
+    t.ano,
+    i.N_AIH
+  FROM internacoes i
+  JOIN tempo t
+    ON i.DT_INTER = t.data
+)
+SELECT
+  ano,
+  COUNT(*) AS internacoes
+FROM base
+GROUP BY ano
+ORDER BY ano"
+pydantic_ai,DENSE_JOIN_013,L2,True,True,True,True,False,False,,13,1,6.093517834000522,,,Como as internacoes com contraceptivo 1 informado se distribuem por tipo de contraceptivo?,"SELECT c.DESCRICAO AS tipo_contraceptivo, COUNT(*) AS internacoes
+FROM internacoes i
+LEFT JOIN contraceptivos c
+  ON i.CONTRACEP1 = c.CONTRACEPTIVO
+WHERE i.CONTRACEP1 = 1
+GROUP BY c.DESCRICAO
+ORDER BY internacoes DESC, tipo_contraceptivo ASC"
+pydantic_ai,DENSE_JOIN_014,L3,True,True,True,True,True,True,,1,1,4.6416239160025725,,,Auditoria: quantas internacoes tem codigo de raca cor sem correspondencia na dimensao?,"SELECT
+  COUNT(*) FILTER (WHERE r.""RACA_COR"" IS NULL) AS sem_correspondencia,
+  COUNT(*) AS internacoes
+FROM internacoes i
+LEFT JOIN raca_cor r
+  ON i.""RACA_COR"" = r.""RACA_COR"""
+pydantic_ai,DENSE_JOIN_015,L3,True,True,True,True,True,True,,1,1,5.908437040998251,,,Auditoria: quantas internacoes tem instrucao sem correspondencia na dimensao?,"SELECT
+  COUNT(*) FILTER (WHERE ins.""INSTRU"" IS NULL) AS sem_correspondencia,
+  COUNT(*) AS internacoes
+FROM internacoes i
+LEFT JOIN instrucao ins
+  ON i.""INSTRU"" = ins.""INSTRU"""
+pydantic_ai,DENSE_JOIN_016,L3,True,True,True,True,True,True,,1,1,6.064416707999044,,,Auditoria: quantas internacoes tem vinculo previdenciario sem correspondencia na dimensao?,"SELECT
+  COUNT(*) FILTER (WHERE v.VINCPREV IS NULL) AS sem_correspondencia,
+  COUNT(*) AS internacoes
+FROM internacoes i
+LEFT JOIN vincprev v
+  ON i.VINCPREV = v.VINCPREV
+WHERE i.VINCPREV IS NOT NULL"
+pydantic_ai,DENSE_JOIN_017,L3,True,True,True,True,True,True,,1,1,6.23376774999997,,,Auditoria: quantas internacoes tem CBOR sem correspondencia na dimensao ocupacional?,"WITH auditoria AS (
+  SELECT
+    COUNT(*) FILTER (
+      WHERE i.""CBOR"" IS NOT NULL
+        AND i.""CBOR"" <> ''
+        AND c.""CBOR"" IS NULL
+    ) AS sem_correspondencia,
+    COUNT(*) AS internacoes
+  FROM internacoes i
+  LEFT JOIN cbor c
+    ON i.""CBOR"" = c.""CBOR""
+)
+SELECT
+  sem_correspondencia,
+  internacoes
+FROM auditoria"
+pydantic_ai,DENSE_JOIN_018,L3,True,True,True,True,True,True,,1,1,8.582765750001272,,,Auditoria: quantas internacoes tem etnia sem correspondencia na dimensao?,"SELECT
+  COUNT(*) FILTER (WHERE e.ETNIA IS NULL) AS sem_correspondencia,
+  COUNT(*) AS internacoes
+FROM internacoes i
+LEFT JOIN etnia e
+  ON i.ETNIA = e.ETNIA"
+pydantic_ai,DENSE_JOIN_019,L2,True,True,True,True,True,True,,6,6,5.923465749998286,,,Como a tabela de staging se distribui por carater de internacao?,"WITH base AS (
+  SELECT
+    ci.DESCRICAO AS carater
+  FROM _staging_internacoes si
+  LEFT JOIN car_int ci
+    ON si.CAR_INT = ci.CAR_INT
+)
+SELECT
+  COALESCE(carater, 'nao mapeado') AS carater,
+  COUNT(*) AS registros_staging
+FROM base
+GROUP BY 1
+ORDER BY registros_staging DESC, carater ASC"
+pydantic_ai,DENSE_JOIN_020,L2,True,True,True,True,True,False,,0,0,6.185686832999636,,,Quantos hospitais existem por UF do municipio do hospital?,"SELECT
+  m.SG_UF AS uf,
+  COUNT(*) AS total_hospitais
+FROM hospital h
+JOIN municipios m
+  ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+GROUP BY m.SG_UF
+ORDER BY m.SG_UF"
+pydantic_ai,DENSE_JOIN_021,L3,True,True,True,True,True,False,,0,0,7.040201249998063,,,Qual populacao socioeconomica existe por UF e ano quando ha denominador socioeconomico?,"SELECT
+  m.SG_UF AS uf,
+  s.NU_ANO AS ano,
+  SUM(s.QT_POPULACAO) AS populacao
+FROM socioeconomico s
+JOIN municipios m
+  ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+WHERE s.QT_POPULACAO IS NOT NULL
+GROUP BY m.SG_UF, s.NU_ANO
+ORDER BY m.SG_UF, s.NU_ANO"
+pydantic_ai,DENSE_JOIN_022,L3,True,True,True,True,True,False,,17,17,6.646081375001813,,,Quantas mortes hospitalares com diagnostico principal CID C ocorreram por ano?,"SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares
+FROM internacoes i
+WHERE i.MORTE = TRUE
+  AND i.DIAG_PRINC LIKE 'C%'
+  AND i.DT_INTER IS NOT NULL
+GROUP BY 1
+ORDER BY 1"
+pydantic_ai,DENSE_JOIN_023,L3,True,True,True,True,False,False,,2,2,3.763528707997466,,,Qual e a taxa de mortalidade hospitalar por sexo?,"SELECT
+  s.""DESCRICAO"" AS sexo,
+  COUNT(*) AS internacoes,
+  SUM(CASE WHEN i.""MORTE"" = TRUE THEN 1 ELSE 0 END) AS obitos,
+  ROUND(SUM(CASE WHEN i.""MORTE"" = TRUE THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade
+FROM internacoes i
+JOIN sexo s
+  ON i.""SEXO"" = s.""SEXO""
+GROUP BY s.""DESCRICAO""
+ORDER BY taxa_mortalidade DESC, sexo ASC"
+pydantic_ai,DENSE_JOIN_024,L4,True,True,True,True,True,False,,20,20,7.415942916999484,,,Quais UFs e sexos tiveram mais internacoes por residencia mapeada?,"WITH base AS (
+    SELECT
+        m.SG_UF AS uf_residencia,
+        s.DESCRICAO AS sexo,
+        COUNT(*) AS internacoes
+    FROM internacoes i
+    LEFT JOIN municipios m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    LEFT JOIN sexo s
+        ON i.SEXO = s.SEXO
+    WHERE m.CO_MUNICIPIO_6D IS NOT NULL
+    GROUP BY m.SG_UF, s.DESCRICAO
+), ranked AS (
+    SELECT
+        uf_residencia,
+        sexo,
+        internacoes,
+        ROW_NUMBER() OVER (ORDER BY internacoes DESC, uf_residencia ASC, sexo ASC) AS rn
+    FROM base
+)
+SELECT
+    uf_residencia,
+    sexo,
+    internacoes
+FROM ranked
+ORDER BY internacoes DESC, uf_residencia ASC, sexo ASC
+LIMIT 20"
+pydantic_ai,DENSE_JOIN_025,L4,True,True,True,True,True,True,,14,14,5.749565124999208,,,Qual e o mix de complexidade por carater de internacao?,"SELECT
+  c.""DESCRICAO"" AS complexidade,
+  ci.""DESCRICAO"" AS carater,
+  COUNT(*) AS internacoes
+FROM internacoes i
+JOIN complexidade c
+  ON i.""COMPLEX"" = c.""COMPLEX""
+JOIN car_int ci
+  ON i.""CAR_INT"" = ci.""CAR_INT""
+GROUP BY
+  c.""DESCRICAO"",
+  ci.""DESCRICAO""
+ORDER BY internacoes DESC, complexidade ASC, carater ASC"
+langgraph_simple,DENSE_TABLE_001,L1,True,True,True,True,False,False,False,1,1,2.524733958001889,,,Quantos registros existem na tabela de staging de internacoes?,SELECT COUNT(*) AS total_registros FROM internacoes;
+langgraph_simple,DENSE_TABLE_002,L1,True,True,True,True,True,False,,7,7,2.661794124996959,,,Quais codigos e descricoes existem para carater de internacao?,"SELECT CAR_INT AS codigo, DESCRICAO AS descricao FROM car_int ORDER BY CAR_INT;"
+langgraph_simple,DENSE_TABLE_003,L1,True,True,True,True,True,False,True,1,1,2.1715168750015437,,,Quantos codigos ocupacionais existem na dimensao CBOR?,SELECT COUNT(*) AS total_codigos_ocupacionais FROM cbor;
+langgraph_simple,DENSE_TABLE_004,L1,True,True,True,True,True,False,,22,22,3.257100458002242,,,Quantos CIDs existem por capitulo no catalogo CID?,"SELECT DS_CAPITULO AS capitulo, COUNT(*) AS qtd_cids FROM cid GROUP BY DS_CAPITULO ORDER BY qtd_cids DESC, capitulo;"
+langgraph_simple,DENSE_TABLE_005,L1,True,True,True,True,True,False,,4,4,3.578199667001172,,,Quais codigos e descricoes existem para complexidade?,"SELECT c.COMPLEX AS codigo, c.DESCRICAO AS descricao FROM complexidade c ORDER BY c.COMPLEX;"
+langgraph_simple,DENSE_TABLE_006,L1,True,True,True,True,True,False,True,1,1,2.721622999997635,,,Quantos tipos de contraceptivos existem no catalogo?,SELECT COUNT(*) AS quantidade_tipos_contraceptivos FROM contraceptivos;
+langgraph_simple,DENSE_TABLE_007,L1,True,True,True,True,False,False,,39,39,3.528959416998987,,,Quais especialidades existem no catalogo de especialidade?,"SELECT e.ESPEC, e.DESCRICAO FROM especialidade e ORDER BY e.DESCRICAO;"
+langgraph_simple,DENSE_TABLE_008,L1,True,True,True,True,True,False,True,1,1,2.0984085829986725,,,Quantos registros existem na dimensao de etnia?,SELECT COUNT(*) AS quantidade_registros FROM etnia;
+langgraph_simple,DENSE_TABLE_009,L1,True,True,True,True,True,True,True,1,1,3.8361777089994575,,,Quantos hospitais existem no cadastro hospitalar carregado?,SELECT COUNT(*) AS total_hospitais FROM hospital;
+langgraph_simple,DENSE_TABLE_010,L1,True,True,True,True,True,False,,6,6,2.972090749997733,,,Quais codigos e descricoes existem para instrucao?,"SELECT i.INSTRU AS codigo, d.DESCRICAO AS descricao FROM instrucao i LEFT JOIN instrucao d ON d.INSTRU = i.INSTRU ORDER BY i.INSTRU;"
+langgraph_simple,DENSE_TABLE_011,L1,True,True,True,True,True,False,,1,1,3.840426999999181,,,"Qual e o volume, mortes e valor total na tabela de internacoes?","SELECT COUNT(*) AS volume_internacoes, SUM(CASE WHEN MORTE = TRUE THEN 1 ELSE 0 END) AS mortes, ROUND(SUM(VAL_TOT), 0) AS valor_total FROM internacoes;"
+langgraph_simple,DENSE_TABLE_012,L1,True,True,True,True,True,False,,17,17,3.736435790997348,,,Quais codigos e descricoes existem para marca de UTI?,"SELECT MARCA_UTI AS codigo, DESCRICAO AS descricao FROM marca_uti ORDER BY MARCA_UTI;"
+langgraph_simple,DENSE_TABLE_013,L1,True,True,True,True,False,False,,1,1,3.8023652090014366,,,Quantos municipios existem e quantas UFs validas aparecem na dimensao territorial?,"WITH base AS ( SELECT COALESCE(COUNT(DISTINCT COALESCE(CAST(CO_MUNICIPIO_6D AS VARCHAR), '')), 0) AS municipios_distintos, COUNT(DISTINCT CASE WHEN SG_UF IS NOT NULL AND TRIM(SG_UF) <> '' THEN SG_UF END) AS ufs_validas_distintas FROM municipios ) SELECT municipios_distintos, ufs_validas_distintas FROM base;"
+langgraph_simple,DENSE_TABLE_014,L1,True,True,True,True,True,False,True,1,1,2.3856119589981972,,,Quantos registros existem na dimensao de nacionalidade?,SELECT COUNT(*) AS total_registros FROM nacionalidade;
+langgraph_simple,DENSE_TABLE_015,L1,True,True,True,True,True,True,True,1,1,2.376234208000824,,,Quantos procedimentos existem no catalogo de procedimentos?,SELECT COUNT(*) AS total_procedimentos FROM procedimentos;
+langgraph_simple,DENSE_TABLE_016,L1,True,True,True,True,True,False,,7,7,2.4926967499995953,,,Quais codigos e descricoes existem para raca cor?,"SELECT RACA_COR AS codigo, DESCRICAO AS descricao FROM raca_cor ORDER BY codigo;"
+langgraph_simple,DENSE_TABLE_017,L1,True,True,True,True,True,False,,4,4,4.607518249998975,,,Quais codigos e descricoes existem para sexo?,"SELECT s.SEXO AS codigo_sexo, s.DESCRICAO AS descricao FROM sexo s ORDER BY s.SEXO;"
+langgraph_simple,DENSE_TABLE_018,L1,True,True,True,True,True,False,,1,1,2.461956375002046,,,Qual e o intervalo de anos e total de registros socioeconomicos carregados?,"WITH resumo AS ( SELECT MIN(NU_ANO) AS ano_min, MAX(NU_ANO) AS ano_max, COUNT(*) AS total_registros FROM socioeconomico ) SELECT ano_min, ano_max, total_registros FROM resumo;"
+langgraph_simple,DENSE_TABLE_019,L1,True,True,True,True,False,False,,1,1,2.7751262499987206,,,Qual e o intervalo de datas disponivel na dimensao tempo?,"SELECT MIN(""data"") AS data_minima, MAX(""data"") AS data_maxima FROM tempo;"
+langgraph_simple,DENSE_TABLE_020,L1,True,True,True,True,True,False,,7,7,2.442907874999946,,,Quais codigos e descricoes existem para vinculo previdenciario?,"SELECT vp.VINCPREV AS codigo, vp.DESCRICAO AS descricao FROM vincprev vp ORDER BY vp.VINCPREV;"
+langgraph_simple,DENSE_JOIN_001,L2,True,True,True,True,True,False,,2,2,3.074744165998709,,,Como as internacoes se distribuem por sexo?,"SELECT s.DESCRICAO AS sexo, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN sexo s ON i.SEXO = s.SEXO GROUP BY s.DESCRICAO ORDER BY total_internacoes DESC, sexo;"
+langgraph_simple,DENSE_JOIN_002,L2,True,True,True,True,True,False,,6,6,3.9905613330010965,,,Como as internacoes se distribuem por carater de internacao?,"SELECT c.DESCRICAO AS carater_internacao, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN car_int c ON i.CAR_INT = c.CAR_INT GROUP BY c.DESCRICAO ORDER BY total_internacoes DESC, carater_internacao;"
+langgraph_simple,DENSE_JOIN_003,L2,True,True,True,True,False,False,,3,3,3.37930870800119,,,Qual e o total de internacoes e valor total por codigo de complexidade validado na dimensao?,"SELECT c.COMPLEX AS codigo_complexidade, c.DESCRICAO AS complexidade, COUNT(*) AS total_internacoes, ROUND(SUM(i.VAL_TOT), 0) AS valor_total FROM internacoes i JOIN complexidade c ON i.COMPLEX = c.COMPLEX GROUP BY c.COMPLEX, c.DESCRICAO ORDER BY c.COMPLEX;"
+langgraph_simple,DENSE_JOIN_004,L2,True,True,True,True,False,False,,3,3,4.092180040999665,,,Quais descricoes de complexidade tem mais internacoes e qual o valor total?,"SELECT c.DESCRICAO AS complexidade, COUNT(*) AS total_internacoes, ROUND(SUM(i.VAL_TOT), 0) AS valor_total FROM internacoes i LEFT JOIN complexidade c ON i.COMPLEX = c.COMPLEX WHERE i.COMPLEX IS NOT NULL GROUP BY c.DESCRICAO ORDER BY total_internacoes DESC, valor_total DESC;"
+langgraph_simple,DENSE_JOIN_005,L2,True,True,True,True,True,False,,16,16,2.9595575829989684,,,Quais especialidades tiveram mais internacoes?,"WITH base AS ( SELECT i.ESPEC, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.ESPEC IS NOT NULL GROUP BY i.ESPEC ) SELECT e.DESCRICAO AS especialidade, b.total_internacoes FROM base b LEFT JOIN especialidade e ON e.ESPEC = b.ESPEC ORDER BY b.total_internacoes DESC, especialidade;"
+langgraph_simple,DENSE_JOIN_006,L2,True,True,True,True,False,False,,17,17,4.005963124996924,,,Como as internacoes se distribuem por marca de UTI?,"WITH base AS ( SELECT COALESCE(mu.DESCRICAO, CAST(i.MARCA_UTI AS VARCHAR)) AS marca_uti, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN marca_uti mu ON i.MARCA_UTI = mu.MARCA_UTI GROUP BY 1 ) SELECT marca_uti, internacoes, ROUND(100.0 * internacoes / SUM(internacoes) OVER (), 2) AS percentual FROM base ORDER BY internacoes DESC, marca_uti;"
+langgraph_simple,DENSE_JOIN_007,L2,True,True,True,True,False,False,,20,333,3.3494392079992394,,,Quais nacionalidades tiveram mais internacoes?,"WITH base AS ( SELECT i.NACIONAL, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.NACIONAL IS NOT NULL GROUP BY i.NACIONAL ) SELECT COALESCE(n.DESCRICAO, CAST(b.NACIONAL AS VARCHAR)) AS nacionalidade, b.total_internacoes FROM base b LEFT JOIN nacionalidade n ON b.NACIONAL = n.NACIONAL ORDER BY b.total_internacoes DESC, nacionalidade;"
+langgraph_simple,DENSE_JOIN_008,L2,True,True,True,True,True,False,,20,20,4.457168667002406,,,Quais diagnosticos principais foram mais frequentes com descricao CID?,"WITH frequencias AS ( SELECT i.DIAG_PRINC AS cid, c.DESCRICAO AS descricao_cid, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID WHERE i.DIAG_PRINC IS NOT NULL AND i.DIAG_PRINC <> '' AND i.DIAG_PRINC <> '0' GROUP BY i.DIAG_PRINC, c.DESCRICAO ) SELECT cid, descricao_cid, total_internacoes FROM frequencias ORDER BY total_internacoes DESC, cid LIMIT 20;"
+langgraph_simple,DENSE_JOIN_009,L3,True,True,True,True,True,False,,27,27,4.075433792000695,,,Qual e o total de internacoes por UF de residencia mapeada?,"SELECT m.SG_UF AS uf_residencia, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D GROUP BY m.SG_UF ORDER BY total_internacoes DESC, uf_residencia;"
+langgraph_simple,DENSE_JOIN_010,L3,True,True,True,True,False,False,,20,425,3.685788708000473,,,Quais regioes de saude tiveram mais internacoes por residencia mapeada?,"WITH internacoes_por_regiao AS ( SELECT m.NO_REGIAO_SAUDE AS regiao_saude, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE i.MUNIC_RES IS NOT NULL AND m.NO_REGIAO_SAUDE IS NOT NULL GROUP BY m.NO_REGIAO_SAUDE ) SELECT regiao_saude, total_internacoes FROM internacoes_por_regiao ORDER BY total_internacoes DESC;"
+langgraph_simple,DENSE_JOIN_011,L2,True,False,True,False,False,False,,20,0,4.3120490000001155,"Catalog Error: Table with name internacao_procedimento does not exist!
+Did you mean ""internacoes""?
+
+LINE 1: ... AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT...
+                                                                        ^","(_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!
+Did you mean ""internacoes""?
+
+LINE 1: ... AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT...
+                                                                        ^
+[SQL: EXPLAIN WITH proc_counts AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT NULL GROUP BY ip.PROC_REA ) SELECT p.PROC_REA, p.NOME_PROC, pc.total_internacoes FROM proc_counts pc JOIN main.procedimentos p ON p.PROC_REA = pc.PROC_REA ORDER BY pc.total_internacoes DESC, p.NOME_PROC LIMIT 20;]
+(Background on this error at: https://sqlalche.me/e/20/f405)",Quais procedimentos principais das internacoes aparecem mais no catalogo de procedimentos?,"WITH proc_counts AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT NULL GROUP BY ip.PROC_REA ) SELECT p.PROC_REA, p.NOME_PROC, pc.total_internacoes FROM proc_counts pc JOIN main.procedimentos p ON p.PROC_REA = pc.PROC_REA ORDER BY pc.total_internacoes DESC, p.NOME_PROC LIMIT 20;"
+langgraph_simple,DENSE_JOIN_012,L2,True,True,True,True,False,False,,16,17,3.665747917002591,,,Quantas internacoes ocorreram por ano usando a dimensao tempo?,"SELECT t.ano AS ano, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN tempo t ON i.DT_INTER = t.""data"" GROUP BY t.ano ORDER BY t.ano;"
+langgraph_simple,DENSE_JOIN_013,L2,True,True,True,True,False,False,,13,1,3.4702272089998587,,,Como as internacoes com contraceptivo 1 informado se distribuem por tipo de contraceptivo?,"WITH base AS ( SELECT i.CONTRACEP1 AS contraceptivo, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.CONTRACEP1 = 1 GROUP BY i.CONTRACEP1 ) SELECT c.DESCRICAO AS tipo_contraceptivo, b.total_internacoes FROM base b JOIN contraceptivos c ON c.CONTRACEPTIVO = b.contraceptivo ORDER BY b.total_internacoes DESC, tipo_contraceptivo;"
+langgraph_simple,DENSE_JOIN_014,L3,True,True,True,True,False,False,,1,1,2.6766452910014777,,,Auditoria: quantas internacoes tem codigo de raca cor sem correspondencia na dimensao?,SELECT COUNT(*) AS total_internacoes_sem_correspondencia_raca_cor FROM internacoes i LEFT JOIN raca_cor r ON i.RACA_COR = r.RACA_COR WHERE i.RACA_COR IS NOT NULL AND r.RACA_COR IS NULL;
+langgraph_simple,DENSE_JOIN_015,L3,True,True,True,True,False,False,,1,1,2.460082749999856,,,Auditoria: quantas internacoes tem instrucao sem correspondencia na dimensao?,SELECT COUNT(*) AS total_internacoes_sem_correspondencia_instrucao FROM internacoes i LEFT JOIN instrucao ins ON i.INSTRU = ins.INSTRU WHERE i.INSTRU IS NOT NULL AND ins.INSTRU IS NULL;
+langgraph_simple,DENSE_JOIN_016,L3,True,True,True,True,False,False,,1,1,3.173915791001491,,,Auditoria: quantas internacoes tem vinculo previdenciario sem correspondencia na dimensao?,WITH base AS ( SELECT i.VINCPREV FROM internacoes i LEFT JOIN vincprev v ON i.VINCPREV = v.VINCPREV ) SELECT COUNT(*) AS qt_internacoes_sem_correspondencia FROM base WHERE VINCPREV IS NOT NULL AND VINCPREV <> 0 AND NOT EXISTS ( SELECT 1 FROM vincprev v WHERE v.VINCPREV = base.VINCPREV );
+langgraph_simple,DENSE_JOIN_017,L3,True,True,True,True,False,False,,1,1,17.374275499998475,,,Auditoria: quantas internacoes tem CBOR sem correspondencia na dimensao ocupacional?,SELECT COUNT(*) AS total_internacoes_sem_correspondencia FROM internacoes i LEFT JOIN cbor c ON i.CBOR = c.CBOR WHERE i.CBOR IS NOT NULL AND i.CBOR <> '' AND c.CBOR IS NULL;
+langgraph_simple,DENSE_JOIN_018,L3,True,True,True,True,False,False,,1,1,2.5781852079999226,,,Auditoria: quantas internacoes tem etnia sem correspondencia na dimensao?,SELECT COUNT(*) AS qt_internacoes_sem_correspondencia_etnia FROM internacoes i LEFT JOIN etnia e ON i.ETNIA = e.ETNIA WHERE i.ETNIA IS NOT NULL AND e.ETNIA IS NULL;
+langgraph_simple,DENSE_JOIN_019,L2,True,True,True,True,False,False,,6,6,3.488287791999028,,,Como a tabela de staging se distribui por carater de internacao?,"SELECT c.DESCRICAO AS carater_internacao, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN car_int c ON i.CAR_INT = c.CAR_INT GROUP BY c.DESCRICAO ORDER BY total_internacoes DESC, carater_internacao;"
+langgraph_simple,DENSE_JOIN_020,L2,True,True,True,True,True,False,,0,0,2.148165250000602,,,Quantos hospitais existem por UF do municipio do hospital?,"WITH hospitais_por_municipio AS ( SELECT h.MUNIC_MOV, COUNT(DISTINCT h.CNES) AS qt_hospitais FROM hospital h WHERE h.MUNIC_MOV IS NOT NULL GROUP BY h.MUNIC_MOV ) SELECT m.SG_UF AS uf, SUM(hpm.qt_hospitais) AS qt_hospitais FROM hospitais_por_municipio hpm JOIN municipios m ON m.CO_MUNICIPIO_6D = hpm.MUNIC_MOV GROUP BY m.SG_UF ORDER BY qt_hospitais DESC, uf;"
+langgraph_simple,DENSE_JOIN_021,L3,True,True,True,True,True,False,,0,0,2.357692749999842,,,Qual populacao socioeconomica existe por UF e ano quando ha denominador socioeconomico?,"WITH base AS ( SELECT m.SG_UF, s.NU_ANO, s.CO_MUNICIPIO_6D, s.QT_POPULACAO FROM socioeconomico s JOIN municipios m ON m.CO_MUNICIPIO_6D = s.CO_MUNICIPIO_6D WHERE s.QT_POPULACAO IS NOT NULL ), uf_ano AS ( SELECT SG_UF, NU_ANO AS ano, SUM(QT_POPULACAO) AS populacao_socioeconomica FROM base GROUP BY SG_UF, NU_ANO ) SELECT SG_UF, ano, populacao_socioeconomica FROM uf_ano ORDER BY SG_UF, ano;"
+langgraph_simple,DENSE_JOIN_022,L3,True,True,True,True,True,False,,17,17,3.3659837920022255,,,Quantas mortes hospitalares com diagnostico principal CID C ocorreram por ano?,"WITH mortes_cid_c AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares FROM internacoes i WHERE i.MORTE = TRUE AND i.DIAG_PRINC LIKE 'C%' GROUP BY 1 ) SELECT ano, mortes_hospitalares FROM mortes_cid_c ORDER BY ano;"
+langgraph_simple,DENSE_JOIN_023,L3,True,True,True,True,False,False,,2,2,3.6678570410003886,,,Qual e a taxa de mortalidade hospitalar por sexo?,"WITH base AS ( SELECT i.SEXO, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE THEN 1 ELSE 0 END) AS obitos FROM internacoes i GROUP BY i.SEXO ) SELECT s.DESCRICAO AS sexo, b.total_internacoes, b.obitos, 100.0 * b.obitos / NULLIF(b.total_internacoes, 0) AS taxa_mortalidade_hospitalar FROM base b LEFT JOIN sexo s ON b.SEXO = s.SEXO ORDER BY taxa_mortalidade_hospitalar DESC, sexo;"
+langgraph_simple,DENSE_JOIN_024,L4,True,True,True,True,False,False,,20,54,4.216074916999787,,,Quais UFs e sexos tiveram mais internacoes por residencia mapeada?,"WITH base AS ( SELECT m.SG_UF AS uf, s.DESCRICAO AS sexo, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D LEFT JOIN sexo s ON i.SEXO = s.SEXO WHERE i.MUNIC_RES IS NOT NULL GROUP BY m.SG_UF, s.DESCRICAO ), ranked AS ( SELECT uf, sexo, total_internacoes, ROW_NUMBER() OVER (ORDER BY total_internacoes DESC, uf, sexo) AS rn FROM base ) SELECT uf, sexo, total_internacoes FROM ranked ORDER BY total_internacoes DESC, uf, sexo;"
+langgraph_simple,DENSE_JOIN_025,L4,True,True,True,True,False,False,,14,14,4.886237874998187,,,Qual e o mix de complexidade por carater de internacao?,"WITH base AS ( SELECT ci.DESCRICAO AS carater_internacao, co.DESCRICAO AS complexidade, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN car_int ci ON i.CAR_INT = ci.CAR_INT LEFT JOIN complexidade co ON i.COMPLEX = co.COMPLEX WHERE i.CAR_INT IS NOT NULL AND i.COMPLEX IS NOT NULL GROUP BY 1, 2 ), calc AS ( SELECT carater_internacao, complexidade, total_internacoes, SUM(total_internacoes) OVER (PARTITION BY carater_internacao) AS total_por_carater FROM base ) SELECT carater_internacao, complexidade, total_internacoes, ROUND(100.0 * total_internacoes / total_por_carater, 2) AS pct_mix FROM calc ORDER BY carater_internacao, total_internacoes DESC, complexidade;"

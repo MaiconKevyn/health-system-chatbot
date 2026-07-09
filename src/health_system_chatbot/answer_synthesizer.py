@@ -21,6 +21,7 @@ from .models import (
 )
 from .prompts import NATURAL_ANSWER_PROMPT
 from .text import normalize_text
+from .visualization.schema import ChartPayload, ChartPlan
 
 
 class NaturalAnswer(BaseModel):
@@ -269,8 +270,10 @@ def _build_developer_context(
     context: RetrievedContext | None,
     related_context: list[dict[str, Any]],
     caveats: list[str],
+    chart_plan: ChartPlan | None = None,
+    chart_payload: ChartPayload | None = None,
 ) -> dict[str, Any]:
-    return {
+    context_payload = {
         "technical_summary": _summarize_result(execution),
         "metric_basis": plan.metric_basis,
         "date_basis": plan.date_basis,
@@ -303,6 +306,16 @@ def _build_developer_context(
         "caveats": caveats,
         "related_context": related_context,
     }
+    if chart_plan is not None and chart_plan.requested:
+        context_payload["chart_plan"] = chart_plan.model_dump()
+    if chart_payload is not None:
+        context_payload["chart_spec"] = (
+            chart_payload.spec.model_dump() if chart_payload.spec is not None else None
+        )
+        context_payload["chart_warnings"] = [
+            warning.model_dump() for warning in chart_payload.warnings
+        ]
+    return context_payload
 
 
 def _compact_result_rows(
@@ -553,6 +566,8 @@ def synthesize_answer(
     show_debug: bool = False,
     config: ChatbotConfig | None = None,
     allow_llm: bool = True,
+    chart_payload: ChartPayload | None = None,
+    chart_plan: ChartPlan | None = None,
 ) -> ChatbotAnswer:
     caveats = []
     caveats.extend(intent.required_caveats)
@@ -587,6 +602,8 @@ def synthesize_answer(
         context=context,
         related_context=related_context,
         caveats=caveats,
+        chart_plan=chart_plan,
+        chart_payload=chart_payload,
     )
     developer_context["answer_source"] = answer_source
     if natural_answer_warning:
@@ -605,7 +622,15 @@ def synthesize_answer(
             "truncated": execution.truncated,
             "plan_source": plan.source,
             "answer_source": answer_source,
+            "chart_requested": bool(chart_payload and chart_payload.requested),
+            "chart_rendered": bool(
+                chart_payload
+                and chart_payload.spec is not None
+                and chart_payload.spec.chartable
+                and chart_payload.echarts is not None
+            ),
         },
+        chart=chart_payload,
         status="answered",
     )
     return _filter_debug_payload(answer, show_debug=show_debug)

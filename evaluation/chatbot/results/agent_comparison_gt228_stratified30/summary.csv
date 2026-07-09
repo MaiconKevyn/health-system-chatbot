@@ -1,0 +1,287 @@
+agent,id,difficulty,gold_success,agent_success,sql_generated,prediction_success,content_match,strict_match,answer_scalar_match,gold_row_count,predicted_row_count,agent_elapsed_s,prediction_error,agent_error,question,generated_sql
+pydantic_ai,GT001,easy,True,True,True,True,True,True,True,1,1,3.770822083002713,,,Quantas internações foram registradas no total?,SELECT COUNT(*) AS total_internacoes FROM internacoes
+pydantic_ai,GT021,hard,True,True,True,True,True,False,,5,5,8.454197667000699,,,Quais são os 5 procedimentos principais mais registrados nas internações?,"SELECT p.""PROC_REA"", p.""NOME_PROC"" AS procedimento, COUNT(*) AS internacoes
+FROM internacoes i
+JOIN procedimentos p ON i.""PROC_REA"" = p.""PROC_REA""
+GROUP BY p.""PROC_REA"", p.""NOME_PROC""
+ORDER BY internacoes DESC, procedimento ASC
+LIMIT 5"
+pydantic_ai,GT011,medium,True,True,True,True,True,True,True,1,1,5.492934792000597,,,Quantos pacientes têm vínculo previdenciário informado?,"SELECT COUNT(*) AS total_vincprev
+FROM internacoes
+WHERE ""VINCPREV"" IS NOT NULL
+  AND ""VINCPREV"" <> 0"
+pydantic_ai,GT002,easy,True,True,True,True,True,True,True,1,1,2.4561467500025174,,,Quantas mortes foram registradas?,SELECT COUNT(*) AS total_mortes FROM internacoes WHERE MORTE = TRUE
+pydantic_ai,GT028,hard,True,True,True,True,False,False,,10,10,6.370204541999556,,,Quais sao os 10 municípios com mais de 100 internações com a maior taxa de mortalidade?,"WITH agg AS (
+    SELECT
+        mu.""NO_MUNICIPIO"" AS municipio,
+        mu.""SG_UF"" AS uf,
+        COUNT(*) AS internacoes,
+        SUM(CASE WHEN i.""MORTE"" = true THEN 1 ELSE 0 END) AS obitos,
+        ROUND(SUM(CASE WHEN i.""MORTE"" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade
+    FROM internacoes i
+    LEFT JOIN municipios mu
+        ON i.""MUNIC_RES"" = mu.""CO_MUNICIPIO_6D""
+    GROUP BY mu.""NO_MUNICIPIO"", mu.""SG_UF""
+    HAVING COUNT(*) > 100
+)
+SELECT
+    municipio,
+    uf,
+    internacoes,
+    obitos,
+    taxa_mortalidade
+FROM agg
+ORDER BY taxa_mortalidade DESC, municipio ASC, uf ASC
+LIMIT 10"
+pydantic_ai,GT012,medium,True,True,True,True,True,True,True,1,1,2.6459949999989476,,,Quantos pacientes têm nível de instrução informado?,"SELECT COUNT(*) AS total_instrucao
+FROM internacoes
+WHERE ""INSTRU"" IS NOT NULL
+  AND ""INSTRU"" != 0"
+pydantic_ai,GT003,easy,True,True,True,True,True,True,True,1,1,7.1357790420006495,,,Quantos procedimentos diferentes existem cadastrados?,"SELECT COUNT(*) AS total_procedimentos
+FROM procedimentos"
+pydantic_ai,GT044,hard,True,True,True,True,False,False,,3,3,3.686848583001847,,,Qual o custo médio de UTI por faixa etária dos pacientes?,"SELECT CASE WHEN ""IDADE"" < 18 THEN 'Menor' WHEN ""IDADE"" < 60 THEN 'Adulto' ELSE 'Idoso' END AS faixa_etaria, ROUND(AVG(""VAL_UTI""), 2) AS custo_medio_uti FROM internacoes WHERE ""VAL_UTI"" > 0 GROUP BY CASE WHEN ""IDADE"" < 18 THEN 'Menor' WHEN ""IDADE"" < 60 THEN 'Adulto' ELSE 'Idoso' END ORDER BY faixa_etaria"
+pydantic_ai,GT014,medium,True,True,True,True,False,False,False,1,1,6.114272040998912,,,Quantas internações por meningite ocasionaram em morte?,"SELECT COUNT(*) AS total_mortes
+FROM internacoes i
+JOIN cid c ON i.DIAG_PRINC = c.CID
+WHERE c.DS_CATEGORIA IN (
+  'Meningite viral',
+  'Meningite bacter NCOP',
+  'Meningite em doenc bacter COP',
+  'Meningite em outr doenc infecc e parasit COP',
+  'Meningite dev outr causas e a causas NE',
+  'Tuberc do sist nervoso',
+  'Listeriose',
+  'Infecc meningogocica'
+)
+AND i.MORTE = TRUE"
+pydantic_ai,GT004,easy,True,True,True,True,True,True,True,1,1,6.7317221670018625,,,Quantos códigos CID-10 estão disponíveis?,SELECT COUNT(*) AS total_cids FROM cid
+pydantic_ai,GT049,hard,True,True,True,True,True,True,,1,1,4.700000958000601,,,Qual a taxa de mortalidade no estado do Rio Grande do Sul em 2021?,"SELECT COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.MORTE = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.MUNIC_RES = mu.CO_MUNICIPIO_6D WHERE mu.SG_UF = 'RS' AND EXTRACT(YEAR FROM i.DT_INTER) = 2021"
+pydantic_ai,GT018,medium,True,True,True,True,True,True,,0,0,4.640646707997803,,,"Quando houver dados socioeconômicos, quantos habitantes tem o município com a maior população registrada?","WITH latest_year AS (
+  SELECT MAX(""NU_ANO"") AS ano
+  FROM socioeconomico
+  WHERE ""QT_POPULACAO"" IS NOT NULL
+)
+SELECT
+  mu.""NO_MUNICIPIO"" AS municipio_maior_populacao,
+  s.""QT_POPULACAO"" AS total_habitantes
+FROM socioeconomico s
+JOIN latest_year ly
+  ON s.""NU_ANO"" = ly.ano
+JOIN municipios mu
+  ON s.""CO_MUNICIPIO_6D"" = mu.""CO_MUNICIPIO_6D""
+WHERE s.""QT_POPULACAO"" IS NOT NULL
+ORDER BY s.""QT_POPULACAO"" DESC
+LIMIT 1"
+pydantic_ai,GT005,easy,True,True,True,True,True,True,False,1,1,2.1372558750008466,,,Quantos hospitais estão cadastrados?,"SELECT COUNT(*) AS total_hospitais
+FROM hospital"
+pydantic_ai,GT076,hard,True,True,True,True,True,True,,10,10,5.679187374997127,,,Quais são os 10 municípios de residência com mais internações?,"SELECT m.""NO_MUNICIPIO"" AS municipio, COUNT(*) AS total_internacoes
+FROM internacoes i
+LEFT JOIN municipios m
+  ON i.""MUNIC_RES"" = m.""CO_MUNICIPIO_6D""
+GROUP BY m.""NO_MUNICIPIO""
+ORDER BY total_internacoes DESC, municipio ASC
+LIMIT 10"
+pydantic_ai,GT019,medium,True,True,True,True,False,False,,5,5,18.592294250000123,,,Quais os cinco municípios com mais internações obstétricas registradas?,"WITH obstetricas AS (
+    SELECT
+        i.MUNIC_RES,
+        COUNT(*) AS total_internacoes
+    FROM internacoes i
+    JOIN cid c ON i.DIAG_PRINC = c.CID
+    WHERE c.DS_GRUPO = 'O94-O99 Outras afecções obstétricas NCOP'
+    GROUP BY i.MUNIC_RES
+)
+SELECT
+    mu.NO_MUNICIPIO AS municipio,
+    mu.SG_UF AS uf,
+    o.total_internacoes
+FROM obstetricas o
+LEFT JOIN municipios mu
+    ON o.MUNIC_RES = mu.CO_MUNICIPIO_6D
+ORDER BY o.total_internacoes DESC, municipio ASC, uf ASC
+LIMIT 5"
+pydantic_ai,GT006,easy,True,True,True,True,True,True,False,1,1,3.834264166001958,,,Quantos municípios têm dados socioeconômicos registrados?,"SELECT COUNT(DISTINCT ""CO_MUNICIPIO_6D"") AS total_municipios
+FROM socioeconomico"
+pydantic_ai,GT078,hard,True,True,True,True,True,True,,30,30,14.441553791999468,,,"Quais são os 10 principais motivos de internação para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?","WITH base AS (
+    SELECT
+        CASE
+            WHEN i.""IDADE"" < 18 THEN 'Menor de 18'
+            WHEN i.""IDADE"" BETWEEN 18 AND 64 THEN '18 a 64'
+            ELSE '65 ou mais'
+        END AS faixa_etaria,
+        c.""DESCRICAO"",
+        COUNT(*) AS total_internacoes,
+        ROW_NUMBER() OVER (
+            PARTITION BY CASE
+                WHEN i.""IDADE"" < 18 THEN 'Menor de 18'
+                WHEN i.""IDADE"" BETWEEN 18 AND 64 THEN '18 a 64'
+                ELSE '65 ou mais'
+            END
+            ORDER BY COUNT(*) DESC, c.""DESCRICAO"" ASC
+        ) AS rn
+    FROM internacoes i
+    JOIN cid c ON i.""DIAG_PRINC"" = c.""CID""
+    GROUP BY 1, 2
+)
+SELECT
+    faixa_etaria,
+    ""DESCRICAO"",
+    total_internacoes
+FROM base
+WHERE rn <= 10
+ORDER BY faixa_etaria, rn"
+pydantic_ai,GT023,medium,True,True,True,True,True,True,True,1,1,5.158444249998865,,,Quantas internações de UTI resultaram em óbito?,"SELECT COUNT(*) AS uti_com_obito
+FROM internacoes
+WHERE ""VAL_UTI"" > 0
+  AND ""MORTE"" = TRUE"
+pydantic_ai,GT007,easy,True,True,True,True,True,True,True,1,1,4.320217874999798,,,Quantos registros de internação em UTI existem?,"SELECT COUNT(*) AS total_uti
+FROM internacoes
+WHERE VAL_UTI > 0"
+pydantic_ai,GT079,hard,True,True,True,True,True,False,,10,10,7.338019999999233,,,Quais são os 10 procedimentos principais mais comuns entre internações de residentes no RS?,"SELECT p.""PROC_REA"", p.""NOME_PROC"" AS procedimento, COUNT(*) AS internacoes
+FROM internacoes i
+JOIN procedimentos p ON i.""PROC_REA"" = p.""PROC_REA""
+JOIN municipios m ON i.""MUNIC_RES"" = m.""CO_MUNICIPIO_6D""
+WHERE m.""SG_UF"" = 'RS'
+GROUP BY p.""PROC_REA"", p.""NOME_PROC""
+ORDER BY internacoes DESC, procedimento ASC
+LIMIT 10"
+pydantic_ai,GT024,medium,True,True,True,True,True,True,,1000,1000,3.6974350410018815,,,Quais CNES têm mais de 1000 internações registradas?,"SELECT i.""CNES"", COUNT(i.""N_AIH"") AS total_internacoes
+FROM internacoes i
+WHERE i.""CNES"" IS NOT NULL
+GROUP BY i.""CNES""
+HAVING COUNT(i.""N_AIH"") > 1000
+ORDER BY total_internacoes DESC"
+pydantic_ai,GT008,easy,True,True,True,True,True,True,True,1,1,5.677587250000215,,,Quantos casos de VDRL positivo foram registrados?,"SELECT COUNT(*) AS total_vdrl FROM internacoes WHERE ""IND_VDRL"" = true"
+pydantic_ai,GT081,hard,True,True,True,True,True,False,,10,10,10.875731874999474,,,Quais são os 5 procedimentos principais mais registrados para cada sexo?,"WITH base AS (
+    SELECT
+        s.""DESCRICAO"" AS sexo,
+        p.""PROC_REA"" AS PROC_REA,
+        p.""NOME_PROC"" AS NOME_PROC,
+        COUNT(*) AS internacoes,
+        ROW_NUMBER() OVER (
+            PARTITION BY s.""DESCRICAO""
+            ORDER BY COUNT(*) DESC, p.""NOME_PROC"" ASC, p.""PROC_REA"" ASC
+        ) AS rn
+    FROM internacoes i
+    JOIN sexo s
+        ON i.""SEXO"" = s.""SEXO""
+    JOIN procedimentos p
+        ON i.""PROC_REA"" = p.""PROC_REA""
+    GROUP BY
+        s.""DESCRICAO"",
+        p.""PROC_REA"",
+        p.""NOME_PROC""
+)
+SELECT
+    sexo,
+    PROC_REA,
+    NOME_PROC,
+    internacoes
+FROM base
+WHERE rn <= 5
+ORDER BY sexo, internacoes DESC, NOME_PROC ASC, PROC_REA ASC"
+pydantic_ai,GT025,medium,True,True,True,True,True,True,True,1,1,4.195902833002037,,,Quantas internações com VDRL positivo resultaram em morte?,"SELECT COUNT(*) AS vdrl_positivo_obito
+FROM internacoes
+WHERE ""IND_VDRL"" = TRUE
+  AND ""MORTE"" = TRUE"
+pydantic_ai,GT009,easy,True,True,True,True,True,True,True,1,1,2.5635914580016106,,,Quantas especialidades médicas estão cadastradas?,SELECT COUNT(*) AS total_especialidades FROM especialidade
+pydantic_ai,GT082,hard,True,True,True,True,True,True,,6,6,19.659866125002736,,,Quais são os 3 diagnósticos principais mais comuns entre pacientes com mais de 60 anos no estado de MA e no estado do RS?,"SELECT estado, ""DESCRICAO"", total
+FROM (
+    SELECT mu.""SG_UF"" AS estado,
+           c.""DESCRICAO"",
+           COUNT(*) AS total,
+           ROW_NUMBER() OVER (
+               PARTITION BY mu.""SG_UF""
+               ORDER BY COUNT(*) DESC, c.""DESCRICAO"" ASC
+           ) AS rn
+    FROM internacoes i
+    JOIN municipios mu ON i.""MUNIC_RES"" = mu.""CO_MUNICIPIO_6D""
+    JOIN cid c ON i.""DIAG_PRINC"" = c.""CID""
+    WHERE i.""IDADE"" > 60
+      AND mu.""SG_UF"" IN ('MA', 'RS')
+    GROUP BY mu.""SG_UF"", c.""DESCRICAO""
+) sub
+WHERE rn <= 3
+ORDER BY estado, rn"
+pydantic_ai,GT026,medium,True,True,True,True,True,True,False,1,1,3.277003708000848,,,Qual o valor médio das internações que resultaram em óbito?,"SELECT AVG(""VAL_TOT"") AS valor_medio_obitos
+FROM internacoes
+WHERE ""MORTE"" = TRUE
+  AND ""VAL_TOT"" IS NOT NULL"
+pydantic_ai,GT010,easy,True,True,True,True,True,True,True,1,1,2.7680648750028922,,,Quantos casos obstétricos foram registrados?,"SELECT COUNT(*) AS total_obstetricos FROM internacoes WHERE ""ESPEC"" = 2"
+pydantic_ai,GT083,hard,True,True,True,True,True,False,,4,4,7.080499291001615,,,"Qual é a taxa de mortalidade por nível de instrução no estado do RS, considerando apenas grupos com mais de 1000 internações?","WITH agg AS (
+    SELECT
+        ins.""DESCRICAO"" AS nivel_instrucao,
+        COUNT(*) AS internacoes,
+        SUM(CASE WHEN i.""MORTE"" = true THEN 1 ELSE 0 END) AS total_mortes,
+        ROUND(SUM(CASE WHEN i.""MORTE"" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade
+    FROM internacoes i
+    JOIN instrucao ins
+        ON i.""INSTRU"" = ins.""INSTRU""
+    JOIN municipios mu
+        ON i.""MUNIC_RES"" = mu.""CO_MUNICIPIO_6D""
+    WHERE mu.""SG_UF"" = 'RS'
+      AND i.""INSTRU"" IS NOT NULL
+      AND i.""INSTRU"" <> 0
+    GROUP BY ins.""DESCRICAO""
+    HAVING COUNT(*) > 1000
+)
+SELECT
+    nivel_instrucao,
+    internacoes,
+    total_mortes,
+    taxa_mortalidade
+FROM agg
+ORDER BY taxa_mortalidade DESC, nivel_instrucao ASC"
+pydantic_ai,GT027,medium,True,True,True,True,True,True,True,1,1,4.508840833001159,,,Quantas internações obstétricas foram registradas em UTI?,"SELECT COUNT(*) AS obstetricos_uti
+FROM internacoes
+WHERE ""ESPEC"" = 2
+  AND ""VAL_UTI"" > 0"
+langgraph_simple,GT001,easy,True,True,True,True,True,True,True,1,1,2.77544183399732,,,Quantas internações foram registradas no total?,SELECT COUNT(*) AS total_internacoes FROM internacoes;
+langgraph_simple,GT021,hard,True,False,False,False,False,False,,5,0,6.438543500000378,empty_sql,SQL execution blocked: SQL inválido ou vazio,Quais são os 5 procedimentos principais mais registrados nas internações?,
+langgraph_simple,GT011,medium,True,True,True,True,True,False,True,1,1,2.8701439169999503,,,Quantos pacientes têm vínculo previdenciário informado?,SELECT COUNT(*) AS pacientes_com_vinculo_previdenciario_informado FROM internacoes i WHERE i.VINCPREV IS NOT NULL AND i.VINCPREV <> 0;
+langgraph_simple,GT002,easy,True,True,True,True,True,True,True,1,1,2.587668500000291,,,Quantas mortes foram registradas?,SELECT COUNT(*) AS total_mortes FROM internacoes WHERE MORTE = TRUE;
+langgraph_simple,GT028,hard,True,True,True,True,False,False,,10,10,5.067970166001032,,,Quais sao os 10 municípios com mais de 100 internações com a maior taxa de mortalidade?,"WITH municipal_stats AS ( SELECT i.MUNIC_RES AS co_municipio_6d, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) AS obitos, 1.0 * SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) / COUNT(*) AS taxa_mortalidade FROM internacoes i WHERE i.MUNIC_RES IS NOT NULL GROUP BY i.MUNIC_RES HAVING COUNT(*) > 100 ) SELECT m.NO_MUNICIPIO AS municipio, m.SG_UF AS uf, ms.total_internacoes, ms.obitos, ms.taxa_mortalidade FROM municipal_stats ms JOIN municipios m ON m.CO_MUNICIPIO_6D = ms.co_municipio_6d ORDER BY ms.taxa_mortalidade DESC, ms.total_internacoes DESC, municipio LIMIT 10;"
+langgraph_simple,GT012,medium,True,True,True,True,False,False,False,1,1,2.6241167500011215,,,Quantos pacientes têm nível de instrução informado?,"SELECT COUNT(*) AS pacientes_com_instrucao_informada FROM internacoes i WHERE i.INSTRU IS NOT NULL AND i.INSTRU NOT IN (0, 9);"
+langgraph_simple,GT003,easy,True,True,True,True,True,False,True,1,1,2.1572192500025267,,,Quantos procedimentos diferentes existem cadastrados?,SELECT COUNT(DISTINCT PROC_REA) AS procedimentos_diferentes FROM procedimentos;
+langgraph_simple,GT044,hard,True,True,True,True,False,False,,3,11,5.276270624999597,,,Qual o custo médio de UTI por faixa etária dos pacientes?,"WITH faixas AS ( SELECT CASE WHEN i.IDADE BETWEEN 0 AND 4 THEN '0-4' WHEN i.IDADE BETWEEN 5 AND 9 THEN '5-9' WHEN i.IDADE BETWEEN 10 AND 14 THEN '10-14' WHEN i.IDADE BETWEEN 15 AND 19 THEN '15-19' WHEN i.IDADE BETWEEN 20 AND 29 THEN '20-29' WHEN i.IDADE BETWEEN 30 AND 39 THEN '30-39' WHEN i.IDADE BETWEEN 40 AND 49 THEN '40-49' WHEN i.IDADE BETWEEN 50 AND 59 THEN '50-59' WHEN i.IDADE BETWEEN 60 AND 69 THEN '60-69' WHEN i.IDADE BETWEEN 70 AND 79 THEN '70-79' WHEN i.IDADE >= 80 THEN '80+' ELSE 'Ignorada' END AS faixa_etaria, i.VAL_UTI FROM internacoes i WHERE i.VAL_UTI > 0 ) SELECT faixa_etaria, AVG(VAL_UTI) AS custo_medio_uti FROM faixas GROUP BY faixa_etaria ORDER BY CASE faixa_etaria WHEN '0-4' THEN 1 WHEN '5-9' THEN 2 WHEN '10-14' THEN 3 WHEN '15-19' THEN 4 WHEN '20-29' THEN 5 WHEN '30-39' THEN 6 WHEN '40-49' THEN 7 WHEN '50-59' THEN 8 WHEN '60-69' THEN 9 WHEN '70-79' THEN 10 WHEN '80+' THEN 11 ELSE 12 END;"
+langgraph_simple,GT014,medium,True,True,True,True,False,False,False,1,1,3.214409958000033,,,Quantas internações por meningite ocasionaram em morte?,"WITH meningite AS ( SELECT i.N_AIH, i.MORTE FROM internacoes i WHERE i.DIAG_PRINC LIKE 'G0%' AND i.DIAG_PRINC LIKE 'G0__' AND i.DIAG_PRINC LIKE 'G0%' AND i.DIAG_PRINC IN ( 'G00','G001','G002','G003','G008','G009', 'G01','G010','G011','G012','G013','G014','G015','G016','G017','G018','G019', 'G02','G020','G021','G028','G029' ) ) SELECT COUNT(*) AS internacoes_meningite_que_ocasionaram_morte FROM meningite WHERE MORTE = TRUE;"
+langgraph_simple,GT004,easy,True,True,True,True,True,False,True,1,1,4.461584959000902,,,Quantos códigos CID-10 estão disponíveis?,SELECT COUNT(*) AS quantidade_codigos_cid10 FROM cid;
+langgraph_simple,GT049,hard,True,True,True,True,False,False,,1,1,2.967666417000146,,,Qual a taxa de mortalidade no estado do Rio Grande do Sul em 2021?,"WITH base AS ( SELECT i.MORTE FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RS' AND EXTRACT(YEAR FROM i.DT_INTER) = 2021 ) SELECT COUNT(*) FILTER (WHERE MORTE = TRUE)::DOUBLE / NULLIF(COUNT(*), 0) AS taxa_mortalidade FROM base;"
+langgraph_simple,GT018,medium,True,True,True,True,True,False,,0,0,7.46618058400054,,,"Quando houver dados socioeconômicos, quantos habitantes tem o município com a maior população registrada?","WITH maior_pop AS ( SELECT CO_MUNICIPIO_6D, NU_ANO, QT_POPULACAO FROM socioeconomico WHERE QT_POPULACAO IS NOT NULL ORDER BY QT_POPULACAO DESC, NU_ANO DESC, CO_MUNICIPIO_6D LIMIT 1 ) SELECT m.NO_MUNICIPIO, m.SG_UF, p.NU_ANO, p.QT_POPULACAO AS habitantes FROM maior_pop p LEFT JOIN municipios m ON m.CO_MUNICIPIO_6D = p.CO_MUNICIPIO_6D;"
+langgraph_simple,GT005,easy,True,True,True,True,True,True,True,1,1,2.395685458999651,,,Quantos hospitais estão cadastrados?,SELECT COUNT(*) AS total_hospitais FROM hospital;
+langgraph_simple,GT076,hard,True,True,True,True,True,False,,10,10,3.885506541999348,,,Quais são os 10 municípios de residência com mais internações?,"WITH agg AS ( SELECT i.MUNIC_RES, COUNT(*) AS total_internacoes FROM internacoes i GROUP BY i.MUNIC_RES ) SELECT m.NO_MUNICIPIO AS municipio_residencia, a.total_internacoes FROM agg a LEFT JOIN municipios m ON m.CO_MUNICIPIO_6D = a.MUNIC_RES ORDER BY a.total_internacoes DESC, municipio_residencia LIMIT 10;"
+langgraph_simple,GT019,medium,True,True,True,True,False,False,,5,5,3.774763500001427,,,Quais os cinco municípios com mais internações obstétricas registradas?,"WITH base AS ( SELECT m.NO_MUNICIPIO, m.SG_UF, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE i.ESPEC = 2 GROUP BY m.NO_MUNICIPIO, m.SG_UF ), ranked AS ( SELECT NO_MUNICIPIO, SG_UF, total_internacoes, ROW_NUMBER() OVER (ORDER BY total_internacoes DESC, NO_MUNICIPIO) AS rn FROM base ) SELECT NO_MUNICIPIO AS municipio, SG_UF AS uf, total_internacoes FROM ranked WHERE rn <= 5 ORDER BY total_internacoes DESC, municipio;"
+langgraph_simple,GT006,easy,True,True,True,True,True,False,True,1,1,5.149091749997751,,,Quantos municípios têm dados socioeconômicos registrados?,SELECT COUNT(DISTINCT s.CO_MUNICIPIO_6D) AS municipios_com_dados_socioeconomicos FROM socioeconomico s;
+langgraph_simple,GT078,hard,True,True,True,True,False,False,,30,30,6.969843708000553,,,"Quais são os 10 principais motivos de internação para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?","WITH base AS ( SELECT CASE WHEN idade < 18 THEN 'Menos de 18 anos' WHEN idade BETWEEN 18 AND 64 THEN '18 a 64 anos' ELSE 'Acima de 64 anos' END AS faixa_etaria, i.diag_princ, c.descricao AS motivo, COUNT(*) AS total FROM internacoes i LEFT JOIN cid c ON i.diag_princ = c.cid WHERE i.idade IS NOT NULL AND i.diag_princ IS NOT NULL AND i.diag_princ <> '' AND i.diag_princ <> '0' GROUP BY 1, 2, 3 ), ranked AS ( SELECT faixa_etaria, diag_princ, motivo, total, ROW_NUMBER() OVER (PARTITION BY faixa_etaria ORDER BY total DESC, diag_princ) AS rn FROM base ) SELECT faixa_etaria, diag_princ, COALESCE(motivo, diag_princ) AS motivo, total FROM ranked WHERE rn <= 10 ORDER BY faixa_etaria, total DESC, diag_princ;"
+langgraph_simple,GT023,medium,True,True,True,True,True,False,True,1,1,2.66859466599999,,,Quantas internações de UTI resultaram em óbito?,SELECT COUNT(*) AS qt_internacoes_uti_com_obito FROM internacoes WHERE VAL_UTI > 0 AND MORTE = TRUE;
+langgraph_simple,GT007,easy,True,True,True,True,True,False,True,1,1,2.487091209000937,,,Quantos registros de internação em UTI existem?,SELECT COUNT(*) AS registros_internacao_uti FROM internacoes WHERE VAL_UTI > 0;
+langgraph_simple,GT079,hard,True,False,True,False,False,False,,10,0,5.20766095900035,"Catalog Error: Table with name internacao_procedimento does not exist!
+Did you mean ""internacoes""?
+
+LINE 1: ... main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN...
+                                                                      ^","(_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!
+Did you mean ""internacoes""?
+
+LINE 1: ... main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN...
+                                                                      ^
+[SQL: EXPLAIN WITH base AS ( SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total_procedimentos FROM main.internacoes i JOIN main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN main.procedimentos p ON ip.PROC_REA = p.PROC_REA WHERE m.SG_UF = 'RS' GROUP BY p.NOME_PROC ), ranked AS ( SELECT procedimento, total_procedimentos, ROW_NUMBER() OVER (ORDER BY total_procedimentos DESC, procedimento) AS rn FROM base ) SELECT procedimento, total_procedimentos FROM ranked WHERE rn <= 10 ORDER BY total_procedimentos DESC, procedimento;]
+(Background on this error at: https://sqlalche.me/e/20/f405)",Quais são os 10 procedimentos principais mais comuns entre internações de residentes no RS?,"WITH base AS ( SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total_procedimentos FROM main.internacoes i JOIN main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN main.procedimentos p ON ip.PROC_REA = p.PROC_REA WHERE m.SG_UF = 'RS' GROUP BY p.NOME_PROC ), ranked AS ( SELECT procedimento, total_procedimentos, ROW_NUMBER() OVER (ORDER BY total_procedimentos DESC, procedimento) AS rn FROM base ) SELECT procedimento, total_procedimentos FROM ranked WHERE rn <= 10 ORDER BY total_procedimentos DESC, procedimento;"
+langgraph_simple,GT024,medium,True,True,True,True,True,True,,1000,1000,3.5743658329993195,,,Quais CNES têm mais de 1000 internações registradas?,"SELECT i.CNES, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.CNES IS NOT NULL GROUP BY i.CNES HAVING COUNT(*) > 1000 ORDER BY total_internacoes DESC, i.CNES;"
+langgraph_simple,GT008,easy,True,True,True,True,True,False,True,1,1,2.3542063329987286,,,Quantos casos de VDRL positivo foram registrados?,SELECT COUNT(*) AS casos_vdrl_positivo FROM internacoes WHERE IND_VDRL = TRUE;
+langgraph_simple,GT081,hard,True,False,True,False,False,False,,10,0,5.237212083000486,"Catalog Error: Table with name internacao_procedimento does not exist!
+Did you mean ""internacoes""?
+
+LINE 1: ... main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN...
+                                                                        ^","(_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!
+Did you mean ""internacoes""?
+
+LINE 1: ... main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN...
+                                                                        ^
+[SQL: EXPLAIN WITH proc_counts AS ( SELECT s.DESCRICAO AS sexo, p.NOME_PROC AS procedimento, COUNT(*) AS total_registros, ROW_NUMBER() OVER ( PARTITION BY s.DESCRICAO ORDER BY COUNT(*) DESC, p.NOME_PROC ) AS rn FROM main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN main.procedimentos p ON p.PROC_REA = ip.PROC_REA WHERE i.SEXO IN (1, 2, 3) GROUP BY s.DESCRICAO, p.NOME_PROC ) SELECT sexo, procedimento, total_registros FROM proc_counts WHERE rn <= 5 ORDER BY sexo, total_registros DESC, procedimento;]
+(Background on this error at: https://sqlalche.me/e/20/f405)",Quais são os 5 procedimentos principais mais registrados para cada sexo?,"WITH proc_counts AS ( SELECT s.DESCRICAO AS sexo, p.NOME_PROC AS procedimento, COUNT(*) AS total_registros, ROW_NUMBER() OVER ( PARTITION BY s.DESCRICAO ORDER BY COUNT(*) DESC, p.NOME_PROC ) AS rn FROM main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN main.procedimentos p ON p.PROC_REA = ip.PROC_REA WHERE i.SEXO IN (1, 2, 3) GROUP BY s.DESCRICAO, p.NOME_PROC ) SELECT sexo, procedimento, total_registros FROM proc_counts WHERE rn <= 5 ORDER BY sexo, total_registros DESC, procedimento;"
+langgraph_simple,GT025,medium,True,True,True,True,True,False,True,1,1,3.072124916998291,,,Quantas internações com VDRL positivo resultaram em morte?,SELECT COUNT(*) AS internacoes_vdrl_positivo_que_resultaram_em_morte FROM internacoes WHERE IND_VDRL = TRUE AND MORTE = TRUE;
+langgraph_simple,GT009,easy,True,True,True,True,True,True,True,1,1,2.1966535419996944,,,Quantas especialidades médicas estão cadastradas?,SELECT COUNT(*) AS total_especialidades FROM especialidade;
+langgraph_simple,GT082,hard,True,True,True,True,False,False,,6,6,5.012531250002212,,,Quais são os 3 diagnósticos principais mais comuns entre pacientes com mais de 60 anos no estado de MA e no estado do RS?,"WITH base AS ( SELECT m.SG_UF, i.DIAG_PRINC, c.DESCRICAO AS diagnostico, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D LEFT JOIN cid c ON i.DIAG_PRINC = c.CID WHERE i.IDADE > 60 AND m.SG_UF IN ('MA', 'RS') AND i.DIAG_PRINC IS NOT NULL AND i.DIAG_PRINC <> '' AND i.DIAG_PRINC <> '0' GROUP BY m.SG_UF, i.DIAG_PRINC, c.DESCRICAO ), ranked AS ( SELECT SG_UF, DIAG_PRINC, diagnostico, total_internacoes, ROW_NUMBER() OVER (PARTITION BY SG_UF ORDER BY total_internacoes DESC, DIAG_PRINC) AS rn FROM base ) SELECT SG_UF AS uf, DIAG_PRINC AS cid_principal, diagnostico, total_internacoes FROM ranked WHERE rn <= 3 ORDER BY uf, total_internacoes DESC, cid_principal;"
+langgraph_simple,GT026,medium,True,True,True,True,True,False,False,1,1,2.9688352500015753,,,Qual o valor médio das internações que resultaram em óbito?,SELECT AVG(VAL_TOT) AS valor_medio_internacoes_obito FROM internacoes WHERE MORTE = TRUE;
+langgraph_simple,GT010,easy,True,True,True,True,True,False,True,1,1,2.8574972079986765,,,Quantos casos obstétricos foram registrados?,SELECT COUNT(*) AS casos_obstetricos FROM internacoes WHERE ESPEC = 2;
+langgraph_simple,GT083,hard,True,True,True,True,False,False,,4,5,4.5413489999991725,,,"Qual é a taxa de mortalidade por nível de instrução no estado do RS, considerando apenas grupos com mais de 1000 internações?","WITH internacoes_rs AS ( SELECT i.INSTRU, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) AS obitos FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RS' GROUP BY i.INSTRU ) SELECT ins.DESCRICAO AS nivel_instrucao, irs.total_internacoes, irs.obitos, 1.0 * irs.obitos / irs.total_internacoes AS taxa_mortalidade FROM internacoes_rs irs LEFT JOIN instrucao ins ON irs.INSTRU = ins.INSTRU WHERE irs.total_internacoes > 1000 ORDER BY taxa_mortalidade DESC, total_internacoes DESC;"
+langgraph_simple,GT027,medium,True,True,True,True,True,False,True,1,1,2.970969916001195,,,Quantas internações obstétricas foram registradas em UTI?,SELECT COUNT(*) AS total_internacoes_obstetricas_em_uti FROM internacoes WHERE ESPEC = 2 AND VAL_UTI > 0;

@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from typing import Any
 
-from .agent_deps import AnswerDeps, ChatDeps, RefinerDeps
+from .agent_deps import AnswerDeps, ChartDeps, ChatDeps, RefinerDeps
 from .config import ChatbotConfig
 from .models import SqlPlan
+from .visualization.schema import ChartPlan
 
 
 SQL_PLAN_INSTRUCTIONS = """
@@ -51,6 +52,10 @@ Regras de dominio obrigatorias:
 - Em comparacoes por ano entre dois ou mais grupos nomeados, prefira uma linha
   por ano e uma coluna de metrica para cada grupo comparado, salvo se o usuario
   pedir formato longo.
+- Quando o prompt incluir [CHART PLAN], a SQL deve retornar colunas
+  compativeis com o contrato visual: dimensao x, serie quando houver e metrica
+  numerica. Nao sacrifique a resposta correta para gerar grafico; se houver
+  conflito, preserve a semantica da pergunta e deixe caveat no plano.
 - Em `ORDER BY` de ranking, distribuicao, percentual, taxa ou media, use
   desempate deterministico com as dimensoes legiveis retornadas quando houver
   empate na metrica ordenada; exemplo: `ORDER BY ano, percentual DESC,
@@ -75,6 +80,19 @@ Voce sintetiza respostas de analise de dados de saude em portugues.
 
 Use somente o resultado executado e os caveats fornecidos. Nao mostre SQL na
 resposta final. Se houver truncamento, avise. Seja claro, curto e fiel aos dados.
+"""
+
+
+CHART_PLAN_INSTRUCTIONS = """
+Voce planeja visualizacoes para um agente Text-to-SQL de saude.
+
+Retorne exclusivamente um ChartPlan estruturado. Nao gere SQL. O plano deve
+descrever qual shape a SQL precisa retornar para suportar a visualizacao:
+dimensao x, metrica numerica, serie opcional e tipo de grafico preferido.
+Se o usuario pediu apenas uma contagem escalar, use kpi. Para serie temporal,
+prefira line. Para distribuicoes categoricas, prefira bar salvo pedido explicito
+por pizza/rosca. Para muitas categorias, ainda planeje o shape correto; a camada
+de renderizacao decide se cai para tabela.
 """
 
 
@@ -137,6 +155,20 @@ def build_sql_refiner_agent(config: ChatbotConfig):
         model_settings=_openai_model_settings(config),
         retries=2,
         name="health_system_sql_refiner_agent",
+    )
+
+
+def build_chart_plan_agent(config: ChatbotConfig):
+    from pydantic_ai import Agent
+
+    return Agent(
+        _openai_model(config),
+        deps_type=ChartDeps,
+        output_type=ChartPlan,
+        instructions=CHART_PLAN_INSTRUCTIONS,
+        model_settings=_openai_model_settings(config),
+        retries=2,
+        name="health_system_chart_plan_agent",
     )
 
 

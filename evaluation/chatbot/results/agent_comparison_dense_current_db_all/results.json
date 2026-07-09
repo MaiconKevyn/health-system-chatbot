@@ -1,0 +1,5551 @@
+{
+  "created_at": "2026-07-09T15:57:46.038589+00:00",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/dense_current_db_all.jsonl",
+  "items": 45,
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "max_rows": 1000,
+  "summaries": {
+    "pydantic_ai": {
+      "total": 45,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 1.0,
+      "sql_generated_rate": 1.0,
+      "sql_execution_rate": 1.0,
+      "content_match_rate": 0.9111111111111111,
+      "strict_match_rate": 0.4888888888888889,
+      "scalar_answer_match_rate": 1.0,
+      "scalar_answer_items": 7,
+      "avg_agent_elapsed_s": 5.1806304027555194,
+      "by_difficulty": {
+        "L1": {
+          "total": 20,
+          "gold_success": 20,
+          "content_match_rate": 0.95,
+          "sql_execution_rate": 1.0
+        },
+        "L2": {
+          "total": 13,
+          "gold_success": 13,
+          "content_match_rate": 0.9230769230769231,
+          "sql_execution_rate": 1.0
+        },
+        "L3": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 0.8,
+          "sql_execution_rate": 1.0
+        },
+        "L4": {
+          "total": 2,
+          "gold_success": 2,
+          "content_match_rate": 1.0,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {
+        "content_or_alias_mismatch": 3,
+        "row_count_mismatch": 1
+      }
+    },
+    "langgraph_simple": {
+      "total": 45,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 0.9777777777777777,
+      "sql_generated_rate": 1.0,
+      "sql_execution_rate": 0.9777777777777777,
+      "content_match_rate": 0.5333333333333333,
+      "strict_match_rate": 0.044444444444444446,
+      "scalar_answer_match_rate": 0.8571428571428571,
+      "scalar_answer_items": 7,
+      "avg_agent_elapsed_s": 3.5818546138443503,
+      "by_difficulty": {
+        "L1": {
+          "total": 20,
+          "gold_success": 20,
+          "content_match_rate": 0.8,
+          "sql_execution_rate": 1.0
+        },
+        "L2": {
+          "total": 13,
+          "gold_success": 13,
+          "content_match_rate": 0.38461538461538464,
+          "sql_execution_rate": 0.9230769230769231
+        },
+        "L3": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 0.3,
+          "sql_execution_rate": 1.0
+        },
+        "L4": {
+          "total": 2,
+          "gold_success": 2,
+          "content_match_rate": 0.0,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {
+        "content_or_alias_mismatch": 14,
+        "content_mismatch": 1,
+        "row_count_mismatch": 5,
+        "sql_execution_error": 1
+      }
+    }
+  },
+  "records": [
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_001",
+      "difficulty": "L1",
+      "question": "Quantos registros existem na tabela de staging de internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_registros\nFROM _staging_internacoes",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_registros_staging"
+      ],
+      "predicted_columns": [
+        "total_registros"
+      ],
+      "gold_rows_sample": [
+        [
+          39622048
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          39622048
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.8806209999966086,
+      "sql_elapsed_s": 0.0380829999994603,
+      "answer": "Há 39.622.048 registros na tabela de staging de internações.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_002",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT DISTINCT\n  c.CAR_INT,\n  c.DESCRICAO\nFROM car_int c\nORDER BY c.CAR_INT",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "CAR_INT",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "CAR_INT",
+        "DESCRICAO"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Eletivo"
+        ],
+        [
+          2,
+          "Urgência"
+        ],
+        [
+          3,
+          "Acidente no local trabalho ou a serv da empresa"
+        ],
+        [
+          4,
+          "Acidente no trajeto para o trabalho"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Eletivo"
+        ],
+        [
+          2,
+          "Urgência"
+        ],
+        [
+          3,
+          "Acidente no local trabalho ou a serv da empresa"
+        ],
+        [
+          4,
+          "Acidente no trajeto para o trabalho"
+        ]
+      ],
+      "gold_row_count": 7,
+      "predicted_row_count": 7,
+      "agent_elapsed_s": 4.501140707998275,
+      "sql_elapsed_s": 0.02733158300179639,
+      "answer": "Existem 7 códigos de caráter de internação: 0 – Não informado; 1 – Eletivo; 2 – Urgência; 3 – Acidente no local trabalho ou a serv da empresa; 4 – Acidente no trajeto para o trabalho; 5 – Outros tipo de acidente de trânsito; 6 – Out tp lesões e envenen por agent quím físicos.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_003",
+      "difficulty": "L1",
+      "question": "Quantos codigos ocupacionais existem na dimensao CBOR?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(DISTINCT CBOR) AS total_codigos_ocupacionais\nFROM cbor",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_cbor"
+      ],
+      "predicted_columns": [
+        "total_codigos_ocupacionais"
+      ],
+      "gold_rows_sample": [
+        [
+          2813
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2813
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.630623792003462,
+      "sql_elapsed_s": 0.02281504100028542,
+      "answer": "Existem 2.813 códigos ocupacionais distintos na dimensão CBOR.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_004",
+      "difficulty": "L1",
+      "question": "Quantos CIDs existem por capitulo no catalogo CID?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  c.\"DS_CAPITULO\" AS capitulo_cid,\n  COUNT(DISTINCT c.\"CID\") AS total_cids\nFROM cid c\nGROUP BY c.\"DS_CAPITULO\"\nORDER BY total_cids DESC, capitulo_cid ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "DS_CAPITULO",
+        "total_cids"
+      ],
+      "predicted_columns": [
+        "capitulo_cid",
+        "total_cids"
+      ],
+      "gold_rows_sample": [
+        [
+          "XX. Causas externas de morbidade e de mortalidade",
+          3692
+        ],
+        [
+          "XIX. Lesões, envenenamento e outras consequências de causas externas",
+          1459
+        ],
+        [
+          "I. Algumas doenças infecciosas e parasitárias",
+          912
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          853
+        ],
+        [
+          "XVII. Malformações congênitas, deformidades e anomalias cromossômicas",
+          711
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "XX. Causas externas de morbidade e de mortalidade",
+          3692
+        ],
+        [
+          "XIX. Lesões, envenenamento e outras consequências de causas externas",
+          1459
+        ],
+        [
+          "I. Algumas doenças infecciosas e parasitárias",
+          912
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          853
+        ],
+        [
+          "XVII. Malformações congênitas, deformidades e anomalias cromossômicas",
+          711
+        ]
+      ],
+      "gold_row_count": 22,
+      "predicted_row_count": 22,
+      "agent_elapsed_s": 4.974783459001628,
+      "sql_elapsed_s": 0.02407600000151433,
+      "answer": "O catálogo CID tem 22 capítulos. O capítulo com mais CIDs é o XX. Causas externas de morbidade e de mortalidade, com 3.692 códigos.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_005",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para complexidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.COMPLEX AS codigo, c.DESCRICAO AS descricao\nFROM complexidade c\nORDER BY c.COMPLEX ASC, c.DESCRICAO ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "COMPLEX",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Atenção Básica"
+        ],
+        [
+          "02",
+          "Média complexidade"
+        ],
+        [
+          "03",
+          "Alta complexidade"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Atenção Básica"
+        ],
+        [
+          "02",
+          "Média complexidade"
+        ],
+        [
+          "03",
+          "Alta complexidade"
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 4,
+      "agent_elapsed_s": 3.9351559999995516,
+      "sql_elapsed_s": 0.01953499999945052,
+      "answer": "Os códigos de complexidade são: 00 — Não informado; 01 — Atenção Básica; 02 — Média complexidade; 03 — Alta complexidade.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_006",
+      "difficulty": "L1",
+      "question": "Quantos tipos de contraceptivos existem no catalogo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_contraceptivos\nFROM contraceptivos",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_contraceptivos"
+      ],
+      "predicted_columns": [
+        "total_contraceptivos"
+      ],
+      "gold_rows_sample": [
+        [
+          13
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          13
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.453623375000461,
+      "sql_elapsed_s": 0.018540791999839712,
+      "answer": "Existem 13 tipos de contraceptivos no catálogo.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_007",
+      "difficulty": "L1",
+      "question": "Quais especialidades existem no catalogo de especialidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT ESPEC, DESCRICAO\nFROM especialidade\nORDER BY ESPEC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ESPEC",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "ESPEC",
+        "DESCRICAO"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Cirúrgico"
+        ],
+        [
+          2,
+          "Obstétrico"
+        ],
+        [
+          3,
+          "Clínico"
+        ],
+        [
+          4,
+          "Crônicos"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Cirúrgico"
+        ],
+        [
+          2,
+          "Obstétrico"
+        ],
+        [
+          3,
+          "Clínico"
+        ],
+        [
+          4,
+          "Crônicos"
+        ]
+      ],
+      "gold_row_count": 39,
+      "predicted_row_count": 39,
+      "agent_elapsed_s": 5.037180958002864,
+      "sql_elapsed_s": 0.018703833000472514,
+      "answer": "O catálogo de especialidades tem 39 opções, incluindo: Não informado, Cirúrgico, Obstétrico, Clínico, Crônicos, Psiquiatria, Pneumologia Sanitária, Pediátrico, Reabilitação, várias categorias de Leito Dia, Unidade Intermediária, UTIs adulto/infantil/neonatal, UTI de Queimados, UTI Coronariana, Saúde Mental, Queimado Clínico/Cirúrgico e UCI Neonatal/Pediátrica/Adulto.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_008",
+      "difficulty": "L1",
+      "question": "Quantos registros existem na dimensao de etnia?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS registros FROM etnia",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_etnias"
+      ],
+      "predicted_columns": [
+        "registros"
+      ],
+      "gold_rows_sample": [
+        [
+          265
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          265
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 7.769721500000742,
+      "sql_elapsed_s": 0.01816099999996368,
+      "answer": "A dimensão de etnia possui 265 registros.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_009",
+      "difficulty": "L1",
+      "question": "Quantos hospitais existem no cadastro hospitalar carregado?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_hospitais\nFROM hospital",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_hospitais"
+      ],
+      "predicted_columns": [
+        "total_hospitais"
+      ],
+      "gold_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.568331708000187,
+      "sql_elapsed_s": 0.018702041001233738,
+      "answer": "O cadastro hospitalar carregado tem 0 hospitais.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_010",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para instrucao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT \"INSTRU\", \"DESCRICAO\"\nFROM instrucao\nORDER BY \"INSTRU\"",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "INSTRU",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "INSTRU",
+        "DESCRICAO"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Analfabeto"
+        ],
+        [
+          2,
+          "1º grau"
+        ],
+        [
+          3,
+          "2º grau"
+        ],
+        [
+          4,
+          "3º grau"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Analfabeto"
+        ],
+        [
+          2,
+          "1º grau"
+        ],
+        [
+          3,
+          "2º grau"
+        ],
+        [
+          4,
+          "3º grau"
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 3.8796856670014677,
+      "sql_elapsed_s": 0.018218083998363,
+      "answer": "Os códigos de instrução são: 0 – Não informado; 1 – Analfabeto; 2 – 1º grau; 3 – 2º grau; 4 – 3º grau; 9 – Ignorado.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_011",
+      "difficulty": "L1",
+      "question": "Qual e o volume, mortes e valor total na tabela de internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  COUNT(*) AS volume,\n  COUNT(*) FILTER (WHERE MORTE = TRUE) AS mortes,\n  SUM(VAL_TOT) AS valor_total\nFROM internacoes",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "internacoes",
+        "mortes",
+        "valor_total"
+      ],
+      "predicted_columns": [
+        "volume",
+        "mortes",
+        "valor_total"
+      ],
+      "gold_rows_sample": [
+        [
+          144386772,
+          5877536,
+          212580836281.11
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          144386772,
+          5877536,
+          212580836282.33075
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.177823667003395,
+      "sql_elapsed_s": 0.1208325830011745,
+      "answer": "Foram 144.386.772 internações, com 5.877.536 mortes e valor total de R$ 212.580.836.282,30.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_012",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para marca de UTI?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT m.\"MARCA_UTI\" AS codigo, m.\"DESCRICAO\" AS descricao\nFROM marca_uti m\nORDER BY m.\"MARCA_UTI\" ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "MARCA_UTI",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não utilizou UTI"
+        ],
+        [
+          1,
+          "Utilizou mais de um tipo de UTI"
+        ],
+        [
+          51,
+          "UTI adulto - tipo II COVID 19"
+        ],
+        [
+          52,
+          "UTI pediátrica - tipo II COVID 19"
+        ],
+        [
+          74,
+          "UTI adulto - tipo I"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não utilizou UTI"
+        ],
+        [
+          1,
+          "Utilizou mais de um tipo de UTI"
+        ],
+        [
+          51,
+          "UTI adulto - tipo II COVID 19"
+        ],
+        [
+          52,
+          "UTI pediátrica - tipo II COVID 19"
+        ],
+        [
+          74,
+          "UTI adulto - tipo I"
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 4.915289167001902,
+      "sql_elapsed_s": 0.020227541001077043,
+      "answer": "Existem 17 códigos de marca de UTI: 0 (Não utilizou UTI), 1 (Utilizou mais de um tipo de UTI), 51 (UTI adulto - tipo II COVID 19), 52 (UTI pediátrica - tipo II COVID 19), 74 (UTI adulto - tipo I), 75 (UTI adulto - tipo II), 76 (UTI adulto - tipo III), 77 (UTI infantil - tipo I), 78 (UTI infantil - tipo II), 79 (UTI infantil - tipo III), 80 (UTI neonatal - tipo I), 81 (UTI neonatal - tipo II), 82 (UTI neonatal - tipo III), 83 (UTI de queimados), 85 (UTI coronariana tipo II - UCO tipo II), 86 (UTI coronariana tipo III - UCO tipo III) e 99 (UTI Doador).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_013",
+      "difficulty": "L1",
+      "question": "Quantos municipios existem e quantas UFs validas aparecem na dimensao territorial?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  COUNT(*) AS municipios,\n  COUNT(DISTINCT SG_UF) AS ufs_validas\nFROM municipios\nWHERE SG_UF IS NOT NULL",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "total_municipios",
+        "ufs_validas",
+        "codigos_sg_uf_invalidos"
+      ],
+      "predicted_columns": [
+        "municipios",
+        "ufs_validas"
+      ],
+      "gold_rows_sample": [
+        [
+          5590,
+          27,
+          12
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5590,
+          39
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.3998484999974607,
+      "sql_elapsed_s": 0.02257504099907237,
+      "answer": "Há 5.590 municípios e 39 UFs válidas na dimensão territorial.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_014",
+      "difficulty": "L1",
+      "question": "Quantos registros existem na dimensao de nacionalidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS registros\nFROM nacionalidade",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_nacionalidades"
+      ],
+      "predicted_columns": [
+        "registros"
+      ],
+      "gold_rows_sample": [
+        [
+          333
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          333
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.6414719999993395,
+      "sql_elapsed_s": 0.02174337500036927,
+      "answer": "Existem 333 registros na dimensão de nacionalidade.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_015",
+      "difficulty": "L1",
+      "question": "Quantos procedimentos existem no catalogo de procedimentos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_procedimentos FROM procedimentos",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_procedimentos"
+      ],
+      "predicted_columns": [
+        "total_procedimentos"
+      ],
+      "gold_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.9287057499968796,
+      "sql_elapsed_s": 0.01893012500295299,
+      "answer": "Há 5.394 procedimentos no catálogo.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_016",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para raca cor?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT \"RACA_COR\", \"DESCRICAO\"\nFROM raca_cor\nORDER BY \"RACA_COR\"",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "RACA_COR",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "RACA_COR",
+        "DESCRICAO"
+      ],
+      "gold_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Branca"
+        ],
+        [
+          "02",
+          "Preta"
+        ],
+        [
+          "03",
+          "Parda"
+        ],
+        [
+          "04",
+          "Amarela"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Branca"
+        ],
+        [
+          "02",
+          "Preta"
+        ],
+        [
+          "03",
+          "Parda"
+        ],
+        [
+          "04",
+          "Amarela"
+        ]
+      ],
+      "gold_row_count": 7,
+      "predicted_row_count": 7,
+      "agent_elapsed_s": 5.20339199999944,
+      "sql_elapsed_s": 0.018647666998731438,
+      "answer": "Os códigos de raça/cor são: 00 — Não informado; 01 — Branca; 02 — Preta; 03 — Parda; 04 — Amarela; 05 — Indígena; 99 — Sem informação.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_017",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT s.\"SEXO\" AS codigo, s.\"DESCRICAO\" AS descricao\nFROM sexo s\nORDER BY s.\"SEXO\"",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SEXO",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Ignorado"
+        ],
+        [
+          1,
+          "Masculino"
+        ],
+        [
+          2,
+          "Feminino"
+        ],
+        [
+          3,
+          "Feminino"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Ignorado"
+        ],
+        [
+          1,
+          "Masculino"
+        ],
+        [
+          2,
+          "Feminino"
+        ],
+        [
+          3,
+          "Feminino"
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 4,
+      "agent_elapsed_s": 4.336839042000065,
+      "sql_elapsed_s": 0.018462208998244023,
+      "answer": "Os códigos e descrições encontrados foram: 0 — Ignorado; 1 — Masculino; 2 — Feminino; 3 — Feminino.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_018",
+      "difficulty": "L1",
+      "question": "Qual e o intervalo de anos e total de registros socioeconomicos carregados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n  SELECT\n    MIN(\"NU_ANO\") AS primeiro_ano,\n    MAX(\"NU_ANO\") AS ultimo_ano,\n    COUNT(*) AS registros\n  FROM socioeconomico\n)\nSELECT primeiro_ano, ultimo_ano, registros\nFROM base",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "primeiro_ano",
+        "ultimo_ano",
+        "registros"
+      ],
+      "predicted_columns": [
+        "primeiro_ano",
+        "ultimo_ano",
+        "registros"
+      ],
+      "gold_rows_sample": [
+        [
+          null,
+          null,
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          null,
+          null,
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.144381500002055,
+      "sql_elapsed_s": 0.01853425000081188,
+      "answer": "Não há registros socioeconômicos carregados; por isso, não foi possível identificar intervalo de anos.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_019",
+      "difficulty": "L1",
+      "question": "Qual e o intervalo de datas disponivel na dimensao tempo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT MIN(data) AS primeira_data, MAX(data) AS ultima_data, COUNT(*) AS registros\nFROM tempo",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "primeira_data",
+        "ultima_data",
+        "dias"
+      ],
+      "predicted_columns": [
+        "primeira_data",
+        "ultima_data",
+        "registros"
+      ],
+      "gold_rows_sample": [
+        [
+          "2008-01-01",
+          "2023-12-31",
+          5844
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "2008-01-01",
+          "2023-12-31",
+          5844
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.575624124998285,
+      "sql_elapsed_s": 0.022789916998590343,
+      "answer": "A dimensão tempo vai de 2008-01-01 a 2023-12-31, com 5.844 registros.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_TABLE_020",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para vinculo previdenciario?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT \"VINCPREV\" AS codigo, \"DESCRICAO\" AS descricao\nFROM vincprev\nORDER BY \"VINCPREV\"",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "VINCPREV",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Autônomo"
+        ],
+        [
+          2,
+          "Desempregado"
+        ],
+        [
+          3,
+          "Aposentado"
+        ],
+        [
+          4,
+          "Não segurado"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Autônomo"
+        ],
+        [
+          2,
+          "Desempregado"
+        ],
+        [
+          3,
+          "Aposentado"
+        ],
+        [
+          4,
+          "Não segurado"
+        ]
+      ],
+      "gold_row_count": 7,
+      "predicted_row_count": 7,
+      "agent_elapsed_s": 4.9131432920003135,
+      "sql_elapsed_s": 0.0207420419974369,
+      "answer": "Os códigos de vínculo previdenciário são: 0 – Não informado; 1 – Autônomo; 2 – Desempregado; 3 – Aposentado; 4 – Não segurado; 5 – Empregado; 6 – Empregador.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_001",
+      "difficulty": "L2",
+      "question": "Como as internacoes se distribuem por sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN sexo s ON i.SEXO = s.SEXO\nGROUP BY s.DESCRICAO\nORDER BY internacoes DESC, sexo ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "sexo",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Feminino",
+          85419029
+        ],
+        [
+          "Masculino",
+          58967743
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Feminino",
+          85419029
+        ],
+        [
+          "Masculino",
+          58967743
+        ]
+      ],
+      "gold_row_count": 2,
+      "predicted_row_count": 2,
+      "agent_elapsed_s": 4.416110583999398,
+      "sql_elapsed_s": 0.10300112500044634,
+      "answer": "As internações se concentram mais no sexo feminino, com 85.419.029 registros, contra 58.967.743 no sexo masculino.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_002",
+      "difficulty": "L2",
+      "question": "Como as internacoes se distribuem por carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT car_int.DESCRICAO AS carater_internacao, COUNT(*) AS internacoes\nFROM internacoes\nLEFT JOIN car_int\n  ON internacoes.CAR_INT = car_int.CAR_INT\nGROUP BY car_int.DESCRICAO\nORDER BY internacoes DESC, carater_internacao ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "carater",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "carater_internacao",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Urgência",
+          116553247
+        ],
+        [
+          "Eletivo",
+          26815763
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          597681
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          419699
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          331
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Urgência",
+          116553247
+        ],
+        [
+          "Eletivo",
+          26815763
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          597681
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          419699
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          331
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 4.913395874998969,
+      "sql_elapsed_s": 0.19772549999834155,
+      "answer": "As internações se concentram em Urgência (116.553.247) e Eletivo (26.815.763); os demais carateres somam volumes bem menores: Outras lesões e envenenamentos por agentes químicos/físicos (597.681), Outros tipos de acidente de trânsito (419.699), Acidente no local de trabalho ou a serviço da empresa (331) e Acidente no trajeto para o trabalho (51).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_003",
+      "difficulty": "L2",
+      "question": "Qual e o total de internacoes e valor total por codigo de complexidade validado na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        i.COMPLEX,\n        COUNT(*) AS internacoes,\n        SUM(i.VAL_TOT) AS valor_total\n    FROM internacoes i\n    GROUP BY i.COMPLEX\n)\nSELECT\n    b.COMPLEX AS codigo_complexidade,\n    b.internacoes,\n    b.valor_total\nFROM base b\nJOIN complexidade c\n    ON b.COMPLEX = c.COMPLEX\nGROUP BY\n    b.COMPLEX,\n    b.internacoes,\n    b.valor_total\nORDER BY b.COMPLEX ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "COMPLEX",
+        "internacoes",
+        "valor_total"
+      ],
+      "predicted_columns": [
+        "codigo_complexidade",
+        "internacoes",
+        "valor_total"
+      ],
+      "gold_rows_sample": [
+        [
+          "02",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "03",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "00",
+          9,
+          2870.48
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "00",
+          9,
+          2870.48
+        ],
+        [
+          "02",
+          135358002,
+          160868533754.2078
+        ],
+        [
+          "03",
+          9028761,
+          51712299656.52841
+        ]
+      ],
+      "gold_row_count": 3,
+      "predicted_row_count": 3,
+      "agent_elapsed_s": 5.736101541999233,
+      "sql_elapsed_s": 0.18731070899957558,
+      "answer": "Foram 3 códigos de complexidade validados na dimensão: 00 com 9 internações e valor total de 2.870,48; 02 com 135.358.002 internações e valor total de 160.868.533.754,21; e 03 com 9.028.761 internações e valor total de 51.712.299.656,53.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_004",
+      "difficulty": "L2",
+      "question": "Quais descricoes de complexidade tem mais internacoes e qual o valor total?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        i.\"COMPLEX\",\n        c.\"DESCRICAO\" AS complexidade,\n        i.\"VAL_TOT\"\n    FROM internacoes i\n    LEFT JOIN complexidade c\n        ON i.\"COMPLEX\" = c.\"COMPLEX\"\n)\nSELECT\n    COALESCE(complexidade, 'Nao mapeado') AS complexidade,\n    COUNT(*) AS internacoes,\n    ROUND(SUM(VAL_TOT), 2) AS valor_total\nFROM base\nGROUP BY 1\nORDER BY internacoes DESC, complexidade ASC\nLIMIT 20",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "complexidade",
+        "internacoes",
+        "valor_total"
+      ],
+      "predicted_columns": [
+        "complexidade",
+        "internacoes",
+        "valor_total"
+      ],
+      "gold_rows_sample": [
+        [
+          "Média complexidade",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "Alta complexidade",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "Não informado",
+          9,
+          2870.48
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Média complexidade",
+          135358002,
+          160868533754.23
+        ],
+        [
+          "Alta complexidade",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "Não informado",
+          9,
+          2870.48
+        ]
+      ],
+      "gold_row_count": 3,
+      "predicted_row_count": 3,
+      "agent_elapsed_s": 6.956718166002247,
+      "sql_elapsed_s": 0.32040533300096286,
+      "answer": "A maior quantidade de internações foi em Média complexidade, com 135.358.002 internações e valor total de 160.868.533.754,23; em seguida, Alta complexidade, com 9.028.761 internações e 51.712.299.656,53. Há ainda 9 internações em Não informado, somando 2.870,48.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_005",
+      "difficulty": "L2",
+      "question": "Quais especialidades tiveram mais internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT e.DESCRICAO AS especialidade, COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN especialidade e ON i.ESPEC = e.ESPEC\nGROUP BY e.DESCRICAO\nORDER BY internacoes DESC, especialidade ASC\nLIMIT 20",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "especialidade",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "especialidade",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Clínico",
+          52713972
+        ],
+        [
+          "Cirúrgico",
+          44552780
+        ],
+        [
+          "Obstétrico",
+          27397950
+        ],
+        [
+          "Pediátrico",
+          16187236
+        ],
+        [
+          "Psiquiatria",
+          2079148
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Clínico",
+          52713972
+        ],
+        [
+          "Cirúrgico",
+          44552780
+        ],
+        [
+          "Obstétrico",
+          27397950
+        ],
+        [
+          "Pediátrico",
+          16187236
+        ],
+        [
+          "Psiquiatria",
+          2079148
+        ]
+      ],
+      "gold_row_count": 16,
+      "predicted_row_count": 16,
+      "agent_elapsed_s": 5.341680875000748,
+      "sql_elapsed_s": 0.1981389999964449,
+      "answer": "As especialidades com mais internações foram Clínico (52.713.972), Cirúrgico (44.552.780), Obstétrico (27.397.950) e Pediátrico (16.187.236).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_006",
+      "difficulty": "L2",
+      "question": "Como as internacoes se distribuem por marca de UTI?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n  SELECT\n    i.MARCA_UTI,\n    m.DESCRICAO AS marca_uti_descricao\n  FROM internacoes i\n  LEFT JOIN marca_uti m\n    ON i.MARCA_UTI = m.MARCA_UTI\n)\nSELECT\n  COALESCE(marca_uti_descricao, 'Nao mapeado') AS marca_uti,\n  COUNT(*) AS internacoes\nFROM base\nGROUP BY 1\nORDER BY internacoes DESC, marca_uti ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "marca_uti",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "marca_uti",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Não utilizou UTI",
+          135279575
+        ],
+        [
+          "UTI adulto - tipo II",
+          5752388
+        ],
+        [
+          "UTI neonatal - tipo II",
+          965018
+        ],
+        [
+          "UTI adulto - tipo III",
+          779707
+        ],
+        [
+          "UTI infantil - tipo II",
+          504908
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Não utilizou UTI",
+          135279575
+        ],
+        [
+          "UTI adulto - tipo II",
+          5752388
+        ],
+        [
+          "UTI neonatal - tipo II",
+          965018
+        ],
+        [
+          "UTI adulto - tipo III",
+          779707
+        ],
+        [
+          "UTI infantil - tipo II",
+          504908
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 5.626486583001679,
+      "sql_elapsed_s": 0.22874754199801828,
+      "answer": "A maior parte das internações não utilizou UTI: 135.279.575. Entre as que usaram, a mais frequente foi UTI adulto tipo II (5.752.388), seguida por UTI neonatal tipo II (965.018) e UTI adulto tipo III (779.707).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_007",
+      "difficulty": "L2",
+      "question": "Quais nacionalidades tiveram mais internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT n.DESCRICAO AS nacionalidade, COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN nacionalidade n\n  ON i.NACIONAL = n.NACIONAL\nGROUP BY n.DESCRICAO\nORDER BY internacoes DESC, nacionalidade ASC\nLIMIT 20",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "nacionalidade",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "nacionalidade",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Brasil",
+          144040090
+        ],
+        [
+          "Republica dominicana",
+          77902
+        ],
+        [
+          "Venezuela",
+          54914
+        ],
+        [
+          "Reservado",
+          26583
+        ],
+        [
+          "Paraguai",
+          21025
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Brasil",
+          144040090
+        ],
+        [
+          "Republica dominicana",
+          77902
+        ],
+        [
+          "Venezuela",
+          54914
+        ],
+        [
+          "Reservado",
+          26583
+        ],
+        [
+          "Paraguai",
+          21025
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 20,
+      "agent_elapsed_s": 5.214163832999475,
+      "sql_elapsed_s": 0.17422249999799533,
+      "answer": "A nacionalidade com mais internações foi Brasil, com 144.040.090. Depois aparecem República Dominicana (77.902), Venezuela (54.914), Reservado (26.583) e Paraguai (21.025).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_008",
+      "difficulty": "L2",
+      "question": "Quais diagnosticos principais foram mais frequentes com descricao CID?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.CID, c.DESCRICAO, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN cid c ON i.DIAG_PRINC = c.CID\nWHERE i.DIAG_PRINC IS NOT NULL\nGROUP BY c.CID, c.DESCRICAO\nORDER BY internacoes DESC, c.DESCRICAO ASC\nLIMIT 20",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "CID",
+        "DESCRICAO",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "CID",
+        "DESCRICAO",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "O800",
+          "Parto espontaneo cefalico",
+          10289544
+        ],
+        [
+          "J189",
+          "Pneumonia NE",
+          3293713
+        ],
+        [
+          "O809",
+          "Parto unico espontaneo NE",
+          2459872
+        ],
+        [
+          "A09",
+          "Diarreia e gastroenterite orig infecc presum",
+          2109464
+        ],
+        [
+          "N390",
+          "Infecc do trato urinario de localiz NE",
+          1886373
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "O800",
+          "Parto espontaneo cefalico",
+          10289544
+        ],
+        [
+          "J189",
+          "Pneumonia NE",
+          3293713
+        ],
+        [
+          "O809",
+          "Parto unico espontaneo NE",
+          2459872
+        ],
+        [
+          "A09",
+          "Diarreia e gastroenterite orig infecc presum",
+          2109464
+        ],
+        [
+          "N390",
+          "Infecc do trato urinario de localiz NE",
+          1886373
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 20,
+      "agent_elapsed_s": 7.2706339999967895,
+      "sql_elapsed_s": 0.48490262500126846,
+      "answer": "Os diagnósticos principais mais frequentes foram: O800 — Parto espontâneo cefálico (10.289.544), J189 — Pneumonia NE (3.293.713), O809 — Parto único espontâneo NE (2.459.872), A09 — Diarreia e gastroenterite de origem infecciosa presumida (2.109.464) e N390 — Infecção do trato urinário de localização NE (1.886.373).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_009",
+      "difficulty": "L3",
+      "question": "Qual e o total de internacoes por UF de residencia mapeada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  m.SG_UF AS uf_residencia,\n  COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nWHERE m.SG_UF IS NOT NULL\nGROUP BY m.SG_UF\nORDER BY total_internacoes DESC, m.SG_UF ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "uf_residencia",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "MG",
+          19276203
+        ],
+        [
+          "BA",
+          13272355
+        ],
+        [
+          "PR",
+          12680323
+        ],
+        [
+          "RS",
+          11831809
+        ],
+        [
+          "RJ",
+          10926128
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "MG",
+          19276203
+        ],
+        [
+          "BA",
+          13272355
+        ],
+        [
+          "PR",
+          12680323
+        ],
+        [
+          "RS",
+          11831809
+        ],
+        [
+          "RJ",
+          10926128
+        ]
+      ],
+      "gold_row_count": 27,
+      "predicted_row_count": 27,
+      "agent_elapsed_s": 5.830953458000295,
+      "sql_elapsed_s": 0.17596016699826578,
+      "answer": "Foram registradas 144.386.772 internações por UF de residência mapeada. As maiores contagens foram em MG (19.276.203), BA (13.272.355) e PR (12.680.323).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_010",
+      "difficulty": "L3",
+      "question": "Quais regioes de saude tiveram mais internacoes por residencia mapeada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        m.NO_REGIAO_SAUDE AS regiao_saude,\n        i.MUNIC_RES\n    FROM internacoes i\n    LEFT JOIN municipios m\n        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\n)\nSELECT\n    COALESCE(regiao_saude, 'Nao mapeada') AS regiao_saude,\n    COUNT(*) AS internacoes,\n    SUM(CASE WHEN MUNIC_RES IS NOT NULL AND regiao_saude IS NOT NULL THEN 1 ELSE 0 END) AS internacoes_mapeadas\nFROM base\nGROUP BY 1\nORDER BY internacoes_mapeadas DESC, regiao_saude ASC\nLIMIT 20",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "NO_REGIAO_SAUDE",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "regiao_saude",
+        "internacoes",
+        "internacoes_mapeadas"
+      ],
+      "gold_rows_sample": [
+        [
+          "RJ",
+          "Metropolitana I",
+          5720553
+        ],
+        [
+          "PE",
+          "I Região de Saúde",
+          4032205
+        ],
+        [
+          "CE",
+          "1ª RS Fortaleza",
+          3819597
+        ],
+        [
+          "PR",
+          "2ª RS Metropolitana",
+          3729849
+        ],
+        [
+          "MG",
+          "Belo Horizonte/Nova Lima/Santa Luzia",
+          2925470
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Metropolitana I",
+          7609901,
+          7609901
+        ],
+        [
+          "I Região de Saúde",
+          4032205,
+          4032205
+        ],
+        [
+          "1ª RS Fortaleza",
+          3819597,
+          3819597
+        ],
+        [
+          "2ª RS Metropolitana",
+          3729849,
+          3729849
+        ],
+        [
+          "Belo Horizonte/Nova Lima/Santa Luzia",
+          2925470,
+          2925470
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 20,
+      "agent_elapsed_s": 5.918047916999058,
+      "sql_elapsed_s": 0.31623100000069826,
+      "answer": "As regiões de saúde com mais internações por residência mapeada foram Metropolitana I (7.609.901), I Região de Saúde (4.032.205), 1ª RS Fortaleza (3.819.597), 2ª RS Metropolitana (3.729.849) e Belo Horizonte/Nova Lima/Santa Luzia (2.925.470).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_011",
+      "difficulty": "L2",
+      "question": "Quais procedimentos principais das internacoes aparecem mais no catalogo de procedimentos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT p.PROC_REA, p.NOME_PROC AS procedimento, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN procedimentos p ON i.PROC_REA = p.PROC_REA\nGROUP BY p.PROC_REA, p.NOME_PROC\nORDER BY internacoes DESC, procedimento ASC\nLIMIT 20",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "PROC_REA",
+        "procedimento",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 20,
+      "agent_elapsed_s": 6.393006582999078,
+      "sql_elapsed_s": 0.43970070900104474,
+      "answer": "Os procedimentos principais de internação que mais aparecem no catálogo são parto normal (13.399.545), tratamento de pneumonias ou influenza (8.575.497) e parto cesariano (8.390.010). Entre os 20 mais frequentes, também se destacam tratamentos de doenças infecciosas intestinais, doenças crônicas das vias aéreas inferiores, insuficiência cardíaca e AVC.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_012",
+      "difficulty": "L2",
+      "question": "Quantas internacoes ocorreram por ano usando a dimensao tempo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n  SELECT\n    t.ano,\n    i.N_AIH\n  FROM internacoes i\n  JOIN tempo t\n    ON i.DT_INTER = t.data\n)\nSELECT\n  ano,\n  COUNT(*) AS internacoes\nFROM base\nGROUP BY ano\nORDER BY ano",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          2008,
+          8547884
+        ],
+        [
+          2009,
+          8713626
+        ],
+        [
+          2010,
+          8904688
+        ],
+        [
+          2011,
+          8808487
+        ],
+        [
+          2012,
+          8654270
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2008,
+          8547884
+        ],
+        [
+          2009,
+          8713626
+        ],
+        [
+          2010,
+          8904688
+        ],
+        [
+          2011,
+          8808487
+        ],
+        [
+          2012,
+          8654270
+        ]
+      ],
+      "gold_row_count": 16,
+      "predicted_row_count": 16,
+      "agent_elapsed_s": 4.394680541001435,
+      "sql_elapsed_s": 0.10549012499905075,
+      "answer": "Foram registradas 143.890.217 internações no total entre 2008 e 2023. Por ano: 2008 (8.547.884), 2009 (8.713.626), 2010 (8.904.688), 2011 (8.808.487), 2012 (8.654.270), 2013 (8.743.623), 2014 (8.876.083), 2015 (8.871.381), 2016 (8.798.229), 2017 (9.021.471), 2018 (9.323.065), 2019 (9.574.972), 2020 (8.248.077), 2021 (9.157.889), 2022 (9.802.736) e 2023 (9.843.736).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_013",
+      "difficulty": "L2",
+      "question": "Como as internacoes com contraceptivo 1 informado se distribuem por tipo de contraceptivo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.DESCRICAO AS tipo_contraceptivo, COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN contraceptivos c\n  ON i.CONTRACEP1 = c.CONTRACEPTIVO\nWHERE i.CONTRACEP1 = 1\nGROUP BY c.DESCRICAO\nORDER BY internacoes DESC, tipo_contraceptivo ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "contraceptivo",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "tipo_contraceptivo",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Não informado",
+          143180993
+        ],
+        [
+          "Preservativo",
+          625901
+        ],
+        [
+          "Hormônio oral",
+          397650
+        ],
+        [
+          "LAM",
+          53150
+        ],
+        [
+          "Coito interrompido",
+          36369
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "LAM",
+          53150
+        ]
+      ],
+      "gold_row_count": 13,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 6.093517834000522,
+      "sql_elapsed_s": 0.0630113330007589,
+      "answer": "As internações com contraceptivo 1 informado ficaram todas na categoria LAM, com 53.150 internações.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_014",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem codigo de raca cor sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  COUNT(*) FILTER (WHERE r.\"RACA_COR\" IS NULL) AS sem_correspondencia,\n  COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN raca_cor r\n  ON i.\"RACA_COR\" = r.\"RACA_COR\"",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.6416239160025725,
+      "sql_elapsed_s": 0.13965816700147116,
+      "answer": "Não há internações com código de raça/cor sem correspondência na dimensão: 0 de 144.386.772 internações.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_015",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem instrucao sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  COUNT(*) FILTER (WHERE ins.\"INSTRU\" IS NULL) AS sem_correspondencia,\n  COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN instrucao ins\n  ON i.\"INSTRU\" = ins.\"INSTRU\"",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          6,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          6,
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.908437040998251,
+      "sql_elapsed_s": 0.1083466669988411,
+      "answer": "Foram 6 internações sem correspondência na dimensão, de um total de 144.386.772 internações.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_016",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem vinculo previdenciario sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  COUNT(*) FILTER (WHERE v.VINCPREV IS NULL) AS sem_correspondencia,\n  COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN vincprev v\n  ON i.VINCPREV = v.VINCPREV\nWHERE i.VINCPREV IS NOT NULL",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 6.064416707999044,
+      "sql_elapsed_s": 0.09543691699946066,
+      "answer": "Foram 144.386.772 internações com vínculo previdenciário informado, e nenhuma sem correspondência na dimensão.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_017",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem CBOR sem correspondencia na dimensao ocupacional?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH auditoria AS (\n  SELECT\n    COUNT(*) FILTER (\n      WHERE i.\"CBOR\" IS NOT NULL\n        AND i.\"CBOR\" <> ''\n        AND c.\"CBOR\" IS NULL\n    ) AS sem_correspondencia,\n    COUNT(*) AS internacoes\n  FROM internacoes i\n  LEFT JOIN cbor c\n    ON i.\"CBOR\" = c.\"CBOR\"\n)\nSELECT\n  sem_correspondencia,\n  internacoes\nFROM auditoria",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 6.23376774999997,
+      "sql_elapsed_s": 0.15182191699932446,
+      "answer": "0 internações têm CBOR sem correspondência na dimensão ocupacional, de um total de 144.386.772 internações.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_018",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem etnia sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  COUNT(*) FILTER (WHERE e.ETNIA IS NULL) AS sem_correspondencia,\n  COUNT(*) AS internacoes\nFROM internacoes i\nLEFT JOIN etnia e\n  ON i.ETNIA = e.ETNIA",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 8.582765750001272,
+      "sql_elapsed_s": 0.1085782090012799,
+      "answer": "Nenhuma internação ficou sem correspondência na dimensão de etnia; foram 0 em 144.386.772 internações.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_019",
+      "difficulty": "L2",
+      "question": "Como a tabela de staging se distribui por carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n  SELECT\n    ci.DESCRICAO AS carater\n  FROM _staging_internacoes si\n  LEFT JOIN car_int ci\n    ON si.CAR_INT = ci.CAR_INT\n)\nSELECT\n  COALESCE(carater, 'nao mapeado') AS carater,\n  COUNT(*) AS registros_staging\nFROM base\nGROUP BY 1\nORDER BY registros_staging DESC, carater ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "carater",
+        "registros_staging"
+      ],
+      "predicted_columns": [
+        "carater",
+        "registros_staging"
+      ],
+      "gold_rows_sample": [
+        [
+          "Urgência",
+          28290701
+        ],
+        [
+          "Eletivo",
+          10606177
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          519112
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          205161
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          729
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Urgência",
+          28290701
+        ],
+        [
+          "Eletivo",
+          10606177
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          519112
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          205161
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          729
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 5.923465749998286,
+      "sql_elapsed_s": 0.08746716699897661,
+      "answer": "Na staging, a maior parte dos registros está em Urgência (28.290.701), seguida de Eletivo (10.606.177); os demais aparecem em volumes bem menores: Out tp lesões e envenen por agent quím físicos (519.112), Outros tipo de acidente de trânsito (205.161), Acidente no local trabalho ou a serv da empresa (729) e Acidente no trajeto para o trabalho (168).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_020",
+      "difficulty": "L2",
+      "question": "Quantos hospitais existem por UF do municipio do hospital?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  m.SG_UF AS uf,\n  COUNT(*) AS total_hospitais\nFROM hospital h\nJOIN municipios m\n  ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D\nGROUP BY m.SG_UF\nORDER BY m.SG_UF",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "hospitais"
+      ],
+      "predicted_columns": [
+        "uf",
+        "total_hospitais"
+      ],
+      "gold_rows_sample": [],
+      "predicted_rows_sample": [],
+      "gold_row_count": 0,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 6.185686832999636,
+      "sql_elapsed_s": 0.02040754200061201,
+      "answer": "A consulta não retornou linhas, então não é possível informar quantos hospitais existem por UF do município do hospital com os dados disponíveis.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_021",
+      "difficulty": "L3",
+      "question": "Qual populacao socioeconomica existe por UF e ano quando ha denominador socioeconomico?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  m.SG_UF AS uf,\n  s.NU_ANO AS ano,\n  SUM(s.QT_POPULACAO) AS populacao\nFROM socioeconomico s\nJOIN municipios m\n  ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D\nWHERE s.QT_POPULACAO IS NOT NULL\nGROUP BY m.SG_UF, s.NU_ANO\nORDER BY m.SG_UF, s.NU_ANO",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "ano",
+        "populacao"
+      ],
+      "predicted_columns": [
+        "uf",
+        "ano",
+        "populacao"
+      ],
+      "gold_rows_sample": [],
+      "predicted_rows_sample": [],
+      "gold_row_count": 0,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 7.040201249998063,
+      "sql_elapsed_s": 0.02021108400003868,
+      "answer": "A consulta não retornou linhas, então não há população socioeconômica disponível por UF e ano nesse recorte.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_022",
+      "difficulty": "L3",
+      "question": "Quantas mortes hospitalares com diagnostico principal CID C ocorreram por ano?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares\nFROM internacoes i\nWHERE i.MORTE = TRUE\n  AND i.DIAG_PRINC LIKE 'C%'\n  AND i.DT_INTER IS NOT NULL\nGROUP BY 1\nORDER BY 1",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "mortes_cid_c"
+      ],
+      "predicted_columns": [
+        "ano",
+        "mortes_hospitalares"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          2096
+        ],
+        [
+          2008,
+          27514
+        ],
+        [
+          2009,
+          30455
+        ],
+        [
+          2010,
+          32175
+        ],
+        [
+          2011,
+          33936
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2007,
+          2096
+        ],
+        [
+          2008,
+          27514
+        ],
+        [
+          2009,
+          30455
+        ],
+        [
+          2010,
+          32175
+        ],
+        [
+          2011,
+          33936
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 6.646081375001813,
+      "sql_elapsed_s": 0.14644287500050268,
+      "answer": "Foram registradas 648.381 mortes hospitalares com diagnóstico principal CID C no período analisado. Por ano: 2007 (2.096), 2008 (27.514), 2009 (30.455), 2010 (32.175), 2011 (33.936), 2012 (36.079), 2013 (38.105), 2014 (39.962), 2015 (42.546), 2016 (44.008), 2017 (45.566), 2018 (47.229), 2019 (49.314), 2020 (46.136), 2021 (48.045), 2022 (50.401) e 2023 (48.415).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_023",
+      "difficulty": "L3",
+      "question": "Qual e a taxa de mortalidade hospitalar por sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  s.\"DESCRICAO\" AS sexo,\n  COUNT(*) AS internacoes,\n  SUM(CASE WHEN i.\"MORTE\" = TRUE THEN 1 ELSE 0 END) AS obitos,\n  ROUND(SUM(CASE WHEN i.\"MORTE\" = TRUE THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade\nFROM internacoes i\nJOIN sexo s\n  ON i.\"SEXO\" = s.\"SEXO\"\nGROUP BY s.\"DESCRICAO\"\nORDER BY taxa_mortalidade DESC, sexo ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "internacoes",
+        "mortes",
+        "taxa_morte_pct"
+      ],
+      "predicted_columns": [
+        "sexo",
+        "internacoes",
+        "obitos",
+        "taxa_mortalidade"
+      ],
+      "gold_rows_sample": [
+        [
+          "Masculino",
+          58967743,
+          3159390,
+          5.3578
+        ],
+        [
+          "Feminino",
+          85419029,
+          2718146,
+          3.1821
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Masculino",
+          58967743,
+          3159390,
+          5.36
+        ],
+        [
+          "Feminino",
+          85419029,
+          2718146,
+          3.18
+        ]
+      ],
+      "gold_row_count": 2,
+      "predicted_row_count": 2,
+      "agent_elapsed_s": 3.763528707997466,
+      "sql_elapsed_s": 0.1537457920021552,
+      "answer": "A taxa de mortalidade hospitalar foi de 5,36% entre homens e 3,18% entre mulheres.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_024",
+      "difficulty": "L4",
+      "question": "Quais UFs e sexos tiveram mais internacoes por residencia mapeada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        m.SG_UF AS uf_residencia,\n        s.DESCRICAO AS sexo,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    LEFT JOIN municipios m\n        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\n    LEFT JOIN sexo s\n        ON i.SEXO = s.SEXO\n    WHERE m.CO_MUNICIPIO_6D IS NOT NULL\n    GROUP BY m.SG_UF, s.DESCRICAO\n), ranked AS (\n    SELECT\n        uf_residencia,\n        sexo,\n        internacoes,\n        ROW_NUMBER() OVER (ORDER BY internacoes DESC, uf_residencia ASC, sexo ASC) AS rn\n    FROM base\n)\nSELECT\n    uf_residencia,\n    sexo,\n    internacoes\nFROM ranked\nORDER BY internacoes DESC, uf_residencia ASC, sexo ASC\nLIMIT 20",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "sexo",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "uf_residencia",
+        "sexo",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "MG",
+          "Feminino",
+          10985551
+        ],
+        [
+          "MG",
+          "Masculino",
+          8290652
+        ],
+        [
+          "BA",
+          "Feminino",
+          8117220
+        ],
+        [
+          "PR",
+          "Feminino",
+          7040668
+        ],
+        [
+          "RS",
+          "Feminino",
+          6611829
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "MG",
+          "Feminino",
+          10985551
+        ],
+        [
+          "MG",
+          "Masculino",
+          8290652
+        ],
+        [
+          "BA",
+          "Feminino",
+          8117220
+        ],
+        [
+          "PR",
+          "Feminino",
+          7040668
+        ],
+        [
+          "RS",
+          "Feminino",
+          6611829
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 20,
+      "agent_elapsed_s": 7.415942916999484,
+      "sql_elapsed_s": 0.3286437919996388,
+      "answer": "As maiores internações por residência mapeada apareceram em MG, com destaque para Feminino (10.985.551) e Masculino (8.290.652). Em seguida, vieram BA Feminino (8.117.220), PR Feminino (7.040.668) e RS Feminino (6.611.829).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "DENSE_JOIN_025",
+      "difficulty": "L4",
+      "question": "Qual e o mix de complexidade por carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT\n  c.\"DESCRICAO\" AS complexidade,\n  ci.\"DESCRICAO\" AS carater,\n  COUNT(*) AS internacoes\nFROM internacoes i\nJOIN complexidade c\n  ON i.\"COMPLEX\" = c.\"COMPLEX\"\nJOIN car_int ci\n  ON i.\"CAR_INT\" = ci.\"CAR_INT\"\nGROUP BY\n  c.\"DESCRICAO\",\n  ci.\"DESCRICAO\"\nORDER BY internacoes DESC, complexidade ASC, carater ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "complexidade",
+        "carater",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "complexidade",
+        "carater",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Média complexidade",
+          "Urgência",
+          112079041
+        ],
+        [
+          "Média complexidade",
+          "Eletivo",
+          22316303
+        ],
+        [
+          "Alta complexidade",
+          "Eletivo",
+          4499456
+        ],
+        [
+          "Alta complexidade",
+          "Urgência",
+          4474201
+        ],
+        [
+          "Média complexidade",
+          "Out tp lesões e envenen por agent quím físicos",
+          568255
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Média complexidade",
+          "Urgência",
+          112079041
+        ],
+        [
+          "Média complexidade",
+          "Eletivo",
+          22316303
+        ],
+        [
+          "Alta complexidade",
+          "Eletivo",
+          4499456
+        ],
+        [
+          "Alta complexidade",
+          "Urgência",
+          4474201
+        ],
+        [
+          "Média complexidade",
+          "Out tp lesões e envenen por agent quím físicos",
+          568255
+        ]
+      ],
+      "gold_row_count": 14,
+      "predicted_row_count": 14,
+      "agent_elapsed_s": 5.749565124999208,
+      "sql_elapsed_s": 0.2617274579970399,
+      "answer": "O mix é liderado por internações de média complexidade em urgência (112.079.041), seguido por média complexidade eletiva (22.316.303) e alta complexidade eletiva (4.499.456). No total, as 14 combinações somam 144.386.772 internações.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_001",
+      "difficulty": "L1",
+      "question": "Quantos registros existem na tabela de staging de internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_registros FROM internacoes;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "total_registros_staging"
+      ],
+      "predicted_columns": [
+        "total_registros"
+      ],
+      "gold_rows_sample": [
+        [
+          39622048
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.524733958001889,
+      "sql_elapsed_s": 0.02942158299993025,
+      "answer": "A tabela de staging de internações possui **144.386.772 registros**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_002",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT CAR_INT AS codigo, DESCRICAO AS descricao FROM car_int ORDER BY CAR_INT;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "CAR_INT",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Eletivo"
+        ],
+        [
+          2,
+          "Urgência"
+        ],
+        [
+          3,
+          "Acidente no local trabalho ou a serv da empresa"
+        ],
+        [
+          4,
+          "Acidente no trajeto para o trabalho"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Eletivo"
+        ],
+        [
+          2,
+          "Urgência"
+        ],
+        [
+          3,
+          "Acidente no local trabalho ou a serv da empresa"
+        ],
+        [
+          4,
+          "Acidente no trajeto para o trabalho"
+        ]
+      ],
+      "gold_row_count": 7,
+      "predicted_row_count": 7,
+      "agent_elapsed_s": 2.661794124996959,
+      "sql_elapsed_s": 0.022495582998089958,
+      "answer": "Os códigos de **caráter de internação** são:\n\n- **0** — Não informado  \n- **1** — Eletivo  \n- **2** — Urgência  \n- **3** — Acidente no local trabalho ou a serv da empresa  \n- **4** — Acidente no trajeto para o trabalho  \n- **5** — Outros tipo de acidente de trânsito  \n- **6** — Out tp lesões e envenen por agent quím físicos",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_003",
+      "difficulty": "L1",
+      "question": "Quantos codigos ocupacionais existem na dimensao CBOR?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_codigos_ocupacionais FROM cbor;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_cbor"
+      ],
+      "predicted_columns": [
+        "total_codigos_ocupacionais"
+      ],
+      "gold_rows_sample": [
+        [
+          2813
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2813
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.1715168750015437,
+      "sql_elapsed_s": 0.020360999998956686,
+      "answer": "Na dimensão **CBOR**, existem **2.813 códigos ocupacionais**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_004",
+      "difficulty": "L1",
+      "question": "Quantos CIDs existem por capitulo no catalogo CID?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT DS_CAPITULO AS capitulo, COUNT(*) AS qtd_cids FROM cid GROUP BY DS_CAPITULO ORDER BY qtd_cids DESC, capitulo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "DS_CAPITULO",
+        "total_cids"
+      ],
+      "predicted_columns": [
+        "capitulo",
+        "qtd_cids"
+      ],
+      "gold_rows_sample": [
+        [
+          "XX. Causas externas de morbidade e de mortalidade",
+          3692
+        ],
+        [
+          "XIX. Lesões, envenenamento e outras consequências de causas externas",
+          1459
+        ],
+        [
+          "I. Algumas doenças infecciosas e parasitárias",
+          912
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          853
+        ],
+        [
+          "XVII. Malformações congênitas, deformidades e anomalias cromossômicas",
+          711
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "XX. Causas externas de morbidade e de mortalidade",
+          3692
+        ],
+        [
+          "XIX. Lesões, envenenamento e outras consequências de causas externas",
+          1459
+        ],
+        [
+          "I. Algumas doenças infecciosas e parasitárias",
+          912
+        ],
+        [
+          "II. Neoplasias [tumores]",
+          853
+        ],
+        [
+          "XVII. Malformações congênitas, deformidades e anomalias cromossômicas",
+          711
+        ]
+      ],
+      "gold_row_count": 22,
+      "predicted_row_count": 22,
+      "agent_elapsed_s": 3.257100458002242,
+      "sql_elapsed_s": 0.020952292001311434,
+      "answer": "O catálogo CID tem **22 capítulos**.\n\nOs capítulos com mais CIDs são:\n- **XX. Causas externas de morbidade e de mortalidade**: **3.692**\n- **XIX. Lesões, envenenamento e outras consequências de causas externas**: **1.459**\n- **I. Algumas doenças infecciosas e parasitárias**: **912**\n- **II. Neoplasias [tumores]**: **853**\n\nOs capítulos com menos CIDs, entre os mostrados, são:\n- **VII. Doenças do olho e anexos**: **307**\n- **X. Doenças do aparelho respiratório**: **277**\n- **III. Doenças do sangue e dos órgãos hematopoéticos**: **191**",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_005",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para complexidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.COMPLEX AS codigo, c.DESCRICAO AS descricao FROM complexidade c ORDER BY c.COMPLEX;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "COMPLEX",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Atenção Básica"
+        ],
+        [
+          "02",
+          "Média complexidade"
+        ],
+        [
+          "03",
+          "Alta complexidade"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Atenção Básica"
+        ],
+        [
+          "02",
+          "Média complexidade"
+        ],
+        [
+          "03",
+          "Alta complexidade"
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 4,
+      "agent_elapsed_s": 3.578199667001172,
+      "sql_elapsed_s": 0.018901208000897896,
+      "answer": "Os códigos de complexidade são:\n\n- **00** — Não informado  \n- **01** — Atenção Básica  \n- **02** — Média complexidade  \n- **03** — Alta complexidade",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_006",
+      "difficulty": "L1",
+      "question": "Quantos tipos de contraceptivos existem no catalogo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS quantidade_tipos_contraceptivos FROM contraceptivos;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_contraceptivos"
+      ],
+      "predicted_columns": [
+        "quantidade_tipos_contraceptivos"
+      ],
+      "gold_rows_sample": [
+        [
+          13
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          13
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.721622999997635,
+      "sql_elapsed_s": 0.02055162499891594,
+      "answer": "No catálogo, existem **13 tipos de contraceptivos**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_007",
+      "difficulty": "L1",
+      "question": "Quais especialidades existem no catalogo de especialidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT e.ESPEC, e.DESCRICAO FROM especialidade e ORDER BY e.DESCRICAO;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ESPEC",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "ESPEC",
+        "DESCRICAO"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Cirúrgico"
+        ],
+        [
+          2,
+          "Obstétrico"
+        ],
+        [
+          3,
+          "Clínico"
+        ],
+        [
+          4,
+          "Crônicos"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1,
+          "Cirúrgico"
+        ],
+        [
+          3,
+          "Clínico"
+        ],
+        [
+          4,
+          "Crônicos"
+        ],
+        [
+          10,
+          "Leito Dia / AIDS"
+        ],
+        [
+          9,
+          "Leito Dia / Cirúrgico"
+        ]
+      ],
+      "gold_row_count": 39,
+      "predicted_row_count": 39,
+      "agent_elapsed_s": 3.528959416998987,
+      "sql_elapsed_s": 0.01934274999803165,
+      "answer": "O catálogo de especialidade inclui 39 registros. Pelos dados retornados, aparecem:\n\n- 0 — Não informado\n- 1 — Cirúrgico\n- 2 — Obstétrico\n- 3 — Clínico\n- 4 — Crônicos\n- 5 — Psiquiatria\n- 6 — Pneumologia Sanitária\n- 7 — Pediátrico\n- 8 — Reabilitação\n- 9 — Leito Dia / Cirúrgico\n- 10 — Leito Dia / AIDS\n- 11 — Leito Dia / Fibrose Cística\n- 12 — Leito Dia / Intercorrência Pós-Transplante\n- 13 — Leito Dia / Geriatria\n- 14 — Leito Dia / Saúde Mental\n- 17 — Não Documentado\n- 88 — Queimado Clínico Adulto\n- 89 — Queimado Clínico Pediátrico\n- 90 — Queimado Cirúrgico Adulto\n- 91 — Queimado Cirúrgico Pediátrico\n\nSe quiser, posso também te devolver isso em ordem crescente de código ou em tabela.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_008",
+      "difficulty": "L1",
+      "question": "Quantos registros existem na dimensao de etnia?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS quantidade_registros FROM etnia;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_etnias"
+      ],
+      "predicted_columns": [
+        "quantidade_registros"
+      ],
+      "gold_rows_sample": [
+        [
+          265
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          265
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.0984085829986725,
+      "sql_elapsed_s": 0.020182500000373693,
+      "answer": "A dimensão **etnia** possui **265 registros**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_009",
+      "difficulty": "L1",
+      "question": "Quantos hospitais existem no cadastro hospitalar carregado?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_hospitais FROM hospital;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_hospitais"
+      ],
+      "predicted_columns": [
+        "total_hospitais"
+      ],
+      "gold_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.8361777089994575,
+      "sql_elapsed_s": 0.02020799999809242,
+      "answer": "No cadastro hospitalar carregado, existem **0 hospitais**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_010",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para instrucao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT i.INSTRU AS codigo, d.DESCRICAO AS descricao FROM instrucao i LEFT JOIN instrucao d ON d.INSTRU = i.INSTRU ORDER BY i.INSTRU;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "INSTRU",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Analfabeto"
+        ],
+        [
+          2,
+          "1º grau"
+        ],
+        [
+          3,
+          "2º grau"
+        ],
+        [
+          4,
+          "3º grau"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Analfabeto"
+        ],
+        [
+          2,
+          "1º grau"
+        ],
+        [
+          3,
+          "2º grau"
+        ],
+        [
+          4,
+          "3º grau"
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 2.972090749997733,
+      "sql_elapsed_s": 0.022754666999389883,
+      "answer": "Os códigos de **instrução** encontrados foram:\n\n- **0** — Não informado  \n- **1** — Analfabeto  \n- **2** — 1º grau  \n- **3** — 2º grau  \n- **4** — 3º grau  \n- **9** — Ignorado",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_011",
+      "difficulty": "L1",
+      "question": "Qual e o volume, mortes e valor total na tabela de internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS volume_internacoes, SUM(CASE WHEN MORTE = TRUE THEN 1 ELSE 0 END) AS mortes, ROUND(SUM(VAL_TOT), 0) AS valor_total FROM internacoes;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "internacoes",
+        "mortes",
+        "valor_total"
+      ],
+      "predicted_columns": [
+        "volume_internacoes",
+        "mortes",
+        "valor_total"
+      ],
+      "gold_rows_sample": [
+        [
+          144386772,
+          5877536,
+          212580836281.11
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          144386772,
+          5877536,
+          212580836282.0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.840426999999181,
+      "sql_elapsed_s": 0.14696525000181282,
+      "answer": "Na tabela de internações, o volume é **144.386.772**, com **5.877.536 mortes** e **valor total de R$ 212.580.836.282**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_012",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para marca de UTI?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT MARCA_UTI AS codigo, DESCRICAO AS descricao FROM marca_uti ORDER BY MARCA_UTI;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "MARCA_UTI",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não utilizou UTI"
+        ],
+        [
+          1,
+          "Utilizou mais de um tipo de UTI"
+        ],
+        [
+          51,
+          "UTI adulto - tipo II COVID 19"
+        ],
+        [
+          52,
+          "UTI pediátrica - tipo II COVID 19"
+        ],
+        [
+          74,
+          "UTI adulto - tipo I"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não utilizou UTI"
+        ],
+        [
+          1,
+          "Utilizou mais de um tipo de UTI"
+        ],
+        [
+          51,
+          "UTI adulto - tipo II COVID 19"
+        ],
+        [
+          52,
+          "UTI pediátrica - tipo II COVID 19"
+        ],
+        [
+          74,
+          "UTI adulto - tipo I"
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 3.736435790997348,
+      "sql_elapsed_s": 0.02164808300221921,
+      "answer": "Os códigos e descrições para **marca de UTI** são:\n\n- **0** — Não utilizou UTI  \n- **1** — Utilizou mais de um tipo de UTI  \n- **51** — UTI adulto - tipo II COVID 19  \n- **52** — UTI pediátrica - tipo II COVID 19  \n- **74** — UTI adulto - tipo I  \n- **75** — UTI adulto - tipo II  \n- **76** — UTI adulto - tipo III  \n- **77** — UTI infantil - tipo I  \n- **78** — UTI infantil - tipo II  \n- **79** — UTI infantil - tipo III  \n- **80** — UTI neonatal - tipo I  \n- **81** — UTI neonatal - tipo II  \n- **82** — UTI neonatal - tipo III  \n- **83** — UTI de queimados  \n- **85** — UTI coronariana tipo II - UCO tipo II  \n- **86** — UTI coronariana tipo III - UCO tipo III  \n- **99** — UTI Doador",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_013",
+      "difficulty": "L1",
+      "question": "Quantos municipios existem e quantas UFs validas aparecem na dimensao territorial?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT COALESCE(COUNT(DISTINCT COALESCE(CAST(CO_MUNICIPIO_6D AS VARCHAR), '')), 0) AS municipios_distintos, COUNT(DISTINCT CASE WHEN SG_UF IS NOT NULL AND TRIM(SG_UF) <> '' THEN SG_UF END) AS ufs_validas_distintas FROM municipios ) SELECT municipios_distintos, ufs_validas_distintas FROM base;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "total_municipios",
+        "ufs_validas",
+        "codigos_sg_uf_invalidos"
+      ],
+      "predicted_columns": [
+        "municipios_distintos",
+        "ufs_validas_distintas"
+      ],
+      "gold_rows_sample": [
+        [
+          5590,
+          27,
+          12
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5590,
+          39
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.8023652090014366,
+      "sql_elapsed_s": 0.02279929200085462,
+      "answer": "Na dimensão territorial, aparecem **5.590 municípios distintos** e **39 UFs válidas distintas**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_014",
+      "difficulty": "L1",
+      "question": "Quantos registros existem na dimensao de nacionalidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_registros FROM nacionalidade;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_nacionalidades"
+      ],
+      "predicted_columns": [
+        "total_registros"
+      ],
+      "gold_rows_sample": [
+        [
+          333
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          333
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.3856119589981972,
+      "sql_elapsed_s": 0.021238125002128072,
+      "answer": "A dimensão **nacionalidade** possui **333 registros**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_015",
+      "difficulty": "L1",
+      "question": "Quantos procedimentos existem no catalogo de procedimentos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_procedimentos FROM procedimentos;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_procedimentos"
+      ],
+      "predicted_columns": [
+        "total_procedimentos"
+      ],
+      "gold_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.376234208000824,
+      "sql_elapsed_s": 0.020724124999105697,
+      "answer": "O catálogo de procedimentos possui **5.394 procedimentos**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_016",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para raca cor?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT RACA_COR AS codigo, DESCRICAO AS descricao FROM raca_cor ORDER BY codigo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "RACA_COR",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Branca"
+        ],
+        [
+          "02",
+          "Preta"
+        ],
+        [
+          "03",
+          "Parda"
+        ],
+        [
+          "04",
+          "Amarela"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "00",
+          "Não informado"
+        ],
+        [
+          "01",
+          "Branca"
+        ],
+        [
+          "02",
+          "Preta"
+        ],
+        [
+          "03",
+          "Parda"
+        ],
+        [
+          "04",
+          "Amarela"
+        ]
+      ],
+      "gold_row_count": 7,
+      "predicted_row_count": 7,
+      "agent_elapsed_s": 2.4926967499995953,
+      "sql_elapsed_s": 0.019743166001717327,
+      "answer": "Os códigos de **raça/cor** são:\n\n- **00** — Não informado  \n- **01** — Branca  \n- **02** — Preta  \n- **03** — Parda  \n- **04** — Amarela  \n- **05** — Indígena  \n- **99** — Sem informação",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_017",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT s.SEXO AS codigo_sexo, s.DESCRICAO AS descricao FROM sexo s ORDER BY s.SEXO;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SEXO",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo_sexo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Ignorado"
+        ],
+        [
+          1,
+          "Masculino"
+        ],
+        [
+          2,
+          "Feminino"
+        ],
+        [
+          3,
+          "Feminino"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Ignorado"
+        ],
+        [
+          1,
+          "Masculino"
+        ],
+        [
+          2,
+          "Feminino"
+        ],
+        [
+          3,
+          "Feminino"
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 4,
+      "agent_elapsed_s": 4.607518249998975,
+      "sql_elapsed_s": 0.019714833000762155,
+      "answer": "Os códigos e descrições de sexo retornados são:\n\n- **0** — Ignorado\n- **1** — Masculino\n- **2** — Feminino\n- **3** — Feminino",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_018",
+      "difficulty": "L1",
+      "question": "Qual e o intervalo de anos e total de registros socioeconomicos carregados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH resumo AS ( SELECT MIN(NU_ANO) AS ano_min, MAX(NU_ANO) AS ano_max, COUNT(*) AS total_registros FROM socioeconomico ) SELECT ano_min, ano_max, total_registros FROM resumo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "primeiro_ano",
+        "ultimo_ano",
+        "registros"
+      ],
+      "predicted_columns": [
+        "ano_min",
+        "ano_max",
+        "total_registros"
+      ],
+      "gold_rows_sample": [
+        [
+          null,
+          null,
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          null,
+          null,
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.461956375002046,
+      "sql_elapsed_s": 0.02211387499846751,
+      "answer": "Não há registros socioeconômicos carregados: o total é **0**.  \nComo a tabela está vazia, o intervalo de anos também é **nulo** (`ano_min = None`, `ano_max = None`).",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_019",
+      "difficulty": "L1",
+      "question": "Qual e o intervalo de datas disponivel na dimensao tempo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT MIN(\"data\") AS data_minima, MAX(\"data\") AS data_maxima FROM tempo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "primeira_data",
+        "ultima_data",
+        "dias"
+      ],
+      "predicted_columns": [
+        "data_minima",
+        "data_maxima"
+      ],
+      "gold_rows_sample": [
+        [
+          "2008-01-01",
+          "2023-12-31",
+          5844
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "2008-01-01",
+          "2023-12-31"
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.7751262499987206,
+      "sql_elapsed_s": 0.01964929200039478,
+      "answer": "O intervalo disponível na dimensão tempo vai de **01/01/2008** até **31/12/2023**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_TABLE_020",
+      "difficulty": "L1",
+      "question": "Quais codigos e descricoes existem para vinculo previdenciario?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT vp.VINCPREV AS codigo, vp.DESCRICAO AS descricao FROM vincprev vp ORDER BY vp.VINCPREV;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "VINCPREV",
+        "DESCRICAO"
+      ],
+      "predicted_columns": [
+        "codigo",
+        "descricao"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Autônomo"
+        ],
+        [
+          2,
+          "Desempregado"
+        ],
+        [
+          3,
+          "Aposentado"
+        ],
+        [
+          4,
+          "Não segurado"
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0,
+          "Não informado"
+        ],
+        [
+          1,
+          "Autônomo"
+        ],
+        [
+          2,
+          "Desempregado"
+        ],
+        [
+          3,
+          "Aposentado"
+        ],
+        [
+          4,
+          "Não segurado"
+        ]
+      ],
+      "gold_row_count": 7,
+      "predicted_row_count": 7,
+      "agent_elapsed_s": 2.442907874999946,
+      "sql_elapsed_s": 0.022275583000009647,
+      "answer": "Os vínculos previdenciários disponíveis são:\n\n- **0** — Não informado\n- **1** — Autônomo\n- **2** — Desempregado\n- **3** — Aposentado\n- **4** — Não segurado\n- **5** — Empregado\n- **6** — Empregador",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_001",
+      "difficulty": "L2",
+      "question": "Como as internacoes se distribuem por sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT s.DESCRICAO AS sexo, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN sexo s ON i.SEXO = s.SEXO GROUP BY s.DESCRICAO ORDER BY total_internacoes DESC, sexo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "sexo",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Feminino",
+          85419029
+        ],
+        [
+          "Masculino",
+          58967743
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Feminino",
+          85419029
+        ],
+        [
+          "Masculino",
+          58967743
+        ]
+      ],
+      "gold_row_count": 2,
+      "predicted_row_count": 2,
+      "agent_elapsed_s": 3.074744165998709,
+      "sql_elapsed_s": 0.21185979199799476,
+      "answer": "As internações se distribuem entre:\n\n- **Feminino:** 85.419.029\n- **Masculino:** 58.967.743\n\nOu seja, há mais internações registradas para **feminino** do que para **masculino**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_002",
+      "difficulty": "L2",
+      "question": "Como as internacoes se distribuem por carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.DESCRICAO AS carater_internacao, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN car_int c ON i.CAR_INT = c.CAR_INT GROUP BY c.DESCRICAO ORDER BY total_internacoes DESC, carater_internacao;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "carater",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "carater_internacao",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Urgência",
+          116553247
+        ],
+        [
+          "Eletivo",
+          26815763
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          597681
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          419699
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          331
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Urgência",
+          116553247
+        ],
+        [
+          "Eletivo",
+          26815763
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          597681
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          419699
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          331
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 3.9905613330010965,
+      "sql_elapsed_s": 0.2050021659997583,
+      "answer": "As internações se concentram principalmente em:\n\n- **Urgência**: 116.553.247\n- **Eletivo**: 26.815.763\n\nAs demais categorias aparecem com volumes muito menores:\n\n- **Out tp lesões e envenen por agent quím físicos**: 597.681\n- **Outros tipo de acidente de trânsito**: 419.699\n- **Acidente no local trabalho ou a serv da empresa**: 331\n- **Acidente no trajeto para o trabalho**: 51\n\nOu seja, **urgência** domina a distribuição, seguida de **eletivo**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_003",
+      "difficulty": "L2",
+      "question": "Qual e o total de internacoes e valor total por codigo de complexidade validado na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.COMPLEX AS codigo_complexidade, c.DESCRICAO AS complexidade, COUNT(*) AS total_internacoes, ROUND(SUM(i.VAL_TOT), 0) AS valor_total FROM internacoes i JOIN complexidade c ON i.COMPLEX = c.COMPLEX GROUP BY c.COMPLEX, c.DESCRICAO ORDER BY c.COMPLEX;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "COMPLEX",
+        "internacoes",
+        "valor_total"
+      ],
+      "predicted_columns": [
+        "codigo_complexidade",
+        "complexidade",
+        "total_internacoes",
+        "valor_total"
+      ],
+      "gold_rows_sample": [
+        [
+          "02",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "03",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "00",
+          9,
+          2870.48
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "00",
+          "Não informado",
+          9,
+          2870.0
+        ],
+        [
+          "02",
+          "Média complexidade",
+          135358002,
+          160868533754.0
+        ],
+        [
+          "03",
+          "Alta complexidade",
+          9028761,
+          51712299657.0
+        ]
+      ],
+      "gold_row_count": 3,
+      "predicted_row_count": 3,
+      "agent_elapsed_s": 3.37930870800119,
+      "sql_elapsed_s": 0.33622120799918775,
+      "answer": "O total de internações e o valor total por código de complexidade validado na dimensão são:\n\n- **00 — Não informado**: **9** internações, **R$ 2.870**\n- **02 — Média complexidade**: **135.358.002** internações, **R$ 160.868.533.754**\n- **03 — Alta complexidade**: **9.028.761** internações, **R$ 51.712.299.657**\n\nSe quiser, posso também organizar isso em tabela.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_004",
+      "difficulty": "L2",
+      "question": "Quais descricoes de complexidade tem mais internacoes e qual o valor total?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.DESCRICAO AS complexidade, COUNT(*) AS total_internacoes, ROUND(SUM(i.VAL_TOT), 0) AS valor_total FROM internacoes i LEFT JOIN complexidade c ON i.COMPLEX = c.COMPLEX WHERE i.COMPLEX IS NOT NULL GROUP BY c.DESCRICAO ORDER BY total_internacoes DESC, valor_total DESC;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "complexidade",
+        "internacoes",
+        "valor_total"
+      ],
+      "predicted_columns": [
+        "complexidade",
+        "total_internacoes",
+        "valor_total"
+      ],
+      "gold_rows_sample": [
+        [
+          "Média complexidade",
+          135358002,
+          160868533754.1
+        ],
+        [
+          "Alta complexidade",
+          9028761,
+          51712299656.53
+        ],
+        [
+          "Não informado",
+          9,
+          2870.48
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Média complexidade",
+          135358002,
+          160868533754.0
+        ],
+        [
+          "Alta complexidade",
+          9028761,
+          51712299657.0
+        ],
+        [
+          "Não informado",
+          9,
+          2870.0
+        ]
+      ],
+      "gold_row_count": 3,
+      "predicted_row_count": 3,
+      "agent_elapsed_s": 4.092180040999665,
+      "sql_elapsed_s": 0.31452079199880245,
+      "answer": "A descrição de complexidade com mais internações é **Média complexidade**, com **135.358.002 internações** e **valor total de R$ 160.868.533.754**.\n\nEm seguida vêm:\n- **Alta complexidade**: **9.028.761 internações** e **R$ 51.712.299.657**\n- **Não informado**: **9 internações** e **R$ 2.870**",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_005",
+      "difficulty": "L2",
+      "question": "Quais especialidades tiveram mais internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT i.ESPEC, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.ESPEC IS NOT NULL GROUP BY i.ESPEC ) SELECT e.DESCRICAO AS especialidade, b.total_internacoes FROM base b LEFT JOIN especialidade e ON e.ESPEC = b.ESPEC ORDER BY b.total_internacoes DESC, especialidade;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "especialidade",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "especialidade",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Clínico",
+          52713972
+        ],
+        [
+          "Cirúrgico",
+          44552780
+        ],
+        [
+          "Obstétrico",
+          27397950
+        ],
+        [
+          "Pediátrico",
+          16187236
+        ],
+        [
+          "Psiquiatria",
+          2079148
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Clínico",
+          52713972
+        ],
+        [
+          "Cirúrgico",
+          44552780
+        ],
+        [
+          "Obstétrico",
+          27397950
+        ],
+        [
+          "Pediátrico",
+          16187236
+        ],
+        [
+          "Psiquiatria",
+          2079148
+        ]
+      ],
+      "gold_row_count": 16,
+      "predicted_row_count": 16,
+      "agent_elapsed_s": 2.9595575829989684,
+      "sql_elapsed_s": 0.10219750000032946,
+      "answer": "As especialidades com mais internações foram:\n\n1. **Clínico** — 52.713.972  \n2. **Cirúrgico** — 44.552.780  \n3. **Obstétrico** — 27.397.950  \n4. **Pediátrico** — 16.187.236  \n5. **Psiquiatria** — 2.079.148  \n\nDepois dessas, os maiores volumes caem bastante.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_006",
+      "difficulty": "L2",
+      "question": "Como as internacoes se distribuem por marca de UTI?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT COALESCE(mu.DESCRICAO, CAST(i.MARCA_UTI AS VARCHAR)) AS marca_uti, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN marca_uti mu ON i.MARCA_UTI = mu.MARCA_UTI GROUP BY 1 ) SELECT marca_uti, internacoes, ROUND(100.0 * internacoes / SUM(internacoes) OVER (), 2) AS percentual FROM base ORDER BY internacoes DESC, marca_uti;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "marca_uti",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "marca_uti",
+        "internacoes",
+        "percentual"
+      ],
+      "gold_rows_sample": [
+        [
+          "Não utilizou UTI",
+          135279575
+        ],
+        [
+          "UTI adulto - tipo II",
+          5752388
+        ],
+        [
+          "UTI neonatal - tipo II",
+          965018
+        ],
+        [
+          "UTI adulto - tipo III",
+          779707
+        ],
+        [
+          "UTI infantil - tipo II",
+          504908
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Não utilizou UTI",
+          135279575,
+          93.69
+        ],
+        [
+          "UTI adulto - tipo II",
+          5752388,
+          3.98
+        ],
+        [
+          "UTI neonatal - tipo II",
+          965018,
+          0.67
+        ],
+        [
+          "UTI adulto - tipo III",
+          779707,
+          0.54
+        ],
+        [
+          "UTI infantil - tipo II",
+          504908,
+          0.35
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 4.005963124996924,
+      "sql_elapsed_s": 0.2521318750004866,
+      "answer": "As internações se concentram majoritariamente em **“Não utilizou UTI”**, com **135.279.575** internações, o que representa **93,69%** do total.\n\nEntre as internações com UTI, as maiores participações são:\n\n- **UTI adulto - tipo II**: **5.752.388** (**3,98%**)\n- **UTI neonatal - tipo II**: **965.018** (**0,67%**)\n- **UTI adulto - tipo III**: **779.707** (**0,54%**)\n- **UTI infantil - tipo II**: **504.908** (**0,35%**)\n- **UTI adulto - tipo II COVID 19**: **364.948** (**0,25%**)\n\nAs demais marcas aparecem com proporções menores, todas abaixo de **0,15%** cada.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_007",
+      "difficulty": "L2",
+      "question": "Quais nacionalidades tiveram mais internacoes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT i.NACIONAL, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.NACIONAL IS NOT NULL GROUP BY i.NACIONAL ) SELECT COALESCE(n.DESCRICAO, CAST(b.NACIONAL AS VARCHAR)) AS nacionalidade, b.total_internacoes FROM base b LEFT JOIN nacionalidade n ON b.NACIONAL = n.NACIONAL ORDER BY b.total_internacoes DESC, nacionalidade;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "nacionalidade",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "nacionalidade",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Brasil",
+          144040090
+        ],
+        [
+          "Republica dominicana",
+          77902
+        ],
+        [
+          "Venezuela",
+          54914
+        ],
+        [
+          "Reservado",
+          26583
+        ],
+        [
+          "Paraguai",
+          21025
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Brasil",
+          144040090
+        ],
+        [
+          "Republica dominicana",
+          77902
+        ],
+        [
+          "Venezuela",
+          54914
+        ],
+        [
+          "Paraguai",
+          21025
+        ],
+        [
+          "Chile",
+          19106
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 333,
+      "agent_elapsed_s": 3.3494392079992394,
+      "sql_elapsed_s": 0.10596670800077845,
+      "answer": "As nacionalidades com mais internações foram:\n\n1. **Brasil** — 144.040.090  \n2. **República Dominicana** — 77.902  \n3. **Venezuela** — 54.914  \n4. **Paraguai** — 21.025  \n5. **Chile** — 19.106  \n\nDepois aparecem **Bolívia** (15.891), **Portugal** (14.104) e **República do Haiti** (12.539).  \n\nSe quiser, posso também listar as **10 primeiras** ou agrupar as nacionais por **continente/região**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_008",
+      "difficulty": "L2",
+      "question": "Quais diagnosticos principais foram mais frequentes com descricao CID?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH frequencias AS ( SELECT i.DIAG_PRINC AS cid, c.DESCRICAO AS descricao_cid, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID WHERE i.DIAG_PRINC IS NOT NULL AND i.DIAG_PRINC <> '' AND i.DIAG_PRINC <> '0' GROUP BY i.DIAG_PRINC, c.DESCRICAO ) SELECT cid, descricao_cid, total_internacoes FROM frequencias ORDER BY total_internacoes DESC, cid LIMIT 20;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "CID",
+        "DESCRICAO",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "cid",
+        "descricao_cid",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "O800",
+          "Parto espontaneo cefalico",
+          10289544
+        ],
+        [
+          "J189",
+          "Pneumonia NE",
+          3293713
+        ],
+        [
+          "O809",
+          "Parto unico espontaneo NE",
+          2459872
+        ],
+        [
+          "A09",
+          "Diarreia e gastroenterite orig infecc presum",
+          2109464
+        ],
+        [
+          "N390",
+          "Infecc do trato urinario de localiz NE",
+          1886373
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "O800",
+          "Parto espontaneo cefalico",
+          10289544
+        ],
+        [
+          "J189",
+          "Pneumonia NE",
+          3293713
+        ],
+        [
+          "O809",
+          "Parto unico espontaneo NE",
+          2459872
+        ],
+        [
+          "A09",
+          "Diarreia e gastroenterite orig infecc presum",
+          2109464
+        ],
+        [
+          "N390",
+          "Infecc do trato urinario de localiz NE",
+          1886373
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 20,
+      "agent_elapsed_s": 4.457168667002406,
+      "sql_elapsed_s": 0.521071999999549,
+      "answer": "Os diagnósticos principais mais frequentes foram:\n\n1. **O800** — *Parto espontaneo cefalico* — **10.289.544** internações  \n2. **J189** — *Pneumonia NE* — **3.293.713**  \n3. **O809** — *Parto unico espontaneo NE* — **2.459.872**  \n4. **A09** — *Diarreia e gastroenterite orig infecc presum* — **2.109.464**  \n5. **N390** — *Infecc do trato urinario de localiz NE* — **1.886.373**  \n\nEntre os 20 mais frequentes também aparecem, por exemplo, **I64** (*Acid vasc cerebr NE como hemorrag isquemico*), **I500** (*Insuf cardiaca congestiva*) e **B342** (*Infecc p/coronavirus NE*).\n\nSe quiser, posso também organizar a lista completa dos 20 em tabela.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_009",
+      "difficulty": "L3",
+      "question": "Qual e o total de internacoes por UF de residencia mapeada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT m.SG_UF AS uf_residencia, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D GROUP BY m.SG_UF ORDER BY total_internacoes DESC, uf_residencia;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "uf_residencia",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "MG",
+          19276203
+        ],
+        [
+          "BA",
+          13272355
+        ],
+        [
+          "PR",
+          12680323
+        ],
+        [
+          "RS",
+          11831809
+        ],
+        [
+          "RJ",
+          10926128
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "MG",
+          19276203
+        ],
+        [
+          "BA",
+          13272355
+        ],
+        [
+          "PR",
+          12680323
+        ],
+        [
+          "RS",
+          11831809
+        ],
+        [
+          "RJ",
+          10926128
+        ]
+      ],
+      "gold_row_count": 27,
+      "predicted_row_count": 27,
+      "agent_elapsed_s": 4.075433792000695,
+      "sql_elapsed_s": 0.17742420799913816,
+      "answer": "O total de internações por UF de residência mapeada é o seguinte:\n\n- MG: 19.276.203  \n- BA: 13.272.355  \n- PR: 12.680.323  \n- RS: 11.831.809  \n- RJ: 10.926.128  \n- PE: 8.529.411  \n- PA: 7.934.646  \n- CE: 7.807.633  \n- SC: 7.215.418  \n- MA: 6.790.650  \n- GO: 6.115.242  \n- ES: 3.649.682  \n- PI: 3.335.303  \n- PB: 3.220.803  \n- MT: 3.007.235  \n- AM: 2.870.550  \n- AL: 2.721.965  \n- RN: 2.706.882  \n- MS: 2.679.471  \n- DF: 2.529.580  \n\nForam 27 UFs no total.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_010",
+      "difficulty": "L3",
+      "question": "Quais regioes de saude tiveram mais internacoes por residencia mapeada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH internacoes_por_regiao AS ( SELECT m.NO_REGIAO_SAUDE AS regiao_saude, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE i.MUNIC_RES IS NOT NULL AND m.NO_REGIAO_SAUDE IS NOT NULL GROUP BY m.NO_REGIAO_SAUDE ) SELECT regiao_saude, total_internacoes FROM internacoes_por_regiao ORDER BY total_internacoes DESC;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "NO_REGIAO_SAUDE",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "regiao_saude",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "RJ",
+          "Metropolitana I",
+          5720553
+        ],
+        [
+          "PE",
+          "I Região de Saúde",
+          4032205
+        ],
+        [
+          "CE",
+          "1ª RS Fortaleza",
+          3819597
+        ],
+        [
+          "PR",
+          "2ª RS Metropolitana",
+          3729849
+        ],
+        [
+          "MG",
+          "Belo Horizonte/Nova Lima/Santa Luzia",
+          2925470
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Metropolitana I",
+          7609901
+        ],
+        [
+          "I Região de Saúde",
+          4032205
+        ],
+        [
+          "1ª RS Fortaleza",
+          3819597
+        ],
+        [
+          "2ª RS Metropolitana",
+          3729849
+        ],
+        [
+          "Belo Horizonte/Nova Lima/Santa Luzia",
+          2925470
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 425,
+      "agent_elapsed_s": 3.685788708000473,
+      "sql_elapsed_s": 0.19165329200041015,
+      "answer": "As regiões de saúde com mais internações por residência mapeada foram:\n\n1. **Metropolitana I** — **7.609.901**\n2. **I Região de Saúde** — **4.032.205**\n3. **1ª RS Fortaleza** — **3.819.597**\n4. **2ª RS Metropolitana** — **3.729.849**\n5. **Belo Horizonte/Nova Lima/Santa Luzia** — **2.925.470**\n\nEm seguida aparecem **Salvador**, **Central**, **Distrito Federal** e **Região 10 - Capital e Vale do Gravataí**.  \nNo total, a consulta retornou **425 regiões**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_011",
+      "difficulty": "L2",
+      "question": "Quais procedimentos principais das internacoes aparecem mais no catalogo de procedimentos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": false,
+      "agent_status": "technical_error",
+      "sql_generated": true,
+      "generated_sql": "WITH proc_counts AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT NULL GROUP BY ip.PROC_REA ) SELECT p.PROC_REA, p.NOME_PROC, pc.total_internacoes FROM proc_counts pc JOIN main.procedimentos p ON p.PROC_REA = pc.PROC_REA ORDER BY pc.total_internacoes DESC, p.NOME_PROC LIMIT 20;",
+      "prediction_success": false,
+      "prediction_error": "Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT...\n                                                                        ^",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "internacoes"
+      ],
+      "predicted_columns": [],
+      "gold_rows_sample": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "predicted_rows_sample": [],
+      "gold_row_count": 20,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 4.3120490000001155,
+      "sql_elapsed_s": 0.022885250000399537,
+      "answer": "Nao foi possivel executar a consulta SQL: (_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT...\n                                                                        ^\n[SQL: EXPLAIN WITH proc_counts AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT NULL GROUP BY ip.PROC_REA ) SELECT p.PROC_REA, p.NOME_PROC, pc.total_internacoes FROM proc_counts pc JOIN main.procedimentos p ON p.PROC_REA = pc.PROC_REA ORDER BY pc.total_internacoes DESC, p.NOME_PROC LIMIT 20;]\n(Background on this error at: https://sqlalche.me/e/20/f405)",
+      "agent_error": "(_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT...\n                                                                        ^\n[SQL: EXPLAIN WITH proc_counts AS ( SELECT ip.PROC_REA, COUNT(*) AS total_internacoes FROM main.internacao_procedimento ip WHERE ip.PROC_REA IS NOT NULL GROUP BY ip.PROC_REA ) SELECT p.PROC_REA, p.NOME_PROC, pc.total_internacoes FROM proc_counts pc JOIN main.procedimentos p ON p.PROC_REA = pc.PROC_REA ORDER BY pc.total_internacoes DESC, p.NOME_PROC LIMIT 20;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_012",
+      "difficulty": "L2",
+      "question": "Quantas internacoes ocorreram por ano usando a dimensao tempo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT t.ano AS ano, COUNT(*) AS internacoes FROM internacoes i LEFT JOIN tempo t ON i.DT_INTER = t.\"data\" GROUP BY t.ano ORDER BY t.ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "ano",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          2008,
+          8547884
+        ],
+        [
+          2009,
+          8713626
+        ],
+        [
+          2010,
+          8904688
+        ],
+        [
+          2011,
+          8808487
+        ],
+        [
+          2012,
+          8654270
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2008,
+          8547884
+        ],
+        [
+          2009,
+          8713626
+        ],
+        [
+          2010,
+          8904688
+        ],
+        [
+          2011,
+          8808487
+        ],
+        [
+          2012,
+          8654270
+        ]
+      ],
+      "gold_row_count": 16,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 3.665747917002591,
+      "sql_elapsed_s": 0.18943291600226075,
+      "answer": "Usando a dimensão tempo, houve internações por ano de **2008 a 2023**, com estes totais:\n\n- 2008: **8.547.884**\n- 2009: **8.713.626**\n- 2010: **8.904.688**\n- 2011: **8.808.487**\n- 2012: **8.654.270**\n- 2013: **8.743.623**\n- 2014: **8.876.083**\n- 2015: **8.871.381**\n- 2016: **8.798.229**\n- 2017: **9.021.471**\n- 2018: **9.323.065**\n- 2019: **9.574.972**\n- 2020: **8.248.077**\n- 2021: **9.157.889**\n- 2022: **9.802.736**\n- 2023: **9.843.736**\n\nAlém disso, há **496.555 internações** com **ano nulo** na junção com a dimensão tempo.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_013",
+      "difficulty": "L2",
+      "question": "Como as internacoes com contraceptivo 1 informado se distribuem por tipo de contraceptivo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT i.CONTRACEP1 AS contraceptivo, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.CONTRACEP1 = 1 GROUP BY i.CONTRACEP1 ) SELECT c.DESCRICAO AS tipo_contraceptivo, b.total_internacoes FROM base b JOIN contraceptivos c ON c.CONTRACEPTIVO = b.contraceptivo ORDER BY b.total_internacoes DESC, tipo_contraceptivo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "contraceptivo",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "tipo_contraceptivo",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Não informado",
+          143180993
+        ],
+        [
+          "Preservativo",
+          625901
+        ],
+        [
+          "Hormônio oral",
+          397650
+        ],
+        [
+          "LAM",
+          53150
+        ],
+        [
+          "Coito interrompido",
+          36369
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "LAM",
+          53150
+        ]
+      ],
+      "gold_row_count": 13,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.4702272089998587,
+      "sql_elapsed_s": 0.08496595900214743,
+      "answer": "As internações com **CONTRACEP1 = 1** se concentram em um único tipo de contraceptivo no resultado retornado:\n\n- **LAM**: **53.150 internações**\n\nPelo SQL informado, só há esse tipo listado.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_014",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem codigo de raca cor sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_sem_correspondencia_raca_cor FROM internacoes i LEFT JOIN raca_cor r ON i.RACA_COR = r.RACA_COR WHERE i.RACA_COR IS NOT NULL AND r.RACA_COR IS NULL;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_sem_correspondencia_raca_cor"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.6766452910014777,
+      "sql_elapsed_s": 0.13188645799891674,
+      "answer": "Não há internações com código de raça/cor sem correspondência na dimensão: **0**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_015",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem instrucao sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_sem_correspondencia_instrucao FROM internacoes i LEFT JOIN instrucao ins ON i.INSTRU = ins.INSTRU WHERE i.INSTRU IS NOT NULL AND ins.INSTRU IS NULL;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_sem_correspondencia_instrucao"
+      ],
+      "gold_rows_sample": [
+        [
+          6,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          6
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.460082749999856,
+      "sql_elapsed_s": 0.10704387499936274,
+      "answer": "Foram encontradas **6 internações** com **instrução sem correspondência na dimensão**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_016",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem vinculo previdenciario sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT i.VINCPREV FROM internacoes i LEFT JOIN vincprev v ON i.VINCPREV = v.VINCPREV ) SELECT COUNT(*) AS qt_internacoes_sem_correspondencia FROM base WHERE VINCPREV IS NOT NULL AND VINCPREV <> 0 AND NOT EXISTS ( SELECT 1 FROM vincprev v WHERE v.VINCPREV = base.VINCPREV );",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "qt_internacoes_sem_correspondencia"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.173915791001491,
+      "sql_elapsed_s": 0.04965595900284825,
+      "answer": "Não há internações com vínculo previdenciário sem correspondência na dimensão: **0**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_017",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem CBOR sem correspondencia na dimensao ocupacional?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_sem_correspondencia FROM internacoes i LEFT JOIN cbor c ON i.CBOR = c.CBOR WHERE i.CBOR IS NOT NULL AND i.CBOR <> '' AND c.CBOR IS NULL;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes_sem_correspondencia"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 17.374275499998475,
+      "sql_elapsed_s": 0.1582185000006575,
+      "answer": "Foram encontradas **0 internações** com **CBOR sem correspondência** na dimensão ocupacional.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_018",
+      "difficulty": "L3",
+      "question": "Auditoria: quantas internacoes tem etnia sem correspondencia na dimensao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS qt_internacoes_sem_correspondencia_etnia FROM internacoes i LEFT JOIN etnia e ON i.ETNIA = e.ETNIA WHERE i.ETNIA IS NOT NULL AND e.ETNIA IS NULL;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sem_correspondencia",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "qt_internacoes_sem_correspondencia_etnia"
+      ],
+      "gold_rows_sample": [
+        [
+          0,
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.5781852079999226,
+      "sql_elapsed_s": 0.121520208002039,
+      "answer": "Foram encontradas **0 internações** com etnia sem correspondência na dimensão.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_019",
+      "difficulty": "L2",
+      "question": "Como a tabela de staging se distribui por carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT c.DESCRICAO AS carater_internacao, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN car_int c ON i.CAR_INT = c.CAR_INT GROUP BY c.DESCRICAO ORDER BY total_internacoes DESC, carater_internacao;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "carater",
+        "registros_staging"
+      ],
+      "predicted_columns": [
+        "carater_internacao",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Urgência",
+          28290701
+        ],
+        [
+          "Eletivo",
+          10606177
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          519112
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          205161
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          729
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Urgência",
+          116553247
+        ],
+        [
+          "Eletivo",
+          26815763
+        ],
+        [
+          "Out tp lesões e envenen por agent quím físicos",
+          597681
+        ],
+        [
+          "Outros tipo de acidente de trânsito",
+          419699
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          331
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 3.488287791999028,
+      "sql_elapsed_s": 0.2099802090015146,
+      "answer": "A tabela de staging está concentrada principalmente em **Urgência**, com **116.553.247 internações**, seguida de **Eletivo**, com **26.815.763**.\n\nAs demais categorias aparecem com volumes muito menores:\n- **Out tp lesões e envenen por agent quím físicos**: 597.681\n- **Outros tipo de acidente de trânsito**: 419.699\n- **Acidente no local trabalho ou a serv da empresa**: 331\n- **Acidente no trajeto para o trabalho**: 51\n\nOu seja, há forte predominância de internações de caráter **urgência**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_020",
+      "difficulty": "L2",
+      "question": "Quantos hospitais existem por UF do municipio do hospital?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH hospitais_por_municipio AS ( SELECT h.MUNIC_MOV, COUNT(DISTINCT h.CNES) AS qt_hospitais FROM hospital h WHERE h.MUNIC_MOV IS NOT NULL GROUP BY h.MUNIC_MOV ) SELECT m.SG_UF AS uf, SUM(hpm.qt_hospitais) AS qt_hospitais FROM hospitais_por_municipio hpm JOIN municipios m ON m.CO_MUNICIPIO_6D = hpm.MUNIC_MOV GROUP BY m.SG_UF ORDER BY qt_hospitais DESC, uf;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "hospitais"
+      ],
+      "predicted_columns": [
+        "uf",
+        "qt_hospitais"
+      ],
+      "gold_rows_sample": [],
+      "predicted_rows_sample": [],
+      "gold_row_count": 0,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 2.148165250000602,
+      "sql_elapsed_s": 0.02156858300077147,
+      "answer": "A consulta foi executada, mas nao retornou linhas.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_021",
+      "difficulty": "L3",
+      "question": "Qual populacao socioeconomica existe por UF e ano quando ha denominador socioeconomico?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT m.SG_UF, s.NU_ANO, s.CO_MUNICIPIO_6D, s.QT_POPULACAO FROM socioeconomico s JOIN municipios m ON m.CO_MUNICIPIO_6D = s.CO_MUNICIPIO_6D WHERE s.QT_POPULACAO IS NOT NULL ), uf_ano AS ( SELECT SG_UF, NU_ANO AS ano, SUM(QT_POPULACAO) AS populacao_socioeconomica FROM base GROUP BY SG_UF, NU_ANO ) SELECT SG_UF, ano, populacao_socioeconomica FROM uf_ano ORDER BY SG_UF, ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "ano",
+        "populacao"
+      ],
+      "predicted_columns": [
+        "SG_UF",
+        "ano",
+        "populacao_socioeconomica"
+      ],
+      "gold_rows_sample": [],
+      "predicted_rows_sample": [],
+      "gold_row_count": 0,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 2.357692749999842,
+      "sql_elapsed_s": 0.020862958001089282,
+      "answer": "A consulta foi executada, mas nao retornou linhas.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_022",
+      "difficulty": "L3",
+      "question": "Quantas mortes hospitalares com diagnostico principal CID C ocorreram por ano?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH mortes_cid_c AS ( SELECT EXTRACT(YEAR FROM i.DT_INTER) AS ano, COUNT(*) AS mortes_hospitalares FROM internacoes i WHERE i.MORTE = TRUE AND i.DIAG_PRINC LIKE 'C%' GROUP BY 1 ) SELECT ano, mortes_hospitalares FROM mortes_cid_c ORDER BY ano;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "ano",
+        "mortes_cid_c"
+      ],
+      "predicted_columns": [
+        "ano",
+        "mortes_hospitalares"
+      ],
+      "gold_rows_sample": [
+        [
+          2007,
+          2096
+        ],
+        [
+          2008,
+          27514
+        ],
+        [
+          2009,
+          30455
+        ],
+        [
+          2010,
+          32175
+        ],
+        [
+          2011,
+          33936
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2007,
+          2096
+        ],
+        [
+          2008,
+          27514
+        ],
+        [
+          2009,
+          30455
+        ],
+        [
+          2010,
+          32175
+        ],
+        [
+          2011,
+          33936
+        ]
+      ],
+      "gold_row_count": 17,
+      "predicted_row_count": 17,
+      "agent_elapsed_s": 3.3659837920022255,
+      "sql_elapsed_s": 0.15130745799979195,
+      "answer": "Mortes hospitalares com diagnóstico principal CID C por ano:\n\n- 2007: 2.096\n- 2008: 27.514\n- 2009: 30.455\n- 2010: 32.175\n- 2011: 33.936\n- 2012: 36.079\n- 2013: 38.105\n- 2014: 39.962\n- 2015: 42.546\n- 2016: 44.008\n- 2017: 45.566\n- 2018: 47.229\n- 2019: 49.314\n- 2020: 46.136\n- 2021: 48.045\n- 2022: 50.401\n- 2023: 48.415",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_023",
+      "difficulty": "L3",
+      "question": "Qual e a taxa de mortalidade hospitalar por sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT i.SEXO, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE THEN 1 ELSE 0 END) AS obitos FROM internacoes i GROUP BY i.SEXO ) SELECT s.DESCRICAO AS sexo, b.total_internacoes, b.obitos, 100.0 * b.obitos / NULLIF(b.total_internacoes, 0) AS taxa_mortalidade_hospitalar FROM base b LEFT JOIN sexo s ON b.SEXO = s.SEXO ORDER BY taxa_mortalidade_hospitalar DESC, sexo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "internacoes",
+        "mortes",
+        "taxa_morte_pct"
+      ],
+      "predicted_columns": [
+        "sexo",
+        "total_internacoes",
+        "obitos",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "gold_rows_sample": [
+        [
+          "Masculino",
+          58967743,
+          3159390,
+          5.3578
+        ],
+        [
+          "Feminino",
+          85419029,
+          2718146,
+          3.1821
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Masculino",
+          58967743,
+          3159390,
+          5.3578275838028935
+        ],
+        [
+          "Feminino",
+          85419029,
+          2718146,
+          3.1821317004200553
+        ]
+      ],
+      "gold_row_count": 2,
+      "predicted_row_count": 2,
+      "agent_elapsed_s": 3.6678570410003886,
+      "sql_elapsed_s": 0.1501258329990378,
+      "answer": "A taxa de mortalidade hospitalar é maior entre os **homens**:\n\n- **Masculino:** 5,36%  \n  - 58.967.743 internações\n  - 3.159.390 óbitos\n\n- **Feminino:** 3,18%  \n  - 85.419.029 internações\n  - 2.718.146 óbitos\n\nOu seja, no resultado apresentado, a mortalidade hospitalar por sexo foi **5,36% para masculino** e **3,18% para feminino**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_024",
+      "difficulty": "L4",
+      "question": "Quais UFs e sexos tiveram mais internacoes por residencia mapeada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT m.SG_UF AS uf, s.DESCRICAO AS sexo, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D LEFT JOIN sexo s ON i.SEXO = s.SEXO WHERE i.MUNIC_RES IS NOT NULL GROUP BY m.SG_UF, s.DESCRICAO ), ranked AS ( SELECT uf, sexo, total_internacoes, ROW_NUMBER() OVER (ORDER BY total_internacoes DESC, uf, sexo) AS rn FROM base ) SELECT uf, sexo, total_internacoes FROM ranked ORDER BY total_internacoes DESC, uf, sexo;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "SG_UF",
+        "sexo",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "uf",
+        "sexo",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "MG",
+          "Feminino",
+          10985551
+        ],
+        [
+          "MG",
+          "Masculino",
+          8290652
+        ],
+        [
+          "BA",
+          "Feminino",
+          8117220
+        ],
+        [
+          "PR",
+          "Feminino",
+          7040668
+        ],
+        [
+          "RS",
+          "Feminino",
+          6611829
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "MG",
+          "Feminino",
+          10985551
+        ],
+        [
+          "MG",
+          "Masculino",
+          8290652
+        ],
+        [
+          "BA",
+          "Feminino",
+          8117220
+        ],
+        [
+          "PR",
+          "Feminino",
+          7040668
+        ],
+        [
+          "RS",
+          "Feminino",
+          6611829
+        ]
+      ],
+      "gold_row_count": 20,
+      "predicted_row_count": 54,
+      "agent_elapsed_s": 4.216074916999787,
+      "sql_elapsed_s": 0.30253945799995563,
+      "answer": "As maiores internações por residência mapeada foram em:\n\n- **MG, sexo Feminino**: **10.985.551**\n- **MG, sexo Masculino**: **8.290.652**\n- **BA, sexo Feminino**: **8.117.220**\n- **PR, sexo Feminino**: **7.040.668**\n- **RS, sexo Feminino**: **6.611.829**\n\nOu seja, **Minas Gerais (MG)** liderou, tanto para **feminino** quanto para **masculino**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "DENSE_JOIN_025",
+      "difficulty": "L4",
+      "question": "Qual e o mix de complexidade por carater de internacao?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT ci.DESCRICAO AS carater_internacao, co.DESCRICAO AS complexidade, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN car_int ci ON i.CAR_INT = ci.CAR_INT LEFT JOIN complexidade co ON i.COMPLEX = co.COMPLEX WHERE i.CAR_INT IS NOT NULL AND i.COMPLEX IS NOT NULL GROUP BY 1, 2 ), calc AS ( SELECT carater_internacao, complexidade, total_internacoes, SUM(total_internacoes) OVER (PARTITION BY carater_internacao) AS total_por_carater FROM base ) SELECT carater_internacao, complexidade, total_internacoes, ROUND(100.0 * total_internacoes / total_por_carater, 2) AS pct_mix FROM calc ORDER BY carater_internacao, total_internacoes DESC, complexidade;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "complexidade",
+        "carater",
+        "internacoes"
+      ],
+      "predicted_columns": [
+        "carater_internacao",
+        "complexidade",
+        "total_internacoes",
+        "pct_mix"
+      ],
+      "gold_rows_sample": [
+        [
+          "Média complexidade",
+          "Urgência",
+          112079041
+        ],
+        [
+          "Média complexidade",
+          "Eletivo",
+          22316303
+        ],
+        [
+          "Alta complexidade",
+          "Eletivo",
+          4499456
+        ],
+        [
+          "Alta complexidade",
+          "Urgência",
+          4474201
+        ],
+        [
+          "Média complexidade",
+          "Out tp lesões e envenen por agent quím físicos",
+          568255
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          "Média complexidade",
+          321,
+          96.98
+        ],
+        [
+          "Acidente no local trabalho ou a serv da empresa",
+          "Alta complexidade",
+          10,
+          3.02
+        ],
+        [
+          "Acidente no trajeto para o trabalho",
+          "Média complexidade",
+          49,
+          96.08
+        ],
+        [
+          "Acidente no trajeto para o trabalho",
+          "Alta complexidade",
+          2,
+          3.92
+        ],
+        [
+          "Eletivo",
+          "Média complexidade",
+          22316303,
+          83.22
+        ]
+      ],
+      "gold_row_count": 14,
+      "predicted_row_count": 14,
+      "agent_elapsed_s": 4.886237874998187,
+      "sql_elapsed_s": 0.34549479099950986,
+      "answer": "O mix de complexidade por caráter de internação é dominado por **Média complexidade** em quase todos os grupos.\n\n- **Urgência:** 96,16% média, 3,84% alta\n- **Eletivo:** 83,22% média, 16,78% alta\n- **Acidente no local de trabalho ou a serviço da empresa:** 96,98% média, 3,02% alta\n- **Acidente no trajeto para o trabalho:** 96,08% média, 3,92% alta\n- **Outros tipos de acidente de trânsito:** 93,88% média, 6,12% alta\n- **Outras lesões e envenenamentos por agentes químicos/físicos:** 95,08% média, 4,92% alta\n\nHá ainda registros **“Não informado”** em:\n- **Eletivo:** 4 internações\n- **Urgência:** 5 internações\n\nSe quiser, posso resumir isso em uma tabela enxuta ou destacar só os perfis com maior participação de alta complexidade.",
+      "agent_error": ""
+    }
+  ]
+}

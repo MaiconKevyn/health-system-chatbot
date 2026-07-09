@@ -15,6 +15,7 @@ def test_load_config_exposes_pydantic_ai_defaults(monkeypatch, tmp_path):
     monkeypatch.delenv("CHATBOT_AGENT_FRAMEWORK", raising=False)
     monkeypatch.delenv("CHATBOT_LLM_PROVIDER", raising=False)
     monkeypatch.delenv("CHATBOT_ENABLE_MULTI_CANDIDATE", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
 
     config = load_config(root)
 

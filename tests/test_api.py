@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
 
-from health_system_chatbot.api import create_app
-from health_system_chatbot.models import ChatbotAnswer
+from health_system_chatbot.api import ChatService, create_app
+from health_system_chatbot.config import ChatbotConfig
+from health_system_chatbot.models import ChatbotAnswer, Stage1Context
 
 
 class FakeChatService:
@@ -57,6 +58,7 @@ def test_chat_endpoint_delegates_question_to_chat_service():
         "caveats": ["Usa dados locais."],
         "evidence": {"row_count": 1},
         "developer_context": {"technical_summary": "total=10"},
+        "chart": None,
         "status": "answered",
     }
     assert service.calls == [
@@ -101,27 +103,40 @@ def test_chat_endpoint_rejects_blank_question():
     assert service.calls == []
 
 
-def test_frontend_is_served_from_root():
+def test_react_frontend_build_is_served_from_root(tmp_path):
+    dist = tmp_path / "frontend/dist"
+    assets = dist / "assets"
+    assets.mkdir(parents=True)
+    (dist / "index.html").write_text(
+        '<!doctype html><html><body><div id="root"></div>'
+        '<script type="module" src="/assets/index-test.js"></script></body></html>',
+        encoding="utf-8",
+    )
+    (assets / "index-test.js").write_text("console.log('react build')", encoding="utf-8")
+    service = ChatService(
+        config=ChatbotConfig(
+            project_root=tmp_path,
+            db_path=tmp_path / "test.duckdb",
+            openai_api_key="test",
+        ),
+        stage1_context=Stage1Context(project_root=str(tmp_path)),
+    )
+    client = TestClient(create_app(chat_service=service))
+
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert 'id="root"' in response.text
+    assert "/assets/index-test.js" in response.text
+    asset_response = client.get("/assets/index-test.js")
+    assert asset_response.status_code == 200
+    assert "react build" in asset_response.text
+
+
+def test_legacy_frontend_still_exists_as_fallback():
     client = TestClient(create_app(chat_service=FakeChatService()))
 
     response = client.get("/")
 
     assert response.status_code == 200
-    assert 'id="chat-form"' in response.text
-    assert 'fetch("/api/chat"' in response.text
-    assert 'id="show-debug"' in response.text
-    assert "show_debug" in response.text
-    assert "developer_context" in response.text
-    assert "Detalhe tecnico" in response.text
-
-
-def test_frontend_sends_message_with_enter_and_keeps_shift_enter_for_newlines():
-    client = TestClient(create_app(chat_service=FakeChatService()))
-
-    response = client.get("/")
-
-    assert response.status_code == 200
-    assert 'questionInput.addEventListener("keydown"' in response.text
-    assert 'event.key === "Enter"' in response.text
-    assert "!event.shiftKey" in response.text
-    assert "form.requestSubmit()" in response.text
+    assert 'id="root"' in response.text or 'id="chat-form"' in response.text

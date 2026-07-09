@@ -3,6 +3,7 @@ from __future__ import annotations
 from .config import ChatbotConfig
 from .models import RetrievedContext, SqlPlan, Stage1Context
 from .sql_generator import generate_sql_plan
+from .visualization.schema import ChartPlan
 
 
 CANDIDATE_HINTS: tuple[str, ...] = (
@@ -47,17 +48,23 @@ def generate_sql_candidates(
     config: ChatbotConfig,
     *,
     allow_llm: bool = True,
+    chart_plan: ChartPlan | None = None,
 ) -> list[SqlPlan]:
     count = max(1, config.sql_candidates)
     candidates: list[SqlPlan] = []
     for index in range(count):
+        kwargs = {
+            "allow_llm": allow_llm,
+            "generation_hint": _candidate_hint(index),
+        }
+        if chart_plan is not None:
+            kwargs["chart_plan"] = chart_plan
         plan = generate_sql_plan(
             question,
             context,
             stage1_context,
             config,
-            allow_llm=allow_llm,
-            generation_hint=_candidate_hint(index),
+            **kwargs,
         )
         plan.source = f"{plan.source}:candidate_{index + 1}"
         candidates.append(plan)

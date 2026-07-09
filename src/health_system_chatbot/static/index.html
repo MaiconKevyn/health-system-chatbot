@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Health System Chatbot</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
   <style>
     :root {
       color-scheme: light;
@@ -185,6 +186,10 @@
       align-self: flex-start;
     }
 
+    .message.has-chart {
+      max-width: min(940px, 96%);
+    }
+
     .message.error {
       border-color: #e3beb9;
       background: #fff6f4;
@@ -228,6 +233,63 @@
       background: #f5f7f1;
       color: var(--text);
       white-space: pre-wrap;
+    }
+
+    .chart-panel {
+      display: grid;
+      gap: 10px;
+      width: min(760px, 100%);
+      margin-top: 6px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    .chart-title {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .chart-canvas {
+      width: 100%;
+      height: 320px;
+      min-height: 260px;
+    }
+
+    .chart-table-wrap {
+      max-width: 100%;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fbfcf9;
+    }
+
+    .chart-table {
+      width: 100%;
+      min-width: 420px;
+      border-collapse: collapse;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .chart-table th,
+    .chart-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .chart-table th {
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chart-table tr:last-child td {
+      border-bottom: 0;
     }
 
     .side-panel {
@@ -499,6 +561,7 @@
     const metricStatus = document.getElementById("metric-status");
     const metricRows = document.getElementById("metric-rows");
     const metricTime = document.getElementById("metric-time");
+    let chartSequence = 0;
 
     function clearEmptyState() {
       if (emptyState) {
@@ -520,12 +583,98 @@
 
       article.append(label, body);
 
+      const chartPanel = role === "assistant" ? buildChartPanel(options.chart) : null;
+      if (chartPanel) {
+        article.classList.add("has-chart");
+        article.append(chartPanel);
+      }
+
       if (options.details) {
         article.append(options.details);
       }
 
       messages.appendChild(article);
       messages.scrollTop = messages.scrollHeight;
+    }
+
+    function buildChartPanel(chart) {
+      if (!chart || !chart.requested) {
+        return null;
+      }
+
+      const spec = chart.spec || {};
+      const panel = document.createElement("div");
+      panel.className = "chart-panel";
+
+      if (spec.title) {
+        const title = document.createElement("p");
+        title.className = "chart-title";
+        title.textContent = spec.title;
+        panel.appendChild(title);
+      }
+
+      if (chart.echarts && spec.chartable && window.echarts) {
+        const canvas = document.createElement("div");
+        const chartId = `chart-${++chartSequence}`;
+        canvas.id = chartId;
+        canvas.className = "chart-canvas";
+        panel.appendChild(canvas);
+
+        window.setTimeout(() => {
+          const instance = window.echarts.init(canvas);
+          instance.setOption(chart.echarts, true);
+          window.addEventListener("resize", () => instance.resize());
+        }, 0);
+        return panel;
+      }
+
+      const table = buildChartTable(spec.data || []);
+      if (table) {
+        panel.appendChild(table);
+      }
+
+      return panel.children.length ? panel : null;
+    }
+
+    function buildChartTable(rows) {
+      if (!rows || !rows.length) {
+        return null;
+      }
+
+      const columns = Object.keys(rows[0] || {});
+      if (!columns.length) {
+        return null;
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "chart-table-wrap";
+
+      const table = document.createElement("table");
+      table.className = "chart-table";
+
+      const thead = document.createElement("thead");
+      const headRow = document.createElement("tr");
+      columns.forEach((column) => {
+        const th = document.createElement("th");
+        th.textContent = column;
+        headRow.appendChild(th);
+      });
+      thead.appendChild(headRow);
+
+      const tbody = document.createElement("tbody");
+      rows.slice(0, 50).forEach((row) => {
+        const tr = document.createElement("tr");
+        columns.forEach((column) => {
+          const td = document.createElement("td");
+          td.textContent = row[column] === null || row[column] === undefined ? "" : row[column];
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+
+      table.append(thead, tbody);
+      wrapper.appendChild(table);
+      return wrapper;
     }
 
     function buildDetails(payload) {
@@ -591,6 +740,18 @@
         const tables = document.createElement("div");
         tables.textContent = `Tabelas recuperadas: ${developerContext.retrieved_tables.join(", ")}`;
         details.appendChild(tables);
+      }
+
+      if (developerContext.chart_plan) {
+        const chartPlan = document.createElement("pre");
+        chartPlan.textContent = JSON.stringify(developerContext.chart_plan, null, 2);
+        details.appendChild(chartPlan);
+      }
+
+      if (developerContext.chart_warnings && developerContext.chart_warnings.length) {
+        const chartWarnings = document.createElement("div");
+        chartWarnings.textContent = `Warnings do grafico: ${developerContext.chart_warnings.map((warning) => warning.message).join(" ")}`;
+        details.appendChild(chartWarnings);
       }
 
       if (payload.evidence && Object.keys(payload.evidence).length) {
@@ -659,6 +820,7 @@
         }
 
         appendMessage("assistant", payload.answer_pt, {
+          chart: payload.chart,
           details: showDebugInput.checked ? buildDetails(payload) : null
         });
         updateMetrics(payload);

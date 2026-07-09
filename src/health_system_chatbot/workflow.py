@@ -17,11 +17,24 @@ from .candidate_ranking import rank_sql_candidates
 from .config import ChatbotConfig
 from .duckdb_executor import execute_validated_sql
 from .intent import classify_question
-from .models import ChatbotAnswer, QuestionIntent, RetrievedContext, SqlPlan, Stage1Context
+from .models import (
+    ChatbotAnswer,
+    QuestionIntent,
+    RetrievedContext,
+    SqlPlan,
+    Stage1Context,
+    ValidationResult,
+)
 from .schema_context import retrieve_context
 from .self_correction import refine_sql_plan
 from .sql_generator import generate_sql_plan
 from .sql_validator import validate_sql
+from .visualization.data import build_chart_planning_input
+from .visualization.intent import detect_visualization_intent
+from .visualization.planner import build_chart_plan, plan_chart
+from .visualization.renderer_contract import build_chart_payload
+from .visualization.schema import ChartPlan, ChartPayload
+from .visualization.sql_shape import validate_sql_against_chart_plan
 
 try:
     from llama_index.core.workflow import Event, StartEvent, StopEvent, Workflow, step
@@ -141,6 +154,30 @@ def _has_catalog_decision_warning(validation_errors_or_warnings: list[str]) -> b
     return any("catalog decision" in item for item in validation_errors_or_warnings)
 
 
+def _has_chart_contract_issue(validation_errors_or_warnings: list[str]) -> bool:
+    return any("chart contract" in item or item.startswith("chart:") for item in validation_errors_or_warnings)
+
+
+def _merge_chart_validation(
+    validation: ValidationResult,
+    *,
+    chart_plan: ChartPlan | None,
+    sql: str,
+) -> tuple[ValidationResult, dict[str, Any] | None]:
+    if chart_plan is None or not chart_plan.requested:
+        return validation, None
+    chart_validation = validate_sql_against_chart_plan(chart_plan, sql)
+    warnings = [
+        *validation.warnings,
+        *(f"chart: {warning}" for warning in chart_validation.warnings),
+        *(f"chart contract: {error}" for error in chart_validation.errors),
+    ]
+    return (
+        validation.model_copy(update={"warnings": list(dict.fromkeys(warnings))}),
+        chart_validation.model_dump(),
+    )
+
+
 def run_chat(
     question: str,
     *,
@@ -158,7 +195,17 @@ def run_chat(
         "steps": [],
     }
 
-    intent = classify_question(question, stage1_context)
+    visualization_intent = detect_visualization_intent(question)
+    analysis_question = (
+        visualization_intent.analysis_question.strip()
+        if visualization_intent.requested and visualization_intent.analysis_question.strip()
+        else question
+    )
+    trace["steps"].append(
+        {"name": "visualization_intent", "payload": visualization_intent.model_dump()}
+    )
+
+    intent = classify_question(analysis_question, stage1_context)
     trace["steps"].append({"name": "intent", "payload": intent.model_dump()})
     if intent.status == "needs_clarification":
         answer = clarification_answer(intent, show_debug=show_debug)
@@ -175,26 +222,46 @@ def run_chat(
         )
         return answer
 
-    context = retrieve_context(question, stage1_context, config=config)
+    context = retrieve_context(analysis_question, stage1_context, config=config)
     trace["steps"].append({"name": "context", "payload": context.model_dump()})
-    related_context = find_related_audit_context(config, question)
+    related_context = find_related_audit_context(config, analysis_question)
     trace["steps"].append({"name": "related_context", "payload": {"items": related_context}})
+
+    chart_plan: ChartPlan | None = None
+    chart_payload: ChartPayload | None = None
+    if visualization_intent.requested:
+        chart_plan = build_chart_plan(
+            question=question,
+            intent=visualization_intent,
+            context=context,
+            config=config,
+            allow_llm=allow_llm,
+        )
+        trace["steps"].append({"name": "chart_plan", "payload": chart_plan.model_dump()})
 
     execution = None
     try:
         if should_use_multi_candidate(config, allow_llm=allow_llm):
+            candidate_kwargs: dict[str, Any] = {"allow_llm": allow_llm}
+            if chart_plan is not None:
+                candidate_kwargs["chart_plan"] = chart_plan
             candidate_plans = generate_sql_candidates(
-                question,
+                analysis_question,
                 context,
                 stage1_context,
                 config,
-                allow_llm=allow_llm,
+                **candidate_kwargs,
             )
+            ranking_kwargs: dict[str, Any] = {
+                "question": analysis_question,
+                "stage1_context": stage1_context,
+                "config": config,
+            }
+            if chart_plan is not None:
+                ranking_kwargs["chart_plan"] = chart_plan
             selection = rank_sql_candidates(
                 candidate_plans,
-                question=question,
-                stage1_context=stage1_context,
-                config=config,
+                **ranking_kwargs,
             )
             trace["steps"].append(
                 {"name": "sql_candidate_ranking", "payload": selection.model_dump()}
@@ -202,13 +269,21 @@ def run_chat(
             selected = selection.selected_candidate()
             if selected is not None and selected.validation is not None:
                 plan = selected.plan
-                validation = selected.validation
+                validation, chart_validation_payload = _merge_chart_validation(
+                    selected.validation,
+                    chart_plan=chart_plan,
+                    sql=plan.sql,
+                )
                 execution = selected.execution
                 _append_catalog_tool_trace(trace, context)
                 trace["steps"].append({"name": "sql_plan", "payload": plan.model_dump()})
                 trace["steps"].append(
                     {"name": "validation", "payload": validation.model_dump()}
                 )
+                if chart_validation_payload is not None:
+                    trace["steps"].append(
+                        {"name": "chart_sql_validation", "payload": chart_validation_payload}
+                    )
                 if execution is not None:
                     trace["steps"].append(
                         {"name": "execution", "payload": execution.model_dump()}
@@ -221,26 +296,52 @@ def run_chat(
                 validation = fallback.validation or validate_sql(
                     plan.sql,
                     stage1_context,
-                    question=question,
+                    question=analysis_question,
                     plan=plan,
+                )
+                validation, chart_validation_payload = _merge_chart_validation(
+                    validation,
+                    chart_plan=chart_plan,
+                    sql=plan.sql,
                 )
                 _append_catalog_tool_trace(trace, context)
                 trace["steps"].append({"name": "sql_plan", "payload": plan.model_dump()})
                 trace["steps"].append(
                     {"name": "validation", "payload": validation.model_dump()}
                 )
+                if chart_validation_payload is not None:
+                    trace["steps"].append(
+                        {"name": "chart_sql_validation", "payload": chart_validation_payload}
+                    )
         else:
+            generation_kwargs: dict[str, Any] = {"allow_llm": allow_llm}
+            if chart_plan is not None:
+                generation_kwargs["chart_plan"] = chart_plan
             plan = generate_sql_plan(
-                question,
+                analysis_question,
                 context,
                 stage1_context,
                 config,
-                allow_llm=allow_llm,
+                **generation_kwargs,
             )
             _append_catalog_tool_trace(trace, context)
             trace["steps"].append({"name": "sql_plan", "payload": plan.model_dump()})
-            validation = validate_sql(plan.sql, stage1_context, question=question, plan=plan)
+            validation = validate_sql(
+                plan.sql,
+                stage1_context,
+                question=analysis_question,
+                plan=plan,
+            )
+            validation, chart_validation_payload = _merge_chart_validation(
+                validation,
+                chart_plan=chart_plan,
+                sql=plan.sql,
+            )
             trace["steps"].append({"name": "validation", "payload": validation.model_dump()})
+            if chart_validation_payload is not None:
+                trace["steps"].append(
+                    {"name": "chart_sql_validation", "payload": chart_validation_payload}
+                )
     except Exception as exc:
         answer = failed_answer(str(exc), show_debug=show_debug)
         trace["answer"] = answer.model_dump()
@@ -259,19 +360,25 @@ def run_chat(
         for attempt in range(1, config.sql_correction_attempts + 1):
             try:
                 corrected_plan = refine_sql_plan(
-                    question=question,
+                    question=analysis_question,
                     context=context,
                     stage1_context=stage1_context,
                     rejected_plan=plan,
                     validation_errors=validation.errors,
                     execution_error=None,
                     config=config,
+                    chart_plan=chart_plan,
                 )
                 corrected_validation = validate_sql(
                     corrected_plan.sql,
                     stage1_context,
-                    question=question,
+                    question=analysis_question,
                     plan=corrected_plan,
+                )
+                corrected_validation, chart_validation_payload = _merge_chart_validation(
+                    corrected_validation,
+                    chart_plan=chart_plan,
+                    sql=corrected_plan.sql,
                 )
                 trace["steps"].append(
                     {
@@ -280,6 +387,7 @@ def run_chat(
                             "attempt": attempt,
                             "plan": corrected_plan.model_dump(),
                             "validation": corrected_validation.model_dump(),
+                            "chart_validation": chart_validation_payload,
                         },
                     }
                 )
@@ -315,19 +423,25 @@ def run_chat(
     ):
         try:
             corrected_plan = refine_sql_plan(
-                question=question,
+                question=analysis_question,
                 context=context,
                 stage1_context=stage1_context,
                 rejected_plan=plan,
                 validation_errors=validation.warnings,
                 execution_error="Catalog decision warning before execution.",
                 config=config,
+                chart_plan=chart_plan,
             )
             corrected_validation = validate_sql(
                 corrected_plan.sql,
                 stage1_context,
-                question=question,
+                question=analysis_question,
                 plan=corrected_plan,
+            )
+            corrected_validation, chart_validation_payload = _merge_chart_validation(
+                corrected_validation,
+                chart_plan=chart_plan,
+                sql=corrected_plan.sql,
             )
             trace["steps"].append(
                 {
@@ -335,6 +449,7 @@ def run_chat(
                     "payload": {
                         "plan": corrected_plan.model_dump(),
                         "validation": corrected_validation.model_dump(),
+                        "chart_validation": chart_validation_payload,
                     },
                 }
             )
@@ -343,10 +458,66 @@ def run_chat(
             ):
                 plan = corrected_plan
                 validation = corrected_validation
+                execution = None
         except Exception as exc:
             trace["steps"].append(
                 {
                     "name": "catalog_warning_correction",
+                    "payload": {"errors": [str(exc)]},
+                }
+            )
+
+    if (
+        validation.is_valid
+        and _has_chart_contract_issue(validation.warnings)
+        and allow_llm
+        and config.agent_framework == "pydantic_ai"
+        and config.sql_correction_attempts > 0
+        and chart_plan is not None
+        and chart_plan.requested
+    ):
+        try:
+            corrected_plan = refine_sql_plan(
+                question=analysis_question,
+                context=context,
+                stage1_context=stage1_context,
+                rejected_plan=plan,
+                validation_errors=validation.warnings,
+                execution_error="Chart contract warning before execution.",
+                config=config,
+                chart_plan=chart_plan,
+            )
+            corrected_validation = validate_sql(
+                corrected_plan.sql,
+                stage1_context,
+                question=analysis_question,
+                plan=corrected_plan,
+            )
+            corrected_validation, chart_validation_payload = _merge_chart_validation(
+                corrected_validation,
+                chart_plan=chart_plan,
+                sql=corrected_plan.sql,
+            )
+            trace["steps"].append(
+                {
+                    "name": "chart_warning_correction",
+                    "payload": {
+                        "plan": corrected_plan.model_dump(),
+                        "validation": corrected_validation.model_dump(),
+                        "chart_validation": chart_validation_payload,
+                    },
+                }
+            )
+            if corrected_validation.is_valid and not _has_chart_contract_issue(
+                corrected_validation.warnings
+            ):
+                plan = corrected_plan
+                validation = corrected_validation
+                execution = None
+        except Exception as exc:
+            trace["steps"].append(
+                {
+                    "name": "chart_warning_correction",
                     "payload": {"errors": [str(exc)]},
                 }
             )
@@ -373,19 +544,25 @@ def run_chat(
         for attempt in range(1, config.sql_correction_attempts + 1):
             try:
                 corrected_plan = refine_sql_plan(
-                    question=question,
+                    question=analysis_question,
                     context=context,
                     stage1_context=stage1_context,
                     rejected_plan=plan,
                     validation_errors=[],
                     execution_error=execution_error,
                     config=config,
+                    chart_plan=chart_plan,
                 )
                 corrected_validation = validate_sql(
                     corrected_plan.sql,
                     stage1_context,
-                    question=question,
+                    question=analysis_question,
                     plan=corrected_plan,
+                )
+                corrected_validation, chart_validation_payload = _merge_chart_validation(
+                    corrected_validation,
+                    chart_plan=chart_plan,
+                    sql=corrected_plan.sql,
                 )
                 trace["steps"].append(
                     {
@@ -395,6 +572,7 @@ def run_chat(
                             "execution_error": execution_error,
                             "plan": corrected_plan.model_dump(),
                             "validation": corrected_validation.model_dump(),
+                            "chart_validation": chart_validation_payload,
                         },
                     }
                 )
@@ -440,6 +618,27 @@ def run_chat(
         )
         return answer
 
+    if visualization_intent.requested:
+        chart_input = build_chart_planning_input(
+            user_query=question,
+            sql_query=execution.sql,
+            rows=execution.rows,
+            columns=execution.columns,
+            row_count=execution.row_count,
+            chart_hint=visualization_intent.chart_hint,
+            chart_plan=chart_plan,
+            truncated=execution.truncated,
+        )
+        chart_spec = plan_chart(chart_input)
+        chart_payload = build_chart_payload(requested=True, spec=chart_spec)
+        trace["steps"].append({"name": "chart_input", "payload": chart_input.model_dump()})
+        trace["steps"].append(
+            {
+                "name": "chart_payload",
+                "payload": chart_payload.model_dump() if chart_payload else None,
+            }
+        )
+
     answer = synthesize_answer(
         question=question,
         intent=intent,
@@ -452,6 +651,8 @@ def run_chat(
         show_debug=show_debug,
         config=config,
         allow_llm=allow_llm,
+        chart_payload=chart_payload,
+        chart_plan=chart_plan,
     )
     trace["answer"] = answer.model_dump()
     _write_observability_record(

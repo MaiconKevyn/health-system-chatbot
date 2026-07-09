@@ -51,6 +51,10 @@ O `.gitignore` bloqueia:
 |-- evaluation/
 |   |-- chatbot/
 |   `-- ground_truth/
+|-- frontend/
+|   |-- src/
+|   |-- package.json
+|   `-- vite.config.mjs
 |-- src/
 |   `-- health_system_chatbot/
 |-- scripts/
@@ -288,29 +292,72 @@ desliga a geracao do modelo.
 
 ### Interface Web
 
-Antes da interface web, o projeto expunha o chatbot pela CLI. A camada HTTP
-agora usa FastAPI como adaptador fino sobre o mesmo `run_chat` usado pelo
-comando `ask`.
+A camada HTTP usa FastAPI como adaptador fino sobre o mesmo `run_chat` usado
+pelo comando `ask`. A interface principal agora e uma UI React/Vite replicada do
+projeto LangGraph e adaptada ao contrato do agente Pydantic AI.
+
+Fluxo da UI:
+
+- `frontend/src/hooks/use-chat.js` envia perguntas para `POST /api/chat`;
+- `frontend/src/lib/chat-utils.js` adapta `ChatbotAnswer` para o formato da UI;
+- `ChartPanel` renderiza `chart.echarts` com Apache ECharts;
+- `DebugPanel` mostra `developer_context` apenas com debug ligado;
+- `SchemaExplorer` usa `/api/schema`.
 
 Executar localmente:
 
 ```bash
-.venv/bin/health-system-chatbot-api --reload
-```
-
-Alternativa equivalente:
-
-```bash
-.venv/bin/uvicorn health_system_chatbot.api:app --reload
+PYTHONPATH=src .venv/bin/python -m uvicorn health_system_chatbot.api:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 Depois, abra `http://127.0.0.1:8000`.
 
+Desenvolvimento do frontend:
+
+```bash
+cd frontend
+PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm install
+PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm dev
+```
+
+O Vite roda em `http://127.0.0.1:5173` e faz proxy de `/api` para o FastAPI em
+`http://127.0.0.1:8000`.
+
+Build servido pelo FastAPI:
+
+```bash
+cd frontend
+PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm build
+```
+
+Quando `frontend/dist/index.html` existe, `GET /` serve o build React. Sem esse
+build, a API ainda cai para a UI estatica legada em
+`src/health_system_chatbot/static/index.html`.
+
 Endpoints principais:
 
-- `GET /`: frontend HTML simples para enviar perguntas.
+- `GET /`: frontend React buildado, ou fallback legado.
 - `GET /health`: status da API.
-- `POST /api/chat`: envia `{ "question": "...", "show_sql": false, "allow_llm": true }` e retorna o `ChatbotAnswer`.
+- `GET /api/health` e `GET /api/agent-health`: status usado pela UI.
+- `POST /api/chat`: envia `{ "question": "...", "show_sql": false, "show_debug": false, "allow_llm": true }` e retorna o `ChatbotAnswer`.
+- `GET /api/schema`: lista tabelas e contexto de schema para o explorador.
+- `GET /api/database/overview`: lista tabelas conhecidas.
+- `GET /api/database/table/{schema}/{table}`: colunas e amostra read-only.
+- `POST /api/database/query`: executa SQL read-only validada para exploracao.
+
+Testes da UI e endpoints:
+
+```bash
+PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm --dir frontend test
+.venv/bin/pytest tests/test_api.py tests/test_frontend_support_endpoints.py -q
+```
+
+Perguntas de validacao manual:
+
+```text
+Quantas internacoes existem?
+Gere um grafico de barras com a distribuicao de internacoes por sexo.
+```
 
 Ultima avaliacao Stage 2:
 

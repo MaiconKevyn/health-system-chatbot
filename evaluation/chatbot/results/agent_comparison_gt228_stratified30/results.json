@@ -1,0 +1,3357 @@
+{
+  "created_at": "2026-07-09T16:03:09.840078+00:00",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_228_validated.jsonl",
+  "items": 30,
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "max_rows": 1000,
+  "summaries": {
+    "pydantic_ai": {
+      "total": 30,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 1.0,
+      "sql_generated_rate": 1.0,
+      "sql_execution_rate": 1.0,
+      "content_match_rate": 0.8666666666666667,
+      "strict_match_rate": 0.7333333333333333,
+      "scalar_answer_match_rate": 0.7647058823529411,
+      "scalar_answer_items": 17,
+      "avg_agent_elapsed_s": 6.26684437350062,
+      "by_difficulty": {
+        "easy": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 1.0,
+          "sql_execution_rate": 1.0
+        },
+        "hard": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 0.8,
+          "sql_execution_rate": 1.0
+        },
+        "medium": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 0.8,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {
+        "content_or_alias_mismatch": 3,
+        "content_mismatch": 1
+      }
+    },
+    "langgraph_simple": {
+      "total": 30,
+      "gold_success_rate": 1.0,
+      "agent_success_rate": 0.9,
+      "sql_generated_rate": 0.9666666666666667,
+      "sql_execution_rate": 0.9,
+      "content_match_rate": 0.6,
+      "strict_match_rate": 0.16666666666666666,
+      "scalar_answer_match_rate": 0.8235294117647058,
+      "scalar_answer_items": 17,
+      "avg_agent_elapsed_s": 3.841039986166773,
+      "by_difficulty": {
+        "easy": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 1.0,
+          "sql_execution_rate": 1.0
+        },
+        "hard": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 0.1,
+          "sql_execution_rate": 0.7
+        },
+        "medium": {
+          "total": 10,
+          "gold_success": 10,
+          "content_match_rate": 0.7,
+          "sql_execution_rate": 1.0
+        }
+      },
+      "failure_categories": {
+        "empty_sql": 1,
+        "content_or_alias_mismatch": 7,
+        "row_count_mismatch": 2,
+        "sql_execution_error": 2
+      }
+    }
+  },
+  "records": [
+    {
+      "agent": "pydantic_ai",
+      "id": "GT001",
+      "difficulty": "easy",
+      "question": "Quantas internações foram registradas no total?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.770822083002713,
+      "sql_elapsed_s": 0.044526084002427524,
+      "answer": "Foram registradas 144.386.772 internações no total.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT021",
+      "difficulty": "hard",
+      "question": "Quais são os 5 procedimentos principais mais registrados nas internações?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\"\nGROUP BY p.\"PROC_REA\", p.\"NOME_PROC\"\nORDER BY internacoes DESC, procedimento ASC\nLIMIT 5",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "PROC_REA",
+        "procedimento",
+        "total"
+      ],
+      "predicted_columns": [
+        "PROC_REA",
+        "procedimento",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 8.454197667000699,
+      "sql_elapsed_s": 0.4575710409990279,
+      "answer": "Os 5 procedimentos mais registrados nas internações foram: parto normal (13.399.545), tratamento de pneumonias ou influenza (gripe) (8.575.497), parto cesariano (8.390.010), tratamento de doenças infecciosas intestinais (4.218.758) e tratamento das doenças crônicas das vias aéreas inferiores (3.226.173).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT011",
+      "difficulty": "medium",
+      "question": "Quantos pacientes têm vínculo previdenciário informado?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_vincprev\nFROM internacoes\nWHERE \"VINCPREV\" IS NOT NULL\n  AND \"VINCPREV\" <> 0",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_vincprev"
+      ],
+      "predicted_columns": [
+        "total_vincprev"
+      ],
+      "gold_rows_sample": [
+        [
+          17533
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          17533
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.492934792000597,
+      "sql_elapsed_s": 0.05307741700016777,
+      "answer": "17.533 pacientes têm vínculo previdenciário informado.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT002",
+      "difficulty": "easy",
+      "question": "Quantas mortes foram registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_mortes FROM internacoes WHERE MORTE = TRUE",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_mortes"
+      ],
+      "predicted_columns": [
+        "total_mortes"
+      ],
+      "gold_rows_sample": [
+        [
+          5877536
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5877536
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.4561467500025174,
+      "sql_elapsed_s": 0.07806200000050012,
+      "answer": "Foram registradas 5.877.536 mortes.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT028",
+      "difficulty": "hard",
+      "question": "Quais sao os 10 municípios com mais de 100 internações com a maior taxa de mortalidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH agg AS (\n    SELECT\n        mu.\"NO_MUNICIPIO\" AS municipio,\n        mu.\"SG_UF\" AS uf,\n        COUNT(*) AS internacoes,\n        SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS obitos,\n        ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade\n    FROM internacoes i\n    LEFT JOIN municipios mu\n        ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    GROUP BY mu.\"NO_MUNICIPIO\", mu.\"SG_UF\"\n    HAVING COUNT(*) > 100\n)\nSELECT\n    municipio,\n    uf,\n    internacoes,\n    obitos,\n    taxa_mortalidade\nFROM agg\nORDER BY taxa_mortalidade DESC, municipio ASC, uf ASC\nLIMIT 10",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio",
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "predicted_columns": [
+        "municipio",
+        "uf",
+        "internacoes",
+        "obitos",
+        "taxa_mortalidade"
+      ],
+      "gold_rows_sample": [
+        [
+          "Capão Bonito",
+          135,
+          15,
+          11.11
+        ],
+        [
+          "Mogi Mirim",
+          109,
+          11,
+          10.09
+        ],
+        [
+          "Ourinhos",
+          352,
+          35,
+          9.94
+        ],
+        [
+          "Iacri",
+          266,
+          25,
+          9.4
+        ],
+        [
+          "Nova Friburgo",
+          136767,
+          12575,
+          9.19
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Capão Bonito",
+          "SP",
+          135,
+          15,
+          11.11
+        ],
+        [
+          "Mogi Mirim",
+          "SP",
+          109,
+          11,
+          10.09
+        ],
+        [
+          "Ourinhos",
+          "SP",
+          352,
+          35,
+          9.94
+        ],
+        [
+          "Iacri",
+          "SP",
+          266,
+          25,
+          9.4
+        ],
+        [
+          "Arapuá",
+          "MG",
+          1436,
+          132,
+          9.19
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 6.370204541999556,
+      "sql_elapsed_s": 0.36375512499944307,
+      "answer": "Os 10 municípios com maior taxa de mortalidade, entre os que têm mais de 100 internações, são: Capão Bonito (SP) 11,11%; Mogi Mirim (SP) 10,09%; Ourinhos (SP) 9,94%; Iacri (SP) 9,40%; Arapuá (MG) 9,19%; Nova Friburgo (RJ) 9,19%; Saquarema (RJ) 9,17%; Senador José Bento (MG) 8,60%; Maricá (RJ) 8,58%; e Lorena (SP) 8,57%.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT012",
+      "difficulty": "medium",
+      "question": "Quantos pacientes têm nível de instrução informado?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_instrucao\nFROM internacoes\nWHERE \"INSTRU\" IS NOT NULL\n  AND \"INSTRU\" != 0",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_instrucao"
+      ],
+      "predicted_columns": [
+        "total_instrucao"
+      ],
+      "gold_rows_sample": [
+        [
+          1205603
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1205603
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.6459949999989476,
+      "sql_elapsed_s": 0.05910562500139349,
+      "answer": "1.205.603 pacientes têm nível de instrução informado.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT003",
+      "difficulty": "easy",
+      "question": "Quantos procedimentos diferentes existem cadastrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_procedimentos\nFROM procedimentos",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_procedimentos"
+      ],
+      "predicted_columns": [
+        "total_procedimentos"
+      ],
+      "gold_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 7.1357790420006495,
+      "sql_elapsed_s": 0.0228783749989816,
+      "answer": "Existem 5.394 procedimentos diferentes cadastrados.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT044",
+      "difficulty": "hard",
+      "question": "Qual o custo médio de UTI por faixa etária dos pacientes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END AS faixa_etaria, ROUND(AVG(\"VAL_UTI\"), 2) AS custo_medio_uti FROM internacoes WHERE \"VAL_UTI\" > 0 GROUP BY CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END ORDER BY faixa_etaria",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "faixa_etaria",
+        "custo_medio_uti"
+      ],
+      "predicted_columns": [
+        "faixa_etaria",
+        "custo_medio_uti"
+      ],
+      "gold_rows_sample": [
+        [
+          "Idoso",
+          3966.2841441751034
+        ],
+        [
+          "Adulto",
+          3865.7488930509026
+        ],
+        [
+          "Menor",
+          5358.853033921935
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Adulto",
+          3865.75
+        ],
+        [
+          "Idoso",
+          3966.28
+        ],
+        [
+          "Menor",
+          5358.85
+        ]
+      ],
+      "gold_row_count": 3,
+      "predicted_row_count": 3,
+      "agent_elapsed_s": 3.686848583001847,
+      "sql_elapsed_s": 0.10677504200066323,
+      "answer": "O custo médio de UTI foi de R$ 3.865,75 para adultos, R$ 3.966,28 para idosos e R$ 5.358,85 para menores.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT014",
+      "difficulty": "medium",
+      "question": "Quantas internações por meningite ocasionaram em morte?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_mortes\nFROM internacoes i\nJOIN cid c ON i.DIAG_PRINC = c.CID\nWHERE c.DS_CATEGORIA IN (\n  'Meningite viral',\n  'Meningite bacter NCOP',\n  'Meningite em doenc bacter COP',\n  'Meningite em outr doenc infecc e parasit COP',\n  'Meningite dev outr causas e a causas NE',\n  'Tuberc do sist nervoso',\n  'Listeriose',\n  'Infecc meningogocica'\n)\nAND i.MORTE = TRUE",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "count_star()"
+      ],
+      "predicted_columns": [
+        "total_mortes"
+      ],
+      "gold_rows_sample": [
+        [
+          4861
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          8078
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 6.114272040998912,
+      "sql_elapsed_s": 0.11679270800232189,
+      "answer": "Foram 8.078 internações por meningite que evoluíram para morte.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT004",
+      "difficulty": "easy",
+      "question": "Quantos códigos CID-10 estão disponíveis?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_cids FROM cid",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_cids"
+      ],
+      "predicted_columns": [
+        "total_cids"
+      ],
+      "gold_rows_sample": [
+        [
+          14253
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          14253
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 6.7317221670018625,
+      "sql_elapsed_s": 0.02131516600275063,
+      "answer": "Há 14.253 códigos CID-10 disponíveis.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT049",
+      "difficulty": "hard",
+      "question": "Qual a taxa de mortalidade no estado do Rio Grande do Sul em 2021?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.MORTE = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.MUNIC_RES = mu.CO_MUNICIPIO_6D WHERE mu.SG_UF = 'RS' AND EXTRACT(YEAR FROM i.DT_INTER) = 2021",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "predicted_columns": [
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "gold_rows_sample": [
+        [
+          719323,
+          56392,
+          7.84
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          719323,
+          56392,
+          7.84
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.700000958000601,
+      "sql_elapsed_s": 0.1391441660016426,
+      "answer": "No Rio Grande do Sul, a taxa de mortalidade em 2021 foi de 7,84%.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT018",
+      "difficulty": "medium",
+      "question": "Quando houver dados socioeconômicos, quantos habitantes tem o município com a maior população registrada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH latest_year AS (\n  SELECT MAX(\"NU_ANO\") AS ano\n  FROM socioeconomico\n  WHERE \"QT_POPULACAO\" IS NOT NULL\n)\nSELECT\n  mu.\"NO_MUNICIPIO\" AS municipio_maior_populacao,\n  s.\"QT_POPULACAO\" AS total_habitantes\nFROM socioeconomico s\nJOIN latest_year ly\n  ON s.\"NU_ANO\" = ly.ano\nJOIN municipios mu\n  ON s.\"CO_MUNICIPIO_6D\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE s.\"QT_POPULACAO\" IS NOT NULL\nORDER BY s.\"QT_POPULACAO\" DESC\nLIMIT 1",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio_maior_populacao",
+        "total_habitantes"
+      ],
+      "predicted_columns": [
+        "municipio_maior_populacao",
+        "total_habitantes"
+      ],
+      "gold_rows_sample": [],
+      "predicted_rows_sample": [],
+      "gold_row_count": 0,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 4.640646707997803,
+      "sql_elapsed_s": 0.023772249998728512,
+      "answer": "Não foi possível identificar o município com maior população, pois a consulta não retornou registros.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT005",
+      "difficulty": "easy",
+      "question": "Quantos hospitais estão cadastrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_hospitais\nFROM hospital",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "total_hospitais"
+      ],
+      "predicted_columns": [
+        "total_hospitais"
+      ],
+      "gold_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.1372558750008466,
+      "sql_elapsed_s": 0.02099399999860907,
+      "answer": "Não há hospitais cadastrados no momento.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT076",
+      "difficulty": "hard",
+      "question": "Quais são os 10 municípios de residência com mais internações?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT m.\"NO_MUNICIPIO\" AS municipio, COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n  ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\"\nGROUP BY m.\"NO_MUNICIPIO\"\nORDER BY total_internacoes DESC, municipio ASC\nLIMIT 10",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "municipio",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Rio de Janeiro",
+          3409255
+        ],
+        [
+          "Brasília",
+          2529580
+        ],
+        [
+          "Salvador",
+          2246826
+        ],
+        [
+          "Fortaleza",
+          2234648
+        ],
+        [
+          "Belo Horizonte",
+          2146547
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Rio de Janeiro",
+          3409255
+        ],
+        [
+          "Brasília",
+          2529580
+        ],
+        [
+          "Salvador",
+          2246826
+        ],
+        [
+          "Fortaleza",
+          2234648
+        ],
+        [
+          "Belo Horizonte",
+          2146547
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 5.679187374997127,
+      "sql_elapsed_s": 0.2931147499984945,
+      "answer": "Os 10 municípios de residência com mais internações são: Rio de Janeiro (3.409.255), Brasília (2.529.580), Salvador (2.246.826), Fortaleza (2.234.648), Belo Horizonte (2.146.547), Curitiba (1.771.586), Manaus (1.684.827), Recife (1.635.535), Porto Alegre (1.580.967) e Goiânia (1.274.546).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT019",
+      "difficulty": "medium",
+      "question": "Quais os cinco municípios com mais internações obstétricas registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH obstetricas AS (\n    SELECT\n        i.MUNIC_RES,\n        COUNT(*) AS total_internacoes\n    FROM internacoes i\n    JOIN cid c ON i.DIAG_PRINC = c.CID\n    WHERE c.DS_GRUPO = 'O94-O99 Outras afecções obstétricas NCOP'\n    GROUP BY i.MUNIC_RES\n)\nSELECT\n    mu.NO_MUNICIPIO AS municipio,\n    mu.SG_UF AS uf,\n    o.total_internacoes\nFROM obstetricas o\nLEFT JOIN municipios mu\n    ON o.MUNIC_RES = mu.CO_MUNICIPIO_6D\nORDER BY o.total_internacoes DESC, municipio ASC, uf ASC\nLIMIT 5",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "NO_MUNICIPIO",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "municipio",
+        "uf",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Rio de Janeiro",
+          834766
+        ],
+        [
+          "Brasília",
+          561507
+        ],
+        [
+          "Manaus",
+          513833
+        ],
+        [
+          "Salvador",
+          467036
+        ],
+        [
+          "Fortaleza",
+          460817
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Salvador",
+          "BA",
+          26210
+        ],
+        [
+          "Rio de Janeiro",
+          "RJ",
+          20940
+        ],
+        [
+          "Brasília",
+          "DF",
+          15386
+        ],
+        [
+          "Curitiba",
+          "PR",
+          11722
+        ],
+        [
+          "Porto Alegre",
+          "RS",
+          8458
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 18.592294250000123,
+      "sql_elapsed_s": 0.13636729199788533,
+      "answer": "Os cinco municípios com mais internações obstétricas registradas foram: Salvador (BA), 26.210; Rio de Janeiro (RJ), 20.940; Brasília (DF), 15.386; Curitiba (PR), 11.722; e Porto Alegre (RS), 8.458.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT006",
+      "difficulty": "easy",
+      "question": "Quantos municípios têm dados socioeconômicos registrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(DISTINCT \"CO_MUNICIPIO_6D\") AS total_municipios\nFROM socioeconomico",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "total_municipios"
+      ],
+      "predicted_columns": [
+        "total_municipios"
+      ],
+      "gold_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.834264166001958,
+      "sql_elapsed_s": 0.019962000002124114,
+      "answer": "Nenhum município tem dados socioeconômicos registrados.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT078",
+      "difficulty": "hard",
+      "question": "Quais são os 10 principais motivos de internação para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        CASE\n            WHEN i.\"IDADE\" < 18 THEN 'Menor de 18'\n            WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64'\n            ELSE '65 ou mais'\n        END AS faixa_etaria,\n        c.\"DESCRICAO\",\n        COUNT(*) AS total_internacoes,\n        ROW_NUMBER() OVER (\n            PARTITION BY CASE\n                WHEN i.\"IDADE\" < 18 THEN 'Menor de 18'\n                WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64'\n                ELSE '65 ou mais'\n            END\n            ORDER BY COUNT(*) DESC, c.\"DESCRICAO\" ASC\n        ) AS rn\n    FROM internacoes i\n    JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\n    GROUP BY 1, 2\n)\nSELECT\n    faixa_etaria,\n    \"DESCRICAO\",\n    total_internacoes\nFROM base\nWHERE rn <= 10\nORDER BY faixa_etaria, rn",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "faixa_etaria",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "faixa_etaria",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "18 a 64",
+          "Parto espontaneo cefalico",
+          8971027
+        ],
+        [
+          "18 a 64",
+          "Parto unico espontaneo NE",
+          2143909
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana de emergencia",
+          1287229
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana NE",
+          1143419
+        ],
+        [
+          "18 a 64",
+          "Incompleto s/complic",
+          1135087
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "18 a 64",
+          "Parto espontaneo cefalico",
+          8971027
+        ],
+        [
+          "18 a 64",
+          "Parto unico espontaneo NE",
+          2143909
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana de emergencia",
+          1287229
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana NE",
+          1143419
+        ],
+        [
+          "18 a 64",
+          "Incompleto s/complic",
+          1135087
+        ]
+      ],
+      "gold_row_count": 30,
+      "predicted_row_count": 30,
+      "agent_elapsed_s": 14.441553791999468,
+      "sql_elapsed_s": 0.5895346670004074,
+      "answer": "Os 10 principais motivos de internação foram:\n\n- Menor de 18: Parto espontâneo cefálico; Pneumonia NE; Diarreia e gastroenterite de origem infecciosa presumida; Asma NE; Icterícia neonatal NE; Outras pneumonias bacterianas; Infecção intestinal bacteriana NE; Outros recém-nascidos de pré-termo; Broncopneumonia NE; Infecção do trato urinário de localização NE.\n\n- 18 a 64: Parto espontâneo cefálico; Parto único espontâneo NE; Parto por cesariana de emergência; Parto por cesariana NE; Incompleto s/complic; Esterilização; Infecção do trato urinário de localização NE; Outros tipos de parto único espontâneo; Pneumonia NE; Infecção por coronavírus NE.\n\n- 65 ou mais: Pneumonia NE; Acidente vascular cerebral NE como hemorrágico/isquêmico; Insuficiência cardíaca congestiva; Insuficiência cardíaca NE; Doença pulmonar obstrutiva crônica NE; Infecção por coronavírus NE; Infecção do trato urinário de localização NE; Angina instável; Septicemia NE; Infarto agudo do miocárdio NE.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT023",
+      "difficulty": "medium",
+      "question": "Quantas internações de UTI resultaram em óbito?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS uti_com_obito\nFROM internacoes\nWHERE \"VAL_UTI\" > 0\n  AND \"MORTE\" = TRUE",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "uti_com_obito"
+      ],
+      "predicted_columns": [
+        "uti_com_obito"
+      ],
+      "gold_rows_sample": [
+        [
+          2100502
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2100502
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.158444249998865,
+      "sql_elapsed_s": 0.08998008299749927,
+      "answer": "2.100.502 internações de UTI resultaram em óbito.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT007",
+      "difficulty": "easy",
+      "question": "Quantos registros de internação em UTI existem?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_uti\nFROM internacoes\nWHERE VAL_UTI > 0",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_uti"
+      ],
+      "predicted_columns": [
+        "total_uti"
+      ],
+      "gold_rows_sample": [
+        [
+          9193933
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          9193933
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.320217874999798,
+      "sql_elapsed_s": 0.06847420800113468,
+      "answer": "Há 9.193.933 registros de internação em UTI.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT079",
+      "difficulty": "hard",
+      "question": "Quais são os 10 procedimentos principais mais comuns entre internações de residentes no RS?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS internacoes\nFROM internacoes i\nJOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\"\nJOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\"\nWHERE m.\"SG_UF\" = 'RS'\nGROUP BY p.\"PROC_REA\", p.\"NOME_PROC\"\nORDER BY internacoes DESC, procedimento ASC\nLIMIT 10",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "PROC_REA",
+        "procedimento",
+        "total_procedimentos"
+      ],
+      "predicted_columns": [
+        "PROC_REA",
+        "procedimento",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          755924
+        ],
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          725974
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          566966
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          365285
+        ],
+        [
+          "0303010037",
+          "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+          314734
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          755924
+        ],
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          725974
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          566966
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          365285
+        ],
+        [
+          "0303010037",
+          "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+          314734
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 7.338019999999233,
+      "sql_elapsed_s": 0.14308608300052583,
+      "answer": "Os 10 procedimentos mais comuns entre internações de residentes no RS foram: tratamento de pneumonias ou influenza (gripe) (755.924), parto normal (725.974), parto cesariano (566.966), tratamento das doenças crônicas das vias aéreas inferiores (365.285), tratamento de outras doenças bacterianas (314.734), tratamento de insuficiência cardíaca (282.806), tratamento de acidente vascular cerebral – AVC (252.309), tratamento clínico de paciente oncológico (190.072), tratamento de intercorrências clínicas na gravidez (174.697) e tratamento de doenças infecciosas intestinais (163.007).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT024",
+      "difficulty": "medium",
+      "question": "Quais CNES têm mais de 1000 internações registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT i.\"CNES\", COUNT(i.\"N_AIH\") AS total_internacoes\nFROM internacoes i\nWHERE i.\"CNES\" IS NOT NULL\nGROUP BY i.\"CNES\"\nHAVING COUNT(i.\"N_AIH\") > 1000\nORDER BY total_internacoes DESC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "CNES",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "CNES",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          434,
+          719254
+        ],
+        [
+          27014,
+          623143
+        ],
+        [
+          2237571,
+          587240
+        ],
+        [
+          13846,
+          569114
+        ],
+        [
+          655,
+          522136
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          434,
+          719254
+        ],
+        [
+          27014,
+          623143
+        ],
+        [
+          2237571,
+          587240
+        ],
+        [
+          13846,
+          569114
+        ],
+        [
+          655,
+          522136
+        ]
+      ],
+      "gold_row_count": 1000,
+      "predicted_row_count": 1000,
+      "agent_elapsed_s": 3.6974350410018815,
+      "sql_elapsed_s": 0.3654722920000495,
+      "answer": "Há 200 CNES com mais de 1.000 internações registradas; entre os maiores estão 434 (719.254), 27014 (623.143) e 2237571 (587.240).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT008",
+      "difficulty": "easy",
+      "question": "Quantos casos de VDRL positivo foram registrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_vdrl FROM internacoes WHERE \"IND_VDRL\" = true",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_vdrl"
+      ],
+      "predicted_columns": [
+        "total_vdrl"
+      ],
+      "gold_rows_sample": [
+        [
+          22840654
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          22840654
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.677587250000215,
+      "sql_elapsed_s": 0.06666508299895213,
+      "answer": "Foram registrados 22.840.654 casos de VDRL positivo.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT081",
+      "difficulty": "hard",
+      "question": "Quais são os 5 procedimentos principais mais registrados para cada sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        s.\"DESCRICAO\" AS sexo,\n        p.\"PROC_REA\" AS PROC_REA,\n        p.\"NOME_PROC\" AS NOME_PROC,\n        COUNT(*) AS internacoes,\n        ROW_NUMBER() OVER (\n            PARTITION BY s.\"DESCRICAO\"\n            ORDER BY COUNT(*) DESC, p.\"NOME_PROC\" ASC, p.\"PROC_REA\" ASC\n        ) AS rn\n    FROM internacoes i\n    JOIN sexo s\n        ON i.\"SEXO\" = s.\"SEXO\"\n    JOIN procedimentos p\n        ON i.\"PROC_REA\" = p.\"PROC_REA\"\n    GROUP BY\n        s.\"DESCRICAO\",\n        p.\"PROC_REA\",\n        p.\"NOME_PROC\"\n)\nSELECT\n    sexo,\n    PROC_REA,\n    NOME_PROC,\n    internacoes\nFROM base\nWHERE rn <= 5\nORDER BY sexo, internacoes DESC, NOME_PROC ASC, PROC_REA ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "PROC_REA",
+        "NOME_PROC",
+        "total"
+      ],
+      "predicted_columns": [
+        "sexo",
+        "PROC_REA",
+        "NOME_PROC",
+        "internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Feminino",
+          "0310010039",
+          "PARTO NORMAL",
+          13399502
+        ],
+        [
+          "Feminino",
+          "0411010034",
+          "PARTO CESARIANO",
+          8389937
+        ],
+        [
+          "Feminino",
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          4118071
+        ],
+        [
+          "Feminino",
+          "0303100044",
+          "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ",
+          2366213
+        ],
+        [
+          "Feminino",
+          "0411020013",
+          "CURETAGEM POS-ABORTAMENTO / PUERPERAL",
+          2308461
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Feminino",
+          "0310010039",
+          "PARTO NORMAL",
+          13399502
+        ],
+        [
+          "Feminino",
+          "0411010034",
+          "PARTO CESARIANO",
+          8389937
+        ],
+        [
+          "Feminino",
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          4118071
+        ],
+        [
+          "Feminino",
+          "0303100044",
+          "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ",
+          2366213
+        ],
+        [
+          "Feminino",
+          "0411020013",
+          "CURETAGEM POS-ABORTAMENTO / PUERPERAL",
+          2308461
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 10.875731874999474,
+      "sql_elapsed_s": 0.5215299170013168,
+      "answer": "Para Feminino, os 5 procedimentos mais registrados foram: PARTO NORMAL (13.399.502), PARTO CESARIANO (8.389.937), TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE) (4.118.071), TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ (2.366.213) e CURETAGEM POS-ABORTAMENTO / PUERPERAL (2.308.461). Para Masculino, foram: TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE) (4.457.426), TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS (2.004.044), TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES (1.643.612), TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS (1.578.769) e TRATAMENTO DE INSUFICIENCIA CARDIACA (1.520.807).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT025",
+      "difficulty": "medium",
+      "question": "Quantas internações com VDRL positivo resultaram em morte?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS vdrl_positivo_obito\nFROM internacoes\nWHERE \"IND_VDRL\" = TRUE\n  AND \"MORTE\" = TRUE",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "vdrl_positivo_obito"
+      ],
+      "predicted_columns": [
+        "vdrl_positivo_obito"
+      ],
+      "gold_rows_sample": [
+        [
+          9438
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          9438
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.195902833002037,
+      "sql_elapsed_s": 0.07174754199877498,
+      "answer": "Foram 9.438 internações com VDRL positivo que resultaram em morte.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT009",
+      "difficulty": "easy",
+      "question": "Quantas especialidades médicas estão cadastradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_especialidades FROM especialidade",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_especialidades"
+      ],
+      "predicted_columns": [
+        "total_especialidades"
+      ],
+      "gold_rows_sample": [
+        [
+          39
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          39
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.5635914580016106,
+      "sql_elapsed_s": 0.01882070799911162,
+      "answer": "Há 39 especialidades médicas cadastradas.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT082",
+      "difficulty": "hard",
+      "question": "Quais são os 3 diagnósticos principais mais comuns entre pacientes com mais de 60 anos no estado de MA e no estado do RS?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT estado, \"DESCRICAO\", total\nFROM (\n    SELECT mu.\"SG_UF\" AS estado,\n           c.\"DESCRICAO\",\n           COUNT(*) AS total,\n           ROW_NUMBER() OVER (\n               PARTITION BY mu.\"SG_UF\"\n               ORDER BY COUNT(*) DESC, c.\"DESCRICAO\" ASC\n           ) AS rn\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\n    WHERE i.\"IDADE\" > 60\n      AND mu.\"SG_UF\" IN ('MA', 'RS')\n    GROUP BY mu.\"SG_UF\", c.\"DESCRICAO\"\n) sub\nWHERE rn <= 3\nORDER BY estado, rn",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "estado",
+        "DESCRICAO",
+        "total"
+      ],
+      "predicted_columns": [
+        "estado",
+        "DESCRICAO",
+        "total"
+      ],
+      "gold_rows_sample": [
+        [
+          "MA",
+          "Hipertensao essencial",
+          63084
+        ],
+        [
+          "MA",
+          "Acid vasc cerebr NE como hemorrag isquemico",
+          46706
+        ],
+        [
+          "MA",
+          "Pneumonia NE",
+          40505
+        ],
+        [
+          "RS",
+          "Pneumonia NE",
+          127133
+        ],
+        [
+          "RS",
+          "Doenc pulmonar obstrutiva cronica NE",
+          116497
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "MA",
+          "Hipertensao essencial",
+          63084
+        ],
+        [
+          "MA",
+          "Acid vasc cerebr NE como hemorrag isquemico",
+          46706
+        ],
+        [
+          "MA",
+          "Pneumonia NE",
+          40505
+        ],
+        [
+          "RS",
+          "Pneumonia NE",
+          127133
+        ],
+        [
+          "RS",
+          "Doenc pulmonar obstrutiva cronica NE",
+          116497
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 19.659866125002736,
+      "sql_elapsed_s": 0.1693512079982611,
+      "answer": "Entre pacientes com mais de 60 anos, no MA os 3 diagnósticos mais comuns foram Hipertensão essencial (63.084), Acidente vascular cerebral não especificado como hemorrágico ou isquêmico (46.706) e Pneumonia não especificada (40.505). No RS, foram Pneumonia não especificada (127.133), Doença pulmonar obstrutiva crônica não especificada (116.497) e Insuficiência cardíaca não especificada (109.151).",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT026",
+      "difficulty": "medium",
+      "question": "Qual o valor médio das internações que resultaram em óbito?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT AVG(\"VAL_TOT\") AS valor_medio_obitos\nFROM internacoes\nWHERE \"MORTE\" = TRUE\n  AND \"VAL_TOT\" IS NOT NULL",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "valor_medio_obitos"
+      ],
+      "predicted_columns": [
+        "valor_medio_obitos"
+      ],
+      "gold_rows_sample": [
+        [
+          5151.139859452307
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5151.139859452243
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.277003708000848,
+      "sql_elapsed_s": 0.11494904199935263,
+      "answer": "O valor médio das internações que resultaram em óbito foi de R$ 5.151,14.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT010",
+      "difficulty": "easy",
+      "question": "Quantos casos obstétricos foram registrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_obstetricos FROM internacoes WHERE \"ESPEC\" = 2",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_obstetricos"
+      ],
+      "predicted_columns": [
+        "total_obstetricos"
+      ],
+      "gold_rows_sample": [
+        [
+          27397950
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          27397950
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.7680648750028922,
+      "sql_elapsed_s": 0.07384004200139316,
+      "answer": "Foram registrados 27.397.950 casos obstétricos.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT083",
+      "difficulty": "hard",
+      "question": "Qual é a taxa de mortalidade por nível de instrução no estado do RS, considerando apenas grupos com mais de 1000 internações?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "WITH agg AS (\n    SELECT\n        ins.\"DESCRICAO\" AS nivel_instrucao,\n        COUNT(*) AS internacoes,\n        SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes,\n        ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade\n    FROM internacoes i\n    JOIN instrucao ins\n        ON i.\"INSTRU\" = ins.\"INSTRU\"\n    JOIN municipios mu\n        ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE mu.\"SG_UF\" = 'RS'\n      AND i.\"INSTRU\" IS NOT NULL\n      AND i.\"INSTRU\" <> 0\n    GROUP BY ins.\"DESCRICAO\"\n    HAVING COUNT(*) > 1000\n)\nSELECT\n    nivel_instrucao,\n    internacoes,\n    total_mortes,\n    taxa_mortalidade\nFROM agg\nORDER BY taxa_mortalidade DESC, nivel_instrucao ASC",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "DESCRICAO",
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "predicted_columns": [
+        "nivel_instrucao",
+        "internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "gold_rows_sample": [
+        [
+          "1º grau",
+          43471,
+          3,
+          0.01
+        ],
+        [
+          "2º grau",
+          27900,
+          0,
+          0.0
+        ],
+        [
+          "Analfabeto",
+          2756,
+          0,
+          0.0
+        ],
+        [
+          "3º grau",
+          2706,
+          0,
+          0.0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "1º grau",
+          43471,
+          3,
+          0.01
+        ],
+        [
+          "2º grau",
+          27900,
+          0,
+          0.0
+        ],
+        [
+          "3º grau",
+          2706,
+          0,
+          0.0
+        ],
+        [
+          "Analfabeto",
+          2756,
+          0,
+          0.0
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 4,
+      "agent_elapsed_s": 7.080499291001615,
+      "sql_elapsed_s": 0.09997916700012865,
+      "answer": "No RS, entre os grupos com mais de 1.000 internações, a taxa de mortalidade foi de 0,01% para 1º grau e de 0,00% para 2º grau, 3º grau e Analfabeto.",
+      "agent_error": ""
+    },
+    {
+      "agent": "pydantic_ai",
+      "id": "GT027",
+      "difficulty": "medium",
+      "question": "Quantas internações obstétricas foram registradas em UTI?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answered",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS obstetricos_uti\nFROM internacoes\nWHERE \"ESPEC\" = 2\n  AND \"VAL_UTI\" > 0",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "obstetricos_uti"
+      ],
+      "predicted_columns": [
+        "obstetricos_uti"
+      ],
+      "gold_rows_sample": [
+        [
+          110161
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          110161
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.508840833001159,
+      "sql_elapsed_s": 0.10035304199845996,
+      "answer": "Foram registradas 110.161 internações obstétricas em UTI.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT001",
+      "difficulty": "easy",
+      "question": "Quantas internações foram registradas no total?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          144386772
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          144386772
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.77544183399732,
+      "sql_elapsed_s": 0.03181929199854494,
+      "answer": "Foram registradas **144.386.772 internações** no total.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT021",
+      "difficulty": "hard",
+      "question": "Quais são os 5 procedimentos principais mais registrados nas internações?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": false,
+      "agent_status": "technical_error",
+      "sql_generated": false,
+      "generated_sql": "",
+      "prediction_success": false,
+      "prediction_error": "empty_sql",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "PROC_REA",
+        "procedimento",
+        "total"
+      ],
+      "predicted_columns": [],
+      "gold_rows_sample": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "predicted_rows_sample": [],
+      "gold_row_count": 5,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 6.438543500000378,
+      "sql_elapsed_s": 0.0,
+      "answer": "Nao foi possivel executar a consulta SQL: SQL execution blocked: SQL inválido ou vazio",
+      "agent_error": "SQL execution blocked: SQL inválido ou vazio"
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT011",
+      "difficulty": "medium",
+      "question": "Quantos pacientes têm vínculo previdenciário informado?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS pacientes_com_vinculo_previdenciario_informado FROM internacoes i WHERE i.VINCPREV IS NOT NULL AND i.VINCPREV <> 0;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_vincprev"
+      ],
+      "predicted_columns": [
+        "pacientes_com_vinculo_previdenciario_informado"
+      ],
+      "gold_rows_sample": [
+        [
+          17533
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          17533
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.8701439169999503,
+      "sql_elapsed_s": 0.07078441699923133,
+      "answer": "Há **17.533 pacientes** com vínculo previdenciário informado.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT002",
+      "difficulty": "easy",
+      "question": "Quantas mortes foram registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_mortes FROM internacoes WHERE MORTE = TRUE;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_mortes"
+      ],
+      "predicted_columns": [
+        "total_mortes"
+      ],
+      "gold_rows_sample": [
+        [
+          5877536
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5877536
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.587668500000291,
+      "sql_elapsed_s": 0.08271216699722572,
+      "answer": "Foram registradas **5.877.536 mortes**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT028",
+      "difficulty": "hard",
+      "question": "Quais sao os 10 municípios com mais de 100 internações com a maior taxa de mortalidade?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH municipal_stats AS ( SELECT i.MUNIC_RES AS co_municipio_6d, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) AS obitos, 1.0 * SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) / COUNT(*) AS taxa_mortalidade FROM internacoes i WHERE i.MUNIC_RES IS NOT NULL GROUP BY i.MUNIC_RES HAVING COUNT(*) > 100 ) SELECT m.NO_MUNICIPIO AS municipio, m.SG_UF AS uf, ms.total_internacoes, ms.obitos, ms.taxa_mortalidade FROM municipal_stats ms JOIN municipios m ON m.CO_MUNICIPIO_6D = ms.co_municipio_6d ORDER BY ms.taxa_mortalidade DESC, ms.total_internacoes DESC, municipio LIMIT 10;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio",
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "predicted_columns": [
+        "municipio",
+        "uf",
+        "total_internacoes",
+        "obitos",
+        "taxa_mortalidade"
+      ],
+      "gold_rows_sample": [
+        [
+          "Capão Bonito",
+          135,
+          15,
+          11.11
+        ],
+        [
+          "Mogi Mirim",
+          109,
+          11,
+          10.09
+        ],
+        [
+          "Ourinhos",
+          352,
+          35,
+          9.94
+        ],
+        [
+          "Iacri",
+          266,
+          25,
+          9.4
+        ],
+        [
+          "Nova Friburgo",
+          136767,
+          12575,
+          9.19
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Capão Bonito",
+          "SP",
+          135,
+          15,
+          0.1111111111111111
+        ],
+        [
+          "Mogi Mirim",
+          "SP",
+          109,
+          11,
+          0.10091743119266056
+        ],
+        [
+          "Ourinhos",
+          "SP",
+          352,
+          35,
+          0.09943181818181818
+        ],
+        [
+          "Iacri",
+          "SP",
+          266,
+          25,
+          0.09398496240601503
+        ],
+        [
+          "Nova Friburgo",
+          "RJ",
+          136767,
+          12575,
+          0.0919446942610425
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 5.067970166001032,
+      "sql_elapsed_s": 0.18059029200230725,
+      "answer": "Os 10 municípios com mais de 100 internações e maior taxa de mortalidade foram:\n\n1. **Capão Bonito (SP)** — 135 internações, 15 óbitos, taxa de mortalidade **11,11%**\n2. **Mogi Mirim (SP)** — 109 internações, 11 óbitos, **10,09%**\n3. **Ourinhos (SP)** — 352 internações, 35 óbitos, **9,94%**\n4. **Iacri (SP)** — 266 internações, 25 óbitos, **9,40%**\n5. **Nova Friburgo (RJ)** — 136.767 internações, 12.575 óbitos, **9,19%**\n6. **Arapuá (MG)** — 1.436 internações, 132 óbitos, **9,19%**\n7. **Saquarema (RJ)** — 56.949 internações, 5.220 óbitos, **9,17%**\n8. **Senador José Bento (MG)** — 1.535 internações, 132 óbitos, **8,60%**\n9. **Maricá (RJ)** — 100.484 internações, 8.625 óbitos, **8,58%**\n10. **Lorena (SP)** — 140 internações, 12 óbitos, **8,57%**\n\nSe quiser, posso também organizar em formato de tabela.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT012",
+      "difficulty": "medium",
+      "question": "Quantos pacientes têm nível de instrução informado?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS pacientes_com_instrucao_informada FROM internacoes i WHERE i.INSTRU IS NOT NULL AND i.INSTRU NOT IN (0, 9);",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "total_instrucao"
+      ],
+      "predicted_columns": [
+        "pacientes_com_instrucao_informada"
+      ],
+      "gold_rows_sample": [
+        [
+          1205603
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          1205601
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.6241167500011215,
+      "sql_elapsed_s": 0.07015795899860677,
+      "answer": "Há **1.205.601 pacientes** com nível de instrução informado.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT003",
+      "difficulty": "easy",
+      "question": "Quantos procedimentos diferentes existem cadastrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(DISTINCT PROC_REA) AS procedimentos_diferentes FROM procedimentos;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_procedimentos"
+      ],
+      "predicted_columns": [
+        "procedimentos_diferentes"
+      ],
+      "gold_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5394
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.1572192500025267,
+      "sql_elapsed_s": 0.022358375001203967,
+      "answer": "Existem **5.394 procedimentos diferentes** cadastrados.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT044",
+      "difficulty": "hard",
+      "question": "Qual o custo médio de UTI por faixa etária dos pacientes?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH faixas AS ( SELECT CASE WHEN i.IDADE BETWEEN 0 AND 4 THEN '0-4' WHEN i.IDADE BETWEEN 5 AND 9 THEN '5-9' WHEN i.IDADE BETWEEN 10 AND 14 THEN '10-14' WHEN i.IDADE BETWEEN 15 AND 19 THEN '15-19' WHEN i.IDADE BETWEEN 20 AND 29 THEN '20-29' WHEN i.IDADE BETWEEN 30 AND 39 THEN '30-39' WHEN i.IDADE BETWEEN 40 AND 49 THEN '40-49' WHEN i.IDADE BETWEEN 50 AND 59 THEN '50-59' WHEN i.IDADE BETWEEN 60 AND 69 THEN '60-69' WHEN i.IDADE BETWEEN 70 AND 79 THEN '70-79' WHEN i.IDADE >= 80 THEN '80+' ELSE 'Ignorada' END AS faixa_etaria, i.VAL_UTI FROM internacoes i WHERE i.VAL_UTI > 0 ) SELECT faixa_etaria, AVG(VAL_UTI) AS custo_medio_uti FROM faixas GROUP BY faixa_etaria ORDER BY CASE faixa_etaria WHEN '0-4' THEN 1 WHEN '5-9' THEN 2 WHEN '10-14' THEN 3 WHEN '15-19' THEN 4 WHEN '20-29' THEN 5 WHEN '30-39' THEN 6 WHEN '40-49' THEN 7 WHEN '50-59' THEN 8 WHEN '60-69' THEN 9 WHEN '70-79' THEN 10 WHEN '80+' THEN 11 ELSE 12 END;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "faixa_etaria",
+        "custo_medio_uti"
+      ],
+      "predicted_columns": [
+        "faixa_etaria",
+        "custo_medio_uti"
+      ],
+      "gold_rows_sample": [
+        [
+          "Idoso",
+          3966.2841441751034
+        ],
+        [
+          "Adulto",
+          3865.7488930509026
+        ],
+        [
+          "Menor",
+          5358.853033921935
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "0-4",
+          5729.999356402379
+        ],
+        [
+          "5-9",
+          3624.4761544169114
+        ],
+        [
+          "10-14",
+          3352.9712191116337
+        ],
+        [
+          "15-19",
+          3312.1496757938016
+        ],
+        [
+          "20-29",
+          3506.157253867545
+        ]
+      ],
+      "gold_row_count": 3,
+      "predicted_row_count": 11,
+      "agent_elapsed_s": 5.276270624999597,
+      "sql_elapsed_s": 0.19124962499699905,
+      "answer": "O custo médio de UTI varia por faixa etária da seguinte forma:\n\n- 0–4: **5.729,99**\n- 5–9: **3.624,48**\n- 10–14: **3.352,97**\n- 15–19: **3.312,15**\n- 20–29: **3.506,16**\n- 30–39: **3.847,87**\n- 40–49: **4.016,79**\n- 50–59: **3.942,75**\n- 60–69: **3.942,48**\n- 70–79: **4.039,11**\n- 80+: **3.894,55**\n\nEm resumo, o maior custo médio aparece na faixa **0–4 anos**, e os valores ficam em torno de **3,3 mil a 4,0 mil** na maioria das demais faixas.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT014",
+      "difficulty": "medium",
+      "question": "Quantas internações por meningite ocasionaram em morte?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH meningite AS ( SELECT i.N_AIH, i.MORTE FROM internacoes i WHERE i.DIAG_PRINC LIKE 'G0%' AND i.DIAG_PRINC LIKE 'G0__' AND i.DIAG_PRINC LIKE 'G0%' AND i.DIAG_PRINC IN ( 'G00','G001','G002','G003','G008','G009', 'G01','G010','G011','G012','G013','G014','G015','G016','G017','G018','G019', 'G02','G020','G021','G028','G029' ) ) SELECT COUNT(*) AS internacoes_meningite_que_ocasionaram_morte FROM meningite WHERE MORTE = TRUE;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "count_star()"
+      ],
+      "predicted_columns": [
+        "internacoes_meningite_que_ocasionaram_morte"
+      ],
+      "gold_rows_sample": [
+        [
+          4861
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2388
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.214409958000033,
+      "sql_elapsed_s": 0.1431635409971932,
+      "answer": "Foram **2.388 internações por meningite** que ocasionaram em morte.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT004",
+      "difficulty": "easy",
+      "question": "Quantos códigos CID-10 estão disponíveis?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS quantidade_codigos_cid10 FROM cid;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_cids"
+      ],
+      "predicted_columns": [
+        "quantidade_codigos_cid10"
+      ],
+      "gold_rows_sample": [
+        [
+          14253
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          14253
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 4.461584959000902,
+      "sql_elapsed_s": 0.021874292000575224,
+      "answer": "Há **14.253 códigos CID-10** disponíveis.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT049",
+      "difficulty": "hard",
+      "question": "Qual a taxa de mortalidade no estado do Rio Grande do Sul em 2021?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT i.MORTE FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RS' AND EXTRACT(YEAR FROM i.DT_INTER) = 2021 ) SELECT COUNT(*) FILTER (WHERE MORTE = TRUE)::DOUBLE / NULLIF(COUNT(*), 0) AS taxa_mortalidade FROM base;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "predicted_columns": [
+        "taxa_mortalidade"
+      ],
+      "gold_rows_sample": [
+        [
+          719323,
+          56392,
+          7.84
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0.07839593617887931
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.967666417000146,
+      "sql_elapsed_s": 0.12909416699767462,
+      "answer": "A taxa de mortalidade no Rio Grande do Sul em 2021 foi de **0,0784**, ou seja, cerca de **7,84%**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT018",
+      "difficulty": "medium",
+      "question": "Quando houver dados socioeconômicos, quantos habitantes tem o município com a maior população registrada?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH maior_pop AS ( SELECT CO_MUNICIPIO_6D, NU_ANO, QT_POPULACAO FROM socioeconomico WHERE QT_POPULACAO IS NOT NULL ORDER BY QT_POPULACAO DESC, NU_ANO DESC, CO_MUNICIPIO_6D LIMIT 1 ) SELECT m.NO_MUNICIPIO, m.SG_UF, p.NU_ANO, p.QT_POPULACAO AS habitantes FROM maior_pop p LEFT JOIN municipios m ON m.CO_MUNICIPIO_6D = p.CO_MUNICIPIO_6D;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio_maior_populacao",
+        "total_habitantes"
+      ],
+      "predicted_columns": [
+        "NO_MUNICIPIO",
+        "SG_UF",
+        "NU_ANO",
+        "habitantes"
+      ],
+      "gold_rows_sample": [],
+      "predicted_rows_sample": [],
+      "gold_row_count": 0,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 7.46618058400054,
+      "sql_elapsed_s": 0.022238374996959465,
+      "answer": "A consulta foi executada, mas nao retornou linhas.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT005",
+      "difficulty": "easy",
+      "question": "Quantos hospitais estão cadastrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_hospitais FROM hospital;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_hospitais"
+      ],
+      "predicted_columns": [
+        "total_hospitais"
+      ],
+      "gold_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.395685458999651,
+      "sql_elapsed_s": 0.018196082997747,
+      "answer": "Não há hospitais cadastrados no momento: o total retornado foi **0**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT076",
+      "difficulty": "hard",
+      "question": "Quais são os 10 municípios de residência com mais internações?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH agg AS ( SELECT i.MUNIC_RES, COUNT(*) AS total_internacoes FROM internacoes i GROUP BY i.MUNIC_RES ) SELECT m.NO_MUNICIPIO AS municipio_residencia, a.total_internacoes FROM agg a LEFT JOIN municipios m ON m.CO_MUNICIPIO_6D = a.MUNIC_RES ORDER BY a.total_internacoes DESC, municipio_residencia LIMIT 10;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "municipio",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "municipio_residencia",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Rio de Janeiro",
+          3409255
+        ],
+        [
+          "Brasília",
+          2529580
+        ],
+        [
+          "Salvador",
+          2246826
+        ],
+        [
+          "Fortaleza",
+          2234648
+        ],
+        [
+          "Belo Horizonte",
+          2146547
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Rio de Janeiro",
+          3409255
+        ],
+        [
+          "Brasília",
+          2529580
+        ],
+        [
+          "Salvador",
+          2246826
+        ],
+        [
+          "Fortaleza",
+          2234648
+        ],
+        [
+          "Belo Horizonte",
+          2146547
+        ]
+      ],
+      "gold_row_count": 10,
+      "predicted_row_count": 10,
+      "agent_elapsed_s": 3.885506541999348,
+      "sql_elapsed_s": 0.1370119169987447,
+      "answer": "Os 10 municípios de residência com mais internações são:\n\n1. Rio de Janeiro — 3.409.255  \n2. Brasília — 2.529.580  \n3. Salvador — 2.246.826  \n4. Fortaleza — 2.234.648  \n5. Belo Horizonte — 2.146.547  \n6. Curitiba — 1.771.586  \n7. Manaus — 1.684.827  \n8. Recife — 1.635.535  \n9. Porto Alegre — 1.580.967  \n10. Goiânia — 1.274.546",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT019",
+      "difficulty": "medium",
+      "question": "Quais os cinco municípios com mais internações obstétricas registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT m.NO_MUNICIPIO, m.SG_UF, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE i.ESPEC = 2 GROUP BY m.NO_MUNICIPIO, m.SG_UF ), ranked AS ( SELECT NO_MUNICIPIO, SG_UF, total_internacoes, ROW_NUMBER() OVER (ORDER BY total_internacoes DESC, NO_MUNICIPIO) AS rn FROM base ) SELECT NO_MUNICIPIO AS municipio, SG_UF AS uf, total_internacoes FROM ranked WHERE rn <= 5 ORDER BY total_internacoes DESC, municipio;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "NO_MUNICIPIO",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "municipio",
+        "uf",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "Rio de Janeiro",
+          834766
+        ],
+        [
+          "Brasília",
+          561507
+        ],
+        [
+          "Manaus",
+          513833
+        ],
+        [
+          "Salvador",
+          467036
+        ],
+        [
+          "Fortaleza",
+          460817
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Rio de Janeiro",
+          "RJ",
+          834766
+        ],
+        [
+          "Brasília",
+          "DF",
+          561507
+        ],
+        [
+          "Manaus",
+          "AM",
+          513833
+        ],
+        [
+          "Salvador",
+          "BA",
+          467036
+        ],
+        [
+          "Fortaleza",
+          "CE",
+          460817
+        ]
+      ],
+      "gold_row_count": 5,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 3.774763500001427,
+      "sql_elapsed_s": 0.16466208299971186,
+      "answer": "Os cinco municípios com mais internações obstétricas registradas são:\n\n1. **Rio de Janeiro (RJ)** — **834.766**\n2. **Brasília (DF)** — **561.507**\n3. **Manaus (AM)** — **513.833**\n4. **Salvador (BA)** — **467.036**\n5. **Fortaleza (CE)** — **460.817**",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT006",
+      "difficulty": "easy",
+      "question": "Quantos municípios têm dados socioeconômicos registrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(DISTINCT s.CO_MUNICIPIO_6D) AS municipios_com_dados_socioeconomicos FROM socioeconomico s;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_municipios"
+      ],
+      "predicted_columns": [
+        "municipios_com_dados_socioeconomicos"
+      ],
+      "gold_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          0
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 5.149091749997751,
+      "sql_elapsed_s": 0.0218189999977767,
+      "answer": "Nenhum município tem dados socioeconômicos registrados no resultado retornado: **0 municípios**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT078",
+      "difficulty": "hard",
+      "question": "Quais são os 10 principais motivos de internação para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT CASE WHEN idade < 18 THEN 'Menos de 18 anos' WHEN idade BETWEEN 18 AND 64 THEN '18 a 64 anos' ELSE 'Acima de 64 anos' END AS faixa_etaria, i.diag_princ, c.descricao AS motivo, COUNT(*) AS total FROM internacoes i LEFT JOIN cid c ON i.diag_princ = c.cid WHERE i.idade IS NOT NULL AND i.diag_princ IS NOT NULL AND i.diag_princ <> '' AND i.diag_princ <> '0' GROUP BY 1, 2, 3 ), ranked AS ( SELECT faixa_etaria, diag_princ, motivo, total, ROW_NUMBER() OVER (PARTITION BY faixa_etaria ORDER BY total DESC, diag_princ) AS rn FROM base ) SELECT faixa_etaria, diag_princ, COALESCE(motivo, diag_princ) AS motivo, total FROM ranked WHERE rn <= 10 ORDER BY faixa_etaria, total DESC, diag_princ;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "faixa_etaria",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "faixa_etaria",
+        "DIAG_PRINC",
+        "motivo",
+        "total"
+      ],
+      "gold_rows_sample": [
+        [
+          "18 a 64",
+          "Parto espontaneo cefalico",
+          8971027
+        ],
+        [
+          "18 a 64",
+          "Parto unico espontaneo NE",
+          2143909
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana de emergencia",
+          1287229
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana NE",
+          1143419
+        ],
+        [
+          "18 a 64",
+          "Incompleto s/complic",
+          1135087
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "18 a 64 anos",
+          "O800",
+          "Parto espontaneo cefalico",
+          8971027
+        ],
+        [
+          "18 a 64 anos",
+          "O809",
+          "Parto unico espontaneo NE",
+          2143909
+        ],
+        [
+          "18 a 64 anos",
+          "O821",
+          "Parto p/cesariana de emergencia",
+          1287229
+        ],
+        [
+          "18 a 64 anos",
+          "O829",
+          "Parto p/cesariana NE",
+          1143419
+        ],
+        [
+          "18 a 64 anos",
+          "Z302",
+          "Esterilizacao",
+          1041259
+        ]
+      ],
+      "gold_row_count": 30,
+      "predicted_row_count": 30,
+      "agent_elapsed_s": 6.969843708000553,
+      "sql_elapsed_s": 0.7779235000016342,
+      "answer": "Com base no resultado SQL, os 10 principais motivos de internação foram:\n\n### Menos de 18 anos\nNão há linhas retornadas para essa faixa etária no resultado enviado.\n\n### 18 a 64 anos\n1. **O800** — Parto espontaneo cefalico — **8.971.027**\n2. **O809** — Parto unico espontaneo NE — **2.143.909**\n3. **O821** — Parto p/cesariana de emergencia — **1.287.229**\n4. **O829** — Parto p/cesariana NE — **1.143.419**\n5. **Z302** — Esterilizacao — **1.041.259**\n6. **N390** — Infecc do trato urinario de localiz NE — **960.634**\n7. **O034** — Incompleto s/complic — **910.255**\n8. **O808** — Outr tipos de parto unico espontaneo — **895.981**\n9. **J189** — Pneumonia NE — **884.061**\n10. **B342** — Infecc p/coronavirus NE — **841.437**\n\n### Acima de 64 anos\n1. **J189** — Pneumonia NE — **1.121.652**\n2. **I64** — Acid vasc cerebr NE como hemorrag isquemico — **1.096.353**\n3. **I500** — Insuf cardiaca congestiva — **870.590**\n4. **I509** — Insuf cardiaca NE — **829.154**\n5. **J449** — Doenc pulmonar obstrutiva cronica NE — **557.830**\n6. **B342** — Infecc p/coronavirus NE — **543.037**\n7. **N390** — Infecc do trato urinario de localiz NE — **537.074**\n8. **I200** — Angina instavel — **438.972**\n9. **A419** — Septicemia NE — **393.424**\n10. **I219** — Infarto agudo do miocardio NE — **385.506**\n\nSe quiser, eu também posso reorganizar isso em uma tabela única comparando as 3 faixas etárias.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT023",
+      "difficulty": "medium",
+      "question": "Quantas internações de UTI resultaram em óbito?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS qt_internacoes_uti_com_obito FROM internacoes WHERE VAL_UTI > 0 AND MORTE = TRUE;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "uti_com_obito"
+      ],
+      "predicted_columns": [
+        "qt_internacoes_uti_com_obito"
+      ],
+      "gold_rows_sample": [
+        [
+          2100502
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          2100502
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.66859466599999,
+      "sql_elapsed_s": 0.10286166699734167,
+      "answer": "Foram **2.100.502 internações de UTI que resultaram em óbito**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT007",
+      "difficulty": "easy",
+      "question": "Quantos registros de internação em UTI existem?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS registros_internacao_uti FROM internacoes WHERE VAL_UTI > 0;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_uti"
+      ],
+      "predicted_columns": [
+        "registros_internacao_uti"
+      ],
+      "gold_rows_sample": [
+        [
+          9193933
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          9193933
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.487091209000937,
+      "sql_elapsed_s": 0.07787354200263508,
+      "answer": "Existem **9.193.933** registros de internação em UTI.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT079",
+      "difficulty": "hard",
+      "question": "Quais são os 10 procedimentos principais mais comuns entre internações de residentes no RS?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": false,
+      "agent_status": "technical_error",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total_procedimentos FROM main.internacoes i JOIN main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN main.procedimentos p ON ip.PROC_REA = p.PROC_REA WHERE m.SG_UF = 'RS' GROUP BY p.NOME_PROC ), ranked AS ( SELECT procedimento, total_procedimentos, ROW_NUMBER() OVER (ORDER BY total_procedimentos DESC, procedimento) AS rn FROM base ) SELECT procedimento, total_procedimentos FROM ranked WHERE rn <= 10 ORDER BY total_procedimentos DESC, procedimento;",
+      "prediction_success": false,
+      "prediction_error": "Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN...\n                                                                      ^",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "PROC_REA",
+        "procedimento",
+        "total_procedimentos"
+      ],
+      "predicted_columns": [],
+      "gold_rows_sample": [
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          755924
+        ],
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          725974
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          566966
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          365285
+        ],
+        [
+          "0303010037",
+          "TRATAMENTO DE OUTRAS DOENCAS BACTERIANAS",
+          314734
+        ]
+      ],
+      "predicted_rows_sample": [],
+      "gold_row_count": 10,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 5.20766095900035,
+      "sql_elapsed_s": 0.022046707999834325,
+      "answer": "Nao foi possivel executar a consulta SQL: (_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN...\n                                                                      ^\n[SQL: EXPLAIN WITH base AS ( SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total_procedimentos FROM main.internacoes i JOIN main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN main.procedimentos p ON ip.PROC_REA = p.PROC_REA WHERE m.SG_UF = 'RS' GROUP BY p.NOME_PROC ), ranked AS ( SELECT procedimento, total_procedimentos, ROW_NUMBER() OVER (ORDER BY total_procedimentos DESC, procedimento) AS rn FROM base ) SELECT procedimento, total_procedimentos FROM ranked WHERE rn <= 10 ORDER BY total_procedimentos DESC, procedimento;]\n(Background on this error at: https://sqlalche.me/e/20/f405)",
+      "agent_error": "(_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN...\n                                                                      ^\n[SQL: EXPLAIN WITH base AS ( SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total_procedimentos FROM main.internacoes i JOIN main.municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN main.internacao_procedimento ip ON i.N_AIH = ip.N_AIH JOIN main.procedimentos p ON ip.PROC_REA = p.PROC_REA WHERE m.SG_UF = 'RS' GROUP BY p.NOME_PROC ), ranked AS ( SELECT procedimento, total_procedimentos, ROW_NUMBER() OVER (ORDER BY total_procedimentos DESC, procedimento) AS rn FROM base ) SELECT procedimento, total_procedimentos FROM ranked WHERE rn <= 10 ORDER BY total_procedimentos DESC, procedimento;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT024",
+      "difficulty": "medium",
+      "question": "Quais CNES têm mais de 1000 internações registradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT i.CNES, COUNT(*) AS total_internacoes FROM internacoes i WHERE i.CNES IS NOT NULL GROUP BY i.CNES HAVING COUNT(*) > 1000 ORDER BY total_internacoes DESC, i.CNES;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "CNES",
+        "total_internacoes"
+      ],
+      "predicted_columns": [
+        "CNES",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          434,
+          719254
+        ],
+        [
+          27014,
+          623143
+        ],
+        [
+          2237571,
+          587240
+        ],
+        [
+          13846,
+          569114
+        ],
+        [
+          655,
+          522136
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          434,
+          719254
+        ],
+        [
+          27014,
+          623143
+        ],
+        [
+          2237571,
+          587240
+        ],
+        [
+          13846,
+          569114
+        ],
+        [
+          655,
+          522136
+        ]
+      ],
+      "gold_row_count": 1000,
+      "predicted_row_count": 1000,
+      "agent_elapsed_s": 3.5743658329993195,
+      "sql_elapsed_s": 0.14370029199926648,
+      "answer": "Os CNES com mais de 1000 internações são **1000 registros ao todo**.  \nPelos primeiros resultados, os maiores são:\n\n- **434** — 719.254 internações\n- **27014** — 623.143\n- **2237571** — 587.240\n- **13846** — 569.114\n- **655** — 522.136\n\nSe quiser, posso também te passar a **lista completa dos CNES retornados**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT008",
+      "difficulty": "easy",
+      "question": "Quantos casos de VDRL positivo foram registrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS casos_vdrl_positivo FROM internacoes WHERE IND_VDRL = TRUE;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_vdrl"
+      ],
+      "predicted_columns": [
+        "casos_vdrl_positivo"
+      ],
+      "gold_rows_sample": [
+        [
+          22840654
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          22840654
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.3542063329987286,
+      "sql_elapsed_s": 0.06644641700040665,
+      "answer": "Foram registrados **22.840.654 casos** de **VDRL positivo**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT081",
+      "difficulty": "hard",
+      "question": "Quais são os 5 procedimentos principais mais registrados para cada sexo?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": false,
+      "agent_status": "technical_error",
+      "sql_generated": true,
+      "generated_sql": "WITH proc_counts AS ( SELECT s.DESCRICAO AS sexo, p.NOME_PROC AS procedimento, COUNT(*) AS total_registros, ROW_NUMBER() OVER ( PARTITION BY s.DESCRICAO ORDER BY COUNT(*) DESC, p.NOME_PROC ) AS rn FROM main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN main.procedimentos p ON p.PROC_REA = ip.PROC_REA WHERE i.SEXO IN (1, 2, 3) GROUP BY s.DESCRICAO, p.NOME_PROC ) SELECT sexo, procedimento, total_registros FROM proc_counts WHERE rn <= 5 ORDER BY sexo, total_registros DESC, procedimento;",
+      "prediction_success": false,
+      "prediction_error": "Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN...\n                                                                        ^",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "sexo",
+        "PROC_REA",
+        "NOME_PROC",
+        "total"
+      ],
+      "predicted_columns": [],
+      "gold_rows_sample": [
+        [
+          "Feminino",
+          "0310010039",
+          "PARTO NORMAL",
+          13399502
+        ],
+        [
+          "Feminino",
+          "0411010034",
+          "PARTO CESARIANO",
+          8389937
+        ],
+        [
+          "Feminino",
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          4118071
+        ],
+        [
+          "Feminino",
+          "0303100044",
+          "TRATAMENTO DE INTERCORRENCIAS CLINICAS NA GRAVIDEZ",
+          2366213
+        ],
+        [
+          "Feminino",
+          "0411020013",
+          "CURETAGEM POS-ABORTAMENTO / PUERPERAL",
+          2308461
+        ]
+      ],
+      "predicted_rows_sample": [],
+      "gold_row_count": 10,
+      "predicted_row_count": 0,
+      "agent_elapsed_s": 5.237212083000486,
+      "sql_elapsed_s": 0.022861917001137044,
+      "answer": "Nao foi possivel executar a consulta SQL: (_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN...\n                                                                        ^\n[SQL: EXPLAIN WITH proc_counts AS ( SELECT s.DESCRICAO AS sexo, p.NOME_PROC AS procedimento, COUNT(*) AS total_registros, ROW_NUMBER() OVER ( PARTITION BY s.DESCRICAO ORDER BY COUNT(*) DESC, p.NOME_PROC ) AS rn FROM main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN main.procedimentos p ON p.PROC_REA = ip.PROC_REA WHERE i.SEXO IN (1, 2, 3) GROUP BY s.DESCRICAO, p.NOME_PROC ) SELECT sexo, procedimento, total_registros FROM proc_counts WHERE rn <= 5 ORDER BY sexo, total_registros DESC, procedimento;]\n(Background on this error at: https://sqlalche.me/e/20/f405)",
+      "agent_error": "(_duckdb.CatalogException) Catalog Error: Table with name internacao_procedimento does not exist!\nDid you mean \"internacoes\"?\n\nLINE 1: ... main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN...\n                                                                        ^\n[SQL: EXPLAIN WITH proc_counts AS ( SELECT s.DESCRICAO AS sexo, p.NOME_PROC AS procedimento, COUNT(*) AS total_registros, ROW_NUMBER() OVER ( PARTITION BY s.DESCRICAO ORDER BY COUNT(*) DESC, p.NOME_PROC ) AS rn FROM main.internacoes i JOIN main.sexo s ON s.SEXO = i.SEXO JOIN main.internacao_procedimento ip ON ip.N_AIH = i.N_AIH JOIN main.procedimentos p ON p.PROC_REA = ip.PROC_REA WHERE i.SEXO IN (1, 2, 3) GROUP BY s.DESCRICAO, p.NOME_PROC ) SELECT sexo, procedimento, total_registros FROM proc_counts WHERE rn <= 5 ORDER BY sexo, total_registros DESC, procedimento;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT025",
+      "difficulty": "medium",
+      "question": "Quantas internações com VDRL positivo resultaram em morte?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS internacoes_vdrl_positivo_que_resultaram_em_morte FROM internacoes WHERE IND_VDRL = TRUE AND MORTE = TRUE;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "vdrl_positivo_obito"
+      ],
+      "predicted_columns": [
+        "internacoes_vdrl_positivo_que_resultaram_em_morte"
+      ],
+      "gold_rows_sample": [
+        [
+          9438
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          9438
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 3.072124916998291,
+      "sql_elapsed_s": 0.0804871659966011,
+      "answer": "Foram **9.438 internações** com **VDRL positivo** que resultaram em **morte**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT009",
+      "difficulty": "easy",
+      "question": "Quantas especialidades médicas estão cadastradas?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_especialidades FROM especialidade;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": true,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_especialidades"
+      ],
+      "predicted_columns": [
+        "total_especialidades"
+      ],
+      "gold_rows_sample": [
+        [
+          39
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          39
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.1966535419996944,
+      "sql_elapsed_s": 0.02325695900071878,
+      "answer": "Estão cadastradas **39 especialidades médicas**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT082",
+      "difficulty": "hard",
+      "question": "Quais são os 3 diagnósticos principais mais comuns entre pacientes com mais de 60 anos no estado de MA e no estado do RS?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH base AS ( SELECT m.SG_UF, i.DIAG_PRINC, c.DESCRICAO AS diagnostico, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D LEFT JOIN cid c ON i.DIAG_PRINC = c.CID WHERE i.IDADE > 60 AND m.SG_UF IN ('MA', 'RS') AND i.DIAG_PRINC IS NOT NULL AND i.DIAG_PRINC <> '' AND i.DIAG_PRINC <> '0' GROUP BY m.SG_UF, i.DIAG_PRINC, c.DESCRICAO ), ranked AS ( SELECT SG_UF, DIAG_PRINC, diagnostico, total_internacoes, ROW_NUMBER() OVER (PARTITION BY SG_UF ORDER BY total_internacoes DESC, DIAG_PRINC) AS rn FROM base ) SELECT SG_UF AS uf, DIAG_PRINC AS cid_principal, diagnostico, total_internacoes FROM ranked WHERE rn <= 3 ORDER BY uf, total_internacoes DESC, cid_principal;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "estado",
+        "DESCRICAO",
+        "total"
+      ],
+      "predicted_columns": [
+        "uf",
+        "cid_principal",
+        "diagnostico",
+        "total_internacoes"
+      ],
+      "gold_rows_sample": [
+        [
+          "MA",
+          "Hipertensao essencial",
+          63084
+        ],
+        [
+          "MA",
+          "Acid vasc cerebr NE como hemorrag isquemico",
+          46706
+        ],
+        [
+          "MA",
+          "Pneumonia NE",
+          40505
+        ],
+        [
+          "RS",
+          "Pneumonia NE",
+          127133
+        ],
+        [
+          "RS",
+          "Doenc pulmonar obstrutiva cronica NE",
+          116497
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "MA",
+          "I10",
+          "Hipertensao essencial",
+          63084
+        ],
+        [
+          "MA",
+          "I64",
+          "Acid vasc cerebr NE como hemorrag isquemico",
+          46706
+        ],
+        [
+          "MA",
+          "J189",
+          "Pneumonia NE",
+          40505
+        ],
+        [
+          "RS",
+          "J189",
+          "Pneumonia NE",
+          127133
+        ],
+        [
+          "RS",
+          "J449",
+          "Doenc pulmonar obstrutiva cronica NE",
+          116497
+        ]
+      ],
+      "gold_row_count": 6,
+      "predicted_row_count": 6,
+      "agent_elapsed_s": 5.012531250002212,
+      "sql_elapsed_s": 0.1857469160022447,
+      "answer": "Entre pacientes com mais de 60 anos, os 3 diagnósticos principais mais comuns foram:\n\n**MA**\n1. **I10** — Hipertensão essencial: **63.084** internações  \n2. **I64** — Acidente vascular cerebral, não especificado como hemorrágico ou isquêmico: **46.706**  \n3. **J189** — Pneumonia não especificada: **40.505**\n\n**RS**\n1. **J189** — Pneumonia não especificada: **127.133** internações  \n2. **J449** — Doença pulmonar obstrutiva crônica não especificada: **116.497**  \n3. **I509** — Insuficiência cardíaca não especificada: **109.151**",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT026",
+      "difficulty": "medium",
+      "question": "Qual o valor médio das internações que resultaram em óbito?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT AVG(VAL_TOT) AS valor_medio_internacoes_obito FROM internacoes WHERE MORTE = TRUE;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": false,
+      "gold_columns": [
+        "valor_medio_obitos"
+      ],
+      "predicted_columns": [
+        "valor_medio_internacoes_obito"
+      ],
+      "gold_rows_sample": [
+        [
+          5151.139859452307
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          5151.139859452387
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.9688352500015753,
+      "sql_elapsed_s": 0.11583537499973318,
+      "answer": "O valor médio das internações que resultaram em óbito foi de **R$ 5.151,14**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT010",
+      "difficulty": "easy",
+      "question": "Quantos casos obstétricos foram registrados?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS casos_obstetricos FROM internacoes WHERE ESPEC = 2;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "total_obstetricos"
+      ],
+      "predicted_columns": [
+        "casos_obstetricos"
+      ],
+      "gold_rows_sample": [
+        [
+          27397950
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          27397950
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.8574972079986765,
+      "sql_elapsed_s": 0.06524845799867762,
+      "answer": "Foram registrados **27.397.950** casos obstétricos.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT083",
+      "difficulty": "hard",
+      "question": "Qual é a taxa de mortalidade por nível de instrução no estado do RS, considerando apenas grupos com mais de 1000 internações?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "WITH internacoes_rs AS ( SELECT i.INSTRU, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.MORTE = TRUE THEN 1 ELSE 0 END) AS obitos FROM internacoes i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RS' GROUP BY i.INSTRU ) SELECT ins.DESCRICAO AS nivel_instrucao, irs.total_internacoes, irs.obitos, 1.0 * irs.obitos / irs.total_internacoes AS taxa_mortalidade FROM internacoes_rs irs LEFT JOIN instrucao ins ON irs.INSTRU = ins.INSTRU WHERE irs.total_internacoes > 1000 ORDER BY taxa_mortalidade DESC, total_internacoes DESC;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": false,
+      "strict_match": false,
+      "answer_scalar_match": null,
+      "gold_columns": [
+        "DESCRICAO",
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "predicted_columns": [
+        "nivel_instrucao",
+        "total_internacoes",
+        "obitos",
+        "taxa_mortalidade"
+      ],
+      "gold_rows_sample": [
+        [
+          "1º grau",
+          43471,
+          3,
+          0.01
+        ],
+        [
+          "2º grau",
+          27900,
+          0,
+          0.0
+        ],
+        [
+          "Analfabeto",
+          2756,
+          0,
+          0.0
+        ],
+        [
+          "3º grau",
+          2706,
+          0,
+          0.0
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          "Não informado",
+          11754972,
+          611906,
+          0.05205507933153733
+        ],
+        [
+          "1º grau",
+          43471,
+          3,
+          6.901152492466242e-05
+        ],
+        [
+          "2º grau",
+          27900,
+          0,
+          0.0
+        ],
+        [
+          "Analfabeto",
+          2756,
+          0,
+          0.0
+        ],
+        [
+          "3º grau",
+          2706,
+          0,
+          0.0
+        ]
+      ],
+      "gold_row_count": 4,
+      "predicted_row_count": 5,
+      "agent_elapsed_s": 4.5413489999991725,
+      "sql_elapsed_s": 0.11569133299781242,
+      "answer": "No RS, considerando apenas grupos com mais de 1000 internações, a taxa de mortalidade por nível de instrução foi:\n\n- **Não informado**: 5,21% (611.906 óbitos em 11.754.972 internações)\n- **1º grau**: 0,0069% (3 óbitos em 43.471 internações)\n- **2º grau**: 0,00% (0 óbitos em 27.900 internações)\n- **Analfabeto**: 0,00% (0 óbitos em 2.756 internações)\n- **3º grau**: 0,00% (0 óbitos em 2.706 internações)\n\nA maior taxa foi no grupo **“Não informado”**.",
+      "agent_error": ""
+    },
+    {
+      "agent": "langgraph_simple",
+      "id": "GT027",
+      "difficulty": "medium",
+      "question": "Quantas internações obstétricas foram registradas em UTI?",
+      "gold_success": true,
+      "gold_error": "",
+      "agent_success": true,
+      "agent_status": "answerable",
+      "sql_generated": true,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_obstetricas_em_uti FROM internacoes WHERE ESPEC = 2 AND VAL_UTI > 0;",
+      "prediction_success": true,
+      "prediction_error": "",
+      "content_match": true,
+      "strict_match": false,
+      "answer_scalar_match": true,
+      "gold_columns": [
+        "obstetricos_uti"
+      ],
+      "predicted_columns": [
+        "total_internacoes_obstetricas_em_uti"
+      ],
+      "gold_rows_sample": [
+        [
+          110161
+        ]
+      ],
+      "predicted_rows_sample": [
+        [
+          110161
+        ]
+      ],
+      "gold_row_count": 1,
+      "predicted_row_count": 1,
+      "agent_elapsed_s": 2.970969916001195,
+      "sql_elapsed_s": 0.09259879099772661,
+      "answer": "Foram registradas **110.161 internações obstétricas em UTI**.",
+      "agent_error": ""
+    }
+  ]
+}
