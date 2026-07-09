@@ -1,43 +1,188 @@
-# Health System Chatbot
+# Datasus Health System Chatbot
 
-Projeto para preparar um chatbot Text-to-SQL sobre dados hospitalares do
-SIH/SUS a partir do banco local `sihrd5.duckdb`.
+[![Python](https://img.shields.io/badge/python-%3E%3D3.12-blue.svg)](https://www.python.org/)
+[![Pydantic AI](https://img.shields.io/badge/Pydantic%20AI-%3E%3D2.6.0-e92063.svg)](https://ai.pydantic.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-%3E%3D0.115.0-009688.svg)](https://fastapi.tiangolo.com/)
+[![DuckDB](https://img.shields.io/badge/DuckDB-%3E%3D1.5.2-fff000.svg)](https://duckdb.org/)
+[![React](https://img.shields.io/badge/React-18.3.1-61dafb.svg)](https://react.dev/)
+[![Apache ECharts](https://img.shields.io/badge/Apache%20ECharts-6.0.0-aa344d.svg)](https://echarts.apache.org/)
 
-## Status Atual
+Datasus Health System Chatbot is a Text-to-SQL application for analytical
+questions over a local SIH/SUS DuckDB database. It translates natural-language
+questions into validated SQL, executes the query in read-only mode, and returns
+a concise answer in Portuguese. When the user asks for a visualization, the
+system can also return a structured chart payload rendered by the web frontend.
 
-Stage 1 esta concluida como fase de entendimento de dados e preparacao de
-avaliacao. A Stage 2 ja possui um corte vertical funcional do chatbot
-Text-to-SQL com Pydantic AI como nucleo das chamadas LLM estruturadas,
-validacao deterministica de SQL, self-correction, execucao read-only em DuckDB,
-CLI, API FastAPI e avaliacao automatizada contra o ground truth v2.
+The project is designed as an AI engineering system rather than a prompt-only
+demo. The runtime separates schema/context grounding, catalog lookup, SQL
+planning, deterministic validation, execution feedback, chart planning, and
+final answer synthesis.
 
-Artefatos gerados:
+## Contents
 
-- catalogo tecnico do banco, tabelas, colunas e perfis;
-- dicionario de negocio para usuarios de saude no Brasil;
-- mapa de relacionamentos e chaves candidatas;
-- relatorio de qualidade de dados;
-- metodologia de desenho das consultas;
-- ground truth Text-to-SQL validado com 100 perguntas;
-- evidencias de resultado para todas as queries aceitas;
-- notas de prontidao para Stage 2.
+- [What This Project Is](#what-this-project-is)
+- [Architecture](#architecture)
+- [Agent Workflow](#agent-workflow)
+- [Pydantic AI Components](#pydantic-ai-components)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [API](#api)
+- [Frontend](#frontend)
+- [Evaluation](#evaluation)
+- [Observability](#observability)
 
-## Banco de Dados
+## What This Project Is
 
-O banco principal e `sihrd5.duckdb`, com cerca de 25 GiB no ambiente local. Ele
-nao deve ser versionado no Git.
+This repository implements a production-oriented chatbot for Brazilian public
+health data analysis. The main workload is difficult Text-to-SQL over a large
+local database: counts, rankings, mortality analysis, temporal series,
+geographic filters, CID/procedure lookups, joins with descriptive dimensions,
+and chart requests.
 
-O `.gitignore` bloqueia:
+The system supports:
 
-- `*.duckdb`
-- `*.duckdb.wal`
-- `*.duckdb.tmp`
+- Natural-language questions over the local SIH/SUS analytical database.
+- SQL generation with structured Pydantic AI outputs.
+- Local catalog tools for CID, procedure, and dimension-value grounding.
+- Deterministic SQL guardrails before execution.
+- Execution feedback and self-correction for repairable SQL failures.
+- Optional multi-candidate SQL generation and deterministic ranking.
+- Natural-language answer synthesis separated from technical debug metadata.
+- Optional chart generation with Apache ECharts-compatible payloads.
+- CLI, FastAPI REST API, and React/Vite web frontend.
+- Regression and evaluation runners against curated question sets.
 
-## Estrutura
+## Architecture
+
+![Health System Chatbot architecture](docs/assets/chatbot-architecture.svg)
+
+The application has one central runtime path used by both the CLI and the REST
+API. The web frontend talks to the FastAPI backend, and the backend calls the
+same `workflow.run_chat` pipeline used by the command-line interface.
+
+Main layers:
+
+| Layer | Responsibility |
+|---|---|
+| React/Vite frontend | Chat UI, debug mode, schema explorer, SQL display, chart rendering |
+| FastAPI API | HTTP adapter for chat, schema, health, model info, and database explorer endpoints |
+| Workflow runtime | Orchestrates classification, context, SQL planning, validation, execution, charting, and answer synthesis |
+| Pydantic AI agents | Structured LLM calls for SQL planning, SQL repair, chart planning, and natural answer generation |
+| Catalog tools | Local lookup for CID concepts, procedures, and dimension values |
+| Validation layer | Read-only SQL checks, table/column checks, join policies, and safety constraints |
+| DuckDB executor | Executes validated SQL against the local `sihrd5.duckdb` database in read-only mode |
+| Evaluation layer | Runs curated datasets, stores traces, summaries, and error analysis artifacts |
+
+## Agent Workflow
+
+1. **Receive question**
+   - The user sends a question through the React frontend, REST API, or CLI.
+   - API requests arrive at `POST /api/chat`.
+
+2. **Classify intent**
+   - `intent.classify_question` decides whether the request is answerable,
+     needs clarification, or should be refused.
+
+3. **Retrieve database context**
+   - `schema_context.retrieve_context` selects relevant tables, columns,
+     relationships, caveats, and schema notes.
+   - The default mode is local deterministic retrieval with enrichment.
+   - LlamaIndex remains available as an optional schema retrieval path through
+     configuration.
+
+4. **Enrich context**
+   - `context_retrieval.enrich_retrieved_context` adds metric rules,
+     few-shot examples, related audit context, and value hints.
+   - Catalog tools can resolve disease/CID terms, procedure names, and textual
+     dimension values before SQL generation.
+
+5. **Plan visualization when requested**
+   - If the user asks for a chart, the chart planner creates a structured
+     `ChartPlan` describing the required result shape.
+
+6. **Generate SQL plan**
+   - The SQL planning agent returns a typed `SqlPlan`.
+   - The plan includes SQL, metric basis, date basis, geography basis, caveats,
+     join assumptions, catalog decisions, and other debug metadata.
+
+7. **Validate SQL**
+   - `sql_validator.validate_sql` blocks mutating SQL and validates table usage,
+     column usage, join policies, and common semantic mistakes.
+   - Only validated `SELECT` or `WITH` queries are eligible for execution.
+
+8. **Repair when needed**
+   - If validation or execution fails, the SQL refiner agent can produce a
+     corrected `SqlPlan`.
+   - Corrected SQL goes through the same validation path before execution.
+
+9. **Execute read-only query**
+   - `duckdb_executor.execute_validated_sql` runs the SQL against DuckDB with
+     row limits and timing metadata.
+
+10. **Render chart payload when applicable**
+    - The visualization layer validates the executed result shape and converts
+      it into a chart contract plus ECharts options.
+
+11. **Synthesize final answer**
+    - The answer agent receives only the executed result and approved context.
+    - The user-facing answer is concise and friendly.
+    - Technical details remain available in `developer_context` when debug mode
+      is enabled.
+
+12. **Persist trace and audit data**
+    - Chat traces and audit entries are written under `evaluation/chatbot/` for
+      debugging and regression analysis.
+
+## Pydantic AI Components
+
+The core LLM calls are implemented as Pydantic AI agents in
+`src/health_system_chatbot/agents.py`.
+
+| Agent | Output | Purpose |
+|---|---|---|
+| `health_system_sql_plan_agent` | `SqlPlan` | Generates the structured SQL plan |
+| `health_system_sql_refiner_agent` | `SqlPlan` | Repairs SQL rejected by validation or execution |
+| `health_system_chart_plan_agent` | `ChartPlan` | Plans the data shape needed for charts |
+| `health_system_answer_agent` | `NaturalAnswer` | Produces the final Portuguese answer |
+
+Typed dependency objects live in `src/health_system_chatbot/agent_deps.py`:
+
+- `ChatDeps`
+- `RefinerDeps`
+- `ChartDeps`
+- `AnswerDeps`
+
+Catalog tools are registered on the SQL planning agent when
+`CHATBOT_CATALOG_TOOLS_ENABLED=true`:
+
+- `search_cid_catalog_tool`
+- `search_procedure_catalog_tool`
+- `search_dimension_values_tool`
+
+## Technology Stack
+
+Version constraints are defined in `pyproject.toml` and `frontend/package.json`.
+
+| Layer | Technology | Role |
+|---|---|---|
+| Backend language | Python `>=3.12` | Agent runtime, API, evaluation |
+| Agent framework | Pydantic AI | Structured LLM agents and tool calling |
+| Model provider | OpenAI | SQL planning, repair, chart planning, answer synthesis |
+| Optional retrieval | LlamaIndex | Optional vector schema retrieval |
+| API | FastAPI + Uvicorn | REST service and frontend serving |
+| Data contracts | Pydantic | API models, SQL plans, chart specs |
+| SQL validation | sqlglot + project validators | Read-only SQL and semantic guardrails |
+| Database | DuckDB | Local analytical database runtime |
+| Frontend | React + Vite | Web chat application |
+| Charts | Apache ECharts | Browser chart rendering |
+| Tests | pytest + Vitest | Backend and frontend quality checks |
+
+## Project Structure
 
 ```text
-.
-|-- GOAL.md
+health-system-chatbot/
 |-- docs/
 |   |-- database_overview.md
 |   |-- schema_catalog.md
@@ -45,7 +190,6 @@ O `.gitignore` bloqueia:
 |   |-- relationship_map.md
 |   |-- data_quality_report.md
 |   |-- query_design_methodology.md
-|   |-- stage2_readiness.md
 |   |-- assets/
 |   `-- generated/
 |-- evaluation/
@@ -54,318 +198,313 @@ O `.gitignore` bloqueia:
 |-- frontend/
 |   |-- src/
 |   |-- package.json
+|   |-- pnpm-lock.yaml
 |   `-- vite.config.mjs
-|-- src/
-|   `-- health_system_chatbot/
 |-- scripts/
-|   |-- sihrd5_stage1.py
 |   |-- chat_smoke.py
 |   |-- evaluate_chatbot.py
+|   |-- evaluate_chart_generation.py
+|   |-- sihrd5_stage1.py
 |   `-- verify_stage1.py
+|-- src/
+|   `-- health_system_chatbot/
+|       |-- agents.py
+|       |-- agent_deps.py
+|       |-- api.py
+|       |-- workflow.py
+|       |-- sql_generator.py
+|       |-- sql_validator.py
+|       |-- duckdb_executor.py
+|       |-- catalogs/
+|       |-- tools/
+|       `-- visualization/
+|-- tests/
+|-- pyproject.toml
+|-- requirements-chatbot.txt
+`-- README.md
 ```
 
-## Arquitetura Atual
+## Quick Start
 
-![Arquitetura do Health System Chatbot](docs/assets/chatbot-architecture.svg)
+### Prerequisites
 
-O projeto esta organizado como um chatbot Text-to-SQL local, com adaptadores
-finos para CLI e HTTP e um pipeline central em `workflow.run_chat`. A API
-FastAPI e a CLI chamam o mesmo fluxo, o que mantem a semantica de resposta,
-validacao e auditoria alinhada entre interface web e terminal. A avaliacao
-automatizada (`evaluation.evaluate_dataset`) e uma trilha de desenvolvimento
-separada: ela reutiliza os componentes centrais de classificacao, contexto,
-geracao SQL, validacao e execucao para medir qualidade, mas nao sintetiza
-`ChatbotAnswer` nem registra conversa como usuario.
+- Python 3.12 or higher.
+- Node.js 20.19 or higher.
+- pnpm 9 or higher.
+- OpenAI API key.
+- Local DuckDB file, typically `sihrd5.duckdb`.
 
-Fluxo principal:
+The database file is intentionally not versioned. Keep it outside Git or in the
+repository root as an ignored local file.
 
-1. O usuario envia uma pergunta pela interface web ou CLI (`ask`/`ask-file`).
-2. `intent.classify_question` decide se a pergunta pode ser respondida,
-   precisa de esclarecimento ou deve ser recusada.
-3. `schema_context.retrieve_context` recupera tabelas, colunas, politicas de
-   join e caveats a partir dos artefatos da Stage 1. No default Pydantic AI, o
-   modo `auto` usa retrieval deterministico por palavras-chave e enriquecimento
-   de contexto; LlamaIndex permanece disponivel como fallback opcional por
-   configuracao.
-4. `audit.find_related_audit_context` busca perguntas anteriores relacionadas
-   no audit log para dar continuidade ao contexto da conversa.
-5. `context_retrieval.enrich_retrieved_context` adiciona metricas de negocio,
-   exemplos few-shot do ground truth e value hints seguros de valores reais.
-6. `sql_generator.generate_sql_plan` chama o agente Pydantic AI/OpenAI para
-   gerar um `SqlPlan` estruturado. O caminho antigo com LlamaIndex pode ser
-   selecionado por `CHATBOT_AGENT_FRAMEWORK=llamaindex`.
-7. `sql_validator.validate_sql` aplica guardrails deterministas: somente
-   `SELECT`/`WITH`, bloqueio de comandos mutantes, validacao de tabelas,
-   politicas de relacionamento, joins territoriais e comparacoes incompativeis
-   como codigo numerico de municipio contra literal textual.
-8. Se a validacao ou execucao falhar, `self_correction.refine_sql_plan` pode
-   acionar um agente Pydantic AI refiner; toda SQL corrigida e revalidada antes
-   de executar. Quando `CHATBOT_ENABLE_MULTI_CANDIDATE=true`, o runtime gera
-   candidatas, valida, executa somente as validas e ranqueia deterministicamente.
-9. `duckdb_executor.execute_validated_sql` executa apenas SQL validada em
-   `sihrd5.duckdb` em modo read-only.
-10. `answer_synthesizer.synthesize_answer` envia o resultado executado ao agente
-   Pydantic AI de resposta natural e preserva os detalhes de desenvolvimento em
-   `result_summary`, `sql`, `caveats`, `evidence` e `developer_context`.
-11. `workflow.run_chat` grava traces e audit log em `evaluation/chatbot/` para
-   depuracao, auditoria e avaliacao posterior.
-
-Trilha de avaliacao:
-
-- `evaluation.evaluate_dataset` le o ground truth v2, executa os componentes
-  centrais ate `duckdb_executor.execute_validated_sql` e grava metricas em
-  `evaluation/chatbot/results/`.
-- `evaluation/chatbot/evaluate_extraction_accuracy.py` compara resultados
-  executados, grava `results.json`, `analysis.md`, `trace.jsonl`,
-  `failure_examples.jsonl` e `summary.csv` por run.
-- Essa trilha nao substitui `workflow.run_chat`: ela existe para regressao e
-  analise de erros durante o desenvolvimento.
-
-Decisoes arquiteturais importantes:
-
-- O banco `sihrd5.duckdb` e a fonte operacional local; ele nao e versionado.
-- O ground truth v2 nao e usado como atalho de resposta. Ele e usado para
-  avaliacao automatizada e exemplos few-shot recuperados.
-- O LLM gera o plano SQL, mas a execucao depende de validacao deterministica
-  antes de consultar o DuckDB; SQL invalida nunca e executada.
-- A resposta final para o usuario fica separada dos artefatos tecnicos, para
-  manter boa experiencia de uso sem perder rastreabilidade durante o
-  desenvolvimento.
-- O audit log funciona como memoria leve de perguntas relacionadas; ele nao
-  substitui os artefatos de schema nem o banco.
-
-## Comparacao de Agentes
-
-Foi feita uma avaliacao comparativa entre o agente atual com Pydantic AI e o
-runtime funcional do projeto externo
-`/Users/maiconkevyn/PycharmProjects/agent-txt2sql-langgraph`. O caminho
-`LangGraphOrchestrator` desse projeto externo nao estava executavel no momento
-da avaliacao por importar funcoes ausentes em `orchestrator_support.py`; por
-isso, a comparacao usou o `SimpleSQLAgent`, que e o runtime que de fato roda no
-repo comparado.
-
-Foram avaliadas 288 perguntas por agente:
-
-- 15 perguntas de CID/doencas;
-- 45 perguntas densas sobre o banco atual e joins;
-- 228 perguntas do ground truth validado principal.
-
-Resultado consolidado:
-
-| Agente | Match de resultado | SQL executou | Agent success | Strict match | Tempo medio |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Pydantic AI | 89,2% | 98,6% | 98,6% | 69,4% | 6,03s |
-| LangGraph/simple | 49,7% | 95,1% | 96,2% | 8,7% | 4,63s |
-
-No GT228 completo, o Pydantic AI obteve 88,6% de match de resultado contra
-50,4% do LangGraph/simple. A diferenca ficou especialmente clara nas perguntas
-medium/hard: o Pydantic AI manteve 88,2% em medium e 80,5% em hard, enquanto o
-LangGraph/simple ficou em 43,4% e 11,7%, respectivamente.
-
-Conclusao: manter Pydantic AI como framework central do fluxo atual. A vantagem
-veio principalmente das camadas de grounding, catalogo clinico, validacao,
-self-correction e separacao entre SQL, execucao e resposta final.
-
-Report completo:
-
-- `docs/agent_comparison_report.md`
-- `evaluation/chatbot/results/agent_comparison_consolidated_summary.json`
-
-## Stage 1
-
-O plano executado esta em `GOAL.md`.
-
-Resultados principais:
-
-- 234 tabelas inventariadas.
-- 23 tabelas no schema analitico `main`.
-- 211 tabelas de auditoria dbt em `main_dbt_test__audit`.
-- 2.415 colunas catalogadas.
-- 166 colunas do schema `main` perfiladas.
-- 23 estimativas de armazenamento de tabelas.
-- 23 chaves candidatas confirmadas.
-- 20 relacionamentos avaliados.
-- 15 checagens de qualidade de dados.
-- 100 perguntas Text-to-SQL validadas.
-
-Distribuicao do ground truth:
-
-| Dificuldade | Quantidade |
-| --- | ---: |
-| L1 | 15 |
-| L2 | 25 |
-| L3 | 25 |
-| L4 | 20 |
-| L5 | 15 |
-
-## Gerar Artefatos
-
-Requer um ambiente Python com `duckdb` instalado e o arquivo `sihrd5.duckdb` na
-raiz do projeto.
+### 1. Install Backend Dependencies
 
 ```bash
-.venv/bin/python scripts/sihrd5_stage1.py
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
 ```
 
-O script abre o banco em modo read-only, executa consultas de inventario,
-perfilamento, qualidade e validacao, e escreve os artefatos em `docs/` e
-`evaluation/ground_truth/`.
-
-## Verificar
+If you prefer the pinned requirements file:
 
 ```bash
-.venv/bin/python scripts/verify_stage1.py
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-chatbot.txt
+pip install -e .
 ```
 
-Ultima verificacao executada:
+### 2. Configure Environment
 
-```text
-PASS: Stage 1 artifacts verified
-questions=100 distribution={'L1': 15, 'L2': 25, 'L3': 25, 'L4': 20, 'L5': 15}
-evidence_files=100
+Create a `.env` file in the repository root:
+
+```env
+OPENAI_API_KEY=sk-your_openai_key_here
+CHATBOT_DB_PATH=/absolute/path/to/sihrd5.duckdb
+
+# Optional
+CHATBOT_LLM_MODEL=gpt-4.1-mini
+CHATBOT_EMBED_MODEL=text-embedding-3-small
+CHATBOT_AGENT_FRAMEWORK=pydantic_ai
+CHATBOT_SCHEMA_RETRIEVAL_MODE=auto
+CHATBOT_MAX_ROWS=200
+CHATBOT_QUERY_TIMEOUT_SECONDS=60
+CHATBOT_SQL_CORRECTION_ATTEMPTS=2
+CHATBOT_CATALOG_TOOLS_ENABLED=true
+CHATBOT_ENABLE_MULTI_CANDIDATE=false
 ```
 
-Tambem foi feita uma reexecucao independente das 100 queries salvas contra
-`sihrd5.duckdb`, comparando row counts e hashes dos resultados com as evidencias
-armazenadas:
+Supported values:
 
-```text
-reexecuted=100 seconds=92.039 failures=0
-```
+| Variable | Default | Notes |
+|---|---|---|
+| `CHATBOT_AGENT_FRAMEWORK` | `pydantic_ai` | `pydantic_ai` or `llamaindex` |
+| `CHATBOT_SCHEMA_RETRIEVAL_MODE` | `auto` | `auto`, `keyword`, or `llamaindex_vector` |
+| `CHATBOT_CATALOG_RETRIEVAL_MODE` | `lexical` | Local catalog retrieval mode |
+| `CHATBOT_CATALOG_TOOLS_ENABLED` | `true` | Enables CID/procedure/dimension lookup tools |
 
-## Stage 2
-
-A implementacao do chatbot consome os achados da Stage 1, especialmente:
-
-- diferenciar municipio de residencia (`MUNIC_RES`) de municipio do hospital
-  (`hospital.MUNIC_MOV`);
-- evitar multiplicacao acidental de internacoes ao juntar procedimentos;
-- declarar se metricas financeiras usam `VAL_TOT` ou componentes;
-- usar dimensoes de CID, procedimento, hospital e municipio para respostas
-  legiveis;
-- pedir esclarecimento ou recusar perguntas ambiguas sobre custo, producao,
-  mortalidade ou local sem denominador e recorte definidos.
-- gerar uma resposta final amigavel em `answer_pt`, mantendo SQL, caveats,
-  evidencias e contexto de desenvolvimento disponiveis no payload.
-
-Arquivos principais:
-
-- `chat_goal.md`: plano de implementacao e criterios de aceite.
-- `src/health_system_chatbot/`: pacote do chatbot.
-- `src/health_system_chatbot/workflow.py`: orquestracao principal do runtime.
-- `src/health_system_chatbot/answer_synthesizer.py`: resposta final e contexto
-  de desenvolvimento.
-- `scripts/chat_smoke.py`: smoke test conversacional.
-- `evaluation/chatbot/evaluate_extraction_accuracy.py`: avaliacao contra ground
-  truth por resultado executado.
-- `evaluation/chatbot/results/`: resultados de avaliacao.
-- `evaluation/chatbot/error_analysis/`: analise de erros por iteracao.
-- `evaluation/chatbot/traces/`: traces JSON por pergunta executada.
-- `evaluation/chatbot/audit/chat_audit.jsonl`: log append-only de auditoria.
-
-Comandos:
+### 3. Start the API
 
 ```bash
-.venv/bin/python -m health_system_chatbot.cli ask "Quantas internacoes existem na tabela principal?" --show-sql
-.venv/bin/python scripts/chat_smoke.py
-.venv/bin/python evaluation/chatbot/evaluate_extraction_accuracy.py --limit 10 --run-id pydantic_ai_limit10
+PYTHONPATH=src .venv/bin/python -m uvicorn health_system_chatbot.api:app \
+  --host 127.0.0.1 \
+  --port 8000 \
+  --reload
 ```
 
-Auditoria e perguntas em lote:
+Open:
+
+- API root and frontend: `http://127.0.0.1:8000`
+- Swagger docs: `http://127.0.0.1:8000/docs`
+- Health check: `http://127.0.0.1:8000/health`
+
+### 4. Install and Build the Frontend
+
+```bash
+cd frontend
+pnpm install
+pnpm build
+```
+
+When `frontend/dist/index.html` exists, FastAPI serves the React build at
+`GET /`. Without that build, FastAPI falls back to the legacy static HTML in
+`src/health_system_chatbot/static/index.html`.
+
+For frontend development with Vite:
+
+```bash
+cd frontend
+pnpm dev
+```
+
+The Vite dev server runs at `http://127.0.0.1:5173` and proxies `/api` requests
+to `http://127.0.0.1:8000`.
+
+## Usage
+
+### CLI
+
+Show safe runtime configuration:
+
+```bash
+.venv/bin/python -m health_system_chatbot.cli config
+```
+
+Ask a single question:
+
+```bash
+.venv/bin/python -m health_system_chatbot.cli ask \
+  "Quantas internacoes existem?" \
+  --show-sql
+```
+
+Ask many questions from a file:
 
 ```bash
 .venv/bin/python -m health_system_chatbot.cli ask-file perguntas.txt --show-sql
-.venv/bin/python -m health_system_chatbot.cli audit-log --limit 20
 ```
 
-Cada pergunta enviada por `ask` ou `ask-file` e registrada em
-`evaluation/chatbot/audit/chat_audit.jsonl` com pergunta, status, resposta,
-passos executados, SQL gerado/validado, resultado, erros quando existirem e
-status de corretude. Para perguntas ad hoc, a corretude fica como
-`not_evaluated`; no benchmark, a corretude fica registrada nos arquivos de
-avaliacao em `evaluation/chatbot/results/`.
-
-O ground truth v2 nao e usado como rota de resposta do chatbot. Ele serve para
-avaliacao e para recuperar exemplos relacionados no contexto do agente. A flag
-`--no-llm` e apenas para debug e tende a falhar em perguntas novas, porque
-desliga a geracao do modelo.
-
-### Interface Web
-
-A camada HTTP usa FastAPI como adaptador fino sobre o mesmo `run_chat` usado
-pelo comando `ask`. A interface principal agora e uma UI React/Vite replicada do
-projeto LangGraph e adaptada ao contrato do agente Pydantic AI.
-
-Fluxo da UI:
-
-- `frontend/src/hooks/use-chat.js` envia perguntas para `POST /api/chat`;
-- `frontend/src/lib/chat-utils.js` adapta `ChatbotAnswer` para o formato da UI;
-- `ChartPanel` renderiza `chart.echarts` com Apache ECharts;
-- `DebugPanel` mostra `developer_context` apenas com debug ligado;
-- `SchemaExplorer` usa `/api/schema`.
-
-Executar localmente:
+Inspect retrieved context:
 
 ```bash
-PYTHONPATH=src .venv/bin/python -m uvicorn health_system_chatbot.api:app --host 127.0.0.1 --port 8000 --reload
+.venv/bin/python -m health_system_chatbot.cli context \
+  "Mortes por cancer em mulheres acima de 50 anos em Porto Alegre"
 ```
 
-Depois, abra `http://127.0.0.1:8000`.
-
-Desenvolvimento do frontend:
+Validate and execute read-only SQL:
 
 ```bash
-cd frontend
-PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm install
-PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm dev
+.venv/bin/python -m health_system_chatbot.cli run-sql \
+  "SELECT COUNT(*) AS total FROM internacoes"
 ```
 
-O Vite roda em `http://127.0.0.1:5173` e faz proxy de `/api` para o FastAPI em
-`http://127.0.0.1:8000`.
-
-Build servido pelo FastAPI:
-
-```bash
-cd frontend
-PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm build
-```
-
-Quando `frontend/dist/index.html` existe, `GET /` serve o build React. Sem esse
-build, a API ainda cai para a UI estatica legada em
-`src/health_system_chatbot/static/index.html`.
-
-Endpoints principais:
-
-- `GET /`: frontend React buildado, ou fallback legado.
-- `GET /health`: status da API.
-- `GET /api/health` e `GET /api/agent-health`: status usado pela UI.
-- `POST /api/chat`: envia `{ "question": "...", "show_sql": false, "show_debug": false, "allow_llm": true }` e retorna o `ChatbotAnswer`.
-- `GET /api/schema`: lista tabelas e contexto de schema para o explorador.
-- `GET /api/database/overview`: lista tabelas conhecidas.
-- `GET /api/database/table/{schema}/{table}`: colunas e amostra read-only.
-- `POST /api/database/query`: executa SQL read-only validada para exploracao.
-
-Testes da UI e endpoints:
-
-```bash
-PATH=/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:/Users/maiconkevyn/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin:$PATH pnpm --dir frontend test
-.venv/bin/pytest tests/test_api.py tests/test_frontend_support_endpoints.py -q
-```
-
-Perguntas de validacao manual:
+### Example Questions
 
 ```text
 Quantas internacoes existem?
+Quantos partos aconteceram?
+Quantas mulheres acima de 50 anos morreram por cancer em Porto Alegre?
+Qual a distribuicao de internacoes por sexo?
 Gere um grafico de barras com a distribuicao de internacoes por sexo.
+Mostre a evolucao anual de mortes por cancer.
+Quais municipios do RS tiveram mais internacoes?
 ```
 
-Ultima avaliacao Stage 2:
+## API
+
+The REST API is implemented in `src/health_system_chatbot/api.py`.
+
+| Method | Path | Purpose |
+|---|---|---|
+| `GET` | `/` | Serves the React build or static fallback |
+| `GET` | `/health` | Basic API health check |
+| `GET` | `/api/health` | Frontend health endpoint |
+| `GET` | `/api/agent-health` | Agent configuration and status |
+| `POST` | `/api/chat` | Main chat endpoint |
+| `GET` | `/api/schema` | Schema context for all tables or one table |
+| `GET` | `/api/models` | Current model/provider configuration |
+| `GET` | `/api/database/overview` | Known table inventory |
+| `GET` | `/api/database/table/{schema}/{table}` | Columns and sample rows |
+| `POST` | `/api/database/query` | Validated read-only SQL explorer query |
+
+Example chat request:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "question": "Quantas internacoes existem?",
+    "show_sql": true,
+    "show_debug": true,
+    "allow_llm": true
+  }'
+```
+
+Example response fields:
+
+| Field | Meaning |
+|---|---|
+| `answer_pt` | User-facing answer in Portuguese |
+| `sql` | Generated and validated SQL, included for debug/API use |
+| `result_summary` | Compact technical summary |
+| `caveats` | Relevant caveats for interpretation |
+| `evidence` | Execution metadata such as row count and elapsed time |
+| `developer_context` | Debug metadata for developers |
+| `chart` | Optional chart contract and ECharts options |
+| `status` | `answered`, `clarified`, `refused`, or `failed` |
+
+## Frontend
+
+The frontend is a React/Vite application under `frontend/`.
+
+User-facing title:
 
 ```text
-total=100
-intent_accuracy=1.0
-sql_valid_rate=1.0
-sql_execution_rate=1.0
-result_match_rate=1.0
-failures=0
+Datasus Health System Chatbot
+DaVint Lab - Pydantic AI
 ```
+
+Frontend responsibilities:
+
+- Chat composer and message history.
+- Debug mode toggle.
+- Optional SQL display.
+- Developer debug panel.
+- Schema explorer.
+- Health/status display.
+- Chart rendering from `chart.echarts` using Apache ECharts.
+
+Important files:
+
+| File | Purpose |
+|---|---|
+| `frontend/src/hooks/use-chat.js` | Sends questions to `POST /api/chat` |
+| `frontend/src/lib/chat-utils.js` | Normalizes backend `ChatbotAnswer` payloads |
+| `frontend/src/components/results/ChartPanel.jsx` | Renders ECharts charts |
+| `frontend/src/components/results/DebugPanel.jsx` | Renders debug metadata |
+| `frontend/src/components/schema/SchemaExplorer.jsx` | Shows schema context |
+| `frontend/src/components/layout/AppHeader.jsx` | Main app header and controls |
+
+## Evaluation
+
+The repository includes evaluation and regression tooling for Text-to-SQL
+quality, chart generation, and runtime behavior.
+
+Useful commands:
+
+```bash
+.venv/bin/pytest -q
+```
+
+```bash
+cd frontend
+pnpm test
+```
+
+```bash
+.venv/bin/python scripts/chat_smoke.py
+```
+
+```bash
+.venv/bin/python evaluation/chatbot/evaluate_extraction_accuracy.py \
+  --limit 10 \
+  --run-id local_smoke
+```
+
+```bash
+.venv/bin/python scripts/evaluate_chart_generation.py \
+  --run-id chart_smoke
+```
+
+Evaluation artifacts are written under `evaluation/chatbot/results/`. Chat
+traces and audit logs are stored under `evaluation/chatbot/` for inspection and
+debugging.
+
+## Observability
+
+The runtime keeps technical metadata separate from the final answer shown to
+the user.
+
+Important observability outputs:
+
+- `evaluation/chatbot/audit/chat_audit.jsonl`: append-only chat audit log.
+- `evaluation/chatbot/traces/`: per-question runtime traces.
+- `evaluation/chatbot/results/`: evaluation outputs.
+- `developer_context` in API responses: retrieved tables, catalog decisions,
+  metric basis, chart planning, value hints, warnings, and related context.
+
+The frontend only shows developer details when debug mode is enabled.
+
+## Database Notes
+
+The primary database is `sihrd5.duckdb`. It can be large and must not be
+committed to Git.
+
+Ignored local database files:
+
+- `*.duckdb`
+- `*.duckdb.wal`
+- `*.duckdb.tmp`
+
+The SQL executor opens the database in read-only mode and only executes SQL that
+passes validation.
