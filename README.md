@@ -130,6 +130,43 @@ Decisoes arquiteturais importantes:
 - O audit log funciona como memoria leve de perguntas relacionadas; ele nao
   substitui os artefatos de schema nem o banco.
 
+## Comparacao de Agentes
+
+Foi feita uma avaliacao comparativa entre o agente atual com Pydantic AI e o
+runtime funcional do projeto externo
+`/Users/maiconkevyn/PycharmProjects/agent-txt2sql-langgraph`. O caminho
+`LangGraphOrchestrator` desse projeto externo nao estava executavel no momento
+da avaliacao por importar funcoes ausentes em `orchestrator_support.py`; por
+isso, a comparacao usou o `SimpleSQLAgent`, que e o runtime que de fato roda no
+repo comparado.
+
+Foram avaliadas 288 perguntas por agente:
+
+- 15 perguntas de CID/doencas;
+- 45 perguntas densas sobre o banco atual e joins;
+- 228 perguntas do ground truth validado principal.
+
+Resultado consolidado:
+
+| Agente | Match de resultado | SQL executou | Agent success | Strict match | Tempo medio |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Pydantic AI | 89,2% | 98,6% | 98,6% | 69,4% | 6,03s |
+| LangGraph/simple | 49,7% | 95,1% | 96,2% | 8,7% | 4,63s |
+
+No GT228 completo, o Pydantic AI obteve 88,6% de match de resultado contra
+50,4% do LangGraph/simple. A diferenca ficou especialmente clara nas perguntas
+medium/hard: o Pydantic AI manteve 88,2% em medium e 80,5% em hard, enquanto o
+LangGraph/simple ficou em 43,4% e 11,7%, respectivamente.
+
+Conclusao: manter Pydantic AI como framework central do fluxo atual. A vantagem
+veio principalmente das camadas de grounding, catalogo clinico, validacao,
+self-correction e separacao entre SQL, execucao e resposta final.
+
+Report completo:
+
+- `docs/agent_comparison_report.md`
+- `evaluation/chatbot/results/agent_comparison_consolidated_summary.json`
+
 ## Stage 1
 
 O plano executado esta em `GOAL.md`.

@@ -1,0 +1,357 @@
+{
+  "runs": {
+    "cid_full": {
+      "path": "evaluation/chatbot/results/agent_comparison_cid_full/results.json",
+      "items": 15,
+      "summaries": {
+        "pydantic_ai": {
+          "total": 15,
+          "gold_success_rate": 1.0,
+          "agent_success_rate": 1.0,
+          "sql_generated_rate": 1.0,
+          "sql_execution_rate": 1.0,
+          "content_match_rate": 0.9333333333333333,
+          "strict_match_rate": 0.26666666666666666,
+          "scalar_answer_match_rate": 1.0,
+          "scalar_answer_items": 5,
+          "avg_agent_elapsed_s": 9.354644636199373,
+          "by_difficulty": {
+            "easy": {
+              "total": 5,
+              "gold_success": 5,
+              "content_match_rate": 1.0,
+              "sql_execution_rate": 1.0
+            },
+            "hard": {
+              "total": 5,
+              "gold_success": 5,
+              "content_match_rate": 1.0,
+              "sql_execution_rate": 1.0
+            },
+            "medium": {
+              "total": 5,
+              "gold_success": 5,
+              "content_match_rate": 0.8,
+              "sql_execution_rate": 1.0
+            }
+          },
+          "failure_categories": {
+            "content_mismatch": 1
+          }
+        },
+        "langgraph_simple": {
+          "total": 15,
+          "gold_success_rate": 1.0,
+          "agent_success_rate": 1.0,
+          "sql_generated_rate": 1.0,
+          "sql_execution_rate": 1.0,
+          "content_match_rate": 0.26666666666666666,
+          "strict_match_rate": 0.0,
+          "scalar_answer_match_rate": 0.4,
+          "scalar_answer_items": 5,
+          "avg_agent_elapsed_s": 4.247312514066774,
+          "by_difficulty": {
+            "easy": {
+              "total": 5,
+              "gold_success": 5,
+              "content_match_rate": 0.4,
+              "sql_execution_rate": 1.0
+            },
+            "hard": {
+              "total": 5,
+              "gold_success": 5,
+              "content_match_rate": 0.2,
+              "sql_execution_rate": 1.0
+            },
+            "medium": {
+              "total": 5,
+              "gold_success": 5,
+              "content_match_rate": 0.2,
+              "sql_execution_rate": 1.0
+            }
+          },
+          "failure_categories": {
+            "content_or_alias_mismatch": 9,
+            "row_count_mismatch": 2
+          }
+        }
+      }
+    },
+    "dense_current_db_all": {
+      "path": "evaluation/chatbot/results/agent_comparison_dense_current_db_all/results.json",
+      "items": 45,
+      "summaries": {
+        "pydantic_ai": {
+          "total": 45,
+          "gold_success_rate": 1.0,
+          "agent_success_rate": 1.0,
+          "sql_generated_rate": 1.0,
+          "sql_execution_rate": 1.0,
+          "content_match_rate": 0.9111111111111111,
+          "strict_match_rate": 0.4888888888888889,
+          "scalar_answer_match_rate": 1.0,
+          "scalar_answer_items": 7,
+          "avg_agent_elapsed_s": 5.1806304027555194,
+          "by_difficulty": {
+            "L1": {
+              "total": 20,
+              "gold_success": 20,
+              "content_match_rate": 0.95,
+              "sql_execution_rate": 1.0
+            },
+            "L2": {
+              "total": 13,
+              "gold_success": 13,
+              "content_match_rate": 0.9230769230769231,
+              "sql_execution_rate": 1.0
+            },
+            "L3": {
+              "total": 10,
+              "gold_success": 10,
+              "content_match_rate": 0.8,
+              "sql_execution_rate": 1.0
+            },
+            "L4": {
+              "total": 2,
+              "gold_success": 2,
+              "content_match_rate": 1.0,
+              "sql_execution_rate": 1.0
+            }
+          },
+          "failure_categories": {
+            "content_or_alias_mismatch": 3,
+            "row_count_mismatch": 1
+          }
+        },
+        "langgraph_simple": {
+          "total": 45,
+          "gold_success_rate": 1.0,
+          "agent_success_rate": 0.9777777777777777,
+          "sql_generated_rate": 1.0,
+          "sql_execution_rate": 0.9777777777777777,
+          "content_match_rate": 0.5333333333333333,
+          "strict_match_rate": 0.044444444444444446,
+          "scalar_answer_match_rate": 0.8571428571428571,
+          "scalar_answer_items": 7,
+          "avg_agent_elapsed_s": 3.5818546138443503,
+          "by_difficulty": {
+            "L1": {
+              "total": 20,
+              "gold_success": 20,
+              "content_match_rate": 0.8,
+              "sql_execution_rate": 1.0
+            },
+            "L2": {
+              "total": 13,
+              "gold_success": 13,
+              "content_match_rate": 0.38461538461538464,
+              "sql_execution_rate": 0.9230769230769231
+            },
+            "L3": {
+              "total": 10,
+              "gold_success": 10,
+              "content_match_rate": 0.3,
+              "sql_execution_rate": 1.0
+            },
+            "L4": {
+              "total": 2,
+              "gold_success": 2,
+              "content_match_rate": 0.0,
+              "sql_execution_rate": 1.0
+            }
+          },
+          "failure_categories": {
+            "content_or_alias_mismatch": 14,
+            "content_mismatch": 1,
+            "row_count_mismatch": 5,
+            "sql_execution_error": 1
+          }
+        }
+      }
+    },
+    "gt228_full": {
+      "path": "evaluation/chatbot/results/agent_comparison_gt228_full/results.json",
+      "items": 228,
+      "summaries": {
+        "pydantic_ai": {
+          "total": 228,
+          "gold_success_rate": 1.0,
+          "agent_success_rate": 0.9824561403508771,
+          "sql_generated_rate": 0.9824561403508771,
+          "sql_execution_rate": 0.9824561403508771,
+          "content_match_rate": 0.8859649122807017,
+          "strict_match_rate": 0.7631578947368421,
+          "scalar_answer_match_rate": 0.8202247191011236,
+          "scalar_answer_items": 89,
+          "avg_agent_elapsed_s": 5.982271785276265,
+          "by_difficulty": {
+            "easy": {
+              "total": 75,
+              "gold_success": 75,
+              "content_match_rate": 0.9733333333333334,
+              "sql_execution_rate": 0.9866666666666667
+            },
+            "hard": {
+              "total": 77,
+              "gold_success": 77,
+              "content_match_rate": 0.8051948051948052,
+              "sql_execution_rate": 0.961038961038961
+            },
+            "medium": {
+              "total": 76,
+              "gold_success": 76,
+              "content_match_rate": 0.881578947368421,
+              "sql_execution_rate": 1.0
+            }
+          },
+          "failure_categories": {
+            "content_or_alias_mismatch": 10,
+            "content_mismatch": 5,
+            "empty_sql": 4,
+            "row_count_mismatch": 7
+          }
+        },
+        "langgraph_simple": {
+          "total": 228,
+          "gold_success_rate": 1.0,
+          "agent_success_rate": 0.956140350877193,
+          "sql_generated_rate": 0.9868421052631579,
+          "sql_execution_rate": 0.9429824561403509,
+          "content_match_rate": 0.5043859649122807,
+          "strict_match_rate": 0.10087719298245613,
+          "scalar_answer_match_rate": 0.8539325842696629,
+          "scalar_answer_items": 89,
+          "avg_agent_elapsed_s": 4.85870654145165,
+          "by_difficulty": {
+            "easy": {
+              "total": 75,
+              "gold_success": 75,
+              "content_match_rate": 0.9733333333333334,
+              "sql_execution_rate": 0.9733333333333334
+            },
+            "hard": {
+              "total": 77,
+              "gold_success": 77,
+              "content_match_rate": 0.11688311688311688,
+              "sql_execution_rate": 0.8961038961038961
+            },
+            "medium": {
+              "total": 76,
+              "gold_success": 76,
+              "content_match_rate": 0.4342105263157895,
+              "sql_execution_rate": 0.9605263157894737
+            }
+          },
+          "failure_categories": {
+            "content_or_alias_mismatch": 63,
+            "sql_execution_error": 10,
+            "row_count_mismatch": 34,
+            "content_mismatch": 3,
+            "empty_sql": 3
+          }
+        }
+      }
+    }
+  },
+  "combined": {
+    "pydantic_ai": {
+      "total": 288,
+      "gold_success": 288,
+      "agent_success_rate": 0.9861111111111112,
+      "sql_execution_rate": 0.9861111111111112,
+      "content_match_rate": 0.8923611111111112,
+      "strict_match_rate": 0.6944444444444444,
+      "scalar_answer_match_rate": 0.8415841584158416,
+      "avg_agent_elapsed_s": 6.03265973857631,
+      "failure_count": 31,
+      "failure_ids_sample": [
+        "CID007",
+        "DENSE_TABLE_013",
+        "DENSE_JOIN_010",
+        "DENSE_JOIN_013",
+        "DENSE_JOIN_023",
+        "GT014",
+        "GT019",
+        "GT028",
+        "GT044",
+        "GT066",
+        "GT069",
+        "GT077",
+        "GT091",
+        "GT113",
+        "GT114",
+        "GT115",
+        "GT118",
+        "GT121",
+        "GT122",
+        "GT125",
+        "GT139",
+        "GT148",
+        "GT168",
+        "GT173",
+        "GT188",
+        "GT197",
+        "GT205",
+        "GT209",
+        "GT211",
+        "GT214"
+      ],
+      "failure_categories": {
+        "content_mismatch": 6,
+        "content_or_alias_mismatch": 13,
+        "row_count_mismatch": 8,
+        "empty_sql": 4
+      }
+    },
+    "langgraph_simple": {
+      "total": 288,
+      "gold_success": 288,
+      "agent_success_rate": 0.9618055555555556,
+      "sql_execution_rate": 0.9513888888888888,
+      "content_match_rate": 0.4965277777777778,
+      "strict_match_rate": 0.08680555555555555,
+      "scalar_answer_match_rate": 0.8316831683168316,
+      "avg_agent_elapsed_s": 4.627354988836714,
+      "failure_count": 145,
+      "failure_ids_sample": [
+        "CID002",
+        "CID003",
+        "CID004",
+        "CID006",
+        "CID008",
+        "CID009",
+        "CID010",
+        "CID011",
+        "CID012",
+        "CID014",
+        "CID015",
+        "DENSE_TABLE_001",
+        "DENSE_TABLE_007",
+        "DENSE_TABLE_013",
+        "DENSE_TABLE_019",
+        "DENSE_JOIN_003",
+        "DENSE_JOIN_004",
+        "DENSE_JOIN_006",
+        "DENSE_JOIN_007",
+        "DENSE_JOIN_010",
+        "DENSE_JOIN_011",
+        "DENSE_JOIN_012",
+        "DENSE_JOIN_013",
+        "DENSE_JOIN_014",
+        "DENSE_JOIN_015",
+        "DENSE_JOIN_016",
+        "DENSE_JOIN_017",
+        "DENSE_JOIN_018",
+        "DENSE_JOIN_019",
+        "DENSE_JOIN_023"
+      ],
+      "failure_categories": {
+        "content_or_alias_mismatch": 86,
+        "row_count_mismatch": 41,
+        "content_mismatch": 4,
+        "sql_execution_error": 11,
+        "empty_sql": 3
+      }
+    }
+  }
+}
