@@ -32,6 +32,7 @@ def test_build_failure_sets_detects_agent_and_baseline_wins():
 def test_write_ablation_outputs_creates_expected_files(tmp_path):
     item = GroundTruthItem(id="T001", question_pt="Pergunta", sql="SELECT 1")
     records = [_record(item, "full_agent", True)]
+    records[0]["semantic_label_equivalence"] = True
 
     payload = write_ablation_outputs(
         run_dir=tmp_path,
@@ -46,3 +47,4 @@ def test_write_ablation_outputs_creates_expected_files(tmp_path):
     assert (tmp_path / "trace.jsonl").exists()
     assert (tmp_path / "variants/full_agent/results.json").exists()
     assert payload["variant_ranking"][0]["variant"] == "full_agent"
+    assert payload["variant_ranking"][0]["semantic_label_equivalence_count"] == 1

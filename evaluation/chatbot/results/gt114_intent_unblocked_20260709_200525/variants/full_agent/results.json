@@ -1,0 +1,210 @@
+{
+  "variant": "full_agent",
+  "summary": {
+    "total": 1,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 1.0,
+    "sql_validation_rate": 1.0,
+    "sql_valid_rate": 1.0,
+    "sql_execution_rate": 1.0,
+    "result_value_match_rate": 1.0,
+    "result_match_rate": 1.0,
+    "correction_success_rate": null,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "catalog_candidates_rate": 1.0,
+    "catalog_tool_call_rate": 1.0,
+    "catalog_decision_rate": 0.0,
+    "catalog_tool_call_count": 1,
+    "catalog_decision_count": 0,
+    "latency_p50": 8.764411583004403,
+    "latency_p95": 8.764411583004403,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 0,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "contained_in_actual_count": 0,
+    "contained_in_expected_count": 0,
+    "shape_mismatch_count": 0,
+    "value_mismatch_count": 0,
+    "error_category_counts": {},
+    "failures_by_difficulty": {}
+  },
+  "records": [
+    {
+      "id": "GT114",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual a distribui\u00e7\u00e3o dos m\u00e9todos contraceptivos utilizados por pacientes em interna\u00e7\u00f5es obst\u00e9tricas, incluindo os casos sem informa\u00e7\u00e3o?",
+      "intent_status": "needs_clarification",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "contraceptivos",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Disp utiliz obstetr ginec assoc incid adv",
+        "Y76 Disp utiliz obstetr ginec assoc incid adv",
+        "Y760 Disp p/fins diagn ou de monitorizacao",
+        "Y761 Disp p/fins terap aparelhagem reabilitacao",
+        "Y762 Proteses outr impl incl materiais acessorios"
+      ],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_dimension_values"
+      ],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT114",
+        "GT178",
+        "GT044",
+        "GT065"
+      ],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COALESCE(c.DESCRICAO, 'SEM INFORMACAO') AS metodo_contraceptivo, COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN contraceptivos c\n  ON i.CONTRACEP1 = c.CONTRACEPTIVO\nWHERE i.ESPEC = 2\nGROUP BY COALESCE(c.DESCRICAO, 'SEM INFORMACAO')\nORDER BY total_internacoes DESC, metodo_contraceptivo ASC",
+      "ground_truth_sql": "SELECT COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') AS metodo_contraceptivo, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN contraceptivos c ON i.\"CONTRACEP1\" = c.\"CONTRACEPTIVO\" WHERE i.\"ESPEC\" = 2 GROUP BY COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') ORDER BY total_internacoes DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'marca de UTI'. Join marca_uti.MARCA_UTI and return marca_uti.DESCRICAO; do not group only by raw code internacoes.MARCA_UTI."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "expected_columns": [
+        "metodo_contraceptivo",
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "metodo_contraceptivo",
+        "total_internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "N\u00e3o informado",
+          27039929
+        ],
+        [
+          "Preservativo",
+          150646
+        ],
+        [
+          "Horm\u00f4nio oral",
+          144586
+        ],
+        [
+          "LAM",
+          18911
+        ],
+        [
+          "Coito interrompido",
+          13448
+        ],
+        [
+          "DIU",
+          11570
+        ],
+        [
+          "Horm\u00f4nio injet\u00e1vel",
+          8679
+        ],
+        [
+          "Diafragma",
+          4106
+        ],
+        [
+          "Ogino Knaus",
+          2261
+        ],
+        [
+          "Espermicida",
+          1610
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "N\u00e3o informado",
+          27039929
+        ],
+        [
+          "Preservativo",
+          150646
+        ],
+        [
+          "Horm\u00f4nio oral",
+          144586
+        ],
+        [
+          "LAM",
+          18911
+        ],
+        [
+          "Coito interrompido",
+          13448
+        ],
+        [
+          "DIU",
+          11570
+        ],
+        [
+          "Horm\u00f4nio injet\u00e1vel",
+          8679
+        ],
+        [
+          "Diafragma",
+          4106
+        ],
+        [
+          "Ogino Knaus",
+          2261
+        ],
+        [
+          "Espermicida",
+          1610
+        ]
+      ],
+      "expected_row_count": 14,
+      "actual_row_count": 14,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 8.764411583004403,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    }
+  ]
+}

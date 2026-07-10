@@ -1,0 +1,174 @@
+{
+  "run_id": "hard40_full_vs_api_20260709_181047",
+  "run_config": {
+    "run_id": "hard40_full_vs_api_20260709_181047",
+    "created_at": "2026-07-09T21:10:47.948240+00:00",
+    "git_sha": "facde49bd8e8e48ce5285ce30ce589ceb8f0e18d",
+    "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_228_validated.jsonl",
+    "suite": null,
+    "variants": [
+      "full_agent",
+      "openai_raw_full_context"
+    ],
+    "ids": [
+      "GT093",
+      "GT089",
+      "GT226",
+      "GT121",
+      "GT079",
+      "GT213",
+      "GT117",
+      "GT028",
+      "GT222",
+      "GT133",
+      "GT086",
+      "GT234",
+      "GT231",
+      "GT201",
+      "GT205",
+      "GT120",
+      "GT085",
+      "GT128",
+      "GT232",
+      "GT216",
+      "GT113",
+      "GT227",
+      "GT215",
+      "GT122",
+      "GT126",
+      "GT044",
+      "GT233",
+      "GT116",
+      "GT209",
+      "GT081",
+      "GT090",
+      "GT076",
+      "GT082",
+      "GT223",
+      "GT119",
+      "GT084",
+      "GT225",
+      "GT114",
+      "GT132",
+      "GT129"
+    ],
+    "limit": null,
+    "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+    "model": "gpt-5.4-mini",
+    "max_rows": 10000,
+    "timeout_seconds": 60,
+    "numeric_tolerance": 1e-06,
+    "cache_openai": false,
+    "elapsed_seconds": 406.1648817919995
+  },
+  "variant_summaries": {
+    "full_agent": {
+      "total": 40,
+      "answerable_rate": 0.975,
+      "intent_accuracy": 0.975,
+      "sql_generation_rate": 0.975,
+      "sql_validation_rate": 0.9,
+      "sql_valid_rate": 0.9,
+      "sql_execution_rate": 0.9,
+      "result_value_match_rate": 0.8055555555555556,
+      "result_match_rate": 0.8055555555555556,
+      "correction_success_rate": 0.5,
+      "retrieval_miss_rate": 0.0,
+      "candidate_selection_accuracy": null,
+      "catalog_candidates_rate": 0.717948717948718,
+      "catalog_tool_call_rate": 0.48717948717948717,
+      "catalog_decision_rate": 0.23076923076923078,
+      "catalog_tool_call_count": 20,
+      "catalog_decision_count": 13,
+      "latency_p50": 5.716043000000354,
+      "latency_p95": 14.156121874999371,
+      "token_cost_estimate": {
+        "usd": null,
+        "method": "provider_usage_not_tracked_yet"
+      },
+      "alias_only_difference_count": 8,
+      "type_only_difference_count": 0,
+      "order_only_mismatch_count": 0,
+      "shape_mismatch_count": 5,
+      "value_mismatch_count": 2,
+      "error_category_counts": {
+        "invalid_sql": 3,
+        "shape_mismatch": 5,
+        "value_mismatch": 2,
+        "intent_not_answerable": 1
+      },
+      "failures_by_difficulty": {
+        "hard": 11
+      }
+    },
+    "openai_raw_full_context": {
+      "total": 40,
+      "answerable_rate": 1.0,
+      "intent_accuracy": 1.0,
+      "sql_generation_rate": 1.0,
+      "sql_validation_rate": 0.85,
+      "sql_valid_rate": 0.85,
+      "sql_execution_rate": 0.85,
+      "result_value_match_rate": 0.9705882352941176,
+      "result_match_rate": 0.9705882352941176,
+      "correction_success_rate": null,
+      "retrieval_miss_rate": 0.0,
+      "candidate_selection_accuracy": null,
+      "catalog_candidates_rate": 0.725,
+      "catalog_tool_call_rate": 0.0,
+      "catalog_decision_rate": 0.0,
+      "catalog_tool_call_count": 0,
+      "catalog_decision_count": 0,
+      "latency_p50": 3.0584650830060127,
+      "latency_p95": 5.0484637080007815,
+      "token_cost_estimate": {
+        "usd": null,
+        "method": "provider_usage_not_tracked_yet"
+      },
+      "alias_only_difference_count": 1,
+      "type_only_difference_count": 1,
+      "order_only_mismatch_count": 2,
+      "shape_mismatch_count": 1,
+      "value_mismatch_count": 0,
+      "error_category_counts": {
+        "invalid_sql": 6,
+        "shape_mismatch": 1
+      },
+      "failures_by_difficulty": {
+        "hard": 7
+      }
+    }
+  },
+  "variant_ranking": [
+    {
+      "variant": "openai_raw_full_context",
+      "total": 40,
+      "result_match_rate": 0.9705882352941176,
+      "delta_vs_full_agent_pp": 16.5033,
+      "sql_valid_rate": 0.85,
+      "sql_execution_rate": 0.85,
+      "latency_p50": 3.0584650830060127,
+      "latency_p95": 5.0484637080007815,
+      "error_category_counts": {
+        "invalid_sql": 6,
+        "shape_mismatch": 1
+      }
+    },
+    {
+      "variant": "full_agent",
+      "total": 40,
+      "result_match_rate": 0.8055555555555556,
+      "delta_vs_full_agent_pp": 0.0,
+      "sql_valid_rate": 0.9,
+      "sql_execution_rate": 0.9,
+      "latency_p50": 5.716043000000354,
+      "latency_p95": 14.156121874999371,
+      "error_category_counts": {
+        "invalid_sql": 3,
+        "shape_mismatch": 5,
+        "value_mismatch": 2,
+        "intent_not_answerable": 1
+      }
+    }
+  ]
+}

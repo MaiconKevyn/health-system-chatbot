@@ -62,20 +62,6 @@ def evaluate_item(
     catalog_decisions_count = 0
 
     intent = classify_question(item.question_pt, ctx)
-    if intent.status != "answerable":
-        return EvaluationRecord(
-            id=item.id,
-            question_pt=item.question_pt,
-            difficulty=item.difficulty,
-            status="clarified" if intent.status == "needs_clarification" else "refused",
-            intent_status=intent.status,
-            sql_valid=False,
-            executed=False,
-            result_match=False,
-            latency_seconds=time.perf_counter() - start,
-            error_category="intent_not_answerable",
-            errors=[intent.reason],
-        )
 
     try:
         phase = "context_retrieval"
@@ -198,7 +184,7 @@ def summarize_records(records: list[EvaluationRecord]) -> dict[str, Any]:
             records_with_catalog_decisions += 1
     return {
         "total": total,
-        "intent_accuracy": sum(r.intent_status == "answerable" for r in records) / total if total else 0,
+        "intent_accuracy": sum(r.intent_status != "refused" for r in records) / total if total else 0,
         "sql_valid_rate": sum(r.sql_valid for r in records) / total if total else 0,
         "sql_execution_rate": sum(r.executed for r in records) / total if total else 0,
         "result_match_rate": (

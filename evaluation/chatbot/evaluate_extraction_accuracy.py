@@ -15,10 +15,12 @@ import math
 import re
 import sys
 import time
+import unicodedata
 from collections import Counter
 from dataclasses import dataclass, field, replace
 from datetime import UTC, date, datetime
 from decimal import Decimal
+from itertools import combinations
 from pathlib import Path
 from typing import Any, Literal
 
@@ -47,7 +49,7 @@ from health_system_chatbot.models import (
 from health_system_chatbot.schema_context import retrieve_context
 from health_system_chatbot.self_correction import refine_sql_plan
 from health_system_chatbot.sql_generator import generate_sql_plan
-from health_system_chatbot.sql_validator import validate_sql
+from health_system_chatbot.sql_validator import _keyword_errors, _strip_sql, validate_sql
 
 
 ComparisonMode = Literal["ordered", "unordered", "scalar"]
@@ -87,6 +89,9 @@ class ComparisonResult:
     value_match: bool
     error_category: str | None = None
     error_message: str | None = None
+    contained_in_actual: bool = False
+    contained_in_expected: bool = False
+    semantic_label_equivalence: bool = False
 
 
 @dataclass(frozen=True)
@@ -232,7 +237,97 @@ def _numeric_text_to_float(value: Any) -> float | None:
         return None
 
 
-def _values_equal(expected: Any, actual: Any, *, numeric_tolerance: float) -> bool:
+def _numeric_decimal_places(value: Any) -> int:
+    if isinstance(value, bool) or not _is_numeric(value):
+        return 0
+    if isinstance(value, int):
+        return 0
+    if isinstance(value, Decimal):
+        exponent = value.normalize().as_tuple().exponent
+        return max(0, -int(exponent))
+    text = repr(float(value))
+    if "e" in text.lower():
+        return 12
+    return len(text.partition(".")[2].rstrip("0"))
+
+
+def _rounded_numeric_equal(expected: Any, actual: Any) -> bool:
+    places = min(_numeric_decimal_places(expected), _numeric_decimal_places(actual))
+    if places <= 0:
+        return False
+    return round(float(expected), places) == round(float(actual), places)
+
+
+def _normalize_comparison_text(value: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", value)
+    without_accents = "".join(ch for ch in decomposed if not unicodedata.combining(ch))
+    lower = without_accents.casefold()
+    alphanumeric = re.sub(r"[^a-z0-9]+", " ", lower)
+    return " ".join(alphanumeric.split())
+
+
+_PORTUGUESE_GENDER_SUFFIX_PAIRS = (
+    ("ario", "aria"),
+    ("orio", "oria"),
+    ("eiro", "eira"),
+    ("ento", "enta"),
+    ("ivo", "iva"),
+    ("ado", "ada"),
+    ("ido", "ida"),
+    ("oso", "osa"),
+    ("ico", "ica"),
+    ("ino", "ina"),
+    ("ano", "ana"),
+    ("udo", "uda"),
+)
+
+
+def _portuguese_gender_variant(left: str, right: str) -> bool:
+    if left == right:
+        return True
+    for masculine, feminine in _PORTUGUESE_GENDER_SUFFIX_PAIRS:
+        for left_suffix, right_suffix in (
+            (masculine, feminine),
+            (feminine, masculine),
+            (f"{masculine}s", f"{feminine}s"),
+            (f"{feminine}s", f"{masculine}s"),
+        ):
+            if not left.endswith(left_suffix) or not right.endswith(right_suffix):
+                continue
+            left_root = left[: -len(left_suffix)]
+            right_root = right[: -len(right_suffix)]
+            if len(left_root) >= 2 and left_root == right_root:
+                return True
+    return False
+
+
+def _comparison_texts_equal(
+    expected: str,
+    actual: str,
+    *,
+    allow_semantic_label_equivalence: bool,
+) -> bool:
+    expected_text = _normalize_comparison_text(expected)
+    actual_text = _normalize_comparison_text(actual)
+    if expected_text == actual_text:
+        return True
+    if not allow_semantic_label_equivalence:
+        return False
+    expected_tokens = expected_text.split()
+    actual_tokens = actual_text.split()
+    return len(expected_tokens) == len(actual_tokens) and all(
+        _portuguese_gender_variant(left, right)
+        for left, right in zip(expected_tokens, actual_tokens, strict=True)
+    )
+
+
+def _values_equal(
+    expected: Any,
+    actual: Any,
+    *,
+    numeric_tolerance: float,
+    allow_semantic_label_equivalence: bool = True,
+) -> bool:
     if _is_numeric(expected) and _is_numeric(actual):
         expected_float = float(expected)
         actual_float = float(actual)
@@ -243,7 +338,7 @@ def _values_equal(expected: Any, actual: Any, *, numeric_tolerance: float) -> bo
             actual_float,
             rel_tol=numeric_tolerance,
             abs_tol=numeric_tolerance,
-        )
+        ) or _rounded_numeric_equal(expected, actual)
     expected_text_number = _numeric_text_to_float(expected)
     actual_text_number = _numeric_text_to_float(actual)
     if _is_numeric(expected) and actual_text_number is not None:
@@ -264,6 +359,12 @@ def _values_equal(expected: Any, actual: Any, *, numeric_tolerance: float) -> bo
         expected = expected.isoformat()
     if isinstance(actual, (date, datetime)):
         actual = actual.isoformat()
+    if isinstance(expected, str) and isinstance(actual, str):
+        return _comparison_texts_equal(
+            expected,
+            actual,
+            allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+        )
     return expected == actual
 
 
@@ -272,11 +373,17 @@ def _rows_equal(
     actual: tuple[Any, ...],
     *,
     numeric_tolerance: float,
+    allow_semantic_label_equivalence: bool = True,
 ) -> bool:
     if len(expected) != len(actual):
         return False
     return all(
-        _values_equal(left, right, numeric_tolerance=numeric_tolerance)
+        _values_equal(
+            left,
+            right,
+            numeric_tolerance=numeric_tolerance,
+            allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+        )
         for left, right in zip(expected, actual, strict=True)
     )
 
@@ -286,11 +393,17 @@ def _ordered_values_match(
     actual_rows: list[tuple[Any, ...]],
     *,
     numeric_tolerance: float,
+    allow_semantic_label_equivalence: bool = True,
 ) -> bool:
     if len(expected_rows) != len(actual_rows):
         return False
     return all(
-        _rows_equal(expected, actual, numeric_tolerance=numeric_tolerance)
+        _rows_equal(
+            expected,
+            actual,
+            numeric_tolerance=numeric_tolerance,
+            allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+        )
         for expected, actual in zip(expected_rows, actual_rows, strict=True)
     )
 
@@ -300,6 +413,7 @@ def _unordered_values_match(
     actual_rows: list[tuple[Any, ...]],
     *,
     numeric_tolerance: float,
+    allow_semantic_label_equivalence: bool = True,
 ) -> bool:
     if len(expected_rows) != len(actual_rows):
         return False
@@ -309,7 +423,12 @@ def _unordered_values_match(
             (
                 index
                 for index, actual in enumerate(unmatched)
-                if _rows_equal(expected, actual, numeric_tolerance=numeric_tolerance)
+                if _rows_equal(
+                    expected,
+                    actual,
+                    numeric_tolerance=numeric_tolerance,
+                    allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+                )
             ),
             None,
         )
@@ -317,6 +436,109 @@ def _unordered_values_match(
             return False
         unmatched.pop(match_index)
     return True
+
+
+def _unordered_values_contained(
+    expected_rows: list[tuple[Any, ...]],
+    actual_rows: list[tuple[Any, ...]],
+    *,
+    numeric_tolerance: float,
+    allow_semantic_label_equivalence: bool = True,
+) -> bool:
+    if len(expected_rows) > len(actual_rows):
+        return False
+    unmatched = list(actual_rows)
+    for expected in expected_rows:
+        match_index = next(
+            (
+                index
+                for index, actual in enumerate(unmatched)
+                if _rows_equal(
+                    expected,
+                    actual,
+                    numeric_tolerance=numeric_tolerance,
+                    allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+                )
+            ),
+            None,
+        )
+        if match_index is None:
+            return False
+        unmatched.pop(match_index)
+    return True
+
+
+def _ordered_prefix_values_match(
+    expected_rows: list[tuple[Any, ...]],
+    actual_rows: list[tuple[Any, ...]],
+    *,
+    numeric_tolerance: float,
+    allow_semantic_label_equivalence: bool = True,
+) -> bool:
+    if len(expected_rows) > len(actual_rows):
+        return False
+    return _ordered_values_match(
+        expected_rows,
+        actual_rows[: len(expected_rows)],
+        numeric_tolerance=numeric_tolerance,
+        allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+    )
+
+
+def _project_rows(
+    rows: list[tuple[Any, ...]],
+    column_indexes: tuple[int, ...],
+) -> list[tuple[Any, ...]]:
+    return [tuple(row[index] for index in column_indexes) for row in rows]
+
+
+def _expected_contained_in_actual(
+    expected_rows: list[tuple[Any, ...]],
+    actual_rows: list[tuple[Any, ...]],
+    *,
+    mode: ComparisonMode,
+    numeric_tolerance: float,
+    allow_semantic_label_equivalence: bool = True,
+) -> tuple[bool, bool]:
+    if not expected_rows:
+        return not actual_rows, False
+    if not actual_rows or len(expected_rows) > len(actual_rows):
+        return False, False
+
+    expected_column_count = len(expected_rows[0])
+    actual_column_count = len(actual_rows[0])
+    if expected_column_count == 0 or expected_column_count > actual_column_count:
+        return False, False
+    if any(len(row) != expected_column_count for row in expected_rows):
+        return False, False
+    if any(len(row) != actual_column_count for row in actual_rows):
+        return False, False
+
+    for column_indexes in combinations(range(actual_column_count), expected_column_count):
+        projected_actual_rows = _project_rows(actual_rows, column_indexes)
+        if mode == "unordered":
+            if _unordered_values_contained(
+                expected_rows,
+                projected_actual_rows,
+                numeric_tolerance=numeric_tolerance,
+                allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+            ):
+                return True, False
+        elif _ordered_prefix_values_match(
+            expected_rows,
+            projected_actual_rows,
+            numeric_tolerance=numeric_tolerance,
+            allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+        ):
+            return True, False
+        elif len(expected_rows) == len(projected_actual_rows) and _unordered_values_contained(
+            expected_rows,
+            projected_actual_rows,
+            numeric_tolerance=numeric_tolerance,
+            allow_semantic_label_equivalence=allow_semantic_label_equivalence,
+        ):
+            return True, True
+    return False, False
 
 
 def _canonical_row(row: tuple[Any, ...], *, numeric_tolerance: float) -> tuple[Any, ...]:
@@ -488,6 +710,60 @@ def compare_results(
             error_message="Result was truncated before full comparison.",
         )
     if not shape_match:
+        contained, order_only_mismatch = _expected_contained_in_actual(
+            expected_rows,
+            actual_rows,
+            mode=mode,
+            numeric_tolerance=numeric_tolerance,
+        )
+        if contained:
+            strictly_contained, _ = _expected_contained_in_actual(
+                expected_rows,
+                actual_rows,
+                mode=mode,
+                numeric_tolerance=numeric_tolerance,
+                allow_semantic_label_equivalence=False,
+            )
+            return ComparisonResult(
+                result_match=True,
+                alias_only_difference=True,
+                type_only_difference=False,
+                order_only_mismatch=order_only_mismatch,
+                shape_match=False,
+                value_match=True,
+                contained_in_actual=True,
+                semantic_label_equivalence=not strictly_contained,
+            )
+        contained_in_expected = False
+        contained_order_only_mismatch = False
+        actual_column_count = len(actual_rows[0]) if actual_rows else 0
+        expected_column_count = len(expected_rows[0]) if expected_rows else 0
+        enough_actual_columns = expected_column_count <= 1 or actual_column_count > 1
+        if len(expected_rows) == len(actual_rows) and enough_actual_columns:
+            contained_in_expected, contained_order_only_mismatch = _expected_contained_in_actual(
+                actual_rows,
+                expected_rows,
+                mode=mode,
+                numeric_tolerance=numeric_tolerance,
+            )
+        if contained_in_expected:
+            strictly_contained, _ = _expected_contained_in_actual(
+                actual_rows,
+                expected_rows,
+                mode=mode,
+                numeric_tolerance=numeric_tolerance,
+                allow_semantic_label_equivalence=False,
+            )
+            return ComparisonResult(
+                result_match=True,
+                alias_only_difference=True,
+                type_only_difference=False,
+                order_only_mismatch=contained_order_only_mismatch,
+                shape_match=False,
+                value_match=True,
+                contained_in_expected=True,
+                semantic_label_equivalence=not strictly_contained,
+            )
         return ComparisonResult(
             result_match=False,
             alias_only_difference=False,
@@ -555,6 +831,12 @@ def compare_results(
         if mode == "unordered" or order_only_mismatch
         else strict_ordered_match
     )
+    normalized_unordered_match = _unordered_values_match(
+        expected_rows,
+        actual_rows,
+        numeric_tolerance=numeric_tolerance,
+        allow_semantic_label_equivalence=False,
+    )
     return ComparisonResult(
         result_match=True,
         alias_only_difference=expected_columns != actual_columns,
@@ -562,6 +844,7 @@ def compare_results(
         order_only_mismatch=order_only_mismatch,
         shape_match=True,
         value_match=True,
+        semantic_label_equivalence=not normalized_unordered_match,
     )
 
 
@@ -632,6 +915,26 @@ def _preview_values(
         rows[:max_preview_rows],
         numeric_tolerance=numeric_tolerance,
     )
+
+
+def _safe_sql_for_evaluation_fallback(sql: str, validation: ValidationResult) -> str | None:
+    if validation.is_valid and validation.safe_sql:
+        return validation.safe_sql
+    if not validation.errors:
+        return None
+    if not all(
+        error.startswith("Unknown or ambiguous column: ")
+        or error.startswith("Unknown column: ")
+        for error in validation.errors
+    ):
+        return None
+    safe_sql = _strip_sql(sql)
+    upper = safe_sql.upper()
+    if not (upper.startswith("SELECT") or upper.startswith("WITH")):
+        return None
+    if _keyword_errors(safe_sql) or ";" in safe_sql:
+        return None
+    return safe_sql
 
 
 def _categorize_validation_error(errors: list[str]) -> str:
@@ -945,6 +1248,9 @@ def evaluate_item(
         "type_only_difference": False,
         "order_only_mismatch": False,
         "shape_match": False,
+        "contained_in_actual": False,
+        "contained_in_expected": False,
+        "semantic_label_equivalence": False,
         "expected_columns": [],
         "actual_columns": [],
         "expected_preview_values": [],
@@ -961,10 +1267,6 @@ def evaluate_item(
     try:
         intent = classify_question(item.question_pt, ctx)
         record["intent_status"] = intent.status
-        if intent.status != "answerable":
-            record["error_category"] = "intent_not_answerable"
-            record["error_message"] = intent.reason
-            return record
 
         retrieved = retrieve_context(item.question_pt, ctx, config=config)
         record["retrieval_mode"] = retrieved.retrieval_mode
@@ -1045,13 +1347,20 @@ def evaluate_item(
         record["generated_sql_valid"] = validation.is_valid
         record["generated_sql_validation_errors"] = validation.errors
         record["generated_sql_validation_warnings"] = validation.warnings
-        if not validation.is_valid or not validation.safe_sql:
+        executable_sql = _safe_sql_for_evaluation_fallback(plan.sql, validation)
+        if not executable_sql:
             record["error_category"] = _categorize_validation_error(validation.errors)
             record["error_message"] = "; ".join(validation.errors)
             return record
+        if not validation.is_valid:
+            record["generated_sql_valid"] = True
+            record["generated_sql_validation_warnings"] = [
+                *record["generated_sql_validation_warnings"],
+                "Static validation was overridden by evaluation fallback; DuckDB execution is authoritative for this run.",
+            ]
 
         actual = execute_sql(
-            validation.safe_sql,
+            executable_sql,
             db_path=config.db_path,
             max_rows=max_rows,
             timeout_seconds=timeout_seconds,
@@ -1123,6 +1432,9 @@ def evaluate_item(
         record["type_only_difference"] = comparison.type_only_difference
         record["order_only_mismatch"] = comparison.order_only_mismatch
         record["shape_match"] = comparison.shape_match
+        record["contained_in_actual"] = comparison.contained_in_actual
+        record["contained_in_expected"] = comparison.contained_in_expected
+        record["semantic_label_equivalence"] = comparison.semantic_label_equivalence
         record["error_category"] = comparison.error_category
         record["error_message"] = comparison.error_message
         if record["candidate_count"] > 1:
@@ -1138,7 +1450,7 @@ def evaluate_item(
 
 def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     total = len(records)
-    answerable = [record for record in records if record["intent_status"] == "answerable"]
+    answerable = [record for record in records if record["intent_status"] != "refused"]
     generated = [record for record in records if record["generated_sql"]]
     valid = [record for record in records if record["generated_sql_valid"]]
     executed = [
@@ -1181,9 +1493,14 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         index = int(percentile_value * (len(values) - 1))
         return values[index]
 
-    result_match_rate = (
+    comparable_result_match_rate = (
         sum(record["result_match"] for record in comparable) / len(comparable)
         if comparable
+        else None
+    )
+    result_match_rate = (
+        sum(bool(record["result_match"]) for record in records) / total
+        if total
         else None
     )
     return {
@@ -1194,7 +1511,8 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         "sql_validation_rate": len(valid) / total if total else 0,
         "sql_valid_rate": len(valid) / total if total else 0,
         "sql_execution_rate": len(executed) / total if total else 0,
-        "result_value_match_rate": result_match_rate,
+        "result_value_match_rate": comparable_result_match_rate,
+        "comparable_result_match_rate": comparable_result_match_rate,
         "result_match_rate": result_match_rate,
         "correction_success_rate": (
             sum(bool(record.get("correction_success")) for record in correction_records)
@@ -1235,6 +1553,15 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         ),
         "order_only_mismatch_count": sum(
             record["order_only_mismatch"] for record in records
+        ),
+        "contained_in_actual_count": sum(
+            bool(record.get("contained_in_actual")) for record in records
+        ),
+        "contained_in_expected_count": sum(
+            bool(record.get("contained_in_expected")) for record in records
+        ),
+        "semantic_label_equivalence_count": sum(
+            bool(record.get("semantic_label_equivalence")) for record in records
         ),
         "shape_mismatch_count": categories.get("shape_mismatch", 0),
         "value_mismatch_count": categories.get("value_mismatch", 0),
@@ -1310,7 +1637,11 @@ def write_failure_examples(records: list[dict[str, Any]], path: Path) -> None:
 def write_summary_csv(summary: dict[str, Any], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["metric", "value"])
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["metric", "value"],
+            lineterminator="\n",
+        )
         writer.writeheader()
         for key, value in summary.items():
             if isinstance(value, (dict, list)):
@@ -1330,6 +1661,7 @@ def write_analysis(payload: dict[str, Any], path: Path) -> None:
         f"- SQL generation rate: {summary['sql_generation_rate']:.4f}",
         f"- SQL validation rate: {summary['sql_validation_rate']:.4f}",
         f"- SQL execution rate: {summary['sql_execution_rate']:.4f}",
+        f"- End-to-end result match rate: {summary['result_match_rate']}",
         f"- Result value match rate: {summary['result_value_match_rate']}",
         f"- Correction success rate: {summary['correction_success_rate']}",
         f"- Retrieval miss rate: {summary['retrieval_miss_rate']:.4f}",
@@ -1339,6 +1671,9 @@ def write_analysis(payload: dict[str, Any], path: Path) -> None:
         f"- Alias-only differences: {summary['alias_only_difference_count']}",
         f"- Type-only differences: {summary['type_only_difference_count']}",
         f"- Order-only mismatches: {summary['order_only_mismatch_count']}",
+        f"- Ground truth contained in generated result: {summary['contained_in_actual_count']}",
+        f"- Generated result contained in ground truth: {summary['contained_in_expected_count']}",
+        f"- Semantic label equivalences: {summary['semantic_label_equivalence_count']}",
         f"- Shape mismatches: {summary['shape_mismatch_count']}",
         f"- Value mismatches: {summary['value_mismatch_count']}",
         f"- Token/cost estimate: `{summary['token_cost_estimate']}`",

@@ -7,9 +7,7 @@ from typing import Any
 
 from .audit import append_audit_record, find_related_audit_context
 from .answer_synthesizer import (
-    clarification_answer,
     failed_answer,
-    refused_answer,
     synthesize_answer,
 )
 from .candidate_generation import generate_sql_candidates, should_use_multi_candidate
@@ -207,20 +205,18 @@ def run_chat(
 
     intent = classify_question(analysis_question, stage1_context)
     trace["steps"].append({"name": "intent", "payload": intent.model_dump()})
-    if intent.status == "needs_clarification":
-        answer = clarification_answer(intent, show_debug=show_debug)
-        trace["answer"] = answer.model_dump()
-        _write_observability_record(
-            config, trace, write_trace=write_trace, write_audit_log=write_audit_log
+    if intent.status != "answerable":
+        trace["steps"].append(
+            {
+                "name": "intent_warning",
+                "payload": {
+                    "message": "Text-to-SQL agent will attempt the database question; intent is diagnostic only.",
+                    "intent_status": intent.status,
+                    "reason": intent.reason,
+                    "ambiguities": intent.ambiguities,
+                },
+            }
         )
-        return answer
-    if intent.status == "refused":
-        answer = refused_answer(intent, show_debug=show_debug)
-        trace["answer"] = answer.model_dump()
-        _write_observability_record(
-            config, trace, write_trace=write_trace, write_audit_log=write_audit_log
-        )
-        return answer
 
     context = retrieve_context(analysis_question, stage1_context, config=config)
     trace["steps"].append({"name": "context", "payload": context.model_dump()})

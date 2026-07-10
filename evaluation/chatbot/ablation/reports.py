@@ -32,6 +32,9 @@ def build_summary_payload(
                 "variant": name,
                 "total": summary.get("total", 0),
                 "result_match_rate": result_rate,
+                "comparable_result_match_rate": summary.get(
+                    "comparable_result_match_rate"
+                ),
                 "delta_vs_full_agent_pp": (
                     round((result_rate - full_rate) * 100, 4)
                     if result_rate is not None and full_rate is not None
@@ -41,6 +44,11 @@ def build_summary_payload(
                 "sql_execution_rate": summary.get("sql_execution_rate"),
                 "latency_p50": summary.get("latency_p50"),
                 "latency_p95": summary.get("latency_p95"),
+                "contained_in_actual_count": summary.get("contained_in_actual_count", 0),
+                "contained_in_expected_count": summary.get("contained_in_expected_count", 0),
+                "semantic_label_equivalence_count": summary.get(
+                    "semantic_label_equivalence_count", 0
+                ),
                 "error_category_counts": summary.get("error_category_counts", {}),
             }
         )
@@ -76,6 +84,9 @@ def _compact_record(record: dict[str, Any]) -> dict[str, Any]:
         "result_match": record.get("result_match"),
         "error_category": record.get("error_category"),
         "error_message": record.get("error_message"),
+        "contained_in_actual": record.get("contained_in_actual"),
+        "contained_in_expected": record.get("contained_in_expected"),
+        "semantic_label_equivalence": record.get("semantic_label_equivalence"),
         "generated_sql": record.get("generated_sql"),
         "ground_truth_sql": record.get("ground_truth_sql"),
         "retrieved_tables": record.get("retrieved_tables", []),
@@ -143,15 +154,19 @@ def write_summary_csv(payload: dict[str, Any], path: Path) -> None:
         "variant",
         "total",
         "result_match_rate",
+        "comparable_result_match_rate",
         "delta_vs_full_agent_pp",
         "sql_valid_rate",
         "sql_execution_rate",
         "latency_p50",
         "latency_p95",
+        "contained_in_actual_count",
+        "contained_in_expected_count",
+        "semantic_label_equivalence_count",
         "error_category_counts",
     ]
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         for row in payload["variant_ranking"]:
             writer.writerow(
@@ -176,19 +191,23 @@ def write_analysis(payload: dict[str, Any], failure_sets: dict[str, list[dict[st
         "",
         "## Variant Ranking",
         "",
-        "| variant | result match | delta vs full pp | valid SQL | execution | p50 latency | p95 latency |",
-        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| variant | end-to-end match | comparable match | delta vs full pp | valid SQL | execution | p50 latency | p95 latency | gt in generated | generated in gt | semantic labels |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in payload["variant_ranking"]:
         lines.append(
-            "| {variant} | {match} | {delta} | {valid} | {exec_rate} | {p50} | {p95} |".format(
+            "| {variant} | {match} | {comparable_match} | {delta} | {valid} | {exec_rate} | {p50} | {p95} | {contained_actual} | {contained_expected} | {semantic_labels} |".format(
                 variant=row["variant"],
                 match=row["result_match_rate"],
+                comparable_match=row["comparable_result_match_rate"],
                 delta=row["delta_vs_full_agent_pp"],
                 valid=row["sql_valid_rate"],
                 exec_rate=row["sql_execution_rate"],
                 p50=row["latency_p50"],
                 p95=row["latency_p95"],
+                contained_actual=row["contained_in_actual_count"],
+                contained_expected=row["contained_in_expected_count"],
+                semantic_labels=row["semantic_label_equivalence_count"],
             )
         )
     lines.extend(["", "## Error Categories", ""])

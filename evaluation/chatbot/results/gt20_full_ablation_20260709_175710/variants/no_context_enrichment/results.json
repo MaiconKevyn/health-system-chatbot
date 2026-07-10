@@ -1,0 +1,1791 @@
+{
+  "variant": "no_context_enrichment",
+  "summary": {
+    "total": 20,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 1.0,
+    "sql_validation_rate": 1.0,
+    "sql_valid_rate": 1.0,
+    "sql_execution_rate": 1.0,
+    "result_value_match_rate": 0.65,
+    "result_match_rate": 0.65,
+    "correction_success_rate": 1.0,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "catalog_candidates_rate": 0.0,
+    "catalog_tool_call_rate": 0.65,
+    "catalog_decision_rate": 0.35,
+    "catalog_tool_call_count": 20,
+    "catalog_decision_count": 8,
+    "latency_p50": 3.505788875001599,
+    "latency_p95": 16.564235167003062,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 11,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "shape_mismatch_count": 2,
+    "value_mismatch_count": 5,
+    "error_category_counts": {
+      "value_mismatch": 5,
+      "shape_mismatch": 2
+    },
+    "failures_by_difficulty": {
+      "easy": 3,
+      "medium": 4
+    }
+  },
+  "records": [
+    {
+      "id": "GT001",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es foram registradas no total?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS internacoes\nFROM internacoes;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          144386772
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.7094915000052424,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT002",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas mortes foram registradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes"
+      ],
+      "retrieved_columns_count": 40,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS mortes\nFROM internacoes\nWHERE MORTE = TRUE;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_mortes FROM internacoes WHERE \"MORTE\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_mortes"
+      ],
+      "actual_columns": [
+        "mortes"
+      ],
+      "expected_preview_values": [
+        [
+          5877536
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5877536
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.001788250003301,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT003",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos procedimentos diferentes existem cadastrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 2,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_procedure_catalog"
+      ],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(DISTINCT p.PROC_REA) AS procedimentos_diferentes\nFROM procedimentos p;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_procedimentos FROM procedimentos",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_procedimentos"
+      ],
+      "actual_columns": [
+        "procedimentos_diferentes"
+      ],
+      "expected_preview_values": [
+        [
+          5394
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5394
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.2109316659989418,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT004",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos c\u00f3digos CID-10 est\u00e3o dispon\u00edveis?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 47,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH cid_codes AS (\n  SELECT DISTINCT CID\n  FROM cid\n  WHERE CID IS NOT NULL\n)\nSELECT COUNT(*) AS codigos_cid10_disponiveis\nFROM cid_codes;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_cids FROM cid",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_cids"
+      ],
+      "actual_columns": [
+        "codigos_cid10_disponiveis"
+      ],
+      "expected_preview_values": [
+        [
+          14253
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          14253
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.505788875001599,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT005",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos hospitais est\u00e3o cadastrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital"
+      ],
+      "retrieved_columns_count": 6,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS hospitais_cadastrados\nFROM hospital;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_hospitais FROM hospital",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_hospitais"
+      ],
+      "actual_columns": [
+        "hospitais_cadastrados"
+      ],
+      "expected_preview_values": [
+        [
+          0
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.2258480829987093,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT006",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos munic\u00edpios t\u00eam dados socioecon\u00f4micos registrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "municipios",
+        "socioeconomico"
+      ],
+      "retrieved_columns_count": 64,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_dimension_values"
+      ],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH municipios_com_socioeconomico AS (\n  SELECT DISTINCT s.CO_MUNICIPIO_6D\n  FROM socioeconomico s\n  WHERE s.CO_MUNICIPIO_6D IS NOT NULL\n)\nSELECT COUNT(*) AS municipios_com_dados_socioeconomicos\nFROM municipios_com_socioeconomico;",
+      "ground_truth_sql": "SELECT COUNT(DISTINCT \"CO_MUNICIPIO_6D\") AS total_municipios FROM socioeconomico",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_municipios"
+      ],
+      "actual_columns": [
+        "municipios_com_dados_socioeconomicos"
+      ],
+      "expected_preview_values": [
+        [
+          0
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.6883662499967613,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT007",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos registros de interna\u00e7\u00e3o em UTI existem?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 44,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_dimension_values"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "dimension",
+          "query": "UTI",
+          "selected_candidate_label": "N\u00e3o utilizou UTI",
+          "selected_filter": "marca_uti.DESCRICAO <> 'N\u00e3o utilizou UTI'",
+          "confidence": "high",
+          "alternatives": [
+            "UTI adulto - tipo II COVID 19",
+            "UTI pedi\u00e1trica - tipo II COVID 19",
+            "UTI adulto - tipo I",
+            "UTI adulto - tipo II"
+          ]
+        }
+      ],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n  SELECT\n    i.N_AIH,\n    i.MARCA_UTI\n  FROM internacoes i\n  INNER JOIN marca_uti m\n    ON i.MARCA_UTI = m.MARCA_UTI\n  WHERE m.DESCRICAO <> 'N\u00e3o utilizou UTI'\n)\nSELECT\n  COUNT(*) AS internacoes\nFROM base;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_uti"
+      ],
+      "actual_columns": [
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          9193933
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          9107197
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 6.216849042000831,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT008",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos casos de VDRL positivo foram registrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [],
+      "retrieved_columns_count": 0,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "VDRL positivo",
+          "selected_candidate_label": "R762 Exame sorologico falso positivo p/sifilis",
+          "selected_filter": "i.DIAG_PRINC = 'R762'",
+          "confidence": "medium",
+          "alternatives": [
+            "R76 Outr achados imunologicos anormais no soro (DS_CATEGORIA = 'Outr achados imunologicos anormais no soro')"
+          ]
+        }
+      ],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS casos_vdrl_positivo\nFROM internacoes i\nWHERE i.DIAG_PRINC = 'R762';",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_vdrl FROM internacoes WHERE \"IND_VDRL\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_vdrl"
+      ],
+      "actual_columns": [
+        "casos_vdrl_positivo"
+      ],
+      "expected_preview_values": [
+        [
+          22840654
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          3
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 4.209845958001097,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT009",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas especialidades m\u00e9dicas est\u00e3o cadastradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "especialidade"
+      ],
+      "retrieved_columns_count": 2,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS especialidades_cadastradas\nFROM especialidade;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_especialidades FROM especialidade",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_especialidades"
+      ],
+      "actual_columns": [
+        "especialidades_cadastradas"
+      ],
+      "expected_preview_values": [
+        [
+          39
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          39
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.656796041999769,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT010",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos casos obst\u00e9tricos foram registrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [],
+      "retrieved_columns_count": 0,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "obst\u00e9trico obstetrico gravidez parto puerp\u00e9rio",
+          "selected_candidate_label": "XV. Gravidez, parto e puerp\u00e9rio",
+          "selected_filter": "c.DS_CAPITULO = 'XV. Gravidez, parto e puerp\u00e9rio'",
+          "confidence": "high",
+          "alternatives": [
+            "O26 Assist materna outr complic lig predom grav",
+            "O266 Transt do figado na gravidez parto puerperio",
+            "O267 Subluxacao sinfise gravidez parto puerperio",
+            "O98 Doen inf paras mat COP compl grav part puerp"
+          ]
+        }
+      ],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH casos_obstetricos AS (\n    SELECT COUNT(*) AS casos_obstetricos\n    FROM internacoes i\n    JOIN cid c ON i.DIAG_PRINC = c.CID\n    WHERE c.DS_CAPITULO = 'XV. Gravidez, parto e puerp\u00e9rio'\n)\nSELECT casos_obstetricos\nFROM casos_obstetricos;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_obstetricos FROM internacoes WHERE \"ESPEC\" = 2",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_obstetricos"
+      ],
+      "actual_columns": [
+        "casos_obstetricos"
+      ],
+      "expected_preview_values": [
+        [
+          27397950
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          30334251
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 5.4721299999946496,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT011",
+      "difficulty": "medium",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos pacientes t\u00eam v\u00ednculo previdenci\u00e1rio informado?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "vincprev"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_dimension_values"
+      ],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n  SELECT\n    i.N_AIH,\n    i.VINCPREV\n  FROM internacoes i\n  WHERE i.VINCPREV IS NOT NULL\n    AND i.VINCPREV <> 0\n)\nSELECT\n  COUNT(*) AS pacientes_com_vinculo_previdenciario_informado\nFROM base;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_vincprev FROM internacoes WHERE \"VINCPREV\" IS NOT NULL AND \"VINCPREV\" != 0",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_vincprev"
+      ],
+      "actual_columns": [
+        "pacientes_com_vinculo_previdenciario_informado"
+      ],
+      "expected_preview_values": [
+        [
+          17533
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          17533
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.667704125000455,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT012",
+      "difficulty": "medium",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos pacientes t\u00eam n\u00edvel de instru\u00e7\u00e3o informado?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "instrucao",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH base AS (\n    SELECT\n        COUNT(*) AS pacientes_com_instrucao_informada\n    FROM internacoes\n    WHERE INSTRU IS NOT NULL\n)\nSELECT *\nFROM base;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_instrucao FROM internacoes WHERE \"INSTRU\" IS NOT NULL AND \"INSTRU\" != 0",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_instrucao"
+      ],
+      "actual_columns": [
+        "pacientes_com_instrucao_informada"
+      ],
+      "expected_preview_values": [
+        [
+          1205603
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 2.4875639169986243,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT013",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos pacientes do sexo masculino foram internados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "sexo"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_dimension_values"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "dimension",
+          "query": "Masculino",
+          "selected_candidate_label": "Masculino",
+          "selected_filter": "sexo.DESCRICAO = 'Masculino'",
+          "confidence": "high",
+          "alternatives": [
+            "internacoes.SEXO = 1"
+          ]
+        }
+      ],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS internacoes\nFROM internacoes i\nJOIN sexo s\n  ON i.SEXO = s.SEXO\nWHERE s.DESCRICAO = 'Masculino';",
+      "ground_truth_sql": "SELECT COUNT(*) AS homens FROM internacoes WHERE \"SEXO\" = 1",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "homens"
+      ],
+      "actual_columns": [
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          58967743
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          58967743
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.5649466249960824,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT014",
+      "difficulty": "medium",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es por meningite ocasionaram em morte?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "cid",
+          "query": "meningite",
+          "selected_candidate_label": "Meningite viral",
+          "selected_filter": "c.DS_CATEGORIA IN ('Meningite viral','Meningite bacter NCOP','Meningite em doenc bacter COP','Meningite em outr doenc infecc e parasit COP','Meningite dev outr causas e a causas NE','Tuberc do sist nervoso','Listeriose','Infecc meningogocica')",
+          "confidence": "high",
+          "alternatives": [
+            "G00 Meningite bacter NCOP",
+            "G01 Meningite em doenc bacter COP",
+            "G02 Meningite em outr doenc infecc e parasit COP",
+            "G03 Meningite dev outr causas e a causas NE",
+            "A17 Tuberc do sist nervoso",
+            "A170 Meningite tuberc",
+            "A32 Listeriose",
+            "A321 Meningite e meningoencefalite p/listeria",
+            "A39 Infecc meningogocica"
+          ]
+        }
+      ],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH meningite_mortes AS (\n    SELECT\n        i.N_AIH,\n        i.MORTE\n    FROM internacoes i\n    JOIN cid c\n      ON i.DIAG_PRINC = c.CID\n    WHERE i.MORTE = TRUE\n      AND c.DS_CATEGORIA IN (\n          'Meningite viral',\n          'Meningite bacter NCOP',\n          'Meningite em doenc bacter COP',\n          'Meningite em outr doenc infecc e parasit COP',\n          'Meningite dev outr causas e a causas NE',\n          'Tuberc do sist nervoso',\n          'Listeriose',\n          'Infecc meningogocica'\n      )\n)\nSELECT\n    COUNT(*) AS internacoes\nFROM meningite_mortes;",
+      "ground_truth_sql": "SELECT COUNT(*) FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE c.\"DESCRICAO\" ILIKE '%meningite%' AND i.\"MORTE\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "count_star()"
+      ],
+      "actual_columns": [
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          4861
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          8078
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 16.564235167003062,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT015",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual a descri\u00e7\u00e3o do c\u00f3digo CID A15?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "contraceptivos",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_cid_catalog"
+      ],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT c.DESCRICAO\nFROM cid c\nWHERE c.CID = 'A15';",
+      "ground_truth_sql": "SELECT \"DESCRICAO\" FROM cid WHERE \"CID\" = 'A15'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "DESCRICAO"
+      ],
+      "expected_preview_values": [
+        [
+          "Tuberc respirat c/conf bacteriol e histolog"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Tuberc respirat c/conf bacteriol e histolog"
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.3026163750037085,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT017",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual o tempo m\u00e9dio de perman\u00eancia hospitalar?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "tempo"
+      ],
+      "retrieved_columns_count": 51,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT AVG(DIAS_PERM) AS tempo_medio_permanencia\nFROM internacoes;",
+      "ground_truth_sql": "SELECT AVG(\"DIAS_PERM\") AS tempo_medio_permanencia FROM internacoes",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "tempo_medio_permanencia"
+      ],
+      "actual_columns": [
+        "tempo_medio_permanencia"
+      ],
+      "expected_preview_values": [
+        [
+          5.0631264
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5.0631264
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.468938708996575,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT018",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quando houver dados socioecon\u00f4micos, quantos habitantes tem o munic\u00edpio com a maior popula\u00e7\u00e3o registrada?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "municipios",
+        "socioeconomico"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_dimension_values"
+      ],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH max_pop AS (\n    SELECT MAX(QT_POPULACAO) AS maior_populacao\n    FROM socioeconomico\n)\nSELECT maior_populacao AS habitantes\nFROM max_pop;",
+      "ground_truth_sql": "WITH latest_year AS (\n    SELECT MAX(\"NU_ANO\") AS ano FROM socioeconomico WHERE \"QT_POPULACAO\" IS NOT NULL\n)\nSELECT mu.\"NO_MUNICIPIO\" AS municipio_maior_populacao,\n       s.\"QT_POPULACAO\" AS total_habitantes\nFROM socioeconomico s\nJOIN latest_year ly ON s.\"NU_ANO\" = ly.ano\nJOIN municipios mu ON s.\"CO_MUNICIPIO_6D\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE s.\"QT_POPULACAO\" IS NOT NULL\nORDER BY s.\"QT_POPULACAO\" DESC\nLIMIT 1",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [
+        "municipio_maior_populacao",
+        "total_habitantes"
+      ],
+      "actual_columns": [
+        "habitantes"
+      ],
+      "expected_preview_values": [],
+      "actual_preview_values": [
+        [
+          null
+        ]
+      ],
+      "expected_row_count": 0,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "shape_mismatch",
+      "error_message": "Result shape differs: expected 0x2, actual 1x1.",
+      "latency_seconds": 3.62277599999652,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT019",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais os cinco munic\u00edpios com mais interna\u00e7\u00f5es obst\u00e9tricas registradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "hospital",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 64,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 8,
+      "catalog_tools": [
+        "search_dimension_values",
+        "search_dimension_values",
+        "search_dimension_values",
+        "search_dimension_values",
+        "search_dimension_values",
+        "search_dimension_values",
+        "search_dimension_values",
+        "search_dimension_values"
+      ],
+      "catalog_decisions_count": 2,
+      "catalog_decisions": [
+        {
+          "catalog": "car_int",
+          "query": "internacoes.CAR_INT -> car_int.CAR_INT",
+          "selected_candidate_label": "not used",
+          "selected_filter": "Filter directly on internacoes.CAR_INT = 4 because CAR_INT is numeric and the question asks for obstetric admissions; no business label join is required for the count.",
+          "confidence": "high",
+          "alternatives": [
+            "Join car_int and filter car_int.DESCRICAO = 'Obst\u00e9trica'"
+          ]
+        },
+        {
+          "catalog": "municipios",
+          "query": "internacoes.MUNIC_RES -> municipios.CO_MUNICIPIO_6D",
+          "selected_candidate_label": "used",
+          "selected_filter": "Left join to municipios to return municipality name and UF for residence municipality.",
+          "confidence": "high",
+          "alternatives": [
+            "Group only by internacoes.MUNIC_RES and return the code"
+          ]
+        }
+      ],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_refiner",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "validation",
+          "input_errors": [
+            "Column internacoes.CAR_INT has TINYINT type and cannot be compared to text literal '4'. For city names, join municipios and filter municipios.NO_MUNICIPIO/SG_UF."
+          ],
+          "sql": "WITH base AS (\n    SELECT\n        i.MUNIC_RES,\n        m.NO_MUNICIPIO,\n        m.SG_UF,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    LEFT JOIN municipios m\n        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\n    WHERE i.CAR_INT = 4\n    GROUP BY\n        i.MUNIC_RES,\n        m.NO_MUNICIPIO,\n        m.SG_UF\n)\nSELECT\n    COALESCE(NO_MUNICIPIO, CAST(MUNIC_RES AS VARCHAR)) AS municipio,\n    SG_UF,\n    internacoes\nFROM base\nORDER BY internacoes DESC, municipio ASC, SG_UF ASC\nLIMIT 5",
+          "source": "pydantic_ai_refiner",
+          "validation_errors": [],
+          "validation_warnings": [
+            "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+          ],
+          "success": true
+        }
+      ],
+      "correction_success": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        i.MUNIC_RES,\n        m.NO_MUNICIPIO,\n        m.SG_UF,\n        COUNT(*) AS internacoes\n    FROM internacoes i\n    LEFT JOIN municipios m\n        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\n    WHERE i.CAR_INT = 4\n    GROUP BY\n        i.MUNIC_RES,\n        m.NO_MUNICIPIO,\n        m.SG_UF\n)\nSELECT\n    COALESCE(NO_MUNICIPIO, CAST(MUNIC_RES AS VARCHAR)) AS municipio,\n    SG_UF,\n    internacoes\nFROM base\nORDER BY internacoes DESC, municipio ASC, SG_UF ASC\nLIMIT 5",
+      "ground_truth_sql": "SELECT mu.\"NO_MUNICIPIO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"ESPEC\" = 2 GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 5",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [
+        "NO_MUNICIPIO",
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "municipio",
+        "SG_UF",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Rio de Janeiro",
+          834766
+        ],
+        [
+          "Bras\u00edlia",
+          561507
+        ],
+        [
+          "Manaus",
+          513833
+        ],
+        [
+          "Salvador",
+          467036
+        ],
+        [
+          "Fortaleza",
+          460817
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Betim",
+          "MG",
+          10
+        ],
+        [
+          "Santa Cruz do Sul",
+          "RS",
+          7
+        ],
+        [
+          "Nova Mutum",
+          "MT",
+          6
+        ],
+        [
+          "Santa Maria",
+          "RS",
+          3
+        ],
+        [
+          "S\u00e3o Sebasti\u00e3o do Para\u00edso",
+          "MG",
+          3
+        ]
+      ],
+      "expected_row_count": 5,
+      "actual_row_count": 5,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "shape_mismatch",
+      "error_message": "Result shape differs: expected 5x2, actual 5x3.",
+      "latency_seconds": 16.577925666999363,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT021",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 1,
+      "catalog_tools": [
+        "search_procedure_catalog"
+      ],
+      "catalog_decisions_count": 1,
+      "catalog_decisions": [
+        {
+          "catalog": "procedimentos.PROC_REA",
+          "query": "i.PROC_REA",
+          "selected_candidate_label": "Procedimentos correspondentes a 'procedimento principal mais registrado nas interna\u00e7\u00f5es'",
+          "selected_filter": "i.PROC_REA IN (...)",
+          "confidence": "medium",
+          "alternatives": [
+            "0101010095 PREVENCAO DA COVID-19 NAS ESCOLAS",
+            "0102010587 IMPLEMENTACAO DE PROCEDIMENTOS (POPS) HARMONIZADOS EM NIVEL TRIPARTITE RELACIONADOS A INSPECAO",
+            "0102010595 IMPLEMENTACAO DE PROCEDIMENTOS (POPS) HARMONIZADOS EM NIVEL TRIPARTITE RELACIONADOS A INSPECAO",
+            "0102010609 IMPLEMENTACAO DE PROCEDIMENTOS (POPS) HARMONIZADOS EM NIVEL TRIPARTITE RELACIONADOS A INSPECAO E",
+            "0102010641",
+            "0102010650",
+            "0102010668",
+            "0201010399",
+            "0201010445",
+            "0202010244",
+            "0202010325",
+            "0202010333",
+            "0202010341",
+            "0202010350",
+            "0202010368",
+            "0202010376",
+            "0202010481",
+            "0202010570",
+            "0202010597",
+            "0202010619"
+          ]
+        }
+      ],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_refiner",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "validation",
+          "input_errors": [
+            "Unknown or ambiguous column: PROC_REA"
+          ],
+          "sql": "WITH base AS (\n    SELECT\n        i.PROC_REA AS PROC_REA,\n        p.NOME_PROC AS NOME_PROC,\n        COUNT(*) AS internacoes\n    FROM internacoes AS i\n    LEFT JOIN procedimentos AS p\n        ON i.PROC_REA = p.PROC_REA\n    GROUP BY\n        i.PROC_REA,\n        p.NOME_PROC\n)\nSELECT\n    PROC_REA,\n    NOME_PROC,\n    internacoes\nFROM base\nORDER BY\n    internacoes DESC,\n    NOME_PROC ASC,\n    PROC_REA ASC\nLIMIT 5;",
+          "source": "pydantic_ai_refiner",
+          "validation_errors": [],
+          "validation_warnings": [],
+          "success": true
+        }
+      ],
+      "correction_success": true,
+      "generated_sql": "WITH base AS (\n    SELECT\n        i.PROC_REA AS PROC_REA,\n        p.NOME_PROC AS NOME_PROC,\n        COUNT(*) AS internacoes\n    FROM internacoes AS i\n    LEFT JOIN procedimentos AS p\n        ON i.PROC_REA = p.PROC_REA\n    GROUP BY\n        i.PROC_REA,\n        p.NOME_PROC\n)\nSELECT\n    PROC_REA,\n    NOME_PROC,\n    internacoes\nFROM base\nORDER BY\n    internacoes DESC,\n    NOME_PROC ASC,\n    PROC_REA ASC\nLIMIT 5;",
+      "ground_truth_sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total DESC LIMIT 5",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "PROC_REA",
+        "procedimento",
+        "total"
+      ],
+      "actual_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "expected_row_count": 5,
+      "actual_row_count": 5,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 11.325373291998403,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    },
+    {
+      "id": "GT022",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos hospitais registraram pelo menos uma morte?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 46,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [],
+      "plan_source": "pydantic_ai_openai",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH hospitais_com_morte AS (\n  SELECT DISTINCT i.CNES\n  FROM internacoes i\n  WHERE i.MORTE = TRUE\n)\nSELECT COUNT(*) AS hospitais\nFROM hospitais_com_morte;",
+      "ground_truth_sql": "SELECT COUNT(DISTINCT \"CNES\") AS hospitais_com_mortes FROM internacoes WHERE \"MORTE\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "hospitais_com_mortes"
+      ],
+      "actual_columns": [
+        "hospitais"
+      ],
+      "expected_preview_values": [
+        [
+          5082
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5082
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.8960612500013667,
+      "variant": "no_context_enrichment",
+      "strategy": "pydantic_agent",
+      "variant_description": "Agent run with raw schema retrieval and no enrichment.",
+      "config_overrides": {
+        "context_enrichment_enabled": false
+      },
+      "feature_flags": {}
+    }
+  ]
+}

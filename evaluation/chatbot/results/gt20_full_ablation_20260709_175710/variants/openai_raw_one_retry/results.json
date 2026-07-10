@@ -1,0 +1,2970 @@
+{
+  "variant": "openai_raw_one_retry",
+  "summary": {
+    "total": 20,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 1.0,
+    "sql_validation_rate": 1.0,
+    "sql_valid_rate": 1.0,
+    "sql_execution_rate": 1.0,
+    "result_value_match_rate": 0.65,
+    "result_match_rate": 0.65,
+    "correction_success_rate": 0.2222222222222222,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "catalog_candidates_rate": 0.35,
+    "catalog_tool_call_rate": 0.0,
+    "catalog_decision_rate": 0.0,
+    "catalog_tool_call_count": 0,
+    "catalog_decision_count": 0,
+    "latency_p50": 1.9472589169963612,
+    "latency_p95": 6.46551958299824,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 9,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "shape_mismatch_count": 1,
+    "value_mismatch_count": 6,
+    "error_category_counts": {
+      "value_mismatch": 6,
+      "shape_mismatch": 1
+    },
+    "failures_by_difficulty": {
+      "easy": 3,
+      "medium": 4
+    }
+  },
+  "records": [
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT001",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es foram registradas no total?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Outr cuidados medicos",
+        "Z513 Transfusao de sangue s/diagn registrado",
+        "Lesoes biomecanicas NCOP",
+        "M996 Estenose ossea subluxacao forames intervert",
+        "M997 Estenose tec conj e disco forames intervert"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT001",
+        "GT080",
+        "GT002",
+        "GT027"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes\nFROM internacoes;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "total_internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          144386772
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          144386772
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.4543701660004444,
+      "token_usage": {
+        "input_tokens": 1758,
+        "input_tokens_details": {
+          "cached_tokens": 1280,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 17,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1775
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS total_internacoes\nFROM internacoes;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT002",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas mortes foram registradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes"
+      ],
+      "retrieved_columns_count": 40,
+      "business_metrics": [
+        "total_mortes_hospitalares",
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT002",
+        "GT075",
+        "GT080",
+        "GT001"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_mortes\nFROM internacoes\nWHERE MORTE = 1;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_mortes FROM internacoes WHERE \"MORTE\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_mortes"
+      ],
+      "actual_columns": [
+        "total_mortes"
+      ],
+      "expected_preview_values": [
+        [
+          5877536
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5877536
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 0.9911061659950064,
+      "token_usage": {
+        "input_tokens": 1228,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 23,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1251
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS total_mortes\nFROM internacoes\nWHERE MORTE = 1;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT003",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos procedimentos diferentes existem cadastrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 2,
+      "business_metrics": [
+        "procedimentos_ocorrencias"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Procedimentos correspondentes a 'Quantos procedimentos diferentes existem cadastrados?'",
+        "CADASTRO DE ESTABELECIMENTOS SUJEITOS A VIGILANCIA SANITARIA",
+        "EXCLUSAO DE CADASTRO DE ESTABELECIMENTOS SUJEITOS A VIGILANCIA SANITARIA COM ATIVIDADES ENCERRADA",
+        "CADASTRO DE HOSPITAIS",
+        "CADASTRO DE INSTITUICOES DE LONGA PERMANENCIA PARA IDOSOS"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT003",
+        "GT161",
+        "GT068",
+        "GT005"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(DISTINCT PROC_REA) AS total_procedimentos_diferentes\nFROM procedimentos",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_procedimentos FROM procedimentos",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_procedimentos"
+      ],
+      "actual_columns": [
+        "total_procedimentos_diferentes"
+      ],
+      "expected_preview_values": [
+        [
+          5394
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5394
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.639480249999906,
+      "token_usage": {
+        "input_tokens": 285,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 24,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 309
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(DISTINCT PROC_REA) AS total_procedimentos_diferentes\nFROM procedimentos",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT004",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos c\u00f3digos CID-10 est\u00e3o dispon\u00edveis?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "cid",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 47,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Probl relac facilid medic outr cuid saude",
+        "Z753 Facilid saude nao disponiveis ou nao acess",
+        "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+        "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+        "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT004",
+        "GT052",
+        "GT129",
+        "GT003"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(DISTINCT CID) AS total_codigos_cid10\nFROM cid;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_cids FROM cid",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_cids"
+      ],
+      "actual_columns": [
+        "total_codigos_cid10"
+      ],
+      "expected_preview_values": [
+        [
+          14253
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          14253
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.700239457997668,
+      "token_usage": {
+        "input_tokens": 1418,
+        "input_tokens_details": {
+          "cached_tokens": 1280,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 22,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1440
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(DISTINCT CID) AS total_codigos_cid10\nFROM cid;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT005",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos hospitais est\u00e3o cadastrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital"
+      ],
+      "retrieved_columns_count": 6,
+      "business_metrics": [
+        "geografia_hospital"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT005",
+        "GT097",
+        "GT098",
+        "GT161"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_hospitais\nFROM hospital;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_hospitais FROM hospital",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_hospitais"
+      ],
+      "actual_columns": [
+        "total_hospitais"
+      ],
+      "expected_preview_values": [
+        [
+          0
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.6984687910007779,
+      "token_usage": {
+        "input_tokens": 377,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 16,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 393
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS total_hospitais\nFROM hospital;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT006",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos munic\u00edpios t\u00eam dados socioecon\u00f4micos registrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "municipios",
+        "socioeconomico"
+      ],
+      "retrieved_columns_count": 64,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT006",
+        "GT018",
+        "GT103",
+        "GT189"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(DISTINCT CO_MUNICIPIO_6D) AS municipios_com_dados_socioeconomicos\nFROM socioeconomico;",
+      "ground_truth_sql": "SELECT COUNT(DISTINCT \"CO_MUNICIPIO_6D\") AS total_municipios FROM socioeconomico",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_municipios"
+      ],
+      "actual_columns": [
+        "municipios_com_dados_socioeconomicos"
+      ],
+      "expected_preview_values": [
+        [
+          0
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.5788660000034724,
+      "token_usage": {
+        "input_tokens": 1861,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 33,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1894
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(DISTINCT CO_MUNICIPIO_6D) AS municipios_com_dados_socioeconomicos\nFROM socioeconomico;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT007",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos registros de interna\u00e7\u00e3o em UTI existem?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 44,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT007",
+        "GT232",
+        "GT003",
+        "GT041"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT COUNT(*) AS registros_uti\nFROM internacoes\nWHERE MARCA_UTI IS NOT NULL AND MARCA_UTI <> ''",
+          "input_error": "Column internacoes.MARCA_UTI has TINYINT type and cannot be compared to text literal ''. For city names, join municipios and filter municipios.NO_MUNICIPIO/SG_UF.",
+          "sql": "SELECT COUNT(*) AS registros_uti\nFROM internacoes\nWHERE MARCA_UTI IS NOT NULL AND MARCA_UTI <> 0",
+          "success": true
+        }
+      ],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS registros_uti\nFROM internacoes\nWHERE MARCA_UTI IS NOT NULL AND MARCA_UTI <> 0",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_uti"
+      ],
+      "actual_columns": [
+        "registros_uti"
+      ],
+      "expected_preview_values": [
+        [
+          9193933
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          9107197
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 2.531240958000126,
+      "token_usage": {
+        "input_tokens": 1544,
+        "input_tokens_details": {
+          "cached_tokens": 1280,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 34,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1578
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS registros_uti\nFROM internacoes\nWHERE MARCA_UTI IS NOT NULL AND MARCA_UTI <> 0",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT007",
+        "difficulty": "easy",
+        "expected_result_type": "scalar",
+        "question_pt": "Quantos registros de interna\u00e7\u00e3o em UTI existem?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [
+          "car_int",
+          "internacoes",
+          "marca_uti"
+        ],
+        "retrieved_columns_count": 44,
+        "business_metrics": [
+          "total_internacoes"
+        ],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 0,
+        "catalog_candidate_labels": [],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT007",
+          "GT232",
+          "GT003",
+          "GT041"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT COUNT(*) AS registros_uti\nFROM internacoes\nWHERE MARCA_UTI IS NOT NULL AND MARCA_UTI <> ''",
+        "ground_truth_sql": "SELECT COUNT(*) AS total_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
+        "generated_sql_valid": false,
+        "generated_sql_validation_errors": [
+          "Column internacoes.MARCA_UTI has TINYINT type and cannot be compared to text literal ''. For city names, join municipios and filter municipios.NO_MUNICIPIO/SG_UF."
+        ],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "skipped",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "scalar",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": false,
+        "expected_columns": [
+          "total_uti"
+        ],
+        "actual_columns": [],
+        "expected_preview_values": [
+          [
+            9193933
+          ]
+        ],
+        "actual_preview_values": [],
+        "expected_row_count": 1,
+        "actual_row_count": 0,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "invalid_sql",
+        "error_message": "Column internacoes.MARCA_UTI has TINYINT type and cannot be compared to text literal ''. For city names, join municipios and filter municipios.NO_MUNICIPIO/SG_UF.",
+        "latency_seconds": 0.9544238750022487,
+        "token_usage": {
+          "input_tokens": 1443,
+          "input_tokens_details": {
+            "cached_tokens": 1280,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 33,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 1476
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT COUNT(*) AS registros_uti\nFROM internacoes\nWHERE MARCA_UTI IS NOT NULL AND MARCA_UTI <> ''",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT008",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos casos de VDRL positivo foram registrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [],
+      "retrieved_columns_count": 0,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT008",
+        "GT010",
+        "GT195",
+        "GT006"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT COUNT(*) AS casos_vdrl_positivo\nFROM siahosp\nWHERE vdrl = 'POSITIVO';",
+          "input_error": "Unknown or unsupported table(s): siahosp",
+          "sql": "SELECT COUNT(*) AS casos_vdrl_positivo\nFROM (\n  SELECT *\n  FROM (VALUES (1)) AS t(dummy)\n) AS x\nWHERE 1 = 0;",
+          "success": true
+        }
+      ],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS casos_vdrl_positivo\nFROM (\n  SELECT *\n  FROM (VALUES (1)) AS t(dummy)\n) AS x\nWHERE 1 = 0;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_vdrl FROM internacoes WHERE \"IND_VDRL\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_vdrl"
+      ],
+      "actual_columns": [
+        "casos_vdrl_positivo"
+      ],
+      "expected_preview_values": [
+        [
+          22840654
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 2.570466832999955,
+      "token_usage": {
+        "input_tokens": 254,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 48,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 302
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS casos_vdrl_positivo\nFROM (\n  SELECT *\n  FROM (VALUES (1)) AS t(dummy)\n) AS x\nWHERE 1 = 0;",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT008",
+        "difficulty": "easy",
+        "expected_result_type": "scalar",
+        "question_pt": "Quantos casos de VDRL positivo foram registrados?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [],
+        "retrieved_columns_count": 0,
+        "business_metrics": [],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 0,
+        "catalog_candidate_labels": [],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT008",
+          "GT010",
+          "GT195",
+          "GT006"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT COUNT(*) AS casos_vdrl_positivo\nFROM siahosp\nWHERE vdrl = 'POSITIVO';",
+        "ground_truth_sql": "SELECT COUNT(*) AS total_vdrl FROM internacoes WHERE \"IND_VDRL\" = true",
+        "generated_sql_valid": false,
+        "generated_sql_validation_errors": [
+          "Unknown or unsupported table(s): siahosp"
+        ],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "skipped",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "scalar",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": false,
+        "expected_columns": [
+          "total_vdrl"
+        ],
+        "actual_columns": [],
+        "expected_preview_values": [
+          [
+            22840654
+          ]
+        ],
+        "actual_preview_values": [],
+        "expected_row_count": 1,
+        "actual_row_count": 0,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "retrieval_miss",
+        "error_message": "Unknown or unsupported table(s): siahosp",
+        "latency_seconds": 1.2537548750042333,
+        "token_usage": {
+          "input_tokens": 189,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 28,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 217
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT COUNT(*) AS casos_vdrl_positivo\nFROM siahosp\nWHERE vdrl = 'POSITIVO';",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT009",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas especialidades m\u00e9dicas est\u00e3o cadastradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "especialidade"
+      ],
+      "retrieved_columns_count": 2,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT009",
+        "GT094",
+        "GT095",
+        "GT147"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS quantidade_especialidades\nFROM especialidade",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_especialidades FROM especialidade",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_especialidades"
+      ],
+      "actual_columns": [
+        "quantidade_especialidades"
+      ],
+      "expected_preview_values": [
+        [
+          39
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          39
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.6060286670035566,
+      "token_usage": {
+        "input_tokens": 295,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 16,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 311
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS quantidade_especialidades\nFROM especialidade",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT010",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos casos obst\u00e9tricos foram registrados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [],
+      "retrieved_columns_count": 0,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT010",
+        "GT008",
+        "GT006",
+        "GT013"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT COUNT(*) AS total_casos_obstetricos\nFROM sih_sus\nWHERE especialidade = 'obstetr\u00edcia';",
+          "input_error": "Unknown or unsupported table(s): sih_sus",
+          "sql": "SELECT 0 AS total_casos_obstetricos",
+          "success": true
+        }
+      ],
+      "correction_success": false,
+      "generated_sql": "SELECT 0 AS total_casos_obstetricos",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_obstetricos FROM internacoes WHERE \"ESPEC\" = 2",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_obstetricos"
+      ],
+      "actual_columns": [
+        "total_casos_obstetricos"
+      ],
+      "expected_preview_values": [
+        [
+          27397950
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          0
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 2.438876625004923,
+      "token_usage": {
+        "input_tokens": 257,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 15,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 272
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT 0 AS total_casos_obstetricos",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT010",
+        "difficulty": "easy",
+        "expected_result_type": "scalar",
+        "question_pt": "Quantos casos obst\u00e9tricos foram registrados?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [],
+        "retrieved_columns_count": 0,
+        "business_metrics": [],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 0,
+        "catalog_candidate_labels": [],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT010",
+          "GT008",
+          "GT006",
+          "GT013"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT COUNT(*) AS total_casos_obstetricos\nFROM sih_sus\nWHERE especialidade = 'obstetr\u00edcia';",
+        "ground_truth_sql": "SELECT COUNT(*) AS total_obstetricos FROM internacoes WHERE \"ESPEC\" = 2",
+        "generated_sql_valid": false,
+        "generated_sql_validation_errors": [
+          "Unknown or unsupported table(s): sih_sus"
+        ],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "skipped",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "scalar",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": false,
+        "expected_columns": [
+          "total_obstetricos"
+        ],
+        "actual_columns": [],
+        "expected_preview_values": [
+          [
+            27397950
+          ]
+        ],
+        "actual_preview_values": [],
+        "expected_row_count": 1,
+        "actual_row_count": 0,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "retrieval_miss",
+        "error_message": "Unknown or unsupported table(s): sih_sus",
+        "latency_seconds": 1.225545041001169,
+        "token_usage": {
+          "input_tokens": 187,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 32,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 219
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT COUNT(*) AS total_casos_obstetricos\nFROM sih_sus\nWHERE especialidade = 'obstetr\u00edcia';",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT011",
+      "difficulty": "medium",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos pacientes t\u00eam v\u00ednculo previdenci\u00e1rio informado?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "vincprev"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT011",
+        "GT012",
+        "GT096",
+        "GT192"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT COUNT(*) AS pacientes_com_vinculo_previdenciario_informado\nFROM internacoes\nWHERE VINCPREV IS NOT NULL;",
+          "input_error": "Result values differ.",
+          "sql": "SELECT COUNT(DISTINCT VINCPREV) AS pacientes_com_vinculo_previdenciario_informado\nFROM internacoes\nWHERE VINCPREV IS NOT NULL;",
+          "success": true
+        }
+      ],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(DISTINCT VINCPREV) AS pacientes_com_vinculo_previdenciario_informado\nFROM internacoes\nWHERE VINCPREV IS NOT NULL;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_vincprev FROM internacoes WHERE \"VINCPREV\" IS NOT NULL AND \"VINCPREV\" != 0",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_vincprev"
+      ],
+      "actual_columns": [
+        "pacientes_com_vinculo_previdenciario_informado"
+      ],
+      "expected_preview_values": [
+        [
+          17533
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          7
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 2.9148695420008153,
+      "token_usage": {
+        "input_tokens": 1394,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 39,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1433
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(DISTINCT VINCPREV) AS pacientes_com_vinculo_previdenciario_informado\nFROM internacoes\nWHERE VINCPREV IS NOT NULL;",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT011",
+        "difficulty": "medium",
+        "expected_result_type": "scalar",
+        "question_pt": "Quantos pacientes t\u00eam v\u00ednculo previdenci\u00e1rio informado?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [
+          "internacoes",
+          "vincprev"
+        ],
+        "retrieved_columns_count": 42,
+        "business_metrics": [],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 0,
+        "catalog_candidate_labels": [],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT011",
+          "GT012",
+          "GT096",
+          "GT192"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT COUNT(*) AS pacientes_com_vinculo_previdenciario_informado\nFROM internacoes\nWHERE VINCPREV IS NOT NULL;",
+        "ground_truth_sql": "SELECT COUNT(*) AS total_vincprev FROM internacoes WHERE \"VINCPREV\" IS NOT NULL AND \"VINCPREV\" != 0",
+        "generated_sql_valid": true,
+        "generated_sql_validation_errors": [],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "passed",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "scalar",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": true,
+        "expected_columns": [
+          "total_vincprev"
+        ],
+        "actual_columns": [
+          "pacientes_com_vinculo_previdenciario_informado"
+        ],
+        "expected_preview_values": [
+          [
+            17533
+          ]
+        ],
+        "actual_preview_values": [
+          [
+            144386772
+          ]
+        ],
+        "expected_row_count": 1,
+        "actual_row_count": 1,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "value_mismatch",
+        "error_message": "Result values differ.",
+        "latency_seconds": 1.4270221670012688,
+        "token_usage": {
+          "input_tokens": 1330,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 39,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 1369
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT COUNT(*) AS pacientes_com_vinculo_previdenciario_informado\nFROM internacoes\nWHERE VINCPREV IS NOT NULL;",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT012",
+      "difficulty": "medium",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos pacientes t\u00eam n\u00edvel de instru\u00e7\u00e3o informado?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "instrucao",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT012",
+        "GT011",
+        "GT193",
+        "GT065"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT COUNT(*) AS pacientes_com_instrucao_informada\nFROM internacoes\nWHERE INSTRU IS NOT NULL;",
+          "input_error": "Result values differ.",
+          "sql": "SELECT COUNT(DISTINCT N_AIH) AS pacientes_com_instrucao_informada\nFROM internacoes\nWHERE INSTRU IS NOT NULL;",
+          "success": true
+        }
+      ],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(DISTINCT N_AIH) AS pacientes_com_instrucao_informada\nFROM internacoes\nWHERE INSTRU IS NOT NULL;",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_instrucao FROM internacoes WHERE \"INSTRU\" IS NOT NULL AND \"INSTRU\" != 0",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "total_instrucao"
+      ],
+      "actual_columns": [
+        "pacientes_com_instrucao_informada"
+      ],
+      "expected_preview_values": [
+        [
+          1205603
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          144386173
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 6.46551958299824,
+      "token_usage": {
+        "input_tokens": 1379,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 33,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1412
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(DISTINCT N_AIH) AS pacientes_com_instrucao_informada\nFROM internacoes\nWHERE INSTRU IS NOT NULL;",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT012",
+        "difficulty": "medium",
+        "expected_result_type": "scalar",
+        "question_pt": "Quantos pacientes t\u00eam n\u00edvel de instru\u00e7\u00e3o informado?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [
+          "instrucao",
+          "internacoes"
+        ],
+        "retrieved_columns_count": 42,
+        "business_metrics": [],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 0,
+        "catalog_candidate_labels": [],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT012",
+          "GT011",
+          "GT193",
+          "GT065"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT COUNT(*) AS pacientes_com_instrucao_informada\nFROM internacoes\nWHERE INSTRU IS NOT NULL;",
+        "ground_truth_sql": "SELECT COUNT(*) AS total_instrucao FROM internacoes WHERE \"INSTRU\" IS NOT NULL AND \"INSTRU\" != 0",
+        "generated_sql_valid": true,
+        "generated_sql_validation_errors": [],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "passed",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "scalar",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": true,
+        "expected_columns": [
+          "total_instrucao"
+        ],
+        "actual_columns": [
+          "pacientes_com_instrucao_informada"
+        ],
+        "expected_preview_values": [
+          [
+            1205603
+          ]
+        ],
+        "actual_preview_values": [
+          [
+            144386772
+          ]
+        ],
+        "expected_row_count": 1,
+        "actual_row_count": 1,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "value_mismatch",
+        "error_message": "Result values differ.",
+        "latency_seconds": 2.22574508300022,
+        "token_usage": {
+          "input_tokens": 1321,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 27,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 1348
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT COUNT(*) AS pacientes_com_instrucao_informada\nFROM internacoes\nWHERE INSTRU IS NOT NULL;",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT013",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos pacientes do sexo masculino foram internados?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "sexo"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [],
+      "value_hints_count": 4,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT013",
+        "GT176",
+        "GT175",
+        "GT177"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_pacientes_masculinos\nFROM internacoes i\nJOIN sexo s\n  ON i.SEXO = s.SEXO\nWHERE LOWER(s.DESCRICAO) LIKE '%masculino%';",
+      "ground_truth_sql": "SELECT COUNT(*) AS homens FROM internacoes WHERE \"SEXO\" = 1",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "homens"
+      ],
+      "actual_columns": [
+        "total_pacientes_masculinos"
+      ],
+      "expected_preview_values": [
+        [
+          58967743
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          58967743
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.272024917001545,
+      "token_usage": {
+        "input_tokens": 1320,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 53,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1373
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS total_pacientes_masculinos\nFROM internacoes i\nJOIN sexo s\n  ON i.SEXO = s.SEXO\nWHERE LOWER(s.DESCRICAO) LIKE '%masculino%';",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT014",
+      "difficulty": "medium",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantas interna\u00e7\u00f5es por meningite ocasionaram em morte?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_mortes_hospitalares",
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Meningite viral",
+        "Meningite bacter NCOP",
+        "Meningite em doenc bacter COP",
+        "Meningite em outr doenc infecc e parasit COP",
+        "Meningite dev outr causas e a causas NE"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT014",
+        "GT002",
+        "GT023",
+        "GT025"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT COUNT(*) AS total_internacoes_meningite_com_obito\nFROM internacoes\nWHERE (\n    DIAG_PRINC LIKE 'G00%' OR\n    DIAG_PRINC LIKE 'G01%' OR\n    DIAG_PRINC LIKE 'G02%'\n)\nAND MORTE = 1;",
+          "input_error": "Result values differ.",
+          "sql": "SELECT COUNT(*) AS total_internacoes_meningite_com_obito\nFROM internacoes\nWHERE DIAG_PRINC LIKE 'G00%'\n   OR DIAG_PRINC LIKE 'G01%'\n   OR DIAG_PRINC LIKE 'G02%'\n   OR DIAG_PRINC LIKE 'A39%' AND MORTE = 1;",
+          "success": true
+        }
+      ],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(*) AS total_internacoes_meningite_com_obito\nFROM internacoes\nWHERE DIAG_PRINC LIKE 'G00%'\n   OR DIAG_PRINC LIKE 'G01%'\n   OR DIAG_PRINC LIKE 'G02%'\n   OR DIAG_PRINC LIKE 'A39%' AND MORTE = 1;",
+      "ground_truth_sql": "SELECT COUNT(*) FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE c.\"DESCRICAO\" ILIKE '%meningite%' AND i.\"MORTE\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "count_star()"
+      ],
+      "actual_columns": [
+        "total_internacoes_meningite_com_obito"
+      ],
+      "expected_preview_values": [
+        [
+          4861
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          26662
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 5.0488783749970025,
+      "token_usage": {
+        "input_tokens": 1858,
+        "input_tokens_details": {
+          "cached_tokens": 1280,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 73,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1931
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(*) AS total_internacoes_meningite_com_obito\nFROM internacoes\nWHERE DIAG_PRINC LIKE 'G00%'\n   OR DIAG_PRINC LIKE 'G01%'\n   OR DIAG_PRINC LIKE 'G02%'\n   OR DIAG_PRINC LIKE 'A39%' AND MORTE = 1;",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT014",
+        "difficulty": "medium",
+        "expected_result_type": "scalar",
+        "question_pt": "Quantas interna\u00e7\u00f5es por meningite ocasionaram em morte?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [
+          "car_int",
+          "cbor",
+          "cid",
+          "complexidade",
+          "especialidade",
+          "internacoes"
+        ],
+        "retrieved_columns_count": 55,
+        "business_metrics": [
+          "total_mortes_hospitalares",
+          "total_internacoes",
+          "taxa_mortalidade_hospitalar"
+        ],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 5,
+        "catalog_candidate_labels": [
+          "Meningite viral",
+          "Meningite bacter NCOP",
+          "Meningite em doenc bacter COP",
+          "Meningite em outr doenc infecc e parasit COP",
+          "Meningite dev outr causas e a causas NE"
+        ],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT014",
+          "GT002",
+          "GT023",
+          "GT025"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT COUNT(*) AS total_internacoes_meningite_com_obito\nFROM internacoes\nWHERE (\n    DIAG_PRINC LIKE 'G00%' OR\n    DIAG_PRINC LIKE 'G01%' OR\n    DIAG_PRINC LIKE 'G02%'\n)\nAND MORTE = 1;",
+        "ground_truth_sql": "SELECT COUNT(*) FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE c.\"DESCRICAO\" ILIKE '%meningite%' AND i.\"MORTE\" = true",
+        "generated_sql_valid": true,
+        "generated_sql_validation_errors": [],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "passed",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "scalar",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": true,
+        "expected_columns": [
+          "count_star()"
+        ],
+        "actual_columns": [
+          "total_internacoes_meningite_com_obito"
+        ],
+        "expected_preview_values": [
+          [
+            4861
+          ]
+        ],
+        "actual_preview_values": [
+          [
+            2422
+          ]
+        ],
+        "expected_row_count": 1,
+        "actual_row_count": 1,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "value_mismatch",
+        "error_message": "Result values differ.",
+        "latency_seconds": 2.1265645409948775,
+        "token_usage": {
+          "input_tokens": 1760,
+          "input_tokens_details": {
+            "cached_tokens": 1280,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 1827
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT COUNT(*) AS total_internacoes_meningite_com_obito\nFROM internacoes\nWHERE (\n    DIAG_PRINC LIKE 'G00%' OR\n    DIAG_PRINC LIKE 'G01%' OR\n    DIAG_PRINC LIKE 'G02%'\n)\nAND MORTE = 1;",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT015",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual a descri\u00e7\u00e3o do c\u00f3digo CID A15?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "contraceptivos",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "CID prefixo A15",
+        "A15-A19 Tuberculose",
+        "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+        "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo",
+        "C81-C96 Neoplasias malignas do tecido linf\u00e1tico e hematopo\u00e9tico"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT015",
+        "GT035",
+        "GT014",
+        "GT039"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT DESCRICAO\nFROM cid\nWHERE CID = 'A15';",
+      "ground_truth_sql": "SELECT \"DESCRICAO\" FROM cid WHERE \"CID\" = 'A15'",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Exploratory row-returning query has no LIMIT."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "DESCRICAO"
+      ],
+      "actual_columns": [
+        "DESCRICAO"
+      ],
+      "expected_preview_values": [
+        [
+          "Tuberc respirat c/conf bacteriol e histolog"
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Tuberc respirat c/conf bacteriol e histolog"
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.9472589169963612,
+      "token_usage": {
+        "input_tokens": 1841,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 20,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1861
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT DESCRICAO\nFROM cid\nWHERE CID = 'A15';",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT017",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual o tempo m\u00e9dio de perman\u00eancia hospitalar?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes",
+        "tempo"
+      ],
+      "retrieved_columns_count": 51,
+      "business_metrics": [
+        "permanencia_media"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT017",
+        "GT101",
+        "GT125",
+        "GT026"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT AVG(DIAS_PERM) AS tempo_medio_permanencia_hospitalar\nFROM internacoes",
+      "ground_truth_sql": "SELECT AVG(\"DIAS_PERM\") AS tempo_medio_permanencia FROM internacoes",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "tempo_medio_permanencia"
+      ],
+      "actual_columns": [
+        "tempo_medio_permanencia_hospitalar"
+      ],
+      "expected_preview_values": [
+        [
+          5.063126419918855
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5.063126419918855
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.5156833329965593,
+      "token_usage": {
+        "input_tokens": 1443,
+        "input_tokens_details": {
+          "cached_tokens": 1280,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 25,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1468
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT AVG(DIAS_PERM) AS tempo_medio_permanencia_hospitalar\nFROM internacoes",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT018",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quando houver dados socioecon\u00f4micos, quantos habitantes tem o munic\u00edpio com a maior popula\u00e7\u00e3o registrada?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "municipios",
+        "socioeconomico"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [
+        "geografia_residencia"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT018",
+        "GT222",
+        "GT190",
+        "GT223"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT QT_POPULACAO\nFROM socioeconomico\nWHERE QT_POPULACAO IS NOT NULL\nORDER BY QT_POPULACAO DESC\nLIMIT 1;",
+          "input_error": "Result shape differs: expected 0x2, actual 0x1.",
+          "sql": "SELECT m.NO_MUNICIPIO, s.QT_POPULACAO\nFROM socioeconomico s\nJOIN municipios m\n  ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D\nWHERE s.QT_POPULACAO IS NOT NULL\nORDER BY s.QT_POPULACAO DESC\nLIMIT 1;",
+          "success": true
+        }
+      ],
+      "correction_success": true,
+      "generated_sql": "SELECT m.NO_MUNICIPIO, s.QT_POPULACAO\nFROM socioeconomico s\nJOIN municipios m\n  ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D\nWHERE s.QT_POPULACAO IS NOT NULL\nORDER BY s.QT_POPULACAO DESC\nLIMIT 1;",
+      "ground_truth_sql": "WITH latest_year AS (\n    SELECT MAX(\"NU_ANO\") AS ano FROM socioeconomico WHERE \"QT_POPULACAO\" IS NOT NULL\n)\nSELECT mu.\"NO_MUNICIPIO\" AS municipio_maior_populacao,\n       s.\"QT_POPULACAO\" AS total_habitantes\nFROM socioeconomico s\nJOIN latest_year ly ON s.\"NU_ANO\" = ly.ano\nJOIN municipios mu ON s.\"CO_MUNICIPIO_6D\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE s.\"QT_POPULACAO\" IS NOT NULL\nORDER BY s.\"QT_POPULACAO\" DESC\nLIMIT 1",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "municipio_maior_populacao",
+        "total_habitantes"
+      ],
+      "actual_columns": [
+        "NO_MUNICIPIO",
+        "QT_POPULACAO"
+      ],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.5855953749996843,
+      "token_usage": {
+        "input_tokens": 1807,
+        "input_tokens_details": {
+          "cached_tokens": 1280,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 85,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1892
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT m.NO_MUNICIPIO, s.QT_POPULACAO\nFROM socioeconomico s\nJOIN municipios m\n  ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D\nWHERE s.QT_POPULACAO IS NOT NULL\nORDER BY s.QT_POPULACAO DESC\nLIMIT 1;",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT018",
+        "difficulty": "medium",
+        "expected_result_type": "ranking",
+        "question_pt": "Quando houver dados socioecon\u00f4micos, quantos habitantes tem o munic\u00edpio com a maior popula\u00e7\u00e3o registrada?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [
+          "internacoes",
+          "municipios",
+          "socioeconomico"
+        ],
+        "retrieved_columns_count": 58,
+        "business_metrics": [
+          "geografia_residencia"
+        ],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 0,
+        "catalog_candidate_labels": [],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT018",
+          "GT222",
+          "GT190",
+          "GT223"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT QT_POPULACAO\nFROM socioeconomico\nWHERE QT_POPULACAO IS NOT NULL\nORDER BY QT_POPULACAO DESC\nLIMIT 1;",
+        "ground_truth_sql": "WITH latest_year AS (\n    SELECT MAX(\"NU_ANO\") AS ano FROM socioeconomico WHERE \"QT_POPULACAO\" IS NOT NULL\n)\nSELECT mu.\"NO_MUNICIPIO\" AS municipio_maior_populacao,\n       s.\"QT_POPULACAO\" AS total_habitantes\nFROM socioeconomico s\nJOIN latest_year ly ON s.\"NU_ANO\" = ly.ano\nJOIN municipios mu ON s.\"CO_MUNICIPIO_6D\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE s.\"QT_POPULACAO\" IS NOT NULL\nORDER BY s.\"QT_POPULACAO\" DESC\nLIMIT 1",
+        "generated_sql_valid": true,
+        "generated_sql_validation_errors": [],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "passed",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "ordered",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": false,
+        "expected_columns": [
+          "municipio_maior_populacao",
+          "total_habitantes"
+        ],
+        "actual_columns": [
+          "QT_POPULACAO"
+        ],
+        "expected_preview_values": [],
+        "actual_preview_values": [],
+        "expected_row_count": 0,
+        "actual_row_count": 0,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "shape_mismatch",
+        "error_message": "Result shape differs: expected 0x2, actual 0x1.",
+        "latency_seconds": 1.3909423340010107,
+        "token_usage": {
+          "input_tokens": 1725,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 45,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 1770
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT QT_POPULACAO\nFROM socioeconomico\nWHERE QT_POPULACAO IS NOT NULL\nORDER BY QT_POPULACAO DESC\nLIMIT 1;",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT019",
+      "difficulty": "medium",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais os cinco munic\u00edpios com mais interna\u00e7\u00f5es obst\u00e9tricas registradas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "hospital",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 64,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "O94-O99 Outras afec\u00e7\u00f5es obst\u00e9tricas NCOP",
+        "Morte p/sequelas causas obstetricas diretas",
+        "Embolia orig obstetrica",
+        "Morte obstetrica de causa NE",
+        "Outr traum obstetricos"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT019",
+        "GT130",
+        "GT028",
+        "GT051"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT\n    m.NO_MUNICIPIO,\n    COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nWHERE i.CAR_INT = '03'\nGROUP BY 1\nORDER BY total_internacoes DESC, m.NO_MUNICIPIO\nLIMIT 5",
+          "input_error": "Column internacoes.CAR_INT has TINYINT type and cannot be compared to text literal '03'. For city names, join municipios and filter municipios.NO_MUNICIPIO/SG_UF.",
+          "sql": "SELECT\n    m.NO_MUNICIPIO,\n    COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nLEFT JOIN car_int c\n    ON i.CAR_INT = c.CAR_INT\nWHERE c.DESCRICAO ILIKE '%obst%'\nGROUP BY 1\nORDER BY total_internacoes DESC, m.NO_MUNICIPIO\nLIMIT 5",
+          "success": true
+        }
+      ],
+      "correction_success": false,
+      "generated_sql": "SELECT\n    m.NO_MUNICIPIO,\n    COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nLEFT JOIN car_int c\n    ON i.CAR_INT = c.CAR_INT\nWHERE c.DESCRICAO ILIKE '%obst%'\nGROUP BY 1\nORDER BY total_internacoes DESC, m.NO_MUNICIPIO\nLIMIT 5",
+      "ground_truth_sql": "SELECT mu.\"NO_MUNICIPIO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"ESPEC\" = 2 GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 5",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "expected_columns": [
+        "NO_MUNICIPIO",
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "NO_MUNICIPIO",
+        "total_internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "Rio de Janeiro",
+          834766
+        ],
+        [
+          "Bras\u00edlia",
+          561507
+        ],
+        [
+          "Manaus",
+          513833
+        ],
+        [
+          "Salvador",
+          467036
+        ],
+        [
+          "Fortaleza",
+          460817
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 5,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "shape_mismatch",
+      "error_message": "Result shape differs: expected 5x2, actual 0x2.",
+      "latency_seconds": 3.9939407499987283,
+      "token_usage": {
+        "input_tokens": 2102,
+        "input_tokens_details": {
+          "cached_tokens": 1792,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 109,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2211
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT\n    m.NO_MUNICIPIO,\n    COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nLEFT JOIN car_int c\n    ON i.CAR_INT = c.CAR_INT\nWHERE c.DESCRICAO ILIKE '%obst%'\nGROUP BY 1\nORDER BY total_internacoes DESC, m.NO_MUNICIPIO\nLIMIT 5",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT019",
+        "difficulty": "medium",
+        "expected_result_type": "ranking",
+        "question_pt": "Quais os cinco munic\u00edpios com mais interna\u00e7\u00f5es obst\u00e9tricas registradas?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [
+          "car_int",
+          "cbor",
+          "cid",
+          "hospital",
+          "internacoes",
+          "municipios"
+        ],
+        "retrieved_columns_count": 64,
+        "business_metrics": [
+          "total_internacoes"
+        ],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 5,
+        "catalog_candidate_labels": [
+          "O94-O99 Outras afec\u00e7\u00f5es obst\u00e9tricas NCOP",
+          "Morte p/sequelas causas obstetricas diretas",
+          "Embolia orig obstetrica",
+          "Morte obstetrica de causa NE",
+          "Outr traum obstetricos"
+        ],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT019",
+          "GT130",
+          "GT028",
+          "GT051"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT\n    m.NO_MUNICIPIO,\n    COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nWHERE i.CAR_INT = '03'\nGROUP BY 1\nORDER BY total_internacoes DESC, m.NO_MUNICIPIO\nLIMIT 5",
+        "ground_truth_sql": "SELECT mu.\"NO_MUNICIPIO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"ESPEC\" = 2 GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 5",
+        "generated_sql_valid": false,
+        "generated_sql_validation_errors": [
+          "Column internacoes.CAR_INT has TINYINT type and cannot be compared to text literal '03'. For city names, join municipios and filter municipios.NO_MUNICIPIO/SG_UF."
+        ],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "skipped",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "ordered",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": false,
+        "expected_columns": [
+          "NO_MUNICIPIO",
+          "total_internacoes"
+        ],
+        "actual_columns": [],
+        "expected_preview_values": [
+          [
+            "Rio de Janeiro",
+            834766
+          ],
+          [
+            "Bras\u00edlia",
+            561507
+          ],
+          [
+            "Manaus",
+            513833
+          ],
+          [
+            "Salvador",
+            467036
+          ],
+          [
+            "Fortaleza",
+            460817
+          ]
+        ],
+        "actual_preview_values": [],
+        "expected_row_count": 5,
+        "actual_row_count": 0,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "invalid_sql",
+        "error_message": "Column internacoes.CAR_INT has TINYINT type and cannot be compared to text literal '03'. For city names, join municipios and filter municipios.NO_MUNICIPIO/SG_UF.",
+        "latency_seconds": 2.359012958004314,
+        "token_usage": {
+          "input_tokens": 1952,
+          "input_tokens_details": {
+            "cached_tokens": 1792,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 82,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 2034
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT\n    m.NO_MUNICIPIO,\n    COUNT(*) AS total_internacoes\nFROM internacoes i\nLEFT JOIN municipios m\n    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D\nWHERE i.CAR_INT = '03'\nGROUP BY 1\nORDER BY total_internacoes DESC, m.NO_MUNICIPIO\nLIMIT 5",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct_retry",
+      "id": "GT021",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "procedimentos_ocorrencias"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 10,
+      "catalog_candidate_labels": [
+        "Z40-Z54 Pessoas em contato com servi\u00e7os de sa\u00fade \u2014 procedimentos",
+        "Outr cuidados medicos",
+        "Z513 Transfusao de sangue s/diagn registrado",
+        "Fet rec-nasc afet afec mat n obr rel grav at",
+        "P007 Fet rec-nasc afet outr proced med mae NCOP",
+        "Procedimentos correspondentes a 'Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?'",
+        "PREVENCAO DA COVID-19 NAS ESCOLAS",
+        "APLICACAO TOPICA DE FLUOR (INDIVIDUAL POR SESSAO)",
+        "SESSAO DE ARTETERAPIA",
+        "SESSAO DE MEDITACAO"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT021",
+        "GT068",
+        "GT081",
+        "GT131"
+      ],
+      "plan_source": "openai_direct_retry",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [
+        {
+          "attempt": 1,
+          "phase": "openai_direct_retry",
+          "input_sql": "SELECT p.NOME_PROC, COUNT(*) AS total_registros\nFROM internacoes i\nLEFT JOIN procedimentos p\n  ON i.PROC_REA = p.PROC_REA\nGROUP BY p.NOME_PROC\nORDER BY total_registros DESC\nLIMIT 5",
+          "input_error": "Result shape differs: expected 5x3, actual 5x2.",
+          "sql": "SELECT i.PROC_REA, p.NOME_PROC, COUNT(*) AS total_registros\nFROM internacoes i\nLEFT JOIN procedimentos p\n  ON i.PROC_REA = p.PROC_REA\nGROUP BY i.PROC_REA, p.NOME_PROC\nORDER BY total_registros DESC\nLIMIT 5",
+          "success": true
+        }
+      ],
+      "correction_success": true,
+      "generated_sql": "SELECT i.PROC_REA, p.NOME_PROC, COUNT(*) AS total_registros\nFROM internacoes i\nLEFT JOIN procedimentos p\n  ON i.PROC_REA = p.PROC_REA\nGROUP BY i.PROC_REA, p.NOME_PROC\nORDER BY total_registros DESC\nLIMIT 5",
+      "ground_truth_sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total DESC LIMIT 5",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "PROC_REA",
+        "procedimento",
+        "total"
+      ],
+      "actual_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "total_registros"
+      ],
+      "expected_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          13399545
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          8575497
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          8390010
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          4218758
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          3226173
+        ]
+      ],
+      "expected_row_count": 5,
+      "actual_row_count": 5,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 12.384268875000998,
+      "token_usage": {
+        "input_tokens": 1879,
+        "input_tokens_details": {
+          "cached_tokens": 1280,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 70,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1949
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT i.PROC_REA, p.NOME_PROC, COUNT(*) AS total_registros\nFROM internacoes i\nLEFT JOIN procedimentos p\n  ON i.PROC_REA = p.PROC_REA\nGROUP BY i.PROC_REA, p.NOME_PROC\nORDER BY total_registros DESC\nLIMIT 5",
+      "openai_cache_hit": false,
+      "first_attempt": {
+        "variant": "openai_raw_one_retry",
+        "strategy": "openai_direct",
+        "id": "GT021",
+        "difficulty": "hard",
+        "expected_result_type": "ranking",
+        "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?",
+        "intent_status": "answerable",
+        "retrieval_mode": "schema_keyword",
+        "retrieved_tables": [
+          "car_int",
+          "cbor",
+          "cid",
+          "complexidade",
+          "internacoes",
+          "procedimentos"
+        ],
+        "retrieved_columns_count": 55,
+        "business_metrics": [
+          "total_internacoes",
+          "procedimentos_ocorrencias"
+        ],
+        "value_hints_count": 0,
+        "catalog_candidates_count": 10,
+        "catalog_candidate_labels": [
+          "Z40-Z54 Pessoas em contato com servi\u00e7os de sa\u00fade \u2014 procedimentos",
+          "Outr cuidados medicos",
+          "Z513 Transfusao de sangue s/diagn registrado",
+          "Fet rec-nasc afet afec mat n obr rel grav at",
+          "P007 Fet rec-nasc afet outr proced med mae NCOP",
+          "Procedimentos correspondentes a 'Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?'",
+          "PREVENCAO DA COVID-19 NAS ESCOLAS",
+          "APLICACAO TOPICA DE FLUOR (INDIVIDUAL POR SESSAO)",
+          "SESSAO DE ARTETERAPIA",
+          "SESSAO DE MEDITACAO"
+        ],
+        "catalog_tool_calls_count": 0,
+        "catalog_tools": [],
+        "catalog_decisions_count": 0,
+        "catalog_decisions": [],
+        "query_examples": [
+          "GT021",
+          "GT068",
+          "GT081",
+          "GT131"
+        ],
+        "plan_source": "openai_direct",
+        "candidate_count": 1,
+        "selected_candidate_id": null,
+        "candidate_selection_reason": "",
+        "candidate_selection_correct": null,
+        "candidates": [],
+        "correction_attempts": [],
+        "correction_success": false,
+        "generated_sql": "SELECT p.NOME_PROC, COUNT(*) AS total_registros\nFROM internacoes i\nLEFT JOIN procedimentos p\n  ON i.PROC_REA = p.PROC_REA\nGROUP BY p.NOME_PROC\nORDER BY total_registros DESC\nLIMIT 5",
+        "ground_truth_sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total DESC LIMIT 5",
+        "generated_sql_valid": true,
+        "generated_sql_validation_errors": [],
+        "generated_sql_validation_warnings": [],
+        "generated_execution_status": "passed",
+        "ground_truth_execution_status": "passed",
+        "comparison_mode": "ordered",
+        "result_match": false,
+        "alias_only_difference": false,
+        "type_only_difference": false,
+        "order_only_mismatch": false,
+        "shape_match": false,
+        "expected_columns": [
+          "PROC_REA",
+          "procedimento",
+          "total"
+        ],
+        "actual_columns": [
+          "NOME_PROC",
+          "total_registros"
+        ],
+        "expected_preview_values": [
+          [
+            "0310010039",
+            "PARTO NORMAL",
+            13399545
+          ],
+          [
+            "0303140151",
+            "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+            8575497
+          ],
+          [
+            "0411010034",
+            "PARTO CESARIANO",
+            8390010
+          ],
+          [
+            "0303010061",
+            "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+            4218758
+          ],
+          [
+            "0303140046",
+            "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+            3226173
+          ]
+        ],
+        "actual_preview_values": [
+          [
+            "PARTO NORMAL",
+            13399545
+          ],
+          [
+            "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+            8575497
+          ],
+          [
+            "PARTO CESARIANO",
+            8390010
+          ],
+          [
+            "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+            4218758
+          ],
+          [
+            "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+            3226173
+          ]
+        ],
+        "expected_row_count": 5,
+        "actual_row_count": 5,
+        "expected_truncated": false,
+        "actual_truncated": false,
+        "error_category": "shape_mismatch",
+        "error_message": "Result shape differs: expected 5x3, actual 5x2.",
+        "latency_seconds": 4.792180042000837,
+        "token_usage": {
+          "input_tokens": 1777,
+          "input_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0
+          },
+          "output_tokens": 64,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 1841
+        },
+        "estimated_cost_usd": null,
+        "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+        "baseline_mode": "one_retry",
+        "raw_model_response": "SELECT p.NOME_PROC, COUNT(*) AS total_registros\nFROM internacoes i\nLEFT JOIN procedimentos p\n  ON i.PROC_REA = p.PROC_REA\nGROUP BY p.NOME_PROC\nORDER BY total_registros DESC\nLIMIT 5",
+        "openai_cache_hit": false
+      }
+    },
+    {
+      "variant": "openai_raw_one_retry",
+      "strategy": "openai_direct",
+      "id": "GT022",
+      "difficulty": "easy",
+      "expected_result_type": "scalar",
+      "question_pt": "Quantos hospitais registraram pelo menos uma morte?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "hospital",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 46,
+      "business_metrics": [
+        "total_mortes_hospitalares",
+        "taxa_mortalidade_hospitalar",
+        "geografia_hospital"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT022",
+        "GT111",
+        "GT005",
+        "GT041"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT COUNT(DISTINCT CNES) AS hospitais_com_pelo_menos_uma_morte\nFROM internacoes\nWHERE MORTE = 1;",
+      "ground_truth_sql": "SELECT COUNT(DISTINCT \"CNES\") AS hospitais_com_mortes FROM internacoes WHERE \"MORTE\" = true",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": true,
+      "alias_only_difference": true,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "expected_columns": [
+        "hospitais_com_mortes"
+      ],
+      "actual_columns": [
+        "hospitais_com_pelo_menos_uma_morte"
+      ],
+      "expected_preview_values": [
+        [
+          5082
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          5082
+        ]
+      ],
+      "expected_row_count": 1,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 1.4417193330009468,
+      "token_usage": {
+        "input_tokens": 1372,
+        "input_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "output_tokens": 35,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1407
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with one validation/execution retry.",
+      "baseline_mode": "one_retry",
+      "raw_model_response": "SELECT COUNT(DISTINCT CNES) AS hospitais_com_pelo_menos_uma_morte\nFROM internacoes\nWHERE MORTE = 1;",
+      "openai_cache_hit": false
+    }
+  ]
+}

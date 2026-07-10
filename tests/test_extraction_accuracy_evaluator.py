@@ -58,6 +58,144 @@ def test_shape_mismatch_is_not_match():
     assert result.result_match is False
     assert result.shape_match is False
     assert result.error_category == "shape_mismatch"
+    assert result.contained_in_actual is False
+
+
+def test_extra_actual_columns_match_when_expected_projection_is_contained():
+    result = compare_results(
+        ["municipio", "total_internacoes", "total_mortes", "taxa_mortalidade"],
+        [("A", 100, 10, 10.0), ("B", 200, 20, 10.0)],
+        ["municipio", "uf", "internacoes", "obitos", "taxa_mortalidade"],
+        [("A", "RS", 100, 10, 10.0), ("B", "RS", 200, 20, 10.0)],
+        mode="ordered",
+    )
+
+    assert result.result_match is True
+    assert result.shape_match is False
+    assert result.contained_in_actual is True
+    assert result.error_category is None
+
+
+def test_extra_ordered_rows_match_when_expected_prefix_is_contained():
+    result = compare_results(
+        ["municipio", "taxa"],
+        [("A", 10.0)],
+        ["municipio", "taxa"],
+        [("A", 10.0), ("B", 9.0)],
+        mode="ordered",
+    )
+
+    assert result.result_match is True
+    assert result.shape_match is False
+    assert result.contained_in_actual is True
+
+
+def test_extra_actual_columns_match_when_expected_rows_are_unordered_contained():
+    result = compare_results(
+        ["nome"],
+        [("Bage",), ("Sao Leopoldo",)],
+        ["municipio", "uf", "internacoes"],
+        [("Sao Leopoldo", "RS", 184103), ("Bage", "RS", 120196)],
+        mode="ordered",
+    )
+
+    assert result.result_match is True
+    assert result.shape_match is False
+    assert result.order_only_mismatch is True
+    assert result.contained_in_actual is True
+
+
+def test_generated_projection_matches_when_contained_in_ground_truth():
+    result = compare_results(
+        ["quartil", "total", "minimo", "maximo", "media"],
+        [(1, 10, 1, 100, 50)],
+        ["quartil", "total", "minimo", "maximo"],
+        [(1, 10, 1, 100)],
+        mode="ordered",
+    )
+
+    assert result.result_match is True
+    assert result.shape_match is False
+    assert result.contained_in_expected is True
+    assert result.error_category is None
+
+
+def test_missing_value_still_remains_shape_mismatch():
+    result = compare_results(
+        ["quartil", "total", "minimo", "maximo", "media"],
+        [(1, 10, 1, 100, 50)],
+        ["quartil", "total", "minimo", "maximo"],
+        [(1, 10, 1, 101)],
+        mode="ordered",
+    )
+
+    assert result.result_match is False
+    assert result.shape_match is False
+    assert result.contained_in_expected is False
+    assert result.error_category == "shape_mismatch"
+
+
+def test_text_values_ignore_case_and_accents():
+    result = compare_results(
+        ["carater"],
+        [("urgencia",)],
+        ["carater"],
+        [("Urgência",)],
+        mode="scalar",
+    )
+
+    assert result.result_match is True
+
+
+def test_text_values_accept_portuguese_adjective_gender_variants():
+    result = compare_results(
+        ["faixa_etaria", "carater", "internacoes", "mortes", "taxa"],
+        [
+            ("<18", "eletiva", 3_928_508, 21_571, 0.55),
+            ("<18", "urgencia", 24_252_648, 308_249, 1.27),
+        ],
+        ["faixa_etaria", "carater", "internacoes", "mortes", "taxa"],
+        [
+            ("<18", "Eletivo", 3_928_508, 21_571, 0.55),
+            ("<18", "Urgência", 24_252_648, 308_249, 1.27),
+        ],
+        mode="unordered",
+    )
+
+    assert result.result_match is True
+    assert result.semantic_label_equivalence is True
+
+
+def test_text_values_do_not_equate_unrelated_or_arbitrary_labels():
+    unrelated = compare_results(
+        ["carater", "total"],
+        [("eletiva", 10)],
+        ["carater", "total"],
+        [("urgencia", 10)],
+        mode="unordered",
+    )
+    arbitrary_gendered_nouns = compare_results(
+        ["categoria", "total"],
+        [("banco", 10)],
+        ["categoria", "total"],
+        [("banca", 10)],
+        mode="unordered",
+    )
+
+    assert unrelated.result_match is False
+    assert arbitrary_gendered_nouns.result_match is False
+
+
+def test_numeric_values_match_when_one_side_is_rounded():
+    result = compare_results(
+        ["taxa"],
+        [(7.41,)],
+        ["taxa"],
+        [(7.4054,)],
+        mode="scalar",
+    )
+
+    assert result.result_match is True
 
 
 def test_unordered_distribution_matches_same_rows_different_order():
@@ -149,6 +287,7 @@ def test_summary_is_json_serializable_and_counts_categories():
             "alias_only_difference": True,
             "type_only_difference": False,
             "order_only_mismatch": False,
+            "semantic_label_equivalence": True,
             "error_category": None,
             "correction_attempts": [],
             "candidate_count": 1,
@@ -183,8 +322,10 @@ def test_summary_is_json_serializable_and_counts_categories():
 
     assert payload["total"] == 2
     assert payload["result_value_match_rate"] == 0.5
+    assert payload["result_match_rate"] == 0.5
     assert payload["alias_only_difference_count"] == 1
     assert payload["type_only_difference_count"] == 0
+    assert payload["semantic_label_equivalence_count"] == 1
     assert payload["value_mismatch_count"] == 1
     assert payload["correction_success_rate"] == 1.0
     assert payload["candidate_selection_accuracy"] == 0.0
@@ -195,6 +336,45 @@ def test_summary_is_json_serializable_and_counts_categories():
     assert payload["catalog_decision_count"] == 1
     assert payload["failures_by_difficulty"] == {"L1": 1}
     json.dumps(payload)
+
+
+def test_summary_counts_non_executable_sql_as_end_to_end_failure():
+    common = {
+        "intent_status": "answerable",
+        "ground_truth_execution_status": "passed",
+        "expected_truncated": False,
+        "actual_truncated": False,
+        "alias_only_difference": False,
+        "type_only_difference": False,
+        "order_only_mismatch": False,
+        "correction_attempts": [],
+        "candidate_count": 1,
+        "latency_seconds": 0.1,
+    }
+    records = [
+        {
+            **common,
+            "generated_sql": "SELECT 1",
+            "generated_sql_valid": True,
+            "generated_execution_status": "passed",
+            "result_match": True,
+            "error_category": None,
+        },
+        {
+            **common,
+            "generated_sql": "SELECT invalid",
+            "generated_sql_valid": False,
+            "generated_execution_status": "skipped",
+            "result_match": False,
+            "error_category": "invalid_sql",
+        },
+    ]
+
+    payload = summarize(records)
+
+    assert payload["result_match_rate"] == 0.5
+    assert payload["comparable_result_match_rate"] == 1.0
+    assert payload["result_value_match_rate"] == 1.0
 
 
 def test_run_paths_create_per_run_result_folder(tmp_path):

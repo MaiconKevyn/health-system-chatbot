@@ -83,6 +83,65 @@ def test_run_chat_corrects_invalid_sql_before_execution(monkeypatch, tmp_path):
     assert executed_sql["sql"] == "SELECT COUNT(*) AS total_internacoes FROM internacoes"
 
 
+def test_run_chat_treats_intent_ambiguity_as_diagnostic_only(monkeypatch, tmp_path):
+    generated_plan = SqlPlan(
+        question="Como as internacoes se distribuem por contraceptivo informado?",
+        sql="SELECT 10 AS internacoes",
+    )
+    captured = {}
+
+    monkeypatch.setattr(
+        workflow_module,
+        "retrieve_context",
+        lambda question, stage1_context, config: RetrievedContext(tables=["internacoes"]),
+    )
+    monkeypatch.setattr(
+        workflow_module,
+        "generate_sql_plan",
+        lambda question, context, stage1_context, config, allow_llm: generated_plan,
+    )
+    monkeypatch.setattr(
+        workflow_module,
+        "execute_validated_sql",
+        lambda validation, *, db_path, max_rows: ExecutionResult(
+            sql=validation.safe_sql or "",
+            columns=["internacoes"],
+            rows=[{"internacoes": 10}],
+            row_count=1,
+            result_hash="abc",
+        ),
+    )
+
+    def fake_synthesize_answer(**kwargs):
+        captured.update(kwargs)
+        return ChatbotAnswer(answer_pt="ok", status="answered")
+
+    monkeypatch.setattr(workflow_module, "synthesize_answer", fake_synthesize_answer)
+
+    config = ChatbotConfig(
+        project_root=tmp_path,
+        db_path=tmp_path / "test.duckdb",
+        openai_api_key="test",
+        agent_framework="pydantic_ai",
+        sql_correction_attempts=0,
+    )
+    ctx = Stage1Context(
+        project_root=str(tmp_path),
+        tables={"internacoes": TableContext(table_name="internacoes")},
+    )
+
+    answer = run_chat(
+        "Como as internacoes se distribuem por contraceptivo informado?",
+        config=config,
+        stage1_context=ctx,
+        write_trace=False,
+        write_audit_log=False,
+    )
+
+    assert answer.status == "answered"
+    assert captured["intent"].status == "needs_clarification"
+
+
 def test_run_chat_refines_after_execution_error(monkeypatch, tmp_path):
     generated_plan = SqlPlan(
         question="Quantas internacoes existem?",

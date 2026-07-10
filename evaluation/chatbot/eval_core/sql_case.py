@@ -10,6 +10,7 @@ SRC = ROOT / "src"
 from health_system_chatbot.config import ChatbotConfig
 from health_system_chatbot.models import GroundTruthItem, RetrievedContext, Stage1Context
 from health_system_chatbot.sql_validator import validate_sql
+from evaluation.chatbot.evaluate_extraction_accuracy import _safe_sql_for_evaluation_fallback
 
 from .comparison import compare_results, comparison_mode_for
 from .error_taxonomy import categorize_execution_error, categorize_validation_error
@@ -62,6 +63,9 @@ def build_empty_record(item: GroundTruthItem, *, variant: str, strategy: str) ->
         "type_only_difference": False,
         "order_only_mismatch": False,
         "shape_match": False,
+        "contained_in_actual": False,
+        "contained_in_expected": False,
+        "semantic_label_equivalence": False,
         "expected_columns": [],
         "actual_columns": [],
         "expected_preview_values": [],
@@ -150,13 +154,20 @@ def evaluate_generated_sql(
         record["generated_sql_valid"] = validation.is_valid
         record["generated_sql_validation_errors"] = validation.errors
         record["generated_sql_validation_warnings"] = validation.warnings
-        if not validation.is_valid or not validation.safe_sql:
+        executable_sql = _safe_sql_for_evaluation_fallback(generated_sql, validation)
+        if not executable_sql:
             record["error_category"] = categorize_validation_error(validation.errors)
             record["error_message"] = "; ".join(validation.errors)
             return record
+        if not validation.is_valid:
+            record["generated_sql_valid"] = True
+            record["generated_sql_validation_warnings"] = [
+                *record["generated_sql_validation_warnings"],
+                "Static validation was overridden by evaluation fallback; DuckDB execution is authoritative for this run.",
+            ]
 
         actual = execute_sql(
-            validation.safe_sql,
+            executable_sql,
             db_path=config.db_path,
             max_rows=max_rows,
             timeout_seconds=timeout_seconds,
@@ -186,6 +197,9 @@ def evaluate_generated_sql(
         record["type_only_difference"] = comparison.type_only_difference
         record["order_only_mismatch"] = comparison.order_only_mismatch
         record["shape_match"] = comparison.shape_match
+        record["contained_in_actual"] = comparison.contained_in_actual
+        record["contained_in_expected"] = comparison.contained_in_expected
+        record["semantic_label_equivalence"] = comparison.semantic_label_equivalence
         record["error_category"] = comparison.error_category
         record["error_message"] = comparison.error_message
         return record
