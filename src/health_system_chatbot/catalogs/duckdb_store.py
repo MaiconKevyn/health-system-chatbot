@@ -94,12 +94,29 @@ def _quote_identifier(identifier: str) -> str:
 
 @lru_cache(maxsize=8)
 def _fetch_cid_rows(db_path: str) -> tuple[tuple[Any, ...], ...]:
-    return _fetch_table_rows(db_path, "cid", CID_COLUMNS)
+    return _fetch_catalog_rows(db_path, "cid", "cid_manuais", CID_COLUMNS)
 
 
 @lru_cache(maxsize=8)
 def _fetch_procedure_rows(db_path: str) -> tuple[tuple[Any, ...], ...]:
-    return _fetch_table_rows(db_path, "procedimentos", PROCEDURE_COLUMNS)
+    return _fetch_catalog_rows(
+        db_path, "procedimentos", "procedimentos_manuais", PROCEDURE_COLUMNS
+    )
+
+
+def _fetch_catalog_rows(
+    db_path: str,
+    table: str,
+    manual_table: str,
+    columns: tuple[str, ...],
+) -> tuple[tuple[Any, ...], ...]:
+    """Main catalog plus its optional manual complement (disjoint codes in sihrd9)."""
+    rows = _fetch_table_rows(db_path, table, columns)
+    try:
+        manual_rows = _fetch_table_rows(db_path, manual_table, columns)
+    except CatalogUnavailableError:
+        return rows
+    return rows + manual_rows
 
 
 @lru_cache(maxsize=128)

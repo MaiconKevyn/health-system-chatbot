@@ -74,3 +74,27 @@ def test_search_dimension_values_tool_records_call(tmp_path):
     assert result.candidates[0].label == "Feminino"
     assert deps.catalog_retriever is not None
     assert deps.catalog_retriever.tool_calls[0].tool == "search_dimension_values"
+
+
+def test_repeated_tool_call_returns_warning_instead_of_aborting_the_run(tmp_path):
+    deps = _deps(tmp_path)
+
+    first = search_dimension_values(deps, table="sexo", query="feminino")
+    repeated = search_dimension_values(deps, table="sexo", query="feminino")
+
+    assert first.candidates
+    assert repeated.candidates == []
+    assert repeated.warnings[0].startswith("catalog_duplicate_call:search_dimension_values")
+    assert "gere o SqlPlan agora" in repeated.warnings[1]
+    assert deps.catalog_retriever.tool_calls[-1].error.startswith("catalog_duplicate_call")
+
+
+def test_tool_budget_exhaustion_returns_warning_instead_of_aborting_the_run(tmp_path):
+    deps = _deps(tmp_path)
+    deps.catalog_retriever.tool_call_budget = 1
+
+    search_cid_catalog(deps, query="parto")
+    exhausted = search_procedure_catalog(deps, query="cesariano")
+
+    assert exhausted.candidates == []
+    assert exhausted.warnings[0].startswith("catalog_tool_budget_exceeded")

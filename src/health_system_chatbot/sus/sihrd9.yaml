@@ -1,0 +1,648 @@
+# =============================================================================
+# Dicionário semântico do banco SIHRD9 (DATASUS SIH-RD) — DuckDB
+#
+# Este arquivo é a ÚNICA fonte de verdade do contexto injetado no prompt do LLM.
+# Porte do knowledge/schema.yaml (escrito para o sihrd5) com TODOS os números e
+# advertências remedidos diretamente no sihrd9.duckdb em 2026-11-23. Fatos do
+# sihrd5 que deixaram de valer foram removidos; armadilhas novas do sihrd9
+# foram acrescentadas.
+# =============================================================================
+
+database:
+  engine: DuckDB
+  dialect_notes: |
+    Dialeto DuckDB (compatível com PostgreSQL na maior parte). Disponíveis:
+    year(d), month(d), date_diff('day', a, b), date_trunc('month', d),
+    QUALIFY, FILTER (WHERE ...), try_cast, ILIKE, strip_accents.
+  grain: |
+    Uma linha = uma AIH (Autorização de Internação Hospitalar) do tipo RD
+    (reduzida) já encerrada, ou seja, uma internação faturada no SUS.
+    N_AIH é único (211.824.495 valores distintos em 211.824.495 linhas).
+  row_count: 211824495
+  period: |
+    DT_INTER (entrada) e DT_SAIDA (alta) estão AMBAS entre 2008-01-01 e
+    2025-12-31: a base só contém internações iniciadas e encerradas nesse
+    intervalo. O fim de 2025 está incompleto (ver regra `fim_de_2025_incompleto`).
+
+# -----------------------------------------------------------------------------
+# TABELAS FATO
+# -----------------------------------------------------------------------------
+tables:
+  internacao:
+    role: fato
+    description: "Internações hospitalares do SUS (AIH reduzida), Brasil inteiro, 2008-2025. 211.824.495 linhas. NÃO tem coluna de procedimento: ver `internacao_procedimento`."
+    columns:
+      N_AIH:      {type: BIGINT, desc: "Número da AIH. ÚNICO por linha — pode ser usado como chave e para ligar com internacao_procedimento."}
+      CNES:       {type: VARCHAR, desc: "Código CNES do estabelecimento executante, texto de 7 dígitos com zeros à esquerda (ex.: '0000027'). 7.071 distintos, 100% casam com hospital.CNES."}
+      DT_INTER:   {type: DATE, desc: "Data de internação (entrada). 2008-01-01 a 2025-12-31."}
+      DT_SAIDA:   {type: DATE, desc: "Data de saída/alta. 2008-01-01 a 2025-12-31. É a data de competência da base — use-a para recortes temporais salvo pedido explícito do contrário."}
+      DIAS_PERM:  {type: SMALLINT, desc: "Dias de permanência. 0 a 364, média 4,92."}
+      DIAR_ACOM:  {type: SMALLINT, desc: "Diárias de acompanhante."}
+      CAR_INT:    {type: TINYINT, desc: "Caráter da internação. Junte com `car_int`. Urgência (2) = 165.741.036; eletivo (1) = 44.155.133."}
+      ESPEC:      {type: TINYINT, desc: "Especialidade do LEITO no padrão da AIH: 1=Cirúrgico, 2=Obstétrico, 3=Clínico, 4=Crônicos, 5=Psiquiatria, 6=Pneumologia sanitária, 7=Pediátrico, 8=Reabilitação, 9=Leito dia/cirúrgico, 10=Leito dia/AIDS, 11=Leito dia/fibrose cística, 12=Leito dia/intercorrência pós-transplante, 13=Leito dia/geriatria, 14=Leito dia/saúde mental, 17=Não documentado, 87=Saúde mental (longa permanência). NÃO junte com a tabela `especialidade` — ver regra `espec_nao_casa_com_especialidade`."}
+      COMPLEX:    {type: TINYINT, desc: "Complexidade NUMÉRICA: 2=Média (197.160.052), 3=Alta (14.664.431), 0 em 12 linhas. Filtre `COMPLEX = 3`, não `'03'`. Junte com `complexidade`."}
+      MARCA_UTI:  {type: TINYINT, desc: "Tipo de UTI utilizada. 0 = não utilizou UTI. >0 = utilizou (14.795.490 internações, 6,98%). Junte com `marca_uti`."}
+      UTI_INT_TO: {type: TINYINT, desc: "INUTILIZÁVEL. Deveria ser o total de diárias de UTI, mas é 0 em 14.325.787 das 14.795.490 internações com UTI (96,8%) e aparece não-zero em internações sem UTI. NUNCA use; para intensidade de UTI use VAL_UTI."}
+      IND_VDRL:   {type: BOOLEAN, desc: "Exame VDRL REGISTRADO (não significa positivo). TRUE em 30.637.071 (14,46%)."}
+      MORTE:      {type: BOOLEAN, desc: "Óbito durante a internação. TRUE em 9.130.741 (4,31%)."}
+      GESTRISCO:  {type: BOOLEAN, desc: "INUTILIZÁVEL. Nominalmente 'gestação de risco', mas está TRUE em 211.188.279 linhas (99,70%), incluindo 87.952.146 internações masculinas. NUNCA use e avise o usuário se ele pedir gestação de risco."}
+      DIAG_PRINC: {type: VARCHAR, desc: "CID-10 do diagnóstico principal, SEM PONTO (ex.: 'J189', 'A09'). Nunca nulo. 2.732 linhas usam códigos que só existem em `cid_manuais`."}
+      DIAG_SECUN: {type: VARCHAR, desc: "CID-10 secundário. Só tem dado REAL de 2008 a 2014 (10.458.641 linhas). Placeholder '' (vazio) em 67.060.229 linhas até 2014 e '0000' em TODAS as 134.305.625 linhas de 2015 em diante. Ver regras de placeholder e de período."}
+      CID_MORTE:  {type: VARCHAR, desc: "CID-10 da causa do óbito. Real em 2.843.719 linhas, só de 2008 a 2014. Placeholder '' até 2014 e '0000' em 100% das linhas de 2015 em diante."}
+      CID_NOTIF:  {type: VARCHAR, desc: "CID-10 de notificação compulsória. '' em 209.341.048 linhas; real em 2.483.447."}
+      DIAGSEC1..9: {type: VARCHAR, desc: "Nove colunas DIAGSEC1 … DIAGSEC9 com diagnósticos secundários. Só preenchidas a partir de 2015 (17,7% a 22,8% das linhas por ano; 0% até 2013). Usam NULL e '' como vazio: filtre `DIAGSEC1 IS NOT NULL AND DIAGSEC1 <> ''`."}
+      VAL_SH:     {type: DOUBLE, desc: "Valor de serviços hospitalares (R$)."}
+      VAL_SP:     {type: DOUBLE, desc: "Valor de serviços profissionais (R$)."}
+      VAL_UTI:    {type: DOUBLE, desc: "Valor de UTI (R$). > 0 em 14.890.642 internações."}
+      VAL_TOT:    {type: DOUBLE, desc: "Valor total da AIH (R$). Média R$ 1.601,58; soma da base R$ 339,25 bilhões. Valores NOMINAIS, não deflacionados."}
+      NASC:       {type: DATE, desc: "Data de nascimento do paciente."}
+      IDADE:      {type: SMALLINT, desc: "Idade em ANOS COMPLETOS (0 a 129). Menores de 1 ano têm IDADE = 0."}
+      COD_IDADE:  {type: TINYINT, desc: "Unidade ORIGINAL da idade no registro: 2=dias (5.847.498), 3=meses (4.987.713), 4=anos (200.847.638), 5=100 anos ou mais (141.631). IDADE já está convertida para anos; não recalcule."}
+      SEXO:       {type: TINYINT, desc: "Sexo. VEJA A REGRA CRÍTICA — no fato só existem os valores 1 e 3."}
+      RACA_COR:   {type: TINYINT, desc: "Raça/cor NUMÉRICA: 1..5 e 99 (sem informação). O 99 NÃO existe na dimensão `raca_cor` — ver regra `raca_cor_99_fora_da_dimensao`."}
+      ETNIA:      {type: SMALLINT, desc: "Etnia indígena. QUASE VAZIA: 99,88% são 0 (não informado)."}
+      NACIONAL:   {type: SMALLINT, desc: "Nacionalidade. 99,72% são 10 (Brasil) — sem variabilidade útil."}
+      INSTRU:     {type: TINYINT, desc: "Grau de instrução. QUASE VAZIA: 98,82% são 0 (não informado). A dimensão só tem 1..4; o fato contém também 0, 5, 6, 8 e 9. Use LEFT JOIN."}
+      VINCPREV:   {type: TINYINT, desc: "Vínculo previdenciário. QUASE VAZIA: 99,99% são 0 — só 22.168 linhas têm valor."}
+      CBOR:       {type: VARCHAR, desc: "Ocupação (CBO). QUASE VAZIA: '000000' em 211.802.327 linhas (99,99%). NUNCA É NULL — use CBOR <> '000000'."}
+      MUNIC_RES:  {type: INTEGER, desc: "Município de RESIDÊNCIA do paciente (código IBGE 6 dígitos). Junte com municipios.CO_MUNICIPIO_6D. 1.262.450 linhas (0,6%) têm códigos 5300xx de regiões administrativas do DF que não existem em `municipios` — ver regra `df_regioes_administrativas`."}
+      CEP:        {type: VARCHAR, desc: "CEP de residência."}
+      NUM_FILHOS: {type: TINYINT, desc: "Número de filhos. 98,84% são 0."}
+      CONTRACEP1: {type: TINYINT, desc: "Método contraceptivo 1. Junte com `contraceptivos`."}
+      CONTRACEP2: {type: TINYINT, desc: "Método contraceptivo 2."}
+      INSC_PN:    {type: VARCHAR, desc: "Inscrição no pré-natal."}
+
+  internacao_procedimento:
+    role: fato
+    rows: 216161697
+    description: "Procedimento realizado (PROC_REA) por AIH. Liga com internacao por N_AIH. TODA AIH tem ao menos uma linha. 1.176.655 AIHs têm mais de uma linha, mas só 622 têm mais de um procedimento distinto: as linhas extras repetem o mesmo procedimento (internações longas)."
+    columns:
+      id_atendimento: {type: BIGINT, desc: "Identificador técnico da linha."}
+      N_AIH:          {type: BIGINT, desc: "Chave para internacao.N_AIH (100% casam)."}
+      PROC_REA:       {type: VARCHAR, desc: "Procedimento SIGTAP, 10 dígitos com zeros à esquerda (ex.: '0310010039'). 1.941 distintos. Junte com `procedimentos` (53.573 linhas só casam com `procedimentos_manuais`)."}
+    caveat: "COUNT(*) aqui conta LINHAS, não internações. Para contar internações com um procedimento use EXISTS ou COUNT(DISTINCT N_AIH)."
+
+# -----------------------------------------------------------------------------
+# DIMENSÕES
+# -----------------------------------------------------------------------------
+  municipios:
+    role: dimensao
+    rows: 5571
+    description: "Municípios brasileiros com UF, região de saúde e coordenadas. 27 UFs, todas as siglas válidas."
+    columns:
+      CO_MUNICIPIO_6D: {type: INTEGER, desc: "Código IBGE 6 dígitos. CHAVE de junção com internacao.MUNIC_RES e hospital.MUNIC_MOV."}
+      CO_MUNICIPIO_7D: {type: INTEGER, desc: "Código IBGE 7 dígitos (com dígito verificador). NÃO use para juntar com o fato."}
+      NO_MUNICIPIO:    {type: VARCHAR, desc: "Nome do município COM acento, em Title Case (ex.: 'São Paulo', 'Ribeirão Preto'). 2.385 dos 5.571 nomes têm acento. Para filtrar com segurança use strip_accents() dos DOIS lados."}
+      SG_UF:           {type: VARCHAR, desc: "Sigla da UF."}
+      NO_REGIAO_SAUDE: {type: VARCHAR, desc: "Região de saúde. 1 município tem NULL."}
+      latitude:        {type: FLOAT}
+      longitude:       {type: FLOAT}
+    caveat: "O DF só aparece como 530010 (Brasília). Os códigos 5300xx das regiões administrativas do DF, usados no fato e em hospital, NÃO estão aqui."
+
+  hospital:
+    role: dimensao
+    rows: 7071
+    description: "Estabelecimentos executantes (CNES). Permite saber ONDE a internação aconteceu."
+    columns:
+      CNES:        {type: VARCHAR, desc: "CHAVE de junção com internacao.CNES (texto de 7 dígitos com zeros à esquerda). 100% das internações casam."}
+      NO_HOSPITAL: {type: VARCHAR, desc: "Nome do estabelecimento em MAIÚSCULAS (3 nulos)."}
+      MUNIC_MOV:   {type: INTEGER, desc: "Município do ESTABELECIMENTO (IBGE 6 dígitos). Junte com municipios.CO_MUNICIPIO_6D. 23 hospitais (2.333.000 internações) têm códigos 5300xx de regiões administrativas do DF ausentes de `municipios`."}
+      NATUREZA:    {type: VARCHAR, desc: "Código de natureza do estabelecimento ('50', '61', '20', '00', '40', '60'…). NÃO há dimensão com os rótulos — não invente significado."}
+      GESTAO:      {type: VARCHAR, desc: "Código de gestão: '1' (3.099 hospitais) ou '2' (3.972). Sem dimensão de rótulos."}
+      NAT_JUR:     {type: VARCHAR, desc: "Natureza jurídica. NULL em 5.572 dos 7.071 hospitais (79%) — não sustenta análise."}
+
+  cid:
+    role: dimensao
+    rows: 14253
+    description: "CID-10 com hierarquia capítulo > grupo > categoria."
+    columns:
+      CID:          {type: VARCHAR, desc: "Código CID-10 SEM PONTO. Categorias têm 3 caracteres ('A09'), subcategorias 4 ('A090')."}
+      DESCRICAO:    {type: VARCHAR, desc: "Descrição abreviada, SEM acento (só 41 de 14.253 têm acento)."}
+      TP_NIVEL:     {type: VARCHAR, desc: "'CAT' (2.094 categorias) ou 'SUBCAT' (12.159 subcategorias)."}
+      RESTRSEXO:    {type: VARCHAR}
+      DS_CATEGORIA: {type: VARCHAR, desc: "Nome da categoria de 3 dígitos."}
+      DS_GRUPO:     {type: VARCHAR, desc: "Grupo, prefixado pela faixa (ex.: 'A00-A09 Doenças infecciosas intestinais')."}
+      DS_CAPITULO:  {type: VARCHAR, desc: "Capítulo, prefixado por numeral romano (ex.: 'I. Algumas doenças infecciosas e parasitárias')."}
+    caveat: "2.732 linhas do fato têm DIAG_PRINC fora daqui — todas cobertas por `cid_manuais` (U04, U09, U10, U80-U89, N182-N185, C823-C826). Prefira LEFT JOIN quando a contagem total importar."
+
+  cid_manuais:
+    role: dimensao
+    rows: 16
+    description: "Complemento da `cid` com 16 códigos ausentes dela: U04 (SRAG), U09/U099 (condição pós-COVID), U10/U109 (síndrome inflamatória multissistêmica por COVID), U80/U81/U89 (resistência antimicrobiana), N182-N185 (doença renal crônica estádios 2-5), C823-C826 (linfomas foliculares). Mesmas colunas da `cid`; descrições COM acento."
+
+  procedimentos:
+    role: dimensao
+    rows: 5394
+    description: "Procedimentos SIGTAP."
+    columns:
+      PROC_REA:  {type: VARCHAR, desc: "Código de 10 dígitos com zeros à esquerda (ex.: '0310010039')."}
+      NOME_PROC: {type: VARCHAR, desc: "Nome em MAIÚSCULAS, sem acento (ex.: 'PARTO NORMAL'). 109 nomes contêm acento/lixo de codificação."}
+    caveat: "53.573 linhas de internacao_procedimento usam códigos que só existem em `procedimentos_manuais`."
+
+  procedimentos_manuais:
+    role: dimensao
+    rows: 15
+    description: "Complemento de `procedimentos` com 15 códigos recentes (ex.: '0409060313' LAQUEADURA TUBÁRIA NA MESMA INTERNAÇÃO DE PARTO NORMAL, '0403070171' trombectomia mecânica no AVC isquêmico). Mesmas colunas; nomes COM acento."
+
+  tempo:
+    role: dimensao
+    rows: 6210
+    description: "Dimensão de calendário."
+    columns:
+      data:       {type: DATE}
+      ano:        {type: SMALLINT}
+      mes:        {type: TINYINT}
+      trimestre:  {type: TINYINT}
+      dia_semana: {type: TINYINT}
+    caveat: "COBRE APENAS 2008-01-01 a 2024-12-31. Um INNER JOIN com ela DESCARTA SILENCIOSAMENTE as 13.870.697 internações com alta em 2025. Prefira year(DT_SAIDA) / month(DT_SAIDA) diretamente."
+
+  sexo:
+    role: dimensao
+    values: {1: "Masculino", 2: "Feminino", 3: "Feminino"}
+    caveat: "DOIS códigos mapeiam para 'Feminino' (2 e 3), mas o FATO SÓ CONTÉM 1 e 3."
+
+  raca_cor:
+    role: dimensao
+    values: {1: "Branca", 2: "Preta", 3: "Parda", 4: "Amarela", 5: "Indígena"}
+    caveat: "Chave NUMÉRICA (TINYINT). O fato usa também 99 = 'Sem informação' (48.509.476 internações, 22,9%; ~35% em 2008-2012 e ~0% em 2024-2025), que NÃO está nesta dimensão. Distribuição no fato: Parda 81.997.213; Branca 70.083.044; Sem informação 48.509.476; Preta 7.966.355; Amarela 2.680.163; Indígena 588.244."
+
+  car_int:
+    role: dimensao
+    values: {1: "Eletivo", 2: "Urgência", 3: "Acidente no local trabalho ou a serv da empresa", 4: "Acidente no trajeto para o trabalho", 5: "Outros tipo de acidente de trânsito", 6: "Out tp lesões e envenen por agent quím físicos"}
+    caveat: "No fato aparecem 1..6."
+
+  complexidade:
+    role: dimensao
+    values: {1: "Atenção Básica", 2: "Média complexidade", 3: "Alta complexidade"}
+    caveat: "Chave NUMÉRICA. No fato aparecem 2 e 3 (e 0 em 12 linhas, ausente daqui)."
+
+  especialidade:
+    role: dimensao
+    rows: 70
+    description: "Tabela de especialidades de LEITO do CNES (1=BUCO MAXILO FACIAL, 2=CARDIOLOGIA, 3=CIRURGIA GERAL, …)."
+    caveat: "NÃO CORRESPONDE a internacao.ESPEC. O fato usa o domínio da AIH (2=Obstétrico, 7=Pediátrico…); juntar com esta tabela troca os rótulos. Use o domínio descrito em internacao.ESPEC."
+
+  marca_uti:
+    role: dimensao
+    values: {0: "Não utilizou UTI", 1: "Utilizou mais de um tipo de UTI", 51: "UTI adulto - tipo II COVID 19", 52: "UTI pediátrica - tipo II COVID 19", 74: "UTI adulto - tipo I", 75: "UTI adulto - tipo II", 76: "UTI adulto - tipo III", 77: "UTI infantil - tipo I", 78: "UTI infantil - tipo II", 79: "UTI infantil - tipo III", 80: "UTI neonatal - tipo I", 81: "UTI neonatal - tipo II", 82: "UTI neonatal - tipo III", 83: "UTI de queimados", 85: "UTI coronariana tipo II - UCO tipo II", 86: "UTI coronariana tipo III - UCO tipo III", 99: "UTI Doador"}
+    caveat: "'Usou UTI' = MARCA_UTI > 0 (14.795.490 internações, 6,98%)."
+
+  instrucao:
+    role: dimensao
+    values: {1: "Analfabeto", 2: "1º grau", 3: "2º grau", 4: "3º grau"}
+    caveat: "O fato contém também 0 (não informado, 98,82%), 5, 6, 8 e 9, ausentes desta dimensão. Use LEFT JOIN."
+
+  vincprev:
+    role: dimensao
+    values: {1: "Autônomo", 2: "Desempregado", 3: "Aposentado", 4: "Não segurado", 5: "Empregado", 6: "Empregador"}
+    caveat: "O fato usa 0 (não informado) em 99,99%, ausente desta dimensão."
+
+  etnia:          {role: dimensao, rows: 264, description: "Etnias indígenas. Colunas: ETNIA, DESCRICAO."}
+  nacionalidade:  {role: dimensao, rows: 332, description: "Nacionalidades. Colunas: NACIONAL, DESCRICAO."}
+  cbor:           {role: dimensao, rows: 2813, description: "Ocupações CBO. Colunas: CBOR, DESCRICAO."}
+  contraceptivos: {role: dimensao, rows: 12, description: "Métodos contraceptivos 1..12. Colunas: CONTRACEPTIVO, DESCRICAO."}
+
+  socioeconomico:
+    role: dimensao
+    rows: 77965
+    description: "Indicadores municipais por ano: uma linha por (CO_MUNICIPIO_6D, NU_ANO), 5.570 municípios."
+    columns:
+      CO_MUNICIPIO_6D:             {type: INTEGER, desc: "Junte com municipios.CO_MUNICIPIO_6D ou com internacao.MUNIC_RES."}
+      NU_ANO:                      {type: SMALLINT, desc: "Ano do indicador. Existem 2008, 2009, 2011-2021 e 2024. FALTAM 2010, 2022, 2023 e 2025."}
+      QT_POPULACAO:                {type: BIGINT}
+      VL_PIB_PERCAPITA:            {type: DOUBLE}
+      QT_OBITOS_INFANTIS:          {type: INTEGER}
+      QT_NASCIDOS_VIVOS:           {type: INTEGER}
+      VL_MORT_INFANTIL:            {type: DOUBLE}
+      QT_OBITOS_TRANSITO:          {type: INTEGER}
+      VL_MORT_TRANSITO_100K:       {type: DOUBLE}
+      QT_LEITOS_SUS:               {type: INTEGER}
+      VL_LEITOS_SUS_1000:          {type: DOUBLE}
+      QT_MEDICOS:                  {type: INTEGER}
+      VL_MEDICOS_1000:             {type: DOUBLE}
+      QT_ENFERMEIROS:              {type: INTEGER}
+      VL_ENFERMEIROS_1000:         {type: DOUBLE}
+      QT_TECNICOS_ENFERMAGEM:      {type: INTEGER}
+      VL_TECNICOS_ENFERMAGEM_1000: {type: DOUBLE}
+    caveat: "Não interpole anos ausentes. Ao usar população como denominador, junte também pelo ano e declare o ano usado."
+
+# -----------------------------------------------------------------------------
+# TABELAS PROIBIDAS
+# -----------------------------------------------------------------------------
+forbidden_tables:
+  stg_cbor: "Staging da carga. NUNCA consulte."
+  stg_cid: "Staging da carga. NUNCA consulte."
+  stg_complexidade: "Staging da carga. NUNCA consulte."
+  stg_contraceptivos: "Staging da carga. NUNCA consulte."
+  stg_especialidade: "Staging da carga. NUNCA consulte."
+  stg_etnia: "Staging da carga. NUNCA consulte."
+  stg_hospital: "Staging da carga. NUNCA consulte."
+  stg_instrucao: "Staging da carga. NUNCA consulte."
+  stg_internacao: "Staging da carga do fato. NUNCA consulte — use `internacao`."
+  stg_internacao_procedimento: "Staging da carga. NUNCA consulte — use `internacao_procedimento`."
+  stg_nacionalidade: "Staging da carga. NUNCA consulte."
+  stg_procedimentos: "Staging da carga. NUNCA consulte."
+  stg_raca_cor: "Staging da carga. NUNCA consulte."
+  stg_sexo: "Staging da carga. NUNCA consulte."
+  stg_vincprev: "Staging da carga. NUNCA consulte."
+
+# -----------------------------------------------------------------------------
+# JUNÇÕES CANÔNICAS
+# -----------------------------------------------------------------------------
+joins:
+  - "internacao.N_AIH             = internacao_procedimento.N_AIH  -- 100%; use EXISTS ou COUNT(DISTINCT N_AIH)"
+  - "internacao_procedimento.PROC_REA = procedimentos.PROC_REA    -- LEFT JOIN (53.573 linhas só em procedimentos_manuais)"
+  - "internacao.CNES              = hospital.CNES                  -- 100% de cobertura"
+  - "hospital.MUNIC_MOV           = municipios.CO_MUNICIPIO_6D     -- LEFT JOIN (2.333.000 internações com código de região administrativa do DF)"
+  - "internacao.MUNIC_RES         = municipios.CO_MUNICIPIO_6D     -- LEFT JOIN (1.262.450 com código de região administrativa do DF)"
+  - "internacao.DIAG_PRINC        = cid.CID                        -- LEFT JOIN (2.732 só em cid_manuais)"
+  - "internacao.SEXO              = sexo.SEXO"
+  - "internacao.RACA_COR          = raca_cor.RACA_COR              -- LEFT JOIN (99 ausente da dimensão)"
+  - "internacao.CAR_INT           = car_int.CAR_INT"
+  - "internacao.COMPLEX           = complexidade.COMPLEX"
+  - "internacao.MARCA_UTI         = marca_uti.MARCA_UTI"
+  - "internacao.INSTRU            = instrucao.INSTRU               -- LEFT JOIN"
+  - "internacao.VINCPREV          = vincprev.VINCPREV              -- LEFT JOIN"
+  - "internacao.CBOR              = cbor.CBOR"
+  - "internacao.ETNIA             = etnia.ETNIA"
+  - "internacao.NACIONAL          = nacionalidade.NACIONAL"
+  - "internacao.MUNIC_RES         = socioeconomico.CO_MUNICIPIO_6D AND year(...) = socioeconomico.NU_ANO"
+  - "NUNCA: internacao.ESPEC = especialidade.ESPEC (codificações diferentes)"
+
+# -----------------------------------------------------------------------------
+# REGRAS CRÍTICAS — violá-las produz resultado silenciosamente errado
+# -----------------------------------------------------------------------------
+rules:
+  - id: sexo_feminino
+    severity: critica
+    text: |
+      NUNCA escreva `SEXO = 2` para "mulheres/feminino": o valor 2 NÃO EXISTE no
+      fato e a query retorna ZERO linhas. No fato, feminino = 3 e masculino = 1.
+      Forma correta: `SEXO IN (2, 3)` ou junte com a dimensão `sexo` e filtre por
+      `DESCRICAO = 'Feminino'`. Distribuição real: masculino 88.064.947,
+      feminino 123.759.548 (a maioria por causa de partos).
+
+  - id: cid_sem_ponto
+    severity: critica
+    text: |
+      Códigos CID no banco NÃO TÊM PONTO. O usuário costuma escrever "J18.9" ou
+      "I21"; converta para 'J189' / 'I21' antes de filtrar. Para pegar uma
+      categoria inteira (todas as subcategorias de J18), use
+      `DIAG_PRINC LIKE 'J18%'`, não `= 'J18'`.
+
+  - id: procedimento_fica_em_tabela_propria
+    severity: critica
+    text: |
+      `internacao` NÃO TEM coluna PROC_REA. O procedimento realizado está em
+      `internacao_procedimento` (216.161.697 linhas para 211.824.495 AIHs).
+      1.176.655 AIHs têm linhas repetidas do mesmo procedimento, então
+      `COUNT(*)` sobre internacao_procedimento conta LINHAS e infla o total.
+      Para contar internações com um procedimento:
+        SELECT COUNT(*) FROM internacao i
+        WHERE EXISTS (SELECT 1 FROM internacao_procedimento ip
+                      WHERE ip.N_AIH = i.N_AIH AND ip.PROC_REA IN (...))
+      ou `COUNT(DISTINCT ip.N_AIH)`. Para rotular, junte PROC_REA com
+      `procedimentos` (LEFT JOIN, completando com `procedimentos_manuais`).
+      Partos realizados: 0310010039 PARTO NORMAL (17.714.531), 0310010047
+      PARTO NORMAL EM GESTACAO DE ALTO RISCO (1.512.945), 0310010055 PARTO
+      NORMAL EM CPN (222.354), 0411010034 PARTO CESARIANO (11.426.853),
+      0411010026 PARTO CESARIANO EM GESTACAO DE ALTO RISCO (2.409.371),
+      0411010042 PARTO CESARIANO C/ LAQUEADURA TUBARIA (870.997).
+      Um TIPO CLÍNICO de parto descrito na CID (ex.: "parto espontâneo
+      cefálico" = DIAG_PRINC 'O800') é diagnóstico, não procedimento.
+
+  - id: geografia_residencia_ou_atendimento
+    severity: alta
+    text: |
+      Há DUAS geografias e elas divergem: em 67.165.687 internações (32%) o
+      hospital fica em outro município que o da residência, e em 2.202.761
+      (1,05%) em outra UF.
+        - RESIDÊNCIA do paciente: internacao.MUNIC_RES -> municipios.
+        - LOCAL DO ATENDIMENTO: internacao.CNES -> hospital.CNES ->
+          hospital.MUNIC_MOV -> municipios.
+      Use atendimento quando a pergunta fala do lugar onde a internação
+      ocorreu ("feitas/realizadas/atendidas em", "nos hospitais de"). Use
+      residência quando fala de pessoas de um lugar ("residentes", "moradores",
+      "pacientes de", "população de"). Registre a escolha em `assumptions`.
+
+  - id: df_regioes_administrativas
+    severity: alta
+    text: |
+      `municipios` só tem o DF como 530010 (Brasília). O fato e a tabela
+      hospital usam também códigos 5300xx de regiões administrativas, que NÃO
+      casam: 1.262.450 internações por residência e 2.333.000 por local de
+      atendimento ficam sem UF num INNER JOIN, e o DF sai subcontado.
+      Para UF, use LEFT JOIN e complete o DF pelo código:
+        COALESCE(m.SG_UF, CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999
+                               THEN 'DF' END) AS uf
+      (no atendimento, troque i.MUNIC_RES por h.MUNIC_MOV).
+
+  - id: placeholder_vazio_e_0000
+    severity: critica
+    text: |
+      As colunas DIAG_SECUN, CID_MORTE e CID_NOTIF NUNCA são NULL. Elas usam a
+      string vazia '' como "nenhum" até 2014 e '0000' em TODAS as linhas de 2015
+      em diante (134.305.625 linhas). `WHERE DIAG_SECUN IS NOT NULL` casa as
+      211.824.495 linhas e devolve uma resposta absurda sem dar erro; `<> '0'`
+      também. O correto é `DIAG_SECUN NOT IN ('', '0000')` (10.458.641 linhas).
+      CBOR usa '000000' (99,99%). DIAGSEC1..DIAGSEC9 usam NULL e '' — filtre os
+      dois.
+
+  - id: diagnostico_secundario_e_causa_do_obito_mudam_em_2015
+    severity: critica
+    text: |
+      Diagnóstico secundário e causa do óbito mudam de coluna/cobertura em 2015:
+
+        ano    DIAG_SECUN real   CID_MORTE real (% dos óbitos)   DIAGSEC1 real
+        2013       15,2%                100%                          0,0%
+        2014       15,2%                93,5%                         1,0%
+        2015        0,0%                 0,0%  <- corte               17,7%
+        2025        0,0%                 0,0%                         22,8%
+
+      Regras:
+        - Diagnóstico secundário: DIAG_SECUN só serve para 2008-2014;
+          DIAGSEC1..9 só para 2015 em diante. Nunca faça série de uma delas
+          atravessando 2015 sem dizer que a fonte muda; prefira restringir o
+          período e avisar.
+        - Causa do óbito: CID_MORTE só existe de 2008 a 2014. Restrinja a esse
+          período e diga isso. Depois de 2014 a única aproximação é DIAG_PRINC
+          das internações com MORTE — o motivo da internação, não a causa da
+          morte. Diga a diferença ao usuário.
+
+  - id: covid_esta_em_b342_e_nao_em_u07
+    severity: critica
+    text: |
+      COVID-19 NESTA BASE É B342, NÃO U07. U071/U072 têm ZERO ocorrências em
+      DIAG_PRINC. Onde a COVID realmente está:
+        CID     descrição                          2019      2020        2021      2022
+        B342    Infecc p/coronavirus NE              12   523.402   1.165.979   156.833
+        U049    Sindrome respiratoria aguda grave    18     1.512       1.639       454
+      Regras:
+        - Para "covid", "coronavírus" ou "pandemia" por diagnóstico, use
+          DIAG_PRINC = 'B342'. Nunca use U07/U071/U072: devolve zero.
+        - B342 NÃO pertence ao capítulo J. Em 2021 houve 1.165.979 internações
+          por B342 e 793.325 em todo o capítulo J: `DIAG_PRINC LIKE 'J%'`
+          EXCLUI a COVID. Diga isso ao comparar os dois.
+        - U049 e U04 (SRAG, 1.407 linhas, só em cid_manuais) são recortes
+          diferentes e muito menores. U09/U10 (pós-COVID e síndrome
+          inflamatória) somam poucas centenas de linhas.
+        - Diga que B342 é "infecção por coronavírus não especificada": é a
+          codificação usada na prática, não diagnóstico laboratorial.
+
+  - id: espec_nao_casa_com_especialidade
+    severity: critica
+    text: |
+      NUNCA junte internacao.ESPEC com a tabela `especialidade`: são
+      codificações diferentes. No fato, ESPEC = 2 tem 96,6% de diagnósticos de
+      gravidez/parto (Obstétrico) e ESPEC = 7 tem 97,1% de menores de 15 anos
+      (Pediátrico), mas a tabela diz 2 = CARDIOLOGIA e 7 =
+      CIRURGICO/DIAGNOSTICO/TERAPEUTICO. Para rotular, use CASE:
+        CASE i.ESPEC WHEN 1 THEN 'Cirúrgico' WHEN 2 THEN 'Obstétrico'
+          WHEN 3 THEN 'Clínico' WHEN 4 THEN 'Crônicos' WHEN 5 THEN 'Psiquiatria'
+          WHEN 6 THEN 'Pneumologia sanitária' WHEN 7 THEN 'Pediátrico'
+          WHEN 8 THEN 'Reabilitação' WHEN 9 THEN 'Leito dia / cirúrgico'
+          WHEN 10 THEN 'Leito dia / AIDS' WHEN 11 THEN 'Leito dia / fibrose cística'
+          WHEN 12 THEN 'Leito dia / intercorrência pós-transplante'
+          WHEN 13 THEN 'Leito dia / geriatria' WHEN 14 THEN 'Leito dia / saúde mental'
+          WHEN 17 THEN 'Não documentado' WHEN 87 THEN 'Saúde mental (longa permanência)'
+        END
+      Volumes: Clínico 76.642.691; Cirúrgico 67.953.885; Obstétrico
+      37.822.440; Pediátrico 22.636.907; Psiquiatria 3.121.276.
+
+  - id: raca_cor_99_fora_da_dimensao
+    severity: critica
+    text: |
+      RACA_COR = 99 ("Sem informação") é a TERCEIRA maior categoria
+      (48.509.476 internações, 22,9%) e NÃO existe na dimensão `raca_cor`.
+      Um INNER JOIN com a dimensão descarta quase um quarto da base sem erro.
+      Use `LEFT JOIN raca_cor r ON r.RACA_COR = i.RACA_COR` e
+      `COALESCE(r.DESCRICAO, 'Sem informação')`, e sempre mostre essa categoria.
+      O preenchimento MUDA MUITO NO TEMPO — "Sem informação" por ano de alta:
+        2008-2012 ~35%   2015 28,1%   2019 22,1%   2022 18,6%   2023 2,2%   2024-2025 0,0%
+      Consequência: numa série por raça/cor, a participação de Parda/Branca/
+      Preta sobe com o tempo só porque o campo passou a ser preenchido. Não
+      apresente essa mudança como tendência demográfica; avise, citando a
+      cobertura do período pedido (não os 22,9% da base inteira).
+
+  - id: codigos_numericos
+    severity: alta
+    text: |
+      COMPLEX e RACA_COR são NUMÉRICOS (TINYINT): escreva `COMPLEX = 3` e
+      `RACA_COR = 1`, não `'03'` / `'01'`. CNES é TEXTO de 7 dígitos com zeros à
+      esquerda ('0000027'): compare como string. PROC_REA é texto de 10 dígitos.
+
+  - id: complementos_manuais
+    severity: media
+    text: |
+      Alguns códigos usados no fato só existem nas tabelas complementares:
+      2.732 diagnósticos em `cid_manuais` (U04, U09, U10, U80-U89, N182-N185,
+      C823-C826) e 53.573 linhas de procedimento em `procedimentos_manuais`.
+      Para rótulos completos: LEFT JOIN nas duas e COALESCE das descrições.
+
+  - id: periodo_e_tempo
+    severity: alta
+    text: |
+      A base cobre 2008-2025 (DT_INTER e DT_SAIDA). A dimensão `tempo` vai só
+      até 2024-12-31: INNER JOIN com ela descarta as 13.870.697 internações de
+      2025. Use `year(DT_SAIDA)` / `month(DT_SAIDA)` diretamente.
+
+  - id: fim_de_2025_incompleto
+    severity: alta
+    text: |
+      Os últimos meses de 2025 estão incompletos: altas em nov/2025 =
+      1.009.907 e dez/2025 = 760.366, contra 1,11 a 1,30 milhão nos meses
+      anteriores. Não leia a queda de nov-dez/2025 (nem um total de 2025 menor
+      que 2024) como tendência; avise o usuário ao mostrar 2025.
+
+  - id: recorte_temporal_por_saida
+    severity: media
+    text: |
+      "Internações em 2020" = `year(DT_SAIDA) = 2020` (critério de competência
+      da base). Só use DT_INTER se o usuário pedir explicitamente pela data de
+      entrada; nesse caso avise que o resultado difere.
+
+  - id: socioeconomico_cobertura
+    severity: alta
+    text: |
+      `socioeconomico` tem uma linha por município e ano, mas FALTAM os anos
+      2010, 2022, 2023 e 2025. Ao calcular taxa por população, junte por
+      CO_MUNICIPIO_6D E NU_ANO, declare o ano do denominador e NÃO interpole
+      anos ausentes; se o ano pedido não existe, diga isso.
+
+  - id: hospital_sem_rotulos
+    severity: media
+    text: |
+      hospital.NATUREZA e hospital.GESTAO são códigos sem tabela de rótulos, e
+      NAT_JUR é NULL em 79% dos hospitais. Agrupe pelo código e não invente o
+      significado (público/privado/filantrópico) sem uma fonte.
+
+  - id: valores_nominais
+    severity: media
+    text: |
+      VAL_TOT é nominal (sem correção inflacionária). Ao comparar valores entre
+      anos distantes, avise que não estão deflacionados.
+
+  - id: taxa_mortalidade
+    severity: media
+    text: |
+      Taxa de mortalidade = `AVG(MORTE::INT)` ou
+      `COUNT(*) FILTER (WHERE MORTE) * 1.0 / COUNT(*)`. Expresse em % e, em
+      rankings por grupo, imponha um mínimo de casos (ex.: HAVING COUNT(*) >=
+      1000) para não trazer grupos minúsculos com 100%.
+
+  - id: acentuacao_por_tabela
+    severity: alta
+    text: |
+      A acentuação varia POR TABELA — não generalize:
+      - municipios.NO_MUNICIPIO TEM acento (2.385 de 5.571). Filtrar por
+        'Sao Paulo' devolve ZERO. Forma robusta:
+        `strip_accents(NO_MUNICIPIO) = strip_accents('São Paulo')`.
+      - cid.DESCRICAO é praticamente SEM acento (só 41 de 14.253 têm).
+      - procedimentos.NOME_PROC é MAIÚSCULO e sem acento (109 com acento/lixo).
+      - cid_manuais e procedimentos_manuais TÊM acento.
+      Nomes de município se repetem entre UFs — sempre desempate com SG_UF.
+
+  - id: colunas_sociodemograficas_vazias
+    severity: alta
+    text: |
+      Campos sociodemográficos praticamente não preenchidos:
+        VINCPREV   99,99% "não informado" (só 22.168 linhas preenchidas)
+        CBOR       99,99% '000000'
+        ETNIA      99,88% "não informado"
+        NUM_FILHOS 98,84% zero
+        INSTRU     98,82% "não informado"
+        NACIONAL   99,72% Brasil
+      Pode-se responder "quantos têm X informado", mas qualquer quebra de
+      métrica POR escolaridade, ocupação, etnia ou vínculo é enganosa. Nesses
+      casos devolva o resultado e avise que a cobertura é de cerca de 1% ou menos.
+
+  - id: ind_vdrl_nao_e_positivo
+    severity: alta
+    text: |
+      IND_VDRL indica que o exame VDRL foi REGISTRADO, não que deu positivo.
+      São 30.637.071 linhas TRUE (14,46%) — tratá-las como "casos de sífilis"
+      seria clinicamente absurdo. Se o usuário pedir "VDRL positivo", explique
+      que a base só informa a realização do exame.
+
+  - id: agrupar_por_codigo_nao_por_rotulo
+    severity: critica
+    text: |
+      Ao agrupar por diagnóstico ou procedimento, agrupe pelo CÓDIGO e use a
+      descrição apenas como rótulo:
+        GROUP BY i.DIAG_PRINC, c.DESCRICAO     -- correto
+        GROUP BY c.DESCRICAO                   -- errado
+      Motivo: 293 descrições da tabela `cid` são compartilhadas por mais de um
+      código. "Fazenda" cobre 217 códigos (W007, W017, W027, …), porque é o
+      LOCAL da causa externa, não um diagnóstico. Agrupar pelo texto funde
+      códigos distintos, infla as contagens e muda quem entra num top-N.
+
+  - id: uti_indicador_vs_valor
+    severity: alta
+    text: |
+      Duas colunas descrevem UTI e não são intercambiáveis:
+        MARCA_UTI > 0  -> USOU UTI. 14.795.490 internações. É o indicador.
+        VAL_UTI   > 0  -> teve VALOR de UTI faturado. 14.890.642 internações.
+      95.153 internações têm valor de UTI lançado sem marcação de UTI.
+      Regra: para CONTAR internações em UTI use MARCA_UTI > 0; para somar ou
+      tirar média de dinheiro use VAL_UTI, filtrando por MARCA_UTI > 0 quando a
+      pergunta for sobre quem passou pela UTI.
+
+  - id: razao_ou_percentual
+    severity: media
+    text: |
+      Quando a pergunta pedir "razão" ou "proporção" entre dois grupos sem
+      dizer a unidade, devolva a RAZÃO simples e diga no texto o que ela
+      significa. Só multiplique por 100 se a pergunta usar as palavras
+      "percentual", "porcentagem" ou "%".
+      Em percentuais sobre subconjunto, deixe explícito qual é o denominador.
+
+  - id: colunas_inutilizaveis
+    severity: critica
+    text: |
+      Duas colunas do fato estão corrompidas e NÃO devem ser usadas:
+      - GESTRISCO: TRUE em 99,70% das linhas, inclusive em 87.952.146
+        internações masculinas (99,9% dos homens).
+      - UTI_INT_TO: zero em 96,8% das internações com UTI.
+      Se a pergunta depender de uma delas, responda que o dado é inconsistente
+      na base e ofereça a alternativa mais próxima (para UTI, use MARCA_UTI > 0
+      ou VAL_UTI).
+
+  - id: sem_limit_gigante
+    severity: media
+    text: |
+      O fato tem 212 milhões de linhas. Nunca faça SELECT sem agregação ou sem
+      LIMIT. Toda query exploratória deve terminar com LIMIT.
+
+# -----------------------------------------------------------------------------
+# EXEMPLOS (few-shot)
+# -----------------------------------------------------------------------------
+examples:
+  - question: "Quantas internações de mulheres houve em 2019?"
+    sql: |
+      SELECT COUNT(*) AS total
+      FROM internacao
+      WHERE SEXO IN (2, 3) AND year(DT_SAIDA) = 2019;
+    note: "Demonstra a regra do SEXO e o recorte por DT_SAIDA."
+
+  - question: "Quais os 5 diagnósticos com maior mortalidade entre idosos?"
+    sql: |
+      SELECT i.DIAG_PRINC AS cid,
+             COALESCE(c.DESCRICAO, cm.DESCRICAO) AS diagnostico,
+             COUNT(*) AS internacoes,
+             ROUND(100.0 * AVG(i.MORTE::INT), 2) AS taxa_obito_pct
+      FROM internacao i
+      LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+      LEFT JOIN cid_manuais cm ON i.DIAG_PRINC = cm.CID
+      WHERE i.IDADE >= 60
+      GROUP BY 1, 2
+      HAVING COUNT(*) >= 1000
+      ORDER BY taxa_obito_pct DESC
+      LIMIT 5;
+    note: "Agrupa pelo código, rotula com a descrição e usa HAVING de volume mínimo."
+
+  - question: "Custo médio de internação por UF de residência em 2023"
+    sql: |
+      SELECT COALESCE(m.SG_UF,
+                      CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 'DF' END) AS uf,
+             COUNT(*) AS internacoes,
+             ROUND(AVG(i.VAL_TOT), 2) AS custo_medio
+      FROM internacao i
+      LEFT JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+      WHERE year(i.DT_SAIDA) = 2023
+      GROUP BY 1
+      ORDER BY custo_medio DESC;
+    note: "UF da RESIDÊNCIA, com o DF completado pelas regiões administrativas."
+
+  - question: "Quantos partos cesarianos foram feitos em hospitais do Rio Grande do Sul por ano?"
+    sql: |
+      SELECT year(i.DT_SAIDA) AS ano,
+             COUNT(*) AS partos_cesarianos
+      FROM internacao i
+      JOIN hospital h ON i.CNES = h.CNES
+      JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+      WHERE m.SG_UF = 'RS'
+        AND EXISTS (SELECT 1 FROM internacao_procedimento ip
+                    WHERE ip.N_AIH = i.N_AIH
+                      AND ip.PROC_REA IN ('0411010026', '0411010034', '0411010042'))
+      GROUP BY 1
+      ORDER BY 1;
+    note: "Procedimento via EXISTS (sem contar linhas repetidas) e geografia do ATENDIMENTO."
+
+  - question: "Internações por especialidade do leito em 2024"
+    sql: |
+      SELECT i.ESPEC AS codigo,
+             CASE i.ESPEC WHEN 1 THEN 'Cirúrgico' WHEN 2 THEN 'Obstétrico'
+               WHEN 3 THEN 'Clínico' WHEN 4 THEN 'Crônicos' WHEN 5 THEN 'Psiquiatria'
+               WHEN 6 THEN 'Pneumologia sanitária' WHEN 7 THEN 'Pediátrico'
+               WHEN 8 THEN 'Reabilitação' WHEN 9 THEN 'Leito dia / cirúrgico'
+               WHEN 10 THEN 'Leito dia / AIDS' WHEN 11 THEN 'Leito dia / fibrose cística'
+               WHEN 12 THEN 'Leito dia / intercorrência pós-transplante'
+               WHEN 13 THEN 'Leito dia / geriatria' WHEN 14 THEN 'Leito dia / saúde mental'
+               WHEN 17 THEN 'Não documentado' WHEN 87 THEN 'Saúde mental (longa permanência)'
+             END AS especialidade,
+             COUNT(*) AS internacoes
+      FROM internacao i
+      WHERE year(i.DT_SAIDA) = 2024
+      GROUP BY 1, 2
+      ORDER BY internacoes DESC;
+    note: "Rotula ESPEC pelo domínio da AIH, sem juntar com a tabela `especialidade`."

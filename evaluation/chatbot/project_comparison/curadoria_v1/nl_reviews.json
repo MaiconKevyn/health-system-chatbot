@@ -1,0 +1,898 @@
+[
+  {
+    "case": "C01",
+    "review_id": "30ae538760",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b"
+  },
+  {
+    "case": "C01",
+    "review_id": "41fcb93b77",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b"
+  },
+  {
+    "case": "C01",
+    "review_id": "815cd4dc7d",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b"
+  },
+  {
+    "case": "C01",
+    "review_id": "edd446098a",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "answer_sha256": "14413dd60b1e059ecc98d8d05d5a61e855dc30b4a614af78936741d5f4050b25"
+  },
+  {
+    "case": "C02",
+    "review_id": "5d5bbbebdd",
+    "grade": "correta",
+    "reason": "Fornece a mediana de R$ 602,83.",
+    "answer_sha256": "e259e98974bd2dd55745efe02e82c40fe135ac74c480623bb4b0e53e769cbb64"
+  },
+  {
+    "case": "C02",
+    "review_id": "5d78d68e01",
+    "grade": "correta",
+    "reason": "Informa mediana de R$ 602,83.",
+    "answer_sha256": "74dc800346b0737990311777da54f937eacfb722f29fb35b8e131196616a1797"
+  },
+  {
+    "case": "C02",
+    "review_id": "d097bb9720",
+    "grade": "correta",
+    "reason": "Fornece a mediana de R$ 602,83.",
+    "answer_sha256": "40fe5c76967fab91874df9e53565593b16429b72c09fe5d59856f028d4d52e8d"
+  },
+  {
+    "case": "C02",
+    "review_id": "ecb6f70caa",
+    "grade": "correta",
+    "reason": "Informa mediana de R$ 602,83.",
+    "answer_sha256": "003e3d2bfc9d0c1974913020111ac8b271fc7b4060740517841c9c40b4b9677b"
+  },
+  {
+    "case": "C03",
+    "review_id": "00509a32f6",
+    "grade": "correta",
+    "reason": "Reproduz a descrição de A16 no catálogo.",
+    "answer_sha256": "19c02c18fe836690b46a8cad11245f96c2fd287f23e17c48ef18519dd1cdf3bf"
+  },
+  {
+    "case": "C03",
+    "review_id": "2aa437ec5e",
+    "grade": "correta",
+    "reason": "Reproduz a descrição de A16 no catálogo.",
+    "answer_sha256": "7c61e8169f0ae63f5cdad4a4e6eab3df7b8d1c098ae381682621ce37528c39e5"
+  },
+  {
+    "case": "C03",
+    "review_id": "66c37eb87c",
+    "grade": "correta",
+    "reason": "Reproduz a descrição local de A16.",
+    "answer_sha256": "e195f0a01458cfbda1770ab9e80c71d2c7c95da6f1ed0ce35adab6b409a9cf9f"
+  },
+  {
+    "case": "C03",
+    "review_id": "71111afeb7",
+    "grade": "correta",
+    "reason": "Reproduz a descrição local de A16.",
+    "answer_sha256": "3663144b485c2468cf3555c84ecb60a8c1cd42a80bbb0268405a5cbb46bc3ba9"
+  },
+  {
+    "case": "C04",
+    "review_id": "7ac52af17d",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "answer_sha256": "97154241bd6b0701805280398f99391a3f95069ff5de9cc96243053812f03272"
+  },
+  {
+    "case": "C04",
+    "review_id": "91b54f314a",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "answer_sha256": "97154241bd6b0701805280398f99391a3f95069ff5de9cc96243053812f03272"
+  },
+  {
+    "case": "C04",
+    "review_id": "dfed368946",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "answer_sha256": "7bd0775d4d9f87ad53935a7ca73ee1fa544ba9cf662df0b33e5c64ebd43ad1f8"
+  },
+  {
+    "case": "C04",
+    "review_id": "f68ee7ffb8",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "answer_sha256": "7bd0775d4d9f87ad53935a7ca73ee1fa544ba9cf662df0b33e5c64ebd43ad1f8"
+  },
+  {
+    "case": "C05",
+    "review_id": "56e5513e73",
+    "grade": "correta",
+    "reason": "Informa as 171.898 internações de fim de semana.",
+    "answer_sha256": "c62c66935b0f9c398c9d42227e22003dd20249fb2050a9151cf8fc41430124ae"
+  },
+  {
+    "case": "C05",
+    "review_id": "6cb307bfba",
+    "grade": "correta",
+    "reason": "Informa as 171.898 internações de fim de semana.",
+    "answer_sha256": "5a02aaa1714fb346d1688ccb72da96f1df1630d5a1fddff2a08d16df31d5caf0"
+  },
+  {
+    "case": "C05",
+    "review_id": "87f9bdb263",
+    "grade": "correta",
+    "reason": "Informa 171.898 internações com início no fim de semana.",
+    "answer_sha256": "394b42bc4c94580572fc0a1d1885359324ebf9d783612cd284ab517f1343f254"
+  },
+  {
+    "case": "C05",
+    "review_id": "acb43799e2",
+    "grade": "correta",
+    "reason": "Informa as 171.898 internações de fim de semana.",
+    "answer_sha256": "7951a9b0f88290533787c8899984774b23ecbf0d56e356a59979d2b42371620e"
+  },
+  {
+    "case": "C06",
+    "review_id": "65eba8473d",
+    "grade": "correta",
+    "reason": "A soma estadual é de 9.132.078 habitantes.",
+    "answer_sha256": "71859b06235707166871fa1425ddd3f6025fbdcdee1e81abe058e00704dbb665"
+  },
+  {
+    "case": "C06",
+    "review_id": "6cf70981a2",
+    "grade": "correta",
+    "reason": "Informa a soma estadual de 9.132.078 habitantes.",
+    "answer_sha256": "54d0cc0be889b8ba6aed95a4d4f2f52552d90ce417b85be5c89002602eabe2e9"
+  },
+  {
+    "case": "C06",
+    "review_id": "851c0e7536",
+    "grade": "correta",
+    "reason": "A soma estadual é de 9.132.078 habitantes.",
+    "answer_sha256": "54d0cc0be889b8ba6aed95a4d4f2f52552d90ce417b85be5c89002602eabe2e9"
+  },
+  {
+    "case": "C06",
+    "review_id": "d257b8de14",
+    "grade": "correta",
+    "reason": "Informa a soma estadual de 9.132.078 habitantes.",
+    "answer_sha256": "0b78ed512f8d043c860f0c3a781333bde9129536c967db886ee0fb20bf32fcf3"
+  },
+  {
+    "case": "C07",
+    "review_id": "3a62ce3d22",
+    "grade": "correta",
+    "reason": "Fornece a média de R$ 4.199,00.",
+    "answer_sha256": "08978b91d2679bbd69173c93b6f359567239c5b3cf1578aee144bb3cf4aed58a"
+  },
+  {
+    "case": "C07",
+    "review_id": "3cf8dfb027",
+    "grade": "correta",
+    "reason": "Informa o valor médio aprovado de R$ 4.199,00.",
+    "answer_sha256": "682923fe6eecd6e17ea5e5257ec0d4675bfc5ffedc23aa78da39b6975d42bdd0"
+  },
+  {
+    "case": "C07",
+    "review_id": "84e0f75505",
+    "grade": "correta",
+    "reason": "Informa o valor médio aprovado de R$ 4.199,00.",
+    "answer_sha256": "85da8bb64350a3a9db91c33e25ce9fed626387e0c9e6d5a9368523a46c7e8dc7"
+  },
+  {
+    "case": "C07",
+    "review_id": "aac5ae69e7",
+    "grade": "parcial",
+    "reason": "R$ 4.198,9955 arredonda corretamente para R$ 4.199,00, mas o usuário pediu que a média fosse apresentada em reais e centavos.",
+    "answer_sha256": "dc6708e3fb4a4a7375288ad05c8edc010628b3a89c2f3c0e3f9b8ca4f47a4a14"
+  },
+  {
+    "case": "C08",
+    "review_id": "390fb5358c",
+    "grade": "incorreta",
+    "reason": "Reconhece que 2022 está ausente, mas conclui que a quantidade de registros na tabela é indeterminável. A contagem de registros é zero.",
+    "answer_sha256": "6bd4afb1d666fb9874e4ae84e7ccbfac4da022c06acc4f2bbbfa98175a555e03"
+  },
+  {
+    "case": "C08",
+    "review_id": "671c33bc49",
+    "grade": "incorreta",
+    "reason": "Reconhece que o ano está ausente e conclui que a contagem não pode ser obtida. A quantidade de registros para esse ano é zero.",
+    "answer_sha256": "7bafaf4f0bcdf6bfb7f4766dcb9e85c5aab893a4b6f6056e7ffd0348b326969d"
+  },
+  {
+    "case": "C08",
+    "review_id": "c78e216c45",
+    "grade": "correta",
+    "reason": "Informa zero registros, conforme pedido.",
+    "answer_sha256": "34cf38eeb3c92a905f08f838b420ed52201af6047d4c168bed7ab7963427bafb"
+  },
+  {
+    "case": "C08",
+    "review_id": "db18db63fc",
+    "grade": "correta",
+    "reason": "Informa zero registros para 2022.",
+    "answer_sha256": "34cf38eeb3c92a905f08f838b420ed52201af6047d4c168bed7ab7963427bafb"
+  },
+  {
+    "case": "C09",
+    "review_id": "06cefef863",
+    "grade": "correta",
+    "reason": "Total correto de 7.619 internações.",
+    "answer_sha256": "78f786430ca01e50e3be3525481363ea3f5fa662e9b83a375d684ed449af6ea8"
+  },
+  {
+    "case": "C09",
+    "review_id": "2be8b1e52e",
+    "grade": "correta",
+    "reason": "Total correto de 7.619 internações.",
+    "answer_sha256": "0e9e2629d4576bdbf174857f15796bb8f7e9bfba0e38ddd4f69acfd02da58612"
+  },
+  {
+    "case": "C09",
+    "review_id": "e4082a158c",
+    "grade": "correta",
+    "reason": "Total correto de 7.619 internações.",
+    "answer_sha256": "c52fe79daaa8372210b2e0848ae020ee317f76d5269a5b6489a1ea3705267bf5"
+  },
+  {
+    "case": "C09",
+    "review_id": "e6c4fe7018",
+    "grade": "correta",
+    "reason": "Total correto de 7.619 internações.",
+    "answer_sha256": "78f786430ca01e50e3be3525481363ea3f5fa662e9b83a375d684ed449af6ea8"
+  },
+  {
+    "case": "C10",
+    "review_id": "0f03dbc4be",
+    "grade": "correta",
+    "reason": "Informa 1.078 hospitais distintos.",
+    "answer_sha256": "8b86ad92b2c27d136ef458450b44488ace9a3902ad1bfbfb38d08ddc4c8894bf"
+  },
+  {
+    "case": "C10",
+    "review_id": "866183fde4",
+    "grade": "correta",
+    "reason": "Informa 1.078 hospitais distintos.",
+    "answer_sha256": "8b86ad92b2c27d136ef458450b44488ace9a3902ad1bfbfb38d08ddc4c8894bf"
+  },
+  {
+    "case": "C10",
+    "review_id": "aacd3c5901",
+    "grade": "correta",
+    "reason": "Informa 1.078 hospitais distintos.",
+    "answer_sha256": "1794ac0cc331b4e122c413877e6209ed8656db5cccf1ea75492fffc9dba82bf7"
+  },
+  {
+    "case": "C10",
+    "review_id": "ff92e0a30d",
+    "grade": "correta",
+    "reason": "Informa 1.078 hospitais distintos.",
+    "answer_sha256": "b81f1637e9b9dd88e4f660ad2e813d2ec4a2400acfcdceb20626c1fa4cf8aa9d"
+  },
+  {
+    "case": "C11",
+    "review_id": "83bf3ac884",
+    "grade": "correta",
+    "reason": "Informa as 2.179 internações do fluxo solicitado.",
+    "answer_sha256": "6bf7b3946c372ce884758c21fbbb9c6bb62d6f79312165f0e9cf603594560433"
+  },
+  {
+    "case": "C11",
+    "review_id": "88766e1062",
+    "grade": "correta",
+    "reason": "Associou 2.179 internações ao fluxo correto de residência e atendimento.",
+    "answer_sha256": "62e04683602768fc832bb8844b5c9f740654b38d68d15a226b3d6f3dd5f26df1"
+  },
+  {
+    "case": "C11",
+    "review_id": "995e8472b0",
+    "grade": "correta",
+    "reason": "Informa as 2.179 internações do fluxo solicitado.",
+    "answer_sha256": "e4f39ec70d0f48e3991c029857d701cb6399fcc406c8fda2e3b49ae2edb1a809"
+  },
+  {
+    "case": "C11",
+    "review_id": "add9cbc7c4",
+    "grade": "correta",
+    "reason": "Informa as 2.179 internações do fluxo solicitado.",
+    "answer_sha256": "6bf7b3946c372ce884758c21fbbb9c6bb62d6f79312165f0e9cf603594560433"
+  },
+  {
+    "case": "C12",
+    "review_id": "2e090e7bbd",
+    "grade": "correta",
+    "reason": "Informa as 53.313 AIHs distintas.",
+    "answer_sha256": "3bfdb2b872a3d4732186eacdc62f42b1f40ea1ba4932daf9d5a9dc12218e7ffe"
+  },
+  {
+    "case": "C12",
+    "review_id": "425ddfb544",
+    "grade": "correta",
+    "reason": "Identifica 53.313 AIHs distintas.",
+    "answer_sha256": "e53780e07242756eef22196e1e8b492aaccc0e3b55cda106aa19b92637b40b79"
+  },
+  {
+    "case": "C12",
+    "review_id": "6dfdec9eea",
+    "grade": "correta",
+    "reason": "Informa as 53.313 AIHs distintas.",
+    "answer_sha256": "e53780e07242756eef22196e1e8b492aaccc0e3b55cda106aa19b92637b40b79"
+  },
+  {
+    "case": "C12",
+    "review_id": "a04da5a377",
+    "grade": "correta",
+    "reason": "Identifica 53.313 AIHs distintas.",
+    "answer_sha256": "ee95a9785ea9f64988b9bf31ac71612def505f31293cfe6e54d19909350cb714"
+  },
+  {
+    "case": "C13",
+    "review_id": "1486d7c1cd",
+    "grade": "correta",
+    "reason": "Taxa de 3,35% no recorte solicitado.",
+    "answer_sha256": "06548936083948b15ca8f258bd6a1b930c7d06e4607b38c9c62dba49e71b486a"
+  },
+  {
+    "case": "C13",
+    "review_id": "79179313bb",
+    "grade": "correta",
+    "reason": "A taxa é de 3,35% no universo solicitado.",
+    "answer_sha256": "06548936083948b15ca8f258bd6a1b930c7d06e4607b38c9c62dba49e71b486a"
+  },
+  {
+    "case": "C13",
+    "review_id": "ae3a8bd30b",
+    "grade": "correta",
+    "reason": "Taxa de 3,35% no recorte residencial e temporal solicitado.",
+    "answer_sha256": "56dcf24b369be734f25515adb13270bde1a88e33d7757823087187f6180e6b6b"
+  },
+  {
+    "case": "C13",
+    "review_id": "dce1ac8d45",
+    "grade": "correta",
+    "reason": "A taxa é de 3,35% no universo solicitado.",
+    "answer_sha256": "81c68436ebc105e059fa466ee7ee4457dafb2b768505ba536ecb30cdf7935097"
+  },
+  {
+    "case": "C14",
+    "review_id": "2363dde2e3",
+    "grade": "correta",
+    "reason": "Informa 378 hospitais de Minas Gerais.",
+    "answer_sha256": "832fd6f967bfed2dacf1354c2c9a47a638208c004e8ce8f86c35c392c5d431b1"
+  },
+  {
+    "case": "C14",
+    "review_id": "2539583b5c",
+    "grade": "correta",
+    "reason": "Informa os 378 hospitais de atendimento em Minas Gerais.",
+    "answer_sha256": "f8de583f4147d8f69ac3a42f44d3c30578ca7474d4393fecf3635f2aeb66ab35"
+  },
+  {
+    "case": "C14",
+    "review_id": "3e979b3c16",
+    "grade": "correta",
+    "reason": "Informa 378 hospitais de Minas Gerais.",
+    "answer_sha256": "07e7f33c160372a5b60057dc40dbd2661db29ddd5c22db9315b95a2a449c92df"
+  },
+  {
+    "case": "C14",
+    "review_id": "4e8be06bc0",
+    "grade": "correta",
+    "reason": "Identifica 378 estabelecimentos mineiros.",
+    "answer_sha256": "9f454ec284201e63f8e2e7156cf5cfcf6d291297870f6f9252548f558b9f7c42"
+  },
+  {
+    "case": "C15",
+    "review_id": "0f65658d29",
+    "grade": "correta",
+    "reason": "Identifica as 357 internações no recorte de residência e diagnóstico principal.",
+    "answer_sha256": "0458531638b2995fa2e82a72f715b0b54003cdc952db7d73cad162ec8dcb1134"
+  },
+  {
+    "case": "C15",
+    "review_id": "521fe3da88",
+    "grade": "correta",
+    "reason": "Informa as 357 internações no recorte pedido.",
+    "answer_sha256": "df078f9a9f1b2fe4d267eb88d70d8f7e26347ba423ee383148b1968fd7a45c0d"
+  },
+  {
+    "case": "C15",
+    "review_id": "6524de39f8",
+    "grade": "correta",
+    "reason": "Identifica as 357 internações no recorte de residência e diagnóstico principal.",
+    "answer_sha256": "a740887ea957fdea5a7138cf88ca0959b8ca2c5724bca7d397d885cd530cbef5"
+  },
+  {
+    "case": "C15",
+    "review_id": "b145535961",
+    "grade": "correta",
+    "reason": "Informa as 357 internações no recorte pedido.",
+    "answer_sha256": "42e2dab1de6302c3baf1c10ac6dcdc9b78fd2660e9b9d5c22571093924317a7c"
+  },
+  {
+    "case": "C16",
+    "review_id": "12f8424e89",
+    "grade": "correta",
+    "reason": "Identifica 1.440 estabelecimentos ativos sem óbito no recorte.",
+    "answer_sha256": "7486eda9339139ca1da7078e09331cb07f314d3c10af0583a7dbed51d4d983d8"
+  },
+  {
+    "case": "C16",
+    "review_id": "182b765e08",
+    "grade": "correta",
+    "reason": "Identifica 1.440 estabelecimentos ativos sem óbito no recorte.",
+    "answer_sha256": "fcabfca76e404cec01339b64386bf23aa60707ce4166898eae6990a775331d6c"
+  },
+  {
+    "case": "C16",
+    "review_id": "464d7f40d0",
+    "grade": "correta",
+    "reason": "1.440 estabelecimentos satisfazem o recorte.",
+    "answer_sha256": "de4492ee6cc9d4f9da80093a3c3e4e890193bd765b731caa225a3fad2c436588"
+  },
+  {
+    "case": "C16",
+    "review_id": "bffe9af45f",
+    "grade": "correta",
+    "reason": "1.440 estabelecimentos satisfazem o recorte.",
+    "answer_sha256": "3f30484c444479e99dc8de5dec019653daee71cf623b8ca4dbbe09f845c1ae6a"
+  },
+  {
+    "case": "C17",
+    "review_id": "3116a70244",
+    "grade": "correta",
+    "reason": "Apresenta as três contagens mensais com os meses correspondentes.",
+    "answer_sha256": "b607caa9781f88215d90e7acb1629984d8522431a781a6c4d42fda3de1dd8f28"
+  },
+  {
+    "case": "C17",
+    "review_id": "34ad2ebcc4",
+    "grade": "correta",
+    "reason": "Apresenta as três contagens mensais com os meses correspondentes.",
+    "answer_sha256": "a55478f5582f0285d432f6e6f749d38f7726735632a47e8745de30f6753a1802"
+  },
+  {
+    "case": "C17",
+    "review_id": "575aec77be",
+    "grade": "correta",
+    "reason": "Os três meses estão associados às contagens correspondentes.",
+    "answer_sha256": "8a9f74fdae2194747acbe88af5dcc0889840a3b10e2298bc8cb740d6978aa133"
+  },
+  {
+    "case": "C17",
+    "review_id": "a6f0ead135",
+    "grade": "correta",
+    "reason": "Os três meses estão associados às contagens correspondentes.",
+    "answer_sha256": "b607caa9781f88215d90e7acb1629984d8522431a781a6c4d42fda3de1dd8f28"
+  },
+  {
+    "case": "C18",
+    "review_id": "08539ff271",
+    "grade": "correta",
+    "reason": "Associa as duas contagens aos estados solicitados.",
+    "answer_sha256": "7ae3615cebef3a8bbfa49c9763f509f321e18be33c95d037f0260f5091ebf0a7"
+  },
+  {
+    "case": "C18",
+    "review_id": "5f244f5945",
+    "grade": "correta",
+    "reason": "Associa as duas contagens aos estados solicitados.",
+    "answer_sha256": "9984181a82d83a53a1fb5a0f40ae73ec6c0bd97945fba6bdde1b1028bb049679"
+  },
+  {
+    "case": "C18",
+    "review_id": "7d2c7e4776",
+    "grade": "correta",
+    "reason": "As contagens de 6.586 e 23.634 estão associadas aos estados corretos.",
+    "answer_sha256": "7c3c844937f02a94ec46696abc6ee09331acdd9c5bb7623770a3ede97038c8b3"
+  },
+  {
+    "case": "C18",
+    "review_id": "ced4797686",
+    "grade": "correta",
+    "reason": "As contagens de 6.586 e 23.634 estão associadas aos estados corretos.",
+    "answer_sha256": "c36832a40bb7b527d9b606503dea5af1c50239bf05df5e3a495f98e9f17a4d36"
+  },
+  {
+    "case": "C19",
+    "review_id": "0162084b09",
+    "grade": "correta",
+    "reason": "Identifica segunda-feira e as 81.681 internações.",
+    "answer_sha256": "5faa5321ba6686157cf9c7de074e0ed94380830b7c5a0339cc4516bd1dbcf154"
+  },
+  {
+    "case": "C19",
+    "review_id": "0b9110769c",
+    "grade": "correta",
+    "reason": "Identifica segunda-feira e as 81.681 internações.",
+    "answer_sha256": "151c971e99958bb7e88f5f42ec20c88fd20909f1253a04dd38ba988b4bad7d28"
+  },
+  {
+    "case": "C19",
+    "review_id": "31f15de191",
+    "grade": "correta",
+    "reason": "Identifica segunda-feira e suas 81.681 internações.",
+    "answer_sha256": "8b53667cc387e620a618067f94cd52ab74a3af25a9cd09a052c7b9b91db6d864"
+  },
+  {
+    "case": "C19",
+    "review_id": "d6c5bb3f9c",
+    "grade": "correta",
+    "reason": "Identifica segunda-feira e suas 81.681 internações.",
+    "answer_sha256": "8235c2a1f32aa0f4cf1a9f19ed35eea4dec2dfdf1438781bd480c1c1794fff72"
+  },
+  {
+    "case": "C20",
+    "review_id": "10f6cb455e",
+    "grade": "correta",
+    "reason": "Apresenta os três códigos e contagens em ordem decrescente.",
+    "answer_sha256": "f61dd7cbda31eb4a1e0da506447d12e57cd71237a5e2d31fc0634dffdf5be9ac"
+  },
+  {
+    "case": "C20",
+    "review_id": "5d6891509a",
+    "grade": "correta",
+    "reason": "Apresenta os três códigos e contagens em ordem decrescente.",
+    "answer_sha256": "4e44be5ef4b36af8993999c91147d2f57cee26c8f8f94c17cb201887ef886fc2"
+  },
+  {
+    "case": "C20",
+    "review_id": "e6edcd9b3b",
+    "grade": "correta",
+    "reason": "Apresenta O800, B342 e I64 na ordem correta e com as três contagens.",
+    "answer_sha256": "88b2ac3ede44872c7ad6ff557d78a2ff48aace98d00927af82db65b54893eb29"
+  },
+  {
+    "case": "C20",
+    "review_id": "f719e85397",
+    "grade": "correta",
+    "reason": "Os três códigos e as respectivas contagens estão corretos e ordenados.",
+    "answer_sha256": "435696ba505f8378e10641384a9c205ebd72bdca4045681f6d33217fbae05abf"
+  },
+  {
+    "case": "C21",
+    "review_id": "259770ebce",
+    "grade": "correta",
+    "reason": "Os três códigos e volumes de ocorrências estão associados e ordenados corretamente.",
+    "answer_sha256": "4303d0e95a22f3b48c5c8381adb22ab00d6166340ef6fedcc2e044174318a1d3"
+  },
+  {
+    "case": "C21",
+    "review_id": "42d2ba889c",
+    "grade": "correta",
+    "reason": "Os três códigos e volumes de ocorrências estão corretos e ordenados.",
+    "answer_sha256": "f5caac4b6d6a70861dce9c012326007f81f82a6ac5f83888bfebca8dbc30a441"
+  },
+  {
+    "case": "C21",
+    "review_id": "96f132ebeb",
+    "grade": "correta",
+    "reason": "Os três códigos e volumes de ocorrências estão corretos e ordenados.",
+    "answer_sha256": "bc6f3644624dac002b21e1d6609f5773e0804700fd1ecf8feab18d6d09e6787b"
+  },
+  {
+    "case": "C21",
+    "review_id": "e5fc2d5672",
+    "grade": "correta",
+    "reason": "Os três códigos e volumes de ocorrências estão associados e ordenados corretamente.",
+    "answer_sha256": "f5caac4b6d6a70861dce9c012326007f81f82a6ac5f83888bfebca8dbc30a441"
+  },
+  {
+    "case": "C22",
+    "review_id": "3659e53a08",
+    "grade": "correta",
+    "reason": "Os três pares de CNES e contagem conferem e o ranking está na ordem pedida.",
+    "answer_sha256": "4c78c17f94178945541b9a1dfa75c53b74ea4e4047b2d1a95b50fe2164313e1f"
+  },
+  {
+    "case": "C22",
+    "review_id": "a6db8a322c",
+    "grade": "correta",
+    "reason": "Os três CNES e contagens estão corretos e na ordem solicitada.",
+    "answer_sha256": "a1b4236429ff2866314925effce0aecf70cb12ac0e892d8c238002385f37ec2d"
+  },
+  {
+    "case": "C22",
+    "review_id": "d5b6e6611b",
+    "grade": "correta",
+    "reason": "Os três pares de CNES e contagem conferem e o ranking está na ordem pedida.",
+    "answer_sha256": "f6de6ead9f8eba8e2438112f264a5886b7715d56f5fe3566e5607a9320736307"
+  },
+  {
+    "case": "C22",
+    "review_id": "e21e5b093b",
+    "grade": "correta",
+    "reason": "Os três CNES e contagens estão corretos e na ordem solicitada.",
+    "answer_sha256": "24b1e11e591a5858cba7ab07f50e1c8fd21ac4721e43c43d69f9c95c4bdc83e5"
+  },
+  {
+    "case": "C23",
+    "review_id": "230545154a",
+    "grade": "correta",
+    "reason": "Cada ano tem o volume e a permanência média corretos. As variações e o total, quando citados, conferem.",
+    "answer_sha256": "3cc2d00eeee6ec64756a280e1829891e7223c6b235333741792292e72188e483"
+  },
+  {
+    "case": "C23",
+    "review_id": "75afcb4868",
+    "grade": "correta",
+    "reason": "Identifica corretamente os três volumes, as três médias e o sentido de ambas as séries.",
+    "answer_sha256": "40793009d681943a0ea954bf8a76ce4013703218405b065073e6d133599754e0"
+  },
+  {
+    "case": "C23",
+    "review_id": "b7a08c2697",
+    "grade": "correta",
+    "reason": "Cada ano tem o volume e a permanência média corretos. As variações e o total, quando citados, conferem.",
+    "answer_sha256": "c93d4ab0840ffde654d71801b1422e5bf4df6cbb80eb3b29953deb7b1571524e"
+  },
+  {
+    "case": "C23",
+    "review_id": "c0b5a60aac",
+    "grade": "correta",
+    "reason": "As três contagens, as médias e a soma de 516.037 conferem.",
+    "answer_sha256": "340dd97233c6051aa22babfa737df8ba30bdc1cab3f4568fd4899895d8d0ada3"
+  },
+  {
+    "case": "C24",
+    "review_id": "039b962f54",
+    "grade": "correta",
+    "reason": "Informa os três CIDs com suas médias corretas em ordem decrescente.",
+    "answer_sha256": "eb205fe47cff0637cf1853ba59941f33aac193160f4ce0a1d5a2ee3e5df0be14"
+  },
+  {
+    "case": "C24",
+    "review_id": "3c49690d1a",
+    "grade": "correta",
+    "reason": "Informa os três CIDs com suas médias corretas em ordem decrescente.",
+    "answer_sha256": "bf13d98c2c7a801cfd69a4ee6dd6b2b4bc72dfb76ecac6e9e209beb245edd3ba"
+  },
+  {
+    "case": "C24",
+    "review_id": "5e84e5debc",
+    "grade": "correta",
+    "reason": "Entrega os três diagnósticos e as três médias em dias na ordem solicitada.",
+    "answer_sha256": "1fa6ee53797a025270070edbc38fe862f3ddac1bbe0b47d461bf74dafe54ed84"
+  },
+  {
+    "case": "C24",
+    "review_id": "e8feb6c8d5",
+    "grade": "correta",
+    "reason": "Entrega os três diagnósticos e as três médias em dias na ordem solicitada.",
+    "answer_sha256": "1b9a0d49d92d522f21e9828766c1a64dfebb59366a4a9c699985d8f032ca152c"
+  },
+  {
+    "case": "C25",
+    "review_id": "26e5036a13",
+    "grade": "correta",
+    "reason": "A direção e a variação relativa de 5,30% estão corretas.",
+    "answer_sha256": "7cc1974ad411fa02bc8dd11fef014ed96e1aa8d425eef3366efbfda6965ac100"
+  },
+  {
+    "case": "C25",
+    "review_id": "30b7002fc9",
+    "grade": "correta",
+    "reason": "A direção e a variação relativa de 5,30% estão corretas.",
+    "answer_sha256": "73a0d56220ae74a20c3b5cb4f6fc5dd99e2d205631e9bd7a55f2058881b67227"
+  },
+  {
+    "case": "C25",
+    "review_id": "5f0f40136a",
+    "grade": "correta",
+    "reason": "Identifica crescimento relativo de 5,30%.",
+    "answer_sha256": "0c566391c6be868a48988f4886b457bc2e783e791c3771bda54e1e99d249bbaf"
+  },
+  {
+    "case": "C25",
+    "review_id": "65ee881e7f",
+    "grade": "correta",
+    "reason": "Identifica crescimento relativo de 5,30%.",
+    "answer_sha256": "809e703d62f335b8df2803addcddba0c816da5b50bb9a5873f74f145dad68128"
+  },
+  {
+    "case": "C26",
+    "review_id": "00acaf46ef",
+    "grade": "correta",
+    "reason": "Explicita a taxa correta de 52,66 internações por mil habitantes.",
+    "answer_sha256": "27b58c5b8035d53634e1b92b9933e6bbe7a45bae4c0e8a8b6ec11f5a5d8369b1"
+  },
+  {
+    "case": "C26",
+    "review_id": "814f28660c",
+    "grade": "correta",
+    "reason": "Informa 52,66 internações por mil habitantes.",
+    "answer_sha256": "57bd2ab6ecd3dd18cb36d82b820a28aec74f78f66be1de16f29bb38f57376a78"
+  },
+  {
+    "case": "C26",
+    "review_id": "a300614266",
+    "grade": "correta",
+    "reason": "Informa 52,66 internações por mil habitantes.",
+    "answer_sha256": "dc5760ca31da04212d6295ca65a6097aa5eb50d31f894fe0ff1c6e29cc5299e1"
+  },
+  {
+    "case": "C26",
+    "review_id": "a67d828466",
+    "grade": "correta",
+    "reason": "Explicita a taxa correta de 52,66 internações por mil habitantes.",
+    "answer_sha256": "a98383e0e3714dff7a89eed993f3eade1bb183fd542752b8834473d3b49b2eb1"
+  },
+  {
+    "case": "C27",
+    "review_id": "8031afcd87",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 corresponde ao gabarito.",
+    "answer_sha256": "063261c56d3e11da98cc25b01ec4fd1ef737cd8f03152b717e7966b2184ff9d8"
+  },
+  {
+    "case": "C27",
+    "review_id": "9e4aa76448",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 corresponde ao gabarito.",
+    "answer_sha256": "62bda6185b4826f98730cd09621c086f62464499847e491325d1bcf82aec0c07"
+  },
+  {
+    "case": "C27",
+    "review_id": "a216fb9a86",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 corresponde ao gabarito.",
+    "answer_sha256": "063261c56d3e11da98cc25b01ec4fd1ef737cd8f03152b717e7966b2184ff9d8"
+  },
+  {
+    "case": "C27",
+    "review_id": "d807db7572",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 corresponde ao gabarito.",
+    "answer_sha256": "c39d48e07043e6b1e56f0ab66a9c5a9318b38e6f1710c676c5ad3dbbab228b83"
+  },
+  {
+    "case": "C28",
+    "review_id": "01b431f3a1",
+    "grade": "correta",
+    "reason": "Identifica o pico em 2019 e os 9.398 óbitos.",
+    "answer_sha256": "b1872e9c2eb576c96ce8ee989243cc1ddaa5d7de9b1ab18d6158564153aec59f"
+  },
+  {
+    "case": "C28",
+    "review_id": "130d41391e",
+    "grade": "correta",
+    "reason": "Identifica o pico em 2019 e seus 9.398 óbitos.",
+    "answer_sha256": "297b57f749b2a35d68fd338d55bf14a7c82fe34e52398cfca4cd269ff822037c"
+  },
+  {
+    "case": "C28",
+    "review_id": "7ec2d380fe",
+    "grade": "correta",
+    "reason": "Identifica o pico em 2019 e seus 9.398 óbitos.",
+    "answer_sha256": "49ba25c72b41f5718c2d43a0ac27f35a35cc4b68365bdeea16f986d931b2256d"
+  },
+  {
+    "case": "C28",
+    "review_id": "819066c9e2",
+    "grade": "correta",
+    "reason": "Identifica o pico em 2019 e os 9.398 óbitos.",
+    "answer_sha256": "cc7167fb51f5d08db14aaa342baa0fd57335bc286d16a53dc12bea88ee20f4d9"
+  },
+  {
+    "case": "C29",
+    "review_id": "57898bd1c3",
+    "grade": "sem_resposta",
+    "reason": "Validação exigiu projeção do trimestre e o texto não fornece percentual.",
+    "answer_sha256": "9ff6dd48144d28b5f3b44a9b3e69355dc6c20876ce7f73f5ef92a841f3c90b12"
+  },
+  {
+    "case": "C29",
+    "review_id": "64110c8753",
+    "grade": "sem_resposta",
+    "reason": "Recusa por exigir projeção do trimestre e omite o percentual.",
+    "answer_sha256": "9ff6dd48144d28b5f3b44a9b3e69355dc6c20876ce7f73f5ef92a841f3c90b12"
+  },
+  {
+    "case": "C29",
+    "review_id": "ebb9087f33",
+    "grade": "correta",
+    "reason": "A fração respiratória corresponde aos 8,53% solicitados.",
+    "answer_sha256": "c3988835908ac5b4eb94aed58e299519b9ddcdb85e30415516f2f919959a05a3"
+  },
+  {
+    "case": "C29",
+    "review_id": "ecd39411cc",
+    "grade": "correta",
+    "reason": "Informa a parcela respiratória de 8,53%.",
+    "answer_sha256": "95f024f6ca48ae0290e22a3d7c11f94afca7a843929a5fcc5a6ae64affd4fb3c"
+  },
+  {
+    "case": "C30",
+    "review_id": "1f1b2a3510",
+    "grade": "correta",
+    "reason": "Compara 79.047 com 35.231 e identifica câncer de mama.",
+    "answer_sha256": "3c8797e916ecf4757d0cd19e31b3e348899ef32d99fb7faf6e9d874598a218ca"
+  },
+  {
+    "case": "C30",
+    "review_id": "628661ccf6",
+    "grade": "correta",
+    "reason": "Identifica câncer de mama como mais frequente e informa as duas contagens.",
+    "answer_sha256": "d90b3749f9ebb06910190c2222f30c7b18ab7d667b78621b6522a30946a379da"
+  },
+  {
+    "case": "C30",
+    "review_id": "747d90294b",
+    "grade": "incorreta",
+    "reason": "Embora acerte a contagem de próstata, omite a de mama e inverte a conclusão.",
+    "answer_sha256": "f5bdf85692be8d873140e93ace4631d1d3ca7f7e305e255a7381bd7c99c7c38d"
+  },
+  {
+    "case": "C30",
+    "review_id": "74deb723b1",
+    "grade": "incorreta",
+    "reason": "Omite 79.047 internações por câncer de mama e declara vencedor o grupo de próstata, embora tenha só 35.231.",
+    "answer_sha256": "ac8d007914b016bc2c53053b1f0251b422fffc92c8a7c143cc824ad0c3157848"
+  },
+  {
+    "case": "C31",
+    "review_id": "6b6e1af97b",
+    "grade": "correta",
+    "reason": "Informa os 1.685 hospitais do recorte.",
+    "answer_sha256": "ee851691839cc59b87a910f47587d7ae7a44fcdc842d197d114e1e050ff0e290"
+  },
+  {
+    "case": "C31",
+    "review_id": "6dd284fef5",
+    "grade": "correta",
+    "reason": "Identifica os 1.685 hospitais com mais de 500 internações e nenhum uso de UTI.",
+    "answer_sha256": "c8caddae04278b30f77bd788f2609301438361ccbce6374f297d807ce48f357c"
+  },
+  {
+    "case": "C31",
+    "review_id": "89bc06b683",
+    "grade": "correta",
+    "reason": "Informa os 1.685 hospitais solicitados.",
+    "answer_sha256": "504017dec991e465459589ec1ae030676ff91e89c650936ebc46013534f04fbe"
+  },
+  {
+    "case": "C31",
+    "review_id": "e3e483cdf7",
+    "grade": "correta",
+    "reason": "Informa os 1.685 hospitais do recorte.",
+    "answer_sha256": "504017dec991e465459589ec1ae030676ff91e89c650936ebc46013534f04fbe"
+  },
+  {
+    "case": "C32",
+    "review_id": "02b9df2680",
+    "grade": "correta",
+    "reason": "Expressa o aumento de 1,24 ponto percentual no período.",
+    "answer_sha256": "41e9552116b75f7a657246d72cabe71bc19bd79ece7fbf7546ce2b61b9a50e13"
+  },
+  {
+    "case": "C32",
+    "review_id": "2313635a82",
+    "grade": "correta",
+    "reason": "Identifica aumento de 1,24 ponto percentual. As taxas de 2019 e 2020, quando citadas, conferem.",
+    "answer_sha256": "7617b9a8b1d6d627d8f4ccec65822862de8d5e25cb1e0248371d91f348116d50"
+  },
+  {
+    "case": "C32",
+    "review_id": "68e31496d6",
+    "grade": "correta",
+    "reason": "Identifica aumento de 1,24 ponto percentual. As taxas de 2019 e 2020, quando citadas, conferem.",
+    "answer_sha256": "df4d195348c2eea7e9b9c0c7d73c86c0ce3388df887f6315f7e65b27a0d11717"
+  },
+  {
+    "case": "C32",
+    "review_id": "72dd1e9505",
+    "grade": "correta",
+    "reason": "Expressa o aumento de 1,24 ponto percentual no período.",
+    "answer_sha256": "5311de246aece2b9d1e19b3919c30c9a9197f7314a51105a509fd82178205d78"
+  }
+]

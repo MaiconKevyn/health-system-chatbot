@@ -1,0 +1,224 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Auditoria completa do hard-73 sem vazamento",
+    "description": "Diagnóstico das 48 falhas estritas do full_agent com gpt-5.4-nano e plano de melhoria sem viés ou overfit.",
+    "generatedAt": "2026-07-11T21:00:00Z",
+    "tables": [
+      {
+        "id": "classification_summary",
+        "title": "Adjudicação das 48 falhas estritas",
+        "subtitle": "A categoria indica se o caso mede capacidade do agente de forma determinável.",
+        "dataset": "classifications",
+        "sourceId": "failure_audit",
+        "defaultSort": {"field": "count", "direction": "desc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "category", "label": "Categoria", "type": "text"},
+          {"field": "count", "label": "Casos", "format": "number"},
+          {"field": "share", "label": "% das falhas", "format": "number", "unit": "%"},
+          {"field": "interpretation", "label": "Interpretação", "type": "text"}
+        ]
+      },
+      {
+        "id": "layer_summary",
+        "title": "Camada primária associada às falhas",
+        "subtitle": "A camada primária orienta a intervenção; não implica causalidade exclusiva.",
+        "dataset": "layers",
+        "sourceId": "failure_audit",
+        "defaultSort": {"field": "count", "direction": "desc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "layer", "label": "Camada", "type": "text"},
+          {"field": "count", "label": "Casos", "format": "number"},
+          {"field": "implication", "label": "Implicação", "type": "text"}
+        ]
+      },
+      {
+        "id": "theme_summary",
+        "title": "Temas recorrentes prioritários",
+        "subtitle": "Um caso pode ter mais de um tema; contagens não são mutuamente exclusivas.",
+        "dataset": "themes",
+        "sourceId": "failure_audit",
+        "defaultSort": {"field": "count", "direction": "desc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "theme", "label": "Tema", "type": "text"},
+          {"field": "count", "label": "Ocorrências", "format": "number"},
+          {"field": "treatment", "label": "Tratamento recomendado", "type": "text"}
+        ]
+      },
+      {
+        "id": "roadmap",
+        "title": "Roadmap anti-overfit",
+        "subtitle": "A ordem evita otimizar o agente contra defeitos e convenções ocultas do hard-73.",
+        "dataset": "roadmap",
+        "sourceId": "failure_audit",
+        "defaultSort": {"field": "priority", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "priority", "label": "Ordem", "format": "number"},
+          {"field": "workstream", "label": "Frente", "type": "text"},
+          {"field": "action", "label": "Ação", "type": "text"},
+          {"field": "guardrail", "label": "Proteção contra viés/overfit", "type": "text"},
+          {"field": "success", "label": "Critério de sucesso", "type": "text"}
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "failure_audit",
+        "label": "Adjudicação manual reproduzível das 48 falhas",
+        "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/audit/failure_audit.json"
+      },
+      {
+        "id": "audit_script",
+        "label": "Script de reconciliação e agregação",
+        "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/audit/audit_failures.py"
+      },
+      {
+        "id": "audit_notebook",
+        "label": "Notebook reproduzível da auditoria",
+        "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/audit/hard73_failure_audit.ipynb"
+      },
+      {
+        "id": "run_results",
+        "label": "Resultados originais do run hard-73",
+        "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/variants/full_agent/results.json"
+      },
+      {
+        "id": "validator_code",
+        "label": "Validador SQL",
+        "path": "src/health_system_chatbot/sql_validator.py"
+      },
+      {
+        "id": "evaluation_code",
+        "label": "Avaliador e fluxo de autocorreção",
+        "path": "evaluation/chatbot/evaluate_extraction_accuracy.py"
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Auditoria completa do hard-73 sem vazamento"
+      },
+      {
+        "id": "technical_summary",
+        "type": "markdown",
+        "sourceId": "failure_audit",
+        "body": "## Resumo técnico\n\n**A taxa estrita de 34,2% é real, mas não mede apenas a capacidade do agente.** Entre as 48 falhas, 27 são indeterminadas como teste de capacidade: 19 perguntas não especificam uma convenção necessária e 8 ground truths impõem limites, janelas ou filtros ausentes da pergunta. Há 18 erros semânticos confirmados do agente, 2 respostas adicionais que deveriam ser aceitas e 1 falha operacional.\n\n**A intervenção correta começa pelo contrato de avaliação, não por mais exemplos.** Treinar prompt, retrieval ou validador para reproduzir regras ocultas do hard-73 transformaria defeitos do benchmark em comportamento do agente e produziria overfit. O hard-73, agora amplamente inspecionado, deve ser tratado como conjunto de desenvolvimento.\n\n**O maior ganho generalizável está em semântica explícita e checks determinísticos.** As famílias mais recorrentes são definição de UTI, limites/limiares ocultos, base temporal, taxonomia etária, grão de diagnóstico e cobertura de joins temporais. Regras legítimas devem nascer de documentação de negócio independente do conjunto de teste."
+      },
+      {
+        "id": "findings_intro",
+        "type": "markdown",
+        "body": "## O placar mistura quatro fenômenos diferentes\n\nA auditoria conservadora só atribuiu erro ao agente quando a SQL violou uma condição explícita ou produziu coorte, métrica, filtro ou grão materialmente incorreto. Ambiguidade não foi convertida em acerto; foi marcada como indeterminada."
+      },
+      {"id": "classification_table", "type": "table", "tableId": "classification_summary"},
+      {
+        "id": "metric_interpretation",
+        "type": "markdown",
+        "sourceId": "failure_audit",
+        "body": "## A taxa adjudicada é diagnóstico, não um novo benchmark\n\nDos 45 casos adjudicáveis — 25 matches estritos, 18 erros semânticos e 2 respostas adicionais aceitáveis — 27 são aceitos, ou 60,0%. Esse número ajuda a localizar a perda real, mas não substitui retroativamente a taxa oficial: a classificação manual foi feita após observar o conjunto e, portanto, não é uma estimativa cega de generalização."
+      },
+      {"id": "layer_table", "type": "table", "tableId": "layer_summary"},
+      {
+        "id": "recurring_themes",
+        "type": "markdown",
+        "body": "## As falhas recorrentes apontam para contratos, não para memorização\n\nOs temas abaixo devem virar definições de negócio, metadados de pergunta ou invariantes de validação somente quando houver fundamento externo ao hard-73. O mesmo padrão observado no teste não é, por si só, evidência suficiente para promovê-lo a regra."
+      },
+      {"id": "theme_table", "type": "table", "tableId": "theme_summary"},
+      {
+        "id": "scope",
+        "type": "markdown",
+        "body": "## Escopo e definições\n\n**Run:** `hard73_full_agent_gpt54nano_no_examples_20260711`, variante `full_agent`, modelo `gpt-5.4-nano`, sem exemplos recuperados do ground truth.\n\n**Unidade de análise:** cada um dos 48 registros que não recebeu match estrito entre 73 perguntas hard.\n\n**Erro semântico confirmado:** violação material de uma condição explícita ou cálculo de população, métrica, filtro, denominador ou grão incorreto.\n\n**Caso indeterminado:** a resposta não pode ser julgada de forma justa porque a pergunta admite interpretações razoáveis diferentes ou o esperado acrescenta requisitos não pedidos.\n\n**Resposta adicional aceitável:** preserva a intenção e os dados centrais, mas foi rejeitada por projeção, empate ou representação."
+      },
+      {
+        "id": "methodology",
+        "type": "markdown",
+        "sourceId": "failure_audit",
+        "body": "## Metodologia\n\n1. Reconciliamos os 73 registros, os 48 IDs sem match e os tipos de erro originais.\n2. Para cada falha, comparamos pergunta, SQL esperada, SQL gerada, resultado, warnings, trace, ferramentas e tentativas de correção.\n3. Nos casos limítrofes, projetamos colunas equivalentes e verificamos empates, top-N e diferenças de população diretamente no DuckDB.\n4. Atribuímos uma categoria, camada primária, confiança, justificativa e próxima ação a cada ID.\n5. Um script independente valida a completude, a unicidade dos IDs e produz os agregados do relatório.\n\nA classificação completa dos 48 IDs está no arquivo `failure_audit.json`; o notebook e o script preservam a trilha reproduzível."
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "sourceId": "failure_audit",
+        "body": "## Limitações e robustez\n\n**Confiança:** 45 classificações são de alta confiança e 3 de confiança média. A auditoria não usa raciocínio interno do modelo; atribui causa apenas a diferenças observáveis na SQL, no resultado, no contexto ou no fluxo operacional.\n\n**Validador:** 47 das 48 falhas produziram SQL válida e 22 tinham warnings. Houve 13 tentativas de correção em 10 casos, mas erros semânticos permaneceram. Isso mostra cobertura insuficiente dos checks atuais, sem provar que todo warning deveria bloquear.\n\n**Ferramentas:** o run fez 305 chamadas de catálogo; as falhas responderam por 171. O volume e o único estouro do limite indicam custo e risco de loop, mas uma ablação controlada ainda é necessária para estimar o efeito causal do catálogo na acurácia.\n\n**Reuso do conjunto:** como as 73 perguntas foram examinadas em profundidade, melhorias escolhidas a partir desta auditoria não podem ser validadas apenas nelas."
+      },
+      {
+        "id": "recommendation_principles",
+        "type": "markdown",
+        "body": "## Princípios para melhorar sem criar viés\n\n- Regras de negócio precisam de fonte independente: documentação oficial, especialista de domínio ou especificação do produto — nunca inferência exclusiva a partir da SQL esperada.\n- Exemplos devem vir de um banco curado e disjunto, com deduplicação por pergunta normalizada, assinatura semântica e template SQL; nenhum item ou near-duplicate do teste pode entrar no prompt.\n- O comparador deve separar correção semântica de contrato de apresentação, aceitando projeções equivalentes e empates quando o desempate não foi especificado.\n- O validador só deve bloquear requisitos explícitos ou invariantes universais. Não deve inventar `LIMIT 10/20`, mínimo amostral ou janela temporal.\n- Toda mudança deve ser selecionada no conjunto de desenvolvimento e avaliada uma única vez em um conjunto novo e intocado."
+      },
+      {"id": "roadmap_table", "type": "table", "tableId": "roadmap"},
+      {
+        "id": "experiments",
+        "type": "markdown",
+        "body": "## Próximos experimentos\n\n1. Corrigir ou tornar explícitos os 27 casos indeterminados e congelar uma rubric versionada.\n2. Implementar definições independentes para UTI, data canônica, obstétrico, idade, grão CID e escala de taxa.\n3. Adicionar checks de cobertura/cardinalidade de joins, denominador, top-N por grupo e disponibilidade de dimensões.\n4. Tornar o comparador consciente de colunas extras, tolerância numérica, aliases e empates.\n5. Rodar ablações isoladas: contexto sem catálogo, registro de regras, comparador semântico e validador novo.\n6. Usar hard-73 apenas como desenvolvimento e medir o resultado final em um novo hard set intocado, reportando taxa estrita e adjudicação separadamente."
+      },
+      {
+        "id": "further_questions",
+        "type": "markdown",
+        "body": "## Perguntas que ainda precisam de evidência\n\n- Quais definições clínicas e temporais são realmente oficiais no produto?\n- Quantos falsos positivos cada novo check determinístico introduz nas queries hoje corretas?\n- O catálogo reduz ou aumenta erros quando o prompt e o orçamento de chamadas são mantidos idênticos?\n- Qual é a generalização em templates semânticos novos, não apenas em novas entidades ou datas?"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-07-11T21:00:00Z",
+    "status": "ready",
+    "datasets": {
+      "classifications": [
+        {"category": "Pergunta subespecificada", "count": 19, "share": 39.6, "interpretation": "Indeterminada; falta convenção necessária na pergunta ou em regra independente."},
+        {"category": "Erro semântico do agente", "count": 18, "share": 37.5, "interpretation": "Falha confirmada e acionável no agente, retrieval ou definição semântica."},
+        {"category": "Problema no ground truth", "count": 8, "share": 16.7, "interpretation": "Indeterminada; o esperado adiciona requisito ausente ou contradiz a pergunta."},
+        {"category": "Alternativa aceitável rejeitada", "count": 1, "share": 2.1, "interpretation": "Acerto semântico rejeitado por empate não especificado."},
+        {"category": "Apenas formato", "count": 1, "share": 2.1, "interpretation": "Dados centrais equivalentes; projeção/ordem/precisão causaram a rejeição."},
+        {"category": "Falha operacional", "count": 1, "share": 2.1, "interpretation": "Estouro do limite interno de 50 chamadas; não houve SQL final."}
+      ],
+      "layers": [
+        {"layer": "Especificação do benchmark", "count": 18, "implication": "Reescrever perguntas e rubric antes de otimizar o agente."},
+        {"layer": "Semântica de negócio", "count": 13, "implication": "Criar definições oficiais e versionadas, independentes do teste."},
+        {"layer": "Geração do agente", "count": 7, "implication": "Validar grão, denominador, top-N por grupo e cobertura temporal."},
+        {"layer": "Contexto/retrieval", "count": 7, "implication": "Melhorar schema linking e detectar dimensões ausentes ou sem cobertura."},
+        {"layer": "Comparador", "count": 2, "implication": "Aceitar projeções equivalentes e empates não especificados."},
+        {"layer": "Loop de ferramentas/provedor", "count": 1, "implication": "Aplicar orçamento, detecção de loop e parada antecipada."}
+      ],
+      "themes": [
+        {"theme": "Definição de UTI", "count": 10, "treatment": "Definição oficial independente para MARCA_UTI, VAL_UTI e custo positivo."},
+        {"theme": "Limite ou limiar oculto", "count": 9, "treatment": "Remover do esperado ou declarar na pergunta; nunca inferir do teste."},
+        {"theme": "Base temporal", "count": 7, "treatment": "Definir DT_INTER versus DT_SAIDA por métrica."},
+        {"theme": "Taxonomia etária", "count": 5, "treatment": "Usar taxonomia explicitamente solicitada ou catálogo oficial versionado."},
+        {"theme": "Grão de diagnóstico", "count": 5, "treatment": "Contratar código, descrição, grupo ou capítulo CID."},
+        {"theme": "Cobertura de join temporal", "count": 4, "treatment": "Medir cardinalidade e perda antes/depois do join; evitar dimensão desnecessária."},
+        {"theme": "Suporte mínimo", "count": 4, "treatment": "Exigir somente quando explícito ou definido pela métrica oficial."},
+        {"theme": "Top-N por grupo", "count": 3, "treatment": "Detectar partição ausente e LIMIT global que trunca grupos."},
+        {"theme": "Definição obstétrica", "count": 3, "treatment": "Escolher e documentar ESPEC=2 versus capítulo CID XV."},
+        {"theme": "Shape de saída", "count": 3, "treatment": "Separar contrato semântico de preferências de representação."}
+      ],
+      "roadmap": [
+        {"priority": 1, "workstream": "Governança do benchmark", "action": "Tratar hard-73 como dev; corrigir os 27 indeterminados e congelar rubric/versionamento.", "guardrail": "Nenhuma regra nasce apenas do SQL esperado; revisão cega por domínio.", "success": "Zero requisito oculto na amostra revisada e changelog por caso."},
+        {"priority": 2, "workstream": "Registro semântico", "action": "Documentar UTI, date_basis, obstétrico, idade, CID, taxa e denominadores.", "guardrail": "Fonte oficial externa ao teste e testes unitários por definição.", "success": "Mesma regra aplicada a perguntas novas e casos sintéticos."},
+        {"priority": 3, "workstream": "Comparador", "action": "Adicionar projeção semântica, tolerância, aliases e avaliação de empates.", "guardrail": "Manter métrica estrita separada; não aceitar mudança de coorte ou grão.", "success": "GT085/GT115 aceitos sem transformar GT118 em falso positivo."},
+        {"priority": 4, "workstream": "Validador", "action": "Checar joins, denominadores, top-N por grupo, cobertura e dimensões obrigatórias.", "guardrail": "Bloquear apenas requisito explícito ou invariante documentado.", "success": "Maior recall nos 18 erros com falso-positivo medido nas 25 corretas."},
+        {"priority": 5, "workstream": "Retrieval e exemplos", "action": "Banco curado disjunto e retrieval com deduplicação semântica; hard-73 proibido como fonte.", "guardrail": "Split por template, proveniência e detector de near-duplicate.", "success": "Nenhuma sobreposição lexical/semântica acima do limiar auditado."},
+        {"priority": 6, "workstream": "Controle de ferramentas", "action": "Gating de catálogo, orçamento por query, detecção de loop e early stop.", "guardrail": "Ablar uma variável por vez com prompts e seed fixos.", "success": "Sem provider_error e menos chamadas sem perda estatisticamente relevante."},
+        {"priority": 7, "workstream": "Avaliação final", "action": "Criar novo hard set intocado e executar uma avaliação final pré-registrada.", "guardrail": "Sem inspeção ou tuning após abrir o resultado final.", "success": "Ganho reproduzido em templates semânticos novos, com IC e erros por categoria."}
+      ]
+    }
+  },
+  "sources": [
+    {"id": "failure_audit", "label": "Adjudicação manual reproduzível das 48 falhas", "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/audit/failure_audit.json"},
+    {"id": "audit_script", "label": "Script de reconciliação e agregação", "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/audit/audit_failures.py"},
+    {"id": "audit_notebook", "label": "Notebook reproduzível da auditoria", "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/audit/hard73_failure_audit.ipynb"},
+    {"id": "run_results", "label": "Resultados originais do run hard-73", "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_no_examples_20260711/variants/full_agent/results.json"},
+    {"id": "validator_code", "label": "Validador SQL", "path": "src/health_system_chatbot/sql_validator.py"},
+    {"id": "evaluation_code", "label": "Avaliador e fluxo de autocorreção", "path": "evaluation/chatbot/evaluate_extraction_accuracy.py"}
+  ]
+}

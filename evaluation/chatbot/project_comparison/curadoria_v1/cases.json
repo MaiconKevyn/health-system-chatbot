@@ -1,0 +1,272 @@
+[
+  {
+    "id": "C01",
+    "source_id": "GT034",
+    "stratum": "medidas",
+    "question": "Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",
+    "sql": "SELECT COUNT(*) FROM internacao i WHERE i.DT_INTER >= DATE '2018-10-01' AND i.DT_INTER < DATE '2018-11-01' AND DIAS_PERM>30",
+    "rubric": "Contagem exata."
+  },
+  {
+    "id": "C02",
+    "source_id": "GT152",
+    "stratum": "medidas",
+    "question": "Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.",
+    "sql": "SELECT ROUND(MEDIAN(VAL_TOT),2) FROM internacao i WHERE i.DT_INTER >= DATE '2022-03-01' AND i.DT_INTER < DATE '2022-04-01'",
+    "rubric": "Mediana em reais com centavos.",
+    "decimals": 2
+  },
+  {
+    "id": "C03",
+    "source_id": "GT015",
+    "stratum": "medidas",
+    "question": "Qual é a descrição do código A16 na tabela CID do banco?",
+    "sql": "SELECT DESCRICAO FROM cid WHERE CID='A16'",
+    "rubric": "Significado da descrição local, incluindo localização respiratória e ausência de confirmação bacteriológica ou histológica. Aceitar paráfrase."
+  },
+  {
+    "id": "C04",
+    "source_id": "GT032",
+    "stratum": "medidas",
+    "question": "Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?",
+    "sql": "SELECT COUNT(DISTINCT CO_MUNICIPIO_6D) FROM municipios WHERE SG_UF='ES'",
+    "rubric": "Quantidade de municípios cadastrados."
+  },
+  {
+    "id": "C05",
+    "source_id": "GT105",
+    "stratum": "medidas",
+    "question": "Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",
+    "sql": "SELECT COUNT(*) FROM internacao i WHERE i.DT_INTER >= DATE '2020-09-01' AND i.DT_INTER < DATE '2020-10-01' AND isodow(DT_INTER) IN (6,7)",
+    "rubric": "Total de entradas no fim de semana."
+  },
+  {
+    "id": "C06",
+    "source_id": "GT164",
+    "stratum": "medidas",
+    "question": "Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?",
+    "sql": "SELECT SUM(s.QT_POPULACAO) FROM socioeconomico s JOIN municipios m USING(CO_MUNICIPIO_6D) WHERE s.NU_ANO=2019 AND m.SG_UF='CE'",
+    "rubric": "Total estadual do indicador no ano, em habitantes."
+  },
+  {
+    "id": "C07",
+    "source_id": "GT026",
+    "stratum": "medidas",
+    "question": "Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?",
+    "sql": "SELECT ROUND(AVG(VAL_TOT),2) FROM internacao i WHERE i.DT_INTER >= DATE '2017-06-01' AND i.DT_INTER < DATE '2017-07-01' AND MORTE",
+    "rubric": "Média em reais com centavos, subconjunto com óbito.",
+    "decimals": 2
+  },
+  {
+    "id": "C08",
+    "source_id": "GT163",
+    "stratum": "medidas",
+    "question": "Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?",
+    "sql": "SELECT COUNT(*) FROM socioeconomico WHERE NU_ANO=2022 AND QT_POPULACAO IS NOT NULL",
+    "rubric": "Zero registros ou afirmação explícita de inexistência de registros em 2022. Não confundir com população igual a zero."
+  },
+  {
+    "id": "C09",
+    "source_id": "CID003",
+    "stratum": "clinica_geografia",
+    "question": "Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?",
+    "sql": "SELECT COUNT(*) FROM internacao i WHERE i.DT_INTER >= DATE '2017-02-01' AND i.DT_INTER < DATE '2017-03-01' AND (DIAG_PRINC LIKE 'J45%' OR DIAG_PRINC LIKE 'J46%')",
+    "rubric": "Contagem exata para as duas categorias."
+  },
+  {
+    "id": "C10",
+    "source_id": "GT041",
+    "stratum": "clinica_geografia",
+    "question": "Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",
+    "sql": "SELECT COUNT(DISTINCT CNES) FROM internacao i WHERE i.DT_INTER >= DATE '2019-07-01' AND i.DT_INTER < DATE '2019-08-01' AND MARCA_UTI<>0",
+    "rubric": "Quantidade de estabelecimentos. Uso de UTI por marca registrada."
+  },
+  {
+    "id": "C11",
+    "source_id": "M08",
+    "stratum": "clinica_geografia",
+    "question": "Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?",
+    "sql": "SELECT COUNT(*) FROM internacao i JOIN hospital h ON h.CNES=i.CNES JOIN municipios m ON m.CO_MUNICIPIO_6D=h.MUNIC_MOV JOIN municipios r ON r.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE year(i.DT_INTER)=2021 AND m.NO_MUNICIPIO='Porto Alegre' AND r.NO_MUNICIPIO='Canoas' AND m.SG_UF='RS' AND r.SG_UF='RS'",
+    "rubric": "Contagem no sentido Canoas → Porto Alegre."
+  },
+  {
+    "id": "C12",
+    "source_id": "M05",
+    "stratum": "clinica_geografia",
+    "question": "Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?",
+    "sql": "SELECT COUNT(*) FROM internacao i WHERE i.DT_INTER >= DATE '2023-04-01' AND i.DT_INTER < DATE '2023-05-01' AND EXISTS(SELECT 1 FROM internacao_procedimento p WHERE p.N_AIH=i.N_AIH AND p.PROC_REA='0411010034')",
+    "rubric": "Número de AIHs distintas com o código exato."
+  },
+  {
+    "id": "C13",
+    "source_id": "GT049",
+    "stratum": "clinica_geografia",
+    "question": "Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.",
+    "sql": "SELECT ROUND(100.0*COUNT(*) FILTER(WHERE MORTE)/COUNT(*),2) FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='GO' AND year(i.DT_INTER)=2018",
+    "rubric": "Taxa percentual com duas casas e denominador de internações de residentes.",
+    "decimals": 2
+  },
+  {
+    "id": "C14",
+    "source_id": "GT022",
+    "stratum": "clinica_geografia",
+    "question": "Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",
+    "sql": "SELECT COUNT(DISTINCT i.CNES) FROM internacao i JOIN hospital h ON h.CNES=i.CNES JOIN municipios m ON m.CO_MUNICIPIO_6D=h.MUNIC_MOV WHERE m.SG_UF='MG' AND i.DT_INTER >= DATE '2020-01-01' AND i.DT_INTER < DATE '2020-02-01' AND i.MORTE",
+    "rubric": "Contagem de estabelecimentos mineiros."
+  },
+  {
+    "id": "C15",
+    "source_id": "GT142",
+    "stratum": "clinica_geografia",
+    "question": "Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?",
+    "sql": "SELECT COUNT(*) FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='SE' AND year(i.DT_INTER)=2020 AND i.DIAG_PRINC LIKE 'I10%'",
+    "rubric": "Contagem exata para diagnóstico principal e residência."
+  },
+  {
+    "id": "C16",
+    "source_id": "GT111",
+    "stratum": "clinica_geografia",
+    "question": "Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",
+    "sql": "SELECT COUNT(*) FROM (SELECT CNES FROM internacao i WHERE i.DT_INTER >= DATE '2021-05-01' AND i.DT_INTER < DATE '2021-06-01' AND CNES IS NOT NULL GROUP BY CNES HAVING COUNT(*) FILTER(WHERE MORTE)=0) q",
+    "rubric": "Quantidade de estabelecimentos ativos sem óbito no recorte."
+  },
+  {
+    "id": "C17",
+    "source_id": "GT180",
+    "stratum": "distribuicoes",
+    "question": "Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.",
+    "sql": "SELECT month(DT_INTER), COUNT(*) FROM internacao i WHERE i.DT_INTER >= DATE '2016-01-01' AND i.DT_INTER < DATE '2016-04-01' GROUP BY 1 ORDER BY 1",
+    "rubric": "Os três pares mês–contagem. Aceitar nome ou número do mês."
+  },
+  {
+    "id": "C18",
+    "source_id": "GT075",
+    "stratum": "distribuicoes",
+    "question": "Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.",
+    "sql": "SELECT m.SG_UF,COUNT(*) FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE year(DT_INTER)=2018 AND MORTE AND m.SG_UF IN ('AL','PE') GROUP BY 1 ORDER BY 1",
+    "rubric": "Dois pares UF–óbitos. Aceitar nomes por extenso."
+  },
+  {
+    "id": "C19",
+    "source_id": "M13",
+    "stratum": "distribuicoes",
+    "question": "Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.",
+    "sql": "SELECT isodow(DT_INTER) AS dia_iso,COUNT(*) AS n FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='PA' AND year(DT_INTER)=2019 GROUP BY 1 ORDER BY n DESC,1 LIMIT 1",
+    "rubric": "Nome do dia e sua contagem. Codificação SQL de referência ISO 1=segunda. Aceitar nome equivalente para o texto."
+  },
+  {
+    "id": "C20",
+    "source_id": "GT069",
+    "stratum": "distribuicoes",
+    "question": "Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.",
+    "sql": "SELECT DIAG_PRINC,COUNT(*) AS n FROM internacao i WHERE i.DT_INTER >= DATE '2020-11-01' AND i.DT_INTER < DATE '2020-12-01' AND DIAG_PRINC IS NOT NULL GROUP BY 1 ORDER BY n DESC,1 LIMIT 3",
+    "rubric": "Três CIDs e contagens em ordem. Ponto no CID é equivalente no texto.",
+    "ordered": true
+  },
+  {
+    "id": "C21",
+    "source_id": "GT021",
+    "stratum": "distribuicoes",
+    "question": "Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.",
+    "sql": "SELECT p.PROC_REA,COUNT(*) AS n FROM internacao i JOIN internacao_procedimento p USING(N_AIH) WHERE i.DT_INTER >= DATE '2018-05-01' AND i.DT_INTER < DATE '2018-06-01' AND p.PROC_REA IS NOT NULL GROUP BY 1 ORDER BY n DESC,1 LIMIT 3",
+    "rubric": "Três códigos SIGTAP e respectivas ocorrências em ordem.",
+    "ordered": true
+  },
+  {
+    "id": "C22",
+    "source_id": "M07",
+    "stratum": "distribuicoes",
+    "question": "Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.",
+    "sql": "SELECT i.CNES,COUNT(*) AS n FROM internacao i JOIN hospital h ON h.CNES=i.CNES JOIN municipios m ON m.CO_MUNICIPIO_6D=h.MUNIC_MOV WHERE m.SG_UF='RS' AND m.NO_MUNICIPIO='Porto Alegre' AND year(i.DT_INTER)=2020 GROUP BY 1 ORDER BY n DESC,1 LIMIT 3",
+    "rubric": "Três CNES e respectivos volumes em ordem.",
+    "ordered": true
+  },
+  {
+    "id": "C23",
+    "source_id": "CID015",
+    "stratum": "distribuicoes",
+    "question": "Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.",
+    "sql": "SELECT year(DT_INTER),COUNT(*),ROUND(AVG(DIAS_PERM),2) FROM internacao i WHERE year(DT_INTER) BETWEEN 2015 AND 2017 AND DIAG_PRINC LIKE 'K80%' GROUP BY 1 ORDER BY 1",
+    "rubric": "Para cada um dos três anos, contagem e média em dias com duas casas.",
+    "decimals": 2
+  },
+  {
+    "id": "C24",
+    "source_id": "GT090",
+    "stratum": "distribuicoes",
+    "question": "Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.",
+    "sql": "SELECT DIAG_PRINC,ROUND(AVG(DIAS_PERM),2) FROM internacao i WHERE year(DT_INTER)=2021 AND DIAG_PRINC IS NOT NULL GROUP BY 1 HAVING COUNT(*)>5000 ORDER BY AVG(DIAS_PERM) DESC,DIAG_PRINC LIMIT 3",
+    "rubric": "Ranking de três CIDs e médias, ordenado pela média antes do arredondamento.",
+    "decimals": 2,
+    "ordered": true
+  },
+  {
+    "id": "C25",
+    "source_id": "GT112",
+    "stratum": "comparacoes",
+    "question": "Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.",
+    "sql": "WITH base AS (SELECT year(DT_INTER) AS ano,COUNT(*) AS n FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='AM' AND year(DT_INTER) IN(2018,2019) GROUP BY 1) SELECT ROUND(100.0*(MAX(n) FILTER(WHERE ano=2019)-MAX(n) FILTER(WHERE ano=2018))/MAX(n) FILTER(WHERE ano=2018),2) FROM base",
+    "rubric": "Direção e variação relativa com duas casas. Pontos percentuais não equivalem.",
+    "decimals": 2
+  },
+  {
+    "id": "C26",
+    "source_id": "GT222",
+    "stratum": "comparacoes",
+    "question": "Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.",
+    "sql": "WITH n AS (SELECT m.CO_MUNICIPIO_6D AS cod,COUNT(*) AS qtd FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='SC' AND m.NO_MUNICIPIO='Florianópolis' AND year(i.DT_INTER)=2019 GROUP BY 1) SELECT ROUND(1000.0*qtd/QT_POPULACAO,2) FROM n JOIN socioeconomico s ON s.CO_MUNICIPIO_6D=n.cod WHERE s.NU_ANO=2019",
+    "rubric": "Taxa por mil habitantes com duas casas usando internações de residentes.",
+    "decimals": 2
+  },
+  {
+    "id": "C27",
+    "source_id": "GT124",
+    "stratum": "comparacoes",
+    "question": "Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.",
+    "sql": "SELECT ROUND(AVG(n),2) FROM (SELECT year(DT_INTER),COUNT(*) AS n FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='PR' AND year(DT_INTER) BETWEEN 2017 AND 2019 GROUP BY 1) q",
+    "rubric": "Uma média dos três totais anuais, com duas casas.",
+    "decimals": 2
+  },
+  {
+    "id": "C28",
+    "source_id": "GT093",
+    "stratum": "comparacoes",
+    "question": "Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?",
+    "sql": "SELECT year(i.DT_INTER),COUNT(*) AS n FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='PB' AND i.MORTE AND year(i.DT_INTER) BETWEEN 2016 AND 2019 GROUP BY 1 ORDER BY n DESC,1 LIMIT 1",
+    "rubric": "Ano vencedor e contagem correspondente."
+  },
+  {
+    "id": "C29",
+    "source_id": "GT120",
+    "stratum": "comparacoes",
+    "question": "No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.",
+    "sql": "SELECT ROUND(100.0*COUNT(*) FILTER(WHERE DIAG_PRINC LIKE 'J%')/COUNT(*),2) FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='RS' AND i.DT_INTER >= DATE '2019-01-01' AND i.DT_INTER < DATE '2019-04-01'",
+    "rubric": "Percentual respiratório sobre todos os diagnósticos no recorte.",
+    "decimals": 2
+  },
+  {
+    "id": "C30",
+    "source_id": "CID012",
+    "stratum": "comparacoes",
+    "question": "Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.",
+    "sql": "SELECT LEFT(DIAG_PRINC,3) AS cid,COUNT(*) AS n FROM internacao i WHERE LEFT(DIAG_PRINC,3) IN ('C50','C61') AND year(DT_INTER)=2022 GROUP BY 1 ORDER BY n DESC",
+    "rubric": "Ambas as contagens vinculadas ao sítio correto e conclusão sobre o mais frequente."
+  },
+  {
+    "id": "C31",
+    "source_id": "GT118",
+    "stratum": "comparacoes",
+    "question": "Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",
+    "sql": "SELECT COUNT(*) FROM (SELECT CNES FROM internacao i WHERE year(DT_INTER)=2020 AND CNES IS NOT NULL GROUP BY CNES HAVING COUNT(*)>500 AND COUNT(*) FILTER(WHERE MARCA_UTI<>0)=0) q",
+    "rubric": "Total de hospitais acima do corte, com zero uso de UTI."
+  },
+  {
+    "id": "C32",
+    "source_id": "GT216",
+    "stratum": "comparacoes",
+    "question": "Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.",
+    "sql": "WITH taxas AS (SELECT year(DT_INTER) ano,100.0*COUNT(*) FILTER(WHERE MORTE)/COUNT(*) taxa FROM internacao i JOIN municipios m ON m.CO_MUNICIPIO_6D=i.MUNIC_RES WHERE m.SG_UF='RS' AND year(DT_INTER) IN(2019,2020) GROUP BY 1) SELECT ROUND(MAX(taxa) FILTER(WHERE ano=2020)-MAX(taxa) FILTER(WHERE ano=2019),2) FROM taxas",
+    "rubric": "Direção e diferença absoluta em pontos percentuais, com duas casas.",
+    "decimals": 2
+  }
+]

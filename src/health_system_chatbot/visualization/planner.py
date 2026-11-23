@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import re
 from typing import TYPE_CHECKING, Any
 
+from ..question_contract import mentions_cephalic_delivery
 from .intent import normalize_visual_text
 from .schema import (
     ChartPlan,
@@ -20,6 +22,7 @@ if TYPE_CHECKING:
 
 MAX_BAR_CATEGORIES = 30
 MAX_PIE_CATEGORIES = 8
+_QUALIFIED_SOURCE_COLUMN = re.compile(r"^(?:[A-Za-z_]\w*\.){1,2}[A-Za-z_]\w*$")
 
 
 def build_chart_plan(
@@ -37,7 +40,7 @@ def build_chart_plan(
         allow_llm
         and config is not None
         and config.agent_framework == "pydantic_ai"
-        and config.has_openai_key
+        and config.llm_provider_ready
     ):
         try:
             from health_system_chatbot.agent_deps import ChartDeps
@@ -70,8 +73,11 @@ def _chart_plan_prompt(
         if context
         else ""
     )
+    rules = "\n".join(context.semantic_rule_context) if context else ""
     return (
         "Planeje um grafico para a pergunta usando um ChartPlan estruturado.\n"
+        "Em metric, descreva o indicador em português e inclua o subtipo solicitado. "
+        "Em y_column, informe o nome da coluna numérica do resultado.\n"
         "Nao gere SQL. Escolha chart_type='auto' se o tipo depender melhor do shape final.\n\n"
         f"Pergunta original: {question}\n"
         f"Pergunta analitica limpa: {intent.analysis_question}\n"
@@ -79,6 +85,7 @@ def _chart_plan_prompt(
         f"Tabelas recuperadas: {tables}\n"
         f"Colunas recuperadas: {columns}\n"
         f"Metricas de negocio: {metrics}\n"
+        f"Regras semanticas da pergunta: {rules}\n"
     )
 
 
@@ -101,6 +108,15 @@ def _normalize_chart_plan(
         plan.y_column = fallback.y_column
     if not plan.expected_result_shape or plan.expected_result_shape == "unknown":
         plan.expected_result_shape = fallback.expected_result_shape
+    # required_columns name result columns. The model sometimes lists the
+    # source/filter columns instead (municipios.SG_UF, PROC_REA...), and the
+    # chart-contract correction then adds them to SELECT/GROUP BY, which breaks
+    # the aggregation the chart needs.
+    plan.required_columns = [
+        column
+        for column in plan.required_columns
+        if column and not _QUALIFIED_SOURCE_COLUMN.match(column.strip())
+    ]
     if not plan.required_columns:
         plan.required_columns = _required_columns(
             plan.x_dimension,
@@ -155,12 +171,16 @@ def _infer_metric(text: str) -> tuple[str, str]:
         return "taxa", "taxa"
     if any(token in text for token in ("media", "média", "permanencia", "permanência")):
         return "media", "media"
+    if mentions_cephalic_delivery(text):
+        return "Partos espontâneos cefálicos", "internacoes"
     return "internacoes", "internacoes"
 
 
 def _infer_x_dimension(text: str) -> str | None:
+    if re.search(r"\b(?:anos?|anual|anuais)\b", text):
+        return "ano"
     dimension_terms = (
-        ("ano", ("ano", "anos", "evolucao", "evolução", "temporal", "serie", "série")),
+        ("ano", ("evolucao", "evolução", "temporal", "serie", "série")),
         ("sexo", ("sexo", "homens", "mulheres", "masculino", "feminino")),
         ("raca_cor", ("raca", "raça", "cor")),
         ("municipio", ("municipio", "município", "cidade", "cidades")),
@@ -299,7 +319,7 @@ def _spec_from_plan(chart_input: ChartPlanningInput) -> ChartSpec | None:
         return ChartSpec(
             chartable=True,
             chart_type="kpi",
-            title=_title(y),
+            title=_title(chart_input, y),
             y=y,
             encoding={"y_type": "quantitative"},
             data=chart_input.rows[:1],
@@ -334,7 +354,7 @@ def _spec_from_shape(chart_input: ChartPlanningInput) -> ChartSpec:
         return ChartSpec(
             chartable=True,
             chart_type="kpi",
-            title=_title(numeric[0]),
+            title=_title(chart_input, numeric[0]),
             y=numeric[0],
             encoding={"y_type": "quantitative"},
             data=chart_input.rows[:1],
@@ -431,7 +451,7 @@ def _build_xy_spec(
     return ChartSpec(
         chartable=True,
         chart_type=render_type,  # type: ignore[arg-type]
-        title=_title(y, x),
+        title=_title(chart_input, y, x),
         x=x,
         y=y,
         series=series,
@@ -493,10 +513,18 @@ def _base_warnings(chart_input: ChartPlanningInput) -> list[ChartWarning]:
     return warnings
 
 
-def _title(y: str, x: str | None = None) -> str:
+def _title(chart_input: ChartPlanningInput, y: str, x: str | None = None) -> str:
+    label = _humanize(y)
+    plan = chart_input.chart_plan
+    if plan and plan.metric and plan.requested:
+        lookup = {column.lower(): column for column in chart_input.columns}
+        if _resolve_column(plan.y_column, lookup) == y:
+            label = plan.metric.strip().replace("_", " ") or label
     if x:
-        return f"{_humanize(y)} por {_humanize(x)}"
-    return _humanize(y)
+        dimension = f" por {_humanize(x)}"
+        if not label.casefold().endswith(dimension):
+            label += dimension
+    return label
 
 
 def _humanize(value: str) -> str:

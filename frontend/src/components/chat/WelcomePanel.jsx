@@ -10,7 +10,7 @@ const STEPS = [
   },
   {
     title: "Validacao SQL",
-    description: "O agente Pydantic AI monta e valida a consulta antes de executar.",
+    description: "O agente monta e valida a consulta antes de executar.",
     icon: ShieldCheck
   },
   {

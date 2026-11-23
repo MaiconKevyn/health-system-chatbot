@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import subprocess
@@ -57,6 +58,52 @@ def git_sha(project_root: Path) -> str | None:
         return None
 
 
+def file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def benchmark_contract_sha256(dataset_path: Path, contract_path: Path) -> str:
+    digest = hashlib.sha256(dataset_path.read_bytes())
+    if contract_path.exists():
+        digest.update(b"\0")
+        digest.update(contract_path.read_bytes())
+    return digest.hexdigest()
+
+
+def dirty_diff_hash(project_root: Path) -> str | None:
+    """Hash relevant local source state without including generated eval results."""
+    try:
+        diff = subprocess.check_output(
+            [
+                "git",
+                "diff",
+                "--binary",
+                "HEAD",
+                "--",
+                ".",
+                ":(exclude)evaluation/chatbot/results",
+            ],
+            cwd=project_root,
+            stderr=subprocess.DEVNULL,
+        )
+        untracked = subprocess.check_output(
+            [
+                "git",
+                "ls-files",
+                "--others",
+                "--exclude-standard",
+                "--",
+                ".",
+                ":(exclude)evaluation/chatbot/results",
+            ],
+            cwd=project_root,
+            stderr=subprocess.DEVNULL,
+        )
+        return hashlib.sha256(diff + b"\0" + untracked).hexdigest()
+    except Exception:
+        return None
+
+
 def load_suite(project_root: Path, suite_name: str, suite_file: str) -> dict[str, Any]:
     path = project_root / suite_file
     if not path.exists():
@@ -106,6 +153,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--fail-fast", action="store_true")
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument(
+        "--exclude-example-ids",
+        default=None,
+        help="Comma-separated curated example IDs to omit (supports leave-one-example-out runs).",
+    )
     return parser
 
 
@@ -135,7 +187,15 @@ def main(argv: list[str] | None = None) -> int:
         "run_id": run_id,
         "created_at": datetime.now(UTC).isoformat(),
         "git_sha": git_sha(config.project_root),
+        "dirty_diff_hash": dirty_diff_hash(config.project_root),
         "dataset": str(dataset_path),
+        "dataset_version": file_sha256(dataset_path),
+        "benchmark_contract_version": benchmark_contract_sha256(
+            dataset_path,
+            config.project_root / "evaluation/ground_truth/benchmark_contracts.json",
+        ),
+        "example_bank_version": stage1_context.example_bank_version,
+        "semantic_rules_version": stage1_context.semantic_rules_version,
         "suite": args.suite,
         "variants": variant_names,
         "ids": [item.id for item in items],
@@ -146,6 +206,13 @@ def main(argv: list[str] | None = None) -> int:
         "timeout_seconds": args.timeout_seconds,
         "numeric_tolerance": args.numeric_tolerance,
         "cache_openai": args.cache_openai,
+        "query_examples_enabled": bool(stage1_context.example_bank),
+        "query_examples_enabled_effective": None,
+        "excluded_example_ids": sorted(
+            value.strip()
+            for value in (args.exclude_example_ids or "").split(",")
+            if value.strip()
+        ),
     }
     summary = run_ablation(
         config=config,
@@ -161,6 +228,7 @@ def main(argv: list[str] | None = None) -> int:
             numeric_tolerance=args.numeric_tolerance,
             cache_openai=args.cache_openai,
             fail_fast=args.fail_fast,
+            excluded_example_ids=tuple(run_config["excluded_example_ids"]),
         ),
         progress=None if args.quiet else print,
     )

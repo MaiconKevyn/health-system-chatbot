@@ -1,0 +1,192 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Por que o example bank v2 ficou em 32,9% no hard-73",
+    "description": "Auditoria técnica caso a caso das 49 falhas do full_agent com gpt-5.4-nano.",
+    "generatedAt": "2026-07-11T22:00:00Z",
+    "tables": [
+      {
+        "id": "classification",
+        "title": "Adjudicação das 49 falhas",
+        "subtitle": "Categorias mutuamente exclusivas após inspeção de pergunta, SQL, resultado, trace e exemplos.",
+        "dataset": "classifications",
+        "sourceId": "failure_audit",
+        "defaultSort": {"field": "count", "direction": "desc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "category", "label": "Categoria", "type": "text"},
+          {"field": "count", "label": "Casos", "format": "number"},
+          {"field": "share", "label": "% das falhas", "format": "number", "unit": "%"},
+          {"field": "meaning", "label": "Leitura", "type": "text"}
+        ]
+      },
+      {
+        "id": "transitions",
+        "title": "Mudanças versus o run sem exemplos",
+        "subtitle": "Seis ganhos e sete regressões; o comparativo não é uma ablação causal limpa.",
+        "dataset": "transitions",
+        "sourceId": "run_results",
+        "defaultSort": {"field": "direction", "direction": "asc"},
+        "density": "dense",
+        "layout": "full",
+        "columns": [
+          {"field": "id", "label": "Caso", "type": "text"},
+          {"field": "direction", "label": "Mudança", "type": "text"},
+          {"field": "explanation", "label": "Explicação", "type": "text"}
+        ]
+      },
+      {
+        "id": "example_risks",
+        "title": "Riscos encontrados no banco de exemplos",
+        "subtitle": "Regras úteis, mas com escopo e retrieval insuficientemente controlados.",
+        "dataset": "example_risks",
+        "sourceId": "example_bank",
+        "defaultSort": {"field": "priority", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "priority", "label": "Prioridade", "format": "number"},
+          {"field": "example", "label": "Exemplo", "type": "text"},
+          {"field": "risk", "label": "Risco", "type": "text"},
+          {"field": "fix", "label": "Correção", "type": "text"}
+        ]
+      },
+      {
+        "id": "roadmap",
+        "title": "Próximas mudanças recomendadas",
+        "subtitle": "Ordem proposta para ganhar generalização sem otimizar contra o hard-73.",
+        "dataset": "roadmap",
+        "sourceId": "failure_audit",
+        "defaultSort": {"field": "priority", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "priority", "label": "Ordem", "format": "number"},
+          {"field": "workstream", "label": "Frente", "type": "text"},
+          {"field": "action", "label": "Ação", "type": "text"},
+          {"field": "guardrail", "label": "Proteção anti-overfit", "type": "text"}
+        ]
+      }
+    ],
+    "sources": [
+      {"id":"failure_audit","label":"Auditoria individual das 49 falhas","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/audit/failure_audit.json"},
+      {"id":"run_results","label":"Resultados e traces do run examplebank v2","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/variants/full_agent/results.json"},
+      {"id":"example_bank","label":"Banco curado de exemplos","path":"docs/query_examples_bank.jsonl"},
+      {"id":"retrieval_code","label":"Implementação do retrieval de exemplos","path":"src/health_system_chatbot/context_retrieval.py"},
+      {"id":"audit_script","label":"Script de reconciliação","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/audit/audit_failures.py"},
+      {"id":"audit_notebook","label":"Notebook da auditoria","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/audit/hard73_examplebank_v2_audit.ipynb"}
+    ],
+    "blocks": [
+      {"id":"title","type":"markdown","body":"# Por que o example bank v2 ficou em 32,9% no hard-73"},
+      {
+        "id":"technical_summary",
+        "type":"markdown",
+        "sourceId":"failure_audit",
+        "body":"## Resumo técnico\n\n**O banco novo removeu o vazamento exato, mas não melhorou a taxa estrita:** foram 24/73 matches (32,9%), contra 25/73 no run sem exemplos. Houve seis novos acertos e sete regressões.\n\n**As 49 falhas não são 49 erros do agente.** A auditoria encontrou 16 erros semânticos confirmados, 25 casos não determináveis por perguntas/ground truths subespecificados, sete respostas centrais aceitáveis rejeitadas por formato/comparador e uma falha operacional.\n\n**O problema do example bank é escopo e retrieval.** Algumas notas transformam convenções locais em universais — três faixas etárias, MARCA_UTI como toda definição de UTI e LIMIT implícito — e o recuperador usa apenas sobreposição lexical. Uma regra correta pode existir e não ser recuperada, como EX004 para indígena em GT131 e EX007 para UTI em GT221."
+      },
+      {
+        "id":"classification_intro",
+        "type":"markdown",
+        "body":"## A acurácia estrita subestima a qualidade e superestima o número de erros\n\nA classificação foi conservadora: ambiguidade não virou acerto. Ela foi marcada como indeterminada, pois otimizar o agente para reproduzir uma convenção escondida criaria overfit."
+      },
+      {"id":"classification_table","type":"table","tableId":"classification"},
+      {
+        "id":"diagnostic_metric",
+        "type":"markdown",
+        "sourceId":"failure_audit",
+        "body":"## Entre casos adjudicáveis, 31 de 47 respostas são aceitáveis\n\nExcluindo os 25 casos em que o benchmark não determina uma única resposta e a falha operacional, restam 47 casos: 24 matches estritos, sete respostas aceitáveis rejeitadas e 16 erros semânticos. A taxa diagnóstica é 66,0%, mas não substitui a taxa oficial porque resulta de adjudicação posterior ao run."
+      },
+      {
+        "id":"transition_intro",
+        "type":"markdown",
+        "body":"## O saldo do banco é neutro, com sinais mistos\n\nOs ganhos mostram que exemplos ajudam formato, data e padrões top-N. As regressões mostram que o modelo copia estrutura mesmo quando a relação semântica é fraca. Como o código estava com mudanças locais e `run_config` registra incorretamente exemplos desativados, a comparação não permite atribuir causalidade exclusivamente ao banco."
+      },
+      {"id":"transition_table","type":"table","tableId":"transitions"},
+      {
+        "id":"leakage",
+        "type":"markdown",
+        "sourceId":"example_bank",
+        "body":"## O vazamento exato foi removido, mas há risco de template leakage\n\nOs 13 exemplos têm IDs EX e são carregados de `docs/query_examples_bank.jsonl`; o contexto de avaliação recebe `ground_truth=[]`. Os testes de isolamento passaram e não há pergunta ou SQL exatamente igual às 73 queries. Porém EX012 e GT215 têm o mesmo template semântico de crescimento em três anos, mudando apenas entidade e janela. Para uma estimativa realmente cega, exemplos e teste precisam ser separados por template, não apenas por ID ou texto exato."
+      },
+      {"id":"risk_table","type":"table","tableId":"example_risks"},
+      {
+        "id":"system_findings",
+        "type":"markdown",
+        "sourceId":"failure_audit",
+        "body":"## Cinco mecanismos explicam a maior parte da degradação\n\n1. **Regras universais sem domínio:** EX001, EX007 e EX012 ensinam convenções que só valem para algumas métricas.\n2. **Retrieval lexical:** EX001 aparece em 52/73 queries; EX004 aparece em apenas cinco e não chega a GT131.\n3. **Ausência de validação semântica:** joins many-to-many, percentil no grão errado, denominadores errados e filtros que incluem 'Não utilizou UTI' passam como SQL válida.\n4. **Comparador ainda incompleto:** sete falhas são projeções, aliases, wide/long, código+descrição ou empate.\n5. **Benchmark inconsistente:** 25 falhas exigem convenções que não estão na pergunta."
+      },
+      {
+        "id":"scope_method",
+        "type":"markdown",
+        "body":"## Escopo e método\n\nAuditamos os 49 registros sem match do run `hard73_full_agent_gpt54nano_examplebank_v2_20260711`. Para cada ID, comparamos pergunta, SQL esperada, SQL gerada, colunas, cardinalidade, valores, warnings, erro operacional e os quatro exemplos recuperados. O relatório também compara transições com o run sem exemplos e verifica sobreposição exata entre o banco curado e o hard-73.\n\nA justificativa e a ação recomendada para cada um dos 49 IDs estão preservadas no arquivo de auditoria individual."
+      },
+      {
+        "id":"limitations",
+        "type":"markdown",
+        "sourceId":"run_results",
+        "body":"## Limitações\n\nO comparativo anterior/posterior não é uma ablação causal: ambos os run configs apontam para o mesmo commit, mas havia mudanças locais não commitadas e o comparador aceita containment/aliases em parte dos novos acertos. O campo `query_examples_enabled` está falso apesar de 73/73 traces conterem quatro exemplos, portanto não deve ser usado como fonte de verdade.\n\nNão inferimos intenção interna do modelo. Causalidade do example bank só é atribuída quando há correspondência estrutural direta; nos demais casos reportamos associação."
+      },
+      {"id":"roadmap_table","type":"table","tableId":"roadmap"},
+      {
+        "id":"further_questions",
+        "type":"markdown",
+        "body":"## Próximas perguntas experimentais\n\n- O ganho persiste com um split por template e exemplos nunca vistos semanticamente?\n- Um retriever híbrido por intenção, tabelas e regras recupera EX004/EX007 sem aumentar exemplos irrelevantes?\n- Checks determinísticos capturam os 16 erros semânticos sem rejeitar os 24 acertos?\n- Qual é o efeito causal de cada exemplo em leave-one-example-out, mantendo código, seed e comparador congelados?"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-07-11T22:00:00Z",
+    "status": "ready",
+    "datasets": {
+      "classifications": [
+        {"category":"Benchmark subespecificado","count":16,"share":32.7,"meaning":"Mais de uma interpretação razoável; não usar para tuning sem corrigir a especificação."},
+        {"category":"Erro semântico do agente","count":16,"share":32.7,"meaning":"Falha confirmada em coorte, grão, métrica, join ou geração."},
+        {"category":"Problema no ground truth","count":9,"share":18.4,"meaning":"Limite, limiar ou partição ausente da pergunta."},
+        {"category":"Formato/comparador","count":7,"share":14.3,"meaning":"Resposta central aceitável rejeitada por representação."},
+        {"category":"Falha operacional","count":1,"share":2.0,"meaning":"Limite de 50 requisições antes de produzir SQL."}
+      ],
+      "transitions": [
+        {"id":"GT084","direction":"Ganho","explanation":"EX001 forneceu exatamente as três faixas do esperado; ganho com alto risco de convenção específica."},
+        {"id":"GT085","direction":"Ganho","explanation":"Projeção ficou mais enxuta e o comparador aceitou containment."},
+        {"id":"GT093","direction":"Ganho","explanation":"Mudou para DT_INTER e o comparador aceitou coluna extra."},
+        {"id":"GT211","direction":"Ganho","explanation":"Mudou para DT_INTER e nomes/ordem passaram a ser tolerados."},
+        {"id":"GT212","direction":"Ganho","explanation":"EX007 ajudou MARCA_UTI<>0 e a resposta coincidiu."},
+        {"id":"GT215","direction":"Ganho","explanation":"EX012 é near-duplicate de template; containment aceitou 357 linhas contendo o top-10."},
+        {"id":"GT083","direction":"Regressão","explanation":"LEFT JOIN preservou 'Não informado', excluído ocultamente pelo esperado."},
+        {"id":"GT121","direction":"Regressão","explanation":"PARTITION BY UF foi aplicado sem 'por UF', compatível com sobreaplicação de EX001/EX005."},
+        {"id":"GT126","direction":"Regressão","explanation":"Perdeu CNES antes do quartil e criou join many-to-many por contagem."},
+        {"id":"GT204","direction":"Regressão","explanation":"Passou a agrupar/retornar código CID além da descrição."},
+        {"id":"GT206","direction":"Regressão","explanation":"Trocou razão de taxas por razão de contagens de uso de UTI."},
+        {"id":"GT217","direction":"Regressão","explanation":"Adicionou valor total e reordenou colunas; valores centrais continuam corretos."},
+        {"id":"GT221","direction":"Regressão","explanation":"LIKE '%UTI%' passou a incluir o rótulo 'Não utilizou UTI'."}
+      ],
+      "example_risks": [
+        {"priority":1,"example":"EX012","risk":"Instrui LIMIT mesmo sem top-N explícito e é near-duplicate do template GT215.","fix":"Remover a regra; exigir limite apenas quando pedido e dividir avaliação por template."},
+        {"priority":2,"example":"EX001","risk":"Trata três faixas etárias como convenção universal e aparece em 52/73 queries.","fix":"Escopar somente a perguntas com cortes explícitos; reduzir dominância no retrieval."},
+        {"priority":3,"example":"EX007","risk":"MARCA_UTI<>0 é correto para utilização, mas não para custo positivo de UTI.","fix":"Adicionar metadados de conceito/escopo e exemplos separados para uso versus custo."},
+        {"priority":4,"example":"Retrieval","risk":"Sobreposição lexical não recupera EX004 em GT131 nem EX007 em GT221.","fix":"Indexar intenção, conceito, métricas, tabelas e predicados; medir recall da regra necessária."},
+        {"priority":5,"example":"EX002/EX003","risk":"Mensagens sobre tempo são úteis, mas joins com tempo ainda removem anos por falta de cobertura.","fix":"Preferir EXTRACT e adicionar check de cobertura quando a dimensão tempo for necessária."}
+      ],
+      "roadmap": [
+        {"priority":1,"workstream":"Banco de exemplos","action":"Remover LIMIT implícito de EX012 e universalidade etária de EX001; adicionar escopo semântico a cada exemplo.","guardrail":"Toda regra precisa de fonte de negócio independente e teste negativo fora do domínio."},
+        {"priority":2,"workstream":"Retrieval","action":"Substituir overlap lexical por retrieval híbrido de intenção, conceitos, tabelas, métricas e predicados.","guardrail":"Avaliar recall/precision por regra e limitar diversidade/repetição de exemplos."},
+        {"priority":3,"workstream":"Benchmark","action":"Corrigir os 25 casos indeterminados e congelar rubric/perguntas.","guardrail":"Hard-73 vira dev; nenhuma alteração é validada apenas nele."},
+        {"priority":4,"workstream":"Validador","action":"Checar cardinalidade de joins, cobertura temporal, grão de percentil, denominadores, filtros negativos e limiar cumulativo.","guardrail":"Bloquear apenas invariantes explícitos/documentados e medir falsos positivos."},
+        {"priority":5,"workstream":"Comparador","action":"Normalizar aliases, projeções superset, wide/long, tolerância e empates.","guardrail":"Não aceitar mudança de coorte, grão ou métrica como simples formato."},
+        {"priority":6,"workstream":"Avaliação causal","action":"Rodar no-examples, full-bank e leave-one-example-out com código/comparador congelados.","guardrail":"Criar novo hard test separado por template e abri-lo uma única vez."}
+      ]
+    }
+  },
+  "sources": [
+    {"id":"failure_audit","label":"Auditoria individual das 49 falhas","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/audit/failure_audit.json"},
+    {"id":"run_results","label":"Resultados e traces do run examplebank v2","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/variants/full_agent/results.json"},
+    {"id":"example_bank","label":"Banco curado de exemplos","path":"docs/query_examples_bank.jsonl"},
+    {"id":"retrieval_code","label":"Implementação do retrieval de exemplos","path":"src/health_system_chatbot/context_retrieval.py"},
+    {"id":"audit_script","label":"Script de reconciliação","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/audit/audit_failures.py"},
+    {"id":"audit_notebook","label":"Notebook da auditoria","path":"evaluation/chatbot/results/hard73_full_agent_gpt54nano_examplebank_v2_20260711/audit/hard73_examplebank_v2_audit.ipynb"}
+  ]
+}

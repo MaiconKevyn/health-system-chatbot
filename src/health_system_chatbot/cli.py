@@ -14,7 +14,7 @@ from .evaluation import evaluate_dataset
 from .schema_context import build_schema_index, retrieve_context
 from .sql_generator import generate_sql_plan
 from .sql_validator import validate_sql
-from .workflow import run_chat
+from .chat import run_chat
 
 
 def _print_json(payload: Any) -> None:
@@ -241,7 +241,12 @@ def main(argv: list[str] | None = None) -> int:
         if not validation.is_valid:
             _print_json(validation) if args.json else print("; ".join(validation.errors))
             return 2
-        execution = execute_validated_sql(validation, db_path=config.db_path, max_rows=config.max_rows)
+        execution = execute_validated_sql(
+            validation,
+            db_path=config.db_path,
+            max_rows=config.max_rows,
+            timeout_seconds=config.sql_timeout_seconds,
+        )
         if args.json:
             _print_json(execution)
         else:

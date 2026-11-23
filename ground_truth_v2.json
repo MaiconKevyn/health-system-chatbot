@@ -877,7 +877,7 @@
     "business_intent": "Avaliar sazonalidade mensal bruta.",
     "difficulty": "L2",
     "difficulty_rationale": "L2: agregacao, filtro, ordenacao ou ranking em uma tabela.",
-    "sql": "SELECT year(DT_INTER) AS ano, month(DT_INTER) AS mes, COUNT(*) AS internacoes FROM internacoes GROUP BY 1, 2 ORDER BY 1, 2",
+    "sql": "SELECT month(DT_INTER) AS mes, COUNT(*) AS internacoes FROM internacoes GROUP BY 1 ORDER BY 1",
     "tables_used": [
       "internacoes"
     ],

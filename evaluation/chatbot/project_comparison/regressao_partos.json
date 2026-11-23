@@ -1,0 +1,9 @@
+[
+  {
+    "id": "PARTO_RS",
+    "question": "Demonstre em um gráfico a quantidade de partos espontâneo cefálico anuais feitos no rio grande do sul",
+    "sql": "SELECT YEAR(i.DT_INTER) AS ano, COUNT(*) AS internacoes FROM internacao i JOIN hospital h ON h.CNES=i.CNES JOIN municipios m ON m.CO_MUNICIPIO_6D=h.MUNIC_MOV WHERE m.SG_UF='RS' AND i.DIAG_PRINC='O800' GROUP BY 1 ORDER BY 1",
+    "chart": true,
+    "chart_types": ["line", "linha", "bar", "barra"]
+  }
+]

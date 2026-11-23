@@ -13,16 +13,28 @@ questions into validated SQL, executes the query in read-only mode, and returns
 a concise answer in Portuguese. When the user asks for a visualization, the
 system can also return a structured chart payload rendered by the web frontend.
 
-The project is designed as an AI engineering system rather than a prompt-only
-demo. The runtime separates schema/context grounding, catalog lookup, SQL
-planning, deterministic validation, execution feedback, chart planning, and
-final answer synthesis.
+The project ships two chat engines behind one dispatcher
+(`health_system_chatbot.chat.run_chat`), used by the REST API and by the `ask`
+and `ask-file` CLI commands:
+
+| Engine | When it runs | What it is |
+|---|---|---|
+| **SUS** (default) | `CHATBOT_CHAT_ENGINE=auto` with the OpenAI provider, or `CHATBOT_CHAT_ENGINE=sus` | The SIHRD9 engine ported from `MaiconKevyn/agent-text-to-sql-sus`: a curated data dictionary, value linking, one structured SQL plan, a repair loop and an answer prompt, all in [`src/health_system_chatbot/sus`](src/health_system_chatbot/sus). It reuses this project's SQL validator, DuckDB executor and chart contract. |
+| **Legacy** | `CHATBOT_CHAT_ENGINE=legacy`, or `auto` with Anthropic, Ollama or LlamaIndex | The Pydantic AI workflow (`health_system_chatbot.workflow.run_chat`): context retrieval, catalog tools, typed SQL plans, semantic validation, self-correction, chart planning and answer synthesis. |
+
+One backend serves the React UI (chat, ECharts, SQL/debug details, schema
+explorer and database console) for both engines. The offline diagnostic
+commands (`context`, `draft-sql`, `eval`) and the historical evaluation runners
+use the legacy implementation. The sibling repository
+`agent-text-to-sql-sus` remains a separate product with its own investigation
+and dashboard UI.
 
 ## Contents
 
 - [What This Project Is](#what-this-project-is)
 - [Architecture](#architecture)
-- [Agent Workflow](#agent-workflow)
+- [SUS Engine Workflow](#sus-engine-workflow)
+- [Legacy Engine Workflow](#legacy-engine-workflow)
 - [Pydantic AI Components](#pydantic-ai-components)
 - [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
@@ -44,23 +56,31 @@ and chart requests.
 The system supports:
 
 - Natural-language questions over the local SIH/SUS analytical database.
-- SQL generation with structured Pydantic AI outputs.
-- Local catalog tools for CID, procedure, and dimension-value grounding.
-- Deterministic SQL guardrails before execution.
-- Execution feedback and self-correction for repairable SQL failures.
-- Optional multi-candidate SQL generation and deterministic ranking.
+- Structured SQL plans: strict JSON schema in the SUS engine, typed Pydantic AI
+  outputs in the legacy engine.
+- Grounding in the data: a curated SIHRD9 dictionary with measured pitfalls
+  (SUS engine) and local catalog tools for CID, procedure and dimension values
+  (legacy engine).
+- Deterministic, read-only SQL guardrails before execution (both engines).
+- Execution feedback and repair for failed SQL.
 - Natural-language answer synthesis separated from technical debug metadata.
 - Optional chart generation with Apache ECharts-compatible payloads.
 - CLI, FastAPI REST API, and React/Vite web frontend.
-- Regression and evaluation runners against curated question sets.
+- Regression runners and a curated benchmark that compares engines and
+  projects on the same questions.
 
 ## Architecture
 
-![Health System Chatbot architecture](docs/assets/chatbot-architecture.svg)
+The web frontend talks to the FastAPI backend. The backend and the CLI call the
+same dispatcher, `chat.run_chat`, which picks the engine from
+`CHATBOT_CHAT_ENGINE`:
 
-The application has one central runtime path used by both the CLI and the REST
-API. The web frontend talks to the FastAPI backend, and the backend calls the
-same `workflow.run_chat` pipeline used by the command-line interface.
+```text
+React UI / CLI ──► FastAPI /api/chat ──► chat.run_chat
+                                           ├─ SUS (default):  sus.engine.ask
+                                           └─ legacy:         workflow.run_chat
+both engines ──► sql_validator.validate_sql ──► duckdb_executor (read-only) ──► answer + chart
+```
 
 Main layers:
 
@@ -68,14 +88,51 @@ Main layers:
 |---|---|
 | React/Vite frontend | Chat UI, debug mode, schema explorer, SQL display, chart rendering |
 | FastAPI API | HTTP adapter for chat, schema, health, model info, and database explorer endpoints |
-| Workflow runtime | Orchestrates classification, context, SQL planning, validation, execution, charting, and answer synthesis |
-| Pydantic AI agents | Structured LLM calls for SQL planning, SQL repair, chart planning, and natural answer generation |
-| Catalog tools | Local lookup for CID concepts, procedures, and dimension values |
-| Validation layer | Read-only SQL checks, table/column checks, join policies, and safety constraints |
-| DuckDB executor | Executes validated SQL against the local `sihrd5.duckdb` database in read-only mode |
-| Evaluation layer | Runs curated datasets, stores traces, summaries, and error analysis artifacts |
+| Chat dispatcher | `chat.run_chat`: selects the engine and writes the trace and audit record |
+| SUS engine | `sus/`: dictionary prompt, value linking, structured SQL plan, repair loop, answer prompt |
+| Legacy workflow | `workflow.py`: classification, context retrieval, Pydantic AI agents, catalog tools, self-correction, chart planning |
+| Validation layer | Read-only SQL checks, table/column checks, join policies, and safety constraints (shared) |
+| DuckDB executor | Executes validated SQL against `sihrd9.duckdb` in read-only mode, with row limit and timeout (shared) |
+| Visualization | Chart contract and ECharts options from the executed result (shared) |
+| Evaluation layer | Ground truth, regression runners, benchmark harness, traces and reports |
 
-## Agent Workflow
+The diagram below shows the legacy workflow in detail.
+
+![Legacy workflow architecture](docs/assets/chatbot-architecture.svg)
+
+## SUS Engine Workflow
+
+Implemented in [`src/health_system_chatbot/sus/engine.py`](src/health_system_chatbot/sus/engine.py).
+
+1. **Value linking**: `sus/value_linker.py` matches the question against CID
+   codes written by the user (with or without the dot), CID descriptions,
+   procedure names and municipality names, and passes the real codes it finds
+   to the model as hints.
+2. **SQL plan**: one OpenAI chat-completions call with a strict JSON schema
+   returns `answerable`, `sql`, `assumptions`, `refusal` and a `chart` hint.
+   The system prompt embeds the curated dictionary
+   [`sus/sihrd9.yaml`](src/health_system_chatbot/sus/sihrd9.yaml): tables,
+   columns, canonical joins and the measured pitfalls of this database (see
+   [Database Notes](#database-notes)).
+3. **Refusal**: when the plan says the database cannot answer, the engine
+   returns `status=refused` with the model's explanation.
+4. **Validation and execution**: the SQL goes through the shared
+   `validate_sql` and runs read-only with `CHATBOT_MAX_ROWS` and
+   `CHATBOT_SQL_TIMEOUT_SECONDS`.
+5. **Repair**: a validation or execution error is sent back with the failed SQL
+   for up to `CHATBOT_SQL_CORRECTION_ATTEMPTS` more plans.
+6. **Chart**: when the question asks for a chart, the plan's chart hint and the
+   executed rows become an ECharts payload through the shared visualization
+   contract.
+7. **Answer**: a second call writes the Portuguese answer from the executed
+   result and the plan's assumptions. If that call fails, the technical result
+   summary is returned instead.
+
+Reasoning effort (`CHATBOT_LLM_REASONING_EFFORT`) is sent for `gpt-5`, `gpt-6`,
+`o1`, `o3` and `o4` models. The SUS engine requires the OpenAI provider and
+`OPENAI_API_KEY`.
+
+## Legacy Engine Workflow
 
 1. **Receive question**
    - The user sends a question through the React frontend, REST API, or CLI.
@@ -137,7 +194,7 @@ Main layers:
 
 ## Pydantic AI Components
 
-The core LLM calls are implemented as Pydantic AI agents in
+The legacy engine's LLM calls are implemented as Pydantic AI agents in
 `src/health_system_chatbot/agents.py`.
 
 | Agent | Output | Purpose |
@@ -168,8 +225,9 @@ Version constraints are defined in `pyproject.toml` and `frontend/package.json`.
 | Layer | Technology | Role |
 |---|---|---|
 | Backend language | Python `>=3.12` | Agent runtime, API, evaluation |
-| Agent framework | Pydantic AI | Structured LLM agents and tool calling |
-| Model provider | OpenAI | SQL planning, repair, chart planning, answer synthesis |
+| LLM client (SUS engine) | OpenAI Python SDK | Structured SQL plan (strict JSON schema), repair and answer calls |
+| Agent framework (legacy engine) | Pydantic AI | Structured LLM agents and tool calling |
+| Model provider | OpenAI (both engines); Anthropic or Ollama (legacy engine only) | Selected with `CHATBOT_LLM_PROVIDER`; default model `gpt-6-luna` |
 | Optional retrieval | LlamaIndex | Optional vector schema retrieval |
 | API | FastAPI + Uvicorn | REST service and frontend serving |
 | Data contracts | Pydantic | API models, SQL plans, chart specs |
@@ -184,40 +242,31 @@ Version constraints are defined in `pyproject.toml` and `frontend/package.json`.
 ```text
 health-system-chatbot/
 |-- docs/
-|   |-- database_overview.md
-|   |-- schema_catalog.md
-|   |-- business_dictionary.md
-|   |-- relationship_map.md
-|   |-- data_quality_report.md
-|   |-- query_design_methodology.md
-|   |-- assets/
-|   `-- generated/
+|   |-- assets/                  # architecture diagram
+|   |-- domain_catalogs/         # curated CID and procedure concepts (legacy catalog tools)
+|   |-- domain_synonyms/         # clinical synonyms for catalog lookup
+|   |-- generated/               # schema artifacts regenerated from the DuckDB file
+|   |-- semantic_rules.json      # semantic rules with provenance (legacy engine)
+|   |-- query_examples_bank.jsonl
+|   `-- *_plan.md, agent_comparison_report.md   # dated design docs and reports
 |-- evaluation/
-|   |-- chatbot/
-|   `-- ground_truth/
-|-- frontend/
-|   |-- src/
-|   |-- package.json
-|   |-- pnpm-lock.yaml
-|   `-- vite.config.mjs
-|-- scripts/
-|   |-- chat_smoke.py
-|   |-- evaluate_chatbot.py
-|   |-- evaluate_chart_generation.py
-|   |-- sihrd5_stage1.py
-|   `-- verify_stage1.py
+|   |-- benchmark_ab/            # curated SIHRD9 benchmark: engines A/P vs agent-text-to-sql-sus
+|   |-- chatbot/                 # regression runners, ablation, model and project comparisons
+|   `-- ground_truth/            # historical datasets (sihrd5 schema)
+|-- frontend/                    # React/Vite UI (pnpm)
+|-- scripts/                     # smoke tests, artifact refresh, ground-truth tooling
 |-- src/
 |   `-- health_system_chatbot/
-|       |-- agents.py
-|       |-- agent_deps.py
-|       |-- api.py
-|       |-- workflow.py
-|       |-- sql_generator.py
-|       |-- sql_validator.py
-|       |-- duckdb_executor.py
-|       |-- catalogs/
-|       |-- tools/
-|       `-- visualization/
+|       |-- api.py               # FastAPI app
+|       |-- cli.py               # command-line interface
+|       |-- chat.py              # engine dispatcher used by API and CLI
+|       |-- sus/                 # SUS engine: engine, prompts, dictionary, value linker
+|       |-- workflow.py          # legacy engine orchestration
+|       |-- agents.py, agent_deps.py, sql_generator.py, self_correction.py
+|       |-- sql_validator.py     # shared read-only and semantic SQL checks
+|       |-- duckdb_executor.py   # shared read-only execution
+|       |-- catalogs/, tools/    # legacy catalog retrieval and Pydantic AI tools
+|       `-- visualization/       # chart intent, planning and ECharts contract
 |-- tests/
 |-- pyproject.toml
 |-- requirements-chatbot.txt
@@ -231,8 +280,11 @@ health-system-chatbot/
 - Python 3.12 or higher.
 - Node.js 20.19 or higher.
 - pnpm 9 or higher.
-- OpenAI API key.
-- Local DuckDB file, typically `sihrd5.duckdb`.
+- An API key for the chosen LLM provider: OpenAI (`OPENAI_API_KEY`) or
+  Anthropic (`ANTHROPIC_API_KEY`); no key needed for a local Ollama server.
+- Local DuckDB file `sihrd9.duckdb`. By default the app looks for
+  `../databases/sihrd9.duckdb` (a `databases/` folder next to this repository);
+  set `CHATBOT_DB_PATH` to use another location.
 
 The database file is intentionally not versioned. Keep it outside Git or in the
 repository root as an ignored local file.
@@ -256,30 +308,71 @@ pip install -e .
 
 ### 2. Configure Environment
 
-Create a `.env` file in the repository root:
+Create a `.env` file in the repository root. With the OpenAI provider the
+default SUS engine runs; Anthropic and Ollama run the legacy engine.
+`CHATBOT_LLM_PROVIDER` selects the model provider used by the legacy
+`pydantic_ai` agents (SQL planning, repair, chart planning, answer synthesis).
+The legacy `CHATBOT_AGENT_FRAMEWORK=llamaindex`
+fallback path, and the optional `CHATBOT_SCHEMA_RETRIEVAL_MODE=
+llamaindex_vector` schema retrieval mode, always use OpenAI regardless of
+`CHATBOT_LLM_PROVIDER` — set `OPENAI_API_KEY` if you use either of those,
+even when your chosen LLM provider is Anthropic or Ollama.
+
+**OpenAI (default):**
 
 ```env
 OPENAI_API_KEY=sk-your_openai_key_here
-CHATBOT_DB_PATH=/absolute/path/to/sihrd5.duckdb
+CHATBOT_DB_PATH=/absolute/path/to/sihrd9.duckdb
 
 # Optional
-CHATBOT_LLM_MODEL=gpt-4.1-mini
+CHATBOT_LLM_PROVIDER=openai
+CHATBOT_LLM_MODEL=gpt-6-luna
+# none|minimal|low|medium|high|xhigh|max; empty keeps the provider default
+CHATBOT_LLM_REASONING_EFFORT=low
 CHATBOT_EMBED_MODEL=text-embedding-3-small
 CHATBOT_AGENT_FRAMEWORK=pydantic_ai
 CHATBOT_SCHEMA_RETRIEVAL_MODE=auto
 CHATBOT_MAX_ROWS=200
 CHATBOT_QUERY_TIMEOUT_SECONDS=60
+# Cancels runaway DuckDB queries
+CHATBOT_SQL_TIMEOUT_SECONDS=30
 CHATBOT_SQL_CORRECTION_ATTEMPTS=2
 CHATBOT_CATALOG_TOOLS_ENABLED=true
 CHATBOT_ENABLE_MULTI_CANDIDATE=false
 ```
 
+**Anthropic:**
+
+```env
+CHATBOT_LLM_PROVIDER=anthropic
+ANTHROPIC_API_KEY=sk-ant-your_anthropic_key_here
+CHATBOT_LLM_MODEL=claude-sonnet-4-5
+CHATBOT_DB_PATH=/absolute/path/to/sihrd9.duckdb
+```
+
+**Ollama (local, no API key required):**
+
+```env
+CHATBOT_LLM_PROVIDER=ollama
+CHATBOT_LLM_MODEL=llama3.1
+CHATBOT_OLLAMA_BASE_URL=http://localhost:11434/v1
+CHATBOT_DB_PATH=/absolute/path/to/sihrd9.duckdb
+```
+
+Structured output and tool-calling support vary by local model, so validate a
+given Ollama model against your query workload before relying on it.
+
 Supported values:
 
 | Variable | Default | Notes |
 |---|---|---|
-| `CHATBOT_AGENT_FRAMEWORK` | `pydantic_ai` | `pydantic_ai` or `llamaindex` |
-| `CHATBOT_SCHEMA_RETRIEVAL_MODE` | `auto` | `auto`, `keyword`, or `llamaindex_vector` |
+| `CHATBOT_LLM_PROVIDER` | `openai` | `openai`, `anthropic`, or `ollama` (`pydantic_ai` path only) |
+| `ANTHROPIC_API_KEY` | none | Required when `CHATBOT_LLM_PROVIDER=anthropic` |
+| `CHATBOT_OLLAMA_BASE_URL` | `http://localhost:11434/v1` | Ollama's OpenAI-compatible endpoint; falls back to `OLLAMA_BASE_URL` |
+| `CHATBOT_OLLAMA_API_KEY` | none | Optional, for remote/secured Ollama-compatible endpoints; falls back to `OLLAMA_API_KEY` |
+| `CHATBOT_CHAT_ENGINE` | `auto` | `auto`, `sus`, or `legacy` for the API and chat CLI |
+| `CHATBOT_AGENT_FRAMEWORK` | `pydantic_ai` | `pydantic_ai` or `llamaindex` (`llamaindex` is OpenAI-only) |
+| `CHATBOT_SCHEMA_RETRIEVAL_MODE` | `auto` | `auto`, `keyword`, or `llamaindex_vector` (`llamaindex_vector` is OpenAI-only) |
 | `CHATBOT_CATALOG_RETRIEVAL_MODE` | `lexical` | Local catalog retrieval mode |
 | `CHATBOT_CATALOG_TOOLS_ENABLED` | `true` | Enables CID/procedure/dimension lookup tools |
 
@@ -355,8 +448,22 @@ Validate and execute read-only SQL:
 
 ```bash
 .venv/bin/python -m health_system_chatbot.cli run-sql \
-  "SELECT COUNT(*) AS total FROM internacoes"
+  "SELECT COUNT(*) AS total FROM internacao"
 ```
+
+All subcommands:
+
+| Command | Engine | Purpose |
+|---|---|---|
+| `config` | — | Show the safe runtime configuration (no secrets) |
+| `ask`, `ask-file` | dispatcher (SUS by default) | Answer one question, or every line of a text file |
+| `audit-log` | — | Inspect the append-only chat audit log |
+| `context` | legacy | Show the schema context retrieved for a question |
+| `draft-sql` | legacy | Draft a structured SQL plan without executing it |
+| `validate-sql` | shared | Validate a SQL string without executing it |
+| `run-sql` | shared | Validate and execute SQL read-only |
+| `eval` | legacy | Evaluate against a ground-truth dataset |
+| `index` | legacy | Manage the optional LlamaIndex schema index |
 
 ### Example Questions
 
@@ -421,7 +528,7 @@ User-facing title:
 
 ```text
 Datasus Health System Chatbot
-DaVint Lab - Pydantic AI
+DaVint Lab · SIH/SUS
 ```
 
 Frontend responsibilities:
@@ -497,7 +604,28 @@ Example focused run without OpenAI baselines:
 
 Evaluation artifacts are written under `evaluation/chatbot/results/`. Chat
 traces and audit logs are stored under `evaluation/chatbot/` for inspection and
-debugging.
+debugging. The runners above exercise the legacy engine; most of the datasets
+under `evaluation/ground_truth/` were written for the older sihrd5 schema
+(`internacoes`) and are kept as history.
+
+### SIHRD9 benchmark (engines and projects)
+
+[`evaluation/benchmark_ab/`](evaluation/benchmark_ab/README.md) compares, on the
+same questions, database, model (`gpt-6-luna`) and reasoning effort:
+
+- **A**: this project's legacy engine;
+- **P**: this project's product path (SUS engine);
+- **B**: the sibling project `agent-text-to-sql-sus`.
+
+Its ground truth has 281 questions migrated to SIHRD9 and curated again (every
+gold executed on the database, each decision recorded with its reason in
+`curation.yaml`). It reports execution accuracy of the final SQL and, separately,
+whether the written answer is correct, as judged by a blind LLM judge. The
+README in that folder explains the method and how to reproduce a run.
+
+[`evaluation/chatbot/project_comparison/`](evaluation/chatbot/project_comparison/README.md)
+holds an earlier, smaller comparison (12 and then 32 questions) with its own
+runner and results.
 
 ## Observability
 
@@ -516,8 +644,43 @@ The frontend only shows developer details when debug mode is enabled.
 
 ## Database Notes
 
-The primary database is `sihrd5.duckdb`. It can be large and must not be
-committed to Git.
+The primary database is `sihrd9.duckdb` (about 30 GB, admissions from 2008-01-01
+to 2025-12-31). It must not be committed to Git.
+
+Schema facts both engines rely on. The full measured list lives in the SUS
+dictionary [`sus/sihrd9.yaml`](src/health_system_chatbot/sus/sihrd9.yaml), and
+the legacy engine's join policy in `docs/generated/join_policy.csv`.
+
+- The fact table is `internacao`, one row per AIH. `N_AIH` is unique.
+- Procedures live only in `internacao_procedimento`. Long-stay AIHs repeat rows,
+  so count admissions with `COUNT(DISTINCT N_AIH)` or `EXISTS`.
+- There are two geographies. `internacao.MUNIC_RES` is the patient's residence.
+  `internacao.CNES -> hospital.CNES -> hospital.MUNIC_MOV` is the place of care,
+  covering 100% of admissions. They differ for about 32% of admissions.
+- `municipios` has the Federal District only as 530010 (Brasília). The
+  administrative-region codes 5300xx used by the fact table (1.26 million
+  admissions) and by 23 hospitals must be mapped to Brasília/DF.
+- `internacao.ESPEC` uses the AIH bed-specialty coding (2 = obstetric,
+  7 = pediatric). The `especialidade` table uses another coding, so joining
+  them mislabels every specialty.
+- `RACA_COR = 99` ("sem informação", 22.9% of admissions) is not in the
+  `raca_cor` dimension, so use a `LEFT JOIN`.
+- `SEXO` only has 1 (male) and 3 (female). COVID-19 is coded `B342`; `U07`
+  never occurs.
+- `DIAG_SECUN`, `CID_MORTE` and `CID_NOTIF` use `''` as empty until 2014 and
+  `'0000'` from 2015 on. Secondary diagnoses move to `DIAGSEC1..9` from 2015,
+  and `CID_MORTE` has real values only for 2008-2014.
+- `cid_manuais` and `procedimentos_manuais` complement `cid` and `procedimentos`
+  with codes missing from the main catalogs.
+- `tempo` covers only 2008-2024. `socioeconomico` has no 2010, 2022, 2023 or
+  2025. Discharges in November and December 2025 are incomplete.
+
+When the database file is replaced, regenerate the schema artifacts the runtime
+loads:
+
+```bash
+python scripts/refresh_db_artifacts.py
+```
 
 Ignored local database files:
 

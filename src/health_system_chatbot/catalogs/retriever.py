@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import json
 from pathlib import Path
 from typing import Any
 
@@ -16,10 +17,25 @@ from .normalization import (
     normalize_code,
 )
 from .procedure_concepts import ProcedureConcept, load_procedure_concepts
+from ..errors import CatalogBudgetExceeded
 
+
+# `internacao` has no procedure column: procedures live in
+# internacao_procedimento, which repeats rows for long-stay AIHs, so filters are
+# expressed as a semi-join that keeps the hospitalization grain.
+PROCEDURE_IN_TEMPLATE = (
+    "EXISTS (SELECT 1 FROM internacao_procedimento ip "
+    "WHERE ip.N_AIH = i.N_AIH AND ip.PROC_REA IN (...))"
+)
+PROCEDURE_EQ_TEMPLATE = (
+    "EXISTS (SELECT 1 FROM internacao_procedimento ip "
+    "WHERE ip.N_AIH = i.N_AIH AND ip.PROC_REA = ?)"
+)
 
 DIMENSION_SPECS: dict[str, tuple[str, ...]] = {
     "municipios": ("CO_MUNICIPIO_6D", "NO_MUNICIPIO", "SG_UF"),
+    "hospital": ("CNES", "NO_HOSPITAL", "MUNIC_MOV"),
+    "especialidade": ("ESPEC", "DESCRICAO"),
     "sexo": ("SEXO", "DESCRICAO"),
     "car_int": ("CAR_INT", "DESCRICAO"),
     "complexidade": ("COMPLEX", "DESCRICAO"),
@@ -39,6 +55,8 @@ class CatalogRetriever:
         store: DuckDbCatalogStore,
         project_root: Path | None = None,
         retrieval_mode: str = "lexical",
+        tool_call_budget: int = 8,
+        duplicate_call_limit: int = 1,
     ) -> None:
         if retrieval_mode != "lexical":
             raise ValueError("CatalogRetriever currently supports only lexical retrieval.")
@@ -49,6 +67,9 @@ class CatalogRetriever:
         self.clinical_concepts = load_clinical_concepts(project_root)
         self.procedure_concepts = load_procedure_concepts(project_root)
         self.tool_calls: list[CatalogToolCall] = []
+        self.tool_call_budget = tool_call_budget
+        self.duplicate_call_limit = duplicate_call_limit
+        self._call_signatures: dict[str, int] = {}
 
     @classmethod
     def from_config(cls, config: ChatbotConfig) -> "CatalogRetriever":
@@ -57,7 +78,22 @@ class CatalogRetriever:
             store=DuckDbCatalogStore(config.db_path, synonyms=synonyms),
             project_root=config.project_root,
             retrieval_mode=config.catalog_retrieval_mode,
+            tool_call_budget=config.catalog_tool_call_budget,
+            duplicate_call_limit=config.catalog_duplicate_call_limit,
         )
+
+    def guard_tool_call(self, *, tool: str, args: dict[str, Any]) -> None:
+        signature = tool + ":" + json.dumps(args, ensure_ascii=False, sort_keys=True, default=str)
+        repeated = self._call_signatures.get(signature, 0)
+        if repeated >= self.duplicate_call_limit:
+            message = f"catalog_duplicate_call:{tool}; signature already used {repeated} time(s)"
+            self.record_tool_call(tool=tool, args=args, error=message)
+            raise CatalogBudgetExceeded(message)
+        if len(self.tool_calls) >= self.tool_call_budget:
+            message = f"catalog_tool_budget_exceeded:{self.tool_call_budget}"
+            self.record_tool_call(tool=tool, args=args, error=message)
+            raise CatalogBudgetExceeded(message)
+        self._call_signatures[signature] = repeated + 1
 
     def record_tool_call(
         self,
@@ -106,13 +142,15 @@ class CatalogRetriever:
         scope: str = "unknown",
         limit: int = 5,
     ) -> CatalogSearchResult:
-        candidates = self._procedure_concept_candidates(query, scope=scope)
-        if candidates:
-            candidates.sort(key=lambda candidate: candidate.score, reverse=True)
+        concept_matches = self._procedure_concept_matches(query, scope=scope)
+        concept_candidates = [candidate for candidate, _ in concept_matches]
+        fully_covered = any(not uncovered for _, uncovered in concept_matches)
+        if concept_candidates and fully_covered:
+            concept_candidates.sort(key=lambda candidate: candidate.score, reverse=True)
             return CatalogSearchResult(
                 query=query,
                 catalog="procedimentos",
-                candidates=candidates[:limit],
+                candidates=concept_candidates[:limit],
                 warnings=[],
             )
 
@@ -127,8 +165,66 @@ class CatalogRetriever:
                 for group in query_term_groups
             )
         ]
+        warnings: list[str] = []
+        if concept_candidates:
+            # A curated concept matched only part of the query ("parto" in
+            # "parto espontaneo cefalico"). Loose rows would be noise, so only
+            # rows matching every term, or a CID with that exact description,
+            # count as a more specific reading of the term.
+            qualifiers = sorted({term for _, uncovered in concept_matches for term in uncovered})
+            cid_candidates = self._cid_phrase_candidates(query, qualifiers)
+            specific = self._procedure_row_candidates(query, strict_rows, limit=limit)
+            if not cid_candidates and not specific:
+                concept_candidates.sort(key=lambda candidate: candidate.score, reverse=True)
+                return CatalogSearchResult(
+                    query=query,
+                    catalog="procedimentos",
+                    candidates=concept_candidates[:limit],
+                    warnings=[],
+                )
+            for candidate, uncovered in concept_matches:
+                candidate.score -= 100.0
+                candidate.confidence = "medium"
+                candidate.ambiguity_notes.append(
+                    "Grupo mais amplo que a pergunta: nao cobre "
+                    + ", ".join(uncovered)
+                    + "."
+                )
+            for candidate in cid_candidates:
+                warnings.append(
+                    f"'{query}' corresponde ao CID {candidate.code} "
+                    f"'{candidate.label.removeprefix(str(candidate.code)).strip()}', "
+                    "um diagnostico e nao um procedimento. Nenhum procedimento cobre "
+                    f"{', '.join(qualifiers)}; filtre internacao.DIAG_PRINC = "
+                    f"'{candidate.code}' em vez de aproximar por PROC_REA."
+                )
+            candidates = _dedupe_candidates(concept_candidates + cid_candidates + specific)
+            candidates.sort(key=lambda candidate: candidate.score, reverse=True)
+            return CatalogSearchResult(
+                query=query,
+                catalog="procedimentos",
+                candidates=candidates[:limit],
+                warnings=warnings,
+            )
+
         if strict_rows:
             rows = strict_rows
+        candidates = _dedupe_candidates(self._procedure_row_candidates(query, rows, limit=limit))
+        candidates.sort(key=lambda candidate: candidate.score, reverse=True)
+        return CatalogSearchResult(
+            query=query,
+            catalog="procedimentos",
+            candidates=candidates[:limit],
+            warnings=[] if candidates else ["No procedure candidates matched the local catalog."],
+        )
+
+    def _procedure_row_candidates(
+        self,
+        query: str,
+        rows: list[dict[str, Any]],
+        *,
+        limit: int,
+    ) -> list[CatalogCandidate]:
         candidates: list[CatalogCandidate] = []
         if len(rows) > 1:
             codes = [str(row["PROC_REA"]) for row in rows[:20]]
@@ -143,11 +239,12 @@ class CatalogRetriever:
                     source_table="procedimentos",
                     source_column="PROC_REA",
                     filter=CatalogFilter(
-                        table="internacoes",
+                        table="internacao_procedimento",
                         column="PROC_REA",
                         operator="IN",
                         value=codes,
-                        where_sql_template="i.PROC_REA IN (...)",
+                        join_required=True,
+                        where_sql_template=PROCEDURE_IN_TEMPLATE,
                     ),
                     evidence=labels,
                     score=160.0,
@@ -170,25 +267,53 @@ class CatalogRetriever:
                     source_table="procedimentos",
                     source_column="PROC_REA",
                     filter=CatalogFilter(
-                        table="internacoes",
+                        table="internacao_procedimento",
                         column="PROC_REA",
                         operator="=",
                         value=code,
-                        where_sql_template="i.PROC_REA = ?",
+                        join_required=True,
+                        where_sql_template=PROCEDURE_EQ_TEMPLATE,
                     ),
                     evidence=[f"{code} {label}"],
                     score=_text_match_score(query, label) + 40.0,
                     confidence="high",
                 )
             )
-        candidates = _dedupe_candidates(candidates)
-        candidates.sort(key=lambda candidate: candidate.score, reverse=True)
-        return CatalogSearchResult(
-            query=query,
-            catalog="procedimentos",
-            candidates=candidates[:limit],
-            warnings=[] if candidates else ["No procedure candidates matched the local catalog."],
-        )
+        return candidates
+
+    def _cid_phrase_candidates(self, query: str, qualifiers: list[str]) -> list[CatalogCandidate]:
+        """CID codes whose whole description is the query, e.g. O800 for
+        "parto espontaneo cefalico", when the qualifiers are what a procedure
+        concept could not cover."""
+        if not qualifiers:
+            return []
+        candidates: list[CatalogCandidate] = []
+        for row in self.store.search_cid_rows(query, limit=0):
+            description = str(row.get("DESCRICAO") or "")
+            description_terms = _description_terms(description)
+            if not _description_covered_by_query(description, query):
+                continue
+            if not any(_token_variants(term) & description_terms for term in qualifiers):
+                continue
+            cid = str(row.get("CID") or "")
+            candidate = self._code_candidate(
+                query,
+                expand_query_terms(query, self.synonyms),
+                cid,
+                description,
+                str(row.get("DS_CATEGORIA") or ""),
+                str(row.get("DS_GRUPO") or ""),
+                str(row.get("DS_CAPITULO") or ""),
+            )
+            if candidate is None:
+                continue
+            candidate.score = max(candidate.score, 250.0 + len(description_terms))
+            candidate.confidence = "high"
+            candidate.ambiguity_notes.append(
+                "Termo e diagnostico CID (internacao.DIAG_PRINC), nao procedimento (PROC_REA)."
+            )
+            candidates.append(candidate)
+        return _dedupe_candidates(candidates)
 
     def _clinical_concept_candidates(
         self,
@@ -215,7 +340,7 @@ class CatalogRetriever:
                     source_table="cid",
                     source_column="CID",
                     filter=CatalogFilter(
-                        table="internacoes",
+                        table="internacao",
                         column="DIAG_PRINC",
                         operator="PREFIX_ANY" if len(values) > 1 else "PREFIX",
                         value=values if len(values) > 1 else values[0],
@@ -228,13 +353,14 @@ class CatalogRetriever:
             )
         return _dedupe_candidates(candidates)
 
-    def _procedure_concept_candidates(
+    def _procedure_concept_matches(
         self,
         query: str,
         *,
         scope: str,
-    ) -> list[CatalogCandidate]:
-        candidates: list[CatalogCandidate] = []
+    ) -> list[tuple[CatalogCandidate, list[str]]]:
+        """Concept candidates plus the query terms each concept leaves uncovered."""
+        matches: dict[str, tuple[CatalogCandidate, list[str]]] = {}
         for concept in self.procedure_concepts:
             if scope != "unknown" and scope not in concept.scopes:
                 continue
@@ -242,28 +368,30 @@ class CatalogRetriever:
             if score <= 0:
                 continue
             codes = list(concept.codes)
-            candidates.append(
-                CatalogCandidate(
-                    catalog="procedimentos",
-                    level="group",
-                    code=",".join(codes),
-                    label=concept.label,
-                    description=concept.description,
-                    source_table="procedimentos",
-                    source_column="PROC_REA",
-                    filter=CatalogFilter(
-                        table="internacoes",
-                        column="PROC_REA",
-                        operator="IN",
-                        value=codes,
-                        where_sql_template="i.PROC_REA IN (...)",
-                    ),
-                    evidence=list(concept.evidence),
-                    score=score,
-                    confidence="high",
-                )
+            candidate = CatalogCandidate(
+                catalog="procedimentos",
+                level="group",
+                code=",".join(codes),
+                label=concept.label,
+                description=concept.description,
+                source_table="procedimentos",
+                source_column="PROC_REA",
+                filter=CatalogFilter(
+                    table="internacao_procedimento",
+                    column="PROC_REA",
+                    operator="IN",
+                    value=codes,
+                    join_required=True,
+                    where_sql_template=PROCEDURE_IN_TEMPLATE,
+                ),
+                evidence=list(concept.evidence),
+                score=score,
+                confidence="high",
             )
-        return _dedupe_candidates(candidates)
+            key = str(candidate.filter.value)
+            if key not in matches or candidate.score > matches[key][0].score:
+                matches[key] = (candidate, _uncovered_query_terms(query, concept.synonyms))
+        return list(matches.values())
 
     def search_dimension_values(
         self,
@@ -343,7 +471,7 @@ class CatalogRetriever:
                 source_table="cid",
                 source_column="CID",
                 filter=CatalogFilter(
-                    table="internacoes",
+                    table="internacao",
                     column="DIAG_PRINC",
                     operator="PREFIX",
                     value=f"{prefix}%",
@@ -516,6 +644,10 @@ class CatalogRetriever:
         )
         if score <= 0:
             return None
+        if _description_covered_by_query(description, query):
+            # "parto espontaneo cefalico" names O800 exactly; without this the
+            # broader O80 category ties with it and wins on sort order.
+            score += 40.0
         operator = "PREFIX" if len(cid) <= 3 else "="
         value = f"{cid}%" if operator == "PREFIX" else cid
         where = "i.DIAG_PRINC LIKE ?" if operator == "PREFIX" else "i.DIAG_PRINC = ?"
@@ -528,7 +660,7 @@ class CatalogRetriever:
             source_table="cid",
             source_column="CID",
             filter=CatalogFilter(
-                table="internacoes",
+                table="internacao",
                 column="DIAG_PRINC",
                 operator=operator,
                 value=value,
@@ -615,6 +747,44 @@ def _synonym_concept_score(query: str, synonyms: tuple[str, ...]) -> float:
         elif synonym_terms & query_terms:
             best = max(best, 120.0 + len(synonym_terms & query_terms))
     return best
+
+
+def _content_terms(text: str) -> list[str]:
+    return [
+        token
+        for token in normalize_catalog_text(text).split()
+        if len(token) >= 3 and token not in CATALOG_QUERY_STOPWORDS
+    ]
+
+
+def _token_variants(token: str) -> set[str]:
+    variants = {token}
+    if token.endswith("s") and len(token) > 4:
+        variants.add(token[:-1])
+    return variants
+
+
+def _description_terms(description: str) -> set[str]:
+    return set(_content_terms(description))
+
+
+def _description_covered_by_query(description: str, query: str) -> bool:
+    """True when every content word of a (multi-word) description is in the query."""
+    description_terms = _description_terms(description)
+    if len(description_terms) < 2:
+        return False
+    query_terms = {variant for term in _content_terms(query) for variant in _token_variants(term)}
+    return description_terms <= query_terms
+
+
+def _uncovered_query_terms(query: str, synonyms: tuple[str, ...]) -> list[str]:
+    covered = {
+        variant
+        for synonym in synonyms
+        for term in _content_terms(synonym)
+        for variant in _token_variants(term)
+    }
+    return [term for term in _content_terms(query) if not (_token_variants(term) & covered)]
 
 
 def _prefix_any_where_sql(values: list[str]) -> str:

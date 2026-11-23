@@ -455,3 +455,22 @@ def test_llm_natural_answer_receives_more_than_eight_small_result_rows(monkeypat
     )
 
     assert answer.answer_pt == "Resposta com todos os anos."
+
+
+def test_yearly_series_sums_the_measure_not_the_year_column():
+    from health_system_chatbot.answer_synthesizer import _count_column, _summarize_result
+    from health_system_chatbot.models import ExecutionResult
+
+    rows = [
+        {"ano": 2008, "total_partos": 86837},
+        {"ano": 2009, "total_partos": 86288},
+        {"ano": 2010, "total_partos": 83435},
+    ]
+    execution = ExecutionResult(
+        sql="SELECT 1", columns=["ano", "total_partos"], rows=rows, row_count=3
+    )
+
+    assert _count_column(rows[0]) == "total_partos"
+    summary = _summarize_result(execution)
+    assert "Soma de total_partos nas linhas retornadas: 256.560" in summary
+    assert "Soma de ano" not in summary

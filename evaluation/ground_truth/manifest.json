@@ -4,23 +4,25 @@
   "table_count": 234,
   "main_table_count": 23,
   "audit_table_count": 211,
-  "ground_truth_count": 100,
-  "ground_truth_v2_count": 100,
-  "ground_truth_228_validated_count": 228,
+  "ground_truth_count": 89,
+  "ground_truth_v2_count": 89,
+  "ground_truth_228_validated_count": 220,
   "ground_truth_228_validated_at": "2026-07-09T00:37:04.258184+00:00",
+  "ground_truth_hospital_table_removed_note": "2026-07-11: removed all items whose SQL references the `hospital` dimension table, which has 0 rows in sihrd5.duckdb and is excluded from the agent's runtime schema catalog regardless of JOIN type. Affected: GT005/GT161/GT185/GT186/GT209/GT214/GT228/GT229 in ground_truth_228_validated; SIHRD5_Q004/Q040/Q042/Q052/Q059/Q060/Q071/Q079/Q084/Q090/Q098 in stage1_questions(_v2); DENSE_JOIN_020/DENSE_TABLE_009 in dense_current_db_*.",
+  "ground_truth_hard_73_note": "2026-07-11: ground_truth_hard_73.jsonl is a fresh subset (difficulty == 'hard') filtered directly from the hospital-clean ground_truth_228_validated.jsonl. Replaces the earlier ground_truth_hard_77.jsonl, which was untracked and lost; not yet re-evaluated against the agent.",
   "difficulty_distribution": {
-    "L1": 15,
-    "L2": 25,
-    "L3": 25,
-    "L4": 20,
-    "L5": 15
+    "L1": 14,
+    "L2": 24,
+    "L3": 21,
+    "L4": 17,
+    "L5": 13
   },
   "difficulty_distribution_v2": {
-    "L1": 15,
-    "L2": 25,
-    "L3": 25,
-    "L4": 20,
-    "L5": 15
+    "L1": 14,
+    "L2": 24,
+    "L3": 21,
+    "L4": 17,
+    "L5": 13
   },
   "rejected_v2_count": 0,
   "docs": [
@@ -44,6 +46,7 @@
     "ground_truth_v2.json",
     "evaluation/ground_truth/ground_truth_228_validated.json",
     "evaluation/ground_truth/ground_truth_228_validated.jsonl",
+    "evaluation/ground_truth/ground_truth_hard_73.jsonl",
     "evaluation/ground_truth/query_results_228/",
     "evaluation/ground_truth/ground_truth_228_validation_report.json",
     "evaluation/ground_truth/ground_truth_228_validation_report.md"

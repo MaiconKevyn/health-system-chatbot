@@ -29,6 +29,7 @@ class AblationRunOptions:
     numeric_tolerance: float
     cache_openai: bool = False
     fail_fast: bool = False
+    excluded_example_ids: tuple[str, ...] = ()
 
 
 def _operational_error_record(
@@ -52,9 +53,20 @@ def run_ablation(
     options: AblationRunOptions,
     progress: ProgressCallback | None = None,
 ) -> dict[str, Any]:
+    excluded_examples = set(options.excluded_example_ids)
+    evaluation_stage1_context = stage1_context.model_copy(
+        update={
+            "ground_truth": [],
+            "example_bank": [
+                example
+                for example in stage1_context.example_bank
+                if example.id not in excluded_examples
+            ],
+        }
+    )
     shared_context = SharedEvalContext(
         config=config,
-        stage1_context=stage1_context,
+        stage1_context=evaluation_stage1_context,
         max_rows=options.max_rows,
         timeout_seconds=options.timeout_seconds,
         numeric_tolerance=options.numeric_tolerance,
@@ -105,6 +117,10 @@ def run_ablation(
 
     run_config = dict(options.run_config)
     run_config["elapsed_seconds"] = time.perf_counter() - started
+    effective_examples = any(bool(record.get("query_examples")) for record in records)
+    run_config["query_examples_enabled_effective"] = effective_examples
+    run_config["query_examples_enabled"] = effective_examples
+    run_config["excluded_example_ids"] = sorted(excluded_examples)
     return write_ablation_outputs(
         run_dir=options.run_dir,
         run_id=options.run_id,

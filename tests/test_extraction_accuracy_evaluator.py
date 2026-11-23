@@ -76,7 +76,7 @@ def test_extra_actual_columns_match_when_expected_projection_is_contained():
     assert result.error_category is None
 
 
-def test_extra_ordered_rows_match_when_expected_prefix_is_contained():
+def test_extra_ordered_rows_do_not_match_without_explicit_superset_policy():
     result = compare_results(
         ["municipio", "taxa"],
         [("A", 10.0)],
@@ -85,9 +85,9 @@ def test_extra_ordered_rows_match_when_expected_prefix_is_contained():
         mode="ordered",
     )
 
-    assert result.result_match is True
+    assert result.result_match is False
     assert result.shape_match is False
-    assert result.contained_in_actual is True
+    assert result.contained_in_actual is False
 
 
 def test_extra_actual_columns_match_when_expected_rows_are_unordered_contained():
@@ -112,12 +112,79 @@ def test_generated_projection_matches_when_contained_in_ground_truth():
         ["quartil", "total", "minimo", "maximo"],
         [(1, 10, 1, 100)],
         mode="ordered",
+        required_output_concepts=["quartil", "total", "minimo", "maximo"],
+        optional_output_concepts=["media"],
     )
 
     assert result.result_match is True
     assert result.shape_match is False
-    assert result.contained_in_expected is True
+    assert result.contained_in_actual is True
     assert result.error_category is None
+
+
+def test_semantic_projection_aligns_reordered_aliases_and_extra_columns():
+    result = compare_results(
+        ["diagnostico", "total_internacoes", "media_dias"],
+        [("A", 100, 4.5)],
+        ["diagnostico", "media_dias_internacao", "casos", "debug"],
+        [("A", 4.5, 100, "x")],
+        mode="ordered",
+        required_output_concepts=[
+            "diagnosis_description",
+            "admissions",
+            "average_length_of_stay",
+        ],
+    )
+
+    assert result.semantic_match is True
+    assert result.presentation_match is False
+    assert result.result_match is True
+
+
+def test_semantic_projection_does_not_hide_metric_value_change():
+    result = compare_results(
+        ["diagnostico", "total_internacoes", "media_dias"],
+        [("A", 100, 4.5)],
+        ["diagnostico", "media_dias_internacao", "casos"],
+        [("A", 9.0, 100)],
+        mode="ordered",
+        required_output_concepts=[
+            "diagnosis_description",
+            "admissions",
+            "average_length_of_stay",
+        ],
+    )
+
+    assert result.semantic_match is False
+
+
+def test_wide_and_long_are_semantically_equivalent_when_allowed():
+    result = compare_results(
+        ["ano", "periodo", "taxa_mortalidade"],
+        [(2020, "inverno", 10.0), (2020, "fora_inverno", 5.0)],
+        ["ano", "taxa_mortalidade_inverno", "taxa_mortalidade_fora_inverno"],
+        [(2020, 10.0, 5.0)],
+        mode="unordered",
+        required_output_concepts=["year", "mortality_rate"],
+        representation="any",
+    )
+
+    assert result.semantic_match is True
+    assert result.presentation_match is False
+
+
+def test_wide_long_normalization_rejects_changed_value():
+    result = compare_results(
+        ["ano", "periodo", "taxa_mortalidade"],
+        [(2020, "inverno", 10.0), (2020, "fora_inverno", 5.0)],
+        ["ano", "taxa_mortalidade_inverno", "taxa_mortalidade_fora_inverno"],
+        [(2020, 10.0, 7.0)],
+        mode="unordered",
+        required_output_concepts=["year", "mortality_rate"],
+        representation="any",
+    )
+
+    assert result.semantic_match is False
 
 
 def test_missing_value_still_remains_shape_mismatch():

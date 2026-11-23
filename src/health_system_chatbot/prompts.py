@@ -6,54 +6,54 @@ Regras obrigatorias:
 - Use apenas SELECT ou WITH.
 - Nunca use CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, COPY, EXPORT, VACUUM,
   CHECKPOINT, ATTACH, INSTALL ou LOAD.
-- Diferencie municipio de residencia (internacoes.MUNIC_RES) de municipio do
-  hospital (hospital.MUNIC_MOV).
-- `internacoes.MUNIC_RES` e `hospital.MUNIC_MOV` sao codigos municipais
-  numericos. Nunca compare esses campos com nomes de cidades. Para filtrar por
-  nome de municipio, faca join com `municipios` e filtre `municipios.NO_MUNICIPIO`
-  e, quando possivel, `municipios.SG_UF`.
-- Se usar internacao_procedimento, declare se o grao e ocorrencia de
-  procedimento.
+- A tabela fato de internacoes/AIH se chama `internacao` (singular), uma linha
+  por AIH (`N_AIH`), com DT_INTER entre 2008-01-01 e 2025-12-31.
+- `internacao.MUNIC_RES` e um codigo municipal numerico. Nunca compare esse
+  campo com nomes de cidades. Para filtrar por nome de municipio, faca join com
+  `municipios` e filtre `municipios.NO_MUNICIPIO` e, quando possivel,
+  `municipios.SG_UF`.
+- Hospital/estabelecimento de atendimento: `internacao.CNES -> hospital.CNES`
+  (nome em `hospital.NO_HOSPITAL`). Municipio/UF do hospital:
+  `hospital.MUNIC_MOV -> municipios.CO_MUNICIPIO_6D`. Nao confunda com o
+  municipio de residencia (`internacao.MUNIC_RES`).
+- `internacao` nao tem coluna de procedimento. O procedimento realizado esta em
+  `internacao_procedimento.PROC_REA` (ligado por `N_AIH`). Para contar
+  internacoes com um procedimento use `COUNT(DISTINCT ip.N_AIH)` ou
+  `EXISTS (SELECT 1 FROM internacao_procedimento ip WHERE ip.N_AIH = i.N_AIH
+  AND ip.PROC_REA IN (...))`; AIHs de longa permanencia repetem linhas em
+  `internacao_procedimento`, entao `COUNT(*)` ali conta ocorrencias, nao
+  internacoes. Declare o grao usado.
+- `internacao.IDADE` ja esta em anos completos (menores de 1 ano = 0);
+  `COD_IDADE` guarda apenas a unidade original do registro.
+- A tabela `tempo` cobre so 2008-2024; um join com `tempo` descarta 2025.
+  Para dia da semana, mes ou trimestre prefira funcoes sobre `DT_INTER`
+  (`isodow`, `month`, `quarter`).
+- `socioeconomico` nao tem os anos 2010, 2022 e 2023; declare o ano do
+  denominador quando usar populacao ou indicadores municipais.
 - Para metricas financeiras, declare explicitamente VAL_TOT ou os componentes.
 - Para joins com municipios por MUNIC_RES, declare universo mapeado ou use
   LEFT JOIN com bucket nao mapeado.
 - Nao use relacoes rejeitadas como dimensoes de negocio.
 - Nao invente colunas. Use somente colunas presentes no contexto recuperado.
-- A coluna de obito hospitalar na tabela `internacoes` e `MORTE`.
-- Para sexo, use a relacao documentada `internacoes.SEXO -> sexo.SEXO` quando
+- A coluna de obito hospitalar na tabela `internacao` e `MORTE`.
+- Para sexo, use a relacao documentada `internacao.SEXO -> sexo.SEXO` quando
   precisar interpretar descricao; nao assuma valores literais sem contexto.
-- Se houver `EXEMPLO_EXATO`, use o mesmo padrao SQL e preserve o shape de saida
-  (colunas, agregacoes, `LIMIT`, `ORDER BY` e colunas diagnosticas), salvo se a
-  pergunta atual pedir explicitamente uma adaptacao ou se as orientacoes
-  aplicaveis para geracao SQL indicarem uma regra de schema linking, shape ou
-  dominio mais especifica.
-- Se houver exemplo few-shot quase identico, preserve a semantica e as colunas
-  diagnosticas do exemplo, adaptando quando a pergunta atual exigir ou quando
-  houver orientacao aplicavel mais atual que corrija exemplo legado.
-- Para perguntas de qualidade da dimensao territorial envolvendo UFs validas,
-  inclua tambem a contagem de codigos `SG_UF` invalidos/nao mapeados quando o
-  contexto ou exemplo relacionado mostrar essa coluna diagnostica.
-- Para perguntas sobre intervalo de anos em indicadores ou dimensoes auxiliares,
-  inclua `COUNT(*) AS registros` junto com `MIN(NU_ANO)` e `MAX(NU_ANO)` quando
-  a tabela puder estar vazia.
+- Exemplos few-shot sao referencias estruturais condicionais. Nao copie LIMIT,
+  suporte minimo, periodo, faixa, particao ou coluna que nao esteja explicita no
+  QuestionContract ou em regra semantica ativa com proveniencia.
+- A pergunta, o QuestionContract e as regras semanticas ativas prevalecem sobre
+  qualquer exemplo.
 - Nao adicione descricao de dimensao somente porque uma tabela de dimensao foi
   recuperada. Se a pergunta pede `codigo`/`codigos`, retorne o codigo cru e as
   metricas pedidas; inclua descricao apenas quando a pergunta ou exemplo pedir.
 - Nao retorne colunas usadas apenas como filtro constante, como `SG_UF = 'RS'`,
   salvo se o usuario pedir essa coluna na saida.
-- Em rankings, medias, totais ou distribuicoes por grupo, inclua `COUNT(*) AS
-  internacoes` quando o exemplo ou a regra de negocio usa esse denominador como
-  coluna de suporte.
-- Em comparacoes por ano entre dois ou mais grupos nomeados, prefira uma linha
-  por ano e uma coluna de metrica para cada grupo comparado, salvo se o usuario
-  pedir formato longo.
+- Retorne os conceitos obrigatorios do QuestionContract; trate medidas de
+  suporte como opcionais e nao altere o grain pedido.
 - Em `ORDER BY` de ranking, distribuicao, percentual, taxa ou media, use
   desempate deterministico com as dimensoes legiveis retornadas quando houver
   empate na metrica ordenada; exemplo: `ORDER BY ano, percentual DESC,
   capitulo_cid ASC`.
-- Para pergunta simples de mortes/obitos por ano, retorne apenas a base temporal
-  e a contagem de mortes, salvo se a pergunta pedir taxa, denominador ou total
-  de internacoes.
 
 Pergunta:
 {question}
@@ -101,6 +101,8 @@ Regras obrigatorias:
 - Nao use secoes com titulos como "Base temporal", "Caveats", "Detalhe",
   "Metrica", "SQL" ou "Observacoes".
 - Para respostas escalares, prefira uma unica frase.
+- Para pedidos de grafico, a interface cuida da visualizacao. Escreva o resumo
+  em prosa, salvo se o usuario pedir explicitamente um grafico em texto.
 - Para series temporais, de a soma total em uma frase e, se for util, acrescente
   uma segunda frase curta com os valores por ano.
 - Responda em portugues.

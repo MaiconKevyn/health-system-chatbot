@@ -1,0 +1,2720 @@
+[
+  {
+    "case": "C01",
+    "review_id": "10000d64510b",
+    "question": "Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",
+    "rubric": "Contagem exata.",
+    "reference": [
+      [
+        15168
+      ]
+    ],
+    "answer": "Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias."
+  },
+  {
+    "case": "C01",
+    "review_id": "1c71f936477c",
+    "question": "Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",
+    "rubric": "Contagem exata.",
+    "reference": [
+      [
+        15168
+      ]
+    ],
+    "answer": "Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias."
+  },
+  {
+    "case": "C01",
+    "review_id": "20dada558792",
+    "question": "Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",
+    "rubric": "Contagem exata.",
+    "reference": [
+      [
+        15168
+      ]
+    ],
+    "answer": "Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias."
+  },
+  {
+    "case": "C01",
+    "review_id": "3ed41a2eb064",
+    "question": "Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",
+    "rubric": "Contagem exata.",
+    "reference": [
+      [
+        15168
+      ]
+    ],
+    "answer": "Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias."
+  },
+  {
+    "case": "C01",
+    "review_id": "414757d327b4",
+    "question": "Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",
+    "rubric": "Contagem exata.",
+    "reference": [
+      [
+        15168
+      ]
+    ],
+    "answer": "Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias."
+  },
+  {
+    "case": "C01",
+    "review_id": "d8ef4417bbd7",
+    "question": "Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",
+    "rubric": "Contagem exata.",
+    "reference": [
+      [
+        15168
+      ]
+    ],
+    "answer": "Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias. “Iniciadas” foi interpretado como a data de entrada."
+  },
+  {
+    "case": "C02",
+    "review_id": "1303bbab0bce",
+    "question": "Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.",
+    "rubric": "Mediana em reais com centavos.",
+    "reference": [
+      [
+        602.83
+      ]
+    ],
+    "answer": "A mediana do valor total aprovado por AIH foi de R$ 602,83."
+  },
+  {
+    "case": "C02",
+    "review_id": "1837a0b9d9c2",
+    "question": "Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.",
+    "rubric": "Mediana em reais com centavos.",
+    "reference": [
+      [
+        602.83
+      ]
+    ],
+    "answer": "A mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022 foi **R$ 602,83**. A data de início foi considerada como a data de entrada, e os valores são nominais."
+  },
+  {
+    "case": "C02",
+    "review_id": "83f1cf794429",
+    "question": "Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.",
+    "rubric": "Mediana em reais com centavos.",
+    "reference": [
+      [
+        602.83
+      ]
+    ],
+    "answer": "A mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022 foi **R$ 602,83**. O período foi definido pela data de entrada, e o valor é nominal, sem correção pela inflação."
+  },
+  {
+    "case": "C02",
+    "review_id": "9d23806cb53d",
+    "question": "Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.",
+    "rubric": "Mediana em reais com centavos.",
+    "reference": [
+      [
+        602.83
+      ]
+    ],
+    "answer": "A mediana do valor total aprovado por AIH foi **R$ 602,83**. O cálculo considera a data de início da internação em março de 2022; os valores são nominais."
+  },
+  {
+    "case": "C02",
+    "review_id": "a9dd44c6799c",
+    "question": "Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.",
+    "rubric": "Mediana em reais com centavos.",
+    "reference": [
+      [
+        602.83
+      ]
+    ],
+    "answer": "A mediana do valor total aprovado por AIH foi de R$ 602,83."
+  },
+  {
+    "case": "C02",
+    "review_id": "cbb32b6de09f",
+    "question": "Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.",
+    "rubric": "Mediana em reais com centavos.",
+    "reference": [
+      [
+        602.83
+      ]
+    ],
+    "answer": "A mediana do valor total aprovado por AIH foi **R$ 602,83**. Considerei internações iniciadas em março pela data de entrada (DT_INTER); os valores financeiros são nominais."
+  },
+  {
+    "case": "C03",
+    "review_id": "03d3a09b317d",
+    "question": "Qual é a descrição do código A16 na tabela CID do banco?",
+    "rubric": "Significado da descrição local, incluindo localização respiratória e ausência de confirmação bacteriológica ou histológica. Aceitar paráfrase.",
+    "reference": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "answer": "O código CID A16 corresponde a “Tuberc vias respirat s/conf bacter histol”."
+  },
+  {
+    "case": "C03",
+    "review_id": "1b4750d89139",
+    "question": "Qual é a descrição do código A16 na tabela CID do banco?",
+    "rubric": "Significado da descrição local, incluindo localização respiratória e ausência de confirmação bacteriológica ou histológica. Aceitar paráfrase.",
+    "reference": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "answer": "O código CID A16 corresponde a “Tuberculose das vias respiratórias, sem confirmação bacteriológica ou histológica”."
+  },
+  {
+    "case": "C03",
+    "review_id": "5f53dac41eed",
+    "question": "Qual é a descrição do código A16 na tabela CID do banco?",
+    "rubric": "Significado da descrição local, incluindo localização respiratória e ausência de confirmação bacteriológica ou histológica. Aceitar paráfrase.",
+    "reference": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "answer": "O código A16 corresponde a “Tuberc vias respirat s/conf bacter histol”."
+  },
+  {
+    "case": "C03",
+    "review_id": "7efbc06a3885",
+    "question": "Qual é a descrição do código A16 na tabela CID do banco?",
+    "rubric": "Significado da descrição local, incluindo localização respiratória e ausência de confirmação bacteriológica ou histológica. Aceitar paráfrase.",
+    "reference": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "answer": "A descrição do código A16 é “Tuberc vias respirat s/conf bacter histol”."
+  },
+  {
+    "case": "C03",
+    "review_id": "bd778f6ed123",
+    "question": "Qual é a descrição do código A16 na tabela CID do banco?",
+    "rubric": "Significado da descrição local, incluindo localização respiratória e ausência de confirmação bacteriológica ou histológica. Aceitar paráfrase.",
+    "reference": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "answer": "O código CID A16 corresponde a “Tuberc vias respirat s/conf bacter histol”."
+  },
+  {
+    "case": "C03",
+    "review_id": "edd8a2468ee0",
+    "question": "Qual é a descrição do código A16 na tabela CID do banco?",
+    "rubric": "Significado da descrição local, incluindo localização respiratória e ausência de confirmação bacteriológica ou histológica. Aceitar paráfrase.",
+    "reference": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "answer": "O código CID A16 corresponde a “Tuberculose das vias respiratórias, sem confirmação bacteriológica ou histológica”."
+  },
+  {
+    "case": "C04",
+    "review_id": "4b7ea017d157",
+    "question": "Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?",
+    "rubric": "Quantidade de municípios cadastrados.",
+    "reference": [
+      [
+        78
+      ]
+    ],
+    "answer": "O cadastro contém **78 municípios** do Espírito Santo."
+  },
+  {
+    "case": "C04",
+    "review_id": "4f6f747971b1",
+    "question": "Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?",
+    "rubric": "Quantidade de municípios cadastrados.",
+    "reference": [
+      [
+        78
+      ]
+    ],
+    "answer": "O cadastro do banco contém 78 municípios do Espírito Santo."
+  },
+  {
+    "case": "C04",
+    "review_id": "5718fc7207be",
+    "question": "Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?",
+    "rubric": "Quantidade de municípios cadastrados.",
+    "reference": [
+      [
+        78
+      ]
+    ],
+    "answer": "O cadastro contém 78 municípios do Espírito Santo."
+  },
+  {
+    "case": "C04",
+    "review_id": "ce8a7ddace38",
+    "question": "Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?",
+    "rubric": "Quantidade de municípios cadastrados.",
+    "reference": [
+      [
+        78
+      ]
+    ],
+    "answer": "O cadastro contém 78 municípios do Espírito Santo."
+  },
+  {
+    "case": "C04",
+    "review_id": "e05c89d142b7",
+    "question": "Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?",
+    "rubric": "Quantidade de municípios cadastrados.",
+    "reference": [
+      [
+        78
+      ]
+    ],
+    "answer": "Constam 78 municípios do Espírito Santo no cadastro."
+  },
+  {
+    "case": "C04",
+    "review_id": "fdd97d1e91d2",
+    "question": "Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?",
+    "rubric": "Quantidade de municípios cadastrados.",
+    "reference": [
+      [
+        78
+      ]
+    ],
+    "answer": "Constam 78 municípios do Espírito Santo no cadastro."
+  },
+  {
+    "case": "C05",
+    "review_id": "13ee25e81a65",
+    "question": "Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",
+    "rubric": "Total de entradas no fim de semana.",
+    "reference": [
+      [
+        171898
+      ]
+    ],
+    "answer": "Foram 171.898 internações iniciadas em sábados ou domingos no Brasil, em setembro de 2020."
+  },
+  {
+    "case": "C05",
+    "review_id": "4eed1c85f023",
+    "question": "Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",
+    "rubric": "Total de entradas no fim de semana.",
+    "reference": [
+      [
+        171898
+      ]
+    ],
+    "answer": "Foram 171.898 internações com início em um sábado ou domingo em setembro de 2020, no Brasil."
+  },
+  {
+    "case": "C05",
+    "review_id": "680304cee531",
+    "question": "Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",
+    "rubric": "Total de entradas no fim de semana.",
+    "reference": [
+      [
+        171898
+      ]
+    ],
+    "answer": "Foram 171.898 internações com início em um sábado ou domingo em setembro de 2020, no Brasil. “Começaram” foi interpretado como a data de entrada, considerando todas as internações registradas, sem filtro geográfico adicional."
+  },
+  {
+    "case": "C05",
+    "review_id": "82f4b442db15",
+    "question": "Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",
+    "rubric": "Total de entradas no fim de semana.",
+    "reference": [
+      [
+        171898
+      ]
+    ],
+    "answer": "Foram 171.898 internações."
+  },
+  {
+    "case": "C05",
+    "review_id": "a83f44256cfd",
+    "question": "Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",
+    "rubric": "Total de entradas no fim de semana.",
+    "reference": [
+      [
+        171898
+      ]
+    ],
+    "answer": "Foram 171.898 internações iniciadas em um sábado ou domingo em setembro de 2020, considerando todas as internações da base no Brasil."
+  },
+  {
+    "case": "C05",
+    "review_id": "fc883e4f6d11",
+    "question": "Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",
+    "rubric": "Total de entradas no fim de semana.",
+    "reference": [
+      [
+        171898
+      ]
+    ],
+    "answer": "Foram 171.898 internações iniciadas em sábados ou domingos em setembro de 2020, no Brasil. “Começaram” foi interpretado como a data de entrada da internação."
+  },
+  {
+    "case": "C06",
+    "review_id": "2ce94ab3b6d4",
+    "question": "Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?",
+    "rubric": "Total estadual do indicador no ano, em habitantes.",
+    "reference": [
+      [
+        9132078
+      ]
+    ],
+    "answer": "A soma da população municipal registrada para o Ceará em 2019 foi de **9.132.078 pessoas**."
+  },
+  {
+    "case": "C06",
+    "review_id": "65d21cd52386",
+    "question": "Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?",
+    "rubric": "Total estadual do indicador no ano, em habitantes.",
+    "reference": [
+      [
+        9132078
+      ]
+    ],
+    "answer": "A soma da população municipal registrada para o Ceará em 2019 foi de **9.132.078 pessoas**."
+  },
+  {
+    "case": "C06",
+    "review_id": "75101766cca1",
+    "question": "Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?",
+    "rubric": "Total estadual do indicador no ano, em habitantes.",
+    "reference": [
+      [
+        9132078
+      ]
+    ],
+    "answer": "A soma da população municipal registrada para o Ceará em 2019 foi de 9.132.078."
+  },
+  {
+    "case": "C06",
+    "review_id": "af710bf5090a",
+    "question": "Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?",
+    "rubric": "Total estadual do indicador no ano, em habitantes.",
+    "reference": [
+      [
+        9132078
+      ]
+    ],
+    "answer": "A soma da população municipal registrada para o Ceará em 2019 foi de 9.132.078 pessoas."
+  },
+  {
+    "case": "C06",
+    "review_id": "cf0882ccb8d9",
+    "question": "Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?",
+    "rubric": "Total estadual do indicador no ano, em habitantes.",
+    "reference": [
+      [
+        9132078
+      ]
+    ],
+    "answer": "A soma da população municipal registrada para o Ceará em 2019 foi de **9.132.078 pessoas**."
+  },
+  {
+    "case": "C06",
+    "review_id": "dcfe237b4696",
+    "question": "Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?",
+    "rubric": "Total estadual do indicador no ano, em habitantes.",
+    "reference": [
+      [
+        9132078
+      ]
+    ],
+    "answer": "A população municipal total registrada para o Ceará em 2019 foi de **9.132.078 pessoas**."
+  },
+  {
+    "case": "C07",
+    "review_id": "0006e3ee690d",
+    "question": "Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?",
+    "rubric": "Média em reais com centavos, subconjunto com óbito.",
+    "reference": [
+      [
+        4199.0
+      ]
+    ],
+    "answer": "O valor total aprovado médio foi de R$ 4.199,00 por internação."
+  },
+  {
+    "case": "C07",
+    "review_id": "43ac046fabb5",
+    "question": "Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?",
+    "rubric": "Média em reais com centavos, subconjunto com óbito.",
+    "reference": [
+      [
+        4199.0
+      ]
+    ],
+    "answer": "O valor total aprovado médio foi de **R$ 4.199,00** para as internações iniciadas em junho de 2017 que terminaram em óbito. O valor está em reais nominais."
+  },
+  {
+    "case": "C07",
+    "review_id": "a8f71a69d8f3",
+    "question": "Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?",
+    "rubric": "Média em reais com centavos, subconjunto com óbito.",
+    "reference": [
+      [
+        4199.0
+      ]
+    ],
+    "answer": "O valor total aprovado médio foi de **R$ 4.199,00**. Os valores financeiros são nominais."
+  },
+  {
+    "case": "C07",
+    "review_id": "bdd97d888757",
+    "question": "Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?",
+    "rubric": "Média em reais com centavos, subconjunto com óbito.",
+    "reference": [
+      [
+        4199.0
+      ]
+    ],
+    "answer": "O valor total aprovado médio foi de **R$ 4.199,00**. O cálculo considera internações com entrada em junho de 2017 que terminaram em óbito; os valores são nominais."
+  },
+  {
+    "case": "C07",
+    "review_id": "f15f0d58df1d",
+    "question": "Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?",
+    "rubric": "Média em reais com centavos, subconjunto com óbito.",
+    "reference": [
+      [
+        4199.0
+      ]
+    ],
+    "answer": "O valor total aprovado médio foi de **R$ 4.199,00** por internação. Interpretei “valor total aprovado” como VAL_TOT e “terminaram em óbito” como registros com MORTE = TRUE."
+  },
+  {
+    "case": "C07",
+    "review_id": "fad56b6cc4f7",
+    "question": "Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?",
+    "rubric": "Média em reais com centavos, subconjunto com óbito.",
+    "reference": [
+      [
+        4199.0
+      ]
+    ],
+    "answer": "O valor total aprovado médio foi de R$ 4.199,00 por internação."
+  },
+  {
+    "case": "C08",
+    "review_id": "254227772c38",
+    "question": "Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?",
+    "rubric": "Zero registros ou afirmação explícita de inexistência de registros em 2022. Não confundir com população igual a zero.",
+    "reference": [
+      [
+        0
+      ]
+    ],
+    "answer": "Há 0 registros municipais com população não nula na tabela socioeconômica para 2022."
+  },
+  {
+    "case": "C08",
+    "review_id": "52bca230e41e",
+    "question": "Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?",
+    "rubric": "Zero registros ou afirmação explícita de inexistência de registros em 2022. Não confundir com população igual a zero.",
+    "reference": [
+      [
+        0
+      ]
+    ],
+    "answer": "Não é possível contar registros municipais com população não nula para 2022, pois a tabela socioeconomico não tem dados desse ano. Não se deve interpolar nem substituir por outro ano."
+  },
+  {
+    "case": "C08",
+    "review_id": "784eb104e7ac",
+    "question": "Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?",
+    "rubric": "Zero registros ou afirmação explícita de inexistência de registros em 2022. Não confundir com população igual a zero.",
+    "reference": [
+      [
+        0
+      ]
+    ],
+    "answer": "O ano de 2022 está ausente da cobertura da tabela socioeconomico. Não há registros para calcular essa contagem."
+  },
+  {
+    "case": "C08",
+    "review_id": "99656127a8d9",
+    "question": "Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?",
+    "rubric": "Zero registros ou afirmação explícita de inexistência de registros em 2022. Não confundir com população igual a zero.",
+    "reference": [
+      [
+        0
+      ]
+    ],
+    "answer": "A tabela socioeconomico não possui dados de 2022. Não é possível determinar a quantidade de registros municipais com população não nula nesse ano a partir desta base."
+  },
+  {
+    "case": "C08",
+    "review_id": "b6b60bc80561",
+    "question": "Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?",
+    "rubric": "Zero registros ou afirmação explícita de inexistência de registros em 2022. Não confundir com população igual a zero.",
+    "reference": [
+      [
+        0
+      ]
+    ],
+    "answer": "Há 0 registros municipais com população não nula para 2022; a tabela não possui dados desse ano."
+  },
+  {
+    "case": "C08",
+    "review_id": "cd56f244c9b5",
+    "question": "Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?",
+    "rubric": "Zero registros ou afirmação explícita de inexistência de registros em 2022. Não confundir com população igual a zero.",
+    "reference": [
+      [
+        0
+      ]
+    ],
+    "answer": "Não há registros municipais com população não nula para 2022."
+  },
+  {
+    "case": "C09",
+    "review_id": "4dd0b0157b2a",
+    "question": "Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?",
+    "rubric": "Contagem exata para as duas categorias.",
+    "reference": [
+      [
+        7619
+      ]
+    ],
+    "answer": "Foram **7.619 internações** iniciadas em fevereiro de 2017 com asma (CID-10 J45) ou estado de mal asmático (J46) como diagnóstico principal."
+  },
+  {
+    "case": "C09",
+    "review_id": "655197e63928",
+    "question": "Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?",
+    "rubric": "Contagem exata para as duas categorias.",
+    "reference": [
+      [
+        7619
+      ]
+    ],
+    "answer": "Foram 7.619 internações."
+  },
+  {
+    "case": "C09",
+    "review_id": "76603ef47252",
+    "question": "Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?",
+    "rubric": "Contagem exata para as duas categorias.",
+    "reference": [
+      [
+        7619
+      ]
+    ],
+    "answer": "Foram 7.619 internações iniciadas em fevereiro de 2017 com asma (CID-10 J45) ou estado de mal asmático (J46) como diagnóstico principal."
+  },
+  {
+    "case": "C09",
+    "review_id": "a4acd699179d",
+    "question": "Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?",
+    "rubric": "Contagem exata para as duas categorias.",
+    "reference": [
+      [
+        7619
+      ]
+    ],
+    "answer": "Foram 7.619 internações iniciadas em fevereiro de 2017 com asma (CID J45 e subcategorias) ou estado de mal asmático (CID J46) como diagnóstico principal. A contagem considera a data de internação, não a de alta."
+  },
+  {
+    "case": "C09",
+    "review_id": "a9cfcdea57fb",
+    "question": "Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?",
+    "rubric": "Contagem exata para as duas categorias.",
+    "reference": [
+      [
+        7619
+      ]
+    ],
+    "answer": "Foram 7.619 internações iniciadas em fevereiro de 2017 com asma ou estado de mal asmático como diagnóstico principal."
+  },
+  {
+    "case": "C09",
+    "review_id": "c1b323a5132c",
+    "question": "Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?",
+    "rubric": "Contagem exata para as duas categorias.",
+    "reference": [
+      [
+        7619
+      ]
+    ],
+    "answer": "Foram **7.619 internações** iniciadas em fevereiro de 2017 com asma (CID J45, incluindo subcategorias) ou estado de mal asmático (CID J46) como diagnóstico principal."
+  },
+  {
+    "case": "C10",
+    "review_id": "06da10b2977f",
+    "question": "Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",
+    "rubric": "Quantidade de estabelecimentos. Uso de UTI por marca registrada.",
+    "reference": [
+      [
+        1078
+      ]
+    ],
+    "answer": "1.078 hospitais distintos atenderam internações iniciadas em julho de 2019 com uso de UTI."
+  },
+  {
+    "case": "C10",
+    "review_id": "4bebbd528c87",
+    "question": "Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",
+    "rubric": "Quantidade de estabelecimentos. Uso de UTI por marca registrada.",
+    "reference": [
+      [
+        1078
+      ]
+    ],
+    "answer": "1.078 hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI. Considerou-se a data de entrada da internação e cada CNES foi contado uma única vez."
+  },
+  {
+    "case": "C10",
+    "review_id": "537f2c2e0ec5",
+    "question": "Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",
+    "rubric": "Quantidade de estabelecimentos. Uso de UTI por marca registrada.",
+    "reference": [
+      [
+        1078
+      ]
+    ],
+    "answer": "1.078 hospitais distintos identificados por CNES atenderam internações iniciadas em julho de 2019 com uso de UTI. Foi considerado uso de UTI quando o indicador era maior que zero."
+  },
+  {
+    "case": "C10",
+    "review_id": "642abf73a0c6",
+    "question": "Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",
+    "rubric": "Quantidade de estabelecimentos. Uso de UTI por marca registrada.",
+    "reference": [
+      [
+        1078
+      ]
+    ],
+    "answer": "Foram 1.078 hospitais distintos."
+  },
+  {
+    "case": "C10",
+    "review_id": "ca6b9fe516bb",
+    "question": "Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",
+    "rubric": "Quantidade de estabelecimentos. Uso de UTI por marca registrada.",
+    "reference": [
+      [
+        1078
+      ]
+    ],
+    "answer": "1.078 hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI. “Iniciadas” foi interpretado como a data de entrada na internação."
+  },
+  {
+    "case": "C10",
+    "review_id": "d218031f1c99",
+    "question": "Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",
+    "rubric": "Quantidade de estabelecimentos. Uso de UTI por marca registrada.",
+    "reference": [
+      [
+        1078
+      ]
+    ],
+    "answer": "1.078 hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI."
+  },
+  {
+    "case": "C11",
+    "review_id": "058290748949",
+    "question": "Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?",
+    "rubric": "Contagem no sentido Canoas → Porto Alegre.",
+    "reference": [
+      [
+        2179
+      ]
+    ],
+    "answer": "Foram **2.179 internações** de residentes de Canoas que começaram em 2021 em hospitais localizados em Porto Alegre. “Começaram” foi interpretado como a data de entrada na internação; o município de residência e o do hospital foram considerados separadamente."
+  },
+  {
+    "case": "C11",
+    "review_id": "359aaf5fc9ee",
+    "question": "Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?",
+    "rubric": "Contagem no sentido Canoas → Porto Alegre.",
+    "reference": [
+      [
+        2179
+      ]
+    ],
+    "answer": "Foram 2.179 internações de residentes de Canoas que começaram em 2021 em hospitais localizados em Porto Alegre. “Começaram” foi interpretado como a data de entrada na internação."
+  },
+  {
+    "case": "C11",
+    "review_id": "430f0d070147",
+    "question": "Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?",
+    "rubric": "Contagem no sentido Canoas → Porto Alegre.",
+    "reference": [
+      [
+        2179
+      ]
+    ],
+    "answer": "Foram **2.179 internações** iniciadas em 2021 por residentes de Canoas em hospitais localizados em Porto Alegre. “Residentes” refere-se ao município de residência do paciente, e a localização do hospital, ao município do estabelecimento."
+  },
+  {
+    "case": "C11",
+    "review_id": "531fc4d90f5e",
+    "question": "Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?",
+    "rubric": "Contagem no sentido Canoas → Porto Alegre.",
+    "reference": [
+      [
+        2179
+      ]
+    ],
+    "answer": "Foram 2.179 internações de residentes de Canoas em hospitais de Porto Alegre, iniciadas em 2021."
+  },
+  {
+    "case": "C11",
+    "review_id": "6bbea9ee9bf2",
+    "question": "Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?",
+    "rubric": "Contagem no sentido Canoas → Porto Alegre.",
+    "reference": [
+      [
+        2179
+      ]
+    ],
+    "answer": "Foram registradas **2.179 internações** de residentes de Canoas iniciadas em 2021 em hospitais localizados em Porto Alegre. O município de Canoas refere-se à residência dos pacientes, e Porto Alegre, à localização dos hospitais."
+  },
+  {
+    "case": "C11",
+    "review_id": "d79bd8440d83",
+    "question": "Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?",
+    "rubric": "Contagem no sentido Canoas → Porto Alegre.",
+    "reference": [
+      [
+        2179
+      ]
+    ],
+    "answer": "Foram 2.179 internações."
+  },
+  {
+    "case": "C12",
+    "review_id": "430870617ddc",
+    "question": "Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?",
+    "rubric": "Número de AIHs distintas com o código exato.",
+    "reference": [
+      [
+        53313
+      ]
+    ],
+    "answer": "Foram 53.313 AIHs distintas iniciadas em abril de 2023 com ao menos um registro do procedimento realizado de código 0411010034. “Iniciadas” foi interpretado como a data de entrada da internação."
+  },
+  {
+    "case": "C12",
+    "review_id": "451c5f981048",
+    "question": "Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?",
+    "rubric": "Número de AIHs distintas com o código exato.",
+    "reference": [
+      [
+        53313
+      ]
+    ],
+    "answer": "Foram **53.313 AIHs distintas** iniciadas em abril de 2023 com ao menos um registro do procedimento realizado de código 0411010034."
+  },
+  {
+    "case": "C12",
+    "review_id": "56cd7df3443b",
+    "question": "Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?",
+    "rubric": "Número de AIHs distintas com o código exato.",
+    "reference": [
+      [
+        53313
+      ]
+    ],
+    "answer": "Foram 53.313 AIHs distintas."
+  },
+  {
+    "case": "C12",
+    "review_id": "601b85628564",
+    "question": "Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?",
+    "rubric": "Número de AIHs distintas com o código exato.",
+    "reference": [
+      [
+        53313
+      ]
+    ],
+    "answer": "Foram 53.313 AIHs distintas iniciadas em abril de 2023 com ao menos um registro do procedimento realizado de código 0411010034. “Iniciadas” foi interpretado como a data de internação, não a data de alta."
+  },
+  {
+    "case": "C12",
+    "review_id": "6ae329db35f0",
+    "question": "Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?",
+    "rubric": "Número de AIHs distintas com o código exato.",
+    "reference": [
+      [
+        53313
+      ]
+    ],
+    "answer": "Foram 53.313 AIHs distintas iniciadas em abril de 2023 com ao menos um registro do procedimento realizado de código 0411010034. “Iniciadas” foi interpretado como a data de entrada na internação, e o código como correspondência exata."
+  },
+  {
+    "case": "C12",
+    "review_id": "e109282435c8",
+    "question": "Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?",
+    "rubric": "Número de AIHs distintas com o código exato.",
+    "reference": [
+      [
+        53313
+      ]
+    ],
+    "answer": "Foram 53.313 AIHs distintas, considerando como iniciadas em abril as internações com início nesse mês."
+  },
+  {
+    "case": "C13",
+    "review_id": "465a939ad80d",
+    "question": "Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.",
+    "rubric": "Taxa percentual com duas casas e denominador de internações de residentes.",
+    "reference": [
+      [
+        3.35
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar foi de **3,35%** entre as internações iniciadas em 2018 de residentes de Goiás. O local foi definido pelo município de residência, e o ano pela data de entrada na internação."
+  },
+  {
+    "case": "C13",
+    "review_id": "6f6dd6071103",
+    "question": "Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.",
+    "rubric": "Taxa percentual com duas casas e denominador de internações de residentes.",
+    "reference": [
+      [
+        3.35
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar foi de **3,35%** entre as internações de residentes de Goiás iniciadas em 2018. O recorte considera a data de entrada da internação, que pode diferir da competência baseada na data de alta."
+  },
+  {
+    "case": "C13",
+    "review_id": "7f30a47ee624",
+    "question": "Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.",
+    "rubric": "Taxa percentual com duas casas e denominador de internações de residentes.",
+    "reference": [
+      [
+        3.35
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar foi de **3,35%** entre as internações iniciadas em 2018 por residentes de Goiás. O recorte considera o município de residência e todas as internações iniciadas no ano."
+  },
+  {
+    "case": "C13",
+    "review_id": "a7a48f04536b",
+    "question": "Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.",
+    "rubric": "Taxa percentual com duas casas e denominador de internações de residentes.",
+    "reference": [
+      [
+        3.35
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar foi de 3,35%."
+  },
+  {
+    "case": "C13",
+    "review_id": "b14a88d86f39",
+    "question": "Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.",
+    "rubric": "Taxa percentual com duas casas e denominador de internações de residentes.",
+    "reference": [
+      [
+        3.35
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar foi de 3,35%."
+  },
+  {
+    "case": "C13",
+    "review_id": "f515a3daf302",
+    "question": "Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.",
+    "rubric": "Taxa percentual com duas casas e denominador de internações de residentes.",
+    "reference": [
+      [
+        3.35
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar foi de **3,35%** entre as internações iniciadas em 2018 de residentes de Goiás. O recorte considera a UF de residência do paciente e a data de entrada da internação."
+  },
+  {
+    "case": "C14",
+    "review_id": "23ba5d624311",
+    "question": "Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",
+    "rubric": "Contagem de estabelecimentos mineiros.",
+    "reference": [
+      [
+        378
+      ]
+    ],
+    "answer": "Foram 378 hospitais de Minas Gerais."
+  },
+  {
+    "case": "C14",
+    "review_id": "4ce71b1b0daa",
+    "question": "Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",
+    "rubric": "Contagem de estabelecimentos mineiros.",
+    "reference": [
+      [
+        378
+      ]
+    ],
+    "answer": "Foram **378 hospitais distintos** em Minas Gerais com ao menos um óbito entre as internações iniciadas em janeiro de 2020. O recorte considera o local do estabelecimento e a data de internação (`DT_INTER`), não a residência do paciente nem a data de alta."
+  },
+  {
+    "case": "C14",
+    "review_id": "86662a85faf7",
+    "question": "Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",
+    "rubric": "Contagem de estabelecimentos mineiros.",
+    "reference": [
+      [
+        378
+      ]
+    ],
+    "answer": "Foram 378 hospitais distintos em Minas Gerais com ao menos um óbito entre as internações iniciadas em janeiro de 2020. O estado foi definido pelo local de atendimento do estabelecimento."
+  },
+  {
+    "case": "C14",
+    "review_id": "8b4f5de799b2",
+    "question": "Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",
+    "rubric": "Contagem de estabelecimentos mineiros.",
+    "reference": [
+      [
+        378
+      ]
+    ],
+    "answer": "Foram **378 hospitais distintos** em Minas Gerais com pelo menos uma internação iniciada em janeiro de 2020 que resultou em óbito. O estado foi definido pelo **local de atendimento**."
+  },
+  {
+    "case": "C14",
+    "review_id": "9fd871f8bfd1",
+    "question": "Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",
+    "rubric": "Contagem de estabelecimentos mineiros.",
+    "reference": [
+      [
+        378
+      ]
+    ],
+    "answer": "Foram 378 hospitais distintos de Minas Gerais, pelo local de atendimento, com pelo menos uma internação iniciada em janeiro de 2020 registrada com óbito. A contagem considera a data de entrada da internação."
+  },
+  {
+    "case": "C14",
+    "review_id": "c9d5b679e78c",
+    "question": "Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",
+    "rubric": "Contagem de estabelecimentos mineiros.",
+    "reference": [
+      [
+        378
+      ]
+    ],
+    "answer": "Foram 378 hospitais de Minas Gerais."
+  },
+  {
+    "case": "C15",
+    "review_id": "3f4774e9629e",
+    "question": "Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?",
+    "rubric": "Contagem exata para diagnóstico principal e residência.",
+    "reference": [
+      [
+        357
+      ]
+    ],
+    "answer": "Foram iniciadas 357 internações por hipertensão essencial entre residentes de Sergipe em 2020."
+  },
+  {
+    "case": "C15",
+    "review_id": "4093dfa5e23d",
+    "question": "Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?",
+    "rubric": "Contagem exata para diagnóstico principal e residência.",
+    "reference": [
+      [
+        357
+      ]
+    ],
+    "answer": "Foram iniciadas **357 internações** em 2020 com diagnóstico principal de hipertensão essencial entre residentes de Sergipe. O recorte é por local de residência; “hipertensão essencial” foi interpretada como CID I10 e suas subcategorias."
+  },
+  {
+    "case": "C15",
+    "review_id": "7c7b126e3ee1",
+    "question": "Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?",
+    "rubric": "Contagem exata para diagnóstico principal e residência.",
+    "reference": [
+      [
+        357
+      ]
+    ],
+    "answer": "Foram registradas 357 internações iniciadas em 2020 com diagnóstico principal de hipertensão essencial entre residentes de Sergipe. “Iniciadas” foi interpretado como a data de entrada, e a residência, como o município de residência informado."
+  },
+  {
+    "case": "C15",
+    "review_id": "8800dce75a63",
+    "question": "Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?",
+    "rubric": "Contagem exata para diagnóstico principal e residência.",
+    "reference": [
+      [
+        357
+      ]
+    ],
+    "answer": "Foram iniciadas 357 internações em 2020 entre residentes de Sergipe, com diagnóstico principal de hipertensão essencial."
+  },
+  {
+    "case": "C15",
+    "review_id": "b1ca0198613d",
+    "question": "Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?",
+    "rubric": "Contagem exata para diagnóstico principal e residência.",
+    "reference": [
+      [
+        357
+      ]
+    ],
+    "answer": "Foram iniciadas 357 internações com diagnóstico principal de hipertensão essencial em 2020 entre residentes de Sergipe. O recorte geográfico se refere ao local de residência."
+  },
+  {
+    "case": "C15",
+    "review_id": "b45bd100f602",
+    "question": "Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?",
+    "rubric": "Contagem exata para diagnóstico principal e residência.",
+    "reference": [
+      [
+        357
+      ]
+    ],
+    "answer": "Foram iniciadas **357 internações** por hipertensão essencial (CID I10) em 2020 entre residentes de Sergipe. O período foi definido pela data de entrada, e o recorte geográfico considera o município de residência do paciente."
+  },
+  {
+    "case": "C16",
+    "review_id": "013b43396f5d",
+    "question": "Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",
+    "rubric": "Quantidade de estabelecimentos ativos sem óbito no recorte.",
+    "reference": [
+      [
+        1440
+      ]
+    ],
+    "answer": "No Brasil, **1.440 CNES** tiveram ao menos uma internação iniciada em maio de 2021 e nenhum óbito entre essas internações. O período foi definido pela data de início da internação."
+  },
+  {
+    "case": "C16",
+    "review_id": "031ed7f40958",
+    "question": "Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",
+    "rubric": "Quantidade de estabelecimentos ativos sem óbito no recorte.",
+    "reference": [
+      [
+        1440
+      ]
+    ],
+    "answer": "Foram 1.440 CNES com internações iniciadas em maio de 2021 e nenhum óbito entre essas internações."
+  },
+  {
+    "case": "C16",
+    "review_id": "67d2c0fe7f8e",
+    "question": "Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",
+    "rubric": "Quantidade de estabelecimentos ativos sem óbito no recorte.",
+    "reference": [
+      [
+        1440
+      ]
+    ],
+    "answer": "Foram 1.440 CNES no Brasil."
+  },
+  {
+    "case": "C16",
+    "review_id": "a8409c0b08ea",
+    "question": "Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",
+    "rubric": "Quantidade de estabelecimentos ativos sem óbito no recorte.",
+    "reference": [
+      [
+        1440
+      ]
+    ],
+    "answer": "1.440 CNES tiveram internações iniciadas em maio de 2021 sem nenhum óbito registrado entre essas internações. Interpretei “nenhum óbito no mês” como nenhuma dessas internações tendo o indicador de óbito marcado como verdadeiro."
+  },
+  {
+    "case": "C16",
+    "review_id": "af3371a6b310",
+    "question": "Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",
+    "rubric": "Quantidade de estabelecimentos ativos sem óbito no recorte.",
+    "reference": [
+      [
+        1440
+      ]
+    ],
+    "answer": "1.440 CNES tiveram internações iniciadas em maio de 2021 e nenhum óbito registrado no mês."
+  },
+  {
+    "case": "C16",
+    "review_id": "ec896efacefc",
+    "question": "Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",
+    "rubric": "Quantidade de estabelecimentos ativos sem óbito no recorte.",
+    "reference": [
+      [
+        1440
+      ]
+    ],
+    "answer": "1.440 CNES tiveram internações iniciadas em maio de 2021 e nenhum óbito registrado nessas internações. Considera-se óbito indicado por MORTE = TRUE, sem exigir que a alta também tenha ocorrido em maio."
+  },
+  {
+    "case": "C17",
+    "review_id": "4590fc9b08f5",
+    "question": "Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.",
+    "rubric": "Os três pares mês–contagem. Aceitar nome ou número do mês.",
+    "reference": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "answer": "Janeiro: 910.257 internações; fevereiro: 899.743; março: 1.012.315. Considerei “começaram” como a data de entrada na internação; os totais podem diferir se contados pela data de alta."
+  },
+  {
+    "case": "C17",
+    "review_id": "6c01383d2753",
+    "question": "Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.",
+    "rubric": "Os três pares mês–contagem. Aceitar nome ou número do mês.",
+    "reference": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "answer": "Em janeiro de 2016, começaram 910.257 internações; em fevereiro, 899.743; e em março, 1.012.315."
+  },
+  {
+    "case": "C17",
+    "review_id": "9218c11c0c8b",
+    "question": "Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.",
+    "rubric": "Os três pares mês–contagem. Aceitar nome ou número do mês.",
+    "reference": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "answer": "Janeiro: 910.257 internações; fevereiro: 899.743; março: 1.012.315. Considerando “começaram” como a data de entrada na internação."
+  },
+  {
+    "case": "C17",
+    "review_id": "c529762e3cf6",
+    "question": "Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.",
+    "rubric": "Os três pares mês–contagem. Aceitar nome ou número do mês.",
+    "reference": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "answer": "Janeiro teve 910.257 internações, fevereiro 899.743 e março 1.012.315. “Começaram” foi interpretado como a data de entrada, não a data de alta."
+  },
+  {
+    "case": "C17",
+    "review_id": "c73ec8108dca",
+    "question": "Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.",
+    "rubric": "Os três pares mês–contagem. Aceitar nome ou número do mês.",
+    "reference": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "answer": "Janeiro: 910.257 internações; fevereiro: 899.743; março: 1.012.315."
+  },
+  {
+    "case": "C17",
+    "review_id": "d8e75675f339",
+    "question": "Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.",
+    "rubric": "Os três pares mês–contagem. Aceitar nome ou número do mês.",
+    "reference": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "answer": "Janeiro: **910.257** internações; fevereiro: **899.743**; março: **1.012.315**. “Começaram” foi interpretado como a data de entrada da internação."
+  },
+  {
+    "case": "C18",
+    "review_id": "084d79df406d",
+    "question": "Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.",
+    "rubric": "Dois pares UF–óbitos. Aceitar nomes por extenso.",
+    "reference": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "answer": "Foram registrados 6.586 óbitos em internações de residentes de Alagoas e 23.634 de Pernambuco. A contagem é de óbitos hospitalares registrados entre residentes, não necessariamente no estado onde ficava o hospital."
+  },
+  {
+    "case": "C18",
+    "review_id": "0e5a24dad30f",
+    "question": "Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.",
+    "rubric": "Dois pares UF–óbitos. Aceitar nomes por extenso.",
+    "reference": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "answer": "Ocorreram **6.586 óbitos entre residentes de Alagoas** e **23.634 entre residentes de Pernambuco** nas internações iniciadas em 2018. A residência foi identificada pelo município de residência, e o ano, pela data de entrada na internação."
+  },
+  {
+    "case": "C18",
+    "review_id": "38373ecbb4f8",
+    "question": "Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.",
+    "rubric": "Dois pares UF–óbitos. Aceitar nomes por extenso.",
+    "reference": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "answer": "Foram registrados **6.586 óbitos** entre residentes de Alagoas e **23.634** entre residentes de Pernambuco. A contagem considera internações iniciadas em 2018 pela data de entrada e a UF de residência do paciente."
+  },
+  {
+    "case": "C18",
+    "review_id": "48b6ad46ef92",
+    "question": "Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.",
+    "rubric": "Dois pares UF–óbitos. Aceitar nomes por extenso.",
+    "reference": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "answer": "Foram registrados **6.586 óbitos entre residentes de Alagoas** e **23.634 entre residentes de Pernambuco**. A contagem considera internações iniciadas em 2018 e o estado de residência do paciente, não a localização do hospital."
+  },
+  {
+    "case": "C18",
+    "review_id": "7314ef7c3b80",
+    "question": "Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.",
+    "rubric": "Dois pares UF–óbitos. Aceitar nomes por extenso.",
+    "reference": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "answer": "Ocorreram 6.586 óbitos em Alagoas e 23.634 em Pernambuco."
+  },
+  {
+    "case": "C18",
+    "review_id": "b1b4fcce9c8b",
+    "question": "Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.",
+    "rubric": "Dois pares UF–óbitos. Aceitar nomes por extenso.",
+    "reference": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "answer": "Foram registrados 6.586 óbitos em internações de residentes de Alagoas e 23.634 de residentes de Pernambuco, iniciadas em 2018. A contagem é de internações com óbito, não de pacientes únicos; os estados indicam residência dos pacientes."
+  },
+  {
+    "case": "C19",
+    "review_id": "030d526eea64",
+    "question": "Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.",
+    "rubric": "Nome do dia e sua contagem. Codificação SQL de referência ISO 1=segunda. Aceitar nome equivalente para o texto.",
+    "reference": [
+      [
+        1,
+        81681
+      ]
+    ],
+    "answer": "Segunda-feira foi o dia em que começou o maior número de internações de residentes no Pará em 2019: 81.681. “Começou” refere-se à data de entrada, e a residência foi identificada pela UF do município de residência."
+  },
+  {
+    "case": "C19",
+    "review_id": "24461a6e3683",
+    "question": "Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.",
+    "rubric": "Nome do dia e sua contagem. Codificação SQL de referência ISO 1=segunda. Aceitar nome equivalente para o texto.",
+    "reference": [
+      [
+        1,
+        81681
+      ]
+    ],
+    "answer": "O maior número de internações começou na segunda-feira: 81.681."
+  },
+  {
+    "case": "C19",
+    "review_id": "2536c6675a9b",
+    "question": "Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.",
+    "rubric": "Nome do dia e sua contagem. Codificação SQL de referência ISO 1=segunda. Aceitar nome equivalente para o texto.",
+    "reference": [
+      [
+        1,
+        81681
+      ]
+    ],
+    "answer": "O maior número de internações começou em uma segunda-feira: 81.681 internações."
+  },
+  {
+    "case": "C19",
+    "review_id": "676c5531f7eb",
+    "question": "Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.",
+    "rubric": "Nome do dia e sua contagem. Codificação SQL de referência ISO 1=segunda. Aceitar nome equivalente para o texto.",
+    "reference": [
+      [
+        1,
+        81681
+      ]
+    ],
+    "answer": "A maioria das internações de residentes no Pará começou em uma segunda-feira: **81.681 internações**. “Começou” foi interpretado como a data de entrada, e o local se refere à residência do paciente."
+  },
+  {
+    "case": "C19",
+    "review_id": "ba0a19f691d1",
+    "question": "Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.",
+    "rubric": "Nome do dia e sua contagem. Codificação SQL de referência ISO 1=segunda. Aceitar nome equivalente para o texto.",
+    "reference": [
+      [
+        1,
+        81681
+      ]
+    ],
+    "answer": "Segunda-feira, com 81.681 internações. “Começou” foi interpretado como a data de entrada, e o recorte considera o município de residência no Pará."
+  },
+  {
+    "case": "C19",
+    "review_id": "ff25e29a976f",
+    "question": "Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.",
+    "rubric": "Nome do dia e sua contagem. Codificação SQL de referência ISO 1=segunda. Aceitar nome equivalente para o texto.",
+    "reference": [
+      [
+        1,
+        81681
+      ]
+    ],
+    "answer": "Segunda-feira foi o dia em que começou o maior número de internações de residentes no Pará em 2019: **81.681 internações**. “Começou” corresponde à data de entrada, e a UF foi definida pelo município de residência do paciente."
+  },
+  {
+    "case": "C20",
+    "review_id": "05a88c43a878",
+    "question": "Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.",
+    "rubric": "Três CIDs e contagens em ordem. Ponto no CID é equivalente no texto.",
+    "reference": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "answer": "Os três códigos de diagnóstico principal mais frequentes foram **O800** (55.186 internações), **B342** (50.369) e **I64** (13.196), em ordem decrescente. Considerou-se a data de entrada para definir internações iniciadas em novembro de 2020."
+  },
+  {
+    "case": "C20",
+    "review_id": "098fc7ec4197",
+    "question": "Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.",
+    "rubric": "Três CIDs e contagens em ordem. Ponto no CID é equivalente no texto.",
+    "reference": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "answer": "Os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020 foram:\n\n1. **O800** — 55.186 internações  \n2. **B342** — 50.369 internações  \n3. **I64** — 13.196 internações  \n\n“Iniciadas” foi interpretado como a data de entrada na internação."
+  },
+  {
+    "case": "C20",
+    "review_id": "452dcd592e38",
+    "question": "Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.",
+    "rubric": "Três CIDs e contagens em ordem. Ponto no CID é equivalente no texto.",
+    "reference": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "answer": "Os três códigos de diagnóstico principal mais frequentes foram **O800** (55.186 internações), **B342** (50.369) e **I64** (13.196), em ordem decrescente. “Iniciadas” foi interpretado como internações com data de entrada em novembro de 2020."
+  },
+  {
+    "case": "C20",
+    "review_id": "61e00870d319",
+    "question": "Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.",
+    "rubric": "Três CIDs e contagens em ordem. Ponto no CID é equivalente no texto.",
+    "reference": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "answer": "Os três códigos de diagnóstico principal mais frequentes foram **O800**, com **55.186 internações**; **B342**, com **50.369**; e **I64**, com **13.196**. Considerei como iniciadas em novembro as internações com data de entrada entre 1º e 30 de novembro de 2020, inclusive."
+  },
+  {
+    "case": "C20",
+    "review_id": "6723076febab",
+    "question": "Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.",
+    "rubric": "Três CIDs e contagens em ordem. Ponto no CID é equivalente no texto.",
+    "reference": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "answer": "Os três códigos de diagnóstico principal mais frequentes foram: O800 (55.186 internações), B342 (50.369) e I64 (13.196)."
+  },
+  {
+    "case": "C20",
+    "review_id": "d47a708e7c3a",
+    "question": "Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.",
+    "rubric": "Três CIDs e contagens em ordem. Ponto no CID é equivalente no texto.",
+    "reference": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "answer": "Os três códigos de diagnóstico principal mais frequentes foram: O800 (55.186 internações), B342 (50.369) e I64 (13.196)."
+  },
+  {
+    "case": "C21",
+    "review_id": "097c26d76b7f",
+    "question": "Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.",
+    "rubric": "Três códigos SIGTAP e respectivas ocorrências em ordem.",
+    "reference": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "answer": "Os três códigos de procedimento com mais ocorrências foram: 0310010039 — 92.225; 0303140151 — 69.921; 0411010034 — 62.247."
+  },
+  {
+    "case": "C21",
+    "review_id": "102fe26640f5",
+    "question": "Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.",
+    "rubric": "Três códigos SIGTAP e respectivas ocorrências em ordem.",
+    "reference": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "answer": "Os três códigos de procedimento realizado com mais ocorrências nas AIHs iniciadas em maio de 2018 foram:\n\n| Código | Ocorrências |\n|---|---:|\n| 0310010039 | 92.225 |\n| 0303140151 | 69.921 |\n| 0411010034 | 62.247 |\n\nAs ocorrências contam registros de procedimentos, não AIHs distintas."
+  },
+  {
+    "case": "C21",
+    "review_id": "9ab75b2c84fb",
+    "question": "Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.",
+    "rubric": "Três códigos SIGTAP e respectivas ocorrências em ordem.",
+    "reference": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "answer": "Os três códigos com mais ocorrências foram: **0310010039 — 92.225**, **0303140151 — 69.921** e **0411010034 — 62.247**."
+  },
+  {
+    "case": "C21",
+    "review_id": "a7051218c1c6",
+    "question": "Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.",
+    "rubric": "Três códigos SIGTAP e respectivas ocorrências em ordem.",
+    "reference": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "answer": "Os três códigos de procedimento realizado com mais registros associados às AIHs iniciadas em maio de 2018 foram:\n\n| Código | Ocorrências |\n|---|---:|\n| 0310010039 | 92.225 |\n| 0303140151 | 69.921 |\n| 0411010034 | 62.247 |\n\nA contagem considera cada registro de procedimento, inclusive repetições do mesmo procedimento na mesma AIH, e usa a data de entrada como critério para identificar AIHs iniciadas em maio."
+  },
+  {
+    "case": "C21",
+    "review_id": "c20e8a93d3d6",
+    "question": "Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.",
+    "rubric": "Três códigos SIGTAP e respectivas ocorrências em ordem.",
+    "reference": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "answer": "Os três procedimentos com mais ocorrências em AIHs iniciadas em maio de 2018 foram:\n\n1. **0310010039 — Parto normal:** 92.225 ocorrências  \n2. **0303140151 — Tratamento de pneumonias ou influenza (gripe):** 69.921 ocorrências  \n3. **0411010034 — Parto cesariano:** 62.247 ocorrências  \n\nConsiderou-se “iniciadas” pela data de entrada da AIH; ocorrências contam registros de procedimentos, inclusive repetidos na mesma AIH."
+  },
+  {
+    "case": "C21",
+    "review_id": "cb159a7011af",
+    "question": "Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.",
+    "rubric": "Três códigos SIGTAP e respectivas ocorrências em ordem.",
+    "reference": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "answer": "Os três códigos com mais ocorrências em AIHs iniciadas em maio de 2018 foram:\n\n| Código | Procedimento | Ocorrências |\n|---|---|---:|\n| 0310010039 | Parto normal | 92.225 |\n| 0303140151 | Tratamento de pneumonias ou influenza (gripe) | 69.921 |\n| 0411010034 | Parto cesariano | 62.247 |\n\nConsidera-se “iniciadas” pela data de entrada da AIH; ocorrências são registros de procedimento, incluindo repetições do mesmo procedimento na mesma AIH."
+  },
+  {
+    "case": "C22",
+    "review_id": "055f23b688ac",
+    "question": "Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.",
+    "rubric": "Três CNES e respectivos volumes em ordem.",
+    "reference": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "answer": "Os três hospitais de Porto Alegre com mais internações iniciadas em 2020 foram, em ordem decrescente:\n\n1. **CNES 2237601:** 31.199 internações  \n2. **CNES 2237571:** 29.922 internações  \n3. **CNES 2237253:** 19.008 internações  \n\nO recorte considera estabelecimentos localizados em Porto Alegre, e “iniciadas” refere-se à data de entrada na internação."
+  },
+  {
+    "case": "C22",
+    "review_id": "3584ec127878",
+    "question": "Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.",
+    "rubric": "Três CNES e respectivos volumes em ordem.",
+    "reference": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "answer": "Os três hospitais com mais internações iniciadas em 2020 foram: **CNES 2237601**, com **31.199**; **CNES 2237571**, com **29.922**; e **CNES 2237253**, com **19.008** internações, em ordem decrescente. Porto Alegre foi considerada como local do atendimento, e o ano foi definido pela data de início da internação."
+  },
+  {
+    "case": "C22",
+    "review_id": "7daea5ba4252",
+    "question": "Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.",
+    "rubric": "Três CNES e respectivos volumes em ordem.",
+    "reference": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "answer": "Os três hospitais de Porto Alegre com mais internações iniciadas em 2020 foram, em ordem decrescente: CNES **2237601**, Hospital de Clínicas, com **31.199** internações; CNES **2237571**, Hospital Nossa Senhora da Conceição, com **29.922**; e CNES **2237253**, Irmandade da Santa Casa de Misericórdia de Porto Alegre, com **19.008**. O recorte considera o local de atendimento e o ano de início da internação."
+  },
+  {
+    "case": "C22",
+    "review_id": "806490ba3750",
+    "question": "Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.",
+    "rubric": "Três CNES e respectivos volumes em ordem.",
+    "reference": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "answer": "Os três hospitais de Porto Alegre com mais internações iniciadas em 2020 foram: CNES 2237601, Hospital de Clínicas — 31.199; CNES 2237571, Hospital Nossa Senhora da Conceição — 29.922; e CNES 2237253, Irmandade da Santa Casa de Misericórdia de Porto Alegre — 19.008."
+  },
+  {
+    "case": "C22",
+    "review_id": "a99222c5e88c",
+    "question": "Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.",
+    "rubric": "Três CNES e respectivos volumes em ordem.",
+    "reference": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "answer": "Os três hospitais de Porto Alegre com mais internações iniciadas em 2020 foram: CNES 2237601 — Hospital de Clínicas, 31.199; CNES 2237571 — Hospital Nossa Senhora da Conceição, 29.922; e CNES 2237253 — Irmandade da Santa Casa de Misericórdia de Porto Alegre, 19.008."
+  },
+  {
+    "case": "C22",
+    "review_id": "d192a0d3a233",
+    "question": "Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.",
+    "rubric": "Três CNES e respectivos volumes em ordem.",
+    "reference": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "answer": "Os três hospitais de Porto Alegre com mais internações iniciadas em 2020 foram:\n\n1. CNES **2237601** — Hospital de Clínicas: **31.199 internações**\n2. CNES **2237571** — Hospital Nossa Senhora da Conceição: **29.922 internações**\n3. CNES **2237253** — Irmandade da Santa Casa de Misericórdia de Porto Alegre: **19.008 internações**\n\nO município se refere ao local de atendimento, e as internações foram contabilizadas pela data de entrada."
+  },
+  {
+    "case": "C23",
+    "review_id": "589feb035d80",
+    "question": "Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.",
+    "rubric": "Para cada um dos três anos, contagem e média em dias com duas casas.",
+    "reference": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "answer": "Em 2015, começaram 162.689 internações por colelitíase, com permanência média de 3,33 dias; em 2016, foram 170.528 e 3,24 dias; e, em 2017, 182.820 e 3,18 dias. Considerei “começaram” como a data de entrada e incluí todas as subcategorias CID-10 K80."
+  },
+  {
+    "case": "C23",
+    "review_id": "5d32095119ff",
+    "question": "Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.",
+    "rubric": "Para cada um dos três anos, contagem e média em dias com duas casas.",
+    "reference": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "answer": "De 2015 a 2017, foram 516.037 internações por colelitíase: 162.689 em 2015 (permanência média de 3,33 dias), 170.528 em 2016 (3,24 dias) e 182.820 em 2017 (3,18 dias)."
+  },
+  {
+    "case": "C23",
+    "review_id": "61e56af7e935",
+    "question": "Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.",
+    "rubric": "Para cada um dos três anos, contagem e média em dias com duas casas.",
+    "reference": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "answer": "Em 2015, foram 162.689 internações, com permanência média de 3,33 dias; em 2016, 170.528 e 3,24 dias; e em 2017, 182.820 e 3,18 dias. Considerou-se colelitíase como a categoria CID-10 K80, incluindo subcategorias, e o ano foi definido pela data de entrada."
+  },
+  {
+    "case": "C23",
+    "review_id": "92df8043d97c",
+    "question": "Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.",
+    "rubric": "Para cada um dos três anos, contagem e média em dias com duas casas.",
+    "reference": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "answer": "Foram 516.037 internações no total: 162.689 em 2015 (permanência média de 3,33 dias), 170.528 em 2016 (3,24 dias) e 182.820 em 2017 (3,18 dias)."
+  },
+  {
+    "case": "C23",
+    "review_id": "a95b2fbaaec9",
+    "question": "Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.",
+    "rubric": "Para cada um dos três anos, contagem e média em dias com duas casas.",
+    "reference": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "answer": "Em 2015, foram **162.689 internações**, com permanência média de **3,33 dias**; em 2016, **170.528** e **3,24 dias**; e em 2017, **182.820** e **3,18 dias**. O número de internações aumentou a cada ano, enquanto a permanência média diminuiu. Foi considerada colelitíase como CID-10 K80 e o ano de início da internação."
+  },
+  {
+    "case": "C23",
+    "review_id": "f8622f789388",
+    "question": "Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.",
+    "rubric": "Para cada um dos três anos, contagem e média em dias com duas casas.",
+    "reference": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "answer": "Em 2015, foram 162.689 internações, com permanência média de 3,33 dias; em 2016, 170.528 e 3,24 dias; e em 2017, 182.820 e 3,18 dias. O número de internações aumentou a cada ano, enquanto a permanência média diminuiu. A análise considera colelitíase como CID K80 e o ano de início como o da data de entrada."
+  },
+  {
+    "case": "C24",
+    "review_id": "356989b88c7b",
+    "question": "Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.",
+    "rubric": "Ranking de três CIDs e médias, ordenado pela média antes do arredondamento.",
+    "reference": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "answer": "Os três diagnósticos com maior permanência média foram: P220 — 20,30 dias; F200 — 18,06 dias; F102 — 15,91 dias."
+  },
+  {
+    "case": "C24",
+    "review_id": "36b015e89e31",
+    "question": "Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.",
+    "rubric": "Ranking de três CIDs e médias, ordenado pela média antes do arredondamento.",
+    "reference": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "answer": "Os três diagnósticos principais com mais de 5 mil internações iniciadas em 2021 e maior permanência média foram:\n\n1. **P220** — **20,30 dias**\n2. **F200** — **18,06 dias**\n3. **F102** — **15,91 dias**\n\n“Iniciadas em 2021” foi interpretado como internações com data de entrada nesse ano; o limite de 5 mil foi aplicado separadamente a cada diagnóstico principal."
+  },
+  {
+    "case": "C24",
+    "review_id": "5bb242bdb3e8",
+    "question": "Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.",
+    "rubric": "Ranking de três CIDs e médias, ordenado pela média antes do arredondamento.",
+    "reference": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "answer": "Os três diagnósticos com maior permanência média foram: **P220 — 20,30 dias; F200 — 18,06 dias; e F102 — 15,91 dias**, em ordem decrescente. Considerou-se como “iniciadas em 2021” as internações com data de entrada nesse ano."
+  },
+  {
+    "case": "C24",
+    "review_id": "9e5d066e86d8",
+    "question": "Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.",
+    "rubric": "Ranking de três CIDs e médias, ordenado pela média antes do arredondamento.",
+    "reference": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "answer": "Os três diagnósticos com maior permanência média foram: **P220 — 20,30 dias**, **F200 — 18,06 dias** e **F102 — 15,91 dias**. A contagem considera internações por diagnóstico principal com início em 2021."
+  },
+  {
+    "case": "C24",
+    "review_id": "da7474704bee",
+    "question": "Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.",
+    "rubric": "Ranking de três CIDs e médias, ordenado pela média antes do arredondamento.",
+    "reference": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "answer": "Os três diagnósticos com maior permanência média foram: P220 — 20,30 dias; F200 — 18,06 dias; e F102 — 15,91 dias."
+  },
+  {
+    "case": "C24",
+    "review_id": "e9f38797d762",
+    "question": "Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.",
+    "rubric": "Ranking de três CIDs e médias, ordenado pela média antes do arredondamento.",
+    "reference": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "answer": "Os três diagnósticos principais com mais de 5.000 internações iniciadas em 2021 e maior permanência média foram: **P220 — 20,30 dias; F200 — 18,06 dias; F102 — 15,91 dias**, em ordem decrescente. Interpretei “iniciadas em 2021” como internações com data de entrada (DT_INTER) nesse ano."
+  },
+  {
+    "case": "C25",
+    "review_id": "020acd18e318",
+    "question": "Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.",
+    "rubric": "Direção e variação relativa com duas casas. Pontos percentuais não equivalem.",
+    "reference": [
+      [
+        5.3
+      ]
+    ],
+    "answer": "As internações iniciadas de residentes do Amazonas cresceram **5,30%** de 2018 para 2019. A variação considera a UF de residência registrada e a data de internação."
+  },
+  {
+    "case": "C25",
+    "review_id": "0c8d9332ebca",
+    "question": "Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.",
+    "rubric": "Direção e variação relativa com duas casas. Pontos percentuais não equivalem.",
+    "reference": [
+      [
+        5.3
+      ]
+    ],
+    "answer": "As internações iniciadas entre residentes do Amazonas cresceram 5,30% de 2018 para 2019."
+  },
+  {
+    "case": "C25",
+    "review_id": "27c36ee130ff",
+    "question": "Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.",
+    "rubric": "Direção e variação relativa com duas casas. Pontos percentuais não equivalem.",
+    "reference": [
+      [
+        5.3
+      ]
+    ],
+    "answer": "As internações iniciadas por residentes do Amazonas **cresceram 5,30%** de 2018 para 2019. Considera-se a data de entrada (DT_INTER) para identificar o início da internação e o município de residência do paciente."
+  },
+  {
+    "case": "C25",
+    "review_id": "a79e0a111853",
+    "question": "Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.",
+    "rubric": "Direção e variação relativa com duas casas. Pontos percentuais não equivalem.",
+    "reference": [
+      [
+        5.3
+      ]
+    ],
+    "answer": "As internações iniciadas cresceram **5,30%** de 2018 para 2019 entre residentes do Amazonas. “Iniciadas” foi considerado pela data de entrada, e o recorte corresponde ao município de residência."
+  },
+  {
+    "case": "C25",
+    "review_id": "ce446292b50b",
+    "question": "Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.",
+    "rubric": "Direção e variação relativa com duas casas. Pontos percentuais não equivalem.",
+    "reference": [
+      [
+        5.3
+      ]
+    ],
+    "answer": "As internações iniciadas para residentes do Amazonas cresceram 5,30% de 2018 (189.023) para 2019 (199.037)."
+  },
+  {
+    "case": "C25",
+    "review_id": "ee7b2e18d482",
+    "question": "Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.",
+    "rubric": "Direção e variação relativa com duas casas. Pontos percentuais não equivalem.",
+    "reference": [
+      [
+        5.3
+      ]
+    ],
+    "answer": "As internações iniciadas por residentes do Amazonas cresceram **5,30%** de 2018 para 2019. O cálculo considera como início a data de entrada (`DT_INTER`) e classifica os residentes pelo município de residência."
+  },
+  {
+    "case": "C26",
+    "review_id": "1683f1ec90be",
+    "question": "Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.",
+    "rubric": "Taxa por mil habitantes com duas casas usando internações de residentes.",
+    "reference": [
+      [
+        52.66
+      ]
+    ],
+    "answer": "Em Florianópolis, houve 52,66 internações iniciadas em 2019 por mil habitantes residentes."
+  },
+  {
+    "case": "C26",
+    "review_id": "2c4091435058",
+    "question": "Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.",
+    "rubric": "Taxa por mil habitantes com duas casas usando internações de residentes.",
+    "reference": [
+      [
+        52.66
+      ]
+    ],
+    "answer": "Foram **52,66 internações por mil habitantes** entre residentes de Florianópolis, considerando internações com entrada em 2019 e a população municipal daquele ano."
+  },
+  {
+    "case": "C26",
+    "review_id": "6065096fbb7c",
+    "question": "Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.",
+    "rubric": "Taxa por mil habitantes com duas casas usando internações de residentes.",
+    "reference": [
+      [
+        52.66
+      ]
+    ],
+    "answer": "Foram **52,66 internações por mil habitantes** entre residentes de Florianópolis em 2019. “Iniciadas” foi interpretado como internações com data de entrada em 2019, e o município foi definido pelo local de residência do paciente."
+  },
+  {
+    "case": "C26",
+    "review_id": "abe520c72fbd",
+    "question": "Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.",
+    "rubric": "Taxa por mil habitantes com duas casas usando internações de residentes.",
+    "reference": [
+      [
+        52.66
+      ]
+    ],
+    "answer": "Em Florianópolis, houve 52,66 internações iniciadas em 2019 por mil habitantes residentes."
+  },
+  {
+    "case": "C26",
+    "review_id": "dfea186c6768",
+    "question": "Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.",
+    "rubric": "Taxa por mil habitantes com duas casas usando internações de residentes.",
+    "reference": [
+      [
+        52.66
+      ]
+    ],
+    "answer": "Em Florianópolis, ocorreram **52,66 internações por mil habitantes** em 2019, considerando residentes e a população municipal daquele ano. A taxa usa o município de residência do paciente e a data de entrada para definir o início da internação."
+  },
+  {
+    "case": "C26",
+    "review_id": "fd84bfb08687",
+    "question": "Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.",
+    "rubric": "Taxa por mil habitantes com duas casas usando internações de residentes.",
+    "reference": [
+      [
+        52.66
+      ]
+    ],
+    "answer": "Foram **52,66 internações por mil habitantes** entre residentes de Florianópolis em 2019. A contagem considera internações pela data de entrada e usa a população municipal de 2019 como denominador."
+  },
+  {
+    "case": "C27",
+    "review_id": "349bd00a0741",
+    "question": "Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.",
+    "rubric": "Uma média dos três totais anuais, com duas casas.",
+    "reference": [
+      [
+        860056.0
+      ]
+    ],
+    "answer": "A média anual foi de **860.056,00 internações**. “Iniciadas” foi interpretado como a data de entrada, e os residentes foram identificados pela UF do município de residência."
+  },
+  {
+    "case": "C27",
+    "review_id": "4904f8002ade",
+    "question": "Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.",
+    "rubric": "Uma média dos três totais anuais, com duas casas.",
+    "reference": [
+      [
+        860056.0
+      ]
+    ],
+    "answer": "A média anual foi de 860.056,00 internações."
+  },
+  {
+    "case": "C27",
+    "review_id": "81fdd8d2d935",
+    "question": "Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.",
+    "rubric": "Uma média dos três totais anuais, com duas casas.",
+    "reference": [
+      [
+        860056.0
+      ]
+    ],
+    "answer": "A média anual foi de **860.056,00 internações**. “Iniciadas” foi interpretado como a data de entrada, e os residentes foram identificados pela UF do município de residência."
+  },
+  {
+    "case": "C27",
+    "review_id": "c30bd35f082f",
+    "question": "Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.",
+    "rubric": "Uma média dos três totais anuais, com duas casas.",
+    "reference": [
+      [
+        860056.0
+      ]
+    ],
+    "answer": "A média anual foi de **860.056,00 internações**. Considerou-se a residência em municípios do Paraná e o ano da data de início da internação."
+  },
+  {
+    "case": "C27",
+    "review_id": "c751c558ace1",
+    "question": "Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.",
+    "rubric": "Uma média dos três totais anuais, com duas casas.",
+    "reference": [
+      [
+        860056.0
+      ]
+    ],
+    "answer": "A média anual foi de **860.056,00 internações**. “Iniciadas” foi interpretado como a data de entrada, e os residentes foram identificados pela UF do município de residência."
+  },
+  {
+    "case": "C27",
+    "review_id": "cfb72d26f93c",
+    "question": "Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.",
+    "rubric": "Uma média dos três totais anuais, com duas casas.",
+    "reference": [
+      [
+        860056.0
+      ]
+    ],
+    "answer": "A média anual foi de 860.056,00 internações."
+  },
+  {
+    "case": "C28",
+    "review_id": "0b8788d462b6",
+    "question": "Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?",
+    "rubric": "Ano vencedor e contagem correspondente.",
+    "reference": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "answer": "2019 foi o ano com mais óbitos hospitalares entre residentes na Paraíba, com 9.398 óbitos. O ano de entrada foi definido pela data de internação; a localização refere-se à residência do paciente, não ao local de atendimento."
+  },
+  {
+    "case": "C28",
+    "review_id": "34676ae503f0",
+    "question": "Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?",
+    "rubric": "Ano vencedor e contagem correspondente.",
+    "reference": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "answer": "2019 foi o ano com mais óbitos hospitalares de residentes na Paraíba, com 9.398 óbitos."
+  },
+  {
+    "case": "C28",
+    "review_id": "47e8d663c6e5",
+    "question": "Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?",
+    "rubric": "Ano vencedor e contagem correspondente.",
+    "reference": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "answer": "O ano com mais óbitos hospitalares foi 2019, com 9.398 óbitos. A residência foi identificada pela UF do município de residência, e o ano de entrada, pela data de internação."
+  },
+  {
+    "case": "C28",
+    "review_id": "4dd507669b07",
+    "question": "Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?",
+    "rubric": "Ano vencedor e contagem correspondente.",
+    "reference": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "answer": "O ano com mais óbitos hospitalares entre residentes na Paraíba foi 2019, com 9.398 óbitos. O local é definido pela residência do paciente; o ano de entrada corresponde à data de internação, e os óbitos são internações com indicador de morte."
+  },
+  {
+    "case": "C28",
+    "review_id": "7179a868c6b6",
+    "question": "Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?",
+    "rubric": "Ano vencedor e contagem correspondente.",
+    "reference": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "answer": "2019 foi o ano com mais óbitos hospitalares de residentes na Paraíba, com 9.398 óbitos."
+  },
+  {
+    "case": "C28",
+    "review_id": "d77360df68f9",
+    "question": "Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?",
+    "rubric": "Ano vencedor e contagem correspondente.",
+    "reference": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "answer": "O ano com mais óbitos hospitalares foi 2019, com 9.398 óbitos. O recorte considera a UF de residência do paciente, e o ano de entrada é definido pela data de internação (DT_INTER)."
+  },
+  {
+    "case": "C29",
+    "review_id": "2af93130f53c",
+    "question": "No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.",
+    "rubric": "Percentual respiratório sobre todos os diagnósticos no recorte.",
+    "reference": [
+      [
+        8.53
+      ]
+    ],
+    "answer": "Nao foi possivel responder com seguranca. Question requires temporal grain quarter, but SQL does not project it."
+  },
+  {
+    "case": "C29",
+    "review_id": "57ccebf067c5",
+    "question": "No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.",
+    "rubric": "Percentual respiratório sobre todos os diagnósticos no recorte.",
+    "reference": [
+      [
+        8.53
+      ]
+    ],
+    "answer": "No primeiro trimestre de 2019, **8,53%** das internações iniciadas entre residentes do RS tiveram diagnóstico principal do capítulo J da CID-10. O recorte considera a data de entrada e o município de residência; diagnósticos de COVID-19 codificados como B342 não estão incluídos."
+  },
+  {
+    "case": "C29",
+    "review_id": "97fb93508233",
+    "question": "No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.",
+    "rubric": "Percentual respiratório sobre todos os diagnósticos no recorte.",
+    "reference": [
+      [
+        8.53
+      ]
+    ],
+    "answer": "No primeiro trimestre de 2019, **8,53%** das internações iniciadas entre residentes do Rio Grande do Sul tiveram diagnóstico principal do capítulo J da CID. O período foi definido pela data de entrada na internação."
+  },
+  {
+    "case": "C29",
+    "review_id": "be3f442fbf03",
+    "question": "No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.",
+    "rubric": "Percentual respiratório sobre todos os diagnósticos no recorte.",
+    "reference": [
+      [
+        8.53
+      ]
+    ],
+    "answer": "Nao foi possivel responder com seguranca. Question requires temporal grain quarter, but SQL does not project it."
+  },
+  {
+    "case": "C29",
+    "review_id": "bfb5617e72a5",
+    "question": "No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.",
+    "rubric": "Percentual respiratório sobre todos os diagnósticos no recorte.",
+    "reference": [
+      [
+        8.53
+      ]
+    ],
+    "answer": "No primeiro trimestre de 2019, **8,53%** das internações iniciadas entre residentes do RS tiveram diagnóstico principal do capítulo J da CID-10. O recorte considera a data de entrada e o município de residência do paciente."
+  },
+  {
+    "case": "C29",
+    "review_id": "e251ed9c35c4",
+    "question": "No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.",
+    "rubric": "Percentual respiratório sobre todos os diagnósticos no recorte.",
+    "reference": [
+      [
+        8.53
+      ]
+    ],
+    "answer": "8,53% das internações iniciadas no primeiro trimestre de 2019 entre residentes do RS tiveram diagnóstico principal do capítulo J da CID. O recorte geográfico considera o local de residência, e não o de atendimento."
+  },
+  {
+    "case": "C30",
+    "review_id": "4376487f37ab",
+    "question": "Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.",
+    "rubric": "Ambas as contagens vinculadas ao sítio correto e conclusão sobre o mais frequente.",
+    "reference": [
+      [
+        "C50",
+        79047
+      ],
+      [
+        "C61",
+        35231
+      ]
+    ],
+    "answer": "O câncer de próstata (C61) foi o mais frequente, com 35.231 registros. O resultado disponível não informa a contagem de câncer de mama (C50)."
+  },
+  {
+    "case": "C30",
+    "review_id": "826f8ab2ff90",
+    "question": "Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.",
+    "rubric": "Ambas as contagens vinculadas ao sítio correto e conclusão sobre o mais frequente.",
+    "reference": [
+      [
+        "C50",
+        79047
+      ],
+      [
+        "C61",
+        35231
+      ]
+    ],
+    "answer": "Câncer de mama (C50) foi o mais frequente, com 79.047 registros. O resultado disponível não informa a contagem de câncer de próstata (C61)."
+  },
+  {
+    "case": "C30",
+    "review_id": "8b65e2fac43b",
+    "question": "Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.",
+    "rubric": "Ambas as contagens vinculadas ao sítio correto e conclusão sobre o mais frequente.",
+    "reference": [
+      [
+        "C50",
+        79047
+      ],
+      [
+        "C61",
+        35231
+      ]
+    ],
+    "answer": "Em 2022, houve 79.047 internações com diagnóstico principal de câncer de mama (C50) e 35.231 de câncer de próstata (C61). Câncer de mama foi o mais frequente. As contagens incluem as subcategorias de cada código CID e consideram a data de início da internação."
+  },
+  {
+    "case": "C30",
+    "review_id": "8fba5f8d8e98",
+    "question": "Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.",
+    "rubric": "Ambas as contagens vinculadas ao sítio correto e conclusão sobre o mais frequente.",
+    "reference": [
+      [
+        "C50",
+        79047
+      ],
+      [
+        "C61",
+        35231
+      ]
+    ],
+    "answer": "Entre as internações iniciadas em 2022, o câncer de mama (C50) foi mais frequente, com 79.047 registros, contra 35.231 de câncer de próstata (C61). A contagem considera a data de internação (`DT_INTER`) e inclui códigos iniciados pelos prefixos C50 e C61."
+  },
+  {
+    "case": "C30",
+    "review_id": "d7f542477c65",
+    "question": "Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.",
+    "rubric": "Ambas as contagens vinculadas ao sítio correto e conclusão sobre o mais frequente.",
+    "reference": [
+      [
+        "C50",
+        79047
+      ],
+      [
+        "C61",
+        35231
+      ]
+    ],
+    "answer": "O câncer de mama (C50) foi mais frequente, com 79.047 internações, contra 35.231 por câncer de próstata (C61). Foram consideradas as internações iniciadas em 2022 e todas as subcategorias dos códigos C50 e C61."
+  },
+  {
+    "case": "C30",
+    "review_id": "de50b11c98d3",
+    "question": "Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.",
+    "rubric": "Ambas as contagens vinculadas ao sítio correto e conclusão sobre o mais frequente.",
+    "reference": [
+      [
+        "C50",
+        79047
+      ],
+      [
+        "C61",
+        35231
+      ]
+    ],
+    "answer": "O câncer de mama (C50) foi o mais frequente, com 79.047 internações, contra 35.231 por câncer de próstata (C61). “Iniciadas em 2022” foi interpretado como internações com data de entrada (DT_INTER) naquele ano; foram incluídas as subcategorias dos códigos C50 e C61."
+  },
+  {
+    "case": "C31",
+    "review_id": "0b5379afeb28",
+    "question": "Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",
+    "rubric": "Total de hospitais acima do corte, com zero uso de UTI.",
+    "reference": [
+      [
+        1685
+      ]
+    ],
+    "answer": "1.685 hospitais."
+  },
+  {
+    "case": "C31",
+    "review_id": "5496438346ca",
+    "question": "Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",
+    "rubric": "Total de hospitais acima do corte, com zero uso de UTI.",
+    "reference": [
+      [
+        1685
+      ]
+    ],
+    "answer": "1.685 hospitais."
+  },
+  {
+    "case": "C31",
+    "review_id": "5b27cb895ee2",
+    "question": "Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",
+    "rubric": "Total de hospitais acima do corte, com zero uso de UTI.",
+    "reference": [
+      [
+        1685
+      ]
+    ],
+    "answer": "1.685 hospitais com mais de 500 internações iniciadas em 2020 não registraram nenhuma internação com uso de UTI naquele ano. Considerou-se “iniciadas em 2020” pela data de internação (DT_INTER) e uso de UTI pelo indicador MARCA_UTI > 0; cada hospital foi contado uma vez por CNES."
+  },
+  {
+    "case": "C31",
+    "review_id": "7a349c42ff32",
+    "question": "Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",
+    "rubric": "Total de hospitais acima do corte, com zero uso de UTI.",
+    "reference": [
+      [
+        1685
+      ]
+    ],
+    "answer": "1.685 hospitais com mais de 500 internações iniciadas em 2020 não registraram nenhuma internação com uso de UTI. Foi considerado uso de UTI quando `MARCA_UTI > 0`, e cada CNES como um hospital."
+  },
+  {
+    "case": "C31",
+    "review_id": "c1bd737799e9",
+    "question": "Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",
+    "rubric": "Total de hospitais acima do corte, com zero uso de UTI.",
+    "reference": [
+      [
+        1685
+      ]
+    ],
+    "answer": "1.685 hospitais (considerando um por CNES) tiveram mais de 500 internações iniciadas em 2020 e não registraram nenhuma internação com uso de UTI. “Uso de UTI” foi considerado como MARCA_UTI > 0, e o limite de 500 foi aplicado de forma estrita."
+  },
+  {
+    "case": "C31",
+    "review_id": "cdb47fd0ca3c",
+    "question": "Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",
+    "rubric": "Total de hospitais acima do corte, com zero uso de UTI.",
+    "reference": [
+      [
+        1685
+      ]
+    ],
+    "answer": "1.685 hospitais com mais de 500 internações iniciadas em 2020 não registraram nenhuma internação com uso de UTI. Considera-se o CNES como um hospital, a data de entrada para identificar o ano e MARCA_UTI > 0 como uso de UTI."
+  },
+  {
+    "case": "C32",
+    "review_id": "bf4f3c05291d",
+    "question": "Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.",
+    "rubric": "Direção e diferença absoluta em pontos percentuais, com duas casas.",
+    "reference": [
+      [
+        1.24
+      ]
+    ],
+    "answer": "A taxa aumentou de 5,17% em 2019 para 6,41% em 2020, uma alta de 1,24 ponto percentual."
+  },
+  {
+    "case": "C32",
+    "review_id": "e93ac7471c0e",
+    "question": "Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.",
+    "rubric": "Direção e diferença absoluta em pontos percentuais, com duas casas.",
+    "reference": [
+      [
+        1.24
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar aumentou: passou de 5,17% em 2019 para 6,41% em 2020, uma diferença de **1,24 ponto percentual**. O recorte é por residência do paciente, e “internações iniciadas” foi interpretado pelo ano de entrada."
+  },
+  {
+    "case": "C32",
+    "review_id": "edc7123dea4d",
+    "question": "Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.",
+    "rubric": "Direção e diferença absoluta em pontos percentuais, com duas casas.",
+    "reference": [
+      [
+        1.24
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar aumentou de 5,17% em 2019 para 6,41% em 2020, uma alta de 1,24 ponto percentual."
+  },
+  {
+    "case": "C32",
+    "review_id": "f70deef940cb",
+    "question": "Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.",
+    "rubric": "Direção e diferença absoluta em pontos percentuais, com duas casas.",
+    "reference": [
+      [
+        1.24
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar aumentou de 2019 para 2020 em **1,24 ponto percentual**. A residência no Rio Grande do Sul foi definida pelo município de residência, e o ano considerado foi o de início da internação."
+  },
+  {
+    "case": "C32",
+    "review_id": "f86f12215675",
+    "question": "Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.",
+    "rubric": "Direção e diferença absoluta em pontos percentuais, com duas casas.",
+    "reference": [
+      [
+        1.24
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar aumentou **1,24 ponto percentual** de 2019 para 2020 entre residentes do Rio Grande do Sul. A comparação considera o ano de início da internação e a UF de residência do paciente."
+  },
+  {
+    "case": "C32",
+    "review_id": "f93e9641275a",
+    "question": "Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.",
+    "rubric": "Direção e diferença absoluta em pontos percentuais, com duas casas.",
+    "reference": [
+      [
+        1.24
+      ]
+    ],
+    "answer": "A taxa de mortalidade hospitalar aumentou 1,24 ponto percentual de 2019 para 2020 entre residentes do Rio Grande do Sul. O recorte considera o estado de residência e classifica o ano pela data de internação (DT_INTER)."
+  }
+]

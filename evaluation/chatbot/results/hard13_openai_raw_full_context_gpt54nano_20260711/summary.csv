@@ -1,0 +1,2 @@
+variant,total,result_match_rate,comparable_result_match_rate,delta_vs_full_agent_pp,sql_valid_rate,sql_execution_rate,latency_p50,latency_p95,contained_in_actual_count,contained_in_expected_count,semantic_label_equivalence_count,error_category_counts
+openai_raw_full_context,13,0.6153846153846154,0.8,,0.7692307692307693,0.7692307692307693,3.4582095419900725,5.082761083001969,0,0,0,"{""value_mismatch"": 1, ""shape_mismatch"": 1, ""retrieval_miss"": 3}"

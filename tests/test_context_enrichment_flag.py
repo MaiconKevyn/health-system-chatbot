@@ -16,9 +16,9 @@ def _stage_context(tmp_path):
                 column_types={"id": "INTEGER", "MORTE": "BOOLEAN"},
             )
         },
-        ground_truth=[
+        example_bank=[
             GroundTruthItem(
-                id="GT1",
+                id="EX1",
                 question_pt="Quantas mortes existem?",
                 sql="SELECT COUNT(*) FROM internacoes WHERE MORTE = TRUE",
             )
@@ -47,3 +47,37 @@ def test_retrieve_context_can_disable_enrichment(tmp_path):
     assert raw.query_examples == []
     assert raw.value_hints == []
     assert raw.catalog_candidates == []
+
+
+def test_retrieve_context_can_disable_only_query_examples(tmp_path):
+    config = ChatbotConfig(
+        project_root=tmp_path,
+        db_path=tmp_path / "missing.duckdb",
+        openai_api_key=None,
+    )
+    ctx = _stage_context(tmp_path)
+
+    retrieved = retrieve_context(
+        "Quantas mortes existem?",
+        ctx,
+        config=config,
+        include_query_examples=False,
+    )
+
+    assert retrieved.business_metrics
+    assert retrieved.query_examples == []
+
+
+def test_config_can_disable_only_query_examples(tmp_path):
+    ctx = _stage_context(tmp_path)
+    config = ChatbotConfig(
+        project_root=tmp_path,
+        db_path=tmp_path / "missing.duckdb",
+        openai_api_key=None,
+        query_examples_enabled=False,
+    )
+
+    retrieved = retrieve_context("Quantas internações existem?", ctx, config=config)
+
+    assert retrieved.question_contract is not None
+    assert retrieved.query_examples == []

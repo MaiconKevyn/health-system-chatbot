@@ -90,15 +90,17 @@ def classify_question(question: str, ctx: Stage1Context | None = None) -> Questi
         token in normalized
         for token in (
             "residencia",
+            "municipio de residencia",
+            "uf de residencia",
             "hospital",
             "estabelecimento",
-            "municipio de residencia",
-            "municipio do hospital",
-            "uf de residencia",
-            "uf do estabelecimento",
+            "atendimento",
         )
     ):
-        ambiguities.append("Definir se local e residencia do usuario ou local do hospital.")
+        ambiguities.append(
+            "Definir a dimensao geografica de local: municipio de residencia "
+            "(internacao.MUNIC_RES) ou municipio do hospital (hospital.MUNIC_MOV)."
+        )
 
     if "mortalidade" in normalized and not any(
         token in normalized
@@ -114,11 +116,17 @@ def classify_question(question: str, ctx: Stage1Context | None = None) -> Questi
         ambiguities.append("Definir denominador e periodo da mortalidade.")
 
     if "residencia" in normalized or "munic_res" in normalized:
-        caveats.append("Usar internacoes.MUNIC_RES e declarar universo mapeado quando houver join com municipios.")
+        caveats.append("Usar internacao.MUNIC_RES e declarar universo mapeado quando houver join com municipios.")
     if "hospital" in tokens or "hospitais" in tokens or "estabelecimento" in tokens:
-        caveats.append("Usar hospital.MUNIC_MOV para geografia do estabelecimento.")
+        caveats.append(
+            "Hospital de atendimento via internacao.CNES -> hospital.CNES; geografia "
+            "do estabelecimento via hospital.MUNIC_MOV, distinta da residencia."
+        )
     if "procedimento" in normalized:
-        caveats.append("Ao juntar procedimentos, a unidade pode virar ocorrencia de procedimento.")
+        caveats.append(
+            "Procedimentos ficam em internacao_procedimento; COUNT(*) ali conta "
+            "ocorrencias, use COUNT(DISTINCT N_AIH) para internacoes."
+        )
     if "valor" in normalized or "custo" in normalized:
         caveats.append("Declarar qual coluna financeira fundamenta a resposta.")
 

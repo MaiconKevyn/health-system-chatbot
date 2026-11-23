@@ -1,0 +1,1538 @@
+[
+  {
+    "case": "C01",
+    "review_id": "10000d64510b",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C01",
+    "review_id": "1c71f936477c",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C01",
+    "review_id": "20dada558792",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C01",
+    "review_id": "3ed41a2eb064",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C01",
+    "review_id": "414757d327b4",
+    "answer_sha256": "455d081fbf15279e394889a5323b9d33ac927749740fd105abdb2c940cb8728b",
+    "grade": "correta",
+    "reason": "Informa as 15.168 internações do recorte.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C01",
+    "review_id": "d8ef4417bbd7",
+    "answer_sha256": "4d7a60cee84cc289ddcabf3708cb85f302b1f9b0616dabdd93f738758bc45ec4",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 15.168 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C02",
+    "review_id": "1303bbab0bce",
+    "answer_sha256": "40fe5c76967fab91874df9e53565593b16429b72c09fe5d59856f028d4d52e8d",
+    "grade": "correta",
+    "reason": "Fornece a mediana de R$ 602,83.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C02",
+    "review_id": "1837a0b9d9c2",
+    "answer_sha256": "e9dd8a265562c77b30d3dbbf44b4a61d423f9ae87fd2bb40878ebcaeca8a74ef",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A mediana foi de R$ 602,83 por AIH.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C02",
+    "review_id": "83f1cf794429",
+    "answer_sha256": "737a754f909ddc46208ec03608309648efdb5d1ac9a307e2f3e37cfd98d5e7e4",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A mediana foi de R$ 602,83 por AIH.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C02",
+    "review_id": "9d23806cb53d",
+    "answer_sha256": "6aae589f5f775ffbc79ea339e9a8c300b89762758a9117c4e671c71d71f33ea7",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A mediana foi de R$ 602,83 por AIH.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C02",
+    "review_id": "a9dd44c6799c",
+    "answer_sha256": "40fe5c76967fab91874df9e53565593b16429b72c09fe5d59856f028d4d52e8d",
+    "grade": "correta",
+    "reason": "Fornece a mediana de R$ 602,83.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C02",
+    "review_id": "cbb32b6de09f",
+    "answer_sha256": "71ad110929f6aaf7a19c403387951c26e630c50d53a01993fd3ecf14c6457c1a",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A mediana foi de R$ 602,83 por AIH.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C03",
+    "review_id": "03d3a09b317d",
+    "answer_sha256": "3663144b485c2468cf3555c84ecb60a8c1cd42a80bbb0268405a5cbb46bc3ba9",
+    "grade": "correta",
+    "reason": "Reproduz a descrição local de A16.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C03",
+    "review_id": "1b4750d89139",
+    "answer_sha256": "083d167120d2ae00ecf244909f674e085680729ad729d5555ac01b91fd559205",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A16 corresponde a tuberculose das vias respiratórias sem confirmação bacteriológica ou histológica. A descrição abreviada do catálogo é “Tuberc vias respirat s/conf bacter histol”.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C03",
+    "review_id": "5f53dac41eed",
+    "answer_sha256": "e195f0a01458cfbda1770ab9e80c71d2c7c95da6f1ed0ce35adab6b409a9cf9f",
+    "grade": "correta",
+    "reason": "Reproduz a descrição local de A16.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C03",
+    "review_id": "7efbc06a3885",
+    "answer_sha256": "19c02c18fe836690b46a8cad11245f96c2fd287f23e17c48ef18519dd1cdf3bf",
+    "grade": "correta",
+    "reason": "Reproduz a descrição de A16 no catálogo.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C03",
+    "review_id": "bd778f6ed123",
+    "answer_sha256": "3663144b485c2468cf3555c84ecb60a8c1cd42a80bbb0268405a5cbb46bc3ba9",
+    "grade": "correta",
+    "reason": "Reproduz a descrição local de A16.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C03",
+    "review_id": "edd8a2468ee0",
+    "answer_sha256": "083d167120d2ae00ecf244909f674e085680729ad729d5555ac01b91fd559205",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A16 corresponde a tuberculose das vias respiratórias sem confirmação bacteriológica ou histológica. A descrição abreviada do catálogo é “Tuberc vias respirat s/conf bacter histol”.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C04",
+    "review_id": "4b7ea017d157",
+    "answer_sha256": "2938938431ad7539605d6782cee6f8f4eee6a8312ac9b4364a91a0b7e72ba028",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 78 municípios cadastrados no Espírito Santo.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C04",
+    "review_id": "4f6f747971b1",
+    "answer_sha256": "a76361823b558c14114c712537c765103b512b9b00b9ebfa178eec03024e7394",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 78 municípios cadastrados no Espírito Santo.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C04",
+    "review_id": "5718fc7207be",
+    "answer_sha256": "7bd0775d4d9f87ad53935a7ca73ee1fa544ba9cf662df0b33e5c64ebd43ad1f8",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C04",
+    "review_id": "ce8a7ddace38",
+    "answer_sha256": "7bd0775d4d9f87ad53935a7ca73ee1fa544ba9cf662df0b33e5c64ebd43ad1f8",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C04",
+    "review_id": "e05c89d142b7",
+    "answer_sha256": "97154241bd6b0701805280398f99391a3f95069ff5de9cc96243053812f03272",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C04",
+    "review_id": "fdd97d1e91d2",
+    "answer_sha256": "97154241bd6b0701805280398f99391a3f95069ff5de9cc96243053812f03272",
+    "grade": "correta",
+    "reason": "Informa os 78 municípios.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C05",
+    "review_id": "13ee25e81a65",
+    "answer_sha256": "d7b3a974cb1cf8034ee770b137afa614505857b6c2fd786c9f0cce3199318f82",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 171.898 internações começaram no fim de semana.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C05",
+    "review_id": "4eed1c85f023",
+    "answer_sha256": "394b42bc4c94580572fc0a1d1885359324ebf9d783612cd284ab517f1343f254",
+    "grade": "correta",
+    "reason": "Informa 171.898 internações com início no fim de semana.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C05",
+    "review_id": "680304cee531",
+    "answer_sha256": "aa2f0446e4ac6d69d2c7d28d78dad8f3f5a5492d14625777d4bf889e212ea7c8",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 171.898 internações começaram no fim de semana.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C05",
+    "review_id": "82f4b442db15",
+    "answer_sha256": "8aa6bd87f3ce0e6c888bbf1613ccac60ebb5cf21ad3fb5380f4cc5046511730a",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 171.898 internações começaram no fim de semana.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C05",
+    "review_id": "a83f44256cfd",
+    "answer_sha256": "3010f87c3c71a9f561f8635b634bdf2de3162f3134520fc2e13edd3c3eca9ba1",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 171.898 internações começaram no fim de semana.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C05",
+    "review_id": "fc883e4f6d11",
+    "answer_sha256": "db1accdb4b0e2fae017c3215569311dd9c0636d72af828d06ff08f38ece4d8cc",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 171.898 internações começaram no fim de semana.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C06",
+    "review_id": "2ce94ab3b6d4",
+    "answer_sha256": "5482d51dab288110f64dd8101646792a6fe8fa99c8647be51cf8a379836b6107",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 9.132.078 habitantes na soma do indicador municipal do Ceará em 2019.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C06",
+    "review_id": "65d21cd52386",
+    "answer_sha256": "5482d51dab288110f64dd8101646792a6fe8fa99c8647be51cf8a379836b6107",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 9.132.078 habitantes na soma do indicador municipal do Ceará em 2019.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C06",
+    "review_id": "75101766cca1",
+    "answer_sha256": "54d0cc0be889b8ba6aed95a4d4f2f52552d90ce417b85be5c89002602eabe2e9",
+    "grade": "correta",
+    "reason": "Informa a soma estadual de 9.132.078 habitantes.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C06",
+    "review_id": "af710bf5090a",
+    "answer_sha256": "d54d2d86f1a1276325a662355f8f86d14eff068994cc7dbcabce1ce15ec7fefa",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 9.132.078 habitantes na soma do indicador municipal do Ceará em 2019.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C06",
+    "review_id": "cf0882ccb8d9",
+    "answer_sha256": "5482d51dab288110f64dd8101646792a6fe8fa99c8647be51cf8a379836b6107",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 9.132.078 habitantes na soma do indicador municipal do Ceará em 2019.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C06",
+    "review_id": "dcfe237b4696",
+    "answer_sha256": "63a5c812e08f61f45fdf943ffeda52d41704a990cd84d14f9968771010b6afc5",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 9.132.078 habitantes na soma do indicador municipal do Ceará em 2019.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C07",
+    "review_id": "0006e3ee690d",
+    "answer_sha256": "682923fe6eecd6e17ea5e5257ec0d4675bfc5ffedc23aa78da39b6975d42bdd0",
+    "grade": "correta",
+    "reason": "Informa o valor médio aprovado de R$ 4.199,00.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C07",
+    "review_id": "43ac046fabb5",
+    "answer_sha256": "78a9478b5c07c67f63d08e474fa4337e1b2a356db9d237acd1c415bd4635f60c",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. R$ 4.199,00 por internação que terminou em óbito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C07",
+    "review_id": "a8f71a69d8f3",
+    "answer_sha256": "4d8bcf55b9536c9e79509cd4b2d83fb922d3c606fc5483634703c1233a5782ec",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. R$ 4.199,00 por internação que terminou em óbito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C07",
+    "review_id": "bdd97d888757",
+    "answer_sha256": "bc2d444290ee549aa605ac6aa076bee1e29608be05c7d45783d5af04c2b740fa",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. R$ 4.199,00 por internação que terminou em óbito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C07",
+    "review_id": "f15f0d58df1d",
+    "answer_sha256": "aca3bbbdcb13dfd7e2dca27c1bd92fe290293243694e92852d76666a6d2e318e",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. R$ 4.199,00 por internação que terminou em óbito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C07",
+    "review_id": "fad56b6cc4f7",
+    "answer_sha256": "682923fe6eecd6e17ea5e5257ec0d4675bfc5ffedc23aa78da39b6975d42bdd0",
+    "grade": "correta",
+    "reason": "Informa o valor médio aprovado de R$ 4.199,00.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C08",
+    "review_id": "254227772c38",
+    "answer_sha256": "d8796e57d79c25c5a176b51948a16c613d18cb7739e8577a7147c5a397db6a9c",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Zero registros com população informada para 2022. A tabela não contém esse ano.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C08",
+    "review_id": "52bca230e41e",
+    "answer_sha256": "53083f99684178b2a19a8dfbeb60ba761b6d8fc9a84741c0bb869039242ceba7",
+    "grade": "incorreta",
+    "reason": "A ausência de dados em 2022 permite contar zero registros na tabela. O texto afirma que a contagem é impossível.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C08",
+    "review_id": "784eb104e7ac",
+    "answer_sha256": "151e06b61590e9bb17c03aef5c10f449c05303dbba3b0ca4f367b2e63abfb2d6",
+    "grade": "correta",
+    "reason": "Diz explicitamente que não há registros para 2022. A rubrica aceita essa formulação como equivalente a zero.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C08",
+    "review_id": "99656127a8d9",
+    "answer_sha256": "4334f4251490811de57498cc18e53c69ef0a10092b3c9c15f290d4c44cec3d38",
+    "grade": "incorreta",
+    "reason": "A ausência de dados em 2022 permite contar zero registros na tabela. O texto afirma que a contagem é impossível.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C08",
+    "review_id": "b6b60bc80561",
+    "answer_sha256": "66c05172159d3565461473f27a96b262e4ea3240a5853bd6c516f561bb53c1de",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Zero registros com população informada para 2022. A tabela não contém esse ano.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C08",
+    "review_id": "cd56f244c9b5",
+    "answer_sha256": "139a466a8191cfa8af0cd3405a81c486bfa206187f0c0870c6f3ac5f7bbec9f3",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Zero registros com população informada para 2022. A tabela não contém esse ano.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C09",
+    "review_id": "4dd0b0157b2a",
+    "answer_sha256": "6da42d27dfe50b7153af26f31b573373e24489c9d48d6af4a14638a61295a338",
+    "grade": "correta",
+    "reason": "Informa 7.619 internações com asma ou estado de mal asmático no período.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C09",
+    "review_id": "655197e63928",
+    "answer_sha256": "78f786430ca01e50e3be3525481363ea3f5fa662e9b83a375d684ed449af6ea8",
+    "grade": "correta",
+    "reason": "Total correto de 7.619 internações.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C09",
+    "review_id": "76603ef47252",
+    "answer_sha256": "c52fe79daaa8372210b2e0848ae020ee317f76d5269a5b6489a1ea3705267bf5",
+    "grade": "correta",
+    "reason": "Total correto de 7.619 internações.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C09",
+    "review_id": "a4acd699179d",
+    "answer_sha256": "235b72dee15834b66c5201587f0dc721f1b581a2809551cf2eea9c19f73cfaf9",
+    "grade": "correta",
+    "reason": "Informa 7.619 internações com asma ou estado de mal asmático no período.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C09",
+    "review_id": "a9cfcdea57fb",
+    "answer_sha256": "1f67f8f4e48ca21a6eb769f300fc29fd0d65729598ca7705061a537f4b23d80d",
+    "grade": "correta",
+    "reason": "Informa 7.619 internações com asma ou estado de mal asmático no período.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C09",
+    "review_id": "c1b323a5132c",
+    "answer_sha256": "d4e71ddfecc1dfbd229381dbf72834b768717738a975fc76f4f0ef63821eef21",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 7.619 internações por asma ou estado de mal asmático como diagnóstico principal.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C10",
+    "review_id": "06da10b2977f",
+    "answer_sha256": "8b86ad92b2c27d136ef458450b44488ace9a3902ad1bfbfb38d08ddc4c8894bf",
+    "grade": "correta",
+    "reason": "Informa 1.078 hospitais distintos.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C10",
+    "review_id": "4bebbd528c87",
+    "answer_sha256": "0d4bfc07b8b5c98e090aae03dcd616d571bbdc4c435b28242feb8cc3eda03a36",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.078 hospitais distintos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C10",
+    "review_id": "537f2c2e0ec5",
+    "answer_sha256": "8be35f66fe6c085f0b8a26eb5e068d23aa52c6c562949e153a8af04ad7e766fa",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.078 hospitais distintos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C10",
+    "review_id": "642abf73a0c6",
+    "answer_sha256": "fad8b870af3c5b7526fba0d4ecaac05d8afb89ebc1eaac86538c9fceb338e84d",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.078 hospitais distintos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C10",
+    "review_id": "ca6b9fe516bb",
+    "answer_sha256": "6baa6b74daa3e13dbd0d4a008c0dfc173285e816564731f77e3d45b5015f4896",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.078 hospitais distintos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C10",
+    "review_id": "d218031f1c99",
+    "answer_sha256": "020ced9ae1434630c79974e0453a2f04996fc88d1a44220cd0645b7935b65145",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.078 hospitais distintos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C11",
+    "review_id": "058290748949",
+    "answer_sha256": "f52a404b5384cc02d50e187d8acb4a6d3ad4823e982340766c7e36c1622abafb",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 2.179 internações de residentes de Canoas em hospitais de Porto Alegre.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C11",
+    "review_id": "359aaf5fc9ee",
+    "answer_sha256": "c2bbb9c32663beefc8e95207be7bd50adfaae212060a698fc37b4ef7d9ce68a6",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 2.179 internações de residentes de Canoas em hospitais de Porto Alegre.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C11",
+    "review_id": "430f0d070147",
+    "answer_sha256": "2a5d693b15eba9e0354ccb07fc080f552ab115250e4e70efdd13fc5108e24981",
+    "grade": "correta",
+    "reason": "Informa 2.179 e distingue residência em Canoas de atendimento em Porto Alegre.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C11",
+    "review_id": "531fc4d90f5e",
+    "answer_sha256": "cfc63705668692cb01aa7b22db88fe02cb4d3b6b2b63863536a98079b32891fc",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 2.179 internações de residentes de Canoas em hospitais de Porto Alegre.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C11",
+    "review_id": "6bbea9ee9bf2",
+    "answer_sha256": "2752eabc3a15b86a063f1a09fa6968841549fa024a73dc8a1f456ac9da8fa48e",
+    "grade": "correta",
+    "reason": "Informa 2.179 e distingue residência em Canoas de atendimento em Porto Alegre.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C11",
+    "review_id": "d79bd8440d83",
+    "answer_sha256": "6bf7b3946c372ce884758c21fbbb9c6bb62d6f79312165f0e9cf603594560433",
+    "grade": "correta",
+    "reason": "Informa as 2.179 internações do fluxo solicitado.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C12",
+    "review_id": "430870617ddc",
+    "answer_sha256": "3bfdb2b872a3d4732186eacdc62f42b1f40ea1ba4932daf9d5a9dc12218e7ffe",
+    "grade": "correta",
+    "reason": "Informa as 53.313 AIHs distintas.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C12",
+    "review_id": "451c5f981048",
+    "answer_sha256": "515506bd5d06efda2192ee250d22a503758477dd0f23f26c6030b75382fe5c06",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 53.313 AIHs distintas com pelo menos um registro do procedimento 0411010034.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C12",
+    "review_id": "56cd7df3443b",
+    "answer_sha256": "e53780e07242756eef22196e1e8b492aaccc0e3b55cda106aa19b92637b40b79",
+    "grade": "correta",
+    "reason": "Identifica 53.313 AIHs distintas.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C12",
+    "review_id": "601b85628564",
+    "answer_sha256": "30d62d59df7e16811366d7e05a0dfd3ca50354acdf235e982b9808af36ba0f57",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 53.313 AIHs distintas com pelo menos um registro do procedimento 0411010034.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C12",
+    "review_id": "6ae329db35f0",
+    "answer_sha256": "c9d07f6398fdffabc8fe92c5578a998323b402f6c692b90e0fcc2706c80daca3",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 53.313 AIHs distintas com pelo menos um registro do procedimento 0411010034.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C12",
+    "review_id": "e109282435c8",
+    "answer_sha256": "4f68766fea891b0b44a909f227a8aa5e1a7fb192a78a152a57ed9950e3d6e759",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 53.313 AIHs distintas com pelo menos um registro do procedimento 0411010034.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C13",
+    "review_id": "465a939ad80d",
+    "answer_sha256": "98575cb0d50a689112bc21d7d36a0f4aa67a239ae7310f99043f79a8af1f13e8",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa de mortalidade hospitalar foi de 3,35%.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C13",
+    "review_id": "6f6dd6071103",
+    "answer_sha256": "e8e565f39ec65c70d12db0f1577125cc11ffb9bb02b0a54a50d37f715ba66646",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa de mortalidade hospitalar foi de 3,35%.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C13",
+    "review_id": "7f30a47ee624",
+    "answer_sha256": "6f71d82084c496252ac6c2d099f45a9daf04671117eff483726c7ebc2bd04235",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa de mortalidade hospitalar foi de 3,35%.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C13",
+    "review_id": "a7a48f04536b",
+    "answer_sha256": "06548936083948b15ca8f258bd6a1b930c7d06e4607b38c9c62dba49e71b486a",
+    "grade": "correta",
+    "reason": "Taxa de 3,35% no recorte solicitado.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C13",
+    "review_id": "b14a88d86f39",
+    "answer_sha256": "06548936083948b15ca8f258bd6a1b930c7d06e4607b38c9c62dba49e71b486a",
+    "grade": "correta",
+    "reason": "Taxa de 3,35% no recorte solicitado.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C13",
+    "review_id": "f515a3daf302",
+    "answer_sha256": "ccef1297834dfd68bd2df9b753bc326ba5a7e19c6d0d1d6451dd08f4754a1efc",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa de mortalidade hospitalar foi de 3,35%.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C14",
+    "review_id": "23ba5d624311",
+    "answer_sha256": "07e7f33c160372a5b60057dc40dbd2661db29ddd5c22db9315b95a2a449c92df",
+    "grade": "correta",
+    "reason": "Informa 378 hospitais de Minas Gerais.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C14",
+    "review_id": "4ce71b1b0daa",
+    "answer_sha256": "93f01ad59884e0a9265d1f667905bc66cfbd31d0015eb37c85561c9fc1a8cfc1",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 378 hospitais mineiros.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C14",
+    "review_id": "86662a85faf7",
+    "answer_sha256": "afea237dfd4471d5a33e45bdc1c5710175dc1442254e8a041745a1e77dfa3ee5",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 378 hospitais mineiros.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C14",
+    "review_id": "8b4f5de799b2",
+    "answer_sha256": "66fe79d8d18ec57940d9ce2ef4278987f90b0522772015e5f35d78b320985ad8",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 378 hospitais mineiros.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C14",
+    "review_id": "9fd871f8bfd1",
+    "answer_sha256": "3e2459f7706e13a3e32c9456be7fddf2395b9749e50d0a0b3135ff8aad4f0d76",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 378 hospitais mineiros.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C14",
+    "review_id": "c9d5b679e78c",
+    "answer_sha256": "07e7f33c160372a5b60057dc40dbd2661db29ddd5c22db9315b95a2a449c92df",
+    "grade": "correta",
+    "reason": "Informa 378 hospitais de Minas Gerais.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C15",
+    "review_id": "3f4774e9629e",
+    "answer_sha256": "f3eaaffd4db7d248716a24b6bfb1f275070064baf702d5da8beb6ccc1717a76d",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 357 internações de residentes de Sergipe.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C15",
+    "review_id": "4093dfa5e23d",
+    "answer_sha256": "9b33d228815bfc1af8b290ce9c832976b7dfb074a3af78632fd70eecd1bfc82e",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 357 internações de residentes de Sergipe.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C15",
+    "review_id": "7c7b126e3ee1",
+    "answer_sha256": "2adb49da86e68c3034bd1dedb7730081a8637aaa310faa9455328615c1da062e",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 357 internações de residentes de Sergipe.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C15",
+    "review_id": "8800dce75a63",
+    "answer_sha256": "d93460513df02055c56eca2f95bd9081788b2053756c886cf44795ec66466386",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 357 internações de residentes de Sergipe.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C15",
+    "review_id": "b1ca0198613d",
+    "answer_sha256": "f8f7fcbc944e2db3c47ed2d74a33e7805c8f1b25981fdd9e34c46e31789c8f4b",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 357 internações de residentes de Sergipe.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C15",
+    "review_id": "b45bd100f602",
+    "answer_sha256": "6b392d6dd61ff5aad18c635dfa53ddcdf7cc828966fc20c609963a330b1d4226",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 357 internações de residentes de Sergipe.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C16",
+    "review_id": "013b43396f5d",
+    "answer_sha256": "89ec438c85530faf9eab89c62dd60095cc9207807e5f0c339bd6fb0a933cea69",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.440 estabelecimentos registraram internações iniciadas naquele mês e nenhum óbito nesse grupo.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C16",
+    "review_id": "031ed7f40958",
+    "answer_sha256": "ac300aff5a7e58286be2c03fd0dfd593289a65a576dd91d30b5c2eceb0316762",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.440 estabelecimentos registraram internações iniciadas naquele mês e nenhum óbito nesse grupo.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C16",
+    "review_id": "67d2c0fe7f8e",
+    "answer_sha256": "de4492ee6cc9d4f9da80093a3c3e4e890193bd765b731caa225a3fad2c436588",
+    "grade": "correta",
+    "reason": "1.440 estabelecimentos satisfazem o recorte.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C16",
+    "review_id": "a8409c0b08ea",
+    "answer_sha256": "83875f78f492f27f037de626e3320fa13543e83410fa0f15c63896a18dcba1d7",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.440 estabelecimentos registraram internações iniciadas naquele mês e nenhum óbito nesse grupo.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C16",
+    "review_id": "af3371a6b310",
+    "answer_sha256": "bf081d1d92928d7b4dd6a1a67c7fe768f8d1ff509fa0f1c7540eafd13f181344",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.440 estabelecimentos registraram internações iniciadas naquele mês e nenhum óbito nesse grupo.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C16",
+    "review_id": "ec896efacefc",
+    "answer_sha256": "57769d4d2b407ae7dcedb5b1e5a34f454ca879a0db8baef3b2f5798824ee87a7",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.440 estabelecimentos registraram internações iniciadas naquele mês e nenhum óbito nesse grupo.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C17",
+    "review_id": "4590fc9b08f5",
+    "answer_sha256": "9b1f1e2ce5c40a919551590537396cdb5b322bc9fc1ea372ed9a0cffea013e10",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Janeiro, 910.257 internações. Fevereiro, 899.743. Março, 1.012.315.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C17",
+    "review_id": "6c01383d2753",
+    "answer_sha256": "3d7eab5483bedabb15d74bbbb85558909c4b5e3c8154b53cf0a12b15981f4dfb",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Janeiro, 910.257 internações. Fevereiro, 899.743. Março, 1.012.315.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C17",
+    "review_id": "9218c11c0c8b",
+    "answer_sha256": "b6080e772ec50747e0444b0f82ebfa5ec9f093f6a921d58ed869b39caf70b2f3",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Janeiro, 910.257 internações. Fevereiro, 899.743. Março, 1.012.315.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C17",
+    "review_id": "c529762e3cf6",
+    "answer_sha256": "21cea6a994e705609b8d5bdd25839a815dc9a6080fffc83c9e1f263d6225f653",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Janeiro, 910.257 internações. Fevereiro, 899.743. Março, 1.012.315.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C17",
+    "review_id": "c73ec8108dca",
+    "answer_sha256": "b607caa9781f88215d90e7acb1629984d8522431a781a6c4d42fda3de1dd8f28",
+    "grade": "correta",
+    "reason": "Apresenta as três contagens mensais com os meses correspondentes.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C17",
+    "review_id": "d8e75675f339",
+    "answer_sha256": "e505e2aaa61ce5164d68834731e5e10b90609340d4ca93461386635f4870e8b5",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Janeiro, 910.257 internações. Fevereiro, 899.743. Março, 1.012.315.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C18",
+    "review_id": "084d79df406d",
+    "answer_sha256": "8a7a6a90f02f364123e4d85d3c85d8db51ae1ecaca54dc2ce2dad1f33d72274f",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C18",
+    "review_id": "0e5a24dad30f",
+    "answer_sha256": "1a16a44527fdbd7650dfcb04549cda1dddd423a89b2a53cd669d9e0af8a21c14",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C18",
+    "review_id": "38373ecbb4f8",
+    "answer_sha256": "9638fcf5e1488ac79d94ee6952988b506e2066a20069b6f1c2ac47cd64db986f",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C18",
+    "review_id": "48b6ad46ef92",
+    "answer_sha256": "915194446df72cbc8a1fd0809207c53791b5ae67ae8d2ccf4dcbc1f4bfda62c5",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C18",
+    "review_id": "7314ef7c3b80",
+    "answer_sha256": "a71efd4c32ead8e173e5df1419c8765603d243085185d7a3f8a045f703a9ab25",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C18",
+    "review_id": "b1b4fcce9c8b",
+    "answer_sha256": "da443a8a4a40b296486a5319ee17a573078a7a94a74ab1a0e7328ece416f8272",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C19",
+    "review_id": "030d526eea64",
+    "answer_sha256": "82753eccb8fc81a3167ec9823d5a229024995a8022fd9da48527562a0045b866",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Segunda-feira, com 81.681 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C19",
+    "review_id": "24461a6e3683",
+    "answer_sha256": "8235c2a1f32aa0f4cf1a9f19ed35eea4dec2dfdf1438781bd480c1c1794fff72",
+    "grade": "correta",
+    "reason": "Identifica segunda-feira e suas 81.681 internações.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C19",
+    "review_id": "2536c6675a9b",
+    "answer_sha256": "151c971e99958bb7e88f5f42ec20c88fd20909f1253a04dd38ba988b4bad7d28",
+    "grade": "correta",
+    "reason": "Identifica segunda-feira e as 81.681 internações.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C19",
+    "review_id": "676c5531f7eb",
+    "answer_sha256": "33fda6ac6bc95ddb00e32048672bd888c44333780b242b25f50d585c477d85cb",
+    "grade": "incorreta",
+    "reason": "Acerta o dia e a contagem, mas afirma que a maioria das internações começou na segunda. Foram 81.681 de 488.503 (16,72%), a maior contagem entre os sete dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C19",
+    "review_id": "ba0a19f691d1",
+    "answer_sha256": "1d3095b662086ba03e830034283619cc4b8ead2906b368ba91dc654342c8b800",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Segunda-feira, com 81.681 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C19",
+    "review_id": "ff25e29a976f",
+    "answer_sha256": "ac8e3d3ddf70460ad3a233da95d1860e7524c2914f434421a6d6f90b2717e813",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Segunda-feira, com 81.681 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C20",
+    "review_id": "05a88c43a878",
+    "answer_sha256": "26cb373de74941413ea7fae71019ded09db84ec3d5c8f733f06d5d6d00ab60fa",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C20",
+    "review_id": "098fc7ec4197",
+    "answer_sha256": "fa2b8a966a8df9eb89571967fc1ec28af6c639da17cfdf5240502ae43b5e9078",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C20",
+    "review_id": "452dcd592e38",
+    "answer_sha256": "71a192993ad4d6f8ad311abceb017dda2ddf41b5cdded2e400b104eefa5cb810",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C20",
+    "review_id": "61e00870d319",
+    "answer_sha256": "967a647e99e6b7d01dcde50fe2dc0443f3953a6d7fdee3aaadd6874b020d8628",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C20",
+    "review_id": "6723076febab",
+    "answer_sha256": "3dca96c7a7834751b48ed83b7f830a0977f568ee2f045c43eb424ea050947586",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C20",
+    "review_id": "d47a708e7c3a",
+    "answer_sha256": "3dca96c7a7834751b48ed83b7f830a0977f568ee2f045c43eb424ea050947586",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C21",
+    "review_id": "097c26d76b7f",
+    "answer_sha256": "8f0faef3cf4ed7f097f49cda4950dbb342294a51359097656c4d92c344d98769",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C21",
+    "review_id": "102fe26640f5",
+    "answer_sha256": "e1cdd955dc7f1418f9c7e8e0d58bf66fd03cd99a549831e146320d7c61ab7966",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C21",
+    "review_id": "9ab75b2c84fb",
+    "answer_sha256": "84c4545f1c7f13049361d5d74a687c07714c3a4fc40f968ffe8374efc27d661a",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C21",
+    "review_id": "a7051218c1c6",
+    "answer_sha256": "a8d518a8edc1f3ac80644dda9104045f2b887c98eb38701fd8e3684760bff81f",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C21",
+    "review_id": "c20e8a93d3d6",
+    "answer_sha256": "7f0a9be14b16b0e8c8cca38f0b50f702cc9061354d307fbab6e6334027e3b91b",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C21",
+    "review_id": "cb159a7011af",
+    "answer_sha256": "5e0b0ebfa1d2e0929947a5e67fdcaf994052cf33c34101a7ff0529430a4bf3fb",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C22",
+    "review_id": "055f23b688ac",
+    "answer_sha256": "e220a13522450e1a6fbf680601f3e51d41f2833d9a83bd5d1dbf7b0f743971e1",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C22",
+    "review_id": "3584ec127878",
+    "answer_sha256": "3bfdc04374dc24a05561e66ac7b8935e5361360248a50d6385528da8ab11764c",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C22",
+    "review_id": "7daea5ba4252",
+    "answer_sha256": "40b0caab483e796f1f1c20444e230ead1946958d1c9d1b9d7312febbf5211ab6",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C22",
+    "review_id": "806490ba3750",
+    "answer_sha256": "fb2313b52bac6bda0fcc1617d94adbb32a530be45556a5ffca08ea0251fbb9ee",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C22",
+    "review_id": "a99222c5e88c",
+    "answer_sha256": "94901e9c78a0abea1418bc11bf9e77ccbed5f98c36a2f54d8e16fe9015a8909f",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C22",
+    "review_id": "d192a0d3a233",
+    "answer_sha256": "c479faed1ebcdd6c21932e42dd0858730fca4409bddbd9a1319d317e196ea8a9",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C23",
+    "review_id": "589feb035d80",
+    "answer_sha256": "ff12b555591f2455db70c58245f2c076404050e5d37064a8f5daff8e8c0d4c30",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C23",
+    "review_id": "5d32095119ff",
+    "answer_sha256": "b45527c7c06698c0acedc3c7d7e4e5a409b5246be2c7fe768f82829b3feb5f83",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C23",
+    "review_id": "61e56af7e935",
+    "answer_sha256": "e3f2ebd5082370fd06150a1bacfc0bde8d768a28bd6fe65757f49a89c7dceabc",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C23",
+    "review_id": "92df8043d97c",
+    "answer_sha256": "be070236124ca2bacdfc585b977f2556427fa7632e614b5ecb3055c008b0fb96",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C23",
+    "review_id": "a95b2fbaaec9",
+    "answer_sha256": "b45cacbe368cc34566c78b1d319a4de8b0053c3f4d6ab518e5a8b2e36aefe0fd",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C23",
+    "review_id": "f8622f789388",
+    "answer_sha256": "1763e5340a59afa4471837dd45414a122c586c4fa79dac5befb9b909451b71c3",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C24",
+    "review_id": "356989b88c7b",
+    "answer_sha256": "ea0430494840268d27db1f791d266de2a5685a89b6119b49d91950833d8e55b3",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. P220 com 20,30 dias, F200 com 18,06 dias e F102 com 15,91 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C24",
+    "review_id": "36b015e89e31",
+    "answer_sha256": "bd71bee93a2f9aed40312c166aef9269d36c3039e39189e88bc395fbb18368f1",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. P220 com 20,30 dias, F200 com 18,06 dias e F102 com 15,91 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C24",
+    "review_id": "5bb242bdb3e8",
+    "answer_sha256": "b0afef8aededd006ff8d0b7fa41c5f8bff17fe2919ae181afdd380502f919d59",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. P220 com 20,30 dias, F200 com 18,06 dias e F102 com 15,91 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C24",
+    "review_id": "9e5d066e86d8",
+    "answer_sha256": "4ee7346d0bc20fab1bb39627b06ac84e5b18a43811ee4dbc7f818c1fc498979c",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. P220 com 20,30 dias, F200 com 18,06 dias e F102 com 15,91 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C24",
+    "review_id": "da7474704bee",
+    "answer_sha256": "1fa6ee53797a025270070edbc38fe862f3ddac1bbe0b47d461bf74dafe54ed84",
+    "grade": "correta",
+    "reason": "Entrega os três diagnósticos e as três médias em dias na ordem solicitada.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C24",
+    "review_id": "e9f38797d762",
+    "answer_sha256": "23ec4c6e69bdde54a68abfb77cdc4528e091d483e5ef8d1691df978d2bb44c5d",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. P220 com 20,30 dias, F200 com 18,06 dias e F102 com 15,91 dias.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C25",
+    "review_id": "020acd18e318",
+    "answer_sha256": "6b8baf7fb91b94903ccc5e1c56794ce4131ab2c78cdb5c4156a7cd00c042a0d4",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A quantidade cresceu 5,30% em relação a 2018.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C25",
+    "review_id": "0c8d9332ebca",
+    "answer_sha256": "d3b2ea7950715e7c4ee724aaa1a8d73a04a62d211f26656064d6bfc90057dc96",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A quantidade cresceu 5,30% em relação a 2018.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C25",
+    "review_id": "27c36ee130ff",
+    "answer_sha256": "be14473f2e303645d04cc5e1d6c5b5e8783e8e3e1d4cad220255465d4487a6aa",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A quantidade cresceu 5,30% em relação a 2018.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C25",
+    "review_id": "a79e0a111853",
+    "answer_sha256": "ab7e862a82b2d877deb90900c76b3629aefa248ad23913783616ee9b2ea486d8",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A quantidade cresceu 5,30% em relação a 2018.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C25",
+    "review_id": "ce446292b50b",
+    "answer_sha256": "1fc0f5a38194c242ae595f11a130b7fc8d93821169c00a6f29b8a2290d0c8506",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A quantidade cresceu 5,30% em relação a 2018.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C25",
+    "review_id": "ee7b2e18d482",
+    "answer_sha256": "9440fd29d28362d104101ab8c691c49b8c43f4c6e7751c0a74f31ac74457763c",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A quantidade cresceu 5,30% em relação a 2018.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C26",
+    "review_id": "1683f1ec90be",
+    "answer_sha256": "57bd2ab6ecd3dd18cb36d82b820a28aec74f78f66be1de16f29bb38f57376a78",
+    "grade": "correta",
+    "reason": "Informa 52,66 internações por mil habitantes.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C26",
+    "review_id": "2c4091435058",
+    "answer_sha256": "c048b199e10192404052523240315749043f876478f67368e0cee6b59cd1217a",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 52,66 internações por mil habitantes.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C26",
+    "review_id": "6065096fbb7c",
+    "answer_sha256": "57e2456370a1e722940c1e77bc4b171bf08a7ef21df3f8ae14622f328b45d1e0",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 52,66 internações por mil habitantes.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C26",
+    "review_id": "abe520c72fbd",
+    "answer_sha256": "57bd2ab6ecd3dd18cb36d82b820a28aec74f78f66be1de16f29bb38f57376a78",
+    "grade": "correta",
+    "reason": "Informa 52,66 internações por mil habitantes.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C26",
+    "review_id": "dfea186c6768",
+    "answer_sha256": "8f53845880ae97eccd8cf0d1e7e2d73c04365b067862924643269d4537f65bdd",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 52,66 internações por mil habitantes.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C26",
+    "review_id": "fd84bfb08687",
+    "answer_sha256": "7d28831e03ee89d91202c745a8b350ea7f564acc80856282c8cf2b3b423088f8",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 52,66 internações por mil habitantes.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C27",
+    "review_id": "349bd00a0741",
+    "answer_sha256": "1dcdd4a19f0fe20469c8b9b13f78192ff638abb004d85ba944f9d96c837a27b6",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 coincide com o gabarito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C27",
+    "review_id": "4904f8002ade",
+    "answer_sha256": "063261c56d3e11da98cc25b01ec4fd1ef737cd8f03152b717e7966b2184ff9d8",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 corresponde ao gabarito.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C27",
+    "review_id": "81fdd8d2d935",
+    "answer_sha256": "1dcdd4a19f0fe20469c8b9b13f78192ff638abb004d85ba944f9d96c837a27b6",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 coincide com o gabarito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C27",
+    "review_id": "c30bd35f082f",
+    "answer_sha256": "c011056752d791ee4f511b46b6aa0fcd0b53c32751efb8eacdbe7220ab5314c8",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 coincide com o gabarito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C27",
+    "review_id": "c751c558ace1",
+    "answer_sha256": "1dcdd4a19f0fe20469c8b9b13f78192ff638abb004d85ba944f9d96c837a27b6",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 coincide com o gabarito.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C27",
+    "review_id": "cfb72d26f93c",
+    "answer_sha256": "063261c56d3e11da98cc25b01ec4fd1ef737cd8f03152b717e7966b2184ff9d8",
+    "grade": "correta",
+    "reason": "A média anual de 860.056,00 corresponde ao gabarito.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C28",
+    "review_id": "0b8788d462b6",
+    "answer_sha256": "de446062e98381477dd2a2b6fe92a86dc52c1c6951aa0fff37e41df41ea144e7",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 2019, com 9.398 óbitos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C28",
+    "review_id": "34676ae503f0",
+    "answer_sha256": "cc7167fb51f5d08db14aaa342baa0fd57335bc286d16a53dc12bea88ee20f4d9",
+    "grade": "correta",
+    "reason": "Identifica o pico em 2019 e os 9.398 óbitos.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C28",
+    "review_id": "47e8d663c6e5",
+    "answer_sha256": "ce77e0c140bbd381eb4e82aaeac3179e619e69b39b099f5e72c0288f1fa46d05",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 2019, com 9.398 óbitos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C28",
+    "review_id": "4dd507669b07",
+    "answer_sha256": "ea85ee15fe503e3e036eaf907e38bd174d56d8d93f3e1835ca41d42c750fd1ee",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 2019, com 9.398 óbitos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C28",
+    "review_id": "7179a868c6b6",
+    "answer_sha256": "cc7167fb51f5d08db14aaa342baa0fd57335bc286d16a53dc12bea88ee20f4d9",
+    "grade": "correta",
+    "reason": "Identifica o pico em 2019 e os 9.398 óbitos.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C28",
+    "review_id": "d77360df68f9",
+    "answer_sha256": "08afcc775d50cceaf1117a6914c492c0841af766e0e5ff3f5ca72025ff01d494",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 2019, com 9.398 óbitos.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C29",
+    "review_id": "2af93130f53c",
+    "answer_sha256": "9ff6dd48144d28b5f3b44a9b3e69355dc6c20876ce7f73f5ef92a841f3c90b12",
+    "grade": "sem_resposta",
+    "reason": "Validação exigiu projeção do trimestre e o texto não fornece percentual.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C29",
+    "review_id": "57ccebf067c5",
+    "answer_sha256": "2d7d62a325b7b4b24f813422375613da95db2fe7c5783792118d4525deb90060",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 8,53% das internações do recorte tiveram diagnóstico principal respiratório.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C29",
+    "review_id": "97fb93508233",
+    "answer_sha256": "44dac735454026230ffa53e647bc68045ed90ddd413b60b3a2d76edefff7d415",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 8,53% das internações do recorte tiveram diagnóstico principal respiratório.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C29",
+    "review_id": "be3f442fbf03",
+    "answer_sha256": "9ff6dd48144d28b5f3b44a9b3e69355dc6c20876ce7f73f5ef92a841f3c90b12",
+    "grade": "sem_resposta",
+    "reason": "Validação exigiu projeção do trimestre e o texto não fornece percentual.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C29",
+    "review_id": "bfb5617e72a5",
+    "answer_sha256": "b248c490cfb291a83c33ee76b5c898a597d252538c7385ba33e6235db0d48524",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 8,53% das internações do recorte tiveram diagnóstico principal respiratório.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C29",
+    "review_id": "e251ed9c35c4",
+    "answer_sha256": "00b7a7cd37d8c39c216955ce8b211aee5907ec0d6e029f73c04a85029fb38f2a",
+    "grade": "correta",
+    "reason": "O percentual respiratório é 8,53% para residentes do RS no trimestre pedido.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C30",
+    "review_id": "4376487f37ab",
+    "answer_sha256": "f5bdf85692be8d873140e93ace4631d1d3ca7f7e305e255a7381bd7c99c7c38d",
+    "grade": "incorreta",
+    "reason": "Embora acerte a contagem de próstata, omite a de mama e inverte a conclusão.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C30",
+    "review_id": "826f8ab2ff90",
+    "answer_sha256": "2428c1b091d9db18e3e9bf0eb119ada32e08b9f56e405c7af425cd14c22f3714",
+    "grade": "parcial",
+    "reason": "Acerta o sítio mais frequente e seus 79.047 registros, mas omite os 35.231 de próstata.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C30",
+    "review_id": "8b65e2fac43b",
+    "answer_sha256": "998ca1413d06d5578bb892bc6462f73417b862a0e7f881d7ab64b4c3799ea794",
+    "grade": "correta",
+    "reason": "Vincula 79.047 a mama e 35.231 a próstata e identifica mama como mais frequente.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C30",
+    "review_id": "8fba5f8d8e98",
+    "answer_sha256": "b7f4b447f6523a3825428fbca9bbaf8bf826265ff0546509683f6cdcb5bef2fd",
+    "grade": "correta",
+    "reason": "Vincula 79.047 a mama e 35.231 a próstata e identifica mama como mais frequente.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C30",
+    "review_id": "d7f542477c65",
+    "answer_sha256": "9ca49040bc2c84b3c8fb42f962cc1c75588fc563484a62bf2a3391dddeb0862f",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Câncer de mama foi mais frequente, com 79.047 internações, frente a 35.231 por câncer de próstata.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C30",
+    "review_id": "de50b11c98d3",
+    "answer_sha256": "fb3e1b405f6d0a0ee6f81a5b22c9a204c4e9c1b7994d445ae7e31e6e1c5189b1",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. Câncer de mama foi mais frequente, com 79.047 internações, frente a 35.231 por câncer de próstata.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C31",
+    "review_id": "0b5379afeb28",
+    "answer_sha256": "504017dec991e465459589ec1ae030676ff91e89c650936ebc46013534f04fbe",
+    "grade": "correta",
+    "reason": "Informa os 1.685 hospitais solicitados.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C31",
+    "review_id": "5496438346ca",
+    "answer_sha256": "504017dec991e465459589ec1ae030676ff91e89c650936ebc46013534f04fbe",
+    "grade": "correta",
+    "reason": "Informa os 1.685 hospitais solicitados.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C31",
+    "review_id": "5b27cb895ee2",
+    "answer_sha256": "21c3c974639be5d54b36653300b5b9eefd328048e208e9a3a0e26bb8018434cc",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.685 hospitais.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C31",
+    "review_id": "7a349c42ff32",
+    "answer_sha256": "db98702bdb64c164da325d2442a53e8b71c63a3a7439efe64cfb225ab73ffaab",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.685 hospitais.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C31",
+    "review_id": "c1bd737799e9",
+    "answer_sha256": "9932afea4e31098347167e62df4c1b09ec03d29e34e9cb245715df7fdecb614d",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.685 hospitais.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C31",
+    "review_id": "cdb47fd0ca3c",
+    "answer_sha256": "a303dda2f471e63d0d347d7b0246dae0d04f94685559dd76950e96bd0083bc65",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. 1.685 hospitais.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C32",
+    "review_id": "bf4f3c05291d",
+    "answer_sha256": "7617b9a8b1d6d627d8f4ccec65822862de8d5e25cb1e0248371d91f348116d50",
+    "grade": "correta",
+    "reason": "Identifica aumento de 1,24 ponto percentual. As taxas de 2019 e 2020, quando citadas, conferem.",
+    "source": "curadoria_v1"
+  },
+  {
+    "case": "C32",
+    "review_id": "e93ac7471c0e",
+    "answer_sha256": "a023408332a839c524bee96af805946e1b145395bfd6cf1e6d6e08021acaa740",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa subiu 1,24 ponto percentual entre 2019 e 2020.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C32",
+    "review_id": "edc7123dea4d",
+    "answer_sha256": "d30a4ed7e387043378f71cc5cc052eb0ea682dc28dd30e803c1e64c9885f59cf",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa subiu 1,24 ponto percentual entre 2019 e 2020.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C32",
+    "review_id": "f70deef940cb",
+    "answer_sha256": "f2b60e6dbbb83b54d6f7271e437fcdfabef6ae90f699faca73ea177adca6f899",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa subiu 1,24 ponto percentual entre 2019 e 2020.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C32",
+    "review_id": "f86f12215675",
+    "answer_sha256": "caf0f628176364a7302772cf0803f89192a79fa75353d93491751497f23b198d",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa subiu 1,24 ponto percentual entre 2019 e 2020.",
+    "source": "revisao_atual"
+  },
+  {
+    "case": "C32",
+    "review_id": "f93e9641275a",
+    "answer_sha256": "a24213612d3702af6713cabc7aa21ae9b9f847fd4fef1c251400e14cee97146a",
+    "grade": "correta",
+    "reason": "O texto atende à referência do caso. A taxa subiu 1,24 ponto percentual entre 2019 e 2020.",
+    "source": "revisao_atual"
+  }
+]

@@ -1,0 +1,1376 @@
+# Decisões de curadoria do ground truth sihrd9 (benchmark A x B).
+#
+# Princípios:
+#   1. O gold é a resposta CORRETA segundo os dados do sihrd9.
+#   2. Alternativas (`alternatives`) só para ambiguidade de INTERPRETAÇÃO da
+#      pergunta (data de entrada x alta, residência x atendimento, contagem por
+#      internação x por linha de procedimento, definição clínica não dada).
+#      Erro de manipulação de dado (placeholder, rótulo trocado, DF subcontado)
+#      não ganha alternativa.
+#   3. O gold devolve só o que a pergunta pede. `compare_columns` lista as
+#      colunas do gold que a predição precisa reproduzir; as demais são de apoio.
+#      Rótulos construídos por CASE (faixa etária, especialidade, tipo de parto)
+#      ficam fora da comparação de execução e são checados na resposta em NL.
+#   4. DF: `municipios` só tem 530010 (Brasília). Os códigos 5300xx de regiões
+#      administrativas, usados no fato e em hospital, são Brasília.
+#
+# Campos: action (keep|rewrite|drop|answerable), reason, question, sql,
+# alternatives, compare_columns, answerable, must_mention, date_alternative.
+
+# --------------------------------------------------------------------------
+# PROC_REA saiu do fato: procedimento agora vem de internacao_procedimento.
+# "Procedimentos mais realizados" admite contagem por internação (DISTINCT
+# N_AIH) ou por linha; as duas são aceitas.
+# --------------------------------------------------------------------------
+proc_top5:
+  action: rewrite
+  reason: "PROC_REA não existe mais em internacao; procedimento migrado para internacao_procedimento. Aceita contagem por internação ou por linha."
+  sql: |
+    SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+    FROM internacao_procedimento ip JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+    GROUP BY 1 ORDER BY total DESC LIMIT 5
+  alternatives:
+    - |
+      SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total
+      FROM internacao_procedimento ip JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      GROUP BY 1 ORDER BY total DESC LIMIT 5
+
+gt_gt068:
+  action: rewrite
+  reason: "PROC_REA migrado para internacao_procedimento."
+  sql: |
+    SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+    FROM internacao_procedimento ip JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+    GROUP BY 1 ORDER BY total DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total
+      FROM internacao_procedimento ip JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      GROUP BY 1 ORDER BY total DESC LIMIT 10
+
+proc_partos_cesarea_vs_normal:
+  action: rewrite
+  reason: "PROC_REA migrado. Rótulo do tipo de parto é construído por CASE: compara só o total."
+  sql: |
+    SELECT CASE WHEN ip.PROC_REA IN ('0310010039','0310010047','0310010055') THEN 'Parto normal' ELSE 'Cesárea' END AS tipo_parto,
+           COUNT(DISTINCT ip.N_AIH) AS total
+    FROM internacao_procedimento ip
+    WHERE ip.PROC_REA IN ('0310010039','0310010047','0310010055','0411010034','0411010026','0411010042')
+    GROUP BY 1 ORDER BY total DESC
+  alternatives:
+    - |
+      SELECT CASE WHEN ip.PROC_REA IN ('0310010039','0310010047','0310010055') THEN 'Parto normal' ELSE 'Cesárea' END AS tipo_parto,
+             COUNT(*) AS total
+      FROM internacao_procedimento ip
+      WHERE ip.PROC_REA IN ('0310010039','0310010047','0310010055','0411010034','0411010026','0411010042')
+      GROUP BY 1 ORDER BY total DESC
+  compare_columns: [total]
+
+proc_custo_medio_top:
+  action: rewrite
+  reason: "PROC_REA migrado. Custo médio por internação com o procedimento; a variante sem DISTINCT pesa linhas repetidas e também é aceita."
+  sql: |
+    WITH ip AS (SELECT DISTINCT N_AIH, PROC_REA FROM internacao_procedimento)
+    SELECT p.NOME_PROC AS procedimento, COUNT(*) AS realizacoes, ROUND(AVG(i.VAL_TOT), 2) AS custo_medio
+    FROM ip JOIN internacao i ON i.N_AIH = ip.N_AIH JOIN procedimentos p ON p.PROC_REA = ip.PROC_REA
+    GROUP BY 1 HAVING COUNT(*) >= 1000 ORDER BY custo_medio DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT p.NOME_PROC AS procedimento, COUNT(*) AS realizacoes, ROUND(AVG(i.VAL_TOT), 2) AS custo_medio
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH JOIN procedimentos p ON p.PROC_REA = ip.PROC_REA
+      GROUP BY 1 HAVING COUNT(*) >= 1000 ORDER BY custo_medio DESC LIMIT 10
+  compare_columns: [procedimento, custo_medio]
+
+gt_gt079:
+  action: rewrite
+  reason: "PROC_REA migrado. 'Nas cidades do RS' admite residência ou local do atendimento."
+  sql: |
+    SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+    FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+    JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+    WHERE m.SG_UF = 'RS' GROUP BY 1 ORDER BY total DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      WHERE m.SG_UF = 'RS' GROUP BY 1 ORDER BY total DESC LIMIT 10
+    - |
+      SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN hospital h ON i.CNES = h.CNES JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+      JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      WHERE m.SG_UF = 'RS' GROUP BY 1 ORDER BY total DESC LIMIT 10
+
+gt_gt081:
+  action: rewrite
+  reason: "PROC_REA migrado."
+  sql: |
+    SELECT sexo, procedimento, total FROM (
+      SELECT s.DESCRICAO AS sexo, p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total,
+             ROW_NUMBER() OVER (PARTITION BY s.DESCRICAO ORDER BY COUNT(DISTINCT ip.N_AIH) DESC) rn
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN sexo s ON i.SEXO = s.SEXO JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      GROUP BY 1, 2)
+    WHERE rn <= 5 ORDER BY sexo, total DESC
+  alternatives:
+    - |
+      SELECT sexo, procedimento, total FROM (
+        SELECT s.DESCRICAO AS sexo, p.NOME_PROC AS procedimento, COUNT(*) AS total,
+               ROW_NUMBER() OVER (PARTITION BY s.DESCRICAO ORDER BY COUNT(*) DESC) rn
+        FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+        JOIN sexo s ON i.SEXO = s.SEXO JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+        GROUP BY 1, 2)
+      WHERE rn <= 5 ORDER BY sexo, total DESC
+  compare_columns: [procedimento, total]
+
+gt_gt084:
+  action: rewrite
+  reason: "Gold antigo devolvia o top 3 geral, mas a pergunta pede o top 3 DE CADA faixa etária. PROC_REA migrado. Rótulo de faixa é CASE: compara procedimento e total."
+  sql: |
+    SELECT faixa, procedimento, total FROM (
+      SELECT CASE WHEN i.IDADE < 18 THEN 'menor de 18' WHEN i.IDADE <= 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa,
+             p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      WHERE i.MORTE GROUP BY 1, 2)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY faixa ORDER BY total DESC) <= 3
+    ORDER BY faixa, total DESC
+  alternatives:
+    - |
+      SELECT faixa, procedimento, total FROM (
+        SELECT CASE WHEN i.IDADE < 18 THEN 'menor de 18' WHEN i.IDADE <= 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa,
+               p.NOME_PROC AS procedimento, COUNT(*) AS total
+        FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+        JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+        WHERE i.MORTE GROUP BY 1, 2)
+      QUALIFY ROW_NUMBER() OVER (PARTITION BY faixa ORDER BY total DESC) <= 3
+      ORDER BY faixa, total DESC
+  compare_columns: [procedimento, total]
+
+gt_gt122:
+  action: rewrite
+  reason: "PROC_REA migrado. Base de contagem (internação x linha) aceita nas duas formas."
+  sql: |
+    SELECT procedimento, total, pct_acumulado FROM (
+      SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total,
+             ROUND(100.0 * SUM(COUNT(DISTINCT ip.N_AIH)) OVER (ORDER BY COUNT(DISTINCT ip.N_AIH) DESC)
+                   / SUM(COUNT(DISTINCT ip.N_AIH)) OVER (), 2) AS pct_acumulado
+      FROM internacao_procedimento ip JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      GROUP BY 1)
+    WHERE pct_acumulado <= 80 ORDER BY total DESC
+  alternatives:
+    - |
+      SELECT procedimento, total, pct_acumulado FROM (
+        SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total,
+               ROUND(100.0 * SUM(COUNT(*)) OVER (ORDER BY COUNT(*) DESC) / SUM(COUNT(*)) OVER (), 2) AS pct_acumulado
+        FROM internacao_procedimento ip JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+        GROUP BY 1)
+      WHERE pct_acumulado <= 80 ORDER BY total DESC
+  compare_columns: [procedimento, total]
+
+gt_gt131:
+  action: rewrite
+  reason: "PROC_REA migrado; RACA_COR é numérico no sihrd9 (5 = indígena)."
+  sql: |
+    SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+    FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+    JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+    WHERE i.RACA_COR = 5 GROUP BY 1 ORDER BY total DESC LIMIT 5
+  alternatives:
+    - |
+      SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      WHERE i.RACA_COR = 5 GROUP BY 1 ORDER BY total DESC LIMIT 5
+
+gt_gt166:
+  action: rewrite
+  reason: "Pergunta antiga não batia com o gold (que contava códigos sem correspondência). Reescrita para o que o gold mede, agora em internacao_procedimento."
+  question: "Quantos registros de procedimento realizado têm um código que não consta na tabela procedimentos?"
+  sql: |
+    SELECT COUNT(*) AS sem_correspondencia
+    FROM internacao_procedimento ip LEFT JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+    WHERE p.PROC_REA IS NULL
+
+gt_gt199:
+  action: rewrite
+  reason: "PROC_REA migrado."
+  sql: |
+    SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+    FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+    JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+    WHERE i.MARCA_UTI > 0 GROUP BY 1 ORDER BY total DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      WHERE i.MARCA_UTI > 0 GROUP BY 1 ORDER BY total DESC LIMIT 10
+
+gt_gt210:
+  action: rewrite
+  reason: "PROC_REA migrado. Exclui diagnósticos sem capítulo (códigos só em cid_manuais); variantes com LEFT JOIN e contagem por linha aceitas."
+  sql: |
+    SELECT capitulo, procedimento, total FROM (
+      SELECT c.DS_CAPITULO AS capitulo, p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN cid c ON i.DIAG_PRINC = c.CID JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      GROUP BY 1, 2)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY capitulo ORDER BY total DESC) = 1
+    ORDER BY total DESC
+  alternatives:
+    - |
+      SELECT capitulo, procedimento, total FROM (
+        SELECT c.DS_CAPITULO AS capitulo, p.NOME_PROC AS procedimento, COUNT(*) AS total
+        FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+        JOIN cid c ON i.DIAG_PRINC = c.CID JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+        GROUP BY 1, 2)
+      QUALIFY ROW_NUMBER() OVER (PARTITION BY capitulo ORDER BY total DESC) = 1
+      ORDER BY total DESC
+  compare_columns: [capitulo, procedimento, total]
+
+gt_gt226:
+  action: rewrite
+  reason: "PROC_REA migrado."
+  sql: |
+    SELECT procedimento, total, pct_acumulado FROM (
+      SELECT p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total,
+             ROUND(100.0 * SUM(COUNT(DISTINCT ip.N_AIH)) OVER (ORDER BY COUNT(DISTINCT ip.N_AIH) DESC)
+                   / SUM(COUNT(DISTINCT ip.N_AIH)) OVER (), 2) AS pct_acumulado
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      WHERE i.MARCA_UTI > 0 GROUP BY 1)
+    WHERE pct_acumulado <= 80 ORDER BY total DESC
+  alternatives:
+    - |
+      SELECT procedimento, total, pct_acumulado FROM (
+        SELECT p.NOME_PROC AS procedimento, COUNT(*) AS total,
+               ROUND(100.0 * SUM(COUNT(*)) OVER (ORDER BY COUNT(*) DESC) / SUM(COUNT(*)) OVER (), 2) AS pct_acumulado
+        FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+        JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+        WHERE i.MARCA_UTI > 0 GROUP BY 1)
+      WHERE pct_acumulado <= 80 ORDER BY total DESC
+  compare_columns: [procedimento, total]
+
+gt_gt227:
+  action: rewrite
+  reason: "Pergunta não definia as faixas etárias que o gold usava; faixas explicitadas no enunciado. PROC_REA migrado."
+  question: "Quais são os 3 procedimentos mais realizados para cada combinação de sexo e faixa etária (menor de 18, 18 a 59, 60 ou mais)?"
+  sql: |
+    SELECT sexo, faixa_etaria, procedimento, total FROM (
+      SELECT s.DESCRICAO AS sexo,
+             CASE WHEN i.IDADE < 18 THEN '<18' WHEN i.IDADE < 60 THEN '18-59' ELSE '60+' END AS faixa_etaria,
+             p.NOME_PROC AS procedimento, COUNT(DISTINCT ip.N_AIH) AS total
+      FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+      JOIN sexo s ON i.SEXO = s.SEXO JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+      GROUP BY 1, 2, 3)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY sexo, faixa_etaria ORDER BY total DESC) <= 3
+    ORDER BY sexo, faixa_etaria, total DESC
+  alternatives:
+    - |
+      SELECT sexo, faixa_etaria, procedimento, total FROM (
+        SELECT s.DESCRICAO AS sexo,
+               CASE WHEN i.IDADE < 18 THEN '<18' WHEN i.IDADE < 60 THEN '18-59' ELSE '60+' END AS faixa_etaria,
+               p.NOME_PROC AS procedimento, COUNT(*) AS total
+        FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH
+        JOIN sexo s ON i.SEXO = s.SEXO JOIN procedimentos p ON ip.PROC_REA = p.PROC_REA
+        GROUP BY 1, 2, 3)
+      QUALIFY ROW_NUMBER() OVER (PARTITION BY sexo, faixa_etaria ORDER BY total DESC) <= 3
+      ORDER BY sexo, faixa_etaria, total DESC
+  compare_columns: [procedimento, total]
+
+# --------------------------------------------------------------------------
+# ESPEC: a dimensão `especialidade` do sihrd9 usa outra codificação. Os golds
+# agrupam por ESPEC (domínio da AIH) e comparam só as métricas.
+# --------------------------------------------------------------------------
+gt_gt067:
+  action: rewrite
+  reason: "Join ESPEC x especialidade troca os rótulos no sihrd9 (2 viraria CARDIOLOGIA). Agrupa pelo código ESPEC; rótulo conferido na resposta NL."
+  sql: |
+    SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, COUNT(*) AS internacoes FROM internacao i GROUP BY 1, 2 ORDER BY internacoes DESC
+  compare_columns: [internacoes]
+
+especialidade_permanencia:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade."
+  sql: |
+    SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, COUNT(*) AS internacoes, ROUND(AVG(i.DIAS_PERM), 4) AS media_dias
+    FROM internacao i GROUP BY 1, 2 ORDER BY media_dias DESC
+  compare_columns: [media_dias]
+
+gt_gt085:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade. Gold devolve só a taxa pedida."
+  sql: |
+    SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, ROUND(100.0 * AVG(i.MORTE::INT), 2) AS taxa_mortalidade
+    FROM internacao i GROUP BY 1, 2 ORDER BY taxa_mortalidade DESC
+  compare_columns: [taxa_mortalidade]
+
+gt_gt106:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade."
+  sql: |
+    SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, ROUND(AVG(i.VAL_TOT), 2) AS custo_medio
+    FROM internacao i GROUP BY 1, 2 ORDER BY custo_medio DESC
+  compare_columns: [custo_medio]
+
+gt_gt119:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade."
+  sql: |
+    SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, CASE WHEN i.SEXO = 1 THEN 'Masculino' ELSE 'Feminino' END AS sexo,
+           ROUND(AVG(i.VAL_UTI), 2) AS custo_medio_uti
+    FROM internacao i WHERE i.VAL_UTI > 0 GROUP BY 1, 2, 3 ORDER BY custo_medio_uti DESC
+  compare_columns: [custo_medio_uti]
+
+gt_gt230:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade."
+  sql: |
+    SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, CASE WHEN i.MORTE THEN 'obito' ELSE 'sem_obito' END AS desfecho,
+           ROUND(AVG(i.VAL_TOT / NULLIF(date_diff('day', i.DT_INTER, i.DT_SAIDA) + 1, 0)), 2) AS custo_medio_por_dia_calendario
+    FROM internacao i
+    WHERE date_diff('day', i.DT_INTER, i.DT_SAIDA) >= 0
+    GROUP BY 1, 2, 3 HAVING COUNT(*) > 1000 ORDER BY custo_medio_por_dia_calendario DESC
+  compare_columns: [custo_medio_por_dia_calendario]
+
+gt_gt134:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade."
+  sql: |
+    SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade,
+           ROUND(AVG(CASE WHEN m.SG_UF = 'MA' THEN i.DIAS_PERM END), 2) AS media_dias_ma,
+           ROUND(AVG(CASE WHEN m.SG_UF = 'RS' THEN i.DIAS_PERM END), 2) AS media_dias_rs
+    FROM internacao i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE m.SG_UF IN ('MA', 'RS') GROUP BY 1, 2
+    HAVING COUNT(*) FILTER (WHERE m.SG_UF = 'MA') > 0 AND COUNT(*) FILTER (WHERE m.SG_UF = 'RS') > 0
+    ORDER BY 1
+  alternatives:
+    - |
+      SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade,
+             ROUND(AVG(CASE WHEN m.SG_UF = 'MA' THEN i.DIAS_PERM END), 2) AS media_dias_ma,
+             ROUND(AVG(CASE WHEN m.SG_UF = 'RS' THEN i.DIAS_PERM END), 2) AS media_dias_rs
+      FROM internacao i JOIN hospital h ON i.CNES = h.CNES JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+      WHERE m.SG_UF IN ('MA', 'RS') GROUP BY 1, 2
+      HAVING COUNT(*) FILTER (WHERE m.SG_UF = 'MA') > 0 AND COUNT(*) FILTER (WHERE m.SG_UF = 'RS') > 0
+      ORDER BY 1
+  compare_columns: [media_dias_ma, media_dias_rs]
+
+gt_gt092:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade; agrupa diagnóstico pelo código."
+  sql: |
+    SELECT i.DIAG_PRINC AS cid, c.DESCRICAO AS diagnostico, i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, COUNT(*) AS total
+    FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+    WHERE i.SEXO = 1 AND i.IDADE > 60 GROUP BY 1, 2, 3, 4 ORDER BY total DESC LIMIT 5
+  compare_columns: [diagnostico, total]
+
+gt_gt115:
+  action: rewrite
+  reason: "Mesmo problema do join ESPEC x especialidade."
+  sql: |
+    SELECT espec, especialidade, CNES, receita_total FROM (
+      SELECT i.ESPEC AS espec, {ESPEC_LABEL} AS especialidade, i.CNES, ROUND(SUM(i.VAL_TOT), 2) AS receita_total
+      FROM internacao i GROUP BY 1, 2, 3 HAVING COUNT(*) > 500)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY espec ORDER BY receita_total DESC) = 1
+    ORDER BY receita_total DESC
+  compare_columns: [receita_total]
+
+# --------------------------------------------------------------------------
+# Placeholders: '' até 2014 e '0000' a partir de 2015. CID_MORTE só existe
+# 2008-2014. "Causa de morte" sem período admite CID_MORTE (2008-2014) ou o
+# diagnóstico principal dos óbitos (período todo).
+# --------------------------------------------------------------------------
+gt_gt048:
+  action: rewrite
+  reason: "Gold antigo (`CID_MORTE <> '0'`) colocava o placeholder '0000' como causa nº 1. Aceita CID_MORTE real (só 2008-2014) ou DIAG_PRINC dos óbitos."
+  sql: |
+    SELECT i.CID_MORTE AS cid, c.DESCRICAO AS causa_morte, COUNT(*) AS total_mortes
+    FROM internacao i LEFT JOIN cid c ON i.CID_MORTE = c.CID
+    WHERE i.MORTE AND i.CID_MORTE NOT IN ('', '0000')
+    GROUP BY 1, 2 ORDER BY total_mortes DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT i.DIAG_PRINC AS cid, c.DESCRICAO AS causa_morte, COUNT(*) AS total_mortes
+      FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+      WHERE i.MORTE GROUP BY 1, 2 ORDER BY total_mortes DESC LIMIT 10
+  compare_columns: [causa_morte, total_mortes]
+
+gt_gt039:
+  action: rewrite
+  reason: "Mesmo problema de placeholder do gt_gt048."
+  sql: |
+    SELECT i.CID_MORTE AS cid, c.DESCRICAO AS causa_morte, COUNT(*) AS total_mortes
+    FROM internacao i LEFT JOIN cid c ON i.CID_MORTE = c.CID
+    WHERE i.SEXO IN (2, 3) AND i.MORTE AND i.CID_MORTE NOT IN ('', '0000')
+    GROUP BY 1, 2 ORDER BY total_mortes DESC LIMIT 3
+  alternatives:
+    - |
+      SELECT i.DIAG_PRINC AS cid, c.DESCRICAO AS causa_morte, COUNT(*) AS total_mortes
+      FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+      WHERE i.SEXO IN (2, 3) AND i.MORTE GROUP BY 1, 2 ORDER BY total_mortes DESC LIMIT 3
+  compare_columns: [total_mortes]
+
+gt_gt153:
+  action: rewrite
+  reason: "`CID_MORTE <> '0'` casava as 211,8 milhões de linhas no sihrd9."
+  sql: |
+    SELECT COUNT(*) AS total_cid_morte_preenchido FROM internacao WHERE CID_MORTE NOT IN ('', '0000')
+
+gt_gt043:
+  action: rewrite
+  reason: "`DIAG_SECUN <> '0'` casava a base inteira. Diagnóstico secundário vive em DIAG_SECUN até 2014 e em DIAGSEC1..9 depois; aceita só DIAG_SECUN ou as duas fontes."
+  sql: |
+    SELECT COUNT(*) AS com_ambos_diagnosticos FROM internacao
+    WHERE DIAG_SECUN NOT IN ('', '0000') OR (DIAGSEC1 IS NOT NULL AND DIAGSEC1 NOT IN ('', '0000'))
+  alternatives:
+    - "SELECT COUNT(*) AS com_ambos_diagnosticos FROM internacao WHERE DIAG_SECUN NOT IN ('', '0000')"
+
+gt_gt231:
+  action: rewrite
+  reason: "Mesmo problema de placeholder; aceita DIAG_SECUN só ou DIAG_SECUN + DIAGSEC1."
+  sql: |
+    SELECT year(DT_SAIDA) AS ano, CASE WHEN MORTE THEN 'obito' ELSE 'sem_obito' END AS desfecho,
+           ROUND(100.0 * COUNT(*) FILTER (WHERE DIAG_SECUN NOT IN ('', '0000')
+                 OR (DIAGSEC1 IS NOT NULL AND DIAGSEC1 NOT IN ('', '0000'))) / COUNT(*), 2) AS percentual
+    FROM internacao GROUP BY 1, 2 ORDER BY 1, 2
+  alternatives:
+    - |
+      SELECT year(DT_SAIDA) AS ano, CASE WHEN MORTE THEN 'obito' ELSE 'sem_obito' END AS desfecho,
+             ROUND(100.0 * COUNT(*) FILTER (WHERE DIAG_SECUN NOT IN ('', '0000')) / COUNT(*), 2) AS percentual
+      FROM internacao GROUP BY 1, 2 ORDER BY 1, 2
+  compare_columns: [ano, percentual]
+
+# --------------------------------------------------------------------------
+# Raça/cor: 99 ('Sem informação') não está na dimensão.
+# --------------------------------------------------------------------------
+demo_raca_cor:
+  action: rewrite
+  reason: "INNER JOIN com raca_cor descartava RACA_COR = 99 (22,9% da base) no sihrd9. Rótulo de 'sem informação' varia: compara as contagens; must_mention checa a categoria."
+  sql: |
+    SELECT COALESCE(r.DESCRICAO, 'Sem informação') AS raca_cor, COUNT(*) AS internacoes
+    FROM internacao i LEFT JOIN raca_cor r ON i.RACA_COR = r.RACA_COR
+    GROUP BY 1 ORDER BY internacoes DESC
+  compare_columns: [internacoes]
+
+gt_gt179:
+  action: rewrite
+  reason: "Gold devolve só a taxa pedida."
+  sql: |
+    SELECT r.DESCRICAO AS raca_cor, ROUND(100.0 * AVG(i.MORTE::INT), 2) AS taxa_mortalidade
+    FROM internacao i JOIN raca_cor r ON i.RACA_COR = r.RACA_COR
+    GROUP BY 1 ORDER BY taxa_mortalidade DESC
+  compare_columns: [raca_cor, taxa_mortalidade]
+
+# --------------------------------------------------------------------------
+# Resultados grandes demais para responder em linguagem natural.
+# --------------------------------------------------------------------------
+gt_gt077:
+  action: drop
+  reason: "Média por município devolve mais de 5 mil linhas: inviável como resposta em linguagem natural."
+
+gt_gt129:
+  action: rewrite
+  reason: "Lista com milhares de códigos; reescrita para contagem."
+  question: "Quantos códigos CID distintos aparecem como diagnóstico principal em internações que terminaram em óbito?"
+  sql: "SELECT COUNT(DISTINCT DIAG_PRINC) AS cids FROM internacao WHERE MORTE"
+
+gt_gt215:
+  action: rewrite
+  reason: "Lista com mais de 300 municípios; reescrita para contagem. Agrupa pelo código (DF mapeado para Brasília)."
+  question: "Quantos municípios de residência tiveram aumento de internações de 2019 para 2020 e também de 2020 para 2021?"
+  sql: |
+    WITH a AS (
+      SELECT CASE WHEN MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE MUNIC_RES END AS cod,
+             COUNT(*) FILTER (WHERE year(DT_SAIDA) = 2019) AS y19,
+             COUNT(*) FILTER (WHERE year(DT_SAIDA) = 2020) AS y20,
+             COUNT(*) FILTER (WHERE year(DT_SAIDA) = 2021) AS y21
+      FROM internacao WHERE year(DT_SAIDA) BETWEEN 2019 AND 2021 GROUP BY 1)
+    SELECT COUNT(*) AS municipios FROM a WHERE y20 > y19 AND y21 > y20
+
+# --------------------------------------------------------------------------
+# DF: códigos 5300xx de regiões administrativas são Brasília.
+# --------------------------------------------------------------------------
+geo_por_uf:
+  action: rewrite
+  reason: "INNER JOIN com municipios perdia 1.262.450 internações de residentes do DF (códigos 5300xx)."
+  sql: |
+    SELECT m.SG_UF AS uf, COUNT(*) AS internacoes
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    GROUP BY 1 ORDER BY internacoes DESC
+
+dq_sp_subrepresentado:
+  action: rewrite
+  reason: "SP não está mais subrepresentado no sihrd9 (é a maior UF): must_mention removido. DF corrigido."
+  must_mention: []
+  sql: |
+    SELECT m.SG_UF AS uf, COUNT(*) AS internacoes
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    GROUP BY 1 ORDER BY internacoes DESC
+
+geo_mortalidade_por_uf:
+  action: rewrite
+  reason: "DF corrigido; gold devolve só a taxa pedida."
+  sql: |
+    SELECT m.SG_UF AS uf, ROUND(100.0 * AVG(i.MORTE::INT), 4) AS taxa_mortalidade_pct
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    GROUP BY 1 ORDER BY taxa_mortalidade_pct DESC
+
+geo_top10_municipios:
+  action: rewrite
+  reason: "DF corrigido (Brasília recebe as regiões administrativas)."
+  sql: |
+    SELECT m.NO_MUNICIPIO AS municipio, m.SG_UF AS uf, COUNT(*) AS internacoes
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    GROUP BY m.CO_MUNICIPIO_6D, 1, 2 ORDER BY internacoes DESC LIMIT 10
+  compare_columns: [municipio, internacoes]
+
+multi_top_diag_por_uf:
+  action: rewrite
+  reason: "DF corrigido; diagnóstico agrupado pelo código."
+  sql: |
+    SELECT uf, diagnostico, internacoes FROM (
+      SELECT m.SG_UF AS uf, i.DIAG_PRINC AS cid, c.DESCRICAO AS diagnostico, COUNT(*) AS internacoes
+      FROM internacao i JOIN municipios m
+        ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+      LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+      GROUP BY 1, 2, 3)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY uf ORDER BY internacoes DESC) = 1
+    ORDER BY internacoes DESC
+  compare_columns: [uf, diagnostico, internacoes]
+
+trap_municipios_validos:
+  action: rewrite
+  reason: "Códigos 5300xx são regiões administrativas do DF, não municípios. Aceita contar municípios reais (DF uma vez), só os que casam com municipios, ou os códigos crus."
+  sql: |
+    SELECT COUNT(DISTINCT CASE WHEN MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE MUNIC_RES END) AS municipios FROM internacao
+  alternatives:
+    - "SELECT COUNT(DISTINCT MUNIC_RES) AS municipios FROM internacao"
+    - "SELECT COUNT(DISTINCT m.CO_MUNICIPIO_6D) AS municipios FROM internacao i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D"
+
+gt_gt019:
+  action: rewrite
+  reason: "DF corrigido."
+  sql: |
+    SELECT m.SG_UF AS uf, m.NO_MUNICIPIO AS municipio, COUNT(*) AS total_internacoes
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    WHERE i.ESPEC = 2 GROUP BY m.CO_MUNICIPIO_6D, 1, 2 ORDER BY total_internacoes DESC LIMIT 5
+  compare_columns: [municipio, total_internacoes]
+
+gt_gt028:
+  action: rewrite
+  reason: "DF corrigido; gold devolve só a taxa pedida."
+  sql: |
+    SELECT m.NO_MUNICIPIO AS municipio, ROUND(100.0 * AVG(i.MORTE::INT), 2) AS taxa_mortalidade
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    GROUP BY m.CO_MUNICIPIO_6D, 1 HAVING COUNT(*) > 100 ORDER BY taxa_mortalidade DESC LIMIT 10
+  compare_columns: [municipio, taxa_mortalidade]
+
+gt_gt051:
+  action: rewrite
+  reason: "DF corrigido."
+  sql: |
+    SELECT m.SG_UF AS uf, m.NO_MUNICIPIO AS municipio, COUNT(*) AS total_internacoes
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    GROUP BY m.CO_MUNICIPIO_6D, 1, 2 ORDER BY total_internacoes DESC LIMIT 10
+  compare_columns: [municipio, total_internacoes]
+
+gt_gt172:
+  action: rewrite
+  reason: "Gold antigo (LEFT JOIN) podia trazer um grupo NULL das regiões administrativas do DF; DF corrigido."
+  sql: |
+    SELECT m.NO_MUNICIPIO AS municipio, m.SG_UF AS uf, COUNT(*) AS total_mortes
+    FROM internacao i JOIN municipios m
+      ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    WHERE i.MORTE GROUP BY m.CO_MUNICIPIO_6D, 1, 2 ORDER BY total_mortes DESC LIMIT 10
+  compare_columns: [municipio, total_mortes]
+
+gt_gt233:
+  action: keep
+  reason: "Pergunta é justamente sobre códigos sem correspondência; no sihrd9 são as regiões administrativas do DF."
+
+M13:
+  action: rewrite
+  reason: "Gold devolvia só a contagem, mas a pergunta pede o dia da semana. Nome do dia varia entre sistemas: compara a contagem do dia vencedor; o nome é conferido na resposta NL."
+  sql: |
+    SELECT isodow(i.DT_INTER) AS dia_isodow, COUNT(*) AS n
+    FROM internacao i JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE m.SG_UF = 'RS' GROUP BY 1 ORDER BY n DESC LIMIT 1
+  compare_columns: [n]
+
+temp_serie_anual:
+  action: rewrite
+  reason: "must_mention exigia citar 2007 parcial, fato do sihrd5 que não existe no sihrd9."
+  must_mention: []
+
+# --------------------------------------------------------------------------
+# Irrespondíveis do sihrd5 que viraram respondíveis no sihrd9
+# (`hospital` e `socioeconomico` agora têm dados).
+# --------------------------------------------------------------------------
+unans_nome_hospital:
+  action: answerable
+  reason: "hospital tem dados no sihrd9."
+  answerable: true
+  category: hospital
+  difficulty: medium
+  sql: |
+    SELECT h.NO_HOSPITAL AS hospital FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+    WHERE year(i.DT_SAIDA) = 2022 GROUP BY h.CNES, h.NO_HOSPITAL ORDER BY COUNT(*) DESC LIMIT 1
+
+unans_populacao:
+  action: answerable
+  reason: "socioeconomico tem população; ano fixado no enunciado (sem ano o denominador é indefinido). Residência, DF corrigido."
+  answerable: true
+  category: socioeconomico
+  difficulty: hard
+  question: "Qual a taxa de internações por mil habitantes em cada estado em 2021?"
+  sql: |
+    WITH pop AS (
+      SELECT m.SG_UF AS uf, SUM(s.QT_POPULACAO) AS pop FROM socioeconomico s
+      JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D WHERE s.NU_ANO = 2021 GROUP BY 1),
+    n AS (
+      SELECT m.SG_UF AS uf, COUNT(*) AS n FROM internacao i JOIN municipios m
+        ON m.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+      WHERE year(i.DT_SAIDA) = 2021 GROUP BY 1)
+    SELECT n.uf, ROUND(1000.0 * n.n / pop.pop, 2) AS taxa_por_mil FROM n JOIN pop USING (uf) ORDER BY taxa_por_mil DESC
+
+unans_leitos:
+  action: answerable
+  reason: "socioeconomico tem leitos SUS; ano e top-N fixados (5.570 municípios x 14 anos não cabem numa resposta)."
+  answerable: true
+  category: socioeconomico
+  difficulty: medium
+  question: "Quais os 10 municípios com mais leitos SUS em 2021?"
+  sql: |
+    SELECT m.NO_MUNICIPIO AS municipio, s.QT_LEITOS_SUS AS leitos_sus FROM socioeconomico s
+    JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+    WHERE s.NU_ANO = 2021 ORDER BY leitos_sus DESC LIMIT 10
+
+unans_municipio_hospital:
+  action: answerable
+  reason: "hospital.MUNIC_MOV dá o local do atendimento. 'Rio de Janeiro' aceita município ou estado."
+  answerable: true
+  category: hospital
+  difficulty: medium
+  sql: |
+    SELECT COUNT(*) AS internacoes FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+    JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+    WHERE m.NO_MUNICIPIO = 'Rio de Janeiro' AND m.SG_UF = 'RJ'
+  alternatives:
+    - |
+      SELECT COUNT(*) AS internacoes FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+      JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'RJ'
+
+gt_gt005:
+  action: answerable
+  reason: "hospital tem 7.071 estabelecimentos no sihrd9."
+  answerable: true
+  category: hospital
+  difficulty: easy
+  sql: "SELECT COUNT(*) AS hospitais FROM hospital"
+
+gt_gt006:
+  action: answerable
+  reason: "socioeconomico tem dados no sihrd9."
+  answerable: true
+  category: socioeconomico
+  difficulty: easy
+  sql: "SELECT COUNT(DISTINCT CO_MUNICIPIO_6D) AS municipios FROM socioeconomico"
+
+gt_gt018:
+  action: answerable
+  reason: "socioeconomico tem população; ano fixado no enunciado (a população muda por ano)."
+  answerable: true
+  category: socioeconomico
+  difficulty: easy
+  question: "Segundo os indicadores socioeconômicos, quantos habitantes tinha em 2024 o município mais populoso?"
+  sql: "SELECT MAX(QT_POPULACAO) AS populacao FROM socioeconomico WHERE NU_ANO = 2024"
+
+gt_gt024:
+  action: answerable
+  reason: "Lista de milhares de hospitais reescrita como contagem."
+  answerable: true
+  category: hospital
+  difficulty: easy
+  question: "Quantos hospitais têm mais de 1000 internações registradas?"
+  sql: "SELECT COUNT(*) AS hospitais FROM (SELECT CNES FROM internacao GROUP BY CNES HAVING COUNT(*) > 1000)"
+
+gt_gt040:
+  action: answerable
+  reason: "socioeconomico tem óbitos infantis e nascidos vivos; ano e definição fixados no enunciado."
+  answerable: true
+  category: socioeconomico
+  difficulty: medium
+  question: "Qual foi a taxa de mortalidade infantil do Brasil em 2021, em óbitos infantis por mil nascidos vivos?"
+  sql: "SELECT ROUND(1000.0 * SUM(QT_OBITOS_INFANTIS) / SUM(QT_NASCIDOS_VIVOS), 2) AS taxa FROM socioeconomico WHERE NU_ANO = 2021"
+
+gt_gt076:
+  action: answerable
+  reason: "'Municípios que atendem' = município do hospital. DF corrigido."
+  answerable: true
+  category: hospital
+  difficulty: medium
+  sql: |
+    SELECT m.NO_MUNICIPIO AS municipio, COUNT(*) AS internacoes FROM internacao i
+    JOIN hospital h ON i.CNES = h.CNES
+    JOIN municipios m ON m.CO_MUNICIPIO_6D = CASE WHEN h.MUNIC_MOV BETWEEN 530000 AND 539999 THEN 530010 ELSE h.MUNIC_MOV END
+    GROUP BY m.CO_MUNICIPIO_6D, 1 ORDER BY internacoes DESC LIMIT 10
+
+gt_gt086:
+  action: answerable
+  reason: "hospital tem UF. 'Custo médio de UTI' aceita base VAL_UTI > 0 ou MARCA_UTI > 0."
+  answerable: true
+  category: hospital
+  difficulty: hard
+  sql: |
+    SELECT uf, hospital, custo_medio_uti FROM (
+      SELECT m.SG_UF AS uf, h.NO_HOSPITAL AS hospital, ROUND(AVG(i.VAL_UTI), 2) AS custo_medio_uti
+      FROM internacao i JOIN hospital h ON i.CNES = h.CNES JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+      WHERE m.SG_UF IN ('MA', 'RS') AND i.VAL_UTI > 0 GROUP BY 1, h.CNES, 2)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY uf ORDER BY custo_medio_uti DESC) <= 3
+    ORDER BY uf, custo_medio_uti DESC
+  alternatives:
+    - |
+      SELECT uf, hospital, custo_medio_uti FROM (
+        SELECT m.SG_UF AS uf, h.NO_HOSPITAL AS hospital, ROUND(AVG(i.VAL_UTI), 2) AS custo_medio_uti
+        FROM internacao i JOIN hospital h ON i.CNES = h.CNES JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+        WHERE m.SG_UF IN ('MA', 'RS') AND i.MARCA_UTI > 0 GROUP BY 1, h.CNES, 2)
+      QUALIFY ROW_NUMBER() OVER (PARTITION BY uf ORDER BY custo_medio_uti DESC) <= 3
+      ORDER BY uf, custo_medio_uti DESC
+  compare_columns: [hospital, custo_medio_uti]
+
+gt_gt089:
+  action: answerable
+  reason: "hospital tem dados. 'Obstétrica' = ESPEC 2 (convenção dos demais golds); capítulo O da CID aceito como alternativa."
+  answerable: true
+  category: hospital
+  difficulty: hard
+  sql: |
+    SELECT h.NO_HOSPITAL AS hospital, ROUND(100.0 * AVG(i.MORTE::INT), 4) AS taxa_mortalidade
+    FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+    WHERE i.ESPEC = 2 GROUP BY h.CNES, 1 HAVING COUNT(*) > 500 ORDER BY taxa_mortalidade DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT h.NO_HOSPITAL AS hospital, ROUND(100.0 * AVG(i.MORTE::INT), 4) AS taxa_mortalidade
+      FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+      WHERE i.DIAG_PRINC LIKE 'O%' GROUP BY h.CNES, 1 HAVING COUNT(*) > 500 ORDER BY taxa_mortalidade DESC LIMIT 10
+
+gt_gt091:
+  action: drop
+  reason: "'Custo por dia' sem definição (SUM/SUM x média de razões; DIAS_PERM = 0) — ambíguo demais para um gold único."
+
+gt_gt132:
+  action: answerable
+  reason: "hospital tem UF."
+  answerable: true
+  category: hospital
+  difficulty: hard
+  sql: |
+    SELECT uf, hospital, media_val_sh FROM (
+      SELECT m.SG_UF AS uf, h.NO_HOSPITAL AS hospital, ROUND(AVG(i.VAL_SH), 2) AS media_val_sh
+      FROM internacao i JOIN hospital h ON i.CNES = h.CNES JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+      WHERE m.SG_UF IN ('MA', 'RS') GROUP BY 1, h.CNES, 2 HAVING COUNT(*) > 500)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY uf ORDER BY media_val_sh DESC) <= 3
+    ORDER BY uf, media_val_sh DESC
+  compare_columns: [hospital, media_val_sh]
+
+gt_gt161:
+  action: answerable
+  reason: "hospital tem UF (via MUNIC_MOV)."
+  answerable: true
+  category: hospital
+  difficulty: easy
+  sql: |
+    SELECT m.SG_UF AS uf, COUNT(*) AS hospitais FROM hospital h JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+    WHERE m.SG_UF IN ('MA', 'RS') GROUP BY 1 ORDER BY 1
+
+gt_gt163:
+  action: answerable
+  reason: "socioeconomico tem dados."
+  answerable: true
+  category: socioeconomico
+  difficulty: easy
+  sql: "SELECT COUNT(*) AS registros FROM socioeconomico WHERE QT_POPULACAO IS NOT NULL"
+
+gt_gt164:
+  action: answerable
+  reason: "socioeconomico tem dados."
+  answerable: true
+  category: socioeconomico
+  difficulty: easy
+  sql: "SELECT SUM(QT_POPULACAO) AS populacao FROM socioeconomico WHERE NU_ANO = 2021"
+
+gt_gt165:
+  action: answerable
+  reason: "socioeconomico tem dados."
+  answerable: true
+  category: socioeconomico
+  difficulty: easy
+  sql: "SELECT MAX(VL_PIB_PERCAPITA) AS pib_per_capita FROM socioeconomico"
+
+gt_gt185:
+  action: answerable
+  reason: "hospital tem dados. UTI = MARCA_UTI > 0 (indicador); VAL_UTI > 0 aceito."
+  answerable: true
+  category: hospital
+  difficulty: medium
+  sql: |
+    SELECT h.NO_HOSPITAL AS hospital, COUNT(*) AS internacoes_uti FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+    WHERE i.MARCA_UTI > 0 GROUP BY h.CNES, 1 ORDER BY internacoes_uti DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT h.NO_HOSPITAL AS hospital, COUNT(*) AS internacoes_uti FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+      WHERE i.VAL_UTI > 0 GROUP BY h.CNES, 1 ORDER BY internacoes_uti DESC LIMIT 10
+
+gt_gt186:
+  action: answerable
+  reason: "hospital tem dados."
+  answerable: true
+  category: hospital
+  difficulty: medium
+  sql: |
+    SELECT h.NO_HOSPITAL AS hospital, COUNT(*) AS mortes FROM internacao i JOIN hospital h ON i.CNES = h.CNES
+    WHERE i.MORTE GROUP BY h.CNES, 1 ORDER BY mortes DESC LIMIT 10
+
+gt_gt189:
+  action: answerable
+  reason: "socioeconomico tem médicos e população. 'Média por UF' aceita razão de somas ou média simples das taxas municipais."
+  answerable: true
+  category: socioeconomico
+  difficulty: medium
+  sql: |
+    SELECT m.SG_UF AS uf, ROUND(1000.0 * SUM(s.QT_MEDICOS) / SUM(s.QT_POPULACAO), 4) AS medicos_por_mil
+    FROM socioeconomico s JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+    WHERE s.NU_ANO = 2021 GROUP BY 1 ORDER BY 1
+  alternatives:
+    - |
+      SELECT m.SG_UF AS uf, ROUND(AVG(s.VL_MEDICOS_1000), 4) AS medicos_por_mil
+      FROM socioeconomico s JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+      WHERE s.NU_ANO = 2021 GROUP BY 1 ORDER BY 1
+
+gt_gt190:
+  action: answerable
+  reason: "socioeconomico tem mortalidade infantil; top-N e volume mínimo fixados (sem eles o topo é de municípios com 1 nascimento)."
+  answerable: true
+  category: socioeconomico
+  difficulty: medium
+  question: "Quais os 10 municípios com maior taxa de mortalidade infantil em 2021, entre os que tiveram pelo menos 1.000 nascidos vivos?"
+  sql: |
+    SELECT m.NO_MUNICIPIO AS municipio, s.VL_MORT_INFANTIL AS taxa FROM socioeconomico s
+    JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+    WHERE s.NU_ANO = 2021 AND s.QT_NASCIDOS_VIVOS >= 1000 ORDER BY taxa DESC LIMIT 10
+  alternatives:
+    - |
+      SELECT m.NO_MUNICIPIO AS municipio, ROUND(1000.0 * s.QT_OBITOS_INFANTIS / s.QT_NASCIDOS_VIVOS, 2) AS taxa FROM socioeconomico s
+      JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+      WHERE s.NU_ANO = 2021 AND s.QT_NASCIDOS_VIVOS >= 1000 ORDER BY taxa DESC LIMIT 10
+
+gt_gt194:
+  action: keep
+  reason: "Continua irrespondível: GESTRISCO é TRUE em 99,7% das linhas, inclusive em homens."
+
+gt_gt209:
+  action: drop
+  reason: "Saída indefinida ('qual hospital ... por especialidade': um por especialidade? o par de maior taxa?)."
+
+gt_gt214:
+  action: answerable
+  reason: "hospital tem dados; lista longa reescrita como contagem."
+  answerable: true
+  category: hospital
+  difficulty: hard
+  question: "Quantos hospitais com mais de 5000 internações têm custo médio e taxa de mortalidade acima da média geral?"
+  sql: |
+    WITH g AS (SELECT AVG(VAL_TOT) AS c, AVG(MORTE::INT) AS t FROM internacao),
+    h AS (SELECT CNES, AVG(VAL_TOT) AS c, AVG(MORTE::INT) AS t FROM internacao GROUP BY CNES HAVING COUNT(*) > 5000)
+    SELECT COUNT(*) AS hospitais FROM h, g WHERE h.c > g.c AND h.t > g.t
+
+gt_gt221:
+  action: answerable
+  reason: "hospital tem UF. UTI = MARCA_UTI > 0."
+  answerable: true
+  category: hospital
+  difficulty: hard
+  sql: |
+    SELECT uf, hospital, taxa_mortalidade FROM (
+      SELECT m.SG_UF AS uf, h.NO_HOSPITAL AS hospital, ROUND(100.0 * AVG(i.MORTE::INT), 4) AS taxa_mortalidade
+      FROM internacao i JOIN hospital h ON i.CNES = h.CNES JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+      WHERE m.SG_UF IN ('MA', 'RS') AND i.MARCA_UTI > 0 GROUP BY 1, h.CNES, 2 HAVING COUNT(*) > 500)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY uf ORDER BY taxa_mortalidade DESC) <= 5
+    ORDER BY uf, taxa_mortalidade DESC
+  compare_columns: [hospital, taxa_mortalidade]
+
+gt_gt222:
+  action: answerable
+  reason: "socioeconomico tem população; top-N e porte mínimo fixados. Residência, DF corrigido."
+  answerable: true
+  category: socioeconomico
+  difficulty: hard
+  question: "Quais os 10 municípios com maior taxa de internação por mil habitantes em 2021, entre os que têm pelo menos 10 mil habitantes?"
+  sql: |
+    WITH n AS (
+      SELECT CASE WHEN MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE MUNIC_RES END AS cod, COUNT(*) AS n
+      FROM internacao WHERE year(DT_SAIDA) = 2021 GROUP BY 1)
+    SELECT m.NO_MUNICIPIO AS municipio, ROUND(1000.0 * n.n / s.QT_POPULACAO, 2) AS taxa_por_mil
+    FROM n JOIN socioeconomico s ON s.CO_MUNICIPIO_6D = n.cod AND s.NU_ANO = 2021
+    JOIN municipios m ON m.CO_MUNICIPIO_6D = n.cod
+    WHERE s.QT_POPULACAO >= 10000 ORDER BY taxa_por_mil DESC LIMIT 10
+
+gt_gt223:
+  action: drop
+  reason: "Quintil de PIB per capita indefinido (de municípios ou ponderado por população)."
+
+gt_gt224:
+  action: drop
+  reason: "Quintil de leitos SUS por mil habitantes indefinido."
+
+gt_gt228:
+  action: answerable
+  reason: "hospital dá a UF do atendimento. DF corrigido nos dois lados."
+  answerable: true
+  category: hospital
+  difficulty: hard
+  sql: |
+    SELECT year(i.DT_SAIDA) AS ano, COUNT(*) AS internacoes FROM internacao i
+    JOIN hospital h ON i.CNES = h.CNES
+    JOIN municipios mr ON mr.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    JOIN municipios mh ON mh.CO_MUNICIPIO_6D = CASE WHEN h.MUNIC_MOV BETWEEN 530000 AND 539999 THEN 530010 ELSE h.MUNIC_MOV END
+    WHERE mr.SG_UF <> mh.SG_UF GROUP BY 1 ORDER BY 1
+
+gt_gt229:
+  action: answerable
+  reason: "hospital dá a UF do atendimento; top-N fixado. DF corrigido."
+  answerable: true
+  category: hospital
+  difficulty: hard
+  question: "Quais os 10 pares de estado de residência e estado do hospital com maior volume de internações interestaduais?"
+  sql: |
+    SELECT mr.SG_UF AS uf_residencia, mh.SG_UF AS uf_hospital, COUNT(*) AS internacoes FROM internacao i
+    JOIN hospital h ON i.CNES = h.CNES
+    JOIN municipios mr ON mr.CO_MUNICIPIO_6D = CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 530010 ELSE i.MUNIC_RES END
+    JOIN municipios mh ON mh.CO_MUNICIPIO_6D = CASE WHEN h.MUNIC_MOV BETWEEN 530000 AND 539999 THEN 530010 ELSE h.MUNIC_MOV END
+    WHERE mr.SG_UF <> mh.SG_UF GROUP BY 1, 2 ORDER BY internacoes DESC LIMIT 10
+
+# Continuam irrespondíveis no sihrd9 (avaliados só pela resposta em NL):
+#   dq_diarias_uti (UTI_INT_TO corrompido), dq_gestacao_risco e gt_gt194
+#   (GESTRISCO corrompido), unans_medicamentos, unans_reinternacao.
+
+demo_mulheres_2019:
+  action: drop
+  reason: "Pergunta idêntica a um exemplo few-shot do dicionário do sistema B (vazamento de gabarito)."
+
+# ==========================================================================
+# Revisão semântica independente — primeira metade (verificada e aceita)
+# ==========================================================================
+gt_gt078:
+  action: rewrite
+  reason: "Gold agrupava pela descrição do CID e fundia O034/O044/O054/O064, mudando o top 10 de 18-64. Agrupa pelo código; faixa é rótulo CASE."
+  sql: |
+    SELECT faixa_etaria, DESCRICAO, total_internacoes FROM (
+      SELECT CASE WHEN i.IDADE < 18 THEN 'Menor de 18' WHEN i.IDADE BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa_etaria,
+             i.DIAG_PRINC AS cid, c.DESCRICAO, COUNT(*) AS total_internacoes
+      FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID GROUP BY 1, 2, 3)
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY faixa_etaria ORDER BY total_internacoes DESC) <= 10
+    ORDER BY 1, 3 DESC
+  compare_columns: [DESCRICAO, total_internacoes]
+
+gt_gt090:
+  action: rewrite
+  reason: "Gold agrupava pela descrição e fundia 6 códigos F7x1 (F721 sumia do top 10, B220 entrava). Agrupa pelo código."
+  sql: |
+    SELECT i.DIAG_PRINC AS cid, c.DESCRICAO AS diagnostico, COUNT(*) AS total_internacoes, ROUND(AVG(i.DIAS_PERM), 2) AS media_dias
+    FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+    GROUP BY 1, 2 HAVING COUNT(*) > 10000 ORDER BY AVG(i.DIAS_PERM) DESC LIMIT 10
+  compare_columns: [diagnostico, media_dias]
+
+gt_gt044:
+  action: rewrite
+  reason: "Faixas etárias não definidas na pergunta (explicitadas); rótulo CASE fora da comparação; base de UTI aceita VAL_UTI > 0 ou MARCA_UTI > 0."
+  question: "Qual o custo médio de UTI por faixa etária dos pacientes (menores de 18, 18 a 59, 60 ou mais)?"
+  alternatives:
+    - |
+      SELECT CASE WHEN IDADE < 18 THEN 'Menor' WHEN IDADE < 60 THEN 'Adulto' ELSE 'Idoso' END AS faixa_etaria,
+             AVG(VAL_UTI) AS custo_medio_uti FROM internacao WHERE MARCA_UTI > 0 GROUP BY 1
+  compare_columns: [custo_medio_uti]
+
+temp_ano_mais_obitos:
+  action: adjust
+  reason: "Pergunta pede só o ano."
+  compare_columns: [ano]
+
+demo_faixa_etaria:
+  action: adjust
+  reason: "Rótulo de faixa é CASE: compara as contagens."
+  compare_columns: [internacoes]
+
+cid_letalidade_top:
+  action: adjust
+  reason: "Pergunta pede diagnósticos e taxa; contagem é apoio."
+  compare_columns: [diagnostico, taxa_mortalidade_pct]
+
+uti_mortalidade_comparada:
+  action: adjust
+  reason: "Rótulo 'usou UTI' é CASE; contagem é apoio."
+  compare_columns: [taxa_mortalidade_pct]
+
+multi_mortalidade_faixa_sexo:
+  action: adjust
+  reason: "Rótulo de faixa é CASE; contagem é apoio."
+  compare_columns: [sexo, taxa_mortalidade_pct]
+
+gt_gt035:
+  action: adjust
+  reason: "Pergunta pede só o diagnóstico."
+  compare_columns: [diagnostico]
+
+gt_gt038:
+  action: adjust
+  reason: "Pergunta pede o município (São Paulo por residência e por hospital)."
+  compare_columns: [NO_MUNICIPIO]
+
+gt_gt071:
+  action: adjust
+  reason: "Pergunta pede só a raça (Branca supera também o código 99)."
+  compare_columns: [descricao_raca_cor]
+
+gt_gt082:
+  action: adjust
+  reason: "Top 3 igual por residência ou hospital; contagem é apoio."
+  compare_columns: [estado, DESCRICAO]
+
+gt_gt083:
+  action: adjust
+  reason: "Taxas iguais por residência ou hospital; contagem é apoio."
+  compare_columns: [DESCRICAO, taxa_mortalidade]
+
+gt_gt093:
+  action: adjust
+  reason: "Pergunta pede o ano (2021 nos dois estados, por residência ou hospital)."
+  compare_columns: [estado, ano]
+
+cid_infarto_2023:
+  action: adjust
+  reason: "IAM aceita I21 ou I21-I22 (convenção DATASUS)."
+  alternatives:
+    - "SELECT COUNT(*) AS total FROM internacao WHERE (DIAG_PRINC LIKE 'I21%' OR DIAG_PRINC LIKE 'I22%') AND year(DT_SAIDA) = 2023"
+
+cid_por_capitulo:
+  action: adjust
+  reason: "Bucket 'Sem capítulo' é escolha de apresentação: aceita INNER JOIN e capítulo completado por cid_manuais."
+  alternatives:
+    - "SELECT c.DS_CAPITULO AS capitulo, COUNT(*) AS internacoes FROM internacao i JOIN cid c ON i.DIAG_PRINC = c.CID GROUP BY 1 ORDER BY 2 DESC"
+    - |
+      SELECT COALESCE(c.DS_CAPITULO, cm.DS_CAPITULO) AS capitulo, COUNT(*) AS internacoes FROM internacao i
+      LEFT JOIN cid c ON i.DIAG_PRINC = c.CID LEFT JOIN cid_manuais cm ON i.DIAG_PRINC = cm.CID GROUP BY 1 ORDER BY 2 DESC
+
+gt_gt003:
+  action: adjust
+  reason: "'Cadastrados' aceita incluir procedimentos_manuais."
+  alternatives:
+    - "SELECT (SELECT COUNT(*) FROM procedimentos) + (SELECT COUNT(*) FROM procedimentos_manuais) AS total_procedimentos"
+
+gt_gt004:
+  action: adjust
+  reason: "'Disponíveis' aceita incluir cid_manuais."
+  alternatives:
+    - "SELECT (SELECT COUNT(*) FROM cid) + (SELECT COUNT(*) FROM cid_manuais) AS total_cids"
+
+gt_gt010:
+  action: adjust
+  reason: "'Obstétrico' aceita leito obstétrico (ESPEC 2) ou capítulo O da CID."
+  alternatives:
+    - "SELECT COUNT(*) AS total_obstetricos FROM internacao WHERE DIAG_PRINC LIKE 'O%'"
+
+gt_gt027:
+  action: adjust
+  reason: "'Obstétrico' aceita ESPEC 2 ou capítulo O."
+  alternatives:
+    - "SELECT COUNT(*) AS obstetricos_uti FROM internacao WHERE DIAG_PRINC LIKE 'O%' AND MARCA_UTI > 0"
+
+gt_gt014:
+  action: adjust
+  reason: "Meningite por texto da descrição ou por faixa de códigos (G00-G03, A87, A39.0, A17.0)."
+  alternatives:
+    - "SELECT COUNT(*) FROM internacao WHERE MORTE AND (DIAG_PRINC LIKE 'G00%' OR DIAG_PRINC LIKE 'G01%' OR DIAG_PRINC LIKE 'G02%' OR DIAG_PRINC LIKE 'G03%' OR DIAG_PRINC LIKE 'A87%' OR DIAG_PRINC IN ('A390', 'A170'))"
+
+gt_gt029:
+  action: adjust
+  reason: "Base de UTI aceita VAL_UTI > 0 ou MARCA_UTI > 0."
+  alternatives:
+    - "SELECT AVG(VAL_UTI) AS valor_medio_uti_homens FROM internacao WHERE SEXO = 1 AND MARCA_UTI > 0"
+
+gt_gt099:
+  action: adjust
+  reason: "'Total gasto em internações de UTI' aceita SUM(VAL_UTI) ou o custo total das internações com UTI."
+  alternatives:
+    - "SELECT SUM(VAL_TOT) AS total_gasto_uti FROM internacao WHERE MARCA_UTI > 0"
+
+gt_gt065:
+  action: adjust
+  reason: "Linhas de códigos fora da dimensão são escolha de apresentação: aceita INNER JOIN."
+  alternatives:
+    - "SELECT ins.DESCRICAO, COUNT(*) AS total FROM internacao i JOIN instrucao ins ON i.INSTRU = ins.INSTRU GROUP BY ins.INSTRU, ins.DESCRICAO ORDER BY total DESC"
+
+geo_custo_medio_uf_2023:
+  action: adjust
+  reason: "'Por UF' aceita residência ou local do atendimento."
+  geo_alternative: hospital
+
+gt_gt049:
+  action: adjust
+  reason: "'No estado do RS' aceita residência ou local do atendimento."
+  geo_alternative: hospital
+
+gt_gt072:
+  action: adjust
+  reason: "'Para o estado' aceita residência ou local do atendimento."
+  geo_alternative: hospital
+
+gt_gt075:
+  action: adjust
+  reason: "'Em cada estado' aceita residência ou local do atendimento."
+  geo_alternative: hospital
+
+gt_gt080:
+  action: adjust
+  reason: "'No estado do RS' aceita residência ou local do atendimento."
+  geo_alternative: hospital
+
+gt_gt087:
+  action: adjust
+  reason: "'Por estado' aceita residência ou local do atendimento."
+  geo_alternative: hospital
+
+gt_gt088:
+  action: adjust
+  reason: "Município de residência ou do hospital dão top 5 diferentes: aceita os dois; UF é apoio."
+  geo_alternative: hospital
+  compare_columns: [municipio, pct_uti]
+
+# ==========================================================================
+# Revisão semântica independente — segunda metade (verificada e aceita)
+# ==========================================================================
+gt_gt196:
+  action: rewrite
+  reason: "Cesárea é procedimento: o diagnóstico O82 capta só 35-45% das cesáreas. Gold passa a usar internacao_procedimento."
+  sql: |
+    SELECT year(i.DT_SAIDA) AS ano, COUNT(*) AS total_cesarianas FROM internacao i
+    WHERE EXISTS (SELECT 1 FROM internacao_procedimento ip WHERE ip.N_AIH = i.N_AIH
+                  AND ip.PROC_REA IN ('0411010026', '0411010034', '0411010042'))
+    GROUP BY ano ORDER BY ano
+
+gt_gt208:
+  action: rewrite
+  reason: "Gold agrupava pela descrição e fundia códigos F70x-F79x; 'crianças' explicitado como menores de 18."
+  question: "Quais diagnósticos apresentam maior diferença de permanência média entre crianças (menores de 18 anos) e adultos, considerando diagnósticos com pelo menos 1000 internações em cada grupo? Liste os 10 primeiros."
+  sql: |
+    WITH agg AS (
+      SELECT i.DIAG_PRINC AS cid, c.DESCRICAO AS diagnostico, CASE WHEN i.IDADE < 18 THEN 'criancas' ELSE 'adultos' END AS grupo,
+             COUNT(*) AS n, AVG(i.DIAS_PERM) AS media
+      FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID GROUP BY 1, 2, 3),
+    piv AS (
+      SELECT cid, diagnostico,
+             MAX(CASE WHEN grupo = 'criancas' THEN n END) AS n_criancas, MAX(CASE WHEN grupo = 'adultos' THEN n END) AS n_adultos,
+             MAX(CASE WHEN grupo = 'criancas' THEN media END) AS media_criancas, MAX(CASE WHEN grupo = 'adultos' THEN media END) AS media_adultos
+      FROM agg GROUP BY 1, 2)
+    SELECT diagnostico, n_criancas, n_adultos, ROUND(media_criancas, 2) AS media_criancas, ROUND(media_adultos, 2) AS media_adultos,
+           ROUND(ABS(media_adultos - media_criancas), 2) AS diferenca_absoluta
+    FROM piv WHERE n_criancas >= 1000 AND n_adultos >= 1000 ORDER BY diferenca_absoluta DESC LIMIT 10
+  compare_columns: [diagnostico, diferenca_absoluta]
+
+gt_gt218:
+  action: rewrite
+  reason: "Gold aplicava um mínimo de 1000 internações que a pergunta não dizia; mínimo explicitado no enunciado."
+  question: "Quais diagnósticos, entre os que tiveram pelo menos 1000 internações em 2015-2019, tiveram maior crescimento percentual de internações do período 2015-2019 para 2020-2023? Liste os 10 primeiros."
+  compare_columns: [diagnostico, crescimento_percentual]
+  date_alternative: false
+
+gt_gt219:
+  action: rewrite
+  reason: "Gold aplicava um mínimo de 1000 internações por período que a pergunta não dizia; mínimo explicitado."
+  question: "Quais diagnósticos, entre os que tiveram pelo menos 1000 internações em cada período, tiveram maior aumento na taxa de mortalidade entre 2008-2012 e 2019-2023? Liste os 10 primeiros."
+  compare_columns: [diagnostico, aumento_pontos_percentuais]
+  date_alternative: false
+
+gt_gt197:
+  action: rewrite
+  reason: "Faixas etárias não ditas na pergunta (explicitadas); 'obstétrica' aceita capítulo O ou leito obstétrico. Rótulo de faixa é CASE."
+  question: "Como as internações obstétricas se distribuem por faixa etária (menores de 15, 15-19, 20-34, 35-49, 50 ou mais)?"
+  alt_replace:
+    - [['"DIAG_PRINC" LIKE ''O%''', '"ESPEC" = 2']]
+  compare_columns: [total_obstetricas]
+
+gt_gt202:
+  action: rewrite
+  reason: "Faixas não ditas (explicitadas); COVID aceita B342 só ou B342+B972. Rótulo de faixa é CASE."
+  question: "Quais faixas etárias (0-39, 40-49, 50-59, 60-69, 70-79, 80 ou mais) tiveram maior taxa de mortalidade em internações por COVID ou coronavírus, considerando apenas faixas com mais de 10000 internações?"
+  alt_replace:
+    - [["IN ('B342', 'B972')", "= 'B342'"]]
+  compare_columns: [total_internacoes, taxa_mortalidade]
+
+gt_gt213:
+  action: rewrite
+  reason: "Faixas não ditas (explicitadas). Rótulos de faixa e caráter são CASE."
+  question: "Como a taxa de mortalidade compara internações de urgência e eletivas por faixa etária (menores de 18, 18-39, 40-59, 60-79, 80 ou mais)?"
+  compare_columns: [total_internacoes, taxa_mortalidade]
+
+gt_gt225:
+  action: rewrite
+  reason: "Faixas não ditas (explicitadas); COVID aceita B342 só. Rótulo de faixa é CASE."
+  question: "Qual a taxa de mortalidade por sexo e faixa etária (0-39, 40-59, 60-79, 80 ou mais) nas internações por COVID ou coronavírus?"
+  alt_replace:
+    - [["IN ('B342', 'B972')", "= 'B342'"]]
+  compare_columns: [sexo, total_internacoes, taxa_mortalidade]
+
+gt_gt140:
+  action: adjust
+  reason: "COVID aceita B342 só (código documentado) ou B342+B972."
+  alt_replace:
+    - [["IN ('B342', 'B972')", "= 'B342'"]]
+
+gt_gt182:
+  action: adjust
+  reason: "COVID aceita B342 só ou B342+B972."
+  alt_replace:
+    - [["IN ('B342', 'B972')", "= 'B342'"]]
+
+gt_gt201:
+  action: adjust
+  reason: "COVID aceita B342 só ou B342+B972."
+  alt_replace:
+    - [["IN ('B342', 'B972')", "= 'B342'"]]
+
+gt_gt144:
+  action: adjust
+  reason: "IAM aceita I21 ou I21-I22."
+  alternatives:
+    - "SELECT COUNT(*) AS total_infarto_agudo FROM internacao WHERE DIAG_PRINC LIKE 'I21%' OR DIAG_PRINC LIKE 'I22%'"
+
+M16:
+  action: adjust
+  reason: "IAM aceita I21-I22 ou só I21."
+  alternatives:
+    - "SELECT COUNT(*) FROM internacao WHERE DIAG_PRINC LIKE 'I21%' AND year(DT_INTER) = 2024"
+
+gt_gt107:
+  action: adjust
+  reason: "'Psiquiátricas' aceita leito psiquiátrico (5), leitos de saúde mental (5, 14, 87) ou capítulo F."
+  alternatives:
+    - "SELECT COUNT(*) AS psiquiatria_obitos FROM internacao WHERE ESPEC IN (5, 14, 87) AND MORTE"
+    - "SELECT COUNT(*) AS psiquiatria_obitos FROM internacao WHERE DIAG_PRINC LIKE 'F%' AND MORTE"
+
+gt_gt114:
+  action: adjust
+  reason: "'Obstétricas' aceita ESPEC 2 ou capítulo O."
+  alt_replace:
+    - [['i."ESPEC" = 2', 'i."DIAG_PRINC" LIKE ''O%''']]
+
+gt_gt130:
+  action: adjust
+  reason: "Município de residência ou do hospital; 'obstétrica' aceita ESPEC 2 ou capítulo O."
+  geo_alternative: hospital
+  alt_replace:
+    - [['i."ESPEC" = 2', 'i."DIAG_PRINC" LIKE ''O%''']]
+  compare_columns: [nome, taxa_mort_obstetrica]
+
+gt_gt121:
+  action: drop
+  reason: "Ambíguo em duas dimensões: top-20 conjunto ou por estado, e município de residência ou do hospital."
+
+gt_gt152:
+  action: adjust
+  reason: "'Valor informado' aceita VAL_TOT não nulo ou VAL_TOT > 0."
+  alternatives:
+    - "SELECT MEDIAN(VAL_TOT) AS mediana_valor_total FROM internacao WHERE VAL_TOT > 0"
+
+gt_gt170:
+  action: adjust
+  reason: "INNER JOIN com complexidade perde 12 linhas com COMPLEX = 0; aceita incluí-las. Rótulo do bucket varia."
+  alt_replace:
+    - [['c."DESCRICAO" AS complexidade', 'COALESCE(c."DESCRICAO", ''Não informado'') AS complexidade'], ['JOIN complexidade', 'LEFT JOIN complexidade'], ['GROUP BY c."DESCRICAO"', 'GROUP BY 1']]
+  compare_columns: [total_internacoes]
+
+gt_gt171:
+  action: adjust
+  reason: "Mesmo caso do gt_gt170; pergunta pede a taxa."
+  alt_replace:
+    - [['c."DESCRICAO" AS complexidade', 'COALESCE(c."DESCRICAO", ''Não informado'') AS complexidade'], ['JOIN complexidade', 'LEFT JOIN complexidade'], ['GROUP BY c."DESCRICAO"', 'GROUP BY 1']]
+  compare_columns: [taxa_mortalidade]
+
+gt_gt174:
+  action: rewrite
+  reason: "Códigos só em cid_manuais caíam num capítulo NULL; gold completa o capítulo por cid_manuais e aceita a versão antiga e o INNER JOIN."
+  sql: |
+    SELECT COALESCE(c.DS_CAPITULO, cm.DS_CAPITULO) AS capitulo_cid, COUNT(*) AS total_internacoes
+    FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID LEFT JOIN cid_manuais cm ON i.DIAG_PRINC = cm.CID
+    GROUP BY 1 ORDER BY 2 DESC
+  alternatives:
+    - "SELECT c.DS_CAPITULO AS capitulo_cid, COUNT(*) AS total_internacoes FROM internacao i LEFT JOIN cid c ON i.DIAG_PRINC = c.CID GROUP BY 1 ORDER BY 2 DESC"
+    - "SELECT c.DS_CAPITULO AS capitulo_cid, COUNT(*) AS total_internacoes FROM internacao i JOIN cid c ON i.DIAG_PRINC = c.CID GROUP BY 1 ORDER BY 2 DESC"
+
+gt_gt211:
+  action: adjust
+  reason: "Capítulo NULL para códigos de cid_manuais; aceita completar por cid_manuais."
+  alt_replace:
+    - [['LEFT JOIN cid c ON i."DIAG_PRINC" = c."CID"', 'LEFT JOIN cid c ON i."DIAG_PRINC" = c."CID" LEFT JOIN cid_manuais cm ON i."DIAG_PRINC" = cm."CID"'], ['c."DS_CAPITULO"', 'COALESCE(c."DS_CAPITULO", cm."DS_CAPITULO")']]
+  compare_columns: [ano, capitulo_cid, percentual_no_ano]
+
+gt_gt217:
+  action: adjust
+  reason: "Capítulo completado por cid_manuais muda o capítulo II; aceita as duas."
+  alt_replace:
+    - [['LEFT JOIN cid c ON i."DIAG_PRINC" = c."CID"', 'LEFT JOIN cid c ON i."DIAG_PRINC" = c."CID" LEFT JOIN cid_manuais cm ON i."DIAG_PRINC" = cm."CID"'], ['c."DS_CAPITULO"', 'COALESCE(c."DS_CAPITULO", cm."DS_CAPITULO")']]
+
+gt_gt234:
+  action: adjust
+  reason: "Capítulo completado por cid_manuais; aceita as duas."
+  alt_replace:
+    - [['LEFT JOIN cid c ON a."DIAG_PRINC" = c."CID"', 'LEFT JOIN cid c ON a."DIAG_PRINC" = c."CID" LEFT JOIN cid_manuais cm ON a."DIAG_PRINC" = cm."CID"'], ['c."DS_CAPITULO"', 'COALESCE(c."DS_CAPITULO", cm."DS_CAPITULO")']]
+
+gt_gt191:
+  action: adjust
+  reason: "Rótulo 'Reservado' agrupa códigos que não são nacionalidade; aceita excluí-los."
+  alt_replace:
+    - [['GROUP BY n."DESCRICAO"', 'WHERE n."DESCRICAO" <> ''Reservado'' GROUP BY n."DESCRICAO"']]
+
+gt_gt192:
+  action: adjust
+  reason: "INNER JOIN com vincprev descarta o 0 (99,99%); aceita incluir 'não informado'."
+  alternatives:
+    - "SELECT COALESCE(v.DESCRICAO, 'Não informado') AS vinculo_previdenciario, COUNT(*) AS total_internacoes FROM internacao i LEFT JOIN vincprev v ON i.VINCPREV = v.VINCPREV GROUP BY 1 ORDER BY 2 DESC"
+  compare_columns: [total_internacoes]
+
+gt_gt206:
+  action: adjust
+  reason: "'Razão entre uso de UTI' aceita razão de taxas ou razão de contagens."
+  alternatives:
+    - "SELECT year(DT_SAIDA) AS ano, ROUND(COUNT(*) FILTER (WHERE IDADE >= 65 AND MARCA_UTI <> 0) * 1.0 / NULLIF(COUNT(*) FILTER (WHERE IDADE < 65 AND MARCA_UTI <> 0), 0), 2) AS razao FROM internacao GROUP BY 1 ORDER BY 1"
+
+gt_gt207:
+  action: adjust
+  reason: "Pergunta pede diagnóstico e custo; contagem é apoio."
+  compare_columns: [diagnostico, custo_total_uti]
+
+gt_gt120:
+  action: adjust
+  reason: "Residência ou hospital; 'percentual' aceita a fatia anual de cada trimestre ou a fatia respiratória dentro do trimestre."
+  geo_alternative: hospital
+  alternatives:
+    - "SELECT EXTRACT(QUARTER FROM i.DT_INTER) AS trimestre, COUNT(*) FILTER (WHERE i.DIAG_PRINC LIKE 'J%') AS total_respiratorio, ROUND(COUNT(*) FILTER (WHERE i.DIAG_PRINC LIKE 'J%') * 100.0 / COUNT(*), 2) AS pct FROM internacao i JOIN municipios mu ON i.MUNIC_RES = mu.CO_MUNICIPIO_6D WHERE mu.SG_UF = 'RS' GROUP BY 1 ORDER BY 1"
+
+gt_gt112: {action: adjust, reason: "'No estado do RS' aceita residência ou local do atendimento.", geo_alternative: hospital}
+gt_gt113: {action: adjust, reason: "'Municípios do RS' aceita residência ou local do atendimento.", geo_alternative: hospital}
+gt_gt124: {action: adjust, reason: "'No estado do RS' aceita residência ou local do atendimento.", geo_alternative: hospital}
+gt_gt128: {action: adjust, reason: "Taxa de UTI do município aceita residência ou local do atendimento.", geo_alternative: hospital}
+gt_gt204: {action: adjust, reason: "MA/RS aceita residência ou local do atendimento.", geo_alternative: hospital}
+gt_gt205: {action: adjust, reason: "Municípios do RS aceita residência ou local do atendimento.", geo_alternative: hospital}
+gt_gt212: {action: adjust, reason: "MA/RS aceita residência ou local do atendimento.", geo_alternative: hospital}
+gt_gt216: {action: adjust, reason: "RS aceita residência ou local do atendimento.", geo_alternative: hospital}

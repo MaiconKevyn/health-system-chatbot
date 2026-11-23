@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-07-11T17:51:35Z",
+  "question": "Por que o full_agent errou oito queries que o baseline openai_raw_full_context acertou?",
+  "model": "gpt-5.4-nano",
+  "sources": {
+    "agent_results": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_20260711/variants/full_agent/results.json",
+    "direct_api_results": "evaluation/chatbot/results/hard13_openai_raw_full_context_gpt54nano_20260711/variants/openai_raw_full_context/results.json",
+    "ground_truth": "evaluation/ground_truth/ground_truth_hard_73.jsonl",
+    "database": "configured DuckDB sihrd5.duckdb (read-only checks)"
+  },
+  "method": [
+    "Compare the ground-truth, full-agent, and direct-API SQL for each of the eight cases.",
+    "Compare retrieved tables, exact few-shot examples, catalog calls, validation warnings, correction attempts, and execution outcomes.",
+    "Run read-only DuckDB checks for join cardinality, date coverage, category coding, sample support, and dimension grain.",
+    "Inspect the retrieval, prompt, schema-linking, validation, correction, and baseline code paths."
+  ],
+  "system_findings": {
+    "ground_truth_leakage": {
+      "severity": "critical",
+      "confidence": "confirmed",
+      "evidence": "All 73 hard-run records include their own ID as the first query example. The full-context API prompt serializes each example question and SQL. For the eight API wins, four API SQLs are AST-identical to ground truth and the other four are semantically near-identical.",
+      "impact": "The direct-API success is not an independent measure of model ability; it had access to the answer."
+    },
+    "semantic_validation_gap": {
+      "severity": "critical",
+      "confidence": "confirmed",
+      "evidence": "All eight bad agent SQLs were syntactically valid and executed successfully, so validation and execution refinement never ran. The validator does not check sample thresholds, join cardinality, filter consistency across CTEs, requested dimension grain, or result semantics.",
+      "impact": "Plausible but wrong SQL is accepted as final."
+    },
+    "retrieval_scope_mismatch": {
+      "severity": "high",
+      "confidence": "confirmed",
+      "evidence": "GT125 omitted tempo and GT131 omitted raca_cor from retrieved_tables, while their exact examples referenced those tables. Validation accepts any table in the global Stage1 schema instead of enforcing the retrieved-table set.",
+      "impact": "Prompts are internally contradictory and the direct baseline can use answer-leaked tables that retrieval did not supply."
+    },
+    "schema_linking_errors": {
+      "severity": "high",
+      "confidence": "confirmed",
+      "evidence": "The trigger indigena maps to ETNIA, although the benchmark definition uses RACA_COR=5. The description-required heuristic misses singular maior and the prompt converts 'description not required' into the false assertion that the user requested a raw code.",
+      "impact": "The agent is actively steered toward the wrong field or output grain."
+    },
+    "catalog_tool_noise": {
+      "severity": "medium",
+      "confidence": "not causal from current evidence",
+      "evidence": "The eight cases made 34 catalog tool calls but recorded zero catalog decisions; several candidates were unrelated to the question.",
+      "impact": "Adds prompt/tool noise and latency, but a no-catalog controlled rerun is required to prove accuracy impact."
+    }
+  },
+  "cases": [
+    {
+      "id": "GT086",
+      "agent_error": "Removed HAVING COUNT(*) > 100 from the exact example.",
+      "effect": "The selected CNES had only 1-2 qualifying admissions, producing outlier averages instead of stable hospital rankings.",
+      "primary_cause": "LLM semantic deviation plus missing minimum-support validation.",
+      "context_issue": "municipios was absent from retrieved_tables but present in the leaked exact example.",
+      "confidence": "high"
+    },
+    {
+      "id": "GT120",
+      "agent_error": "Joined tempo by year and month instead of extracting quarter from DT_INTER.",
+      "effect": "Each admission matched 28-31 calendar rows; the count grew from 1,559,878 to 47,427,429 (30.4x).",
+      "primary_cause": "Wrong join grain plus no join-cardinality validation.",
+      "context_issue": "The exact example contained the correct non-join formulation.",
+      "confidence": "high"
+    },
+    {
+      "id": "GT125",
+      "agent_error": "Used EXTRACT(DOW) directly instead of joining tempo.data and returning tempo.dia_semana.",
+      "effect": "Sunday became 0 instead of 7 and 28,767 admissions outside the tempo coverage were included, changing every bucket.",
+      "primary_cause": "tempo retrieval failure plus missing calendar-semantic validation.",
+      "context_issue": "tempo was not retrieved because the keyword map lacks dia/semana/dia da semana; the direct API recovered it only from the leaked exact example.",
+      "confidence": "high"
+    },
+    {
+      "id": "GT130",
+      "agent_error": "Applied ESPEC=2 to the national benchmark CTE but omitted it from the per-municipality CTE.",
+      "effect": "Municipal mortality rates used all admissions while being compared with an obstetric-only national rate.",
+      "primary_cause": "Filter-scope loss during CTE rewrite plus no cohort-consistency validation.",
+      "context_issue": "The exact example carried ESPEC=2 in both scopes.",
+      "confidence": "high"
+    },
+    {
+      "id": "GT131",
+      "agent_error": "Interpreted indigenous patients through ETNIA text matching instead of RACA_COR=5.",
+      "effect": "The predicate matched zero rows; RACA_COR=5 identifies 459,272 admissions.",
+      "primary_cause": "Incorrect schema-link trigger and missing domain rule for indigenous classification.",
+      "context_issue": "indigena explicitly retrieves ETNIA, raca_cor was absent, and ETNIA is numeric so LIKE '%indig%' can never match.",
+      "confidence": "high"
+    },
+    {
+      "id": "GT132",
+      "agent_error": "Changed HAVING COUNT(*) > 500 to HAVING COUNT(*) > 0.",
+      "effect": "The selected CNES had only 1-36 admissions, so small-sample outliers dominated the ranking.",
+      "primary_cause": "LLM semantic deviation plus missing minimum-support validation.",
+      "context_issue": "municipios was absent from retrieved_tables but present in the leaked exact example.",
+      "confidence": "high"
+    },
+    {
+      "id": "GT208",
+      "agent_error": "Added CID code to the output and grouped by CID plus description instead of description alone.",
+      "effect": "Descriptions shared by six CID codes were fragmented; counts, averages, ranking, and output shape changed.",
+      "primary_cause": "Faulty raw-code guidance plus missing requested-grain validation.",
+      "context_issue": "The singular word maior is not recognized by description_required_for_link, and the prompt incorrectly says the question asks for a code.",
+      "confidence": "high"
+    },
+    {
+      "id": "GT218",
+      "agent_error": "Returned cid.DS_CAPITULO instead of cid.DESCRICAO.",
+      "effect": "Numeric results stayed aligned, but diagnosis labels became coarse, repeated chapter names.",
+      "primary_cause": "Ambiguous/wrong dimension guidance plus missing semantic output validation.",
+      "context_issue": "The singular word maior bypasses the description requirement; no warning required DESCRICAO.",
+      "confidence": "high"
+    }
+  ],
+  "duckdb_spot_checks": {
+    "GT120_tempo_rows_per_month": {"min": 28, "max": 31, "average": 30.44},
+    "GT120_join_counts": {"correct_rows": 1559878, "agent_join_rows": 47427429, "multiplier": 30.4},
+    "GT125_calendar_coverage": {"fact_rows": 9193933, "matched_rows": 9165166, "unmatched_rows": 28767},
+    "GT125_weekday_mapping": "DuckDB DOW 0 maps to tempo.dia_semana 7; 1-6 map directly.",
+    "GT131_classification": {"raca_cor_5_rows": 459272, "etnia_not_null_rows": 144386772, "etnia_text_indig_rows": 0},
+    "GT208_duplicate_description_codes": 6,
+    "GT086_agent_winner_support_range": "1-2 rows",
+    "GT132_agent_winner_support_range": "1-36 rows"
+  },
+  "validation_assessment": {
+    "status": "share_with_caveats",
+    "ready_claim": "The eight full-agent failures have identified, evidence-backed failure mechanisms.",
+    "blocked_claim": "The current run cannot establish that direct API generation independently outperforms the agent because ground-truth SQL leaked into both prompts.",
+    "required_follow_up": "Rerun both paths with leave-one-out example retrieval and enforce that generated SQL may use only retrieved tables."
+  }
+}

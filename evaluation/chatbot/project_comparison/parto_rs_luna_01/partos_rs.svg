@@ -1,0 +1,91 @@
+<svg width="940" height="420" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 940 420">
+<rect width="940" height="420" x="0" y="0" fill="#ffffff"></rect>
+<text dominant-baseline="central" text-anchor="start" style="font: 13px Helvetica, Arial, sans-serif" xml:space="preserve" y="6.5" transform="translate(33 388)" fill="#45616a">Fonte: SIHRD9 · internações do SUS · uma AIH por internação</text>
+<path d="M83 347.5L875 347.5" fill="none" pointer-events="visible" stroke="#e1e8eb" class="zr0-cls-0"></path>
+<path d="M83 285.5L875 285.5" fill="none" pointer-events="visible" stroke="#e1e8eb" class="zr0-cls-0"></path>
+<path d="M83 222.5L875 222.5" fill="none" pointer-events="visible" stroke="#e1e8eb" class="zr0-cls-0"></path>
+<path d="M83 160.5L875 160.5" fill="none" pointer-events="visible" stroke="#e1e8eb" class="zr0-cls-0"></path>
+<path d="M83 98.5L875 98.5" fill="none" pointer-events="visible" stroke="#e1e8eb" class="zr0-cls-0"></path>
+<path d="M83 347.5L875 347.5" fill="none" pointer-events="visible" stroke="#84949a" stroke-linecap="round" class="zr0-cls-0"></path>
+<path d="M83.5 347L83.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M176.5 347L176.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M269.5 347L269.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M362.5 347L362.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M455.5 347L455.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M549.5 347L549.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M642.5 347L642.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M735.5 347L735.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M828.5 347L828.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<path d="M875.5 347L875.5 352" fill="none" pointer-events="visible" stroke="#84949a" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" transform="translate(75 347)" fill="#54555a">20.000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" transform="translate(75 284.75)" fill="#54555a">23.000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" transform="translate(75 222.5)" fill="#54555a">26.000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" transform="translate(75 160.25)" fill="#54555a">29.000</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" transform="translate(75 98)" fill="#54555a">32.000</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(83 355)" fill="#54555a">2008</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(176.1765 355)" fill="#54555a">2010</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(269.3529 355)" fill="#54555a">2012</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(362.5294 355)" fill="#54555a">2014</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(455.7059 355)" fill="#54555a">2016</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(548.8824 355)" fill="#54555a">2018</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(642.0588 355)" fill="#54555a">2020</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(735.2353 355)" fill="#54555a">2022</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(828.4118 355)" fill="#54555a">2024</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:Helvetica, Arial, sans-serif;" y="6" transform="translate(875 355)" fill="#54555a">2025</text>
+<g clip-path="url(#zr0-c0)">
+<path d="M83 173.6L129.6 175.2L176.2 181.1L222.8 175.6L269.4 200L315.9 213.5L362.5 197.4L409.1 146.9L455.7 155.5L502.3 131.9L548.9 126.2L595.5 130.2L642.1 130.2L688.6 159.9L735.2 176.3L781.8 210.8L828.4 247.5L875 251.3" fill="none" pointer-events="visible" stroke="#006b78" stroke-width="3" stroke-linejoin="bevel" class="zr0-cls-2"></path>
+</g>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,83,173.5508)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="0" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,129.5882,175.1693)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="1" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,176.1765,181.1037)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="2" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,222.7647,175.5842)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="3" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,269.3529,200.0278)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="4" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,315.9412,213.4945)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="5" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,362.5294,197.434)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="6" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,409.1176,146.9077)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="7" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,455.7059,155.4568)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="8" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,502.2941,131.947)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="9" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,548.8823,126.2408)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="10" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,595.4706,130.1625)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="11" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,642.0588,130.2455)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="12" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,688.647,159.8972)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="13" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,735.2353,176.269)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="14" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,781.8235,210.8177)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="15" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,828.4117,247.5245)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="16" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M1 0A1 1 0 1 1 1 -0.1A1 1 0 0 1 1 0" transform="matrix(3,0,0,3,875,251.3217)" fill="#fff" stroke="#006b78" stroke-width="0.6666666666666666" ecmeta_series_index="0" ecmeta_data_index="17" ecmeta_ssr_type="chart" class="zr0-cls-3"></path>
+<path d="M-0.5 -0.9A0.6 0.6 0 1 1 0.5 -0.9C0.4 -0.6 0 -0.4 0 0C0 -0.4 -0.4 -0.6 -0.5 -0.9Z" transform="matrix(0.5,0,0,0.5,548.8824,126.2408)" fill="#006b78" ecmeta_series_index="0" ecmeta_data_index="0" ecmeta_ssr_type="chart" class="zr0-cls-4"></path>
+<path d="M-0.5 -0.9A0.6 0.6 0 1 1 0.5 -0.9C0.4 -0.6 0 -0.4 0 0C0 -0.4 -0.4 -0.6 -0.5 -0.9Z" transform="matrix(0.5,0,0,0.5,875,251.3218)" fill="#006b78" ecmeta_series_index="0" ecmeta_data_index="1" ecmeta_ssr_type="chart" class="zr0-cls-4"></path>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:14px;font-family:Helvetica, Arial, sans-serif;" y="-7" transform="translate(548.8824 120.3693)" fill="#104850">30.639</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:14px;font-family:Helvetica, Arial, sans-serif;" y="7" transform="translate(875 256.3218)" fill="#104850">24.611</text>
+<path d="M-5 -5l712.2 0l0 57l-712.2 0Z" transform="translate(37 23)" fill="rgb(0,0,0)" fill-opacity="0" stroke="#3c3c41" stroke-width="0" class="zr0-cls-0"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:23px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;" xml:space="preserve" y="11.5" transform="translate(37 23)" fill="#3c3c41">Internações por parto espontâneo cefálico no Rio Grande do Sul</text>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Helvetica, Arial, sans-serif;" xml:space="preserve" y="40" transform="translate(37 23)" fill="#45616a">Hospitais do RS · diagnóstico principal O80.0 · ano de entrada</text>
+<defs >
+<clipPath id="zr0-c0">
+<path d="M81 96.5l796 0l0 252l-796 0Z" fill="#000" class="zr0-cls-1"></path>
+</clipPath>
+</defs>
+<style ><![CDATA[
+.zr0-cls-0:hover {
+pointer-events:none;
+}
+.zr0-cls-1:hover {
+cursor:pointer;
+fill:rgba(0,0,0,1);
+}
+.zr0-cls-2:hover {
+cursor:pointer;
+}
+.zr0-cls-3:hover {
+cursor:pointer;
+fill:rgba(255,255,255,1);
+}
+.zr0-cls-4:hover {
+cursor:pointer;
+fill:rgba(0,117,132,1);
+}
+
+]]>
+
+</style>
+</svg>

@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import re
+from pathlib import Path
 
 import sqlglot
 from sqlglot import expressions as exp
 
-from .models import SqlPlan, Stage1Context, ValidationResult
+from .models import QuestionContract, SqlPlan, Stage1Context, ValidationResult
+from .question_contract import build_question_contract
+from .semantic_rules import applicable_semantic_rules
 from .schema_linking import (
     DIMENSION_LINKS,
     description_required_for_link,
@@ -204,6 +207,18 @@ def _unknown_column_errors(
                     errors.append(f"Unknown column: {table_name}.{column_name}")
             continue
 
+    try:
+        scoped_errors = _unqualified_column_scope_errors(parsed, ctx, select_aliases)
+    except Exception:
+        scoped_errors = None
+    if scoped_errors is not None:
+        errors.extend(error for error in scoped_errors if error not in errors)
+        return errors
+
+    for column in parsed.find_all(exp.Column):
+        column_name = column.name
+        if not column_name or column_name == "*" or column.table:
+            continue
         if column_name.upper() in select_aliases:
             continue
         if _resolve_column(column, ctx, aliases, tables) is None:
@@ -212,6 +227,84 @@ def _unknown_column_errors(
                 seen.add(key)
                 errors.append(f"Unknown or ambiguous column: {column_name}")
 
+    return errors
+
+
+def _scope_column_matches(scope, column_name: str, ctx: Stage1Context) -> tuple[int, bool]:
+    """Count sources in this SELECT that expose ``column_name``.
+
+    Returns (matches, open_source): open_source is True when a CTE/derived table
+    projects ``*`` so its columns cannot be enumerated.
+    """
+    matches = 0
+    open_source = False
+    for _, source in scope.selected_sources.values():
+        if isinstance(source, exp.Table):
+            if _column_type(ctx, source.name, column_name) is not None:
+                matches += 1
+            elif source.name not in ctx.tables:
+                open_source = True  # unknown table is reported elsewhere
+            continue
+        source_expression = getattr(source, "expression", None)
+        if not isinstance(source_expression, exp.Query):
+            open_source = True
+            continue
+        if source_expression.is_star:
+            open_source = True
+        if column_name.upper() in {name.upper() for name in source_expression.named_selects}:
+            matches += 1
+    return matches, open_source
+
+
+def _unqualified_column_scope_errors(
+    parsed: exp.Expression,
+    ctx: Stage1Context,
+    select_aliases: set[str],
+) -> list[str]:
+    """Resolve unqualified columns per SELECT scope, the way DuckDB binds them.
+
+    Resolving against every table in the whole statement flagged valid SQL as
+    ambiguous: in sihrd9, counting births needs internacao and
+    internacao_procedimento (both have N_AIH), so a CTE or IN-subquery that
+    selects N_AIH from only one of them was rejected.
+    """
+    from sqlglot.optimizer.scope import traverse_scope
+
+    errors: list[str] = []
+    seen: set[str] = set()
+    for scope in traverse_scope(parsed):
+        using_columns = {
+            identifier.name.upper()
+            for join in scope.expression.args.get("joins") or []
+            for identifier in join.args.get("using") or []
+        }
+        for column in scope.unqualified_columns:
+            # sqlglot also lists columns of IN-subqueries on the outer scope;
+            # judge each column only in the SELECT that directly contains it.
+            if column.find_ancestor(exp.Select) is not scope.expression:
+                continue
+            name = column.name
+            if not name or name == "*" or name.upper() in select_aliases:
+                continue
+            matches, open_source = _scope_column_matches(scope, name, ctx)
+            if matches > 1 and name.upper() in using_columns:
+                matches = 1  # USING merges the join key into one column
+            if matches == 0 and not open_source:
+                parent = scope.parent
+                while parent is not None and matches == 0 and not open_source:
+                    matches, open_source = _scope_column_matches(parent, name, ctx)
+                    parent = parent.parent
+            if matches == 1 or (matches == 0 and open_source):
+                continue
+            key = name.upper()
+            if key in seen:
+                continue
+            seen.add(key)
+            errors.append(
+                f"Ambiguous column: {name}; qualify it with a table alias."
+                if matches > 1
+                else f"Unknown column: {name}"
+            )
     return errors
 
 
@@ -346,71 +439,213 @@ def _dimension_description_required_errors(
     return errors
 
 
-def _shape_policy_errors(safe_sql: str, question: str) -> list[str]:
-    text = normalize_text(question)
-    tokens = set(text.split())
-    upper = safe_sql.upper()
-    errors = []
+_TIME_UNIT_NAMES: dict[str, set[str]] = {
+    "year": {"YEAR", "YEARS", "Y", "YR", "YRS"},
+    "quarter": {"QUARTER", "QUARTERS"},
+    "month": {"MONTH", "MONTHS", "MON", "MONS"},
+}
+_TIME_PART_FUNCTIONS: dict[type[exp.Expression], str] = {
+    exp.Year: "year",
+    exp.Quarter: "quarter",
+    exp.Month: "month",
+}
+_DATE_PART_FUNCTION_NAMES = {"DATE_PART", "DATEPART"}
+_CALENDAR_GRAIN_COLUMNS = {"ANO": "year", "NU_ANO": "year", "TRIMESTRE": "quarter", "MES": "month"}
 
-    if any(term in text for term in ("auditoria", "sem correspondencia", "nao mapeado", "orfa")):
-        if "SEM_CORRESPONDENCIA" in upper and not re.search(
-            r"COUNT\s*\(\s*\*\s*\)\s+AS\s+INTERNACOES\b",
+
+def _time_unit(name: str) -> str | None:
+    upper = name.upper()
+    return next((unit for unit, names in _TIME_UNIT_NAMES.items() if upper in names), None)
+
+
+def _node_time_unit(node: exp.Expression) -> str | None:
+    if type(node) in _TIME_PART_FUNCTIONS:
+        return _TIME_PART_FUNCTIONS[type(node)]
+    if isinstance(node, exp.Extract):
+        return _time_unit(node.this.name)
+    if isinstance(node, (exp.TimestampTrunc, exp.DateTrunc)):
+        return _time_unit(node.text("unit"))
+    if isinstance(node, exp.Anonymous) and node.name.upper() in _DATE_PART_FUNCTION_NAMES:
+        return _time_unit(node.expressions[0].name) if node.expressions else None
+    if isinstance(node, exp.TimeToStr):
+        time_format = node.text("format")
+        if re.search(r"%[mbB]", time_format):
+            return "month"
+        return "year" if re.search(r"%[Yy]", time_format) else None
+    if isinstance(node, exp.Column):
+        return _CALENDAR_GRAIN_COLUMNS.get(node.name.upper())
+    return None
+
+
+def _time_units_anywhere(parsed: exp.Expression) -> set[str]:
+    return {unit for node in parsed.walk() if (unit := _node_time_unit(node))}
+
+
+def _walk_outside_subqueries(root: exp.Expression):
+    return root.walk(
+        prune=lambda node: node is not root and isinstance(node, (exp.Select, exp.Subquery))
+    )
+
+
+def _output_time_units(parsed: exp.Expression) -> set[str]:
+    """Calendar units that shape result rows; WHERE/HAVING filters do not count."""
+    inner_aliases: dict[str, list[exp.Expression]] = {}
+    for select in parsed.find_all(exp.Select):
+        if select is parsed:
+            continue
+        for projection in select.expressions:
+            if isinstance(projection, exp.Alias):
+                inner_aliases.setdefault(projection.alias.upper(), []).append(projection.this)
+
+    group = parsed.args.get("group")
+    pending = [*parsed.expressions, *(group.expressions if group else [])]
+    if any(
+        isinstance(projection, exp.Star)
+        or (isinstance(projection, exp.Column) and projection.name == "*")
+        for projection in parsed.expressions
+    ):
+        pending.extend(node for nodes in inner_aliases.values() for node in nodes)
+
+    units: set[str] = set()
+    followed: set[str] = set()
+    while pending:
+        for node in _walk_outside_subqueries(pending.pop()):
+            if unit := _node_time_unit(node):
+                units.add(unit)
+            if isinstance(node, exp.Column) and node.name.upper() not in followed:
+                followed.add(node.name.upper())
+                pending.extend(inner_aliases.get(node.name.upper(), []))
+    return units
+
+
+def _contract_policy_findings(
+    safe_sql: str,
+    contract: QuestionContract,
+    parsed: exp.Expression,
+) -> tuple[list[str], list[str], list[dict[str, str]]]:
+    upper = safe_sql.upper()
+    errors: list[str] = []
+    warnings: list[str] = []
+    findings: list[dict[str, str]] = []
+
+    for source in contract.required_sources:
+        if re.search(rf"\b{re.escape(source.upper())}\b", upper) is None:
+            errors.append(f"Required source missing from SQL: {source}")
+            findings.append(
+                {
+                    "layer": "contract",
+                    "code": "required_source_missing",
+                    "detail": source,
+                }
+            )
+
+    explicit_n = contract.ranking.n
+    has_limit = bool(re.search(r"\bLIMIT\s+\d+\b", upper))
+    has_rank = bool(re.search(r"\b(?:ROW_NUMBER|RANK|DENSE_RANK)\s*\(", upper))
+    has_rank_filter = bool(
+        explicit_n is not None
+        and re.search(rf"\b(?:RN|RANK\w*)\s*<=?\s*{explicit_n}\b", upper)
+    )
+    has_exact_limit = bool(
+        explicit_n is not None
+        and re.search(rf"\bLIMIT\s+{explicit_n}\b", upper)
+    )
+    if explicit_n is not None and not (has_exact_limit or (has_rank and has_rank_filter)):
+        errors.append(
+            f"Question explicitly requests top {explicit_n}, but SQL does not enforce that cardinality."
+        )
+        findings.append(
+            {"layer": "contract", "code": "explicit_top_n_missing", "detail": str(explicit_n)}
+        )
+    if explicit_n is None and has_limit:
+        warnings.append("SQL adds LIMIT although the question contract has no explicit top-N.")
+        findings.append(
+            {"layer": "contract", "code": "implicit_limit", "detail": "LIMIT present"}
+        )
+
+    has_ranking_partition = bool(
+        re.search(
+            r"\b(?:ROW_NUMBER|RANK|DENSE_RANK)\s*\([^)]*\)\s*OVER\s*\([^)]*PARTITION\s+BY",
             upper,
-        ):
+            re.S,
+        )
+    )
+    if explicit_n is not None and contract.ranking.partition_by and not has_ranking_partition:
+        errors.append(
+            "Question explicitly requests top-N per group, but SQL has no partitioned ranking."
+        )
+        findings.append(
+            {
+                "layer": "contract",
+                "code": "partitioned_ranking_missing",
+                "detail": ",".join(contract.ranking.partition_by),
+            }
+        )
+    if explicit_n is not None and not contract.ranking.partition_by and has_ranking_partition:
+        warnings.append(
+            "SQL partitions a ranking although no per-group partition is explicit in the question."
+        )
+        findings.append(
+            {"layer": "contract", "code": "implicit_ranking_partition", "detail": "PARTITION BY"}
+        )
+
+    if contract.ranking.minimum_support is not None:
+        threshold = contract.ranking.minimum_support
+        if str(threshold) not in upper or not re.search(r"\b(?:HAVING|WHERE)\b", upper):
             errors.append(
-                "Audit dimension coverage queries must return both sem_correspondencia "
-                "and COUNT(*) AS internacoes."
+                f"Question explicitly requires minimum support {threshold}, but SQL does not enforce it."
+            )
+            findings.append(
+                {"layer": "contract", "code": "minimum_support_missing", "detail": str(threshold)}
+            )
+
+    if contract.time.basis == "admission_date" and "DT_SAIDA" in upper and "DT_INTER" not in upper:
+        errors.append("Question requires admission-date basis, but SQL uses discharge date.")
+    elif contract.time.basis == "discharge_date" and "DT_INTER" in upper and "DT_SAIDA" not in upper:
+        errors.append("Question requires discharge-date basis, but SQL uses admission date.")
+    elif contract.time.basis == "unresolved" and ("DT_INTER" in upper or "DT_SAIDA" in upper):
+        warnings.append("SQL selected a date basis while the question contract remains unresolved.")
+        findings.append(
+            {"layer": "contract", "code": "date_basis_assumption", "detail": "unresolved"}
+        )
+
+    if (
+        contract.time.grain in _TIME_UNIT_NAMES
+        and contract.time.grain not in _time_units_anywhere(parsed)
+    ):
+        errors.append(
+            f"Question requires temporal grain {contract.time.grain}, but SQL does not project it."
+        )
+        findings.append(
+            {"layer": "contract", "code": "temporal_grain_missing", "detail": contract.time.grain}
+        )
+    if (
+        contract.time.grain in {"quarter", "month"}
+        and "year" in _output_time_units(parsed)
+        and not re.search(r"\b(?:por|cada)\s+ano\b", normalize_text(contract.population))
+    ):
+        errors.append(
+            f"SQL adds year to a {contract.time.grain}-of-year result although year is not requested."
+        )
+        findings.append(
+            {"layer": "contract", "code": "temporal_grain_oversegmented", "detail": "year"}
+        )
+
+    if "dimension_coverage_audit" in contract.concepts:
+        has_unmatched = "SEM_CORRESPONDENCIA" in upper or "UNMATCHED" in upper
+        has_total = bool(
+            re.search(r"COUNT\s*\(\s*\*\s*\)\s+AS\s+(?:INTERNACOES|TOTAL\w*)\b", upper)
+        )
+        if not (has_unmatched and has_total):
+            warnings.append(
+                "Dimension coverage audits should expose both unmatched and total counts."
             )
         if "WHERE" in upper and " IS NULL" in upper and "COUNT(*) FILTER" not in upper:
-            errors.append(
-                "Audit dimension coverage queries must keep the full denominator. "
-                "Use COUNT(*) FILTER (WHERE dimension.key IS NULL) AS sem_correspondencia "
-                "instead of moving the NULL check to WHERE."
+            warnings.append(
+                "Dimension coverage audit drops the full denominator in WHERE; use a filtered aggregate."
             )
 
-    if tokens & {"mais", "maiores", "ranking", "top"} and "LIMIT" not in upper:
-        errors.append("Ranking queries must include LIMIT 20 unless the user requested another limit.")
-
-    if "mix" in tokens and "percentual" not in tokens and (
-        "PERCENT" in upper or "100.0" in upper or "100 *" in upper
-    ):
-        errors.append("Mix queries should not include percentage columns unless explicitly requested.")
-    if "mix de complexidade por carater" in text and not re.search(
-        r"ORDER\s+BY\s+INTERNACOES\s+DESC\b",
-        upper,
-    ):
-        errors.append("Mix de complexidade por carater must be ordered by internacoes DESC.")
-
-    if ("cid c" in text or "cid-c" in text) and "por ano" in text and "FILTER" in upper:
-        errors.append(
-            "CID C time series should filter matching events in WHERE before GROUP BY, "
-            "not use COUNT(*) FILTER that preserves unrelated years."
-        )
-
-    if "contraceptivo 1" in text and "SEM CORRESPONDENCIA" in upper and "auditoria" not in text:
-        errors.append(
-            "Contraceptive type distributions should not add an unmapped bucket unless this is an audit question."
-        )
-    if (
-        "contraceptivo 1" in text
-        and "LEFT JOIN CONTRACEPTIVOS" in upper
-        and "auditoria" not in text
-    ):
-        errors.append(
-            "Contraceptive type distributions should use JOIN contraceptivos; "
-            "LEFT JOIN adds an extra NULL/unmapped bucket unless this is an audit question."
-        )
-
-    if (
-        ("denominador socioeconomico" in text or "populacao socioeconomica" in text)
-        and "registros" not in text
-        and re.search(r"COUNT\s*\(\s*\*\s*\)\s+AS\s+REGISTROS\b", upper)
-    ):
-        errors.append(
-            "Socioeconomic population by UF/year should not add COUNT(*) AS registros unless requested."
-        )
-
-    return errors
+    return errors, warnings, findings
 
 
 def _catalog_decision_warnings(safe_sql: str, plan: SqlPlan | None) -> list[str]:
@@ -433,16 +668,171 @@ def _catalog_decision_warnings(safe_sql: str, plan: SqlPlan | None) -> list[str]
     return warnings
 
 
+def _binder_errors(safe_sql: str, db_path: Path | None) -> list[str]:
+    if db_path is None or not db_path.exists():
+        return []
+    import duckdb
+
+    con = duckdb.connect(str(db_path), read_only=True)
+    try:
+        con.execute("EXPLAIN " + safe_sql)
+    except Exception as exc:
+        return [f"DuckDB binder error: {exc}"]
+    finally:
+        con.close()
+    return []
+
+
+def _cte_aggregate_aliases(parsed: exp.Expression) -> dict[str, set[str]]:
+    result: dict[str, set[str]] = {}
+    for cte in parsed.find_all(exp.CTE):
+        aliases: set[str] = set()
+        select = cte.this
+        if isinstance(select, exp.Select):
+            for expression in select.expressions:
+                if isinstance(expression, exp.Alias) and expression.this.find(exp.AggFunc):
+                    aliases.add(expression.alias.upper())
+        result[cte.alias] = aliases
+    return result
+
+
+def _relation_aliases(parsed: exp.Expression) -> dict[str, str]:
+    aliases: dict[str, str] = {}
+    for table in parsed.find_all(exp.Table):
+        aliases[table.name] = table.name
+        if table.alias:
+            aliases[table.alias] = table.name
+    return aliases
+
+
+def _grain_lineage_findings(
+    parsed: exp.Expression,
+) -> tuple[list[str], list[dict[str, str]]]:
+    errors: list[str] = []
+    findings: list[dict[str, str]] = []
+    aggregate_aliases = _cte_aggregate_aliases(parsed)
+    relation_aliases = _relation_aliases(parsed)
+
+    for join in parsed.find_all(exp.Join):
+        on = join.args.get("on")
+        if on is None:
+            continue
+        for equality in on.find_all(exp.EQ):
+            for side in (equality.left, equality.right):
+                if not isinstance(side, exp.Column) or not side.table:
+                    continue
+                relation = relation_aliases.get(side.table, side.table)
+                if side.name.upper() in aggregate_aliases.get(relation, set()):
+                    errors.append(
+                        "Join uses an aggregated measure as a key; preserve the entity key "
+                        f"instead: {side.sql(dialect='duckdb')}"
+                    )
+                    findings.append(
+                        {
+                            "layer": "grain",
+                            "code": "join_on_aggregate_measure",
+                            "detail": side.sql(dialect="duckdb"),
+                        }
+                    )
+
+    for select in parsed.find_all(exp.Select):
+        source_names: set[str] = set()
+        from_expression = select.args.get("from_")
+        if from_expression is not None and isinstance(from_expression.this, exp.Table):
+            source_names.add(from_expression.this.name)
+        for join in select.args.get("joins") or []:
+            if isinstance(join.this, exp.Table):
+                source_names.add(join.this.name)
+        inherited_aggregates = set().union(
+            *(aggregate_aliases.get(name, set()) for name in source_names)
+        ) if source_names else set()
+        for percentile in select.find_all(exp.PercentileCont, exp.PercentileDisc):
+            argument = percentile.this
+            if isinstance(argument, exp.Column) and argument.name.upper() in inherited_aggregates:
+                errors.append(
+                    "Percentile is computed over a previously aggregated measure; compute "
+                    "the percentile at the event grain before the final grouping."
+                )
+                findings.append(
+                    {
+                        "layer": "grain",
+                        "code": "percentile_on_aggregated_measure",
+                        "detail": argument.name,
+                    }
+                )
+    return errors, findings
+
+
+def _semantic_rule_findings(
+    safe_sql: str,
+    ctx: Stage1Context,
+    contract: QuestionContract,
+) -> tuple[list[str], list[dict[str, str]]]:
+    errors: list[str] = []
+    findings: list[dict[str, str]] = []
+    rules = {rule.id: rule for rule in ctx.semantic_rules}
+    for rule_id in contract.semantic_rule_ids:
+        rule = rules.get(rule_id)
+        if rule is None or rule.status != "active":
+            continue
+        for pattern in rule.forbidden_sql_patterns:
+            if re.search(pattern, safe_sql, re.I):
+                errors.append(
+                    f"SQL violates semantic rule {rule.id}: forbidden pattern {pattern}"
+                )
+                findings.append(
+                    {"layer": "semantic_rule", "code": "forbidden_pattern", "detail": rule.id}
+                )
+        if rule.required_sql_any and not any(
+            re.search(pattern, safe_sql, re.I) for pattern in rule.required_sql_any
+        ):
+            errors.append(
+                f"SQL does not implement active semantic rule {rule.id} from "
+                f"{rule.provenance.reference}."
+            )
+            findings.append(
+                {"layer": "semantic_rule", "code": "required_predicate_missing", "detail": rule.id}
+            )
+        missing_all = [
+            pattern
+            for pattern in rule.required_sql_all
+            if not re.search(pattern, safe_sql, re.I)
+        ]
+        if missing_all:
+            errors.append(
+                f"SQL does not implement all predicates required by semantic rule {rule.id} "
+                f"from {rule.provenance.reference}."
+            )
+            findings.append(
+                {
+                    "layer": "semantic_rule",
+                    "code": "required_predicates_incomplete",
+                    "detail": rule.id,
+                }
+            )
+    return errors, findings
+
+
 def validate_sql(
     sql: str,
     ctx: Stage1Context,
     *,
     question: str = "",
     plan: SqlPlan | None = None,
+    question_contract: QuestionContract | None = None,
+    db_path: Path | None = None,
 ) -> ValidationResult:
     safe_sql = _strip_sql(sql)
     errors = []
     warnings = []
+    findings: list[dict[str, str]] = []
+    probe_stats: list[dict[str, object]] = []
+    contract = question_contract or build_question_contract(question)
+    if not contract.semantic_rule_ids:
+        rules = applicable_semantic_rules(contract, ctx.semantic_rules)
+        contract = contract.model_copy(
+            update={"semantic_rule_ids": [rule.id for rule in rules]}
+        )
 
     if not safe_sql:
         return ValidationResult(is_valid=False, severity="error", errors=["SQL is empty"])
@@ -474,6 +864,9 @@ def validate_sql(
         else:
             errors.extend(_unknown_column_errors(parsed, ctx, tables))
             errors.extend(_text_literal_numeric_type_errors(parsed, ctx, tables))
+            lineage_errors, lineage_findings = _grain_lineage_findings(parsed)
+            errors.extend(lineage_errors)
+            findings.extend(lineage_findings)
             warnings.extend(
                 _dimension_description_required_errors(
                     safe_sql=safe_sql,
@@ -481,8 +874,41 @@ def validate_sql(
                     tables=tables,
                 )
             )
-            warnings.extend(_shape_policy_errors(safe_sql, question))
+            contract_errors, contract_warnings, contract_findings = _contract_policy_findings(
+                safe_sql,
+                contract,
+                parsed,
+            )
+            errors.extend(contract_errors)
+            warnings.extend(contract_warnings)
+            findings.extend(contract_findings)
+            rule_errors, rule_findings = _semantic_rule_findings(
+                safe_sql,
+                ctx,
+                contract,
+            )
+            errors.extend(rule_errors)
+            findings.extend(rule_findings)
             warnings.extend(_catalog_decision_warnings(safe_sql, plan))
+            errors.extend(_binder_errors(safe_sql, db_path))
+
+            if (
+                contract.cumulative_threshold_percent is not None
+                and " OVER " in f" {safe_sql.upper()} "
+                and "LAG(" not in safe_sql.upper()
+                and " OR " not in f" {safe_sql.upper()} "
+            ):
+                warnings.append(
+                    "Cumulative coverage SQL must include the first row that crosses the threshold; "
+                    "a simple cumulative <= threshold filter may under-cover."
+                )
+                findings.append(
+                    {
+                        "layer": "grain",
+                        "code": "cumulative_crossing_row_unverified",
+                        "detail": str(contract.cumulative_threshold_percent),
+                    }
+                )
 
     for table in tables:
         if table.startswith("main_dbt_test__audit") or table.startswith("dbt_"):
@@ -513,6 +939,20 @@ def validate_sql(
         left_col = policy.left.split(".")[-1]
         right_col = policy.right.split(".")[-1]
         uses_policy_columns = left_col.upper() in safe_sql.upper() and right_col.upper() in safe_sql.upper()
+        if uses_policy_columns:
+            probe_stats.append(
+                {
+                    "type": "join_policy_coverage",
+                    "left": policy.left,
+                    "right": policy.right,
+                    "left_rows": policy.left_rows,
+                    "matched_rows": policy.matched_rows,
+                    "unmatched_rows": policy.unmatched_rows,
+                    "match_rate_non_null": policy.match_rate_non_null,
+                    "confidence": policy.confidence,
+                    "scope": "catalog_profile_before_query_filters",
+                }
+            )
 
         if policy.confidence == "rejected" and uses_policy_columns and not is_audit_question:
             has_unmapped_bucket = (
@@ -545,9 +985,10 @@ def validate_sql(
             "Question asks for raw codes; do not include DESCRICAO/name columns unless requested."
         )
 
-    if "INTERNACAO_PROCEDIMENTO" in upper and "INTERNACOES" in upper and "COUNT(*)" in upper:
+    if "internacao_procedimento" in tables and "COUNT(*)" in upper:
         warnings.append(
-            "Query joins procedures and admissions; confirm whether the unit is procedure occurrence or hospitalization."
+            "COUNT(*) over internacao_procedimento counts procedure occurrences (long-stay "
+            "AIHs repeat rows); use COUNT(DISTINCT N_AIH) or EXISTS to count hospitalizations."
         )
 
     if "SG_UF" in upper and "VALID_UF" not in upper and not all(f"'{uf}'" in upper for uf in list(VALID_UFS)[:3]):
@@ -563,6 +1004,8 @@ def validate_sql(
             errors=errors,
             warnings=warnings,
             required_clarification="A consulta precisa ser corrigida antes de executar.",
+            findings=findings,
+            probe_stats=probe_stats,
         )
 
     return ValidationResult(
@@ -571,4 +1014,6 @@ def validate_sql(
         errors=[],
         warnings=warnings,
         safe_sql=safe_sql,
+        findings=findings,
+        probe_stats=probe_stats,
     )

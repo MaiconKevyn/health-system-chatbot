@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import unicodedata
+from functools import lru_cache
 from pathlib import Path
 
 
@@ -49,6 +50,9 @@ CATALOG_QUERY_STOPWORDS = {
 }
 
 
+# Catalog searches re-normalize the same ~70k CID/procedure strings on every
+# query (~230k calls per search); memoizing turns that into dict lookups.
+@lru_cache(maxsize=262_144)
 def normalize_catalog_text(value: str) -> str:
     text = unicodedata.normalize("NFKD", value or "")
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
@@ -57,6 +61,7 @@ def normalize_catalog_text(value: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+@lru_cache(maxsize=262_144)
 def normalize_code(value: str) -> str:
     return re.sub(r"[^A-Z0-9]", "", (value or "").upper())
 

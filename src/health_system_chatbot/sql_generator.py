@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import inspect
+
 from .agent_deps import ChatDeps
 from .agents import build_sql_plan_agent
 from .catalogs.models import CatalogCandidate, CatalogDecision
 from .catalogs.retriever import CatalogRetriever
 from .config import ChatbotConfig
+from .errors import RequiredSourceUnavailable
 from .models import RetrievedContext, SqlPlan, Stage1Context
 from .prompts import SQL_GENERATION_PROMPT
 from .schema_linking import DIMENSION_LINKS, description_required_for_link
@@ -87,227 +90,57 @@ def _dimension_guidance(context: RetrievedContext, question: str) -> str:
     return "\n".join(lines)
 
 
-def _shape_guidance(question: str) -> str:
-    text = normalize_text(question)
-    tokens = set(text.split())
+def _contract_guidance(context: RetrievedContext) -> str:
+    contract = context.question_contract
+    if contract is None:
+        return ""
     lines: list[str] = []
-    if tokens & {"mais", "maiores", "ranking", "top"}:
+    lines.append(
+        "- Gere somente requisitos presentes no QuestionContract ou em regra "
+        "semantica ativa com proveniencia."
+    )
+    if contract.ranking.n is not None:
+        lines.append(f"- A pergunta exige top {contract.ranking.n}.")
+    else:
+        lines.append("- A pergunta nao declara top-N; nao invente LIMIT.")
+    if contract.ranking.partition_by:
         lines.append(
-            "- Pergunta de ranking: retorne dimensao + metrica, ordene pela metrica DESC "
-            "e use LIMIT 20 se o usuario nao pedir outro limite. Acrescente desempate "
-            "deterministico por dimensao legivel quando houver empate na metrica."
+            "- O ranking deve ser particionado explicitamente por: "
+            + ", ".join(contract.ranking.partition_by)
+            + "."
         )
-    if any(term in text for term in ("percentual", "porcentagem", "participacao", "taxa", "media")):
+    else:
+        lines.append("- Nao particione ranking por uma dimensao apenas porque ela filtra o universo.")
+    if contract.ranking.minimum_support is not None:
         lines.append(
-            "- Quando ordenar percentual, taxa ou media, inclua desempate deterministico "
-            "por dimensoes retornadas, sem mudar o shape da resposta; por exemplo: "
-            "ORDER BY ano, percentual_no_ano DESC, capitulo_cid ASC."
+            f"- A pergunta exige suporte minimo {contract.ranking.minimum_support}."
         )
-    if any(term in text for term in ("distribuicao", "distribuem", "por carater", "por sexo", "por marca", "por uf")):
+    else:
+        lines.append("- Nao invente HAVING/suporte minimo.")
+    if contract.time.basis == "unresolved":
         lines.append(
-            "- Pergunta de distribuicao: retorne a dimensao legivel e a metrica principal; "
-            "nao adicione percentual, codigo auxiliar ou coluna extra sem pedido explicito."
+            "- A base temporal esta unresolved; nao trate DT_INTER ou DT_SAIDA "
+            "como requisito silencioso. Registre a suposicao ou solicite esclarecimento."
         )
-    if "rs" in tokens or "uf" in tokens or "estado" in tokens:
+    elif contract.time.basis != "none":
+        lines.append(f"- Base temporal exigida: {contract.time.basis}.")
+    if contract.required_sources:
         lines.append(
-            "- Colunas usadas apenas como filtro constante, como SG_UF = 'RS', nao devem "
-            "aparecer na saida salvo se o usuario pedir explicitamente UF/estado como coluna."
+            "- Fontes obrigatorias: " + ", ".join(contract.required_sources)
+            + ". Se estiverem ausentes/sem cobertura, pare com required_source_unavailable."
         )
-    if any(term in text for term in ("compare", "comparar", "comparacao")) and any(
-        term in text for term in ("por ano", "ao longo dos anos", "evolucao anual")
-    ):
+    if contract.output.required_concepts:
         lines.append(
-            "- Comparacao temporal entre grupos nomeados: use uma linha por ano e uma coluna "
-            "de metrica para cada grupo comparado, salvo se o usuario pedir formato longo."
+            "- Conceitos obrigatorios de saida: "
+            + ", ".join(contract.output.required_concepts)
+            + "."
         )
-    if any(term in text for term in ("auditoria", "sem correspondencia", "nao mapeado", "orfa")):
+    for ambiguity in contract.ambiguities:
         lines.append(
-            "- Pergunta de auditoria de dimensao: preserve o shape com "
-            "COUNT(*) FILTER (WHERE dimensao.chave IS NULL) AS sem_correspondencia "
-            "e COUNT(*) AS internacoes."
+            f"- Ambiguidade nao resolvida ({ambiguity}); nao a resolva copiando um exemplo."
         )
-    if tokens & {"mix"}:
-        lines.append(
-            "- Pergunta de mix: use formato longo com dimensao A, dimensao B e metrica; "
-            "nao inclua percentual salvo se solicitado."
-        )
-    if "intervalo" in tokens and any(term in text for term in ("data", "datas", "ano", "anos")):
-        lines.append(
-            "- Pergunta de intervalo temporal: retorne primeiro MIN(...) como primeira_data/primeiro_ano, "
-            "depois MAX(...) como ultima_data/ultimo_ano, e por ultimo COUNT(*) como dias/registros."
-        )
-    return "\n".join(lines)
-
-
-def _domain_guidance(question: str, context: RetrievedContext) -> str:
-    text = normalize_text(question)
-    tokens = set(text.split())
-    lines: list[str] = []
-    cid_hint_columns = {
-        hint.column for hint in context.value_hints if hint.table == "cid"
-    }
-    if cid_hint_columns:
-        lines.append(
-            "- Quando Value hints de cid forem recuperados para um termo clinico, use "
-            "internacoes.DIAG_PRINC -> cid.CID e filtre pelo CID, DS_GRUPO ou "
-            "DS_CAPITULO sugerido. Nao invente codigos CID quando o catalogo retornou "
-            "candidatos reais."
-        )
-        if "DS_GRUPO" in cid_hint_columns:
-            lines.append(
-                "- Um Value hint cid.DS_GRUPO como 'O80-O84 Parto' representa uma faixa/grupo "
-                "com subcodigos. Nao transforme isso em DIAG_PRINC IN ('O80','O81',...). "
-                "Prefira JOIN cid c ON internacoes.DIAG_PRINC = c.CID e filtre "
-                "c.DS_GRUPO pelo valor sugerido."
-            )
-    death_terms = {
-        "morte",
-        "mortes",
-        "obito",
-        "obitos",
-        "morreu",
-        "morreram",
-        "falecimento",
-        "faleceram",
-    }
-    if tokens & death_terms:
-        lines.append(
-            "- Quando a pergunta disser morte, mortes, obito, obitos, morreu, morreram "
-            "ou faleceram, filtre obito hospitalar com internacoes.MORTE = TRUE. "
-            "Nao conte apenas internacoes com diagnostico sem aplicar MORTE = TRUE."
-        )
-        lines.append(
-            "- Para causa analitica da morte, use internacoes.DIAG_PRINC como diagnostico "
-            "principal junto com internacoes.MORTE = TRUE; CID_MORTE nao e o default."
-        )
-    if tokens & {"mulher", "mulheres", "feminino", "feminina"}:
-        lines.append(
-            "- Para mulheres/feminino, os valores reais da dimensao sexo indicam dois "
-            "codigos femininos: internacoes.SEXO IN (2, 3). Use esse filtro ou faca "
-            "JOIN sexo e filtre sexo.DESCRICAO = 'Feminino'; nao use apenas SEXO = 2."
-        )
-    if tokens & {"homem", "homens", "masculino", "masculina"}:
-        lines.append(
-            "- Para homens/masculino, use internacoes.SEXO = 1 ou JOIN sexo filtrando "
-            "sexo.DESCRICAO = 'Masculino'."
-        )
-    if tokens & {"parto", "partos"}:
-        lines.append(
-            "- Para pergunta simples como 'quantos partos aconteceram?', use procedimento "
-            "principal realizado: internacoes.PROC_REA IN ('0310010039','0310010047',"
-            "'0310010055','0411010026','0411010034','0411010042'). Essa e a metrica "
-            "canonica de partos no banco atual."
-        )
-        lines.append(
-            "- Nao use DIAG_PRINC LIKE 'O8%' para contar partos: O85-O89 inclui "
-            "complicacoes do puerperio. Quando a pergunta pedir internacoes com diagnostico "
-            "de parto, use JOIN cid e filtre cid.DS_GRUPO = 'O80-O84 Parto' para incluir "
-            "subcodigos como O800/O821; nao use apenas DIAG_PRINC IN ('O80','O81','O82','O83','O84')."
-        )
-    if tokens & {"cesariano", "cesarianos", "cesariana", "cesarianas"}:
-        if "internacoes por" in text or "internacoes de" in text or "diagnostico" in text:
-            lines.append(
-                "- Quando a pergunta disser internacoes por/de parto cesariano, trate como "
-                "diagnostico principal e use CID O82: internacoes.DIAG_PRINC LIKE 'O82%' "
-                "ou JOIN cid com candidato de catalogo equivalente. Use procedimento "
-                "apenas se a pergunta falar em procedimento realizado ou partos que aconteceram."
-            )
-        else:
-            lines.append(
-                "- Para partos cesarianos que aconteceram ou procedimento realizado, use "
-                "procedimento principal: internacoes.PROC_REA IN "
-                "('0411010026','0411010034','0411010042')."
-            )
-    if "cid c" in text or "cid-c" in text:
-        lines.append(
-            "- Quando a pergunta disser CID C, use prefixo de codigo: "
-            "internacoes.DIAG_PRINC LIKE 'C%' ou cid.CID LIKE 'C%'."
-        )
-        if "por ano" in text:
-            lines.append(
-                "- Para serie temporal de eventos com CID C, filtre o universo no WHERE "
-                "(WHERE MORTE AND DIAG_PRINC LIKE 'C%') antes do GROUP BY; nao use "
-                "COUNT(*) FILTER que mantenha anos com zero eventos."
-            )
-    if "cancer" in text or "neoplasia" in text:
-        lines.append(
-            "- Para cancer/neoplasia maligna operacional, prefira codigos CID com prefixo C. "
-            "Nao use cid.DS_CAPITULO = 'Neoplasias'; os valores reais incluem textos como "
-            "'II. Neoplasias [tumores]'."
-        )
-        lines.append(
-            "- Quando cancer/neoplasia for apenas filtro de uma contagem, taxa ou serie temporal, "
-            "nao e obrigatorio retornar a descricao CID; use internacoes.DIAG_PRINC LIKE 'C%' "
-            "ou cid.CID LIKE 'C%' e junte cid apenas se a pergunta pedir descricao/diagnostico "
-            "como coluna de saida."
-        )
-        if tokens & death_terms:
-            lines.append(
-                "- Exemplo de mortes por cancer por cidade e ano: SELECT year(i.DT_INTER) AS ano, "
-                "COUNT(*) AS mortes FROM internacoes i JOIN municipios m ON "
-                "i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE i.MORTE = TRUE AND "
-                "i.DIAG_PRINC LIKE 'C%' AND m.NO_MUNICIPIO = '<cidade>' GROUP BY 1 ORDER BY 1."
-            )
-    if any(term in text for term in ("cidade", "municipio", "santa maria")):
-        lines.append(
-            "- Para filtrar cidade/municipio por nome, use municipios.NO_MUNICIPIO e, quando a "
-            "UF estiver clara, municipios.SG_UF. Se houver cidades homonimas e a UF nao estiver "
-            "clara, inclua SG_UF na saida ou registre caveat de ambiguidade."
-        )
-    if "descricao cid" in text or "com descricao cid" in text:
-        lines.append(
-            "- Quando pedir diagnosticos/CID com descricao, retorne o codigo CID e a descricao: "
-            "cid.CID, cid.DESCRICAO, COUNT(*) AS internacoes."
-        )
-    if "contraceptivo 1" in text:
-        lines.append(
-            "- 'contraceptivo 1' se refere a coluna internacoes.CONTRACEP1; "
-            "nao interprete como filtro CONTRACEP1 = 1 salvo se o usuario disser codigo/valor igual a 1."
-        )
-        lines.append(
-            "- Para distribuicao por tipo de contraceptivo 1, faca JOIN contraceptivos "
-            "e retorne somente contraceptivos.DESCRICAO e COUNT(*) AS internacoes; "
-            "nao crie bucket extra de sem correspondencia salvo em pergunta de auditoria."
-        )
-    if "contraceptivo 2" in text:
-        lines.append(
-            "- 'contraceptivo 2' se refere a coluna internacoes.CONTRACEP2; "
-            "nao interprete como filtro CONTRACEP2 = 2 salvo se o usuario disser codigo/valor igual a 2."
-        )
-    if "procedimento principal" in text or "procedimentos principais" in text:
-        lines.append(
-            "- Procedimento principal da internacao usa internacoes.PROC_REA -> procedimentos.PROC_REA. "
-            "Use tabela de ocorrencias de procedimento somente se ela estiver disponivel no catalogo runtime."
-        )
-        lines.append(
-            "- Para procedimentos principais no catalogo, retorne procedimentos.PROC_REA, "
-            "procedimentos.NOME_PROC e COUNT(*) AS internacoes; nao omita o codigo PROC_REA."
-        )
-    if "internacao_procedimento" in context.tables:
-        lines.append(
-            "- Atencao: internacao_procedimento pode ser artefato legado. Se o banco atual nao expuser essa "
-            "tabela, nao a use; para procedimento principal use internacoes.PROC_REA."
-        )
-    if "_staging_internacoes" in text or "staging" in text:
-        lines.append(
-            "- Perguntas sobre staging devem usar _staging_internacoes quando essa tabela estiver disponivel; "
-            "nao substitua por internacoes."
-        )
-        if "carater" in text:
-            lines.append(
-                "- Para distribuicao da staging por carater, retorne somente car_int.DESCRICAO AS carater "
-                "e COUNT(*) AS registros_staging; nao inclua CAR_INT se o usuario nao pedir codigo."
-            )
-    if "denominador socioeconomico" in text or "populacao socioeconomica" in text:
-        lines.append(
-            "- Para populacao socioeconomica por UF e ano, retorne SG_UF, ano e SUM(QT_POPULACAO) AS populacao; "
-            "nao adicione COUNT(*) AS registros nem internacoes se a pergunta nao pedir."
-        )
-    if "mix de complexidade por carater" in text:
-        lines.append(
-            "- Para mix de complexidade por carater, retorne nesta ordem: complexidade, carater, "
-            "COUNT(*) AS internacoes; ordene por internacoes DESC."
-        )
+    for rule in context.semantic_rule_context:
+        lines.append(f"- Regra ativa: {rule}")
     return "\n".join(lines)
 
 
@@ -316,12 +149,9 @@ def _applicable_generation_guidance(context: RetrievedContext, question: str) ->
     dimension_guidance = _dimension_guidance(context, question)
     if dimension_guidance:
         sections.append("Schema linking preferencial:\n" + dimension_guidance)
-    shape_guidance = _shape_guidance(question)
-    if shape_guidance:
-        sections.append("Shape esperado da SQL:\n" + shape_guidance)
-    domain_guidance = _domain_guidance(question, context)
-    if domain_guidance:
-        sections.append("Regras de dominio/ambiguidade:\n" + domain_guidance)
+    contract_guidance = _contract_guidance(context)
+    if contract_guidance:
+        sections.append("Contrato e regras aplicaveis:\n" + contract_guidance)
     return "\n\n".join(sections)
 
 
@@ -351,20 +181,30 @@ def _context_to_prompt(context: RetrievedContext, question: str = "") -> str:
         f"evidence={'; '.join(candidate.evidence[:2])}"
         for candidate in context.catalog_candidates[:12]
     )
-    normalized_question = normalize_text(question)
     example_lines = []
     for example in context.query_examples[:4]:
-        label = (
-            "EXEMPLO_EXATO"
-            if normalized_question
-            and normalize_text(example.question_pt) == normalized_question
-            else "EXEMPLO_RELACIONADO"
+        decision = next(
+            (
+                item
+                for item in context.example_retrieval_decisions
+                if item.example_id == example.id
+            ),
+            None,
         )
+        reason = "; ".join(decision.reasons) if decision else "legacy retrieval"
         example_lines.append(
-            f"- {label} {example.id}: {example.question_pt}\n"
+            f"- EXEMPLO_CONDICIONAL {example.id} [{reason}]: {example.question_pt}\n"
             f"  SQL: {example.sql[:1200]}"
         )
     examples = "\n".join(example_lines)
+    contract = (
+        context.question_contract.model_dump_json(indent=2)
+        if context.question_contract is not None
+        else "{}"
+    )
+    semantic_rules = "\n".join(
+        f"- {item}" for item in context.semantic_rule_context
+    )
     generation_guidance = _applicable_generation_guidance(context, question)
     return (
         f"Retrieval mode: {context.retrieval_mode}\n\n"
@@ -373,6 +213,8 @@ def _context_to_prompt(context: RetrievedContext, question: str = "") -> str:
         f"Metricas de negocio:\n{metrics}\n\n"
         f"Value hints:\n{value_hints}\n\n"
         f"Catalog candidates:\n{catalog_candidates}\n\n"
+        f"QuestionContract (fonte primaria do shape e da semantica):\n{contract}\n\n"
+        f"Regras semanticas ativas com proveniencia:\n{semantic_rules}\n\n"
         f"Exemplos few-shot relacionados:\n{examples}\n\n"
         "Orientacoes aplicaveis para geracao SQL "
         "(prevalecem sobre exemplos legados quando houver conflito):\n"
@@ -406,7 +248,7 @@ def generate_sql_plan(
             generation_hint=generation_hint,
             chart_plan=chart_plan,
         )
-        plan.source = "pydantic_ai_openai"
+        plan.source = f"pydantic_ai_{config.llm_provider}"
         return _finalize_plan(question, plan, context=context)
 
     if config.agent_framework != "llamaindex":
@@ -542,6 +384,14 @@ def _generate_sql_plan_with_pydantic_ai(
     generation_hint: str = "",
     chart_plan: ChartPlan | None = None,
 ) -> SqlPlan:
+    if context.question_contract is not None:
+        missing_sources = sorted(
+            set(context.question_contract.required_sources) - stage1_context.table_names
+        )
+        if missing_sources:
+            raise RequiredSourceUnavailable(
+                "required_source_unavailable:" + ",".join(missing_sources)
+            )
     agent = build_sql_plan_agent(config)
     catalog_retriever = (
         CatalogRetriever.from_config(config)
@@ -563,7 +413,17 @@ def _generate_sql_plan_with_pydantic_ai(
         prompt += f"\n\nInstrucao adicional para esta candidata:\n{generation_hint}\n"
     if chart_plan is not None and chart_plan.requested:
         prompt += "\n\n" + chart_plan.to_prompt_block() + "\n"
-    result = agent.run_sync(prompt, deps=deps)
+    run_parameters = inspect.signature(agent.run_sync).parameters
+    if "usage_limits" in run_parameters:
+        from pydantic_ai import UsageLimits
+
+        result = agent.run_sync(
+            prompt,
+            deps=deps,
+            usage_limits=UsageLimits(request_limit=config.agent_request_limit),
+        )
+    else:
+        result = agent.run_sync(prompt, deps=deps)
     if catalog_retriever is not None and catalog_retriever.tool_calls:
         context.catalog_tool_calls.extend(catalog_retriever.tool_calls)
         for call in catalog_retriever.tool_calls:
@@ -580,6 +440,16 @@ def _generate_sql_plan_with_llamaindex(
     generation_hint: str = "",
     chart_plan: ChartPlan | None = None,
 ) -> SqlPlan:
+    missing_sources = (
+        sorted(set(context.question_contract.required_sources) - set(context.tables))
+        if context.question_contract is not None
+        else []
+    )
+    if missing_sources:
+        raise RequiredSourceUnavailable(
+            "required_source_unavailable:"
+            + ",".join(missing_sources)
+        )
     from llama_index.core import PromptTemplate
 
     from .llm import build_openai_llm

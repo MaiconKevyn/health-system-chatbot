@@ -17,10 +17,10 @@ main,hospital,NOT NULL,['CNES'],hospital_cnes_not_null,,[],NOT NULL
 main,hospital,PRIMARY KEY,['CNES'],hospital_cnes_pkey,,[],PRIMARY KEY(CNES)
 main,instrucao,NOT NULL,['INSTRU'],instrucao_instru_not_null,,[],NOT NULL
 main,instrucao,PRIMARY KEY,['INSTRU'],instrucao_instru_pkey,,[],PRIMARY KEY(INSTRU)
+main,internacao,NOT NULL,['N_AIH'],internacao_n_aih_not_null,,[],NOT NULL
+main,internacao,PRIMARY KEY,['N_AIH'],internacao_n_aih_pkey,,[],PRIMARY KEY(N_AIH)
 main,internacao_procedimento,NOT NULL,['id_atendimento'],internacao_procedimento_id_atendimento_not_null,,[],NOT NULL
 main,internacao_procedimento,PRIMARY KEY,['id_atendimento'],internacao_procedimento_id_atendimento_pkey,,[],PRIMARY KEY(id_atendimento)
-main,internacoes,NOT NULL,['N_AIH'],internacoes_n_aih_not_null,,[],NOT NULL
-main,internacoes,PRIMARY KEY,['N_AIH'],internacoes_n_aih_pkey,,[],PRIMARY KEY(N_AIH)
 main,marca_uti,NOT NULL,['MARCA_UTI'],marca_uti_marca_uti_not_null,,[],NOT NULL
 main,marca_uti,PRIMARY KEY,['MARCA_UTI'],marca_uti_marca_uti_pkey,,[],PRIMARY KEY(MARCA_UTI)
 main,municipios,NOT NULL,['CO_MUNICIPIO_6D'],municipios_co_municipio_6d_not_null,,[],NOT NULL

@@ -22,6 +22,8 @@ def _make_catalog_db(tmp_path: Path) -> Path:
             "INSERT INTO cid VALUES "
             "('O80', 'Parto unico espontaneo', 'Parto unico espontaneo', "
             "'O80-O84 Parto', 'XV. Gravidez, parto e puerperio'),"
+            "('O800', 'Parto espontaneo cefalico', 'Parto unico espontaneo', "
+            "'O80-O84 Parto', 'XV. Gravidez, parto e puerperio'),"
             "('O82', 'Parto unico p/cesariana', 'Parto unico p/cesariana', "
             "'O80-O84 Parto', 'XV. Gravidez, parto e puerperio'),"
             "('A00', 'Colera', 'Colera', "
@@ -204,7 +206,7 @@ def test_search_cid_detects_explicit_cid_prefix(tmp_path):
 
     result = retriever.search_cid("mortes por CID A", scope="death_cause")
 
-    assert result.candidates[0].filter.table == "internacoes"
+    assert result.candidates[0].filter.table == "internacao"
     assert result.candidates[0].filter.column == "DIAG_PRINC"
     assert result.candidates[0].filter.operator == "PREFIX"
     assert result.candidates[0].filter.value == "A%"
@@ -259,9 +261,12 @@ def test_search_procedures_returns_group_filter_for_matching_codes(tmp_path):
 
     top = result.candidates[0]
     assert top.catalog == "procedimentos"
-    assert top.filter.table == "internacoes"
+    assert top.filter.table == "internacao_procedimento"
     assert top.filter.column == "PROC_REA"
     assert top.filter.operator == "IN"
+    assert top.filter.join_required is True
+    assert "EXISTS" in top.filter.where_sql_template
+    assert "ip.N_AIH = i.N_AIH" in top.filter.where_sql_template
     assert "0411010034" in top.filter.value
 
 
@@ -291,6 +296,51 @@ def test_search_procedures_prefers_specific_cesarean_concept(tmp_path):
     assert top.filter.value == ["0411010034", "0411010042"]
 
 
+def test_search_procedures_routes_cid_description_to_diagnosis(tmp_path):
+    # "Parto espontaneo cefalico" is CID O800, a diagnosis; the broad
+    # "Partos realizados" procedure group matched it only through "parto".
+    db_path = _make_catalog_db(tmp_path)
+    _write_procedure_concepts(tmp_path)
+    retriever = CatalogRetriever(store=DuckDbCatalogStore(db_path), project_root=tmp_path)
+
+    result = retriever.search_procedures("parto espontâneo cefálico", scope="performed_procedure")
+
+    top = result.candidates[0]
+    assert top.catalog == "cid"
+    assert top.filter.table == "internacao"
+    assert top.filter.column == "DIAG_PRINC"
+    assert top.filter.value == "O800"
+    assert any("O800" in warning and "DIAG_PRINC" in warning for warning in result.warnings)
+    broad = next(c for c in result.candidates if c.label == "Partos realizados")
+    assert broad.confidence == "medium"
+    assert broad.ambiguity_notes
+
+
+def test_search_procedures_keeps_concept_when_extra_terms_are_not_specific(tmp_path):
+    db_path = _make_catalog_db(tmp_path)
+    _write_procedure_concepts(tmp_path)
+    retriever = CatalogRetriever(store=DuckDbCatalogStore(db_path), project_root=tmp_path)
+
+    result = retriever.search_procedures("partos anuais", scope="performed_procedure")
+
+    top = result.candidates[0]
+    assert top.label == "Partos realizados"
+    assert top.confidence == "high"
+    assert result.warnings == []
+
+
+def test_search_cid_prefers_code_whose_description_is_the_query(tmp_path):
+    db_path = _make_catalog_db(tmp_path)
+    retriever = CatalogRetriever(store=DuckDbCatalogStore(db_path))
+
+    result = retriever.search_cid("parto espontaneo cefalico", scope="diagnosis")
+
+    top = result.candidates[0]
+    assert top.code == "O800"
+    assert top.filter.column == "DIAG_PRINC"
+    assert top.filter.value == "O800"
+
+
 def test_search_dimension_values_returns_textual_value(tmp_path):
     db_path = _make_catalog_db(tmp_path)
     retriever = CatalogRetriever(store=DuckDbCatalogStore(db_path))
@@ -300,3 +350,39 @@ def test_search_dimension_values_returns_textual_value(tmp_path):
     assert result.candidates[0].catalog == "municipios"
     assert result.candidates[0].label == "Porto Alegre"
     assert result.candidates[0].filter.column == "NO_MUNICIPIO"
+
+
+def test_catalog_search_includes_manual_complement_tables(tmp_path):
+    db_path = _make_catalog_db(tmp_path)
+    con = duckdb.connect(str(db_path))
+    try:
+        con.execute("CREATE TABLE cid_manuais AS SELECT * FROM cid WHERE false")
+        con.execute(
+            "INSERT INTO cid_manuais VALUES "
+            "('U099', 'Condicao pos-COVID-19 nao especificada', 'Condicao pos-COVID-19', "
+            "'U00-U49 Designacao provisoria de novas doencas', "
+            "'XXII. Codigos para propositos especiais')"
+        )
+        con.execute("CREATE TABLE procedimentos_manuais AS SELECT * FROM procedimentos WHERE false")
+        con.execute(
+            "INSERT INTO procedimentos_manuais VALUES "
+            "('0409060313', 'LAQUEADURA TUBARIA NA MESMA INTERNACAO DE PARTO NORMAL')"
+        )
+    finally:
+        con.close()
+    retriever = CatalogRetriever(store=DuckDbCatalogStore(db_path))
+
+    cid = retriever.search_cid("condicao pos-covid", scope="diagnosis")
+    procedures = retriever.search_procedures("laqueadura tubaria", scope="performed_procedure")
+
+    assert any(candidate.code == "U099" for candidate in cid.candidates)
+    assert any("0409060313" in str(candidate.filter.value) for candidate in procedures.candidates)
+
+
+def test_catalog_search_works_without_manual_complement_tables(tmp_path):
+    db_path = _make_catalog_db(tmp_path)
+    retriever = CatalogRetriever(store=DuckDbCatalogStore(db_path))
+
+    result = retriever.search_cid("colera", scope="diagnosis")
+
+    assert any(candidate.code == "A00" for candidate in result.candidates)

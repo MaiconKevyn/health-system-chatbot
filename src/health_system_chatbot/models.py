@@ -19,6 +19,103 @@ Grain = Literal[
     "other",
 ]
 GeographyBasis = Literal["residence", "hospital", "none", "mixed"]
+QuestionIntentType = Literal[
+    "ranking",
+    "distribution",
+    "scalar",
+    "comparison",
+    "time_series",
+    "other",
+]
+TimeBasis = Literal["admission_date", "discharge_date", "unresolved", "none"]
+TimeGrain = Literal["day", "week", "month", "quarter", "year", "none"]
+Representation = Literal["any", "long", "wide"]
+OrderingPolicy = Literal["required", "irrelevant", "tie_tolerant"]
+SemanticRuleStatus = Literal["proposed", "active", "deprecated"]
+
+
+class QuestionDimension(BaseModel):
+    concept: str
+    definition_id: str | None = None
+    explicit_in_question: bool = False
+
+
+class QuestionMetric(BaseModel):
+    concept: str
+    numerator: str | None = None
+    denominator: str | None = None
+    unit: str | None = None
+
+
+class TimeContract(BaseModel):
+    basis: TimeBasis = "none"
+    grain: TimeGrain = "none"
+    start_year: int | None = None
+    end_year: int | None = None
+    explicit_in_question: bool = False
+
+
+class RankingContract(BaseModel):
+    n: int | None = None
+    partition_by: list[str] = Field(default_factory=list)
+    minimum_support: int | None = None
+    explicit_n: bool = False
+    explicit_minimum_support: bool = False
+
+
+class OutputContract(BaseModel):
+    required_concepts: list[str] = Field(default_factory=list)
+    optional_concepts: list[str] = Field(default_factory=list)
+    representation: Representation = "any"
+    ordering: OrderingPolicy = "irrelevant"
+
+
+class QuestionContract(BaseModel):
+    intent: QuestionIntentType = "other"
+    population: str = ""
+    concepts: list[str] = Field(default_factory=list)
+    dimensions: list[QuestionDimension] = Field(default_factory=list)
+    metrics: list[QuestionMetric] = Field(default_factory=list)
+    time: TimeContract = Field(default_factory=TimeContract)
+    ranking: RankingContract = Field(default_factory=RankingContract)
+    output: OutputContract = Field(default_factory=OutputContract)
+    required_sources: list[str] = Field(default_factory=list)
+    ambiguities: list[str] = Field(default_factory=list)
+    assumptions_used: list[str] = Field(default_factory=list)
+    semantic_rule_ids: list[str] = Field(default_factory=list)
+    cumulative_threshold_percent: float | None = None
+    semantic_rule_context: list[str] = Field(default_factory=list)
+
+
+class SemanticRuleProvenance(BaseModel):
+    type: str
+    reference: str
+    evidence: str = ""
+
+
+class SemanticRule(BaseModel):
+    id: str
+    version: int = 1
+    concept: str
+    predicate: str = ""
+    applies_when: dict[str, list[str]] = Field(default_factory=dict)
+    does_not_apply_when: dict[str, list[str]] = Field(default_factory=dict)
+    provenance: SemanticRuleProvenance
+    owner: str
+    status: SemanticRuleStatus = "proposed"
+    positive_test_cases: list[str] = Field(default_factory=list)
+    negative_test_cases: list[str] = Field(default_factory=list)
+    required_sql_any: list[str] = Field(default_factory=list)
+    required_sql_all: list[str] = Field(default_factory=list)
+    forbidden_sql_patterns: list[str] = Field(default_factory=list)
+
+
+class ExampleRetrievalDecision(BaseModel):
+    example_id: str
+    score: float
+    accepted: bool
+    reasons: list[str] = Field(default_factory=list)
+    rejection_reasons: list[str] = Field(default_factory=list)
 
 
 class QuestionIntent(BaseModel):
@@ -54,6 +151,18 @@ class GroundTruthItem(BaseModel):
     assumptions: str | None = None
     data_quality_notes: str | None = None
     semantic_disposition: str | None = None
+    concepts: list[str] = Field(default_factory=list)
+    metric_concepts: list[str] = Field(default_factory=list)
+    structural_patterns: list[str] = Field(default_factory=list)
+    requires_explicit: list[str] = Field(default_factory=list)
+    forbidden_transfer: list[str] = Field(default_factory=list)
+    template_family: str | None = None
+    provenance: dict[str, Any] = Field(default_factory=dict)
+    required_output_concepts: list[str] = Field(default_factory=list)
+    optional_output_concepts: list[str] = Field(default_factory=list)
+    representation: Representation = "any"
+    ordering: OrderingPolicy = "irrelevant"
+    benchmark_status: Literal["scored", "needs_review", "not_scorable"] = "scored"
 
 
 class BusinessMetric(BaseModel):
@@ -89,6 +198,10 @@ class Stage1Context(BaseModel):
     tables: dict[str, TableContext] = Field(default_factory=dict)
     join_policies: list[JoinPolicy] = Field(default_factory=list)
     ground_truth: list[GroundTruthItem] = Field(default_factory=list)
+    example_bank: list[GroundTruthItem] = Field(default_factory=list)
+    semantic_rules: list[SemanticRule] = Field(default_factory=list)
+    example_bank_version: str = "unversioned"
+    semantic_rules_version: str = "unversioned"
     readiness_notes: str = ""
     business_dictionary: str = ""
     schema_catalog: str = ""
@@ -110,6 +223,11 @@ class RetrievedContext(BaseModel):
     catalog_candidates: list[CatalogCandidate] = Field(default_factory=list)
     catalog_tool_calls: list[CatalogToolCall] = Field(default_factory=list)
     query_examples: list[GroundTruthItem] = Field(default_factory=list)
+    example_retrieval_decisions: list[ExampleRetrievalDecision] = Field(default_factory=list)
+    question_contract: QuestionContract | None = None
+    semantic_rule_ids: list[str] = Field(default_factory=list)
+    semantic_rule_context: list[str] = Field(default_factory=list)
+    assumptions_used: list[str] = Field(default_factory=list)
     data_quality_caveats: list[str] = Field(default_factory=list)
     retrieval_mode: str = "schema"
 
@@ -136,6 +254,8 @@ class ValidationResult(BaseModel):
     warnings: list[str] = Field(default_factory=list)
     required_clarification: str | None = None
     safe_sql: str | None = None
+    findings: list[dict[str, Any]] = Field(default_factory=list)
+    probe_stats: list[dict[str, Any]] = Field(default_factory=list)
 
 
 class ExecutionResult(BaseModel):

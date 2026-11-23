@@ -1,0 +1,105 @@
+{
+  "totals": {
+    "health": {
+      "executable": 62,
+      "ex": 48,
+      "nl": 59,
+      "calls": 200,
+      "grades": {
+        "correta": 59,
+        "parcial": 1,
+        "sem_resposta": 2,
+        "incorreta": 2
+      },
+      "matrix_ex_nl": {
+        "ex1_nl1": 47,
+        "ex0_nl1": 12,
+        "ex1_nl0": 1,
+        "ex0_nl0": 4
+      },
+      "nl_both_runs": 29,
+      "nl_one_run": 1,
+      "strata": {
+        "clinica_geografia": {
+          "ex": 14,
+          "nl": 16
+        },
+        "comparacoes": {
+          "ex": 7,
+          "nl": 12
+        },
+        "distribuicoes": {
+          "ex": 13,
+          "nl": 16
+        },
+        "medidas": {
+          "ex": 14,
+          "nl": 15
+        }
+      }
+    },
+    "sus": {
+      "executable": 62,
+      "ex": 50,
+      "nl": 62,
+      "calls": 127,
+      "grades": {
+        "correta": 62,
+        "incorreta": 2
+      },
+      "matrix_ex_nl": {
+        "ex1_nl1": 50,
+        "ex0_nl0": 2,
+        "ex0_nl1": 12
+      },
+      "nl_both_runs": 31,
+      "nl_one_run": 0,
+      "strata": {
+        "clinica_geografia": {
+          "ex": 16,
+          "nl": 16
+        },
+        "comparacoes": {
+          "ex": 13,
+          "nl": 16
+        },
+        "distribuicoes": {
+          "ex": 7,
+          "nl": 16
+        },
+        "medidas": {
+          "ex": 14,
+          "nl": 14
+        }
+      }
+    }
+  },
+  "paired": {
+    "ex": {
+      "empate": 46,
+      "sus": 10,
+      "health": 8
+    },
+    "nl": {
+      "empate": 57,
+      "sus": 5,
+      "health": 2
+    }
+  },
+  "intervals": {
+    "ex": {
+      "difference_pp_sus_minus_health": 3.125,
+      "bootstrap_95_pp": [
+        -10.9375,
+        17.1875
+      ]
+    },
+    "nl": {
+      "difference_pp_sus_minus_health": 4.6875,
+      "bootstrap_95_pp": [
+        -6.25,
+        14.0625
+      ]
+    }
+  }
+}

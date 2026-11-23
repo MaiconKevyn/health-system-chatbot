@@ -26,6 +26,12 @@ VARIANTS: dict[str, VariantSpec] = {
         description="Agent run with raw schema retrieval and no enrichment.",
         config_overrides={"context_enrichment_enabled": False},
     ),
+    "no_query_examples": VariantSpec(
+        name="no_query_examples",
+        kind="agent",
+        description="Full agent with semantic context but without curated SQL examples.",
+        config_overrides={"query_examples_enabled": False},
+    ),
     "no_self_correction": VariantSpec(
         name="no_self_correction",
         kind="agent",

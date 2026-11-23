@@ -13,6 +13,7 @@ from health_system_chatbot.models import (
     ValueHint,
 )
 from health_system_chatbot.sql_generator import generate_sql_plan
+from health_system_chatbot.question_contract import build_question_contract
 
 
 def test_generate_sql_plan_uses_pydantic_ai_agent(monkeypatch, tmp_path):
@@ -88,7 +89,7 @@ def test_generate_sql_plan_uses_pydantic_ai_agent(monkeypatch, tmp_path):
     assert "total_internacoes" in captured["prompt"]
     assert "municipios.NO_MUNICIPIO=Porto Alegre" in captured["prompt"]
     assert "QTEST" in captured["prompt"]
-    assert "EXEMPLO_EXATO" in captured["prompt"]
+    assert "EXEMPLO_CONDICIONAL" in captured["prompt"]
 
 
 def test_generate_sql_plan_can_still_route_to_llamaindex(monkeypatch, tmp_path):
@@ -158,6 +159,9 @@ def test_prompt_includes_schema_linking_and_shape_guidance(monkeypatch, tmp_path
             "table=car_int\ncolumns=CAR_INT, DESCRICAO",
         ],
         retrieval_mode="test",
+        question_contract=build_question_contract(
+            "Como as internacoes se distribuem por carater de internacao?"
+        ),
     )
 
     generate_sql_plan(
@@ -170,8 +174,8 @@ def test_prompt_includes_schema_linking_and_shape_guidance(monkeypatch, tmp_path
     assert "Orientacoes aplicaveis para geracao SQL" in captured["prompt"]
     assert "internacoes.CAR_INT -> car_int.CAR_INT" in captured["prompt"]
     assert "retorne car_int.DESCRICAO" in captured["prompt"]
-    assert "Pergunta de distribuicao" in captured["prompt"]
-    assert "nao adicione percentual" in captured["prompt"]
+    assert "QuestionContract" in captured["prompt"]
+    assert "Nao invente HAVING/suporte minimo" in captured["prompt"]
 
 
 def test_prompt_includes_domain_guidance_for_cid_c_and_contraceptive(monkeypatch, tmp_path):
@@ -218,6 +222,9 @@ def test_prompt_includes_domain_guidance_for_cid_c_and_contraceptive(monkeypatch
             "table=sexo\ncolumns=SEXO, DESCRICAO",
         ],
         retrieval_mode="test",
+        question_contract=build_question_contract(
+            "Quantas mortes de mulheres por cancer com CID C e contraceptivo 1 informado ocorreram?"
+        ),
     )
 
     generate_sql_plan(
@@ -227,16 +234,10 @@ def test_prompt_includes_domain_guidance_for_cid_c_and_contraceptive(monkeypatch
         config,
     )
 
-    assert "internacoes.DIAG_PRINC LIKE 'C%'" in captured["prompt"]
-    assert "internacoes.MORTE = TRUE" in captured["prompt"]
-    assert "Nao conte apenas internacoes com diagnostico sem aplicar MORTE = TRUE" in captured[
-        "prompt"
-    ]
-    assert "internacoes.SEXO IN (2, 3)" in captured["prompt"]
-    assert "cid.DS_CAPITULO = 'Neoplasias'" in captured["prompt"]
-    assert "contraceptivo 1" in captured["prompt"]
-    assert "internacoes.CONTRACEP1" in captured["prompt"]
-    assert "nao interprete como filtro CONTRACEP1 = 1" in captured["prompt"]
+    assert "QuestionContract" in captured["prompt"]
+    assert "internacoes.DIAG_PRINC LIKE 'C%'" not in captured["prompt"]
+    assert "internacoes.SEXO IN (2, 3)" not in captured["prompt"]
+    assert "CONTRACEP1 = 1" not in captured["prompt"]
 
 
 def test_prompt_includes_temporal_interval_shape_guidance(monkeypatch, tmp_path):
@@ -266,14 +267,21 @@ def test_prompt_includes_temporal_interval_shape_guidance(monkeypatch, tmp_path)
 
     generate_sql_plan(
         "Qual e o intervalo de datas disponivel na dimensao tempo?",
-        RetrievedContext(tables=["tempo"], columns=["tempo.data"], table_context=["table=tempo"]),
+        RetrievedContext(
+            tables=["tempo"],
+            columns=["tempo.data"],
+            table_context=["table=tempo"],
+            question_contract=build_question_contract(
+                "Qual e o intervalo de datas disponivel na dimensao tempo?"
+            ),
+        ),
         Stage1Context(project_root=str(tmp_path)),
         config,
     )
 
-    assert "Pergunta de intervalo temporal" in captured["prompt"]
-    assert "primeiro MIN" in captured["prompt"]
-    assert "por ultimo COUNT(*)" in captured["prompt"]
+    assert "QuestionContract" in captured["prompt"]
+    assert "primeiro MIN" not in captured["prompt"]
+    assert "por ultimo COUNT(*)" not in captured["prompt"]
 
 
 def test_prompt_includes_canonical_parto_metric(monkeypatch, tmp_path):
@@ -311,15 +319,17 @@ def test_prompt_includes_canonical_parto_metric(monkeypatch, tmp_path):
                 "table=procedimentos\ncolumns=PROC_REA, NOME_PROC",
             ],
             retrieval_mode="test",
+            question_contract=build_question_contract(
+                "quantos partos aconteceram?"
+            ),
         ),
         Stage1Context(project_root=str(tmp_path)),
         config,
     )
 
-    assert "metrica canonica de partos" in captured["prompt"]
-    assert "internacoes.PROC_REA IN" in captured["prompt"]
-    assert "0310010039" in captured["prompt"]
-    assert "Nao use DIAG_PRINC LIKE 'O8%'" in captured["prompt"]
+    assert "QuestionContract" in captured["prompt"]
+    assert "0310010039" not in captured["prompt"]
+    assert "Nao use DIAG_PRINC LIKE 'O8%'" not in captured["prompt"]
 
 
 def test_prompt_distinguishes_internacoes_por_cesarean_from_procedure(monkeypatch, tmp_path):
@@ -356,13 +366,16 @@ def test_prompt_distinguishes_internacoes_por_cesarean_from_procedure(monkeypatc
                 "table=cid\ncolumns=CID, DS_CATEGORIA",
             ],
             retrieval_mode="test",
+            question_contract=build_question_contract(
+                "Qual a evolucao anual das internacoes por parto cesariano?"
+            ),
         ),
         Stage1Context(project_root=str(tmp_path)),
         config,
     )
 
-    assert "internacoes por/de parto cesariano" in captured["prompt"]
-    assert "internacoes.DIAG_PRINC LIKE 'O82%'" in captured["prompt"]
+    assert "QuestionContract" in captured["prompt"]
+    assert "internacoes.DIAG_PRINC LIKE 'O82%'" not in captured["prompt"]
 
 
 def test_generate_sql_plan_records_catalog_tool_calls(monkeypatch, tmp_path):

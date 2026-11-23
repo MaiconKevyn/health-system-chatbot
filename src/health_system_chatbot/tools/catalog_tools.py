@@ -5,11 +5,42 @@ from typing import Literal
 from pydantic_ai import RunContext
 
 from ..agent_deps import ChatDeps
-from ..catalogs.models import CatalogSearchResult
+from ..catalogs.models import CatalogName, CatalogSearchResult
+from ..errors import CatalogBudgetExceeded
 
 
 CidScope = Literal["diagnosis", "death_cause", "unknown"]
 ProcedureScope = Literal["performed_procedure", "billing_procedure", "unknown"]
+
+GUARD_GUIDANCE = (
+    "Nao repita esta busca. Use os candidatos de catalogo ja retornados nesta "
+    "conversa e gere o SqlPlan agora."
+)
+
+
+def _guarded(
+    deps: ChatDeps,
+    *,
+    tool: str,
+    args: dict,
+    catalog: CatalogName,
+    query: str,
+) -> CatalogSearchResult | None:
+    """Apply the call guard without aborting the agent run.
+
+    The retriever still raises and records the guard error for the trace, but a
+    repeated or over-budget tool call is returned to the model as a warning
+    instead of escaping ``agent.run_sync`` and failing the whole request.
+    """
+    try:
+        deps.catalog_retriever.guard_tool_call(tool=tool, args=args)
+    except CatalogBudgetExceeded as exc:
+        return CatalogSearchResult(
+            query=query,
+            catalog=catalog,
+            warnings=[str(exc), GUARD_GUIDANCE],
+        )
+    return None
 
 
 def search_cid_catalog(
@@ -22,6 +53,9 @@ def search_cid_catalog(
     if deps.catalog_retriever is None:
         raise RuntimeError("Catalog retriever is not available.")
     args = {"query": query, "scope": scope, "limit": limit}
+    blocked = _guarded(deps, tool="search_cid_catalog", args=args, catalog="cid", query=query)
+    if blocked is not None:
+        return blocked
     try:
         result = deps.catalog_retriever.search_cid(query, scope=scope, limit=limit)
         deps.catalog_retriever.record_tool_call(
@@ -49,6 +83,11 @@ def search_procedure_catalog(
     if deps.catalog_retriever is None:
         raise RuntimeError("Catalog retriever is not available.")
     args = {"query": query, "scope": scope, "limit": limit}
+    blocked = _guarded(
+        deps, tool="search_procedure_catalog", args=args, catalog="procedimentos", query=query
+    )
+    if blocked is not None:
+        return blocked
     try:
         result = deps.catalog_retriever.search_procedures(query, scope=scope, limit=limit)
         deps.catalog_retriever.record_tool_call(
@@ -76,6 +115,15 @@ def search_dimension_values(
     if deps.catalog_retriever is None:
         raise RuntimeError("Catalog retriever is not available.")
     args = {"table": table, "query": query, "limit": limit}
+    blocked = _guarded(
+        deps,
+        tool="search_dimension_values",
+        args=args,
+        catalog="municipios" if table == "municipios" else "dimension",
+        query=query,
+    )
+    if blocked is not None:
+        return blocked
     try:
         result = deps.catalog_retriever.search_dimension_values(
             table=table,

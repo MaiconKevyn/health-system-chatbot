@@ -1,0 +1,29 @@
+{
+  "run_id": "qwen36_smoke_test_20260711",
+  "created_at": "2026-07-11T23:16:09.273162+00:00",
+  "git_sha": "74406e654979c09a70d34b138f583642e096716b",
+  "dirty_diff_hash": "4280064a435c5be7a848fd4f143b79107930e3378e47b7b6ede07e4a2635ae8b",
+  "dataset": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/ground_truth_hard_73.jsonl",
+  "dataset_version": "ab9667dc9e2cbd5a64b6de9866d1c0f04a0de945802196fb442425c03951b411",
+  "benchmark_contract_version": "653e3e6b85c2dd43c17226c836be2eb49f17275c6d510aac891ac4bfa5898055",
+  "example_bank_version": "faafa4adc0f33e83",
+  "semantic_rules_version": "1.1.0",
+  "suite": null,
+  "variants": [
+    "full_agent"
+  ],
+  "ids": [
+    "GT044"
+  ],
+  "limit": null,
+  "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
+  "model": "qwen3.6:27b",
+  "max_rows": 10000,
+  "timeout_seconds": 60,
+  "numeric_tolerance": 1e-06,
+  "cache_openai": false,
+  "query_examples_enabled": true,
+  "query_examples_enabled_effective": true,
+  "excluded_example_ids": [],
+  "elapsed_seconds": 182.51065291599662
+}

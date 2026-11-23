@@ -1,5 +1,7 @@
 # Plano de Ablation e Baseline OpenAI API
 
+> **Status (2026-11-23):** plano de 2026-07-09, implementado em `evaluation/chatbot/run_ablation.py` e `evaluation/chatbot/ablation/`. As variantes medem o motor legado (Pydantic AI); o motor SUS, padrão do produto desde então, é comparado em [`evaluation/benchmark_ab/`](../evaluation/benchmark_ab/README.md).
+
 ## Objetivo
 
 Implementar uma avaliacao sistematica para medir quanto cada componente do

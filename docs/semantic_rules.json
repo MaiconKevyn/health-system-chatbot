@@ -1,0 +1,166 @@
+{
+  "version": "1.2.0",
+  "rules": [
+    {
+      "id": "uti_usage_v1",
+      "version": 1,
+      "concept": "uti_usage",
+      "predicate": "internacao.MARCA_UTI <> 0",
+      "applies_when": {
+        "metric_concepts": [
+          "uti_usage"
+        ]
+      },
+      "does_not_apply_when": {
+        "metric_concepts": [
+          "positive_uti_cost"
+        ]
+      },
+      "provenance": {
+        "type": "database_dimension",
+        "reference": "main.marca_uti",
+        "evidence": "Code 0 is labelled 'Não utilizou UTI'; all other observed codes represent UTI use."
+      },
+      "owner": "data-platform",
+      "status": "active",
+      "positive_test_cases": [
+        "UTI use rate",
+        "UTI admissions by weekday"
+      ],
+      "negative_test_cases": [
+        "positive UTI cost",
+        "average UTI cost"
+      ],
+      "required_sql_any": [
+        "MARCA_UTI\\s*<>\\s*0",
+        "DESCRICAO\\s*<>\\s*'Não utilizou UTI'"
+      ],
+      "forbidden_sql_patterns": [
+        "LIKE\\s*'%UTI%'",
+        "LIKE\\s*\"%UTI%\""
+      ]
+    },
+    {
+      "id": "positive_uti_cost_v1",
+      "version": 1,
+      "concept": "positive_uti_cost",
+      "predicate": "internacao.VAL_UTI > 0",
+      "applies_when": {
+        "metric_concepts": [
+          "positive_uti_cost"
+        ]
+      },
+      "does_not_apply_when": {
+        "metric_concepts": [
+          "uti_usage"
+        ]
+      },
+      "provenance": {
+        "type": "metric_definition",
+        "reference": "positive numeric cost",
+        "evidence": "The metric is explicitly positive UTI cost; zero and NULL are not positive costs."
+      },
+      "owner": "data-platform",
+      "status": "active",
+      "positive_test_cases": [
+        "average positive UTI cost"
+      ],
+      "negative_test_cases": [
+        "UTI use regardless of billing",
+        "recorded zero UTI cost"
+      ],
+      "required_sql_any": [
+        "VAL_UTI\\s*>\\s*0"
+      ],
+      "forbidden_sql_patterns": [
+        "VAL_UTI\\s+IS\\s+NOT\\s+NULL"
+      ]
+    },
+    {
+      "id": "indigenous_population_v1",
+      "version": 1,
+      "concept": "indigenous_population",
+      "predicate": "internacao.RACA_COR = 5",
+      "applies_when": {},
+      "does_not_apply_when": {},
+      "provenance": {
+        "type": "database_dimension",
+        "reference": "main.raca_cor",
+        "evidence": "Code 5 is labelled 'Indígena' in the database dimension (RACA_COR is TINYINT)."
+      },
+      "owner": "data-platform",
+      "status": "active",
+      "positive_test_cases": [
+        "admissions of indigenous patients"
+      ],
+      "negative_test_cases": [
+        "specific ethnicity code",
+        "any non-null ETNIA"
+      ],
+      "required_sql_any": [
+        "RACA_COR\\s*=\\s*'?0?5'?"
+      ],
+      "forbidden_sql_patterns": [
+        "ETNIA\\s+IS\\s+NOT\\s+NULL"
+      ]
+    },
+    {
+      "id": "spontaneous_cephalic_delivery_v1",
+      "concept": "spontaneous_cephalic_delivery",
+      "predicate": "O diagnóstico 'Parto espontaneo cefalico' corresponde ao CID O800. Para contar esses partos, conte as AIHs com internacao.DIAG_PRINC = 'O800', salvo pedido explícito de outro campo diagnóstico.",
+      "provenance": {
+        "type": "database_catalog",
+        "reference": "main.cid",
+        "evidence": "O800 is labelled 'Parto espontaneo cefalico'. O80 is the broader category 'Parto unico espontaneo'."
+      },
+      "owner": "data-platform",
+      "status": "active",
+      "required_sql_all": ["\\b(?:DIAG_PRINC|CID|CID_MORTE|CID_NOTIF|DIAG_SECUN|DIAGSEC[1-9])\\b"],
+      "required_sql_any": [
+        "'O800'",
+        "'Parto espontaneo cefalico'"
+      ]
+    },
+    {
+      "id": "care_location_v1",
+      "concept": "care_location",
+      "predicate": "Filtre o local onde ocorreu o atendimento via internacao.CNES -> hospital.CNES e hospital.MUNIC_MOV -> municipios.CO_MUNICIPIO_6D. Para um estado, filtre municipios.SG_UF.",
+      "provenance": {
+        "type": "database_relationship",
+        "reference": "main.hospital.MUNIC_MOV",
+        "evidence": "MUNIC_MOV identifies the municipality of the hospital. MUNIC_RES identifies the patient's residence."
+      },
+      "owner": "data-platform",
+      "status": "active",
+      "required_sql_all": ["\\bMUNIC_MOV\\b"]
+    },
+    {
+      "id": "covid_admissions_v1",
+      "version": 1,
+      "concept": "covid_admissions",
+      "predicate": "internacao.DIAG_PRINC includes both B342 and B972",
+      "applies_when": {},
+      "does_not_apply_when": {},
+      "provenance": {
+        "type": "database_catalog",
+        "reference": "main.cid",
+        "evidence": "The local CID dimension labels B342 as coronavirus infection and B972 as coronavirus as cause of diseases classified elsewhere."
+      },
+      "owner": "data-platform",
+      "status": "active",
+      "positive_test_cases": [
+        "COVID admissions",
+        "coronavirus mortality among admissions"
+      ],
+      "negative_test_cases": [
+        "all respiratory admissions",
+        "a named non-coronavirus CID"
+      ],
+      "required_sql_all": [
+        "B342",
+        "B972"
+      ],
+      "forbidden_sql_patterns": []
+    }
+  ]
+}

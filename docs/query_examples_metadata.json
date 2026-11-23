@@ -1,0 +1,119 @@
+{
+  "EX001": {
+    "concepts": ["age_band"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["ranking", "top_n_per_group"],
+    "requires_explicit": ["ranking.n", "dimensions.age_band.definition"],
+    "forbidden_transfer": [],
+    "template_family": "top_n_per_explicit_age_band",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  },
+  "EX002": {
+    "concepts": ["weekday", "state"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["distribution", "time_day"],
+    "requires_explicit": [],
+    "forbidden_transfer": [],
+    "template_family": "weekday_distribution",
+    "provenance": {"type": "curated", "source": "database calendar semantics"}
+  },
+  "EX003": {
+    "concepts": ["diagnosis_code", "state"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["time_month", "distribution"],
+    "requires_explicit": [],
+    "forbidden_transfer": [],
+    "template_family": "monthly_diagnosis_distribution",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  },
+  "EX004": {
+    "concepts": ["indigenous_population"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["scalar", "time_year"],
+    "requires_explicit": [],
+    "forbidden_transfer": [],
+    "template_family": "population_share",
+    "provenance": {"type": "database_dimension", "source": "main.raca_cor code 05"}
+  },
+  "EX005": {
+    "concepts": ["medical_specialty"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["ranking", "top_n_per_group"],
+    "requires_explicit": ["ranking.n"],
+    "forbidden_transfer": [],
+    "template_family": "top_n_per_group",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  },
+  "EX006": {
+    "concepts": ["age_band"],
+    "metric_concepts": ["admissions", "mortality_rate"],
+    "structural_patterns": ["scalar"],
+    "requires_explicit": ["dimensions.age_band.definition"],
+    "forbidden_transfer": [],
+    "template_family": "cohort_aggregate",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  },
+  "EX007": {
+    "concepts": ["uti_usage"],
+    "metric_concepts": ["uti_usage", "admissions"],
+    "structural_patterns": ["distribution"],
+    "requires_explicit": [],
+    "forbidden_transfer": ["positive_uti_cost"],
+    "template_family": "uti_usage_distribution",
+    "provenance": {"type": "database_dimension", "source": "main.marca_uti"}
+  },
+  "EX008": {
+    "concepts": ["hospital", "state"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["ranking", "top_n"],
+    "requires_explicit": ["ranking.n", "ranking.minimum_support"],
+    "forbidden_transfer": [],
+    "template_family": "top_n_with_support",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  },
+  "EX009": {
+    "concepts": ["hospital", "medical_specialty"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["ranking", "top_n_per_group"],
+    "requires_explicit": [],
+    "forbidden_transfer": [],
+    "template_family": "winner_per_group",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  },
+  "EX010": {
+    "concepts": ["sex", "state"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["distribution", "time_year"],
+    "requires_explicit": [],
+    "forbidden_transfer": [],
+    "template_family": "dimension_distribution_with_time_filter",
+    "provenance": {"type": "database_dimension", "source": "main.sexo"}
+  },
+  "EX011": {
+    "concepts": ["diagnosis_group"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["scalar", "time_year"],
+    "requires_explicit": [],
+    "forbidden_transfer": [],
+    "template_family": "diagnosis_group_aggregate",
+    "provenance": {"type": "curated", "source": "database CID dimension"}
+  },
+  "EX012": {
+    "concepts": ["hospital"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["comparison", "time_year"],
+    "requires_explicit": [],
+    "forbidden_transfer": [],
+    "template_family": "monotonic_growth_three_periods",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  },
+  "EX013": {
+    "concepts": ["procedure"],
+    "metric_concepts": ["admissions"],
+    "structural_patterns": ["ranking", "top_n"],
+    "requires_explicit": ["ranking.n"],
+    "forbidden_transfer": [],
+    "template_family": "top_n_filtered_dimension",
+    "provenance": {"type": "curated", "source": "independent synthetic template"}
+  }
+}

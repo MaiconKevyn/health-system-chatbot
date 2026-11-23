@@ -9,10 +9,14 @@ def build_openai_llm(config: ChatbotConfig):
 
     from llama_index.llms.openai import OpenAI
 
+    kwargs = {}
+    if config.llm_reasoning_effort:
+        kwargs["reasoning_effort"] = config.llm_reasoning_effort
     return OpenAI(
         model=config.llm_model,
         temperature=0,
         timeout=float(config.query_timeout_seconds),
         api_key=config.openai_api_key,
+        **kwargs,
     )
 

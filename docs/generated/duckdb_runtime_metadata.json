@@ -1,62 +1,18 @@
 {
-  "generated_at": "2026-05-13T19:23:25",
-  "database_file": "sihrd5.duckdb",
-  "duckdb_python_version": "1.5.2",
-  "pragma_version": [
-    {
-      "library_version": "v1.5.2",
-      "source_id": "8a5851971f",
-      "codename": "Variegata"
-    }
-  ],
+  "generated_at": "2026-11-23T16:09:23.724294+00:00",
+  "database_file": "sihrd9.duckdb",
+  "duckdb_python_version": "2.0.1",
   "database_size": [
     {
-      "database_name": "sihrd5",
-      "database_size": "25.0 GiB",
+      "database_name": "sihrd9",
+      "database_size": "28.6 GiB",
       "block_size": 262144,
-      "total_blocks": 102706,
-      "used_blocks": 100620,
-      "free_blocks": 2086,
+      "total_blocks": 117382,
+      "used_blocks": 117095,
+      "free_blocks": 287,
       "wal_size": "0 bytes",
-      "memory_usage": "13.7 MiB",
-      "memory_limit": "12.4 GiB"
-    }
-  ],
-  "settings": [
-    {
-      "name": "access_mode",
-      "value": "read_only",
-      "description": "Access mode of the database (AUTOMATIC, READ_ONLY or READ_WRITE)",
-      "input_type": "VARCHAR",
-      "scope": "GLOBAL"
-    },
-    {
-      "name": "max_temp_directory_size",
-      "value": "90% of available disk space",
-      "description": "The maximum amount of data stored inside the 'temp_directory' (when set) (e.g. 1GB)",
-      "input_type": "VARCHAR",
-      "scope": "GLOBAL"
-    },
-    {
-      "name": "memory_limit",
-      "value": "12.4 GiB",
-      "description": "The maximum memory of the system (e.g. 1GB)",
-      "input_type": "VARCHAR",
-      "scope": "GLOBAL"
-    },
-    {
-      "name": "temp_directory",
-      "value": "/home/maiconkevyn/PycharmProjects/health-system-chatbot/sihrd5.duckdb.tmp",
-      "description": "Set the directory to which to write temp files",
-      "input_type": "VARCHAR",
-      "scope": "GLOBAL"
-    },
-    {
-      "name": "threads",
-      "value": "4",
-      "description": "The number of total threads used by the system.",
-      "input_type": "BIGINT",
-      "scope": "GLOBAL"
+      "memory_usage": "10.8 GiB",
+      "memory_limit": "38.3 GiB"
     }
   ]
 }

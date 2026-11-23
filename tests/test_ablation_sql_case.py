@@ -144,4 +144,9 @@ def test_evaluate_generated_sql_falls_back_to_duckdb_for_cte_column_resolution(t
     assert record["generated_sql_valid"] is True
     assert record["generated_execution_status"] == "passed"
     assert record["result_match"] is True
-    assert any("Static validation was overridden" in warning for warning in record["generated_sql_validation_warnings"])
+    # Static validation now resolves CTE output columns per scope, so this SQL
+    # is accepted directly and the DuckDB override fallback is not needed.
+    assert not any(
+        "Static validation was overridden" in warning
+        for warning in record["generated_sql_validation_warnings"]
+    )

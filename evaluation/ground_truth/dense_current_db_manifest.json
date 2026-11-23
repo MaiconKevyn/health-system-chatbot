@@ -1,9 +1,9 @@
 {
   "created_at": "2026-07-08T23:09:08.676737+00:00",
   "db_path": "/Users/maiconkevyn/PycharmProjects/databases/datasus/sihrd5.duckdb",
-  "table_questions": 20,
-  "join_questions": 25,
-  "total_questions": 45,
+  "table_questions": 19,
+  "join_questions": 24,
+  "total_questions": 43,
   "files": {
     "tables": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/dense_current_db_tables.jsonl",
     "joins": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/dense_current_db_joins.jsonl",

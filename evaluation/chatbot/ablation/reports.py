@@ -32,6 +32,13 @@ def build_summary_payload(
                 "variant": name,
                 "total": summary.get("total", 0),
                 "result_match_rate": result_rate,
+                "semantic_match_rate": summary.get("semantic_match_rate"),
+                "presentation_match_rate": summary.get("presentation_match_rate"),
+                "semantic_match_bootstrap_ci95_by_template": summary.get(
+                    "semantic_match_bootstrap_ci95_by_template"
+                ),
+                "scored_total": summary.get("scored_total", summary.get("total", 0)),
+                "not_scorable_count": summary.get("not_scorable_count", 0),
                 "comparable_result_match_rate": summary.get(
                     "comparable_result_match_rate"
                 ),
@@ -154,6 +161,11 @@ def write_summary_csv(payload: dict[str, Any], path: Path) -> None:
         "variant",
         "total",
         "result_match_rate",
+        "semantic_match_rate",
+        "presentation_match_rate",
+        "semantic_match_bootstrap_ci95_by_template",
+        "scored_total",
+        "not_scorable_count",
         "comparable_result_match_rate",
         "delta_vs_full_agent_pp",
         "sql_valid_rate",
@@ -172,6 +184,10 @@ def write_summary_csv(payload: dict[str, Any], path: Path) -> None:
             writer.writerow(
                 {
                     **row,
+                    "semantic_match_bootstrap_ci95_by_template": json.dumps(
+                        row.get("semantic_match_bootstrap_ci95_by_template"),
+                        ensure_ascii=True,
+                    ),
                     "error_category_counts": json.dumps(
                         row.get("error_category_counts", {}),
                         ensure_ascii=True,
@@ -191,23 +207,23 @@ def write_analysis(payload: dict[str, Any], failure_sets: dict[str, list[dict[st
         "",
         "## Variant Ranking",
         "",
-        "| variant | end-to-end match | comparable match | delta vs full pp | valid SQL | execution | p50 latency | p95 latency | gt in generated | generated in gt | semantic labels |",
+        "| variant | strict/semantic match | semantic match | presentation match | scored | excluded | delta vs full pp | valid SQL | execution | p50 latency | p95 latency |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in payload["variant_ranking"]:
         lines.append(
-            "| {variant} | {match} | {comparable_match} | {delta} | {valid} | {exec_rate} | {p50} | {p95} | {contained_actual} | {contained_expected} | {semantic_labels} |".format(
+            "| {variant} | {match} | {semantic_match} | {presentation_match} | {scored} | {excluded} | {delta} | {valid} | {exec_rate} | {p50} | {p95} |".format(
                 variant=row["variant"],
                 match=row["result_match_rate"],
-                comparable_match=row["comparable_result_match_rate"],
+                semantic_match=row["semantic_match_rate"],
+                presentation_match=row["presentation_match_rate"],
+                scored=row["scored_total"],
+                excluded=row["not_scorable_count"],
                 delta=row["delta_vs_full_agent_pp"],
                 valid=row["sql_valid_rate"],
                 exec_rate=row["sql_execution_rate"],
                 p50=row["latency_p50"],
                 p95=row["latency_p95"],
-                contained_actual=row["contained_in_actual_count"],
-                contained_expected=row["contained_in_expected_count"],
-                semantic_labels=row["semantic_label_equivalence_count"],
             )
         )
     lines.extend(["", "## Error Categories", ""])

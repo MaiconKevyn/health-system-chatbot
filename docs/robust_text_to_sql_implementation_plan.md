@@ -1,5 +1,7 @@
 # Plano de Implementação: Agente Text-to-SQL Robusto e Generalizável
 
+> **Status (2026-11-23):** plano escrito em 2026-07-09 para o motor legado (Pydantic AI), sobre o banco sihrd5. Partes foram implementadas com outros nomes (`question_contract.py`, `semantic_rules.py` + `docs/semantic_rules.json`, `result_probes.py`, `evaluation/ground_truth/benchmark_contracts.json`). Desde então o banco passou a ser o sihrd9 e o produto passou a usar o motor SUS por padrão; ver o [README](../README.md).
+
 ## 1. Identificação
 
 - Status: planejado

@@ -39,6 +39,8 @@ from health_system_chatbot.candidate_generation import (
 from health_system_chatbot.candidate_ranking import rank_sql_candidates
 from health_system_chatbot.config import ChatbotConfig, load_config
 from health_system_chatbot.intent import classify_question
+from health_system_chatbot.result_probes import probe_result_contract
+from health_system_chatbot.errors import CatalogBudgetExceeded, RequiredSourceUnavailable
 from health_system_chatbot.models import (
     GroundTruthItem,
     RetrievedContext,
@@ -92,6 +94,20 @@ class ComparisonResult:
     contained_in_actual: bool = False
     contained_in_expected: bool = False
     semantic_label_equivalence: bool = False
+    semantic_match: bool | None = None
+    presentation_match: bool | None = None
+
+    def __post_init__(self) -> None:
+        if self.semantic_match is None:
+            self.semantic_match = self.result_match
+        if self.presentation_match is None:
+            self.presentation_match = bool(
+                self.result_match
+                and self.shape_match
+                and not self.alias_only_difference
+                and not self.type_only_difference
+                and not self.order_only_mismatch
+            )
 
 
 @dataclass(frozen=True)
@@ -162,10 +178,18 @@ def resolve_run_paths(
 
 
 def load_dataset(path: Path) -> list[GroundTruthItem]:
+    metadata_path = path.parent / "benchmark_contracts.json"
+    metadata = (
+        json.loads(metadata_path.read_text(encoding="utf-8"))
+        if metadata_path.exists()
+        else {}
+    )
     items: list[GroundTruthItem] = []
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.strip():
-            items.append(GroundTruthItem.model_validate(json.loads(line)))
+            payload = json.loads(line)
+            payload.update(metadata.get(payload.get("id"), {}))
+            items.append(GroundTruthItem.model_validate(payload))
     return items
 
 
@@ -684,6 +708,187 @@ def _strict_unordered_values_match(
     return True
 
 
+def _canonical_column_concept(column: str) -> str:
+    name = _normalize_comparison_text(column).replace(" ", "_")
+    if "taxa" in name and ("mortal" in name or "obito" in name):
+        return "mortality_rate"
+    if name in {"total_mortes", "mortes", "obitos", "total_obitos", "obitos_hospitalares"}:
+        return "deaths"
+    if name in {
+        "total_internacoes",
+        "internacoes",
+        "casos",
+        "total_casos",
+        "internacoes_total",
+    }:
+        return "admissions"
+    if name in {"ano", "year", "ano_entrada", "ano_saida"}:
+        return "year"
+    if name in {"uf", "estado", "sg_uf", "uf_residencia"}:
+        return "state"
+    if name in {"municipio", "nome", "nome_municipio", "no_municipio"}:
+        return "municipality"
+    if "especialidade" in name:
+        return "medical_specialty"
+    if "capitulo" in name and "cid" in name:
+        return "diagnosis_chapter"
+    if name in {"cid", "codigo_cid", "diagnostico_codigo", "diagnostico_principal_codigo"}:
+        return "diagnosis_code"
+    if "diagnostico" in name or name in {"descricao", "motivo_cid"}:
+        return "diagnosis_description"
+    if name in {"proc_rea", "procedimento_codigo"}:
+        return "procedure_code"
+    if "procedimento" in name or name == "nome_proc":
+        return "procedure"
+    if "media_dias" in name or "permanencia_media" in name:
+        return "average_length_of_stay"
+    if "custo_medio" in name or "valor_medio" in name:
+        return "average_cost"
+    if "receita_total" in name or "valor_total" in name or "custo_total" in name:
+        return "total_value"
+    if name in {"cnes", "hospital_cnes"}:
+        return "hospital"
+    return name
+
+
+def _semantic_column_projection(
+    expected_columns: list[str],
+    expected_rows: list[tuple[Any, ...]],
+    actual_columns: list[str],
+    actual_rows: list[tuple[Any, ...]],
+    *,
+    required_output_concepts: list[str] | None,
+) -> tuple[
+    list[str],
+    list[tuple[Any, ...]],
+    list[str],
+    list[tuple[Any, ...]],
+    bool,
+]:
+    expected_concepts = [_canonical_column_concept(column) for column in expected_columns]
+    actual_concepts = [_canonical_column_concept(column) for column in actual_columns]
+    targets = (
+        [_canonical_column_concept(value) for value in required_output_concepts]
+        if required_output_concepts
+        else expected_concepts
+    )
+    if len(set(targets)) != len(targets):
+        return expected_columns, expected_rows, actual_columns, actual_rows, False
+    if any(expected_concepts.count(target) != 1 for target in targets):
+        return expected_columns, expected_rows, actual_columns, actual_rows, False
+    if any(actual_concepts.count(target) != 1 for target in targets):
+        return expected_columns, expected_rows, actual_columns, actual_rows, False
+
+    expected_indexes = tuple(expected_concepts.index(target) for target in targets)
+    actual_indexes = tuple(actual_concepts.index(target) for target in targets)
+    identity_expected = expected_indexes == tuple(range(len(expected_columns)))
+    identity_actual = actual_indexes == tuple(range(len(actual_columns)))
+    used = not (identity_expected and identity_actual and expected_columns == actual_columns)
+    return (
+        [expected_columns[index] for index in expected_indexes],
+        _project_rows(expected_rows, expected_indexes),
+        [actual_columns[index] for index in actual_indexes],
+        _project_rows(actual_rows, actual_indexes),
+        used,
+    )
+
+
+_MEASURE_CONCEPTS = {
+    "admissions",
+    "deaths",
+    "mortality_rate",
+    "average_length_of_stay",
+    "average_cost",
+    "total_value",
+}
+
+
+def _wide_long_semantic_match(
+    expected_columns: list[str],
+    expected_rows: list[tuple[Any, ...]],
+    actual_columns: list[str],
+    actual_rows: list[tuple[Any, ...]],
+    *,
+    required_output_concepts: list[str],
+    numeric_tolerance: float,
+) -> bool:
+    required = [_canonical_column_concept(value) for value in required_output_concepts]
+    metric_concepts = [value for value in required if value in _MEASURE_CONCEPTS]
+    key_concepts = [value for value in required if value not in _MEASURE_CONCEPTS]
+    if not metric_concepts or not key_concepts or not expected_rows or not actual_rows:
+        return False
+
+    expected_concepts = [_canonical_column_concept(value) for value in expected_columns]
+    actual_concepts = [_canonical_column_concept(value) for value in actual_columns]
+    if any(expected_concepts.count(value) != 1 for value in key_concepts):
+        return False
+    if any(actual_concepts.count(value) != 1 for value in key_concepts):
+        return False
+    pivot_candidates = [
+        index
+        for index, concept in enumerate(expected_concepts)
+        if concept not in required
+        and all(isinstance(row[index], str) for row in expected_rows)
+        and 1 < len({row[index] for row in expected_rows}) <= 12
+    ]
+    if len(pivot_candidates) != 1:
+        return False
+    pivot_index = pivot_candidates[0]
+    expected_key_indexes = [expected_concepts.index(value) for value in key_concepts]
+    actual_key_indexes = [actual_concepts.index(value) for value in key_concepts]
+    expected_metric_indexes = {
+        value: expected_concepts.index(value)
+        for value in metric_concepts
+        if expected_concepts.count(value) == 1
+    }
+    if set(expected_metric_indexes) != set(metric_concepts):
+        return False
+
+    for expected_row in expected_rows:
+        matches = [
+            actual_row
+            for actual_row in actual_rows
+            if all(
+                _values_equal(
+                    expected_row[e_index],
+                    actual_row[a_index],
+                    numeric_tolerance=numeric_tolerance,
+                )
+                for e_index, a_index in zip(
+                    expected_key_indexes, actual_key_indexes, strict=True
+                )
+            )
+        ]
+        if len(matches) != 1:
+            return False
+        actual_row = matches[0]
+        pivot_tokens = _normalize_comparison_text(str(expected_row[pivot_index])).split()
+        for concept, expected_index in expected_metric_indexes.items():
+            metric_tokens = set(
+                _normalize_comparison_text(expected_columns[expected_index]).split()
+            )
+            candidates = [
+                index
+                for index, actual_concept in enumerate(actual_concepts)
+                if actual_concept == concept
+                and [
+                    token
+                    for token in _normalize_comparison_text(actual_columns[index]).split()
+                    if token not in metric_tokens
+                ]
+                == pivot_tokens
+            ]
+            if len(candidates) != 1:
+                return False
+            if not _values_equal(
+                expected_row[expected_index],
+                actual_row[candidates[0]],
+                numeric_tolerance=numeric_tolerance,
+            ):
+                return False
+    return True
+
+
 def compare_results(
     expected_columns: list[str],
     expected_rows: list[tuple[Any, ...]],
@@ -694,10 +899,58 @@ def compare_results(
     numeric_tolerance: float = 1e-6,
     expected_truncated: bool = False,
     actual_truncated: bool = False,
+    required_output_concepts: list[str] | None = None,
+    optional_output_concepts: list[str] | None = None,
+    allow_row_superset: bool = False,
+    representation: str = "any",
 ) -> ComparisonResult:
+    _ = optional_output_concepts
+    original_expected_columns = list(expected_columns)
+    original_actual_columns = list(actual_columns)
+    original_expected_rows = list(expected_rows)
+    original_actual_rows = list(actual_rows)
+    original_shape_match = (
+        len(expected_columns) == len(actual_columns)
+        and len(expected_rows) == len(actual_rows)
+    )
+    if (
+        representation == "any"
+        and required_output_concepts
+        and _wide_long_semantic_match(
+            original_expected_columns,
+            original_expected_rows,
+            original_actual_columns,
+            original_actual_rows,
+            required_output_concepts=required_output_concepts,
+            numeric_tolerance=numeric_tolerance,
+        )
+    ):
+        return ComparisonResult(
+            result_match=True,
+            alias_only_difference=True,
+            type_only_difference=False,
+            order_only_mismatch=False,
+            shape_match=original_shape_match,
+            value_match=True,
+            semantic_match=True,
+            presentation_match=False,
+        )
+    (
+        expected_columns,
+        expected_rows,
+        actual_columns,
+        actual_rows,
+        semantic_projection_used,
+    ) = _semantic_column_projection(
+        expected_columns,
+        expected_rows,
+        actual_columns,
+        actual_rows,
+        required_output_concepts=required_output_concepts,
+    )
     column_count_match = len(expected_columns) == len(actual_columns)
     row_count_match = len(expected_rows) == len(actual_rows)
-    shape_match = column_count_match and row_count_match
+    shape_match = original_shape_match
     if expected_truncated or actual_truncated:
         return ComparisonResult(
             result_match=False,
@@ -710,12 +963,15 @@ def compare_results(
             error_message="Result was truncated before full comparison.",
         )
     if not shape_match:
-        contained, order_only_mismatch = _expected_contained_in_actual(
-            expected_rows,
-            actual_rows,
-            mode=mode,
-            numeric_tolerance=numeric_tolerance,
-        )
+        contained = False
+        order_only_mismatch = False
+        if allow_row_superset or len(expected_rows) == len(actual_rows):
+            contained, order_only_mismatch = _expected_contained_in_actual(
+                expected_rows,
+                actual_rows,
+                mode=mode,
+                numeric_tolerance=numeric_tolerance,
+            )
         if contained:
             strictly_contained, _ = _expected_contained_in_actual(
                 expected_rows,
@@ -739,7 +995,11 @@ def compare_results(
         actual_column_count = len(actual_rows[0]) if actual_rows else 0
         expected_column_count = len(expected_rows[0]) if expected_rows else 0
         enough_actual_columns = expected_column_count <= 1 or actual_column_count > 1
-        if len(expected_rows) == len(actual_rows) and enough_actual_columns:
+        if (
+            required_output_concepts
+            and len(expected_rows) == len(actual_rows)
+            and enough_actual_columns
+        ):
             contained_in_expected, contained_order_only_mismatch = _expected_contained_in_actual(
                 actual_rows,
                 expected_rows,
@@ -774,8 +1034,8 @@ def compare_results(
             error_category="shape_mismatch",
             error_message=(
                 "Result shape differs: "
-                f"expected {len(expected_rows)}x{len(expected_columns)}, "
-                f"actual {len(actual_rows)}x{len(actual_columns)}."
+                f"expected {len(original_expected_rows)}x{len(original_expected_columns)}, "
+                f"actual {len(original_actual_rows)}x{len(original_actual_columns)}."
             ),
         )
 
@@ -839,7 +1099,10 @@ def compare_results(
     )
     return ComparisonResult(
         result_match=True,
-        alias_only_difference=expected_columns != actual_columns,
+        alias_only_difference=(
+            original_expected_columns != original_actual_columns
+            or semantic_projection_used
+        ),
         type_only_difference=not strict_match,
         order_only_mismatch=order_only_mismatch,
         shape_match=True,
@@ -1028,6 +1291,7 @@ def _generate_plan_for_evaluation(
             question=item.question_pt,
             stage1_context=ctx,
             config=config,
+            question_contract=retrieved.question_contract,
         )
         record["candidate_count"] = len(selection.candidates)
         record["selected_candidate_id"] = selection.selected_candidate_id
@@ -1092,6 +1356,8 @@ def _try_refine_after_validation_error(
                 ctx,
                 question=item.question_pt,
                 plan=corrected_plan,
+                question_contract=retrieved.question_contract,
+                db_path=config.db_path,
             )
             correction_record.update(
                 {
@@ -1159,6 +1425,8 @@ def _try_refine_after_execution_error(
                 ctx,
                 question=item.question_pt,
                 plan=corrected_plan,
+                question_contract=retrieved.question_contract,
+                db_path=config.db_path,
             )
             correction_record.update(
                 {
@@ -1214,6 +1482,8 @@ def evaluate_item(
         "difficulty": item.difficulty,
         "expected_result_type": item.expected_result_type,
         "question_pt": item.question_pt,
+        "benchmark_status": item.benchmark_status,
+        "template_family": item.template_family or item.id,
         "intent_status": None,
         "retrieval_mode": None,
         "retrieved_tables": [],
@@ -1224,9 +1494,30 @@ def evaluate_item(
         "catalog_candidate_labels": [],
         "catalog_tool_calls_count": 0,
         "catalog_tools": [],
+        "tool_calls": [],
+        "tool_budget": {
+            "catalog_calls": config.catalog_tool_call_budget,
+            "duplicate_signature": config.catalog_duplicate_call_limit,
+            "agent_requests": config.agent_request_limit,
+        },
         "catalog_decisions_count": 0,
         "catalog_decisions": [],
         "query_examples": [],
+        "query_examples_enabled_effective": False,
+        "example_bank_version": ctx.example_bank_version,
+        "semantic_rules_version": ctx.semantic_rules_version,
+        "retrieved_example_ids": [],
+        "example_retrieval_decisions": [],
+        "rejected_example_ids": [],
+        "question_contract": None,
+        "semantic_rule_ids": [],
+        "assumptions_used": [],
+        "validator_findings": {},
+        "join_probe_stats": [],
+        "stop_reason": None,
+        "semantic_match": False,
+        "presentation_match": False,
+        "error_taxonomy_version": "2.0.0",
         "plan_source": "",
         "candidate_count": 0,
         "selected_candidate_id": None,
@@ -1268,7 +1559,11 @@ def evaluate_item(
         intent = classify_question(item.question_pt, ctx)
         record["intent_status"] = intent.status
 
-        retrieved = retrieve_context(item.question_pt, ctx, config=config)
+        retrieved = retrieve_context(
+            item.question_pt,
+            ctx,
+            config=config,
+        )
         record["retrieval_mode"] = retrieved.retrieval_mode
         record["retrieved_tables"] = retrieved.tables
         record["retrieved_columns_count"] = len(retrieved.columns)
@@ -1279,6 +1574,23 @@ def evaluate_item(
             candidate.label for candidate in retrieved.catalog_candidates[:12]
         ]
         record["query_examples"] = [example.id for example in retrieved.query_examples]
+        record["retrieved_example_ids"] = list(record["query_examples"])
+        record["query_examples_enabled_effective"] = bool(retrieved.query_examples)
+        record["example_retrieval_decisions"] = [
+            decision.model_dump() for decision in retrieved.example_retrieval_decisions
+        ]
+        record["rejected_example_ids"] = [
+            decision.example_id
+            for decision in retrieved.example_retrieval_decisions
+            if not decision.accepted
+        ]
+        record["question_contract"] = (
+            retrieved.question_contract.model_dump()
+            if retrieved.question_contract is not None
+            else None
+        )
+        record["semantic_rule_ids"] = retrieved.semantic_rule_ids
+        record["assumptions_used"] = retrieved.assumptions_used
 
         expected_precheck = execute_sql(
             item.sql,
@@ -1313,7 +1625,16 @@ def evaluate_item(
                 record=record,
             )
         except Exception as exc:
-            record["error_category"] = "provider_error" if config.has_openai_key else "environment_error"
+            if isinstance(exc, RequiredSourceUnavailable):
+                record["error_category"] = "required_source_unavailable"
+                record["stop_reason"] = "required_source_unavailable"
+            elif isinstance(exc, CatalogBudgetExceeded):
+                record["error_category"] = "catalog_budget_exceeded"
+                record["stop_reason"] = "catalog_budget_exceeded"
+            else:
+                record["error_category"] = (
+                    "provider_error" if config.has_openai_key else "environment_error"
+                )
             record["error_message"] = str(exc)
             return record
 
@@ -1321,11 +1642,19 @@ def evaluate_item(
         record["plan_source"] = plan.source
         record["catalog_tool_calls_count"] = len(retrieved.catalog_tool_calls)
         record["catalog_tools"] = [call.tool for call in retrieved.catalog_tool_calls]
+        record["tool_calls"] = [call.model_dump() for call in retrieved.catalog_tool_calls]
         record["catalog_decisions_count"] = len(plan.catalog_decisions)
         record["catalog_decisions"] = [
             decision.model_dump() for decision in plan.catalog_decisions
         ]
-        validation = validation or validate_sql(plan.sql, ctx, question=item.question_pt, plan=plan)
+        validation = validation or validate_sql(
+            plan.sql,
+            ctx,
+            question=item.question_pt,
+            plan=plan,
+            question_contract=retrieved.question_contract,
+            db_path=config.db_path,
+        )
         plan, validation = _try_refine_after_validation_error(
             item=item,
             retrieved=retrieved,
@@ -1340,6 +1669,7 @@ def evaluate_item(
         record["plan_source"] = plan.source
         record["catalog_tool_calls_count"] = len(retrieved.catalog_tool_calls)
         record["catalog_tools"] = [call.tool for call in retrieved.catalog_tool_calls]
+        record["tool_calls"] = [call.model_dump() for call in retrieved.catalog_tool_calls]
         record["catalog_decisions_count"] = len(plan.catalog_decisions)
         record["catalog_decisions"] = [
             decision.model_dump() for decision in plan.catalog_decisions
@@ -1347,6 +1677,13 @@ def evaluate_item(
         record["generated_sql_valid"] = validation.is_valid
         record["generated_sql_validation_errors"] = validation.errors
         record["generated_sql_validation_warnings"] = validation.warnings
+        record["validator_findings"] = {
+            "errors": list(validation.errors),
+            "warnings": list(validation.warnings),
+            "findings": list(validation.findings),
+            "probe_stats": list(validation.probe_stats),
+        }
+        record["join_probe_stats"] = list(validation.probe_stats)
         executable_sql = _safe_sql_for_evaluation_fallback(plan.sql, validation)
         if not executable_sql:
             record["error_category"] = _categorize_validation_error(validation.errors)
@@ -1383,6 +1720,13 @@ def evaluate_item(
         record["generated_sql_valid"] = validation.is_valid
         record["generated_sql_validation_errors"] = validation.errors
         record["generated_sql_validation_warnings"] = validation.warnings
+        record["validator_findings"] = {
+            "errors": list(validation.errors),
+            "warnings": list(validation.warnings),
+            "findings": list(validation.findings),
+            "probe_stats": list(validation.probe_stats),
+        }
+        record["join_probe_stats"] = list(validation.probe_stats)
         record["generated_execution_status"] = actual.status
         record["actual_columns"] = actual.columns
         record["actual_row_count"] = actual.row_count
@@ -1395,6 +1739,20 @@ def evaluate_item(
         if actual.status != "passed":
             record["error_category"] = _categorize_execution_error(actual.error_message)
             record["error_message"] = actual.error_message
+            return record
+
+        result_probe = probe_result_contract(
+            contract=retrieved.question_contract,
+            columns=actual.columns,
+            rows=actual.rows,
+            truncated=actual.truncated,
+        )
+        record["validator_findings"]["result_probes"] = result_probe.findings
+        if result_probe.warnings:
+            record["generated_sql_validation_warnings"].extend(result_probe.warnings)
+        if result_probe.errors:
+            record["error_category"] = "result_contract_violation"
+            record["error_message"] = "; ".join(result_probe.errors)
             return record
 
         expected = execute_sql(
@@ -1426,6 +1784,9 @@ def evaluate_item(
             numeric_tolerance=numeric_tolerance,
             expected_truncated=expected.truncated,
             actual_truncated=actual.truncated,
+            required_output_concepts=item.required_output_concepts,
+            optional_output_concepts=item.optional_output_concepts,
+            representation=item.representation,
         )
         record["result_match"] = comparison.result_match
         record["alias_only_difference"] = comparison.alias_only_difference
@@ -1435,6 +1796,8 @@ def evaluate_item(
         record["contained_in_actual"] = comparison.contained_in_actual
         record["contained_in_expected"] = comparison.contained_in_expected
         record["semantic_label_equivalence"] = comparison.semantic_label_equivalence
+        record["semantic_match"] = comparison.semantic_match
+        record["presentation_match"] = comparison.presentation_match
         record["error_category"] = comparison.error_category
         record["error_message"] = comparison.error_message
         if record["candidate_count"] > 1:
@@ -1450,6 +1813,9 @@ def evaluate_item(
 
 def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     total = len(records)
+    scored_records = [
+        record for record in records if record.get("benchmark_status", "scored") == "scored"
+    ]
     answerable = [record for record in records if record["intent_status"] != "refused"]
     generated = [record for record in records if record["generated_sql"]]
     valid = [record for record in records if record["generated_sql_valid"]]
@@ -1458,7 +1824,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     ]
     comparable = [
         record
-        for record in records
+        for record in scored_records
         if record["generated_execution_status"] == "passed"
         and record["ground_truth_execution_status"] == "passed"
         and not record["expected_truncated"]
@@ -1499,12 +1865,26 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         else None
     )
     result_match_rate = (
-        sum(bool(record["result_match"]) for record in records) / total
-        if total
+        sum(bool(record["result_match"]) for record in scored_records) / len(scored_records)
+        if scored_records
+        else None
+    )
+    semantic_match_rate = (
+        sum(bool(record.get("semantic_match")) for record in scored_records)
+        / len(scored_records)
+        if scored_records
+        else None
+    )
+    presentation_match_rate = (
+        sum(bool(record.get("presentation_match")) for record in scored_records)
+        / len(scored_records)
+        if scored_records
         else None
     )
     return {
         "total": total,
+        "scored_total": len(scored_records),
+        "not_scorable_count": total - len(scored_records),
         "answerable_rate": len(answerable) / total if total else 0,
         "intent_accuracy": len(answerable) / total if total else 0,
         "sql_generation_rate": len(generated) / total if total else 0,
@@ -1514,6 +1894,8 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
         "result_value_match_rate": comparable_result_match_rate,
         "comparable_result_match_rate": comparable_result_match_rate,
         "result_match_rate": result_match_rate,
+        "semantic_match_rate": semantic_match_rate,
+        "presentation_match_rate": presentation_match_rate,
         "correction_success_rate": (
             sum(bool(record.get("correction_success")) for record in correction_records)
             / len(correction_records)

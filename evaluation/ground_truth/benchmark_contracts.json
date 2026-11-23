@@ -1,0 +1,79 @@
+{
+  "GT044": {"benchmark_status": "not_scorable"},
+  "GT083": {"benchmark_status": "not_scorable"},
+  "GT086": {"benchmark_status": "not_scorable"},
+  "GT089": {"benchmark_status": "not_scorable"},
+  "GT117": {"benchmark_status": "not_scorable"},
+  "GT118": {"benchmark_status": "not_scorable"},
+  "GT125": {"benchmark_status": "not_scorable"},
+  "GT127": {"benchmark_status": "not_scorable"},
+  "GT128": {"benchmark_status": "not_scorable"},
+  "GT130": {"benchmark_status": "not_scorable"},
+  "GT132": {"benchmark_status": "not_scorable"},
+  "GT133": {"benchmark_status": "not_scorable"},
+  "GT202": {"benchmark_status": "not_scorable"},
+  "GT205": {"benchmark_status": "not_scorable"},
+  "GT206": {"benchmark_status": "not_scorable"},
+  "GT207": {"benchmark_status": "not_scorable"},
+  "GT208": {"benchmark_status": "not_scorable"},
+  "GT210": {"benchmark_status": "not_scorable"},
+  "GT213": {"benchmark_status": "not_scorable"},
+  "GT216": {"benchmark_status": "not_scorable"},
+  "GT218": {"benchmark_status": "not_scorable"},
+  "GT219": {"benchmark_status": "not_scorable"},
+  "GT225": {"benchmark_status": "not_scorable"},
+  "GT230": {"benchmark_status": "not_scorable"},
+  "GT232": {"benchmark_status": "not_scorable"},
+  "GT049": {
+    "benchmark_status": "not_scorable",
+    "required_output_concepts": ["admissions", "deaths", "mortality_rate"],
+    "optional_output_concepts": ["year"],
+    "representation": "any",
+    "ordering": "irrelevant"
+  },
+  "GT087": {
+    "benchmark_status": "not_scorable",
+    "required_output_concepts": ["state", "year", "admissions", "mortality_rate"],
+    "optional_output_concepts": ["deaths"],
+    "representation": "any",
+    "ordering": "required"
+  },
+  "GT090": {
+    "required_output_concepts": ["diagnosis_description", "admissions", "average_length_of_stay"],
+    "representation": "any",
+    "ordering": "required"
+  },
+  "GT115": {
+    "required_output_concepts": ["medical_specialty", "total_value"],
+    "optional_output_concepts": ["hospital", "admissions"],
+    "representation": "any",
+    "ordering": "tie_tolerant"
+  },
+  "GT203": {
+    "benchmark_status": "not_scorable",
+    "required_output_concepts": ["year", "mortality_rate"],
+    "optional_output_concepts": ["admissions", "deaths", "period"],
+    "representation": "any",
+    "ordering": "irrelevant"
+  },
+  "GT204": {
+    "required_output_concepts": ["state", "diagnosis_description", "admissions", "deaths", "mortality_rate"],
+    "optional_output_concepts": ["diagnosis_code"],
+    "representation": "any",
+    "ordering": "tie_tolerant"
+  },
+  "GT217": {
+    "required_output_concepts": ["diagnosis_chapter", "admissions", "average_cost"],
+    "optional_output_concepts": ["total_value"],
+    "representation": "any",
+    "ordering": "required"
+  },
+  "GT129": {"benchmark_status": "not_scorable"},
+  "GT215": {"benchmark_status": "not_scorable"},
+  "GT222": {"benchmark_status": "not_scorable"},
+  "GT224": {"benchmark_status": "not_scorable"},
+  "GT233": {"benchmark_status": "not_scorable"},
+  "GT234": {"benchmark_status": "not_scorable"}
+  ,"GT114": {"benchmark_status": "not_scorable"}
+  ,"GT231": {"benchmark_status": "not_scorable"}
+}

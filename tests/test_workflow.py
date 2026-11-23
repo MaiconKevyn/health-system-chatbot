@@ -42,7 +42,7 @@ def test_run_chat_corrects_invalid_sql_before_execution(monkeypatch, tmp_path):
         lambda **kwargs: corrected_plan,
     )
 
-    def fake_execute(validation, *, db_path, max_rows):
+    def fake_execute(validation, *, db_path, max_rows, timeout_seconds=None):
         executed_sql["sql"] = validation.safe_sql
         return ExecutionResult(
             sql=validation.safe_sql or "",
@@ -103,7 +103,7 @@ def test_run_chat_treats_intent_ambiguity_as_diagnostic_only(monkeypatch, tmp_pa
     monkeypatch.setattr(
         workflow_module,
         "execute_validated_sql",
-        lambda validation, *, db_path, max_rows: ExecutionResult(
+        lambda validation, *, db_path, max_rows, timeout_seconds=None: ExecutionResult(
             sql=validation.safe_sql or "",
             columns=["internacoes"],
             rows=[{"internacoes": 10}],
@@ -172,7 +172,7 @@ def test_run_chat_refines_after_execution_error(monkeypatch, tmp_path):
 
     monkeypatch.setattr(workflow_module, "refine_sql_plan", fake_refine_sql_plan)
 
-    def fake_execute(validation, *, db_path, max_rows):
+    def fake_execute(validation, *, db_path, max_rows, timeout_seconds=None):
         execute_calls.append(validation.safe_sql)
         if len(execute_calls) == 1:
             raise RuntimeError("DuckDB binder error")
@@ -260,7 +260,7 @@ def test_run_chat_refines_catalog_decision_warning_before_execution(monkeypatch,
     )
     monkeypatch.setattr(workflow_module, "refine_sql_plan", lambda **kwargs: corrected_plan)
 
-    def fake_execute(validation, *, db_path, max_rows):
+    def fake_execute(validation, *, db_path, max_rows, timeout_seconds=None):
         executed["sql"] = validation.safe_sql
         return ExecutionResult(
             sql=validation.safe_sql or "",

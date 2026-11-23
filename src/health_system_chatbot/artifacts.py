@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from pathlib import Path
 from typing import Iterable
@@ -12,6 +13,7 @@ from .models import (
     Stage1Context,
     TableContext,
 )
+from .semantic_rules import load_semantic_rules
 
 
 def _read_text(path: Path) -> str:
@@ -63,19 +65,25 @@ def _load_join_policies(root: Path) -> list[JoinPolicy]:
     return policies
 
 
-def _load_ground_truth(root: Path) -> list[GroundTruthItem]:
-    path = root / "evaluation/ground_truth/ground_truth_228_validated.jsonl"
-    if not path.exists():
-        path = root / "evaluation/ground_truth/stage1_questions_v2.jsonl"
-    if not path.exists():
-        path = root / "evaluation/ground_truth/stage1_questions.jsonl"
+def _load_example_bank(root: Path) -> tuple[str, list[GroundTruthItem]]:
+    path = root / "docs/query_examples_bank.jsonl"
+    metadata_path = root / "docs/query_examples_metadata.json"
     items: list[GroundTruthItem] = []
     if not path.exists():
-        return items
+        return "missing", items
+    content = path.read_bytes()
+    metadata = (
+        json.loads(metadata_path.read_text(encoding="utf-8"))
+        if metadata_path.exists()
+        else {}
+    )
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.strip():
-            items.append(GroundTruthItem.model_validate(json.loads(line)))
-    return items
+            payload = json.loads(line)
+            payload.update(metadata.get(payload.get("id"), {}))
+            items.append(GroundTruthItem.model_validate(payload))
+    version_bytes = content + (metadata_path.read_bytes() if metadata_path.exists() else b"")
+    return hashlib.sha256(version_bytes).hexdigest()[:16], items
 
 
 def _table_name_from_qualified(value: str) -> str:
@@ -105,14 +113,28 @@ def _runtime_tables_from_duckdb(db_path: Path) -> dict[str, TableContext]:
             ORDER BY table_name, ordinal_position
             """
         ).fetchall()
+        empty_tables = {
+            table_name
+            for (table_name, estimated_size) in con.execute(
+                """
+                SELECT table_name, estimated_size
+                FROM duckdb_tables()
+                WHERE schema_name = 'main'
+                """
+            ).fetchall()
+            if estimated_size == 0
+        }
     finally:
         con.close()
 
     tables = {
         table_name: TableContext(table_name=table_name, schema_name="main", notes=[])
         for (table_name,) in table_rows
+        if table_name not in empty_tables
     }
     for table_name, column_name, data_type in column_rows:
+        if table_name in empty_tables:
+            continue
         table = tables.setdefault(
             table_name,
             TableContext(table_name=table_name, schema_name="main", notes=[]),
@@ -238,20 +260,25 @@ def load_stage1_context(
             runtime_tables=_runtime_tables_from_duckdb(db_path),
         )
         join_policies = _filter_join_policies_for_tables(join_policies, set(tables))
+    example_bank_version, example_bank = _load_example_bank(root)
+    semantic_rules_version, semantic_rules = load_semantic_rules(
+        root / "docs/semantic_rules.json"
+    )
     return Stage1Context(
         project_root=str(root),
         tables=tables,
         join_policies=join_policies,
-        ground_truth=_load_ground_truth(root),
+        # Evaluation labels are intentionally not loaded into runtime context.
+        # Evaluators load their dataset separately and the ablation runner also
+        # clears this legacy field defensively.
+        ground_truth=[],
+        example_bank=example_bank,
+        example_bank_version=example_bank_version,
+        semantic_rules=semantic_rules,
+        semantic_rules_version=semantic_rules_version,
         readiness_notes=_read_text(root / "docs/stage2_readiness.md"),
         business_dictionary=_read_text(root / "docs/business_dictionary.md"),
         schema_catalog=_read_text(root / "docs/schema_catalog.md"),
         relationship_map=_read_text(root / "docs/relationship_map.md"),
         data_quality_report=_read_text(root / "docs/data_quality_report.md"),
     )
-
-
-def ground_truth_by_normalized_question(ctx: Stage1Context) -> dict[str, GroundTruthItem]:
-    from .text import normalize_text
-
-    return {normalize_text(item.question_pt): item for item in ctx.ground_truth}

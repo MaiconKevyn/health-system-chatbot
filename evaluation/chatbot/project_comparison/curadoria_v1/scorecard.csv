@@ -1,0 +1,129 @@
+case,stratum,project,rep,review_id,executable,ex,nl,grade,reason,calls
+C01,medidas,health,1,edd446098a,True,True,True,correta,Informa as 15.168 internações do recorte.,3
+C01,medidas,health,2,815cd4dc7d,True,True,True,correta,Informa as 15.168 internações do recorte.,4
+C01,medidas,sus,1,30ae538760,True,True,True,correta,Informa as 15.168 internações do recorte.,2
+C01,medidas,sus,2,41fcb93b77,True,True,True,correta,Informa as 15.168 internações do recorte.,2
+C02,medidas,health,1,ecb6f70caa,True,True,True,correta,"Informa mediana de R$ 602,83.",3
+C02,medidas,health,2,d097bb9720,True,True,True,correta,"Fornece a mediana de R$ 602,83.",3
+C02,medidas,sus,1,5d78d68e01,True,True,True,correta,"Informa mediana de R$ 602,83.",2
+C02,medidas,sus,2,5d5bbbebdd,True,True,True,correta,"Fornece a mediana de R$ 602,83.",2
+C03,medidas,health,1,66c37eb87c,True,False,True,correta,Reproduz a descrição local de A16.,3
+C03,medidas,health,2,00509a32f6,True,False,True,correta,Reproduz a descrição de A16 no catálogo.,3
+C03,medidas,sus,1,71111afeb7,True,True,True,correta,Reproduz a descrição local de A16.,2
+C03,medidas,sus,2,2aa437ec5e,True,True,True,correta,Reproduz a descrição de A16 no catálogo.,2
+C04,medidas,health,1,7ac52af17d,True,True,True,correta,Informa os 78 municípios.,3
+C04,medidas,health,2,91b54f314a,True,True,True,correta,Informa os 78 municípios.,3
+C04,medidas,sus,1,f68ee7ffb8,True,True,True,correta,Informa os 78 municípios.,2
+C04,medidas,sus,2,dfed368946,True,True,True,correta,Informa os 78 municípios.,2
+C05,medidas,health,1,6cb307bfba,True,True,True,correta,Informa as 171.898 internações de fim de semana.,3
+C05,medidas,health,2,87f9bdb263,True,True,True,correta,Informa 171.898 internações com início no fim de semana.,3
+C05,medidas,sus,1,56e5513e73,True,True,True,correta,Informa as 171.898 internações de fim de semana.,2
+C05,medidas,sus,2,acb43799e2,True,True,True,correta,Informa as 171.898 internações de fim de semana.,2
+C06,medidas,health,1,851c0e7536,True,True,True,correta,A soma estadual é de 9.132.078 habitantes.,3
+C06,medidas,health,2,6cf70981a2,True,True,True,correta,Informa a soma estadual de 9.132.078 habitantes.,3
+C06,medidas,sus,1,65eba8473d,True,True,True,correta,A soma estadual é de 9.132.078 habitantes.,2
+C06,medidas,sus,2,d257b8de14,True,True,True,correta,Informa a soma estadual de 9.132.078 habitantes.,2
+C07,medidas,health,1,3cf8dfb027,True,True,True,correta,"Informa o valor médio aprovado de R$ 4.199,00.",3
+C07,medidas,health,2,aac5ae69e7,True,True,False,parcial,"R$ 4.198,9955 arredonda corretamente para R$ 4.199,00, mas o usuário pediu que a média fosse apresentada em reais e centavos.",3
+C07,medidas,sus,1,84e0f75505,True,True,True,correta,"Informa o valor médio aprovado de R$ 4.199,00.",2
+C07,medidas,sus,2,3a62ce3d22,True,True,True,correta,"Fornece a média de R$ 4.199,00.",2
+C08,medidas,health,1,db18db63fc,True,True,True,correta,Informa zero registros para 2022.,3
+C08,medidas,health,2,c78e216c45,True,True,True,correta,"Informa zero registros, conforme pedido.",3
+C08,medidas,sus,1,390fb5358c,False,False,False,incorreta,"Reconhece que 2022 está ausente, mas conclui que a quantidade de registros na tabela é indeterminável. A contagem de registros é zero.",1
+C08,medidas,sus,2,671c33bc49,False,False,False,incorreta,Reconhece que o ano está ausente e conclui que a contagem não pode ser obtida. A quantidade de registros para esse ano é zero.,2
+C09,clinica_geografia,health,1,e6c4fe7018,True,True,True,correta,Total correto de 7.619 internações.,3
+C09,clinica_geografia,health,2,06cefef863,True,True,True,correta,Total correto de 7.619 internações.,3
+C09,clinica_geografia,sus,1,e4082a158c,True,True,True,correta,Total correto de 7.619 internações.,2
+C09,clinica_geografia,sus,2,2be8b1e52e,True,True,True,correta,Total correto de 7.619 internações.,2
+C10,clinica_geografia,health,1,0f03dbc4be,True,True,True,correta,Informa 1.078 hospitais distintos.,3
+C10,clinica_geografia,health,2,866183fde4,True,True,True,correta,Informa 1.078 hospitais distintos.,3
+C10,clinica_geografia,sus,1,ff92e0a30d,True,True,True,correta,Informa 1.078 hospitais distintos.,2
+C10,clinica_geografia,sus,2,aacd3c5901,True,True,True,correta,Informa 1.078 hospitais distintos.,2
+C11,clinica_geografia,health,1,add9cbc7c4,True,True,True,correta,Informa as 2.179 internações do fluxo solicitado.,5
+C11,clinica_geografia,health,2,83bf3ac884,True,True,True,correta,Informa as 2.179 internações do fluxo solicitado.,5
+C11,clinica_geografia,sus,1,995e8472b0,True,True,True,correta,Informa as 2.179 internações do fluxo solicitado.,2
+C11,clinica_geografia,sus,2,88766e1062,True,True,True,correta,Associou 2.179 internações ao fluxo correto de residência e atendimento.,2
+C12,clinica_geografia,health,1,6dfdec9eea,True,True,True,correta,Informa as 53.313 AIHs distintas.,3
+C12,clinica_geografia,health,2,425ddfb544,True,True,True,correta,Identifica 53.313 AIHs distintas.,3
+C12,clinica_geografia,sus,1,2e090e7bbd,True,True,True,correta,Informa as 53.313 AIHs distintas.,2
+C12,clinica_geografia,sus,2,a04da5a377,True,True,True,correta,Identifica 53.313 AIHs distintas.,2
+C13,clinica_geografia,health,1,1486d7c1cd,True,False,True,correta,"Taxa de 3,35% no recorte solicitado.",3
+C13,clinica_geografia,health,2,79179313bb,True,False,True,correta,"A taxa é de 3,35% no universo solicitado.",3
+C13,clinica_geografia,sus,1,ae3a8bd30b,True,True,True,correta,"Taxa de 3,35% no recorte residencial e temporal solicitado.",2
+C13,clinica_geografia,sus,2,dce1ac8d45,True,True,True,correta,"A taxa é de 3,35% no universo solicitado.",2
+C14,clinica_geografia,health,1,3e979b3c16,True,True,True,correta,Informa 378 hospitais de Minas Gerais.,3
+C14,clinica_geografia,health,2,2539583b5c,True,True,True,correta,Informa os 378 hospitais de atendimento em Minas Gerais.,3
+C14,clinica_geografia,sus,1,2363dde2e3,True,True,True,correta,Informa 378 hospitais de Minas Gerais.,2
+C14,clinica_geografia,sus,2,4e8be06bc0,True,True,True,correta,Identifica 378 estabelecimentos mineiros.,2
+C15,clinica_geografia,health,1,6524de39f8,True,True,True,correta,Identifica as 357 internações no recorte de residência e diagnóstico principal.,3
+C15,clinica_geografia,health,2,521fe3da88,True,True,True,correta,Informa as 357 internações no recorte pedido.,3
+C15,clinica_geografia,sus,1,0f65658d29,True,True,True,correta,Identifica as 357 internações no recorte de residência e diagnóstico principal.,2
+C15,clinica_geografia,sus,2,b145535961,True,True,True,correta,Informa as 357 internações no recorte pedido.,2
+C16,clinica_geografia,health,1,182b765e08,True,True,True,correta,Identifica 1.440 estabelecimentos ativos sem óbito no recorte.,4
+C16,clinica_geografia,health,2,464d7f40d0,True,True,True,correta,1.440 estabelecimentos satisfazem o recorte.,3
+C16,clinica_geografia,sus,1,12f8424e89,True,True,True,correta,Identifica 1.440 estabelecimentos ativos sem óbito no recorte.,2
+C16,clinica_geografia,sus,2,bffe9af45f,True,True,True,correta,1.440 estabelecimentos satisfazem o recorte.,2
+C17,distribuicoes,health,1,3116a70244,True,True,True,correta,Apresenta as três contagens mensais com os meses correspondentes.,3
+C17,distribuicoes,health,2,a6f0ead135,True,True,True,correta,Os três meses estão associados às contagens correspondentes.,3
+C17,distribuicoes,sus,1,34ad2ebcc4,True,False,True,correta,Apresenta as três contagens mensais com os meses correspondentes.,2
+C17,distribuicoes,sus,2,575aec77be,True,True,True,correta,Os três meses estão associados às contagens correspondentes.,2
+C18,distribuicoes,health,1,ced4797686,True,True,True,correta,As contagens de 6.586 e 23.634 estão associadas aos estados corretos.,3
+C18,distribuicoes,health,2,08539ff271,True,True,True,correta,Associa as duas contagens aos estados solicitados.,3
+C18,distribuicoes,sus,1,7d2c7e4776,True,True,True,correta,As contagens de 6.586 e 23.634 estão associadas aos estados corretos.,2
+C18,distribuicoes,sus,2,5f244f5945,True,True,True,correta,Associa as duas contagens aos estados solicitados.,2
+C19,distribuicoes,health,1,0b9110769c,True,False,True,correta,Identifica segunda-feira e as 81.681 internações.,3
+C19,distribuicoes,health,2,d6c5bb3f9c,True,False,True,correta,Identifica segunda-feira e suas 81.681 internações.,3
+C19,distribuicoes,sus,1,0162084b09,True,False,True,correta,Identifica segunda-feira e as 81.681 internações.,2
+C19,distribuicoes,sus,2,31f15de191,True,False,True,correta,Identifica segunda-feira e suas 81.681 internações.,2
+C20,distribuicoes,health,1,f719e85397,True,True,True,correta,Os três códigos e as respectivas contagens estão corretos e ordenados.,3
+C20,distribuicoes,health,2,10f6cb455e,True,True,True,correta,Apresenta os três códigos e contagens em ordem decrescente.,3
+C20,distribuicoes,sus,1,e6edcd9b3b,True,False,True,correta,"Apresenta O800, B342 e I64 na ordem correta e com as três contagens.",2
+C20,distribuicoes,sus,2,5d6891509a,True,True,True,correta,Apresenta os três códigos e contagens em ordem decrescente.,2
+C21,distribuicoes,health,1,e5fc2d5672,True,True,True,correta,Os três códigos e volumes de ocorrências estão associados e ordenados corretamente.,3
+C21,distribuicoes,health,2,42d2ba889c,True,True,True,correta,Os três códigos e volumes de ocorrências estão corretos e ordenados.,2
+C21,distribuicoes,sus,1,259770ebce,True,False,True,correta,Os três códigos e volumes de ocorrências estão associados e ordenados corretamente.,2
+C21,distribuicoes,sus,2,96f132ebeb,True,False,True,correta,Os três códigos e volumes de ocorrências estão corretos e ordenados.,2
+C22,distribuicoes,health,1,a6db8a322c,True,True,True,correta,Os três CNES e contagens estão corretos e na ordem solicitada.,3
+C22,distribuicoes,health,2,3659e53a08,True,False,True,correta,Os três pares de CNES e contagem conferem e o ranking está na ordem pedida.,3
+C22,distribuicoes,sus,1,e21e5b093b,True,False,True,correta,Os três CNES e contagens estão corretos e na ordem solicitada.,2
+C22,distribuicoes,sus,2,d5b6e6611b,True,False,True,correta,Os três pares de CNES e contagem conferem e o ranking está na ordem pedida.,2
+C23,distribuicoes,health,1,c0b5a60aac,True,True,True,correta,"As três contagens, as médias e a soma de 516.037 conferem.",3
+C23,distribuicoes,health,2,b7a08c2697,True,True,True,correta,"Cada ano tem o volume e a permanência média corretos. As variações e o total, quando citados, conferem.",3
+C23,distribuicoes,sus,1,75afcb4868,True,True,True,correta,"Identifica corretamente os três volumes, as três médias e o sentido de ambas as séries.",2
+C23,distribuicoes,sus,2,230545154a,True,True,True,correta,"Cada ano tem o volume e a permanência média corretos. As variações e o total, quando citados, conferem.",2
+C24,distribuicoes,health,1,5e84e5debc,True,True,True,correta,Entrega os três diagnósticos e as três médias em dias na ordem solicitada.,3
+C24,distribuicoes,health,2,3c49690d1a,True,True,True,correta,Informa os três CIDs com suas médias corretas em ordem decrescente.,3
+C24,distribuicoes,sus,1,e8feb6c8d5,True,True,True,correta,Entrega os três diagnósticos e as três médias em dias na ordem solicitada.,2
+C24,distribuicoes,sus,2,039b962f54,True,False,True,correta,Informa os três CIDs com suas médias corretas em ordem decrescente.,2
+C25,comparacoes,health,1,26e5036a13,True,False,True,correta,"A direção e a variação relativa de 5,30% estão corretas.",3
+C25,comparacoes,health,2,30b7002fc9,True,False,True,correta,"A direção e a variação relativa de 5,30% estão corretas.",3
+C25,comparacoes,sus,1,65ee881e7f,True,True,True,correta,"Identifica crescimento relativo de 5,30%.",2
+C25,comparacoes,sus,2,5f0f40136a,True,False,True,correta,"Identifica crescimento relativo de 5,30%.",2
+C26,comparacoes,health,1,814f28660c,True,True,True,correta,"Informa 52,66 internações por mil habitantes.",3
+C26,comparacoes,health,2,00acaf46ef,True,True,True,correta,"Explicita a taxa correta de 52,66 internações por mil habitantes.",3
+C26,comparacoes,sus,1,a300614266,True,True,True,correta,"Informa 52,66 internações por mil habitantes.",2
+C26,comparacoes,sus,2,a67d828466,True,True,True,correta,"Explicita a taxa correta de 52,66 internações por mil habitantes.",2
+C27,comparacoes,health,1,a216fb9a86,True,True,True,correta,"A média anual de 860.056,00 corresponde ao gabarito.",3
+C27,comparacoes,health,2,8031afcd87,True,True,True,correta,"A média anual de 860.056,00 corresponde ao gabarito.",3
+C27,comparacoes,sus,1,9e4aa76448,True,True,True,correta,"A média anual de 860.056,00 corresponde ao gabarito.",2
+C27,comparacoes,sus,2,d807db7572,True,True,True,correta,"A média anual de 860.056,00 corresponde ao gabarito.",2
+C28,comparacoes,health,1,130d41391e,True,True,True,correta,Identifica o pico em 2019 e seus 9.398 óbitos.,3
+C28,comparacoes,health,2,819066c9e2,True,False,True,correta,Identifica o pico em 2019 e os 9.398 óbitos.,3
+C28,comparacoes,sus,1,7ec2d380fe,True,True,True,correta,Identifica o pico em 2019 e seus 9.398 óbitos.,2
+C28,comparacoes,sus,2,01b431f3a1,True,True,True,correta,Identifica o pico em 2019 e os 9.398 óbitos.,2
+C29,comparacoes,health,1,57898bd1c3,False,False,False,sem_resposta,Validação exigiu projeção do trimestre e o texto não fornece percentual.,4
+C29,comparacoes,health,2,64110c8753,False,False,False,sem_resposta,Recusa por exigir projeção do trimestre e omite o percentual.,4
+C29,comparacoes,sus,1,ebb9087f33,True,True,True,correta,"A fração respiratória corresponde aos 8,53% solicitados.",2
+C29,comparacoes,sus,2,ecd39411cc,True,True,True,correta,"Informa a parcela respiratória de 8,53%.",2
+C30,comparacoes,health,1,747d90294b,True,False,False,incorreta,"Embora acerte a contagem de próstata, omite a de mama e inverte a conclusão.",4
+C30,comparacoes,health,2,74deb723b1,True,False,False,incorreta,"Omite 79.047 internações por câncer de mama e declara vencedor o grupo de próstata, embora tenha só 35.231.",3
+C30,comparacoes,sus,1,1f1b2a3510,True,False,True,correta,Compara 79.047 com 35.231 e identifica câncer de mama.,2
+C30,comparacoes,sus,2,628661ccf6,True,False,True,correta,Identifica câncer de mama como mais frequente e informa as duas contagens.,2
+C31,comparacoes,health,1,e3e483cdf7,True,True,True,correta,Informa os 1.685 hospitais do recorte.,3
+C31,comparacoes,health,2,89bc06b683,True,True,True,correta,Informa os 1.685 hospitais solicitados.,3
+C31,comparacoes,sus,1,6b6e1af97b,True,True,True,correta,Informa os 1.685 hospitais do recorte.,2
+C31,comparacoes,sus,2,6dd284fef5,True,True,True,correta,Identifica os 1.685 hospitais com mais de 500 internações e nenhum uso de UTI.,2
+C32,comparacoes,health,1,02b9df2680,True,False,True,correta,"Expressa o aumento de 1,24 ponto percentual no período.",3
+C32,comparacoes,health,2,2313635a82,True,False,True,correta,"Identifica aumento de 1,24 ponto percentual. As taxas de 2019 e 2020, quando citadas, conferem.",3
+C32,comparacoes,sus,1,72dd1e9505,True,True,True,correta,"Expressa o aumento de 1,24 ponto percentual no período.",2
+C32,comparacoes,sus,2,68e31496d6,True,True,True,correta,"Identifica aumento de 1,24 ponto percentual. As taxas de 2019 e 2020, quando citadas, conferem.",2

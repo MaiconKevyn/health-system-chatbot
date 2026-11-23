@@ -1,0 +1,2 @@
+variant,total,result_match_rate,semantic_match_rate,presentation_match_rate,semantic_match_bootstrap_ci95_by_template,scored_total,not_scorable_count,comparable_result_match_rate,delta_vs_full_agent_pp,sql_valid_rate,sql_execution_rate,latency_p50,latency_p95,contained_in_actual_count,contained_in_expected_count,semantic_label_equivalence_count,error_category_counts
+full_agent,1,,,,null,0,1,,,0.0,0.0,722.372843249992,722.372843249992,0,0,0,"{""provider_error"": 1}"

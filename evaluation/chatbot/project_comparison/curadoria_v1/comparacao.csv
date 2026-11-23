@@ -1,0 +1,1102 @@
+﻿id,rodada,pergunta,referencia,health_resposta,health_avaliacao_nl,health_motivo,health_sql,health_ex,sus_resposta,sus_avaliacao_nl,sus_motivo,sus_sql,sus_ex
+C01,1,"Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",15.168 internações.,Foram 15.168 internações (AIHs) com permanência registrada superior a 30 dias.,correta,Informa as 15.168 internações do recorte.,SELECT COUNT(*) AS total_internacoes FROM internacao i WHERE i.DT_INTER >= DATE '2018-10-01' AND i.DT_INTER < DATE '2018-11-01' AND i.DIAS_PERM > 30,True,Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias.,correta,Informa as 15.168 internações do recorte.,"SELECT COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2018-10-01'
+  AND DT_INTER < DATE '2018-11-01'
+  AND DIAS_PERM > 30;",True
+C01,2,"Quantas internações iniciadas em outubro de 2018 duraram mais de 30 dias, segundo a permanência registrada?",15.168 internações.,Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias.,correta,Informa as 15.168 internações do recorte.,SELECT COUNT(*) AS total_internacoes FROM internacao i WHERE i.DT_INTER >= DATE '2018-10-01' AND i.DT_INTER < DATE '2018-11-01' AND i.DIAS_PERM > 30,True,Foram 15.168 internações iniciadas em outubro de 2018 com permanência registrada superior a 30 dias.,correta,Informa as 15.168 internações do recorte.,"SELECT COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2018-10-01'
+  AND DT_INTER < DATE '2018-11-01'
+  AND DIAS_PERM > 30;",True
+C02,1,"Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.","A mediana foi de R$ 602,83 por AIH.","A mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022 foi de R$ 602,83.",correta,"Informa mediana de R$ 602,83.","SELECT ROUND(MEDIAN(i.VAL_TOT), 2) AS mediana_valor_total_aprovado_reais FROM internacao i WHERE i.DT_INTER >= DATE '2022-03-01' AND i.DT_INTER < DATE '2022-04-01'",True,"A mediana do valor total aprovado por AIH foi de **R$ 602,83**. O mês foi definido pela data de internação, e o valor é nominal, sem correção pela inflação.",correta,"Informa mediana de R$ 602,83.","SELECT ROUND(quantile_cont(VAL_TOT, 0.5), 2) AS mediana_valor_total_reais
+FROM internacao
+WHERE DT_INTER >= DATE '2022-03-01'
+  AND DT_INTER < DATE '2022-04-01';",True
+C02,2,"Qual foi a mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022? Informe em reais, com centavos.","A mediana foi de R$ 602,83 por AIH.","A mediana do valor total aprovado por AIH foi de R$ 602,83.",correta,"Fornece a mediana de R$ 602,83.","SELECT ROUND(MEDIAN(i.VAL_TOT), 2) AS mediana_valor_total_aprovado_reais FROM internacao AS i WHERE i.DT_INTER >= DATE '2022-03-01' AND i.DT_INTER < DATE '2022-04-01'",True,"A mediana do valor total aprovado por AIH nas internações iniciadas em março de 2022 foi **R$ 602,83**. Os valores financeiros são nominais.",correta,"Fornece a mediana de R$ 602,83.","SELECT ROUND(MEDIAN(VAL_TOT), 2) AS mediana_valor_aprovado_reais
+FROM internacao
+WHERE DT_INTER >= DATE '2022-03-01'
+  AND DT_INTER < DATE '2022-04-01';",True
+C03,1,Qual é a descrição do código A16 na tabela CID do banco?,A16 corresponde a tuberculose das vias respiratórias sem confirmação bacteriológica ou histológica. A descrição abreviada do catálogo é “Tuberc vias respirat s/conf bacter histol”.,O código A16 corresponde a “Tuberc vias respirat s/conf bacter histol”.,correta,Reproduz a descrição local de A16.,"SELECT CID AS codigo, DESCRICAO AS descricao
+FROM cid
+WHERE CID = 'A16'",False,O código CID A16 corresponde a “Tuberc vias respirat s/conf bacter histol”.,correta,Reproduz a descrição local de A16.,"SELECT DESCRICAO AS descricao
+FROM cid
+WHERE CID = 'A16'
+LIMIT 1;",True
+C03,2,Qual é a descrição do código A16 na tabela CID do banco?,A16 corresponde a tuberculose das vias respiratórias sem confirmação bacteriológica ou histológica. A descrição abreviada do catálogo é “Tuberc vias respirat s/conf bacter histol”.,A descrição do código A16 é “Tuberc vias respirat s/conf bacter histol”.,correta,Reproduz a descrição de A16 no catálogo.,"SELECT CID AS codigo, DESCRICAO AS descricao FROM cid WHERE CID = 'A16'",False,A descrição do código CID A16 é “Tuberc vias respirat s/conf bacter histol”.,correta,Reproduz a descrição de A16 no catálogo.,"SELECT DESCRICAO AS descricao
+FROM cid
+WHERE CID = 'A16'
+LIMIT 1;",True
+C04,1,Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?,78 municípios cadastrados no Espírito Santo.,Constam 78 municípios do Espírito Santo no cadastro.,correta,Informa os 78 municípios.,"SELECT COUNT(*) AS total_municipios
+FROM municipios
+WHERE SG_UF = 'ES'",True,O cadastro contém 78 municípios do Espírito Santo.,correta,Informa os 78 municípios.,"SELECT COUNT(*) AS quantidade_municipios
+FROM municipios
+WHERE SG_UF = 'ES';",True
+C04,2,Quantos municípios do Espírito Santo constam no cadastro de municípios do banco?,78 municípios cadastrados no Espírito Santo.,Constam 78 municípios do Espírito Santo no cadastro.,correta,Informa os 78 municípios.,"SELECT COUNT(*) AS total_municipios
+FROM municipios
+WHERE SG_UF = 'ES'",True,O cadastro contém 78 municípios do Espírito Santo.,correta,Informa os 78 municípios.,"SELECT COUNT(*) AS quantidade_municipios
+FROM municipios
+WHERE SG_UF = 'ES';",True
+C05,1,"Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",171.898 internações começaram no fim de semana.,"Foram 171.898 internações iniciadas em sábados ou domingos em setembro de 2020, no Brasil.",correta,Informa as 171.898 internações de fim de semana.,"SELECT COUNT(*) AS total_internacoes FROM internacao i WHERE i.DT_INTER >= DATE '2020-09-01' AND i.DT_INTER < DATE '2020-10-01' AND isodow(i.DT_INTER) IN (6, 7)",True,"Foram registradas **171.898 internações** iniciadas em sábados ou domingos no Brasil, em setembro de 2020. “Começaram” foi interpretado como a data de entrada na internação.",correta,Informa as 171.898 internações de fim de semana.,"SELECT COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2020-09-01'
+  AND DT_INTER < DATE '2020-10-01'
+  AND dayofweek(DT_INTER) IN (0, 6);",True
+C05,2,"Quantas internações começaram num sábado ou domingo em setembro de 2020, no Brasil?",171.898 internações começaram no fim de semana.,"Foram 171.898 internações com início em um sábado ou domingo em setembro de 2020, no Brasil.",correta,Informa 171.898 internações com início no fim de semana.,"SELECT COUNT(*) AS total_internacoes FROM internacao i WHERE i.DT_INTER >= DATE '2020-09-01' AND i.DT_INTER < DATE '2020-10-01' AND isodow(i.DT_INTER) IN (6, 7)",True,"Foram **171.898 internações** com entrada em um sábado ou domingo em setembro de 2020. “Começaram” foi interpretado como a data de entrada, e “no Brasil” como todas as internações registradas na base, sem filtro geográfico adicional.",correta,Informa as 171.898 internações de fim de semana.,"SELECT COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2020-09-01'
+  AND DT_INTER < DATE '2020-10-01'
+  AND dayofweek(DT_INTER) IN (0, 6);",True
+C06,1,Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?,9.132.078 habitantes na soma do indicador municipal do Ceará em 2019.,A soma da população municipal registrada para o Ceará em 2019 foi de 9.132.078.,correta,A soma estadual é de 9.132.078 habitantes.,"SELECT SUM(s.QT_POPULACAO) AS soma_populacao_municipal
+FROM socioeconomico AS s
+JOIN municipios AS m
+  ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+WHERE s.NU_ANO = 2019
+  AND m.SG_UF = 'CE'",True,A soma da população municipal registrada para o Ceará em 2019 foi de **9.132.078 pessoas**. Interpretei “para o Ceará” como os municípios localizados no estado.,correta,A soma estadual é de 9.132.078 habitantes.,"SELECT SUM(s.QT_POPULACAO) AS populacao_total
+FROM socioeconomico s
+JOIN municipios m
+  ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+WHERE s.NU_ANO = 2019
+  AND m.SG_UF = 'CE';",True
+C06,2,Qual é a soma da população municipal registrada para o Ceará no indicador socioeconômico de 2019?,9.132.078 habitantes na soma do indicador municipal do Ceará em 2019.,A soma da população municipal registrada para o Ceará em 2019 foi de 9.132.078.,correta,Informa a soma estadual de 9.132.078 habitantes.,SELECT SUM(s.QT_POPULACAO) AS soma_populacao_municipal FROM socioeconomico s JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D WHERE s.NU_ANO = 2019 AND m.SG_UF = 'CE',True,A população municipal registrada para o Ceará em 2019 soma **9.132.078 pessoas**.,correta,Informa a soma estadual de 9.132.078 habitantes.,"SELECT SUM(s.QT_POPULACAO) AS populacao_total
+FROM socioeconomico s
+JOIN municipios m ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'CE'
+  AND s.NU_ANO = 2019;",True
+C07,1,"Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?","R$ 4.199,00 por internação que terminou em óbito.","O valor total aprovado médio foi de R$ 4.199,00 por internação.",correta,"Informa o valor médio aprovado de R$ 4.199,00.","SELECT ROUND(AVG(i.VAL_TOT), 2) AS valor_total_aprovado_medio_reais FROM internacao AS i WHERE i.DT_INTER >= DATE '2017-06-01' AND i.DT_INTER < DATE '2017-07-01' AND i.MORTE = TRUE",True,"O valor total aprovado médio foi de **R$ 4.199,00** por internação. O valor é nominal, sem correção pela inflação; considerei junho de 2017 pela data de início da internação.",correta,"Informa o valor médio aprovado de R$ 4.199,00.","SELECT ROUND(AVG(VAL_TOT), 2) AS valor_aprovado_medio_reais
+FROM internacao
+WHERE DT_INTER >= DATE '2017-06-01'
+  AND DT_INTER < DATE '2017-07-01'
+  AND MORTE = TRUE;",True
+C07,2,"Qual foi o valor total aprovado médio, em reais e centavos, das internações iniciadas em junho de 2017 que terminaram em óbito?","R$ 4.199,00 por internação que terminou em óbito.","O valor total aprovado médio foi de R$ 4.198,9955 por internação.",parcial,"R$ 4.198,9955 arredonda corretamente para R$ 4.199,00, mas o usuário pediu que a média fosse apresentada em reais e centavos.",SELECT AVG(i.VAL_TOT) AS valor_total_aprovado_medio_reais FROM internacao AS i WHERE i.DT_INTER >= DATE '2017-06-01' AND i.DT_INTER < DATE '2017-07-01' AND i.MORTE = TRUE,True,"O valor total aprovado médio foi de **R$ 4.199,00** para as internações iniciadas em junho de 2017 que terminaram em óbito. Valores financeiros são nominais.",correta,"Fornece a média de R$ 4.199,00.","SELECT ROUND(AVG(VAL_TOT), 2) AS valor_medio_aprovado_reais
+FROM internacao
+WHERE DT_INTER >= DATE '2017-06-01'
+  AND DT_INTER < DATE '2017-07-01'
+  AND MORTE = TRUE;",True
+C08,1,Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?,Zero registros com população informada para 2022. A tabela não contém esse ano.,Há 0 registros municipais com população não nula para 2022.,correta,Informa zero registros para 2022.,"SELECT COUNT(*) AS total_registros_municipais_populacao_nao_nula
+FROM socioeconomico
+WHERE NU_ANO = 2022
+  AND QT_POPULACAO IS NOT NULL",True,"O ano de 2022 está ausente da tabela socioeconomico. Portanto, a base não permite responder quantos registros municipais têm população não nula nesse ano.",incorreta,"Reconhece que 2022 está ausente, mas conclui que a quantidade de registros na tabela é indeterminável. A contagem de registros é zero.",,False
+C08,2,Quantos registros municipais de população não nula há na tabela socioeconômica para o ano de 2022?,Zero registros com população informada para 2022. A tabela não contém esse ano.,Há 0 registros municipais com população não nula para 2022.,correta,"Informa zero registros, conforme pedido.","SELECT COUNT(*) AS total_registros_municipais_populacao_nao_nula
+FROM socioeconomico
+WHERE NU_ANO = 2022
+  AND QT_POPULACAO IS NOT NULL",True,"O ano de 2022 está ausente da tabela socioeconomico. Portanto, a contagem solicitada não pode ser obtida com os dados disponíveis.",incorreta,Reconhece que o ano está ausente e conclui que a contagem não pode ser obtida. A quantidade de registros para esse ano é zero.,,False
+C09,1,Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?,7.619 internações por asma ou estado de mal asmático como diagnóstico principal.,Foram 7.619 internações.,correta,Total correto de 7.619 internações.,"SELECT COUNT(*) AS total_internacoes
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2017-02-01'
+  AND i.DT_INTER < DATE '2017-03-01'
+  AND (i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%')",True,Foram 7.619 internações iniciadas em fevereiro de 2017 com asma (CID-10 J45) ou estado de mal asmático (J46) como diagnóstico principal.,correta,Total correto de 7.619 internações.,"SELECT COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2017-02-01'
+  AND DT_INTER < DATE '2017-03-01'
+  AND (DIAG_PRINC LIKE 'J45%' OR DIAG_PRINC LIKE 'J46%');",True
+C09,2,Quantas internações iniciadas em fevereiro de 2017 tiveram asma ou estado de mal asmático como diagnóstico principal?,7.619 internações por asma ou estado de mal asmático como diagnóstico principal.,Foram 7.619 internações.,correta,Total correto de 7.619 internações.,"SELECT COUNT(*) AS total_internacoes
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2017-02-01'
+  AND i.DT_INTER < DATE '2017-03-01'
+  AND (i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%')",True,"Foram 7.619 internações iniciadas em fevereiro de 2017 com asma (J45) ou estado de mal asmático (J46) como diagnóstico principal. Considerei a data de início da internação, e não a data de alta.",correta,Total correto de 7.619 internações.,"SELECT COUNT(*) AS internacoes
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2017-02-01'
+  AND i.DT_INTER < DATE '2017-03-01'
+  AND (i.DIAG_PRINC LIKE 'J45%' OR i.DIAG_PRINC LIKE 'J46%');",True
+C10,1,"Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",1.078 hospitais distintos.,1.078 hospitais distintos atenderam internações iniciadas em julho de 2019 com uso de UTI.,correta,Informa 1.078 hospitais distintos.,"SELECT COUNT(DISTINCT h.CNES) AS hospitais_distintos_cnes
+FROM internacao i
+JOIN hospital h ON i.CNES = h.CNES
+WHERE i.DT_INTER >= DATE '2019-07-01'
+  AND i.DT_INTER < DATE '2019-08-01'
+  AND i.MARCA_UTI <> 0",True,"1.078 hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI. Considerou-se a data de entrada e uso de UTI indicado por MARCA_UTI maior que zero.",correta,Informa 1.078 hospitais distintos.,"SELECT COUNT(DISTINCT CNES) AS hospitais_distintos
+FROM internacao
+WHERE DT_INTER >= DATE '2019-07-01'
+  AND DT_INTER < DATE '2019-08-01'
+  AND MARCA_UTI > 0;",True
+C10,2,"Quantos hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI?",1.078 hospitais distintos.,1.078 hospitais distintos atenderam internações iniciadas em julho de 2019 com uso de UTI.,correta,Informa 1.078 hospitais distintos.,"SELECT COUNT(DISTINCT h.CNES) AS hospitais_distintos_cnes
+FROM internacao AS i
+JOIN hospital AS h ON i.CNES = h.CNES
+WHERE i.DT_INTER >= DATE '2019-07-01'
+  AND i.DT_INTER < DATE '2019-08-01'
+  AND i.MARCA_UTI <> 0",True,"1.078 hospitais distintos, identificados por CNES, atenderam internações iniciadas em julho de 2019 com uso de UTI. “Iniciadas” foi interpretado pela data de entrada, e o CNES corresponde ao estabelecimento da internação.",correta,Informa 1.078 hospitais distintos.,"SELECT COUNT(DISTINCT CNES) AS hospitais_distintos
+FROM internacao
+WHERE DT_INTER >= DATE '2019-07-01'
+  AND DT_INTER < DATE '2019-08-01'
+  AND MARCA_UTI > 0;",True
+C11,1,Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?,2.179 internações de residentes de Canoas em hospitais de Porto Alegre.,Foram 2.179 internações.,correta,Informa as 2.179 internações do fluxo solicitado.,"SELECT COUNT(*) AS total_internacoes
+FROM internacao i
+JOIN municipios mr
+  ON i.MUNIC_RES = mr.CO_MUNICIPIO_6D
+JOIN hospital h
+  ON i.CNES = h.CNES
+JOIN municipios mh
+  ON h.MUNIC_MOV = mh.CO_MUNICIPIO_6D
+WHERE mr.NO_MUNICIPIO = 'Canoas'
+  AND mr.SG_UF = 'RS'
+  AND mh.NO_MUNICIPIO = 'Porto Alegre'
+  AND mh.SG_UF = 'RS'
+  AND i.DT_INTER >= DATE '2021-01-01'
+  AND i.DT_INTER < DATE '2022-01-01'",True,"Foram 2.179 internações de residentes de Canoas em hospitais localizados em Porto Alegre que começaram em 2021. “Começaram” foi considerado como a data de entrada, e a localização do hospital como o município do estabelecimento.",correta,Informa as 2.179 internações do fluxo solicitado.,"SELECT COUNT(*) AS internacoes
+FROM internacao i
+JOIN municipios mr ON i.MUNIC_RES = mr.CO_MUNICIPIO_6D
+JOIN hospital h ON i.CNES = h.CNES
+JOIN municipios mh ON h.MUNIC_MOV = mh.CO_MUNICIPIO_6D
+WHERE year(i.DT_INTER) = 2021
+  AND strip_accents(mr.NO_MUNICIPIO) = strip_accents('Canoas')
+  AND mr.SG_UF = 'RS'
+  AND strip_accents(mh.NO_MUNICIPIO) = strip_accents('Porto Alegre')
+  AND mh.SG_UF = 'RS';",True
+C11,2,Quantas internações de residentes de Canoas (RS) começaram em 2021 em hospitais localizados em Porto Alegre (RS)?,2.179 internações de residentes de Canoas em hospitais de Porto Alegre.,Foram 2.179 internações.,correta,Informa as 2.179 internações do fluxo solicitado.,"SELECT COUNT(*) AS total_internacoes
+FROM internacao AS i
+JOIN municipios AS residencia
+  ON i.MUNIC_RES = residencia.CO_MUNICIPIO_6D
+JOIN hospital AS h
+  ON i.CNES = h.CNES
+JOIN municipios AS municipio_hospital
+  ON h.MUNIC_MOV = municipio_hospital.CO_MUNICIPIO_6D
+WHERE residencia.NO_MUNICIPIO = 'Canoas'
+  AND residencia.SG_UF = 'RS'
+  AND municipio_hospital.NO_MUNICIPIO = 'Porto Alegre'
+  AND municipio_hospital.SG_UF = 'RS'
+  AND i.DT_INTER >= DATE '2021-01-01'
+  AND i.DT_INTER < DATE '2022-01-01'",True,"Foram **2.179 internações** de residentes de Canoas em hospitais localizados em Porto Alegre, com entrada em 2021. O recorte geográfico considera o município de residência do paciente e o município do hospital; “começaram em 2021” foi interpretado como data de entrada no hospital.",correta,Associou 2.179 internações ao fluxo correto de residência e atendimento.,"SELECT COUNT(*) AS internacoes
+FROM internacao i
+JOIN hospital h ON i.CNES = h.CNES
+JOIN municipios mr ON i.MUNIC_RES = mr.CO_MUNICIPIO_6D
+JOIN municipios mh ON h.MUNIC_MOV = mh.CO_MUNICIPIO_6D
+WHERE mr.CO_MUNICIPIO_6D = 430460
+  AND mr.SG_UF = 'RS'
+  AND mh.CO_MUNICIPIO_6D = 431490
+  AND mh.SG_UF = 'RS'
+  AND year(i.DT_INTER) = 2021;",True
+C12,1,Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?,53.313 AIHs distintas com pelo menos um registro do procedimento 0411010034.,Foram 53.313 AIHs distintas.,correta,Informa as 53.313 AIHs distintas.,"SELECT COUNT(DISTINCT i.N_AIH) AS total_aih_distintas
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2023-04-01'
+  AND i.DT_INTER < DATE '2023-05-01'
+  AND EXISTS (
+    SELECT 1
+    FROM internacao_procedimento ip
+    WHERE ip.N_AIH = i.N_AIH
+      AND ip.PROC_REA = '0411010034'
+  )",True,Foram 53.313 AIHs distintas iniciadas em abril de 2023 com ao menos um registro do procedimento realizado de código 0411010034. “Iniciadas” foi interpretado como a data de entrada da internação.,correta,Informa as 53.313 AIHs distintas.,"SELECT COUNT(DISTINCT i.N_AIH) AS aihs_distintas
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2023-04-01'
+  AND i.DT_INTER < DATE '2023-05-01'
+  AND EXISTS (
+      SELECT 1
+      FROM internacao_procedimento ip
+      WHERE ip.N_AIH = i.N_AIH
+        AND ip.PROC_REA = '0411010034'
+  );",True
+C12,2,Quantas AIHs distintas iniciadas em abril de 2023 tiveram ao menos um registro do procedimento realizado de código 0411010034?,53.313 AIHs distintas com pelo menos um registro do procedimento 0411010034.,Foram 53.313 AIHs distintas.,correta,Identifica 53.313 AIHs distintas.,"SELECT COUNT(DISTINCT i.N_AIH) AS total_aih_distintas
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2023-04-01'
+  AND i.DT_INTER < DATE '2023-05-01'
+  AND EXISTS (
+    SELECT 1
+    FROM internacao_procedimento ip
+    WHERE ip.N_AIH = i.N_AIH
+      AND ip.PROC_REA = '0411010034'
+  )",True,"Foram **53.313 AIHs distintas** iniciadas em abril de 2023 com ao menos um registro do procedimento realizado de código 0411010034. “Iniciadas” foi considerado como data de entrada entre 1º e 30 de abril, inclusive.",correta,Identifica 53.313 AIHs distintas.,"SELECT COUNT(DISTINCT i.N_AIH) AS aihs_distintas
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2023-04-01'
+  AND i.DT_INTER < DATE '2023-05-01'
+  AND EXISTS (
+    SELECT 1
+    FROM internacao_procedimento ip
+    WHERE ip.N_AIH = i.N_AIH
+      AND ip.PROC_REA = '0411010034'
+  );",True
+C13,1,"Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.","A taxa de mortalidade hospitalar foi de 3,35%.","A taxa de mortalidade hospitalar foi de 3,35%.",correta,"Taxa de 3,35% no recorte solicitado.","SELECT ROUND(100.0 * COUNT(*) FILTER (WHERE i.MORTE = TRUE) / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade_percentual, COUNT(*) AS total_internacoes FROM internacao AS i LEFT JOIN municipios AS m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D WHERE m.SG_UF = 'GO' AND i.DT_INTER >= DATE '2018-01-01' AND i.DT_INTER < DATE '2019-01-01'",False,"A taxa de mortalidade hospitalar foi de **3,35%** entre as internações iniciadas em 2018 de residentes de Goiás. O recorte considera o estado de residência do paciente, não o local do hospital.",correta,"Taxa de 3,35% no recorte residencial e temporal solicitado.","SELECT ROUND(100.0 * COUNT(*) FILTER (WHERE i.MORTE) / COUNT(*), 2) AS taxa_mortalidade_pct
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'GO'
+  AND year(i.DT_INTER) = 2018;",True
+C13,2,"Entre residentes de Goiás, qual foi a taxa de mortalidade hospitalar das internações iniciadas em 2018? Informe o percentual com duas casas.","A taxa de mortalidade hospitalar foi de 3,35%.","A taxa de mortalidade hospitalar foi de 3,35%.",correta,"A taxa é de 3,35% no universo solicitado.","SELECT
+  ROUND(100.0 * COUNT(*) FILTER (WHERE i.MORTE = true) / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade_percentual,
+  COUNT(*) AS total_internacoes
+FROM internacao AS i
+LEFT JOIN municipios AS m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'GO'
+  AND i.DT_INTER >= DATE '2018-01-01'
+  AND i.DT_INTER < DATE '2019-01-01'",False,"A taxa de mortalidade hospitalar foi de **3,35%** entre as internações iniciadas em 2018 de residentes de Goiás. O recorte considera o estado de residência, não o local de atendimento; a taxa usa todas as internações como denominador e os óbitos registrados como numerador.",correta,"A taxa é de 3,35% no universo solicitado.","SELECT ROUND(100.0 * COUNT(*) FILTER (WHERE i.MORTE) / COUNT(*), 2) AS taxa_mortalidade_pct
+FROM internacao i
+LEFT JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE COALESCE(m.SG_UF, CASE WHEN i.MUNIC_RES BETWEEN 530000 AND 539999 THEN 'DF' END) = 'GO'
+  AND year(i.DT_INTER) = 2018;",True
+C14,1,"Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",378 hospitais mineiros.,Foram 378 hospitais de Minas Gerais.,correta,Informa 378 hospitais de Minas Gerais.,"SELECT COUNT(DISTINCT i.CNES) AS total_hospitais
+FROM internacao AS i
+JOIN hospital AS h ON i.CNES = h.CNES
+JOIN municipios AS m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'MG'
+  AND i.DT_INTER >= DATE '2020-01-01'
+  AND i.DT_INTER < DATE '2020-02-01'
+  AND i.MORTE = TRUE",True,Foram **378 hospitais distintos** em Minas Gerais com pelo menos um óbito entre as internações iniciadas em janeiro de 2020. A localização considera o **local de atendimento**.,correta,Informa 378 hospitais de Minas Gerais.,"SELECT COUNT(DISTINCT i.CNES) AS hospitais_com_obito
+FROM internacao i
+JOIN hospital h ON i.CNES = h.CNES
+JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'MG'
+  AND i.DT_INTER >= DATE '2020-01-01'
+  AND i.DT_INTER < DATE '2020-02-01'
+  AND i.MORTE = TRUE;",True
+C14,2,"Quantos hospitais de Minas Gerais, contando CNES distintos pelo local de atendimento, tiveram algum óbito entre as internações iniciadas em janeiro de 2020?",378 hospitais mineiros.,378 hospitais de Minas Gerais tiveram ao menos um óbito entre internações iniciadas em janeiro de 2020.,correta,Informa os 378 hospitais de atendimento em Minas Gerais.,"SELECT COUNT(DISTINCT i.CNES) AS total_hospitais_com_obito
+FROM internacao i
+JOIN hospital h ON i.CNES = h.CNES
+JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'MG'
+  AND i.DT_INTER >= DATE '2020-01-01'
+  AND i.DT_INTER < DATE '2020-02-01'
+  AND i.MORTE = TRUE",True,Foram **378 hospitais distintos de Minas Gerais** com ao menos um óbito entre as internações iniciadas em janeiro de 2020. A localização considerada é a do estabelecimento de atendimento.,correta,Identifica 378 estabelecimentos mineiros.,"SELECT COUNT(DISTINCT i.CNES) AS hospitais_com_obito
+FROM internacao i
+JOIN hospital h ON i.CNES = h.CNES
+JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'MG'
+  AND i.DT_INTER >= DATE '2020-01-01'
+  AND i.DT_INTER < DATE '2020-02-01'
+  AND i.MORTE = TRUE;",True
+C15,1,Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?,357 internações de residentes de Sergipe.,Foram iniciadas 357 internações com diagnóstico principal de hipertensão essencial em 2020 entre residentes de Sergipe.,correta,Identifica as 357 internações no recorte de residência e diagnóstico principal.,"SELECT COUNT(*) AS total_internacoes
+FROM internacao i
+LEFT JOIN municipios m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DIAG_PRINC LIKE 'I10%'
+  AND i.DT_INTER >= DATE '2020-01-01'
+  AND i.DT_INTER < DATE '2021-01-01'
+  AND m.SG_UF = 'SE'",True,Foram iniciadas 357 internações com diagnóstico principal de hipertensão essencial entre residentes de Sergipe em 2020. “Iniciadas” foi interpretado como a data de internação.,correta,Identifica as 357 internações no recorte de residência e diagnóstico principal.,"SELECT COUNT(*) AS internacoes
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DIAG_PRINC = 'I10'
+  AND year(i.DT_INTER) = 2020
+  AND m.SG_UF = 'SE';",True
+C15,2,Quantas internações com diagnóstico principal de hipertensão essencial foram iniciadas em 2020 entre residentes de Sergipe?,357 internações de residentes de Sergipe.,"Foram iniciadas 357 internações por hipertensão essencial em 2020 entre residentes de Sergipe. A contagem representa internações, não pessoas únicas.",correta,Informa as 357 internações no recorte pedido.,"SELECT COUNT(*) AS total_internacoes
+FROM internacao i
+LEFT JOIN municipios m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DIAG_PRINC LIKE 'I10%'
+  AND i.DT_INTER >= DATE '2020-01-01'
+  AND i.DT_INTER < DATE '2021-01-01'
+  AND m.SG_UF = 'SE'",True,Foram iniciadas 357 internações em 2020 com diagnóstico principal de hipertensão essencial entre residentes de Sergipe. A contagem usa a data de entrada e inclui diagnósticos que começam com CID I10.,correta,Informa as 357 internações no recorte pedido.,"SELECT COUNT(*) AS internacoes
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DIAG_PRINC LIKE 'I10%'
+  AND year(i.DT_INTER) = 2020
+  AND m.SG_UF = 'SE';",True
+C16,1,"Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",1.440 estabelecimentos registraram internações iniciadas naquele mês e nenhum óbito nesse grupo.,Foram 1.440 CNES com internação iniciada em maio de 2021 e nenhum óbito registrado nessas internações.,correta,Identifica 1.440 estabelecimentos ativos sem óbito no recorte.,"WITH por_cnes AS (
+    SELECT
+        i.CNES,
+        BOOL_OR(i.MORTE) AS teve_obito
+    FROM internacao AS i
+    WHERE i.DT_INTER >= DATE '2021-05-01'
+      AND i.DT_INTER < DATE '2021-06-01'
+    GROUP BY i.CNES
+)
+SELECT COUNT(*) AS total_cnes_sem_obito
+FROM por_cnes
+WHERE NOT teve_obito",True,Foram **1.440 CNES** com ao menos uma internação iniciada em maio de 2021 e nenhum óbito entre essas internações no Brasil. “Iniciadas” considera a data de entrada; “nenhum óbito” refere-se às internações iniciadas nesse mês.,correta,Identifica 1.440 estabelecimentos ativos sem óbito no recorte.,"WITH cnes_mes AS (
+  SELECT CNES
+  FROM internacao
+  WHERE DT_INTER >= DATE '2021-05-01'
+    AND DT_INTER < DATE '2021-06-01'
+  GROUP BY CNES
+  HAVING COUNT(*) FILTER (WHERE MORTE) = 0
+)
+SELECT COUNT(*) AS cnes_com_internacao_sem_obito
+FROM cnes_mes;",True
+C16,2,"Considerando apenas as internações iniciadas em maio de 2021, quantos CNES tiveram internação mas nenhum óbito no mês, no Brasil?",1.440 estabelecimentos registraram internações iniciadas naquele mês e nenhum óbito nesse grupo.,Foram 1.440 CNES no Brasil.,correta,1.440 estabelecimentos satisfazem o recorte.,"WITH cnes_no_mes AS (
+    SELECT
+        i.CNES
+    FROM internacao AS i
+    WHERE i.DT_INTER >= DATE '2021-05-01'
+      AND i.DT_INTER < DATE '2021-06-01'
+    GROUP BY i.CNES
+    HAVING COUNT(DISTINCT i.N_AIH) > 0
+       AND COUNT(DISTINCT i.N_AIH) FILTER (WHERE i.MORTE = TRUE) = 0
+)
+SELECT COUNT(*) AS total_cnes
+FROM cnes_no_mes",True,"Foram **1.440 CNES** com internações iniciadas em maio de 2021 e nenhum óbito registrado entre essas internações. Considera-se óbito em qualquer momento da internação, mesmo que ela tenha terminado após maio.",correta,1.440 estabelecimentos satisfazem o recorte.,"SELECT COUNT(*) AS cnes_com_internacao_sem_obito
+FROM (
+    SELECT CNES
+    FROM internacao
+    WHERE DT_INTER >= DATE '2021-05-01'
+      AND DT_INTER < DATE '2021-06-01'
+    GROUP BY CNES
+    HAVING COUNT(*) FILTER (WHERE MORTE) = 0
+) AS cnes_sem_obito;",True
+C17,1,Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.,"Janeiro, 910.257 internações. Fevereiro, 899.743. Março, 1.012.315.",Janeiro: 910.257 internações; fevereiro: 899.743; março: 1.012.315.,correta,Apresenta as três contagens mensais com os meses correspondentes.,"SELECT EXTRACT(MONTH FROM i.DT_INTER) AS mes, COUNT(*) AS total_internacoes
+FROM internacao AS i
+WHERE i.DT_INTER >= DATE '2016-01-01'
+  AND i.DT_INTER < DATE '2016-04-01'
+GROUP BY mes
+ORDER BY mes",True,Janeiro: 910.257 internações; fevereiro: 899.743; março: 1.012.315. “Começaram” foi interpretado como a data de entrada da internação.,correta,Apresenta as três contagens mensais com os meses correspondentes.,"SELECT CASE month(DT_INTER)
+         WHEN 1 THEN 'Janeiro'
+         WHEN 2 THEN 'Fevereiro'
+         WHEN 3 THEN 'Março'
+       END AS mes,
+       COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2016-01-01'
+  AND DT_INTER < DATE '2016-04-01'
+GROUP BY month(DT_INTER)
+ORDER BY month(DT_INTER);",False
+C17,2,Quantas internações começaram em cada um dos três primeiros meses de 2016? Dê mês e contagem para os três.,"Janeiro, 910.257 internações. Fevereiro, 899.743. Março, 1.012.315.",Janeiro: 910.257 internações; fevereiro: 899.743; março: 1.012.315.,correta,Os três meses estão associados às contagens correspondentes.,"SELECT month(i.DT_INTER) AS mes, COUNT(*) AS total_internacoes
+FROM internacao AS i
+WHERE i.DT_INTER >= DATE '2016-01-01'
+  AND i.DT_INTER < DATE '2016-04-01'
+GROUP BY mes
+ORDER BY mes",True,"Janeiro de 2016: **910.257** internações; fevereiro: **899.743**; março: **1.012.315**. Interpretei “começaram” como a data de entrada e considerei janeiro, fevereiro e março.",correta,Os três meses estão associados às contagens correspondentes.,"SELECT month(DT_INTER) AS mes,
+       COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2016-01-01'
+  AND DT_INTER < DATE '2016-04-01'
+GROUP BY month(DT_INTER)
+ORDER BY mes;",True
+C18,1,Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.,"Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",Ocorreram 6.586 óbitos entre residentes de Alagoas e 23.634 entre residentes de Pernambuco.,correta,As contagens de 6.586 e 23.634 estão associadas aos estados corretos.,"SELECT m.SG_UF AS estado, COUNT(*) AS total_obitos
+FROM internacao AS i
+LEFT JOIN municipios AS m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DT_INTER >= DATE '2018-01-01'
+  AND i.DT_INTER < DATE '2019-01-01'
+  AND i.MORTE = TRUE
+  AND m.SG_UF IN ('AL', 'PE')
+GROUP BY m.SG_UF
+ORDER BY estado ASC",True,"Foram registrados 6.586 óbitos em internações de residentes de Alagoas e 23.634 de residentes de Pernambuco. Os estados foram identificados pela residência do paciente, e a contagem considera internações com óbito, não pessoas únicas.",correta,As contagens de 6.586 e 23.634 estão associadas aos estados corretos.,"SELECT m.SG_UF AS uf,
+       COUNT(*) AS obitos
+FROM internacao i
+JOIN municipios m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE year(i.DT_INTER) = 2018
+  AND i.MORTE = TRUE
+  AND m.SG_UF IN ('AL', 'PE')
+GROUP BY m.SG_UF
+ORDER BY m.SG_UF;",True
+C18,2,Quantos óbitos ocorreram nas internações iniciadas em 2018 entre residentes de Alagoas e de Pernambuco? Dê uma contagem para cada estado.,"Alagoas teve 6.586 óbitos e Pernambuco, 23.634.",Foram registrados 6.586 óbitos em Alagoas e 23.634 em Pernambuco.,correta,Associa as duas contagens aos estados solicitados.,"SELECT m.SG_UF AS estado, COUNT(*) AS total_obitos
+FROM internacao AS i
+LEFT JOIN municipios AS m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DT_INTER >= DATE '2018-01-01'
+  AND i.DT_INTER < DATE '2019-01-01'
+  AND i.MORTE = TRUE
+  AND m.SG_UF IN ('AL', 'PE')
+GROUP BY m.SG_UF
+ORDER BY m.SG_UF",True,"Ocorreram 6.586 óbitos entre residentes de Alagoas e 23.634 entre residentes de Pernambuco, em internações iniciadas em 2018. A UF refere-se à residência do paciente; “óbito” foi interpretado como morte durante a internação.",correta,Associa as duas contagens aos estados solicitados.,"SELECT m.SG_UF AS uf,
+       COUNT(*) FILTER (WHERE i.MORTE) AS obitos
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE year(i.DT_INTER) = 2018
+  AND m.SG_UF IN ('AL', 'PE')
+GROUP BY m.SG_UF
+ORDER BY m.SG_UF;",True
+C19,1,Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.,"Segunda-feira, com 81.681 internações.",O maior número de internações começou em uma segunda-feira: 81.681 internações.,correta,Identifica segunda-feira e as 81.681 internações.,"WITH contagens AS (
+    SELECT
+        isodow(i.DT_INTER) AS dia_semana_numero,
+        COUNT(*) AS total_internacoes
+    FROM internacao AS i
+    LEFT JOIN municipios AS m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE m.SG_UF = 'PA'
+      AND i.DT_INTER >= DATE '2019-01-01'
+      AND i.DT_INTER < DATE '2020-01-01'
+    GROUP BY isodow(i.DT_INTER)
+)
+SELECT
+    CASE dia_semana_numero
+        WHEN 1 THEN 'segunda-feira'
+        WHEN 2 THEN 'terça-feira'
+        WHEN 3 THEN 'quarta-feira'
+        WHEN 4 THEN 'quinta-feira'
+        WHEN 5 THEN 'sexta-feira'
+        WHEN 6 THEN 'sábado'
+        WHEN 7 THEN 'domingo'
+    END AS dia_semana,
+    total_internacoes
+FROM contagens
+ORDER BY total_internacoes DESC, dia_semana ASC
+LIMIT 1",False,Segunda-feira foi o dia em que começou o maior número de internações de residentes no Pará em 2019: 81.681. “Começou” foi interpretado como a data de entrada na internação.,correta,Identifica segunda-feira e as 81.681 internações.,"SELECT CASE dayofweek(i.DT_INTER)
+         WHEN 0 THEN 'Domingo'
+         WHEN 1 THEN 'Segunda-feira'
+         WHEN 2 THEN 'Terça-feira'
+         WHEN 3 THEN 'Quarta-feira'
+         WHEN 4 THEN 'Quinta-feira'
+         WHEN 5 THEN 'Sexta-feira'
+         WHEN 6 THEN 'Sábado'
+       END AS dia_da_semana,
+       COUNT(*) AS internacoes
+FROM internacao i
+LEFT JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DT_INTER >= DATE '2019-01-01'
+  AND i.DT_INTER < DATE '2020-01-01'
+  AND m.SG_UF = 'PA'
+GROUP BY dayofweek(i.DT_INTER)
+ORDER BY internacoes DESC, dayofweek(i.DT_INTER)
+LIMIT 1;",False
+C19,2,Em qual dia da semana começou o maior número de internações de residentes no Pará em 2019? Diga o dia e a contagem.,"Segunda-feira, com 81.681 internações.",O maior número de internações começou na segunda-feira: 81.681.,correta,Identifica segunda-feira e suas 81.681 internações.,"SELECT CASE isodow(i.DT_INTER)
+         WHEN 1 THEN 'segunda-feira'
+         WHEN 2 THEN 'terça-feira'
+         WHEN 3 THEN 'quarta-feira'
+         WHEN 4 THEN 'quinta-feira'
+         WHEN 5 THEN 'sexta-feira'
+         WHEN 6 THEN 'sábado'
+         WHEN 7 THEN 'domingo'
+       END AS dia_semana,
+       COUNT(*) AS total_internacoes
+FROM internacao AS i
+JOIN municipios AS m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'PA'
+  AND i.DT_INTER >= DATE '2019-01-01'
+  AND i.DT_INTER < DATE '2020-01-01'
+GROUP BY isodow(i.DT_INTER)
+ORDER BY total_internacoes DESC, dia_semana ASC
+LIMIT 1",False,"A segunda-feira teve o maior número de internações: 81.681. “Começou” foi considerado como a data de entrada, e o recorte geográfico é pela residência dos pacientes no Pará.",correta,Identifica segunda-feira e suas 81.681 internações.,"SELECT CASE dayofweek(i.DT_INTER)
+         WHEN 0 THEN 'domingo'
+         WHEN 1 THEN 'segunda-feira'
+         WHEN 2 THEN 'terça-feira'
+         WHEN 3 THEN 'quarta-feira'
+         WHEN 4 THEN 'quinta-feira'
+         WHEN 5 THEN 'sexta-feira'
+         WHEN 6 THEN 'sábado'
+       END AS dia_da_semana,
+       COUNT(*) AS internacoes
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'PA'
+  AND year(i.DT_INTER) = 2019
+GROUP BY dayofweek(i.DT_INTER)
+ORDER BY internacoes DESC, dayofweek(i.DT_INTER)
+LIMIT 1;",False
+C20,1,"Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.","O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.","Os três códigos de diagnóstico principal mais frequentes foram O800 (55.186 internações), B342 (50.369) e I64 (13.196).",correta,Os três códigos e as respectivas contagens estão corretos e ordenados.,"SELECT i.DIAG_PRINC AS codigo_diagnostico_principal, COUNT(*) AS total_internacoes FROM internacao i WHERE i.DT_INTER >= DATE '2020-11-01' AND i.DT_INTER < DATE '2020-12-01' AND i.DIAG_PRINC IS NOT NULL GROUP BY i.DIAG_PRINC ORDER BY total_internacoes DESC, codigo_diagnostico_principal ASC LIMIT 3",True,"Os três códigos mais frequentes nas internações iniciadas em novembro de 2020 foram: **O800**, com **55.186** internações; **B342**, com **50.369**; e **I64**, com **13.196**. A contagem considera a data de entrada da internação.",correta,"Apresenta O800, B342 e I64 na ordem correta e com as três contagens.","SELECT i.DIAG_PRINC AS codigo_diagnostico,
+       COALESCE(c.DESCRICAO, cm.DESCRICAO) AS diagnostico,
+       COUNT(*) AS internacoes
+FROM internacao i
+LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+LEFT JOIN cid_manuais cm ON i.DIAG_PRINC = cm.CID
+WHERE i.DT_INTER >= DATE '2020-11-01'
+  AND i.DT_INTER < DATE '2020-12-01'
+  AND i.DIAG_PRINC IS NOT NULL
+GROUP BY i.DIAG_PRINC, COALESCE(c.DESCRICAO, cm.DESCRICAO)
+ORDER BY internacoes DESC, codigo_diagnostico
+LIMIT 3;",False
+C20,2,"Quais os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020? Liste os códigos e suas contagens, do maior para o menor, excluindo nulos.","O800 com 55.186, B342 com 50.369 e I64 com 13.196 internações.","Os três códigos mais frequentes foram O800 (55.186 internações), B342 (50.369) e I64 (13.196).",correta,Apresenta os três códigos e contagens em ordem decrescente.,"SELECT i.DIAG_PRINC AS codigo_diagnostico_principal, COUNT(*) AS total_internacoes
+FROM internacao i
+WHERE i.DT_INTER >= DATE '2020-11-01'
+  AND i.DT_INTER < DATE '2020-12-01'
+  AND i.DIAG_PRINC IS NOT NULL
+GROUP BY i.DIAG_PRINC
+ORDER BY total_internacoes DESC, codigo_diagnostico_principal ASC
+LIMIT 3",True,"Os três códigos de diagnóstico principal mais frequentes nas internações iniciadas em novembro de 2020 foram **O800**, com 55.186 internações; **B342**, com 50.369; e **I64**, com 13.196. Interpretei “iniciadas” como internações pela data de entrada.",correta,Apresenta os três códigos e contagens em ordem decrescente.,"SELECT DIAG_PRINC AS codigo_diagnostico,
+       COUNT(*) AS internacoes
+FROM internacao
+WHERE DT_INTER >= DATE '2020-11-01'
+  AND DT_INTER < DATE '2020-12-01'
+  AND DIAG_PRINC IS NOT NULL
+GROUP BY DIAG_PRINC
+ORDER BY internacoes DESC, codigo_diagnostico
+LIMIT 3;",True
+C21,1,Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.,"0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",Os três códigos com mais ocorrências foram: 0310010039 — 92.225; 0303140151 — 69.921; e 0411010034 — 62.247.,correta,Os três códigos e volumes de ocorrências estão associados e ordenados corretamente.,"SELECT ip.PROC_REA AS codigo_procedimento, COUNT(*) AS quantidade_ocorrencias
+FROM internacao_procedimento ip
+JOIN internacao i ON i.N_AIH = ip.N_AIH
+WHERE i.DT_INTER >= DATE '2018-05-01'
+  AND i.DT_INTER < DATE '2018-06-01'
+GROUP BY ip.PROC_REA
+ORDER BY quantidade_ocorrencias DESC, codigo_procedimento ASC
+LIMIT 3",True,"Os três códigos de procedimento com mais ocorrências em AIHs iniciadas em maio de 2018 foram:
+
+1. **0310010039 — Parto normal:** 92.225 ocorrências.
+2. **0303140151 — Tratamento de pneumonias ou influenza (gripe):** 69.921 ocorrências.
+3. **0411010034 — Parto cesariano:** 62.247 ocorrências.
+
+“Iniciadas” foi interpretado como a data de entrada; ocorrências contam registros de procedimento, incluindo repetições na mesma AIH.",correta,Os três códigos e volumes de ocorrências estão associados e ordenados corretamente.,"SELECT ip.PROC_REA AS codigo_procedimento,
+       COALESCE(p.NOME_PROC, pm.NOME_PROC) AS procedimento,
+       COUNT(*) AS ocorrencias
+FROM internacao i
+JOIN internacao_procedimento ip ON ip.N_AIH = i.N_AIH
+LEFT JOIN procedimentos p ON p.PROC_REA = ip.PROC_REA
+LEFT JOIN procedimentos_manuais pm ON pm.PROC_REA = ip.PROC_REA
+WHERE i.DT_INTER >= DATE '2018-05-01'
+  AND i.DT_INTER < DATE '2018-06-01'
+GROUP BY ip.PROC_REA, COALESCE(p.NOME_PROC, pm.NOME_PROC)
+ORDER BY ocorrencias DESC
+LIMIT 3;",False
+C21,2,Quais os três códigos de procedimento realizado com maior número de registros associados às AIHs iniciadas em maio de 2018? Conte ocorrências e liste código e quantidade em ordem decrescente.,"0310010039 com 92.225 ocorrências, 0303140151 com 69.921 e 0411010034 com 62.247.",Os três códigos com mais ocorrências foram: 0310010039 — 92.225; 0303140151 — 69.921; e 0411010034 — 62.247.,correta,Os três códigos e volumes de ocorrências estão corretos e ordenados.,"SELECT ip.PROC_REA AS codigo_procedimento, COUNT(*) AS quantidade_ocorrencias FROM internacao_procedimento ip JOIN internacao i ON i.N_AIH = ip.N_AIH WHERE i.DT_INTER >= DATE '2018-05-01' AND i.DT_INTER < DATE '2018-06-01' GROUP BY ip.PROC_REA ORDER BY quantidade_ocorrencias DESC, codigo_procedimento ASC LIMIT 3",True,"Os três códigos com mais ocorrências nas AIHs iniciadas em maio de 2018 foram: **0310010039 — Parto normal: 92.225 ocorrências**; **0303140151 — Tratamento de pneumonias ou influenza (gripe): 69.921**; e **0411010034 — Parto cesariano: 62.247**. “Ocorrências” considera cada linha de procedimento associada às AIHs, incluindo repetições do mesmo procedimento.",correta,Os três códigos e volumes de ocorrências estão corretos e ordenados.,"SELECT ip.PROC_REA AS codigo_procedimento,
+       COALESCE(p.NOME_PROC, pm.NOME_PROC) AS procedimento,
+       COUNT(*) AS ocorrencias
+FROM internacao_procedimento ip
+JOIN internacao i ON i.N_AIH = ip.N_AIH
+LEFT JOIN procedimentos p ON p.PROC_REA = ip.PROC_REA
+LEFT JOIN procedimentos_manuais pm ON pm.PROC_REA = ip.PROC_REA
+WHERE i.DT_INTER >= DATE '2018-05-01'
+  AND i.DT_INTER < DATE '2018-06-01'
+GROUP BY ip.PROC_REA, COALESCE(p.NOME_PROC, pm.NOME_PROC)
+ORDER BY ocorrencias DESC
+LIMIT 3;",False
+C22,1,Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.,"CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.","Os três hospitais com mais internações iniciadas em 2020 foram: CNES 2237601, com 31.199; CNES 2237571, com 29.922; e CNES 2237253, com 19.008.",correta,Os três CNES e contagens estão corretos e na ordem solicitada.,"SELECT h.CNES, COUNT(*) AS total_internacoes FROM internacao AS i JOIN hospital AS h ON i.CNES = h.CNES JOIN municipios AS m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D WHERE i.DT_INTER >= DATE '2020-01-01' AND i.DT_INTER < DATE '2021-01-01' AND m.NO_MUNICIPIO = 'Porto Alegre' AND m.SG_UF = 'RS' GROUP BY h.CNES ORDER BY total_internacoes DESC, h.CNES ASC LIMIT 3",True,"Os três hospitais de Porto Alegre com mais internações iniciadas em 2020 foram:
+
+1. **CNES 2237601 — Hospital de Clínicas:** 31.199 internações.
+2. **CNES 2237571 — Hospital Nossa Senhora da Conceição:** 29.922.
+3. **CNES 2237253 — Irmandade da Santa Casa de Misericórdia de Porto Alegre:** 19.008.
+
+A contagem considera a data de entrada; Porto Alegre identifica o município do estabelecimento de atendimento.",correta,Os três CNES e contagens estão corretos e na ordem solicitada.,"SELECT i.CNES AS cnes,
+       h.NO_HOSPITAL AS hospital,
+       COUNT(*) AS internacoes
+FROM internacao i
+JOIN hospital h ON i.CNES = h.CNES
+JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+WHERE year(i.DT_INTER) = 2020
+  AND strip_accents(m.NO_MUNICIPIO) = strip_accents('Porto Alegre')
+  AND m.SG_UF = 'RS'
+GROUP BY i.CNES, h.NO_HOSPITAL
+ORDER BY internacoes DESC
+LIMIT 3;",False
+C22,2,Quais foram os três hospitais de Porto Alegre (RS) com mais internações iniciadas em 2020? Identifique-os pelo CNES e dê a contagem de cada um em ordem decrescente.,"CNES 2237601 com 31.199 internações, 2237571 com 29.922 e 2237253 com 19.008.","Em ordem decrescente: CNES 2237601 (Hospital de Clínicas), 31.199 internações; CNES 2237571 (Hospital Nossa Senhora da Conceição), 29.922; e CNES 2237253 (Irmandade da Santa Casa de Misericórdia de Porto Alegre), 19.008.",correta,Os três pares de CNES e contagem conferem e o ranking está na ordem pedida.,"WITH internacoes_por_hospital AS (
+    SELECT
+        h.CNES,
+        h.NO_HOSPITAL,
+        COUNT(*) AS total_internacoes
+    FROM internacao AS i
+    JOIN hospital AS h
+        ON i.CNES = h.CNES
+    JOIN municipios AS m
+        ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+    WHERE m.NO_MUNICIPIO = 'Porto Alegre'
+      AND m.SG_UF = 'RS'
+      AND i.DT_INTER >= DATE '2020-01-01'
+      AND i.DT_INTER < DATE '2021-01-01'
+    GROUP BY h.CNES, h.NO_HOSPITAL
+)
+SELECT CNES, NO_HOSPITAL, total_internacoes
+FROM internacoes_por_hospital
+ORDER BY total_internacoes DESC, NO_HOSPITAL ASC, CNES ASC
+LIMIT 3",False,"Os três hospitais de Porto Alegre com mais internações iniciadas em 2020 foram:
+
+1. **CNES 2237601 — Hospital de Clínicas:** 31.199 internações.
+2. **CNES 2237571 — Hospital Nossa Senhora da Conceição:** 29.922 internações.
+3. **CNES 2237253 — Irmandade da Santa Casa de Misericórdia de Porto Alegre:** 19.008 internações.
+
+Porto Alegre foi considerado como local de atendimento, e o ano foi definido pela data de internação.",correta,Os três pares de CNES e contagem conferem e o ranking está na ordem pedida.,"SELECT h.CNES AS cnes,
+       h.NO_HOSPITAL AS hospital,
+       COUNT(*) AS internacoes
+FROM internacao i
+JOIN hospital h ON i.CNES = h.CNES
+JOIN municipios m ON h.MUNIC_MOV = m.CO_MUNICIPIO_6D
+WHERE m.CO_MUNICIPIO_6D = 431490
+  AND m.SG_UF = 'RS'
+  AND year(i.DT_INTER) = 2020
+GROUP BY h.CNES, h.NO_HOSPITAL
+ORDER BY internacoes DESC
+LIMIT 3;",False
+C23,1,"Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.","Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.","Foram 516.037 internações no total. Em 2015, foram 162.689, com permanência média de 3,33 dias; em 2016, 170.528, com média de 3,24 dias; e em 2017, 182.820, com média de 3,18 dias.",correta,"As três contagens, as médias e a soma de 516.037 conferem.","SELECT EXTRACT(YEAR FROM i.DT_INTER)::INTEGER AS ano, COUNT(*) AS total_internacoes, ROUND(AVG(i.DIAS_PERM), 2) AS permanencia_media_dias FROM internacao i WHERE i.DIAG_PRINC LIKE 'K80%' AND i.DT_INTER >= DATE '2015-01-01' AND i.DT_INTER < DATE '2018-01-01' GROUP BY EXTRACT(YEAR FROM i.DT_INTER) ORDER BY ano",True,"Em 2015, começaram **162.689 internações**, com permanência média de **3,33 dias**; em 2016, foram **170.528**, com média de **3,24 dias**; e, em 2017, **182.820**, com média de **3,18 dias**. O número de internações aumentou ao longo do período, enquanto a permanência média diminuiu. “Começaram” foi interpretado como o ano da data de entrada, e colelitíase como CID K80 e suas subcategorias.",correta,"Identifica corretamente os três volumes, as três médias e o sentido de ambas as séries.","SELECT year(DT_INTER) AS ano,
+       COUNT(*) AS internacoes,
+       ROUND(AVG(DIAS_PERM), 2) AS permanencia_media_dias
+FROM internacao
+WHERE DIAG_PRINC LIKE 'K80%'
+  AND year(DT_INTER) BETWEEN 2015 AND 2017
+GROUP BY year(DT_INTER)
+ORDER BY ano;",True
+C23,2,"Para internações por colelitíase como diagnóstico principal, quantas começaram em cada ano de 2015 a 2017 e qual foi a permanência média em dias em cada ano? Dê as médias com duas casas.","Em 2015 foram 162.689 internações e a média foi de 3,33 dias. Em 2016 foram 170.528 e 3,24 dias. Em 2017 foram 182.820 e 3,18 dias.","De 2015 a 2017, foram 516.037 internações por colelitíase. Em 2015, foram 162.689 internações, com permanência média de 3,33 dias; em 2016, 170.528 e 3,24 dias; em 2017, 182.820 e 3,18 dias.",correta,"Cada ano tem o volume e a permanência média corretos. As variações e o total, quando citados, conferem.","SELECT EXTRACT(YEAR FROM i.DT_INTER)::INTEGER AS ano, COUNT(*) AS total_internacoes, ROUND(AVG(i.DIAS_PERM), 2) AS permanencia_media_dias FROM internacao i WHERE i.DIAG_PRINC LIKE 'K80%' AND i.DT_INTER >= DATE '2015-01-01' AND i.DT_INTER < DATE '2018-01-01' GROUP BY EXTRACT(YEAR FROM i.DT_INTER) ORDER BY ano",True,"As internações por colelitíase como diagnóstico principal aumentaram de 162.689 em 2015 para 170.528 em 2016 e 182.820 em 2017. A permanência média caiu de 3,33 dias para 3,24 e 3,18 dias, respectivamente. Considerou-se o ano de entrada e todos os códigos subordinados à categoria CID K80.",correta,"Cada ano tem o volume e a permanência média corretos. As variações e o total, quando citados, conferem.","SELECT year(DT_INTER) AS ano,
+       COUNT(*) AS internacoes,
+       ROUND(AVG(DIAS_PERM), 2) AS permanencia_media_dias
+FROM internacao
+WHERE DIAG_PRINC LIKE 'K80%'
+  AND year(DT_INTER) BETWEEN 2015 AND 2017
+GROUP BY year(DT_INTER)
+ORDER BY ano;",True
+C24,1,"Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.","P220 com 20,30 dias, F200 com 18,06 dias e F102 com 15,91 dias.","Os três diagnósticos com maior permanência média foram: P220 — 20,30 dias; F200 — 18,06 dias; e F102 — 15,91 dias.",correta,Entrega os três diagnósticos e as três médias em dias na ordem solicitada.,"SELECT
+  i.DIAG_PRINC AS codigo_diagnostico,
+  ROUND(AVG(i.DIAS_PERM), 2) AS permanencia_media_dias
+FROM internacao AS i
+WHERE i.DT_INTER >= DATE '2021-01-01'
+  AND i.DT_INTER < DATE '2022-01-01'
+  AND i.DIAG_PRINC IS NOT NULL
+GROUP BY i.DIAG_PRINC
+HAVING COUNT(*) > 5000
+ORDER BY permanencia_media_dias DESC, codigo_diagnostico ASC
+LIMIT 3",True,"Os três diagnósticos com maior permanência média foram:
+
+1. **P220** — 20,30 dias  
+2. **F200** — 18,06 dias  
+3. **F102** — 15,91 dias  
+
+“Iniciadas em 2021” foi considerado como internações com data de entrada nesse ano, e o limite aplicado foi estritamente superior a 5.000 internações.",correta,Entrega os três diagnósticos e as três médias em dias na ordem solicitada.,"SELECT
+  DIAG_PRINC AS codigo_diagnostico,
+  ROUND(AVG(DIAS_PERM), 2) AS permanencia_media_dias
+FROM internacao
+WHERE year(DT_INTER) = 2021
+GROUP BY DIAG_PRINC
+HAVING COUNT(*) > 5000
+ORDER BY permanencia_media_dias DESC
+LIMIT 3;",True
+C24,2,"Entre os diagnósticos principais com mais de 5 mil internações iniciadas em 2021, quais os três com maior permanência média? Dê o código e a média em dias com duas casas por diagnóstico, em ordem decrescente.","P220 com 20,30 dias, F200 com 18,06 dias e F102 com 15,91 dias.","Os três diagnósticos com maior permanência média foram: **P220 — 20,30 dias**, **F200 — 18,06 dias** e **F102 — 15,91 dias**.",correta,Informa os três CIDs com suas médias corretas em ordem decrescente.,"WITH diagnosticos AS (
+    SELECT
+        i.DIAG_PRINC AS codigo_diagnostico,
+        COUNT(DISTINCT i.N_AIH) AS total_internacoes,
+        ROUND(AVG(i.DIAS_PERM), 2) AS media_permanencia_dias
+    FROM internacao i
+    WHERE i.DT_INTER >= DATE '2021-01-01'
+      AND i.DT_INTER < DATE '2022-01-01'
+      AND i.DIAG_PRINC IS NOT NULL
+    GROUP BY i.DIAG_PRINC
+    HAVING COUNT(DISTINCT i.N_AIH) > 5000
+)
+SELECT codigo_diagnostico, media_permanencia_dias
+FROM diagnosticos
+ORDER BY media_permanencia_dias DESC, codigo_diagnostico ASC
+LIMIT 3",True,"Entre os diagnósticos principais com mais de 5.000 internações iniciadas em 2021, as três maiores permanências médias foram:
+
+1. **P220** — 20,30 dias  
+2. **F200** — 18,06 dias  
+3. **F102** — 15,91 dias  
+
+A seleção considera como início da internação a data de entrada.",correta,Informa os três CIDs com suas médias corretas em ordem decrescente.,"SELECT i.DIAG_PRINC AS codigo_cid,
+       COALESCE(c.DESCRICAO, cm.DESCRICAO) AS diagnostico,
+       COUNT(*) AS internacoes,
+       ROUND(AVG(i.DIAS_PERM), 2) AS permanencia_media_dias
+FROM internacao i
+LEFT JOIN cid c ON i.DIAG_PRINC = c.CID
+LEFT JOIN cid_manuais cm ON i.DIAG_PRINC = cm.CID
+WHERE year(i.DT_INTER) = 2021
+GROUP BY i.DIAG_PRINC, c.DESCRICAO, cm.DESCRICAO
+HAVING COUNT(*) > 5000
+ORDER BY permanencia_media_dias DESC
+LIMIT 3;",False
+C25,1,"Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.","A quantidade cresceu 5,30% em relação a 2018.","As internações iniciadas cresceram 5,30% de 2018 para 2019.",correta,"A direção e a variação relativa de 5,30% estão corretas.","WITH totais AS (
+    SELECT
+        COUNT(*) FILTER (WHERE EXTRACT(YEAR FROM i.DT_INTER) = 2018) AS internacoes_2018,
+        COUNT(*) FILTER (WHERE EXTRACT(YEAR FROM i.DT_INTER) = 2019) AS internacoes_2019
+    FROM internacao AS i
+    LEFT JOIN municipios AS m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE i.DT_INTER >= DATE '2018-01-01'
+      AND i.DT_INTER < DATE '2020-01-01'
+      AND m.SG_UF = 'AM'
+)
+SELECT
+    internacoes_2018,
+    internacoes_2019,
+    ROUND((internacoes_2019 - internacoes_2018) * 100.0 / NULLIF(internacoes_2018, 0), 2) AS variacao_percentual,
+    CASE
+        WHEN internacoes_2019 > internacoes_2018 THEN 'cresceu'
+        WHEN internacoes_2019 < internacoes_2018 THEN 'caiu'
+        ELSE 'não mudou'
+    END AS direcao
+FROM totais",False,"A quantidade de internações iniciadas **cresceu 5,30%** de 2018 para 2019 entre residentes do Amazonas. A contagem considera internações pela data de entrada e o estado pelo município de residência.",correta,"Identifica crescimento relativo de 5,30%.","WITH totais AS (
+  SELECT
+    COUNT(*) FILTER (WHERE year(i.DT_INTER) = 2018) AS total_2018,
+    COUNT(*) FILTER (WHERE year(i.DT_INTER) = 2019) AS total_2019
+  FROM internacao i
+  JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+  WHERE m.SG_UF = 'AM'
+    AND year(i.DT_INTER) IN (2018, 2019)
+)
+SELECT ROUND(100.0 * (total_2019 - total_2018) / total_2018, 2) AS variacao_percentual
+FROM totais;",True
+C25,2,"Para residentes do Amazonas, a quantidade de internações iniciadas cresceu ou caiu de 2018 para 2019? Informe a variação percentual em relação a 2018, com duas casas.","A quantidade cresceu 5,30% em relação a 2018.","As internações iniciadas entre residentes do Amazonas cresceram 5,30% de 2018 para 2019, passando de 189.023 para 199.037.",correta,"A direção e a variação relativa de 5,30% estão corretas.","WITH contagens AS (
+    SELECT
+        COUNT(*) FILTER (WHERE i.DT_INTER >= DATE '2018-01-01' AND i.DT_INTER < DATE '2019-01-01') AS internacoes_2018,
+        COUNT(*) FILTER (WHERE i.DT_INTER >= DATE '2019-01-01' AND i.DT_INTER < DATE '2020-01-01') AS internacoes_2019
+    FROM internacao AS i
+    LEFT JOIN municipios AS m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE m.SG_UF = 'AM'
+      AND i.DT_INTER >= DATE '2018-01-01'
+      AND i.DT_INTER < DATE '2020-01-01'
+)
+SELECT
+    internacoes_2018,
+    internacoes_2019,
+    ROUND((internacoes_2019 - internacoes_2018) * 100.0 / NULLIF(internacoes_2018, 0), 2) AS variacao_percentual,
+    CASE
+        WHEN internacoes_2019 > internacoes_2018 THEN 'cresceu'
+        WHEN internacoes_2019 < internacoes_2018 THEN 'caiu'
+        ELSE 'permaneceu igual'
+    END AS direcao
+FROM contagens",False,"As internações iniciadas entre residentes do Amazonas cresceram de 189.023 em 2018 para 199.037 em 2019, uma variação de **5,30%**. “Residentes” foi considerado pelo município de residência, e o início da internação, pela data de entrada.",correta,"Identifica crescimento relativo de 5,30%.","SELECT
+  COUNT(*) FILTER (WHERE year(i.DT_INTER) = 2018) AS internacoes_2018,
+  COUNT(*) FILTER (WHERE year(i.DT_INTER) = 2019) AS internacoes_2019,
+  ROUND(
+    100.0 * (
+      COUNT(*) FILTER (WHERE year(i.DT_INTER) = 2019)
+      - COUNT(*) FILTER (WHERE year(i.DT_INTER) = 2018)
+    ) / NULLIF(COUNT(*) FILTER (WHERE year(i.DT_INTER) = 2018), 0),
+    2
+  ) AS variacao_percentual
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'AM'
+  AND year(i.DT_INTER) IN (2018, 2019);",False
+C26,1,"Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.","52,66 internações por mil habitantes.","Em Florianópolis, houve 52,66 internações iniciadas em 2019 por mil habitantes residentes.",correta,"Informa 52,66 internações por mil habitantes.","WITH populacao AS (
+  SELECT se.QT_POPULACAO
+  FROM socioeconomico se
+  WHERE se.CO_MUNICIPIO_6D = 420540
+    AND se.NU_ANO = 2019
+), internacoes AS (
+  SELECT COUNT(*) AS total_internacoes
+  FROM internacao i
+  WHERE i.MUNIC_RES = 420540
+    AND i.DT_INTER >= DATE '2019-01-01'
+    AND i.DT_INTER < DATE '2020-01-01'
+)
+SELECT ROUND(internacoes.total_internacoes * 1000.0 / populacao.QT_POPULACAO, 2) AS internacoes_por_mil_habitantes
+FROM internacoes
+CROSS JOIN populacao",True,"Em Florianópolis, houve **52,66 internações por mil habitantes** em 2019, considerando o município de residência dos pacientes e a população municipal de 2019. A contagem considera a data de início da internação.",correta,"Informa 52,66 internações por mil habitantes.","SELECT ROUND(1000.0 * COUNT(*) / s.QT_POPULACAO, 2) AS internacoes_por_mil_habitantes
+FROM internacao i
+JOIN socioeconomico s
+  ON s.CO_MUNICIPIO_6D = i.MUNIC_RES
+ AND s.NU_ANO = 2019
+WHERE i.MUNIC_RES = 420540
+  AND i.DT_INTER >= DATE '2019-01-01'
+  AND i.DT_INTER < DATE '2020-01-01'
+GROUP BY s.QT_POPULACAO;",True
+C26,2,"Em Florianópolis (SC), quantas internações iniciadas em 2019 por mil habitantes houve entre residentes? Use a população municipal de 2019 e dê duas casas.","52,66 internações por mil habitantes.","Em 2019, houve 52,66 internações por mil habitantes entre residentes de Florianópolis (SC).",correta,"Explicita a taxa correta de 52,66 internações por mil habitantes.","WITH total AS (
+    SELECT COUNT(*) AS internacoes
+    FROM internacao i
+    LEFT JOIN municipios m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE i.DT_INTER >= DATE '2019-01-01'
+      AND i.DT_INTER < DATE '2020-01-01'
+      AND m.NO_MUNICIPIO = 'Florianópolis'
+      AND m.SG_UF = 'SC'
+), populacao AS (
+    SELECT s.QT_POPULACAO
+    FROM socioeconomico s
+    JOIN municipios m
+        ON s.CO_MUNICIPIO_6D = m.CO_MUNICIPIO_6D
+    WHERE m.NO_MUNICIPIO = 'Florianópolis'
+      AND m.SG_UF = 'SC'
+      AND s.NU_ANO = 2019
+)
+SELECT ROUND(total.internacoes * 1000.0 / populacao.QT_POPULACAO, 2) AS internacoes_por_mil_habitantes
+FROM total
+CROSS JOIN populacao",True,"Houve **52,66 internações por mil habitantes** entre residentes de Florianópolis (SC), usando a população municipal de 2019. O período foi definido pela data de início da internação, e o município pelo local de residência do paciente.",correta,"Explicita a taxa correta de 52,66 internações por mil habitantes.","SELECT ROUND(1000.0 * COUNT(*) / s.QT_POPULACAO, 2) AS internacoes_por_mil_habitantes
+FROM internacao i
+JOIN socioeconomico s
+  ON s.CO_MUNICIPIO_6D = i.MUNIC_RES
+ AND s.NU_ANO = 2019
+WHERE i.MUNIC_RES = 420540
+  AND year(i.DT_INTER) = 2019
+GROUP BY s.QT_POPULACAO;",True
+C27,1,"Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.","A média anual foi de 860.056,00 internações.","A média anual foi de 860.056,00 internações.",correta,"A média anual de 860.056,00 corresponde ao gabarito.","WITH anos(ano) AS (
+    VALUES (2017), (2018), (2019)
+), totais_anuais AS (
+    SELECT
+        EXTRACT(YEAR FROM i.DT_INTER)::INTEGER AS ano,
+        COUNT(*) AS total_internacoes
+    FROM internacao AS i
+    LEFT JOIN municipios AS m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE i.DT_INTER >= DATE '2017-01-01'
+      AND i.DT_INTER < DATE '2020-01-01'
+      AND m.SG_UF = 'PR'
+    GROUP BY EXTRACT(YEAR FROM i.DT_INTER)
+)
+SELECT ROUND(AVG(COALESCE(t.total_internacoes, 0)), 2) AS media_anual_internacoes
+FROM anos AS a
+LEFT JOIN totais_anuais AS t
+    ON a.ano = t.ano",True,"A média anual foi de **860.056,00 internações**. Consideram-se internações pela data de entrada e residentes segundo o município de residência no Paraná.",correta,"A média anual de 860.056,00 corresponde ao gabarito.","WITH totais_anuais AS (
+    SELECT year(i.DT_INTER) AS ano,
+           COUNT(*) AS internacoes
+    FROM internacao i
+    JOIN municipios m
+      ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE year(i.DT_INTER) IN (2017, 2018, 2019)
+      AND m.SG_UF = 'PR'
+    GROUP BY year(i.DT_INTER)
+)
+SELECT ROUND(AVG(internacoes), 2) AS media_anual_internacoes
+FROM totais_anuais;",True
+C27,2,"Qual a média anual das contagens de internações iniciadas em 2017, 2018 e 2019 entre residentes do Paraná? Informe uma única média dos três totais, com duas casas.","A média anual foi de 860.056,00 internações.","A média anual foi de 860.056,00 internações.",correta,"A média anual de 860.056,00 corresponde ao gabarito.","WITH totais_anuais AS (
+    SELECT
+        EXTRACT(YEAR FROM i.DT_INTER) AS ano,
+        COUNT(*) AS total_internacoes
+    FROM internacao AS i
+    LEFT JOIN municipios AS m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE m.SG_UF = 'PR'
+      AND i.DT_INTER >= DATE '2017-01-01'
+      AND i.DT_INTER < DATE '2020-01-01'
+    GROUP BY EXTRACT(YEAR FROM i.DT_INTER)
+)
+SELECT ROUND(AVG(total_internacoes), 2) AS media_anual_internacoes
+FROM totais_anuais",True,"A média anual foi de **860.056,00 internações** entre 2017 e 2019. “Iniciadas” foi interpretado como a data de entrada, e Paraná refere-se à residência dos pacientes.",correta,"A média anual de 860.056,00 corresponde ao gabarito.","WITH totais_anuais AS (
+    SELECT year(i.DT_INTER) AS ano,
+           COUNT(*) AS internacoes
+    FROM internacao i
+    JOIN municipios m
+      ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE year(i.DT_INTER) IN (2017, 2018, 2019)
+      AND m.SG_UF = 'PR'
+    GROUP BY year(i.DT_INTER)
+)
+SELECT ROUND(AVG(internacoes), 2) AS media_anual_internacoes
+FROM totais_anuais;",True
+C28,1,"Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?","2019, com 9.398 óbitos.","O ano com mais óbitos hospitalares de residentes na Paraíba foi 2019, com 9.398 óbitos.",correta,Identifica o pico em 2019 e seus 9.398 óbitos.,"WITH mortes_por_ano AS (
+    SELECT
+        EXTRACT(YEAR FROM i.DT_INTER)::INTEGER AS ano_entrada,
+        COUNT(*) AS total_obitos_hospitalares
+    FROM internacao AS i
+    LEFT JOIN municipios AS m
+        ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE i.DT_INTER >= DATE '2016-01-01'
+      AND i.DT_INTER < DATE '2020-01-01'
+      AND i.MORTE = TRUE
+      AND m.SG_UF = 'PB'
+    GROUP BY EXTRACT(YEAR FROM i.DT_INTER)
+)
+SELECT ano_entrada, total_obitos_hospitalares
+FROM mortes_por_ano
+ORDER BY total_obitos_hospitalares DESC, ano_entrada ASC
+LIMIT 1",True,"2019 foi o ano com mais óbitos hospitalares entre residentes na Paraíba, com 9.398 óbitos. A contagem considera o ano de entrada da internação e o município de residência do paciente.",correta,Identifica o pico em 2019 e seus 9.398 óbitos.,"SELECT year(i.DT_INTER) AS ano_entrada,
+       COUNT(*) AS obitos_hospitalares
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'PB'
+  AND i.DT_INTER >= DATE '2016-01-01'
+  AND i.DT_INTER < DATE '2020-01-01'
+  AND i.MORTE = TRUE
+GROUP BY year(i.DT_INTER)
+ORDER BY obitos_hospitalares DESC
+LIMIT 1;",True
+C28,2,"Entre 2016 e 2019, qual foi o ano de entrada com mais óbitos hospitalares de residentes na Paraíba e qual foi a contagem nesse ano?","2019, com 9.398 óbitos.","2019 foi o ano com mais óbitos hospitalares de residentes na Paraíba, com 9.398 óbitos.",correta,Identifica o pico em 2019 e os 9.398 óbitos.,"SELECT EXTRACT(YEAR FROM i.DT_INTER)::INTEGER AS ano_entrada, COUNT(*) AS obitos_hospitalares
+FROM internacao AS i
+LEFT JOIN municipios AS m
+  ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE i.DT_INTER >= DATE '2016-01-01'
+  AND i.DT_INTER < DATE '2020-01-01'
+  AND i.MORTE = TRUE
+  AND m.SG_UF = 'PB'
+GROUP BY EXTRACT(YEAR FROM i.DT_INTER)
+ORDER BY obitos_hospitalares DESC, ano_entrada ASC",False,"O ano de entrada com mais óbitos hospitalares foi 2019, com 9.398 óbitos de residentes na Paraíba. O ano corresponde à data de internação; a localização considera o município de residência.",correta,Identifica o pico em 2019 e os 9.398 óbitos.,"SELECT year(i.DT_INTER) AS ano_entrada,
+       COUNT(*) AS obitos_hospitalares
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'PB'
+  AND i.MORTE = TRUE
+  AND year(i.DT_INTER) BETWEEN 2016 AND 2019
+GROUP BY 1
+ORDER BY obitos_hospitalares DESC
+LIMIT 1;",True
+C29,1,"No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.","8,53% das internações do recorte tiveram diagnóstico principal respiratório.","Nao foi possivel responder com seguranca. Question requires temporal grain quarter, but SQL does not project it.",sem_resposta,Validação exigiu projeção do trimestre e o texto não fornece percentual.,,False,"8,53% das internações iniciadas no primeiro trimestre de 2019 entre residentes do RS tiveram diagnóstico principal do capítulo J da CID. Suposições: “iniciadas” usa a data de entrada, e residência é definida pelo município de residência do paciente.",correta,"A fração respiratória corresponde aos 8,53% solicitados.","SELECT ROUND(
+         100.0 * COUNT(*) FILTER (WHERE i.DIAG_PRINC LIKE 'J%') / COUNT(*),
+         2
+       ) AS percentual
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'RS'
+  AND i.DT_INTER >= DATE '2019-01-01'
+  AND i.DT_INTER < DATE '2019-04-01';",True
+C29,2,"No primeiro trimestre de 2019, qual percentual de todas as internações iniciadas entre residentes do RS teve diagnóstico principal respiratório (capítulo J da CID)? Dê o percentual com duas casas.","8,53% das internações do recorte tiveram diagnóstico principal respiratório.","Nao foi possivel responder com seguranca. Question requires temporal grain quarter, but SQL does not project it.",sem_resposta,Recusa por exigir projeção do trimestre e omite o percentual.,,False,"8,53% das internações iniciadas no primeiro trimestre de 2019 entre residentes do RS tiveram diagnóstico principal do capítulo J da CID.
+
+O recorte geográfico considera o município de residência, e “iniciadas” corresponde à data de entrada.",correta,"Informa a parcela respiratória de 8,53%.","SELECT ROUND(100.0 * COUNT(*) FILTER (WHERE i.DIAG_PRINC LIKE 'J%') / NULLIF(COUNT(*), 0), 2) AS percentual_internacoes
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'RS'
+  AND i.DT_INTER >= DATE '2019-01-01'
+  AND i.DT_INTER < DATE '2019-04-01';",True
+C30,1,"Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.","Câncer de mama foi mais frequente, com 79.047 internações, frente a 35.231 por câncer de próstata.","O câncer de próstata (C61) foi o mais frequente, com 35.231 registros. O resultado disponível não informa a contagem de câncer de mama (C50).",incorreta,"Embora acerte a contagem de próstata, omite a de mama e inverte a conclusão.","WITH contagens AS (
+    SELECT
+        c.""DESCRICAO"" AS diagnostico_principal,
+        CASE
+            WHEN i.""DIAG_PRINC"" LIKE 'C50%' THEN 'C50'
+            WHEN i.""DIAG_PRINC"" LIKE 'C61%' THEN 'C61'
+        END AS codigo_diagnostico,
+        COUNT(*) AS total_internacoes
+    FROM internacao i
+    JOIN cid c ON i.""DIAG_PRINC"" = c.""CID""
+    WHERE i.""DT_INTER"" >= DATE '2022-01-01'
+      AND i.""DT_INTER"" < DATE '2023-01-01'
+      AND (i.""DIAG_PRINC"" LIKE 'C50%' OR i.""DIAG_PRINC"" LIKE 'C61%')
+    GROUP BY c.""DESCRICAO"", codigo_diagnostico
+)
+SELECT
+    diagnostico_principal,
+    codigo_diagnostico,
+    total_internacoes,
+    'Mais frequente' AS frequencia
+FROM contagens
+ORDER BY total_internacoes DESC, diagnostico_principal ASC
+LIMIT 1",False,"Entre as internações iniciadas em 2022, houve **79.047** registros com diagnóstico principal de câncer de mama (C50) e **35.231** de câncer de próstata (C61). **Câncer de mama foi o mais frequente.** Foram incluídas as subcategorias iniciadas por C50 e C61.",correta,Compara 79.047 com 35.231 e identifica câncer de mama.,"SELECT
+  COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C50%') AS internacoes_cancer_mama,
+  COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C61%') AS internacoes_cancer_prostata,
+  CASE
+    WHEN COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C50%') > COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C61%') THEN 'Câncer de mama (C50)'
+    WHEN COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C61%') > COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C50%') THEN 'Câncer de próstata (C61)'
+    ELSE 'Empate'
+  END AS diagnostico_mais_frequente
+FROM internacao
+WHERE year(DT_INTER) = 2022;",False
+C30,2,"Entre as internações iniciadas em 2022, qual diagnóstico principal teve mais registros, câncer de mama (C50) ou de próstata (C61)? Dê a contagem de cada um e aponte qual foi o mais frequente.","Câncer de mama foi mais frequente, com 79.047 internações, frente a 35.231 por câncer de próstata.","O câncer de próstata (C61) foi o mais frequente, com 35.231 internações. A contagem de câncer de mama (C50) não está disponível no resultado fornecido.",incorreta,"Omite 79.047 internações por câncer de mama e declara vencedor o grupo de próstata, embora tenha só 35.231.","WITH contagens AS (
+    SELECT
+        c.DESCRICAO AS diagnostico_principal,
+        COUNT(*) AS total_internacoes
+    FROM internacao AS i
+    JOIN cid AS c
+        ON i.DIAG_PRINC = c.CID
+    WHERE i.DT_INTER >= DATE '2022-01-01'
+      AND i.DT_INTER < DATE '2023-01-01'
+      AND (i.DIAG_PRINC LIKE 'C50%' OR i.DIAG_PRINC LIKE 'C61%')
+    GROUP BY c.DESCRICAO
+)
+SELECT
+    diagnostico_principal,
+    total_internacoes,
+    CASE
+        WHEN total_internacoes = MAX(total_internacoes) OVER () THEN 'Mais frequente'
+        ELSE 'Menos frequente'
+    END AS frequencia_relativa
+FROM contagens
+ORDER BY total_internacoes DESC, diagnostico_principal ASC
+LIMIT 1",False,"Entre as internações iniciadas em 2022, o câncer de mama (C50) foi mais frequente, com 79.047 registros, contra 35.231 de câncer de próstata (C61). Foram considerados os respectivos subcódigos de cada categoria CID.",correta,Identifica câncer de mama como mais frequente e informa as duas contagens.,"WITH contagens AS (
+  SELECT
+    COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C50%') AS internacoes_cancer_mama,
+    COUNT(*) FILTER (WHERE DIAG_PRINC LIKE 'C61%') AS internacoes_cancer_prostata
+  FROM internacao
+  WHERE year(DT_INTER) = 2022
+)
+SELECT
+  internacoes_cancer_mama,
+  internacoes_cancer_prostata,
+  CASE
+    WHEN internacoes_cancer_mama > internacoes_cancer_prostata THEN 'Câncer de mama (C50)'
+    WHEN internacoes_cancer_prostata > internacoes_cancer_mama THEN 'Câncer de próstata (C61)'
+    ELSE 'Empate'
+  END AS diagnostico_mais_frequente
+FROM contagens;",False
+C31,1,"Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",1.685 hospitais.,1.685 hospitais.,correta,Informa os 1.685 hospitais do recorte.,"WITH hospital_2020 AS (
+    SELECT
+        i.CNES,
+        COUNT(*) AS total_internacoes,
+        COUNT(*) FILTER (WHERE i.MARCA_UTI <> 0) AS internacoes_com_uti
+    FROM internacao AS i
+    WHERE i.DT_INTER >= DATE '2020-01-01'
+      AND i.DT_INTER < DATE '2021-01-01'
+    GROUP BY i.CNES
+    HAVING COUNT(*) > 500
+)
+SELECT COUNT(*) AS hospitais_sem_internacao_com_uti
+FROM hospital_2020
+WHERE internacoes_com_uti = 0",True,"1.685 hospitais tiveram mais de 500 internações iniciadas em 2020 e não registraram nenhuma internação com uso de UTI. “Iniciadas” foi considerado pela data de entrada, e cada hospital foi contado por CNES.",correta,Informa os 1.685 hospitais do recorte.,"WITH por_hospital AS (
+  SELECT
+    CNES,
+    COUNT(*) AS internacoes,
+    COUNT(*) FILTER (WHERE MARCA_UTI > 0) AS internacoes_com_uti
+  FROM internacao
+  WHERE year(DT_INTER) = 2020
+  GROUP BY CNES
+)
+SELECT COUNT(*) AS hospitais_sem_uso_uti
+FROM por_hospital
+WHERE internacoes > 500
+  AND internacoes_com_uti = 0;",True
+C31,2,"Entre os hospitais que tiveram mais de 500 internações iniciadas em 2020, quantos não registraram nenhuma internação com uso de UTI naquele ano? Considere um hospital por CNES.",1.685 hospitais.,1.685 hospitais.,correta,Informa os 1.685 hospitais solicitados.,"WITH hospital_2020 AS (
+    SELECT
+        i.CNES,
+        COUNT(*) AS total_internacoes,
+        SUM(CASE WHEN i.MARCA_UTI <> 0 THEN 1 ELSE 0 END) AS internacoes_com_uti
+    FROM internacao AS i
+    WHERE i.DT_INTER >= DATE '2020-01-01'
+      AND i.DT_INTER < DATE '2021-01-01'
+    GROUP BY i.CNES
+    HAVING COUNT(*) > 500
+)
+SELECT COUNT(*) AS hospitais_sem_internacao_com_uti
+FROM hospital_2020
+WHERE internacoes_com_uti = 0",True,1.685 hospitais registraram mais de 500 internações iniciadas em 2020 e nenhuma internação com uso de UTI naquele ano. Considera-se a data de entrada para definir o ano e `MARCA_UTI > 0` como uso de UTI; a contagem abrange as AIHs encerradas presentes na base.,correta,Identifica os 1.685 hospitais com mais de 500 internações e nenhum uso de UTI.,"WITH por_hospital AS (
+    SELECT
+        CNES,
+        COUNT(*) AS internacoes_iniciadas,
+        COUNT(*) FILTER (WHERE MARCA_UTI > 0) AS internacoes_com_uti
+    FROM internacao
+    WHERE year(DT_INTER) = 2020
+    GROUP BY CNES
+)
+SELECT COUNT(*) AS hospitais_sem_uso_de_uti
+FROM por_hospital
+WHERE internacoes_iniciadas > 500
+  AND internacoes_com_uti = 0;",True
+C32,1,"Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.","A taxa subiu 1,24 ponto percentual entre 2019 e 2020.","A taxa de mortalidade hospitalar aumentou de 5,17% em 2019 para 6,41% em 2020, uma elevação de 1,24 ponto percentual.",correta,"Expressa o aumento de 1,24 ponto percentual no período.","WITH taxas AS (
+  SELECT
+    EXTRACT(YEAR FROM i.DT_INTER)::INTEGER AS ano,
+    COUNT(*) AS total_internacoes,
+    COUNT(*) FILTER (WHERE i.MORTE = true) AS obitos,
+    100.0 * COUNT(*) FILTER (WHERE i.MORTE = true) / NULLIF(COUNT(*), 0) AS taxa_mortalidade_percentual
+  FROM internacao AS i
+  LEFT JOIN municipios AS m
+    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+  WHERE m.SG_UF = 'RS'
+    AND i.DT_INTER >= DATE '2019-01-01'
+    AND i.DT_INTER < DATE '2021-01-01'
+  GROUP BY EXTRACT(YEAR FROM i.DT_INTER)
+), comparacao AS (
+  SELECT
+    MAX(taxa_mortalidade_percentual) FILTER (WHERE ano = 2019) AS taxa_2019,
+    MAX(taxa_mortalidade_percentual) FILTER (WHERE ano = 2020) AS taxa_2020,
+    MAX(total_internacoes) FILTER (WHERE ano = 2019) AS internacoes_2019,
+    MAX(total_internacoes) FILTER (WHERE ano = 2020) AS internacoes_2020
+  FROM taxas
+)
+SELECT
+  'RS' AS uf_residencia,
+  ROUND(taxa_2019, 2) AS taxa_mortalidade_2019_percentual,
+  ROUND(taxa_2020, 2) AS taxa_mortalidade_2020_percentual,
+  ROUND(taxa_2020 - taxa_2019, 2) AS diferenca_pontos_percentuais,
+  CASE
+    WHEN taxa_2020 > taxa_2019 THEN 'aumentou'
+    WHEN taxa_2020 < taxa_2019 THEN 'caiu'
+    ELSE 'permaneceu igual'
+  END AS direcao,
+  internacoes_2019,
+  internacoes_2020
+FROM comparacao",False,"A taxa de mortalidade hospitalar aumentou **1,24 ponto percentual** de 2019 para 2020. O recorte considera residentes do Rio Grande do Sul e classifica o ano pela data de internação (`DT_INTER`), não pela data de saída.",correta,"Expressa o aumento de 1,24 ponto percentual no período.","WITH taxas AS (
+    SELECT
+        year(i.DT_INTER) AS ano,
+        AVG(i.MORTE::INT) AS taxa_obito
+    FROM internacao i
+    JOIN municipios m
+      ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+    WHERE m.SG_UF = 'RS'
+      AND year(i.DT_INTER) IN (2019, 2020)
+    GROUP BY year(i.DT_INTER)
+)
+SELECT ROUND(
+    100.0 * (
+        MAX(taxa_obito) FILTER (WHERE ano = 2020)
+        - MAX(taxa_obito) FILTER (WHERE ano = 2019)
+    ),
+    2
+) AS diferenca_pontos_percentuais
+FROM taxas;",True
+C32,2,"Para residentes do Rio Grande do Sul, a taxa de mortalidade hospitalar das internações iniciadas aumentou ou caiu de 2019 para 2020? Dê a diferença em pontos percentuais, com duas casas.","A taxa subiu 1,24 ponto percentual entre 2019 e 2020.","A taxa aumentou de 5,17% em 2019 para 6,41% em 2020, uma alta de 1,24 ponto percentual.",correta,"Identifica aumento de 1,24 ponto percentual. As taxas de 2019 e 2020, quando citadas, conferem.","WITH taxas AS (
+  SELECT
+    EXTRACT(YEAR FROM i.DT_INTER)::INTEGER AS ano,
+    COUNT(*) AS internacoes,
+    100.0 * COUNT(*) FILTER (WHERE i.MORTE = TRUE) / NULLIF(COUNT(*), 0) AS taxa_mortalidade_pct
+  FROM internacao AS i
+  LEFT JOIN municipios AS m
+    ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+  WHERE m.SG_UF = 'RS'
+    AND i.DT_INTER >= DATE '2019-01-01'
+    AND i.DT_INTER < DATE '2021-01-01'
+  GROUP BY EXTRACT(YEAR FROM i.DT_INTER)
+), comparacao AS (
+  SELECT
+    MAX(CASE WHEN ano = 2019 THEN taxa_mortalidade_pct END) AS taxa_2019_pct,
+    MAX(CASE WHEN ano = 2020 THEN taxa_mortalidade_pct END) AS taxa_2020_pct,
+    MAX(CASE WHEN ano = 2019 THEN internacoes END) AS internacoes_2019,
+    MAX(CASE WHEN ano = 2020 THEN internacoes END) AS internacoes_2020
+  FROM taxas
+)
+SELECT
+  ROUND(taxa_2019_pct, 2) AS taxa_2019_pct,
+  ROUND(taxa_2020_pct, 2) AS taxa_2020_pct,
+  ROUND(taxa_2020_pct - taxa_2019_pct, 2) AS diferenca_pontos_percentuais,
+  CASE
+    WHEN taxa_2020_pct > taxa_2019_pct THEN 'aumentou'
+    WHEN taxa_2020_pct < taxa_2019_pct THEN 'caiu'
+    ELSE 'nao mudou'
+  END AS direcao,
+  internacoes_2019,
+  internacoes_2020
+FROM comparacao",False,"A taxa de mortalidade hospitalar aumentou **1,24 ponto percentual** de 2019 para 2020 entre residentes do Rio Grande do Sul. O ano foi definido pela data de entrada da internação.",correta,"Identifica aumento de 1,24 ponto percentual. As taxas de 2019 e 2020, quando citadas, conferem.","SELECT ROUND(
+         100.0 * AVG(i.MORTE::INT) FILTER (WHERE year(i.DT_INTER) = 2020)
+         - 100.0 * AVG(i.MORTE::INT) FILTER (WHERE year(i.DT_INTER) = 2019),
+         2
+       ) AS diferenca_pontos_percentuais
+FROM internacao i
+JOIN municipios m ON i.MUNIC_RES = m.CO_MUNICIPIO_6D
+WHERE m.SG_UF = 'RS'
+  AND year(i.DT_INTER) IN (2019, 2020);",True

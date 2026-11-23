@@ -1,21 +1,22 @@
 left,right,business_meaning,left_rows,matched_rows,unmatched_rows,match_rate_non_null,confidence,accepted_usage_policy
-internacoes.CNES,hospital.CNES,Hospital de atendimento pela chave CNES,183877219,183877219,0,1.0,confirmed,business_inner_join_allowed
-hospital.MUNIC_MOV,municipios.CO_MUNICIPIO_6D,Municipio de movimento/estabelecimento,6873,6851,22,0.9967990688200203,confirmed,business_inner_join_allowed
-internacoes.MUNIC_RES,municipios.CO_MUNICIPIO_6D,Municipio de residencia do usuario,183877219,182606822,1270397,0.9930910582240207,likely,left_join_or_explicit_mapped_scope_required
-internacoes.SEXO,sexo.SEXO,Sexo do usuario,183877219,183877219,0,1.0,confirmed,business_inner_join_allowed
-internacoes.RACA_COR,raca_cor.RACA_COR,Raca/cor informada,183877219,135116406,48760813,0.7348186291636268,rejected,audit_only
-internacoes.ETNIA,etnia.ETNIA,Etnia informada,183877219,375040,183502179,0.0020396218848622027,rejected,audit_only
-internacoes.NACIONAL,nacionalidade.NACIONAL,Nacionalidade,183877219,183877185,34,0.9999998150940057,confirmed,business_inner_join_allowed
-internacoes.INSTRU,instrucao.INSTRU,Instrucao/escolaridade,183877219,1757501,182119718,0.009558013817905305,rejected,audit_only
-internacoes.VINCPREV,vincprev.VINCPREV,Vinculo previdenciario,183877219,18864,183858355,0.00010259019634183177,rejected,audit_only
-internacoes.CAR_INT,car_int.CAR_INT,Carater da internacao,183877219,183877219,0,1.0,confirmed,business_inner_join_allowed
-internacoes.ESPEC,especialidade.ESPEC,Especialidade/leito,183877219,183874401,2818,0.9999846745561233,confirmed,business_inner_join_allowed
-internacoes.COMPLEX,complexidade.COMPLEX,Complexidade do atendimento,183877219,183877207,12,0.9999999347390609,confirmed,business_inner_join_allowed
-internacoes.MARCA_UTI,marca_uti.MARCA_UTI,Marcador/tipo de UTI,183877219,183877219,0,1.0,confirmed,business_inner_join_allowed
-internacoes.CBOR,cbor.CBOR,Ocupacao CBO-R,183877219,18864,183858355,0.00010259019634183177,rejected,audit_only
-internacoes.DIAG_PRINC,cid.CID,Diagnostico principal CID,183877219,183876175,1044,0.9999943222982941,confirmed,business_inner_join_allowed
-internacoes.DIAG_SECUN,cid.CID,Diagnostico secundario CID,183877219,10543926,173333293,0.05734220942290845,rejected,audit_only
-internacoes.CID_MORTE,cid.CID,CID da morte,183877219,2871985,181005234,0.01561903652675974,rejected,audit_only
-internacao_procedimento.N_AIH,internacoes.N_AIH,Procedimentos vinculados a AIH/internacao,187957888,187957888,0,1.0,confirmed,business_inner_join_allowed
-internacao_procedimento.PROC_REA,procedimentos.PROC_REA,Procedimento realizado,187957888,187957261,627,0.9999966641463858,confirmed,business_inner_join_allowed
-socioeconomico.CO_MUNICIPIO_6D,municipios.CO_MUNICIPIO_6D,Indicadores socioeconomicos por municipio,72395,72395,0,1.0,confirmed,business_inner_join_allowed
+internacao.CNES,hospital.CNES,Hospital de atendimento pela chave CNES,211824495,211824495,0,1.0,confirmed,business_inner_join_allowed
+hospital.MUNIC_MOV,municipios.CO_MUNICIPIO_6D,Municipio do estabelecimento,7071,7048,23,0.9967472776127846,confirmed,business_inner_join_allowed
+internacao.MUNIC_RES,municipios.CO_MUNICIPIO_6D,Municipio de residencia do usuario,211824495,210562045,1262450,0.9940401132550793,likely,left_join_or_explicit_mapped_scope_required
+internacao.SEXO,sexo.SEXO,Sexo do usuario,211824495,211824495,0,1.0,confirmed,business_inner_join_allowed
+internacao.RACA_COR,raca_cor.RACA_COR,Raca/cor informada,211824495,163315019,48509476,0.770992131953389,rejected,audit_only
+internacao.ETNIA,etnia.ETNIA,Etnia informada,181799500,258591,181540909,0.0014223966512559166,rejected,audit_only
+internacao.NACIONAL,nacionalidade.NACIONAL,Nacionalidade,211824495,211824479,16,0.9999999244657706,confirmed,business_inner_join_allowed
+internacao.INSTRU,instrucao.INSTRU,Instrucao/escolaridade,211824495,2496985,209327510,0.011787989863967337,rejected,audit_only
+internacao.VINCPREV,vincprev.VINCPREV,Vinculo previdenciario,211824495,22168,211802327,0.00010465267484763742,rejected,audit_only
+internacao.CAR_INT,car_int.CAR_INT,Carater da internacao,211824495,211824495,0,1.0,confirmed,business_inner_join_allowed
+internacao.ESPEC,especialidade.ESPEC,Especialidade/leito,211824495,211821677,2818,0.9999866965338452,confirmed,business_inner_join_allowed
+internacao.COMPLEX,complexidade.COMPLEX,Complexidade do atendimento,211824495,211824483,12,0.999999943349328,confirmed,business_inner_join_allowed
+internacao.MARCA_UTI,marca_uti.MARCA_UTI,Marcador/tipo de UTI,211824495,211824495,0,1.0,confirmed,business_inner_join_allowed
+internacao.CBOR,cbor.CBOR,Ocupacao CBO-R,211824495,22168,211802327,0.00010465267484763742,rejected,audit_only
+internacao.DIAG_PRINC,cid.CID,Diagnostico principal CID,211824495,211821763,2732,0.9999871025303282,confirmed,business_inner_join_allowed
+internacao.DIAG_SECUN,cid.CID,Diagnostico secundario CID,211824495,10458641,201365854,0.04937408678821588,rejected,audit_only
+internacao.CID_MORTE,cid.CID,CID da morte,211824495,2843719,208980776,0.013424882707734061,rejected,audit_only
+internacao.DT_INTER,tempo.data,Calendario da data de internacao,211824495,198091006,13733489,0.9351657182045919,weak,audit_only_unless_externally_validated
+internacao_procedimento.N_AIH,internacao.N_AIH,Procedimentos vinculados a AIH/internacao,216161697,216161697,0,1.0,confirmed,business_inner_join_allowed
+internacao_procedimento.PROC_REA,procedimentos.PROC_REA,Procedimento realizado,216161697,216108124,53573,0.9997521623824039,confirmed,business_inner_join_allowed
+socioeconomico.CO_MUNICIPIO_6D,municipios.CO_MUNICIPIO_6D,Indicadores socioeconomicos por municipio,77965,77965,0,1.0,confirmed,business_inner_join_allowed

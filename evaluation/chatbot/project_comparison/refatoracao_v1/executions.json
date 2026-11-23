@@ -1,0 +1,3031 @@
+{
+  "430f0d070147": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        2179
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a4acd699179d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        7619
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "8fba5f8d8e98": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo_cid",
+      "diagnostico",
+      "internacoes",
+      "comparacao"
+    ],
+    "rows_preview": [
+      [
+        "C50",
+        "Câncer de mama",
+        79047,
+        "Mais frequente"
+      ],
+      [
+        "C61",
+        "Câncer de próstata",
+        35231,
+        "Menos frequente"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "e9f38797d762": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a7051218c1c6": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_procedimento",
+      "ocorrencias"
+    ],
+    "rows_preview": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "6065096fbb7c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes_por_mil_habitantes"
+    ],
+    "rows_preview": [
+      [
+        52.66
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "43ac046fabb5": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "valor_aprovado_medio_reais"
+    ],
+    "rows_preview": [
+      [
+        4199.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c751c558ace1": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "media_anual_internacoes"
+    ],
+    "rows_preview": [
+      [
+        860056.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4bebbd528c87": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_distintos"
+    ],
+    "rows_preview": [
+      [
+        1078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "1b4750d89139": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "descricao"
+    ],
+    "rows_preview": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4f6f747971b1": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "quantidade_municipios"
+    ],
+    "rows_preview": [
+      [
+        78
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4dd507669b07": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano_de_entrada",
+      "obitos_hospitalares"
+    ],
+    "rows_preview": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "784eb104e7ac": {
+    "executable": false,
+    "ex": false,
+    "reason": "sem SQL final"
+  },
+  "f70deef940cb": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "diferenca_pontos_percentuais"
+    ],
+    "rows_preview": [
+      [
+        1.24
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "61e00870d319": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico_principal",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "cbb32b6de09f": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mediana_valor_total_reais"
+    ],
+    "rows_preview": [
+      [
+        602.83
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "fc883e4f6d11": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        171898
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "af3371a6b310": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "cnes_sem_obitos"
+    ],
+    "rows_preview": [
+      [
+        1440
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "9218c11c0c8b": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "mes_numero",
+      "mes",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        1,
+        "Janeiro",
+        910257
+      ],
+      [
+        2,
+        "Fevereiro",
+        899743
+      ],
+      [
+        3,
+        "Março",
+        1012315
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "ff25e29a976f": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "dia_da_semana",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "Segunda-feira",
+        81681
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "a79e0a111853": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "variacao_percentual"
+    ],
+    "rows_preview": [
+      [
+        5.3
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c1bd737799e9": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_sem_uso_uti"
+    ],
+    "rows_preview": [
+      [
+        1685
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "7f30a47ee624": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "taxa_mortalidade_pct"
+    ],
+    "rows_preview": [
+      [
+        3.35
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "57ccebf067c5": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "percentual_internacoes_respiratorias"
+    ],
+    "rows_preview": [
+      [
+        8.53
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "86662a85faf7": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_com_obito"
+    ],
+    "rows_preview": [
+      [
+        378
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "3ed41a2eb064": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        15168
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "cf0882ccb8d9": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "populacao_total"
+    ],
+    "rows_preview": [
+      [
+        9132078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "430870617ddc": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "aihs_distintas"
+    ],
+    "rows_preview": [
+      [
+        53313
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "b1b4fcce9c8b": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "uf",
+      "obitos"
+    ],
+    "rows_preview": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "7daea5ba4252": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "cnes",
+      "hospital",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "2237601",
+        "HOSPITAL DE CLINICAS",
+        31199
+      ],
+      [
+        "2237571",
+        "HOSPITAL NOSSA SENHORA DA CONCEICAO",
+        29922
+      ],
+      [
+        "2237253",
+        "IRMANDADE DA SANTA CASA DE MISERICORDIA DE PORTO ALEGRE",
+        19008
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "61e56af7e935": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano",
+      "internacoes",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "b1ca0198613d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        357
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "ce8a7ddace38": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "quantidade_municipios"
+    ],
+    "rows_preview": [
+      [
+        78
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "81fdd8d2d935": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "media_anual"
+    ],
+    "rows_preview": [
+      [
+        860056.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "bfb5617e72a5": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "percentual_internacoes_respiratorias"
+    ],
+    "rows_preview": [
+      [
+        8.53
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "edd8a2468ee0": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "descricao"
+    ],
+    "rows_preview": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "e93ac7471c0e": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "taxa_mortalidade_2019_pct",
+      "taxa_mortalidade_2020_pct",
+      "diferenca_pontos_percentuais",
+      "variacao"
+    ],
+    "rows_preview": [
+      [
+        5.17,
+        6.41,
+        1.24,
+        "Aumentou"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "013b43396f5d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "cnes_com_internacao_sem_obito"
+    ],
+    "rows_preview": [
+      [
+        1440
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "9d23806cb53d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mediana_valor_total_reais"
+    ],
+    "rows_preview": [
+      [
+        602.83
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "d8ef4417bbd7": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        15168
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "76603ef47252": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        7619
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "8b4f5de799b2": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_com_obito"
+    ],
+    "rows_preview": [
+      [
+        378
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "537f2c2e0ec5": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_distintos"
+    ],
+    "rows_preview": [
+      [
+        1078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "0e5a24dad30f": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "uf",
+      "obitos"
+    ],
+    "rows_preview": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "27c36ee130ff": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "variacao_percentual"
+    ],
+    "rows_preview": [
+      [
+        5.3
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "05a88c43a878": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "589feb035d80": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano",
+      "internacoes",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "13ee25e81a65": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        171898
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "451c5f981048": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "aihs_distintas"
+    ],
+    "rows_preview": [
+      [
+        53313
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "359aaf5fc9ee": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        2179
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "d7f542477c65": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "internacoes_cancer_mama",
+      "internacoes_cancer_prostata",
+      "diagnostico_mais_frequente"
+    ],
+    "rows_preview": [
+      [
+        79047,
+        35231,
+        "Câncer de mama (C50)"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "52bca230e41e": {
+    "executable": false,
+    "ex": false,
+    "reason": "sem SQL final"
+  },
+  "bdd97d888757": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "valor_aprovado_medio_reais"
+    ],
+    "rows_preview": [
+      [
+        4199.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "d192a0d3a233": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "cnes",
+      "hospital",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "2237601",
+        "HOSPITAL DE CLINICAS",
+        31199
+      ],
+      [
+        "2237571",
+        "HOSPITAL NOSSA SENHORA DA CONCEICAO",
+        29922
+      ],
+      [
+        "2237253",
+        "IRMANDADE DA SANTA CASA DE MISERICORDIA DE PORTO ALEGRE",
+        19008
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "102fe26640f5": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_procedimento",
+      "ocorrencias"
+    ],
+    "rows_preview": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "7a349c42ff32": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_sem_uso_uti"
+    ],
+    "rows_preview": [
+      [
+        1685
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "36b015e89e31": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "030d526eea64": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "dia_da_semana",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "Segunda-feira",
+        81681
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "7c7b126e3ee1": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        357
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "fd84bfb08687": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes_por_mil_habitantes"
+    ],
+    "rows_preview": [
+      [
+        52.66
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "6f6dd6071103": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "taxa_mortalidade_pct"
+    ],
+    "rows_preview": [
+      [
+        3.35
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "2ce94ab3b6d4": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "populacao_total"
+    ],
+    "rows_preview": [
+      [
+        9132078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c529762e3cf6": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "numero_mes",
+      "mes",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        1,
+        "Janeiro",
+        910257
+      ],
+      [
+        2,
+        "Fevereiro",
+        899743
+      ],
+      [
+        3,
+        "Março",
+        1012315
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "47e8d663c6e5": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano_entrada",
+      "obitos_hospitalares"
+    ],
+    "rows_preview": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "6bbea9ee9bf2": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        2179
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4dd0b0157b2a": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        7619
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "8b65e2fac43b": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "internacoes_cancer_mama",
+      "internacoes_cancer_prostata",
+      "diagnostico_mais_frequente"
+    ],
+    "rows_preview": [
+      [
+        79047,
+        35231,
+        "Câncer de mama (C50)"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "5bb242bdb3e8": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c20e8a93d3d6": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo_procedimento",
+      "nome_procedimento",
+      "ocorrencias"
+    ],
+    "rows_preview": [
+      [
+        "0310010039",
+        "PARTO NORMAL",
+        92225
+      ],
+      [
+        "0303140151",
+        "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+        69921
+      ],
+      [
+        "0411010034",
+        "PARTO CESARIANO",
+        62247
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "dfea186c6768": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes_por_mil_habitantes"
+    ],
+    "rows_preview": [
+      [
+        52.66
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "f15f0d58df1d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "valor_medio_aprovado_reais"
+    ],
+    "rows_preview": [
+      [
+        4199.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "349bd00a0741": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "media_anual_internacoes"
+    ],
+    "rows_preview": [
+      [
+        860056.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "ca6b9fe516bb": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_distintos"
+    ],
+    "rows_preview": [
+      [
+        1078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "bd778f6ed123": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "descricao"
+    ],
+    "rows_preview": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4b7ea017d157": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_municipios"
+    ],
+    "rows_preview": [
+      [
+        78
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "0b8788d462b6": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano_entrada",
+      "obitos_hospitalares"
+    ],
+    "rows_preview": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "254227772c38": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "registros_municipais"
+    ],
+    "rows_preview": [
+      [
+        0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "f86f12215675": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "diferenca_pontos_percentuais"
+    ],
+    "rows_preview": [
+      [
+        1.24
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "098fc7ec4197": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "83f1cf794429": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mediana_valor_aprovado_reais"
+    ],
+    "rows_preview": [
+      [
+        602.83
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "680304cee531": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        171898
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "ec896efacefc": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "cnes_com_internacoes_sem_obito"
+    ],
+    "rows_preview": [
+      [
+        1440
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "d8e75675f339": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "mes_numero",
+      "mes",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        1,
+        "Janeiro",
+        910257
+      ],
+      [
+        2,
+        "Fevereiro",
+        899743
+      ],
+      [
+        3,
+        "Março",
+        1012315
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "ba0a19f691d1": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "dia_da_semana",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "Segunda-feira",
+        81681
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "020acd18e318": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "variacao_percentual"
+    ],
+    "rows_preview": [
+      [
+        5.3
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "5b27cb895ee2": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_sem_uso_uti"
+    ],
+    "rows_preview": [
+      [
+        1685
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "465a939ad80d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "taxa_mortalidade_pct"
+    ],
+    "rows_preview": [
+      [
+        3.35
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "97fb93508233": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "percentual_internacoes"
+    ],
+    "rows_preview": [
+      [
+        8.53
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4ce71b1b0daa": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_com_obito"
+    ],
+    "rows_preview": [
+      [
+        378
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "414757d327b4": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        15168
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "65d21cd52386": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "populacao_total"
+    ],
+    "rows_preview": [
+      [
+        9132078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "601b85628564": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "aihs_distintas"
+    ],
+    "rows_preview": [
+      [
+        53313
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "38373ecbb4f8": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "uf_residencia",
+      "obitos"
+    ],
+    "rows_preview": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "055f23b688ac": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "cnes",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a95b2fbaaec9": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano",
+      "internacoes",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "b45bd100f602": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        357
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "e05c89d142b7": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_municipios"
+    ],
+    "rows_preview": [
+      [
+        78
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c30bd35f082f": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "media_anual_internacoes"
+    ],
+    "rows_preview": [
+      [
+        860056.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "e251ed9c35c4": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "percentual_internacoes"
+    ],
+    "rows_preview": [
+      [
+        8.53
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "03d3a09b317d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "descricao"
+    ],
+    "rows_preview": [
+      [
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "f93e9641275a": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "diferenca_pontos_percentuais"
+    ],
+    "rows_preview": [
+      [
+        1.24
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a8409c0b08ea": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_cnes_sem_obito"
+    ],
+    "rows_preview": [
+      [
+        1440
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "1837a0b9d9c2": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mediana_valor_total_reais"
+    ],
+    "rows_preview": [
+      [
+        602.83
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "20dada558792": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        15168
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c1b323a5132c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        7619
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "9fd871f8bfd1": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais"
+    ],
+    "rows_preview": [
+      [
+        378
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "d218031f1c99": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_distintos"
+    ],
+    "rows_preview": [
+      [
+        1078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "48b6ad46ef92": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "uf",
+      "obitos"
+    ],
+    "rows_preview": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "ee7b2e18d482": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "variacao_percentual"
+    ],
+    "rows_preview": [
+      [
+        5.3
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "452dcd592e38": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "f8622f789388": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano",
+      "internacoes",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a83f44256cfd": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        171898
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "6ae329db35f0": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "aihs_distintas"
+    ],
+    "rows_preview": [
+      [
+        53313
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "058290748949": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        2179
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "de50b11c98d3": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "diagnostico",
+      "internacoes",
+      "comparacao"
+    ],
+    "rows_preview": [
+      [
+        "C50 — Câncer de mama",
+        79047,
+        "Mais frequente"
+      ],
+      [
+        "C61 — Câncer de próstata",
+        35231,
+        "Menos frequente"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "99656127a8d9": {
+    "executable": false,
+    "ex": false,
+    "reason": "sem SQL final"
+  },
+  "a8f71a69d8f3": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "valor_aprovado_medio_reais"
+    ],
+    "rows_preview": [
+      [
+        4199.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "3584ec127878": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "cnes",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "2237601",
+        31199
+      ],
+      [
+        "2237571",
+        29922
+      ],
+      [
+        "2237253",
+        19008
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "cb159a7011af": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo_procedimento",
+      "procedimento",
+      "ocorrencias"
+    ],
+    "rows_preview": [
+      [
+        "0310010039",
+        "PARTO NORMAL",
+        92225
+      ],
+      [
+        "0303140151",
+        "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+        69921
+      ],
+      [
+        "0411010034",
+        "PARTO CESARIANO",
+        62247
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "cdb47fd0ca3c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_sem_uso_uti"
+    ],
+    "rows_preview": [
+      [
+        1685
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "9e5d066e86d8": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "676c5531f7eb": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "dia_da_semana",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "segunda-feira",
+        81681
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "4093dfa5e23d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        357
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "2c4091435058": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes_por_mil_habitantes"
+    ],
+    "rows_preview": [
+      [
+        52.66
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "f515a3daf302": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "taxa_mortalidade_pct"
+    ],
+    "rows_preview": [
+      [
+        3.35
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "dcfe237b4696": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "populacao_total"
+    ],
+    "rows_preview": [
+      [
+        9132078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4590fc9b08f5": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "mes",
+      "internacoes"
+    ],
+    "rows_preview": [
+      [
+        "Janeiro",
+        910257
+      ],
+      [
+        "Fevereiro",
+        899743
+      ],
+      [
+        "Março",
+        1012315
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "d77360df68f9": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano_de_entrada",
+      "obitos_hospitalares"
+    ],
+    "rows_preview": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "d79bd8440d83": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        2179
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a9cfcdea57fb": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        7619
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "826f8ab2ff90": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "diagnostico",
+      "total_internacoes",
+      "frequencia"
+    ],
+    "rows_preview": [
+      [
+        "Câncer de mama (C50)",
+        79047,
+        "Mais frequente"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "356989b88c7b": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "media_permanencia_dias"
+    ],
+    "rows_preview": [
+      [
+        "P220",
+        20.3
+      ],
+      [
+        "F200",
+        18.06
+      ],
+      [
+        "F102",
+        15.91
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "097c26d76b7f": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_procedimento",
+      "quantidade_ocorrencias"
+    ],
+    "rows_preview": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "abe520c72fbd": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes_por_mil_habitantes"
+    ],
+    "rows_preview": [
+      [
+        52.66
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "0006e3ee690d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "valor_total_aprovado_medio_reais"
+    ],
+    "rows_preview": [
+      [
+        4199.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "cfb72d26f93c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "media_anual_internacoes"
+    ],
+    "rows_preview": [
+      [
+        860056.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "642abf73a0c6": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_distintos_cnes"
+    ],
+    "rows_preview": [
+      [
+        1078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "7efbc06a3885": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo",
+      "descricao"
+    ],
+    "rows_preview": [
+      [
+        "A16",
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "5718fc7207be": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_municipios"
+    ],
+    "rows_preview": [
+      [
+        78
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "34676ae503f0": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano_entrada",
+      "obitos_hospitalares"
+    ],
+    "rows_preview": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "b6b60bc80561": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_registros_populacao_nao_nula"
+    ],
+    "rows_preview": [
+      [
+        0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "edc7123dea4d": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "internacoes_2019",
+      "internacoes_2020",
+      "taxa_mortalidade_2019_pct",
+      "taxa_mortalidade_2020_pct",
+      "diferenca_pontos_percentuais",
+      "variacao"
+    ],
+    "rows_preview": [
+      [
+        769415,
+        664747,
+        5.17,
+        6.41,
+        1.24,
+        "aumentou"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "d47a708e7c3a": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico_principal",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a9dd44c6799c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mediana_valor_total_aprovado_reais"
+    ],
+    "rows_preview": [
+      [
+        602.83
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4eed1c85f023": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        171898
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "67d2c0fe7f8e": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_cnes_sem_obito"
+    ],
+    "rows_preview": [
+      [
+        1440
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "6c01383d2753": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mes",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "2536c6675a9b": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "dia_semana",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        "segunda-feira",
+        81681
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "0c8d9332ebca": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "internacoes_2018",
+      "internacoes_2019",
+      "variacao_percentual",
+      "direcao"
+    ],
+    "rows_preview": [
+      [
+        189023,
+        199037,
+        5.3,
+        "cresceu"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "5496438346ca": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_sem_internacao_com_uti"
+    ],
+    "rows_preview": [
+      [
+        1685
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a7a48f04536b": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "taxa_mortalidade_percentual",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        3.35,
+        370785
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "2af93130f53c": {
+    "executable": false,
+    "ex": false,
+    "reason": "sem SQL final"
+  },
+  "23ba5d624311": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_hospitais"
+    ],
+    "rows_preview": [
+      [
+        378
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "1c71f936477c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        15168
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "af710bf5090a": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "soma_populacao"
+    ],
+    "rows_preview": [
+      [
+        9132078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "e109282435c8": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo_procedimento",
+      "total_aihs"
+    ],
+    "rows_preview": [
+      [
+        "0411010034",
+        53313
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "7314ef7c3b80": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "estado",
+      "total_obitos"
+    ],
+    "rows_preview": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "a99222c5e88c": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "cnes",
+      "hospital",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        "2237601",
+        "HOSPITAL DE CLINICAS",
+        31199
+      ],
+      [
+        "2237571",
+        "HOSPITAL NOSSA SENHORA DA CONCEICAO",
+        29922
+      ],
+      [
+        "2237253",
+        "IRMANDADE DA SANTA CASA DE MISERICORDIA DE PORTO ALEGRE",
+        19008
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "92df8043d97c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano",
+      "total_internacoes",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "8800dce75a63": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        357
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "fdd97d1e91d2": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "quantidade_municipios"
+    ],
+    "rows_preview": [
+      [
+        78
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4904f8002ade": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "media_anual_internacoes"
+    ],
+    "rows_preview": [
+      [
+        860056.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "be3f442fbf03": {
+    "executable": false,
+    "ex": false,
+    "reason": "sem SQL final"
+  },
+  "5f53dac41eed": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo",
+      "descricao"
+    ],
+    "rows_preview": [
+      [
+        "A16",
+        "Tuberc vias respirat s/conf bacter histol"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "bf4f3c05291d": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "direcao",
+      "taxa_mortalidade_2019_percentual",
+      "taxa_mortalidade_2020_percentual",
+      "diferenca_pontos_percentuais",
+      "internacoes_2019",
+      "internacoes_2020"
+    ],
+    "rows_preview": [
+      [
+        "aumentou",
+        5.17,
+        6.41,
+        1.24,
+        769415,
+        664747
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "031ed7f40958": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_cnes_com_internacao_e_sem_obito"
+    ],
+    "rows_preview": [
+      [
+        1440
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "1303bbab0bce": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mediana_valor_total_aprovado_reais"
+    ],
+    "rows_preview": [
+      [
+        602.83
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "10000d64510b": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        15168
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "655197e63928": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        7619
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c9d5b679e78c": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_hospitais_com_obito"
+    ],
+    "rows_preview": [
+      [
+        378
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "06da10b2977f": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_distintos_cnes"
+    ],
+    "rows_preview": [
+      [
+        1078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "084d79df406d": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "estado",
+      "total_obitos"
+    ],
+    "rows_preview": [
+      [
+        "AL",
+        6586
+      ],
+      [
+        "PE",
+        23634
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "ce446292b50b": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "internacoes_2018",
+      "internacoes_2019",
+      "variacao_percentual",
+      "direcao"
+    ],
+    "rows_preview": [
+      [
+        189023,
+        199037,
+        5.3,
+        "cresceu"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "6723076febab": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_diagnostico",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        "O800",
+        55186
+      ],
+      [
+        "B342",
+        50369
+      ],
+      [
+        "I64",
+        13196
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "5d32095119ff": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano",
+      "total_internacoes",
+      "permanencia_media_dias"
+    ],
+    "rows_preview": [
+      [
+        2015,
+        162689,
+        3.33
+      ],
+      [
+        2016,
+        170528,
+        3.24
+      ],
+      [
+        2017,
+        182820,
+        3.18
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "82f4b442db15": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        171898
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "56cd7df3443b": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo_procedimento",
+      "total_aihs"
+    ],
+    "rows_preview": [
+      [
+        "0411010034",
+        53313
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "531fc4d90f5e": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        2179
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "4376487f37ab": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "diagnostico",
+      "total_internacoes",
+      "frequencia"
+    ],
+    "rows_preview": [
+      [
+        "Neopl malig da prostata",
+        35231,
+        "Mais frequente"
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "cd56f244c9b5": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "total_registros_municipais_populacao_nao_nula"
+    ],
+    "rows_preview": [
+      [
+        0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "fad56b6cc4f7": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "valor_total_aprovado_medio_reais"
+    ],
+    "rows_preview": [
+      [
+        4199.0
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "806490ba3750": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "CNES",
+      "NO_HOSPITAL",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        "2237601",
+        "HOSPITAL DE CLINICAS",
+        31199
+      ],
+      [
+        "2237571",
+        "HOSPITAL NOSSA SENHORA DA CONCEICAO",
+        29922
+      ],
+      [
+        "2237253",
+        "IRMANDADE DA SANTA CASA DE MISERICORDIA DE PORTO ALEGRE",
+        19008
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "9ab75b2c84fb": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "codigo_procedimento",
+      "quantidade_ocorrencias"
+    ],
+    "rows_preview": [
+      [
+        "0310010039",
+        92225
+      ],
+      [
+        "0303140151",
+        69921
+      ],
+      [
+        "0411010034",
+        62247
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "0b5379afeb28": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "hospitais_sem_uso_uti"
+    ],
+    "rows_preview": [
+      [
+        1685
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "da7474704bee": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "codigo_diagnostico",
+      "descricao_diagnostico",
+      "media_dias_permanencia"
+    ],
+    "rows_preview": [
+      [
+        "P220",
+        "Sindr da angustia respirat do recem-nascido",
+        20.3
+      ],
+      [
+        "F200",
+        "Esquizofrenia paranoide",
+        18.06
+      ],
+      [
+        "F102",
+        "Sindr de dependencia",
+        15.91
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "24461a6e3683": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "dia_semana",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        "segunda-feira",
+        81681
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "3f4774e9629e": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "diagnosis_description",
+      "admissions"
+    ],
+    "rows_preview": [
+      [
+        "Hipertensao essencial",
+        357
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "1683f1ec90be": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "internacoes_por_mil_habitantes"
+    ],
+    "rows_preview": [
+      [
+        52.66
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "b14a88d86f39": {
+    "executable": true,
+    "ex": false,
+    "columns": [
+      "taxa_mortalidade_percentual",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        3.35,
+        370785
+      ]
+    ],
+    "reason": "resultado diferente"
+  },
+  "75101766cca1": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "soma_populacao"
+    ],
+    "rows_preview": [
+      [
+        9132078
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "c73ec8108dca": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "mes",
+      "total_internacoes"
+    ],
+    "rows_preview": [
+      [
+        1,
+        910257
+      ],
+      [
+        2,
+        899743
+      ],
+      [
+        3,
+        1012315
+      ]
+    ],
+    "reason": "equivalente"
+  },
+  "7179a868c6b6": {
+    "executable": true,
+    "ex": true,
+    "columns": [
+      "ano_entrada",
+      "total_obitos_hospitalares"
+    ],
+    "rows_preview": [
+      [
+        2019,
+        9398
+      ]
+    ],
+    "reason": "equivalente"
+  }
+}

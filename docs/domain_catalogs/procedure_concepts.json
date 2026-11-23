@@ -29,6 +29,28 @@
     ]
   },
   {
+    "id": "partos_normais",
+    "label": "Partos normais realizados",
+    "description": "Procedimentos principais que representam parto normal (vaginal) realizado na internacao. Tipo clinico do parto, como 'parto espontaneo cefalico', e diagnostico CID (DIAG_PRINC), nao procedimento.",
+    "scopes": ["performed_procedure", "unknown"],
+    "synonyms": [
+      "parto normal",
+      "partos normais",
+      "parto vaginal",
+      "partos vaginais"
+    ],
+    "codes": [
+      "0310010039",
+      "0310010047",
+      "0310010055"
+    ],
+    "evidence": [
+      "0310010039 PARTO NORMAL",
+      "0310010047 PARTO NORMAL EM GESTACAO DE ALTO RISCO",
+      "0310010055 PARTO NORMAL EM CENTRO DE PARTO NORMAL (CPN)"
+    ]
+  },
+  {
     "id": "partos_cesarianos",
     "label": "Partos cesarianos realizados",
     "description": "Procedimentos principais que representam parto cesariano realizado na internacao.",

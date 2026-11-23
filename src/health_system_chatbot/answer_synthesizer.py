@@ -83,12 +83,34 @@ def _humanize_key(key: str) -> str:
     return labels.get(key, key.replace("_", " ").lower())
 
 
+_TIME_KEYS = {
+    "ano", "year", "mes", "month", "trimestre", "quarter", "semana", "week",
+    "dia", "day", "dia_semana", "weekday", "isodow", "nu_ano",
+}
+
+
+def _is_time_key(key: str) -> bool:
+    lowered = key.lower()
+    return (
+        lowered in _TIME_KEYS
+        or lowered.startswith(("ano_", "mes_", "dia_"))
+        or lowered.endswith(("_ano", "_mes", "_year"))
+    )
+
+
 def _count_column(row: dict[str, Any]) -> str | None:
     for candidate in ("total_mortes", "mortes", "obitos", "internacoes", "total"):
         if candidate in row:
             return candidate
+    # Calendar columns are numeric too; picking `ano` as the measure made the
+    # summary report "Soma de ano: 36.297" (2008 + ... + 2025) for yearly series.
     for key, value in row.items():
-        if isinstance(value, int | float) and key.upper() not in {"DIAG_PRINC", "CID"}:
+        if (
+            isinstance(value, int | float)
+            and not isinstance(value, bool)
+            and key.upper() not in {"DIAG_PRINC", "CID"}
+            and not _is_time_key(key)
+        ):
             return key
     return None
 
@@ -591,7 +613,7 @@ def synthesize_answer(
     answer_source = "deterministic_fallback"
     if allow_llm and config is not None and not natural_answer_warning:
         answer_source = (
-            "pydantic_ai_openai"
+            f"pydantic_ai_{config.llm_provider}"
             if config.agent_framework == "pydantic_ai"
             else "llamaindex_openai"
         )

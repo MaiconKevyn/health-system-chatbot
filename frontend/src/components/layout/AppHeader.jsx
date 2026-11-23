@@ -66,7 +66,7 @@ export function AppHeader({
               Datasus Health System Chatbot
             </h1>
             <p className="text-sm font-medium text-muted-foreground">
-              DaVint Lab - Pydantic AI
+              DaVint Lab · SIH/SUS
             </p>
           </div>
         </div>

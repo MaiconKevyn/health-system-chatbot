@@ -1,5 +1,7 @@
 # Report: Comparacao entre Pydantic AI e LangGraph/simple
 
+> **Status (2026-11-23):** relatório histórico de 2026-07-09, feito sobre o banco sihrd5 (tabela `internacoes`) com o motor legado. Os números não se aplicam ao sihrd9 nem ao motor SUS atual; a comparação atual está em [`evaluation/benchmark_ab/`](../evaluation/benchmark_ab/README.md).
+
 Data da avaliacao: 2026-07-09
 
 ## Objetivo

@@ -13,13 +13,16 @@ from health_system_chatbot.workflow import run_chat
 def test_run_chat_returns_chart_payload_when_user_requests_graph(monkeypatch, tmp_path):
     generated_plan = SqlPlan(
         question="mortes por ano",
-        sql="SELECT 2021 AS ano, 10 AS mortes",
+        sql=(
+            "SELECT YEAR(DT_INTER) AS ano, COUNT(*) AS mortes "
+            "FROM internacao WHERE MORTE GROUP BY 1 ORDER BY 1"
+        ),
     )
 
     monkeypatch.setattr(
         workflow_module,
         "retrieve_context",
-        lambda question, stage1_context, config: RetrievedContext(tables=["internacoes"]),
+        lambda question, stage1_context, config: RetrievedContext(tables=["internacao"]),
     )
     monkeypatch.setattr(
         workflow_module,
@@ -29,7 +32,7 @@ def test_run_chat_returns_chart_payload_when_user_requests_graph(monkeypatch, tm
     monkeypatch.setattr(
         workflow_module,
         "execute_validated_sql",
-        lambda validation, *, db_path, max_rows: ExecutionResult(
+        lambda validation, *, db_path, max_rows, timeout_seconds=None: ExecutionResult(
             sql=validation.safe_sql or "",
             columns=["ano", "mortes"],
             rows=[{"ano": 2021, "mortes": 10}, {"ano": 2022, "mortes": 12}],
@@ -47,7 +50,13 @@ def test_run_chat_returns_chart_payload_when_user_requests_graph(monkeypatch, tm
     )
     ctx = Stage1Context(
         project_root=str(tmp_path),
-        tables={"internacoes": TableContext(table_name="internacoes")},
+        tables={
+            "internacao": TableContext(
+                table_name="internacao",
+                columns=["DT_INTER", "MORTE"],
+                column_types={"DT_INTER": "DATE", "MORTE": "BOOLEAN"},
+            )
+        },
     )
 
     answer = run_chat(
@@ -85,7 +94,7 @@ def test_run_chat_does_not_return_chart_payload_for_normal_question(monkeypatch,
     monkeypatch.setattr(
         workflow_module,
         "execute_validated_sql",
-        lambda validation, *, db_path, max_rows: ExecutionResult(
+        lambda validation, *, db_path, max_rows, timeout_seconds=None: ExecutionResult(
             sql=validation.safe_sql or "",
             columns=["internacoes"],
             rows=[{"internacoes": 10}],

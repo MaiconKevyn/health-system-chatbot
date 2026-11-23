@@ -1,12 +1,12 @@
 from health_system_chatbot.artifacts import load_stage1_context
 
 
-def test_load_stage1_context_prefers_validated_ground_truth_and_join_policy():
+def test_load_stage1_context_excludes_evaluation_labels_and_loads_join_policy():
     ctx = load_stage1_context()
 
-    assert len(ctx.ground_truth) == 228
-    assert any(item.id == "GT021" for item in ctx.ground_truth)
-    assert "internacoes" in ctx.tables
+    assert ctx.ground_truth == []
+    assert "internacao" in ctx.tables
+    assert "COD_IDADE" in ctx.tables["internacao"].columns
     assert any(policy.confidence == "rejected" for policy in ctx.join_policies)
     assert any(
         policy.accepted_usage_policy == "left_join_or_explicit_mapped_scope_required"
@@ -23,10 +23,13 @@ def test_load_stage1_context_can_sync_with_runtime_duckdb_catalog(tmp_path):
         con.execute(
             "CREATE TABLE _staging_internacoes (CAR_INT TINYINT, PROC_REA VARCHAR)"
         )
+        con.execute("INSERT INTO _staging_internacoes VALUES (1, 'P001')")
         con.execute(
             "CREATE TABLE internacoes (N_AIH VARCHAR, CAR_INT TINYINT, PROC_REA VARCHAR)"
         )
+        con.execute("INSERT INTO internacoes VALUES ('AIH1', 1, 'P001')")
         con.execute("CREATE TABLE car_int (CAR_INT TINYINT, DESCRICAO VARCHAR)")
+        con.execute("INSERT INTO car_int VALUES (1, 'Urgencia')")
     finally:
         con.close()
 

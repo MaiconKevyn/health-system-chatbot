@@ -1,0 +1,3813 @@
+{
+  "variant": "full_agent",
+  "summary": {
+    "total": 10,
+    "scored_total": 3,
+    "not_scorable_count": 7,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 0.0,
+    "sql_validation_rate": 0.0,
+    "sql_valid_rate": 0.0,
+    "sql_execution_rate": 0.0,
+    "result_value_match_rate": null,
+    "comparable_result_match_rate": null,
+    "result_match_rate": 0.0,
+    "semantic_match_rate": 0.0,
+    "presentation_match_rate": 0.0,
+    "correction_success_rate": null,
+    "retrieval_miss_rate": 0.0,
+    "candidate_selection_accuracy": null,
+    "catalog_candidates_rate": 0.6,
+    "catalog_tool_call_rate": 0.0,
+    "catalog_decision_rate": 0.0,
+    "catalog_tool_call_count": 0,
+    "catalog_decision_count": 0,
+    "latency_p50": 8.24821599999268,
+    "latency_p95": 11.549958250005147,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 0,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "contained_in_actual_count": 0,
+    "contained_in_expected_count": 0,
+    "semantic_label_equivalence_count": 0,
+    "shape_mismatch_count": 0,
+    "value_mismatch_count": 0,
+    "error_category_counts": {
+      "catalog_budget_exceeded": 10
+    },
+    "failures_by_difficulty": {
+      "hard": 10
+    },
+    "semantic_match_bootstrap_ci95_by_template": {
+      "lower": 0.0,
+      "upper": 0.0,
+      "samples": 2000,
+      "template_families": 3,
+      "seed": 0
+    }
+  },
+  "records": [
+    {
+      "id": "GT044",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual o custo m\u00e9dio de UTI por faixa et\u00e1ria dos pacientes?",
+      "benchmark_status": "not_scorable",
+      "template_family": "GT044",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [
+        "valor_total_aprovado"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX004",
+        "EX011",
+        "EX010",
+        "EX003"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX004",
+        "EX011",
+        "EX010",
+        "EX003"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX006",
+          "score": 7.05,
+          "accepted": false,
+          "reasons": [
+            "intent:scalar",
+            "concepts:age_band",
+            "patterns:scalar",
+            "tables:internacoes",
+            "lexical:0.100"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:dimensions.age_band.definition"
+          ]
+        },
+        {
+          "example_id": "EX004",
+          "score": 4.65,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "patterns:scalar",
+            "tables:internacoes",
+            "lexical:0.133"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX011",
+          "score": 4.25,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "patterns:scalar",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX001",
+          "score": 3.602941,
+          "accepted": false,
+          "reasons": [
+            "concepts:age_band",
+            "tables:internacoes",
+            "lexical:0.118"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "requires_explicit:dimensions.age_band.definition"
+          ]
+        },
+        {
+          "example_id": "EX010",
+          "score": 3.102941,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "tables:internacoes",
+            "lexical:0.118"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 2.99,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "tables:internacoes",
+            "lexical:0.080"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 2.886364,
+          "accepted": false,
+          "reasons": [
+            "intent:scalar",
+            "tables:internacoes",
+            "lexical:0.045"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX007",
+          "score": 2.0,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes,marca_uti",
+            "lexical:0.167"
+          ],
+          "rejection_reasons": [
+            "forbidden_transfer:positive_uti_cost",
+            "score_below_threshold:2.000"
+          ]
+        },
+        {
+          "example_id": "EX009",
+          "score": 0.916667,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes",
+            "lexical:0.056"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:0.917"
+          ]
+        },
+        {
+          "example_id": "EX008",
+          "score": 0.861111,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes",
+            "lexical:0.037"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "requires_explicit:ranking.minimum_support",
+            "score_below_threshold:0.861"
+          ]
+        },
+        {
+          "example_id": "EX005",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        },
+        {
+          "example_id": "EX012",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:0.750"
+          ]
+        },
+        {
+          "example_id": "EX013",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        }
+      ],
+      "rejected_example_ids": [
+        "EX006",
+        "EX001",
+        "EX002",
+        "EX007",
+        "EX009",
+        "EX008",
+        "EX005",
+        "EX012",
+        "EX013"
+      ],
+      "question_contract": {
+        "intent": "scalar",
+        "population": "qual o custo medio de uti por faixa etaria dos pacientes",
+        "concepts": [
+          "age_band",
+          "positive_uti_cost"
+        ],
+        "dimensions": [
+          {
+            "concept": "age_band",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "positive_uti_cost",
+            "numerator": null,
+            "denominator": null,
+            "unit": "currency"
+          }
+        ],
+        "time": {
+          "basis": "none",
+          "grain": "none",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": false
+        },
+        "ranking": {
+          "n": null,
+          "partition_by": [
+            "age_band"
+          ],
+          "minimum_support": null,
+          "explicit_n": false,
+          "explicit_minimum_support": false
+        },
+        "output": {
+          "required_concepts": [
+            "age_band",
+            "positive_uti_cost"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "irrelevant"
+        },
+        "required_sources": [],
+        "ambiguities": [
+          "age_band_definition_unresolved"
+        ],
+        "assumptions_used": [],
+        "semantic_rule_ids": [
+          "positive_uti_cost_v1"
+        ],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [
+        "positive_uti_cost_v1"
+      ],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END AS faixa_etaria, AVG(\"VAL_UTI\") AS custo_medio_uti FROM internacoes WHERE \"VAL_UTI\" > 0 GROUP BY CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "faixa_etaria",
+        "custo_medio_uti"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "Idoso",
+          3966.2841442
+        ],
+        [
+          "Adulto",
+          3865.7488931
+        ],
+        [
+          "Menor",
+          5358.8530339
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 3,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 7.857202958999551,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT049",
+      "difficulty": "hard",
+      "expected_result_type": "scalar",
+      "question_pt": "Qual a taxa de mortalidade no estado do Rio Grande do Sul em 2021?",
+      "benchmark_status": "not_scorable",
+      "template_family": "GT049",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 47,
+      "business_metrics": [
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX006",
+        "EX010",
+        "EX002",
+        "EX003"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX006",
+        "EX010",
+        "EX002",
+        "EX003"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX006",
+          "score": 7.75,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "metrics:mortality_rate",
+            "patterns:scalar",
+            "tables:internacoes",
+            "lexical:0.167"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX010",
+          "score": 6.375,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "concepts:state",
+            "tables:internacoes,municipios",
+            "lexical:0.125"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 6.142857,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "concepts:state",
+            "tables:internacoes,municipios",
+            "lexical:0.048"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 6.12,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "concepts:state",
+            "tables:internacoes,municipios",
+            "lexical:0.040"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX004",
+          "score": 4.45,
+          "accepted": false,
+          "reasons": [
+            "intent:scalar",
+            "patterns:scalar",
+            "tables:internacoes",
+            "lexical:0.067"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX011",
+          "score": 4.25,
+          "accepted": false,
+          "reasons": [
+            "intent:scalar",
+            "patterns:scalar",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX008",
+          "score": 4.115385,
+          "accepted": false,
+          "reasons": [
+            "concepts:state",
+            "tables:internacoes,municipios",
+            "lexical:0.038"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "requires_explicit:ranking.minimum_support"
+          ]
+        },
+        {
+          "example_id": "EX009",
+          "score": 0.926471,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes",
+            "lexical:0.059"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:0.926"
+          ]
+        },
+        {
+          "example_id": "EX007",
+          "score": 0.907895,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes",
+            "lexical:0.053"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:0.908"
+          ]
+        },
+        {
+          "example_id": "EX001",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        },
+        {
+          "example_id": "EX005",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        },
+        {
+          "example_id": "EX012",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:0.750"
+          ]
+        },
+        {
+          "example_id": "EX013",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        }
+      ],
+      "rejected_example_ids": [
+        "EX004",
+        "EX011",
+        "EX008",
+        "EX009",
+        "EX007",
+        "EX001",
+        "EX005",
+        "EX012",
+        "EX013"
+      ],
+      "question_contract": {
+        "intent": "scalar",
+        "population": "qual a taxa de mortalidade no estado do rio grande do sul em 2021",
+        "concepts": [
+          "state",
+          "mortality_rate"
+        ],
+        "dimensions": [
+          {
+            "concept": "state",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "mortality_rate",
+            "numerator": "deaths",
+            "denominator": "admissions",
+            "unit": "percent"
+          }
+        ],
+        "time": {
+          "basis": "unresolved",
+          "grain": "none",
+          "start_year": 2021,
+          "end_year": 2021,
+          "explicit_in_question": true
+        },
+        "ranking": {
+          "n": null,
+          "partition_by": [],
+          "minimum_support": null,
+          "explicit_n": false,
+          "explicit_minimum_support": false
+        },
+        "output": {
+          "required_concepts": [
+            "state",
+            "mortality_rate"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "irrelevant"
+        },
+        "required_sources": [],
+        "ambiguities": [
+          "date_basis_unresolved"
+        ],
+        "assumptions_used": [],
+        "semantic_rule_ids": [],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND EXTRACT(YEAR FROM \"DT_INTER\") = 2021",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "scalar",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          719323,
+          56392,
+          7.84
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 1,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 5.525101291001192,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT078",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Quais s\u00e3o os 10 principais motivos de interna\u00e7\u00e3o para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?",
+      "benchmark_status": "scored",
+      "template_family": "GT078",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX005",
+        "EX001",
+        "EX009",
+        "EX013"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX005",
+        "EX001",
+        "EX009",
+        "EX013"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX005",
+          "score": 10.071429,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n_per_group",
+            "tables:car_int,internacoes",
+            "lexical:0.190"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX001",
+          "score": 9.223684,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n_per_group",
+            "tables:internacoes",
+            "lexical:0.158"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX009",
+          "score": 8.892857,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n_per_group",
+            "tables:internacoes",
+            "lexical:0.048"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX013",
+          "score": 7.85,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes",
+            "lexical:0.200"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX012",
+          "score": 7.7,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:time_year",
+            "tables:internacoes",
+            "lexical:0.150"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX008",
+          "score": 7.694444,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes",
+            "lexical:0.148"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.minimum_support"
+          ]
+        },
+        {
+          "example_id": "EX004",
+          "score": 5.407895,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "patterns:time_year",
+            "tables:internacoes",
+            "lexical:0.053"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX010",
+          "score": 5.25,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "patterns:time_year",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX011",
+          "score": 5.25,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "patterns:time_year",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX006",
+          "score": 4.321429,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.190"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 3.75,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 3.75,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX007",
+          "score": 3.75,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        }
+      ],
+      "rejected_example_ids": [
+        "EX012",
+        "EX008",
+        "EX004",
+        "EX010",
+        "EX011",
+        "EX006",
+        "EX002",
+        "EX003",
+        "EX007"
+      ],
+      "question_contract": {
+        "intent": "ranking",
+        "population": "quais sao os 10 principais motivos de internacao para pacientes com menos de 18 anos entre 18 e 64 anos e acima de 64 anos",
+        "concepts": [
+          "diagnosis_description",
+          "admissions"
+        ],
+        "dimensions": [
+          {
+            "concept": "diagnosis_description",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "admissions",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          }
+        ],
+        "time": {
+          "basis": "admission_date",
+          "grain": "year",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": true
+        },
+        "ranking": {
+          "n": 10,
+          "partition_by": [
+            "age_band"
+          ],
+          "minimum_support": null,
+          "explicit_n": true,
+          "explicit_minimum_support": false
+        },
+        "output": {
+          "required_concepts": [
+            "diagnosis_description",
+            "admissions"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "required"
+        },
+        "required_sources": [],
+        "ambiguities": [],
+        "assumptions_used": [],
+        "semantic_rule_ids": [],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT faixa_etaria, \"DESCRICAO\", total_internacoes FROM (SELECT CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa_etaria, c.\"DESCRICAO\", COUNT(*) AS total_internacoes, ROW_NUMBER() OVER (PARTITION BY CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END ORDER BY COUNT(*) DESC) AS rn FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY faixa_etaria, c.\"DESCRICAO\") subquery WHERE rn <= 10 ORDER BY faixa_etaria, rn",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "faixa_etaria",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "18 a 64",
+          "Parto espontaneo cefalico",
+          8971027
+        ],
+        [
+          "18 a 64",
+          "Parto unico espontaneo NE",
+          2143909
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana de emergencia",
+          1287229
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana NE",
+          1143419
+        ],
+        [
+          "18 a 64",
+          "Incompleto s/complic",
+          1135087
+        ],
+        [
+          "18 a 64",
+          "Esterilizacao",
+          1041259
+        ],
+        [
+          "18 a 64",
+          "Infecc do trato urinario de localiz NE",
+          960634
+        ],
+        [
+          "18 a 64",
+          "Outr tipos de parto unico espontaneo",
+          895981
+        ],
+        [
+          "18 a 64",
+          "Pneumonia NE",
+          884061
+        ],
+        [
+          "18 a 64",
+          "Infecc p/coronavirus NE",
+          841437
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 30,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_procedure_catalog; signature already used 1 time(s)",
+      "latency_seconds": 11.268097416003002,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT083",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual \u00e9 a taxa de mortalidade por n\u00edvel de instru\u00e7\u00e3o no estado do RS, considerando apenas grupos com mais de 1000 interna\u00e7\u00f5es?",
+      "benchmark_status": "not_scorable",
+      "template_family": "GT083",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "instrucao",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XX. Causas externas de morbidade e de mortalidade",
+        "R95-R99 Causas mal definidas e desconhecidas de mortalidade",
+        "Y90-Y98 Fatores suplementares relacionados com morbidade e mortalidade",
+        "Traum de musculo e de tendao ao nivel perna",
+        "S862 Traum musc tend grupo musc ant nivel perna"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX006",
+        "EX010",
+        "EX002",
+        "EX003"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX006",
+        "EX010",
+        "EX002",
+        "EX003"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX006",
+          "score": 11.107143,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "metrics:admissions,mortality_rate",
+            "patterns:scalar",
+            "tables:internacoes",
+            "lexical:0.286"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX010",
+          "score": 8.85,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "concepts:state",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.200"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 8.75,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "concepts:state",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.167"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 8.560345,
+          "accepted": true,
+          "reasons": [
+            "intent:scalar",
+            "concepts:state",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.103"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX011",
+          "score": 8.107143,
+          "accepted": false,
+          "reasons": [
+            "intent:scalar",
+            "metrics:admissions",
+            "patterns:scalar",
+            "tables:cid,internacoes",
+            "lexical:0.036"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX004",
+          "score": 7.55,
+          "accepted": false,
+          "reasons": [
+            "intent:scalar",
+            "metrics:admissions",
+            "patterns:scalar",
+            "tables:internacoes",
+            "lexical:0.100"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX008",
+          "score": 6.916667,
+          "accepted": false,
+          "reasons": [
+            "concepts:state",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.222"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX013",
+          "score": 4.891304,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:cbor,internacoes",
+            "lexical:0.130"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX001",
+          "score": 4.630435,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:complexidade,internacoes",
+            "lexical:0.043"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX005",
+          "score": 4.615385,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:car_int,internacoes",
+            "lexical:0.038"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX009",
+          "score": 4.178571,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.143"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX007",
+          "score": 4.141304,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.130"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX012",
+          "score": 3.875,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.042"
+          ],
+          "rejection_reasons": []
+        }
+      ],
+      "rejected_example_ids": [
+        "EX011",
+        "EX004",
+        "EX008",
+        "EX013",
+        "EX001",
+        "EX005",
+        "EX009",
+        "EX007",
+        "EX012"
+      ],
+      "question_contract": {
+        "intent": "scalar",
+        "population": "qual e a taxa de mortalidade por nivel de instrucao no estado do rs considerando apenas grupos com mais de 1000 internacoes",
+        "concepts": [
+          "state",
+          "education_level",
+          "mortality_rate",
+          "admissions"
+        ],
+        "dimensions": [
+          {
+            "concept": "state",
+            "definition_id": null,
+            "explicit_in_question": true
+          },
+          {
+            "concept": "education_level",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "mortality_rate",
+            "numerator": "deaths",
+            "denominator": "admissions",
+            "unit": "percent"
+          },
+          {
+            "concept": "admissions",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          }
+        ],
+        "time": {
+          "basis": "none",
+          "grain": "none",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": false
+        },
+        "ranking": {
+          "n": null,
+          "partition_by": [],
+          "minimum_support": 1000,
+          "explicit_n": false,
+          "explicit_minimum_support": true
+        },
+        "output": {
+          "required_concepts": [
+            "state",
+            "education_level",
+            "mortality_rate",
+            "admissions"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "irrelevant"
+        },
+        "required_sources": [],
+        "ambiguities": [],
+        "assumptions_used": [],
+        "semantic_rule_ids": [],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT ins.\"DESCRICAO\", COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN instrucao ins ON i.\"INSTRU\" = ins.\"INSTRU\" JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND i.\"INSTRU\" IS NOT NULL AND i.\"INSTRU\" != 0 GROUP BY ins.\"DESCRICAO\" HAVING COUNT(*) > 1000 ORDER BY taxa_mortalidade DESC",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "DESCRICAO",
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "1\u00ba grau",
+          43471,
+          3,
+          0.01
+        ],
+        [
+          "3\u00ba grau",
+          2706,
+          0,
+          0.0
+        ],
+        [
+          "2\u00ba grau",
+          27900,
+          0,
+          0.0
+        ],
+        [
+          "Analfabeto",
+          2756,
+          0,
+          0.0
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 4,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 9.871623500002897,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT086",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 3 CNES com maior custo m\u00e9dio de UTI entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+      "benchmark_status": "not_scorable",
+      "template_family": "GT086",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "valor_total_aprovado",
+        "geografia_residencia"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XXI. Fatores que influenciam o estado de sa\u00fade",
+        "Transt dissociativos",
+        "F443 Estados de transe e de possessao",
+        "Sint e sinais relativos ao estado emocional",
+        "R457 Estado de choque emocional e tensao NE"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX009",
+        "EX013",
+        "EX012",
+        "EX001"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX009",
+        "EX013",
+        "EX012",
+        "EX001"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX008",
+          "score": 14.923913,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital,state",
+            "metrics:admissions",
+            "patterns:ranking,top_n",
+            "tables:internacoes",
+            "lexical:0.391"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.minimum_support"
+          ]
+        },
+        {
+          "example_id": "EX009",
+          "score": 10.381579,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes",
+            "lexical:0.211"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX013",
+          "score": 10.071429,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n",
+            "tables:cbor,internacoes",
+            "lexical:0.190"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX012",
+          "score": 8.85,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.200"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX001",
+          "score": 8.285714,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:complexidade,internacoes",
+            "lexical:0.095"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX005",
+          "score": 8.25,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:car_int,internacoes",
+            "lexical:0.083"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX010",
+          "score": 6.386364,
+          "accepted": false,
+          "reasons": [
+            "concepts:state",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.045"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 6.365385,
+          "accepted": false,
+          "reasons": [
+            "concepts:state",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.038"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 6.35,
+          "accepted": false,
+          "reasons": [
+            "concepts:state",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.033"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX007",
+          "score": 4.76087,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes,marca_uti",
+            "lexical:0.087"
+          ],
+          "rejection_reasons": [
+            "forbidden_transfer:positive_uti_cost"
+          ]
+        },
+        {
+          "example_id": "EX011",
+          "score": 4.611111,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:cid,internacoes",
+            "lexical:0.037"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX006",
+          "score": 4.0,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.083"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX004",
+          "score": 3.9,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.050"
+          ],
+          "rejection_reasons": []
+        }
+      ],
+      "rejected_example_ids": [
+        "EX008",
+        "EX005",
+        "EX010",
+        "EX002",
+        "EX003",
+        "EX007",
+        "EX011",
+        "EX006",
+        "EX004"
+      ],
+      "question_contract": {
+        "intent": "ranking",
+        "population": "quais sao os 3 cnes com maior custo medio de uti entre internacoes de residentes nos estados ma e rs",
+        "concepts": [
+          "state",
+          "hospital",
+          "admissions",
+          "positive_uti_cost"
+        ],
+        "dimensions": [
+          {
+            "concept": "state",
+            "definition_id": null,
+            "explicit_in_question": true
+          },
+          {
+            "concept": "hospital",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "admissions",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          },
+          {
+            "concept": "positive_uti_cost",
+            "numerator": null,
+            "denominator": null,
+            "unit": "currency"
+          }
+        ],
+        "time": {
+          "basis": "none",
+          "grain": "none",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": false
+        },
+        "ranking": {
+          "n": 3,
+          "partition_by": [],
+          "minimum_support": null,
+          "explicit_n": true,
+          "explicit_minimum_support": false
+        },
+        "output": {
+          "required_concepts": [
+            "state",
+            "hospital",
+            "admissions",
+            "positive_uti_cost"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "required"
+        },
+        "required_sources": [],
+        "ambiguities": [],
+        "assumptions_used": [],
+        "semantic_rule_ids": [
+          "positive_uti_cost_v1"
+        ],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [
+        "positive_uti_cost_v1"
+      ],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT estado, \"CNES\", ROUND(custo_medio_uti, 2) AS custo_medio_uti FROM (SELECT mu.\"SG_UF\" AS estado, i.\"CNES\", AVG(i.\"VAL_UTI\") AS custo_medio_uti, ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_UTI\") DESC) AS rn FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"VAL_UTI\" > 0 AND mu.\"SG_UF\" IN ('MA', 'RS') GROUP BY mu.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 100) sub WHERE rn <= 3 ORDER BY estado, rn",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "estado",
+        "CNES",
+        "custo_medio_uti"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "MA",
+          180637,
+          12198.02
+        ],
+        [
+          "MA",
+          9161449,
+          10736.2
+        ],
+        [
+          "MA",
+          2309475,
+          9118.08
+        ],
+        [
+          "RS",
+          9563873,
+          18586.21
+        ],
+        [
+          "RS",
+          9528792,
+          18261.05
+        ],
+        [
+          "RS",
+          2257815,
+          17386.72
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 6,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 8.24821599999268,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT087",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual a evolu\u00e7\u00e3o anual da taxa de mortalidade por estado (MA e RS)?",
+      "benchmark_status": "not_scorable",
+      "template_family": "GT087",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes"
+      ],
+      "retrieved_columns_count": 40,
+      "business_metrics": [
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX010",
+        "EX006",
+        "EX003",
+        "EX002"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX010",
+        "EX006",
+        "EX003",
+        "EX002"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX010",
+          "score": 5.392857,
+          "accepted": true,
+          "reasons": [
+            "concepts:state",
+            "patterns:time_year",
+            "tables:internacoes",
+            "lexical:0.214"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX006",
+          "score": 4.279412,
+          "accepted": true,
+          "reasons": [
+            "metrics:mortality_rate",
+            "tables:internacoes",
+            "lexical:0.176"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 3.51087,
+          "accepted": true,
+          "reasons": [
+            "concepts:state",
+            "tables:internacoes",
+            "lexical:0.087"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 3.4,
+          "accepted": true,
+          "reasons": [
+            "concepts:state",
+            "tables:internacoes",
+            "lexical:0.050"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX008",
+          "score": 3.37,
+          "accepted": false,
+          "reasons": [
+            "concepts:state",
+            "tables:internacoes",
+            "lexical:0.040"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "requires_explicit:ranking.minimum_support"
+          ]
+        },
+        {
+          "example_id": "EX004",
+          "score": 2.464286,
+          "accepted": false,
+          "reasons": [
+            "patterns:time_year",
+            "tables:internacoes",
+            "lexical:0.071"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:2.464"
+          ]
+        },
+        {
+          "example_id": "EX011",
+          "score": 2.25,
+          "accepted": false,
+          "reasons": [
+            "patterns:time_year",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:2.250"
+          ]
+        },
+        {
+          "example_id": "EX012",
+          "score": 2.25,
+          "accepted": false,
+          "reasons": [
+            "patterns:time_year",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:2.250"
+          ]
+        },
+        {
+          "example_id": "EX007",
+          "score": 1.102941,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes",
+            "lexical:0.118"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:1.103"
+          ]
+        },
+        {
+          "example_id": "EX009",
+          "score": 0.9375,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes",
+            "lexical:0.062"
+          ],
+          "rejection_reasons": [
+            "score_below_threshold:0.938"
+          ]
+        },
+        {
+          "example_id": "EX001",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        },
+        {
+          "example_id": "EX005",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        },
+        {
+          "example_id": "EX013",
+          "score": 0.75,
+          "accepted": false,
+          "reasons": [
+            "tables:internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "score_below_threshold:0.750"
+          ]
+        }
+      ],
+      "rejected_example_ids": [
+        "EX008",
+        "EX004",
+        "EX011",
+        "EX012",
+        "EX007",
+        "EX009",
+        "EX001",
+        "EX005",
+        "EX013"
+      ],
+      "question_contract": {
+        "intent": "time_series",
+        "population": "qual a evolucao anual da taxa de mortalidade por estado ma e rs",
+        "concepts": [
+          "state",
+          "mortality_rate"
+        ],
+        "dimensions": [
+          {
+            "concept": "state",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "mortality_rate",
+            "numerator": "deaths",
+            "denominator": "admissions",
+            "unit": "percent"
+          }
+        ],
+        "time": {
+          "basis": "unresolved",
+          "grain": "year",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": true
+        },
+        "ranking": {
+          "n": null,
+          "partition_by": [
+            "state"
+          ],
+          "minimum_support": null,
+          "explicit_n": false,
+          "explicit_minimum_support": false
+        },
+        "output": {
+          "required_concepts": [
+            "state",
+            "mortality_rate"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "irrelevant"
+        },
+        "required_sources": [],
+        "ambiguities": [
+          "date_basis_unresolved"
+        ],
+        "assumptions_used": [],
+        "semantic_rule_ids": [],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT mu.\"SG_UF\", EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"DT_INTER\" IS NOT NULL GROUP BY mu.\"SG_UF\", ano ORDER BY mu.\"SG_UF\", ano",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "SG_UF",
+        "ano",
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "MA",
+          2007,
+          26091,
+          578,
+          2.22
+        ],
+        [
+          "MA",
+          2008,
+          340217,
+          4606,
+          1.35
+        ],
+        [
+          "MA",
+          2009,
+          376372,
+          5394,
+          1.43
+        ],
+        [
+          "MA",
+          2010,
+          403962,
+          5721,
+          1.42
+        ],
+        [
+          "MA",
+          2011,
+          411256,
+          6468,
+          1.57
+        ],
+        [
+          "MA",
+          2012,
+          395903,
+          7514,
+          1.9
+        ],
+        [
+          "MA",
+          2013,
+          418744,
+          8805,
+          2.1
+        ],
+        [
+          "MA",
+          2014,
+          422640,
+          9304,
+          2.2
+        ],
+        [
+          "MA",
+          2015,
+          425468,
+          9987,
+          2.35
+        ],
+        [
+          "MA",
+          2016,
+          408807,
+          10190,
+          2.49
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 35,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 12.092288500003633,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT089",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 10 CNES com maior taxa de mortalidade obst\u00e9trica (com mais de 500 interna\u00e7\u00f5es obst\u00e9tricas)?",
+      "benchmark_status": "not_scorable",
+      "template_family": "GT089",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "O94-O99 Outras afec\u00e7\u00f5es obst\u00e9tricas NCOP",
+        "XX. Causas externas de morbidade e de mortalidade",
+        "Outr infecc puerperais",
+        "O860 Infecc da incisao cirurgica orig obstetrica",
+        "Complic do puerperio NCOP"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX009",
+        "EX005",
+        "EX008",
+        "EX001"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX009",
+        "EX005",
+        "EX008",
+        "EX001"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX009",
+          "score": 12.666667,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital",
+            "metrics:admissions",
+            "patterns:ranking,top_n_per_group",
+            "tables:especialidade,internacoes",
+            "lexical:0.222"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX005",
+          "score": 10.659091,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n_per_group",
+            "tables:car_int,especialidade,internacoes",
+            "lexical:0.136"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX008",
+          "score": 10.625,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes",
+            "lexical:0.292"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX001",
+          "score": 9.973684,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n_per_group",
+            "tables:complexidade,internacoes",
+            "lexical:0.158"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX012",
+          "score": 8.7,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.150"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX013",
+          "score": 8.6,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:cbor,internacoes",
+            "lexical:0.200"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX006",
+          "score": 7.5,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions,mortality_rate",
+            "tables:internacoes",
+            "lexical:0.250"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX011",
+          "score": 4.615385,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:cid,internacoes",
+            "lexical:0.038"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 4.0,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.083"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX004",
+          "score": 3.907895,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.053"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX010",
+          "score": 3.892857,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.048"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX007",
+          "score": 3.880435,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.043"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 3.853448,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.034"
+          ],
+          "rejection_reasons": []
+        }
+      ],
+      "rejected_example_ids": [
+        "EX012",
+        "EX013",
+        "EX006",
+        "EX011",
+        "EX002",
+        "EX004",
+        "EX010",
+        "EX007",
+        "EX003"
+      ],
+      "question_contract": {
+        "intent": "ranking",
+        "population": "quais sao os 10 cnes com maior taxa de mortalidade obstetrica com mais de 500 internacoes obstetricas",
+        "concepts": [
+          "hospital",
+          "mortality_rate",
+          "admissions",
+          "obstetric_population"
+        ],
+        "dimensions": [
+          {
+            "concept": "hospital",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "mortality_rate",
+            "numerator": "deaths",
+            "denominator": "admissions",
+            "unit": "percent"
+          },
+          {
+            "concept": "admissions",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          }
+        ],
+        "time": {
+          "basis": "none",
+          "grain": "none",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": false
+        },
+        "ranking": {
+          "n": 10,
+          "partition_by": [
+            "age_band"
+          ],
+          "minimum_support": 500,
+          "explicit_n": true,
+          "explicit_minimum_support": true
+        },
+        "output": {
+          "required_concepts": [
+            "hospital",
+            "mortality_rate",
+            "admissions"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "required"
+        },
+        "required_sources": [],
+        "ambiguities": [
+          "obstetric_population_definition_unresolved"
+        ],
+        "assumptions_used": [],
+        "semantic_rule_ids": [],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT i.\"CNES\", COUNT(*) AS total_obstetricos, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS pct_mortalidade FROM internacoes i WHERE i.\"ESPEC\" = 2 AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\" HAVING COUNT(*) > 500 ORDER BY pct_mortalidade DESC LIMIT 10",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "CNES",
+        "total_obstetricos",
+        "total_mortes",
+        "pct_mortalidade"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          5585422,
+          681,
+          6,
+          0.88
+        ],
+        [
+          2016419,
+          2185,
+          19,
+          0.87
+        ],
+        [
+          5597501,
+          1186,
+          10,
+          0.84
+        ],
+        [
+          2179628,
+          1110,
+          7,
+          0.63
+        ],
+        [
+          2246872,
+          684,
+          4,
+          0.58
+        ],
+        [
+          2244314,
+          524,
+          3,
+          0.57
+        ],
+        [
+          2557088,
+          574,
+          3,
+          0.52
+        ],
+        [
+          2262010,
+          974,
+          5,
+          0.51
+        ],
+        [
+          2016478,
+          1669,
+          8,
+          0.48
+        ],
+        [
+          2536587,
+          1787,
+          8,
+          0.45
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 10,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 11.549958250005147,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT090",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 10 diagn\u00f3sticos com maior m\u00e9dia de dias de interna\u00e7\u00e3o (com mais de 10000 casos)?",
+      "benchmark_status": "scored",
+      "template_family": "GT090",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cid",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 49,
+      "business_metrics": [
+        "total_internacoes",
+        "permanencia_media"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Agressao disparo arma fogo de maior calibre",
+        "Neopl malig do coracao mediastino e pleura",
+        "C388 Lesao invasiva coracao mediastino e pleura",
+        "XVIII. Sintomas, sinais e achados anormais",
+        "Oclusao/estenose art cereb q n res inf cereb"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX013",
+        "EX008",
+        "EX005",
+        "EX001"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX013",
+        "EX008",
+        "EX005",
+        "EX001"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX013",
+          "score": 9.381579,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n",
+            "tables:internacoes",
+            "lexical:0.211"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX008",
+          "score": 9.35,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking,top_n",
+            "tables:internacoes",
+            "lexical:0.200"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX005",
+          "score": 8.6,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:car_int,internacoes",
+            "lexical:0.200"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX001",
+          "score": 7.955882,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes",
+            "lexical:0.235"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX009",
+          "score": 7.565789,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes",
+            "lexical:0.105"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX012",
+          "score": 5.892857,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.048"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX011",
+          "score": 4.5,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:cid,internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX006",
+          "score": 4.35,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.200"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 3.875,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.042"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 3.75,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX004",
+          "score": 3.75,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX007",
+          "score": 3.75,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX010",
+          "score": 3.75,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes"
+          ],
+          "rejection_reasons": []
+        }
+      ],
+      "rejected_example_ids": [
+        "EX009",
+        "EX012",
+        "EX011",
+        "EX006",
+        "EX002",
+        "EX003",
+        "EX004",
+        "EX007",
+        "EX010"
+      ],
+      "question_contract": {
+        "intent": "ranking",
+        "population": "quais sao os 10 diagnosticos com maior media de dias de internacao com mais de 10000 casos",
+        "concepts": [
+          "diagnosis_description",
+          "admissions"
+        ],
+        "dimensions": [
+          {
+            "concept": "diagnosis_description",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "admissions",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          }
+        ],
+        "time": {
+          "basis": "none",
+          "grain": "none",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": false
+        },
+        "ranking": {
+          "n": 10,
+          "partition_by": [],
+          "minimum_support": 10000,
+          "explicit_n": true,
+          "explicit_minimum_support": true
+        },
+        "output": {
+          "required_concepts": [
+            "diagnosis_description",
+            "admissions"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "required"
+        },
+        "required_sources": [],
+        "ambiguities": [],
+        "assumptions_used": [],
+        "semantic_rule_ids": [],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT c.\"DESCRICAO\" AS diagnostico, COUNT(*) AS total_internacoes, ROUND(AVG(i.\"DIAS_PERM\"), 2) AS media_dias FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY c.\"DESCRICAO\" HAVING COUNT(*) > 10000 ORDER BY AVG(i.\"DIAS_PERM\") DESC LIMIT 10",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "diagnostico",
+        "total_internacoes",
+        "media_dias"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "Esquizofrenia residual",
+          45245,
+          69.86
+        ],
+        [
+          "Transt ment NE dev lesao disf cereb doen fis",
+          12702,
+          43.43
+        ],
+        [
+          "Out trans ment esp dev les disf cer doen fis",
+          27557,
+          40.65
+        ],
+        [
+          "Compr signif comport req vigilancia ou trat",
+          24930,
+          40.63
+        ],
+        [
+          "Esquizofrenia hebefrenica",
+          39330,
+          35.63
+        ],
+        [
+          "Mencao ausencia de ou compr minimo comport",
+          15537,
+          35.62
+        ],
+        [
+          "Demencia NE",
+          13382,
+          35.36
+        ],
+        [
+          "Esquizofrenia simples",
+          24843,
+          33.48
+        ],
+        [
+          "Esquizofrenia indiferenciada",
+          22736,
+          30.29
+        ],
+        [
+          "Esquizofrenia paranoide",
+          373301,
+          30.05
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 10,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_procedure_catalog; signature already used 1 time(s)",
+      "latency_seconds": 8.328502666990971,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT114",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual a distribui\u00e7\u00e3o dos m\u00e9todos contraceptivos utilizados por pacientes em interna\u00e7\u00f5es obst\u00e9tricas, incluindo os casos sem informa\u00e7\u00e3o?",
+      "benchmark_status": "not_scorable",
+      "template_family": "GT114",
+      "intent_status": "needs_clarification",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "contraceptivos",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Disp utiliz obstetr ginec assoc incid adv",
+        "Y76 Disp utiliz obstetr ginec assoc incid adv",
+        "Y760 Disp p/fins diagn ou de monitorizacao",
+        "Y761 Disp p/fins terap aparelhagem reabilitacao",
+        "Y762 Proteses outr impl incl materiais acessorios"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX007",
+        "EX010",
+        "EX003",
+        "EX002"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX007",
+        "EX010",
+        "EX003",
+        "EX002"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX007",
+          "score": 14.045455,
+          "accepted": true,
+          "reasons": [
+            "intent:distribution",
+            "concepts:uti_usage",
+            "metrics:admissions,uti_usage",
+            "patterns:distribution",
+            "tables:internacoes,marca_uti",
+            "lexical:0.182"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX010",
+          "score": 5.678571,
+          "accepted": true,
+          "reasons": [
+            "metrics:admissions",
+            "patterns:distribution",
+            "tables:internacoes",
+            "lexical:0.143"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 5.560345,
+          "accepted": true,
+          "reasons": [
+            "metrics:admissions",
+            "patterns:distribution",
+            "tables:internacoes",
+            "lexical:0.103"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 5.480769,
+          "accepted": true,
+          "reasons": [
+            "metrics:admissions",
+            "patterns:distribution",
+            "tables:internacoes",
+            "lexical:0.077"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX013",
+          "score": 4.62,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:cbor,internacoes",
+            "lexical:0.040"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX011",
+          "score": 4.607143,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:cid,internacoes",
+            "lexical:0.036"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX001",
+          "score": 4.5,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:complexidade,internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX005",
+          "score": 4.5,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:car_int,internacoes"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX004",
+          "score": 4.223684,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.158"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX006",
+          "score": 4.125,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.125"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX009",
+          "score": 4.022727,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.091"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX012",
+          "score": 3.875,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.042"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX008",
+          "score": 3.84375,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.031"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n",
+            "requires_explicit:ranking.minimum_support"
+          ]
+        }
+      ],
+      "rejected_example_ids": [
+        "EX013",
+        "EX011",
+        "EX001",
+        "EX005",
+        "EX004",
+        "EX006",
+        "EX009",
+        "EX012",
+        "EX008"
+      ],
+      "question_contract": {
+        "intent": "distribution",
+        "population": "qual a distribuicao dos metodos contraceptivos utilizados por pacientes em internacoes obstetricas incluindo os casos sem informacao",
+        "concepts": [
+          "admissions",
+          "uti_usage",
+          "obstetric_population"
+        ],
+        "dimensions": [],
+        "metrics": [
+          {
+            "concept": "admissions",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          },
+          {
+            "concept": "uti_usage",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          }
+        ],
+        "time": {
+          "basis": "none",
+          "grain": "none",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": false
+        },
+        "ranking": {
+          "n": null,
+          "partition_by": [],
+          "minimum_support": null,
+          "explicit_n": false,
+          "explicit_minimum_support": false
+        },
+        "output": {
+          "required_concepts": [
+            "admissions",
+            "uti_usage"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "irrelevant"
+        },
+        "required_sources": [],
+        "ambiguities": [
+          "obstetric_population_definition_unresolved"
+        ],
+        "assumptions_used": [],
+        "semantic_rule_ids": [
+          "uti_usage_v1"
+        ],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [
+        "uti_usage_v1"
+      ],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') AS metodo_contraceptivo, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN contraceptivos c ON i.\"CONTRACEP1\" = c.\"CONTRACEPTIVO\" WHERE i.\"ESPEC\" = 2 GROUP BY COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') ORDER BY total_internacoes DESC",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "metodo_contraceptivo",
+        "total_internacoes"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "N\u00e3o informado",
+          27039929
+        ],
+        [
+          "Preservativo",
+          150646
+        ],
+        [
+          "Horm\u00f4nio oral",
+          144586
+        ],
+        [
+          "LAM",
+          18911
+        ],
+        [
+          "Coito interrompido",
+          13448
+        ],
+        [
+          "DIU",
+          11570
+        ],
+        [
+          "Horm\u00f4nio injet\u00e1vel",
+          8679
+        ],
+        [
+          "Diafragma",
+          4106
+        ],
+        [
+          "Ogino Knaus",
+          2261
+        ],
+        [
+          "Espermicida",
+          1610
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 14,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 7.298571583000012,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    },
+    {
+      "id": "GT115",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Qual o hospital com maior receita total por especialidade m\u00e9dica, considerando apenas hospitais com mais de 500 interna\u00e7\u00f5es na especialidade?",
+      "benchmark_status": "scored",
+      "template_family": "GT115",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "especialidade",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XXII. C\u00f3digos para prop\u00f3sitos especiais",
+        "F99-F99 Transtorno mental n\u00e3o especificado",
+        "P35-P39 Infec\u00e7\u00f5es espec\u00edficas do per\u00edodo perinatal",
+        "T08-T14 Traumatismos de localiza\u00e7\u00e3o n\u00e3o especificada",
+        "Y40-Y84 Complica\u00e7\u00f5es de assist\u00eancia m\u00e9dica e cir\u00fargica"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "tool_calls": [],
+      "tool_budget": {
+        "catalog_calls": 8,
+        "duplicate_signature": 1,
+        "agent_requests": 20
+      },
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "EX009",
+        "EX012",
+        "EX010",
+        "EX002"
+      ],
+      "query_examples_enabled_effective": true,
+      "example_bank_version": "faafa4adc0f33e83",
+      "semantic_rules_version": "1.1.0",
+      "retrieved_example_ids": [
+        "EX009",
+        "EX012",
+        "EX010",
+        "EX002"
+      ],
+      "example_retrieval_decisions": [
+        {
+          "example_id": "EX009",
+          "score": 14.166667,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital,medical_specialty",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:especialidade,internacoes",
+            "lexical:0.389"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX005",
+          "score": 11.361111,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "concepts:medical_specialty",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:car_int,especialidade,internacoes",
+            "lexical:0.037"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX008",
+          "score": 11.277778,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes,municipios",
+            "lexical:0.259"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX012",
+          "score": 8.5,
+          "accepted": true,
+          "reasons": [
+            "intent:ranking",
+            "concepts:hospital",
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.083"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX013",
+          "score": 8.375,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:cbor,internacoes",
+            "lexical:0.125"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX001",
+          "score": 7.375,
+          "accepted": false,
+          "reasons": [
+            "intent:ranking",
+            "metrics:admissions",
+            "patterns:ranking",
+            "tables:internacoes",
+            "lexical:0.042"
+          ],
+          "rejection_reasons": [
+            "requires_explicit:ranking.n"
+          ]
+        },
+        {
+          "example_id": "EX010",
+          "score": 5.071429,
+          "accepted": true,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes,municipios",
+            "lexical:0.190"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX002",
+          "score": 4.98,
+          "accepted": true,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes,municipios",
+            "lexical:0.160"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX003",
+          "score": 4.913793,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes,municipios",
+            "lexical:0.138"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX011",
+          "score": 4.603448,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:cid,internacoes",
+            "lexical:0.034"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX006",
+          "score": 4.25,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.167"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX004",
+          "score": 4.2,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.150"
+          ],
+          "rejection_reasons": []
+        },
+        {
+          "example_id": "EX007",
+          "score": 4.125,
+          "accepted": false,
+          "reasons": [
+            "metrics:admissions",
+            "tables:internacoes",
+            "lexical:0.125"
+          ],
+          "rejection_reasons": []
+        }
+      ],
+      "rejected_example_ids": [
+        "EX005",
+        "EX008",
+        "EX013",
+        "EX001",
+        "EX003",
+        "EX011",
+        "EX006",
+        "EX004",
+        "EX007"
+      ],
+      "question_contract": {
+        "intent": "ranking",
+        "population": "qual o hospital com maior receita total por especialidade medica considerando apenas hospitais com mais de 500 internacoes na especialidade",
+        "concepts": [
+          "hospital",
+          "medical_specialty",
+          "admissions"
+        ],
+        "dimensions": [
+          {
+            "concept": "hospital",
+            "definition_id": null,
+            "explicit_in_question": true
+          },
+          {
+            "concept": "medical_specialty",
+            "definition_id": null,
+            "explicit_in_question": true
+          }
+        ],
+        "metrics": [
+          {
+            "concept": "admissions",
+            "numerator": null,
+            "denominator": null,
+            "unit": null
+          }
+        ],
+        "time": {
+          "basis": "none",
+          "grain": "none",
+          "start_year": null,
+          "end_year": null,
+          "explicit_in_question": false
+        },
+        "ranking": {
+          "n": null,
+          "partition_by": [
+            "medical_specialty"
+          ],
+          "minimum_support": 500,
+          "explicit_n": false,
+          "explicit_minimum_support": true
+        },
+        "output": {
+          "required_concepts": [
+            "hospital",
+            "medical_specialty",
+            "admissions"
+          ],
+          "optional_concepts": [],
+          "representation": "any",
+          "ordering": "irrelevant"
+        },
+        "required_sources": [],
+        "ambiguities": [],
+        "assumptions_used": [],
+        "semantic_rule_ids": [],
+        "cumulative_threshold_percent": null,
+        "semantic_rule_context": []
+      },
+      "semantic_rule_ids": [],
+      "assumptions_used": [],
+      "validator_findings": {},
+      "join_probe_stats": [],
+      "stop_reason": "catalog_budget_exceeded",
+      "semantic_match": false,
+      "presentation_match": false,
+      "error_taxonomy_version": "2.0.0",
+      "plan_source": "",
+      "candidate_count": 0,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "",
+      "ground_truth_sql": "SELECT especialidade, \"CNES\", receita_total FROM (SELECT e.\"DESCRICAO\" AS especialidade, i.\"CNES\", ROUND(SUM(i.\"VAL_TOT\"), 2) AS receita_total, ROW_NUMBER() OVER (PARTITION BY e.\"DESCRICAO\" ORDER BY SUM(i.\"VAL_TOT\") DESC) AS rn FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" GROUP BY e.\"DESCRICAO\", i.\"CNES\" HAVING COUNT(*) > 500) sub WHERE rn = 1 ORDER BY receita_total DESC",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "especialidade",
+        "CNES",
+        "receita_total"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [
+        [
+          "Cir\u00fargico",
+          13633,
+          1525557676.38
+        ],
+        [
+          "Cl\u00ednico",
+          13846,
+          823861560.01
+        ],
+        [
+          "Pedi\u00e1trico",
+          434,
+          384189426.81
+        ],
+        [
+          "Cr\u00f4nicos",
+          2802104,
+          147550656.71
+        ],
+        [
+          "Obst\u00e9trico",
+          2323397,
+          142564195.13
+        ],
+        [
+          "Psiquiatria",
+          18384,
+          97562484.75
+        ],
+        [
+          "Reabilita\u00e7\u00e3o",
+          2673916,
+          32378095.06
+        ],
+        [
+          "Pneumologia Sanit\u00e1ria",
+          426,
+          21936706.73
+        ],
+        [
+          "Leito Dia / Sa\u00fade Mental",
+          16292,
+          21375967.16
+        ],
+        [
+          "Leito Dia / Cir\u00fargico",
+          2237601,
+          20575226.03
+        ]
+      ],
+      "actual_preview_values": [],
+      "expected_row_count": 13,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "catalog_budget_exceeded",
+      "error_message": "catalog_duplicate_call:search_dimension_values; signature already used 1 time(s)",
+      "latency_seconds": 5.901667708007153,
+      "variant": "full_agent",
+      "strategy": "pydantic_agent",
+      "variant_description": "Current Pydantic AI pipeline with all configured components.",
+      "config_overrides": {},
+      "feature_flags": {}
+    }
+  ]
+}

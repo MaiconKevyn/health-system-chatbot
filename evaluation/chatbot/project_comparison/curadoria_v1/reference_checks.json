@@ -1,0 +1,157 @@
+{
+  "c06_municipios": {
+    "sql": "select count(*),count(distinct s.CO_MUNICIPIO_6D),count(QT_POPULACAO),sum(QT_POPULACAO) from socioeconomico s join municipios m using(CO_MUNICIPIO_6D) where NU_ANO=2019 and SG_UF='CE'",
+    "values": [
+      [
+        184,
+        184,
+        184,
+        9132078
+      ]
+    ]
+  },
+  "c08_cobertura": {
+    "sql": "select distinct NU_ANO from socioeconomico order by 1",
+    "values": [
+      [
+        2008
+      ],
+      [
+        2009
+      ],
+      [
+        2011
+      ],
+      [
+        2012
+      ],
+      [
+        2013
+      ],
+      [
+        2014
+      ],
+      [
+        2015
+      ],
+      [
+        2016
+      ],
+      [
+        2017
+      ],
+      [
+        2018
+      ],
+      [
+        2019
+      ],
+      [
+        2020
+      ],
+      [
+        2021
+      ],
+      [
+        2024
+      ]
+    ]
+  },
+  "c11_atendimento": {
+    "sql": "select count(*) from internacao where year(DT_INTER)=2021 and MUNIC_RES=430460 and CNES in (select CNES from hospital where MUNIC_MOV=431490)",
+    "values": [
+      [
+        2179
+      ]
+    ]
+  },
+  "c12_procedimentos": {
+    "sql": "select count(distinct p.N_AIH),count(*) from internacao_procedimento p join internacao i using(N_AIH) where PROC_REA='0411010034' and i.DT_INTER between '2023-04-01' and '2023-04-30'",
+    "values": [
+      [
+        53313,
+        53313
+      ]
+    ]
+  },
+  "c19_dias": {
+    "sql": "select dayname(DT_INTER),count(*) as n from internacao i join municipios m on m.CO_MUNICIPIO_6D=i.MUNIC_RES where SG_UF='PA' and year(DT_INTER)=2019 group by 1 order by n desc",
+    "values": [
+      [
+        "Monday",
+        81681
+      ],
+      [
+        "Tuesday",
+        79679
+      ],
+      [
+        "Wednesday",
+        76688
+      ],
+      [
+        "Thursday",
+        76625
+      ],
+      [
+        "Friday",
+        69650
+      ],
+      [
+        "Saturday",
+        54052
+      ],
+      [
+        "Sunday",
+        50128
+      ]
+    ]
+  },
+  "c24_corte": {
+    "sql": "select DIAG_PRINC,count(*),avg(DIAS_PERM) as x from internacao where year(DT_INTER)=2021 and DIAG_PRINC is not null group by 1 having count(*)>5000 order by x desc,1 limit 4",
+    "values": [
+      [
+        "P220",
+        8838,
+        20.304141208418194
+      ],
+      [
+        "F200",
+        21955,
+        18.058346618082442
+      ],
+      [
+        "F102",
+        14572,
+        15.911954433159483
+      ],
+      [
+        "P073",
+        42288,
+        15.296112372304199
+      ]
+    ]
+  },
+  "c26_componentes": {
+    "sql": "select (select count(*) from internacao where MUNIC_RES=420540 and year(DT_INTER)=2019) as aiHs, QT_POPULACAO from socioeconomico where CO_MUNICIPIO_6D=420540 and NU_ANO=2019",
+    "values": [
+      [
+        26383,
+        500973
+      ]
+    ]
+  },
+  "c32_taxas": {
+    "sql": "select year(DT_INTER),round(100*avg(MORTE::int),2) from internacao i join municipios m on m.CO_MUNICIPIO_6D=i.MUNIC_RES where SG_UF='RS' and year(DT_INTER) in(2019,2020) group by 1 order by 1",
+    "values": [
+      [
+        2019,
+        5.17
+      ],
+      [
+        2020,
+        6.41
+      ]
+    ]
+  }
+}

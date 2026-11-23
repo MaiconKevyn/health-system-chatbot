@@ -1,0 +1,168 @@
+{
+  "totals": {
+    "integrated": {
+      "executable": 62,
+      "ex": 53,
+      "nl": 63,
+      "calls": 126,
+      "grades": {
+        "correta": 63,
+        "incorreta": 1
+      },
+      "nl_both": 31,
+      "ex_both": 26,
+      "strata": {
+        "clinica_geografia": {
+          "nl": 16,
+          "ex": 16
+        },
+        "comparacoes": {
+          "nl": 16,
+          "ex": 13
+        },
+        "distribuicoes": {
+          "nl": 16,
+          "ex": 10
+        },
+        "medidas": {
+          "nl": 15,
+          "ex": 14
+        }
+      }
+    },
+    "sus": {
+      "executable": 63,
+      "ex": 55,
+      "nl": 62,
+      "calls": 127,
+      "grades": {
+        "correta": 62,
+        "incorreta": 2
+      },
+      "nl_both": 30,
+      "ex_both": 27,
+      "strata": {
+        "clinica_geografia": {
+          "nl": 16,
+          "ex": 16
+        },
+        "comparacoes": {
+          "nl": 16,
+          "ex": 14
+        },
+        "distribuicoes": {
+          "nl": 15,
+          "ex": 10
+        },
+        "medidas": {
+          "nl": 15,
+          "ex": 15
+        }
+      }
+    },
+    "health": {
+      "executable": 62,
+      "ex": 44,
+      "nl": 60,
+      "calls": 198,
+      "grades": {
+        "correta": 60,
+        "sem_resposta": 2,
+        "parcial": 1,
+        "incorreta": 1
+      },
+      "nl_both": 30,
+      "ex_both": 21,
+      "strata": {
+        "clinica_geografia": {
+          "nl": 16,
+          "ex": 11
+        },
+        "comparacoes": {
+          "nl": 12,
+          "ex": 8
+        },
+        "distribuicoes": {
+          "nl": 16,
+          "ex": 11
+        },
+        "medidas": {
+          "nl": 16,
+          "ex": 14
+        }
+      }
+    }
+  },
+  "review_sources": {
+    "curadoria_v1": 46,
+    "revisao_atual": 146
+  },
+  "paired": {
+    "integrated-sus": {
+      "nl": {
+        "delta_pp": 1.5625,
+        "ci95_pp": [
+          0.0,
+          4.6875
+        ],
+        "wins": 1,
+        "losses": 0,
+        "ties": 63
+      },
+      "ex": {
+        "delta_pp": -3.125,
+        "ci95_pp": [
+          -12.5,
+          6.25
+        ],
+        "wins": 2,
+        "losses": 4,
+        "ties": 58
+      }
+    },
+    "integrated-health": {
+      "nl": {
+        "delta_pp": 4.6875,
+        "ci95_pp": [
+          -3.125,
+          12.5
+        ],
+        "wins": 4,
+        "losses": 1,
+        "ties": 59
+      },
+      "ex": {
+        "delta_pp": 14.0625,
+        "ci95_pp": [
+          0.0,
+          29.6875
+        ],
+        "wins": 13,
+        "losses": 4,
+        "ties": 47
+      }
+    },
+    "sus-health": {
+      "nl": {
+        "delta_pp": 3.125,
+        "ci95_pp": [
+          -4.6875,
+          12.5
+        ],
+        "wins": 4,
+        "losses": 2,
+        "ties": 58
+      },
+      "ex": {
+        "delta_pp": 17.1875,
+        "ci95_pp": [
+          0.0,
+          34.375
+        ],
+        "wins": 16,
+        "losses": 5,
+        "ties": 43
+      }
+    }
+  }
+}

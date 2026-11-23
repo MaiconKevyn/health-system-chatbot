@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-import json
 from datetime import datetime, timezone
-from pathlib import Path
 from typing import Any
 
-from .audit import append_audit_record, find_related_audit_context
+from .audit import find_related_audit_context, write_observability_record as _write_observability_record
 from .answer_synthesizer import (
     failed_answer,
     synthesize_answer,
@@ -24,6 +22,7 @@ from .models import (
     ValidationResult,
 )
 from .schema_context import retrieve_context
+from .result_probes import probe_result_contract
 from .self_correction import refine_sql_plan
 from .sql_generator import generate_sql_plan
 from .sql_validator import validate_sql
@@ -78,53 +77,6 @@ class SqlDraftEvent(Event):
 
 class FailureEvent(Event):
     message: str
-
-
-def _trace_path(config: ChatbotConfig) -> Path:
-    traces = config.project_root / "evaluation/chatbot/traces"
-    traces.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f")
-    return traces / f"trace_{stamp}.json"
-
-
-def _write_trace(config: ChatbotConfig, payload: dict[str, Any]) -> None:
-    path = _trace_path(config)
-    payload["trace_path"] = str(path)
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=True, default=str), encoding="utf-8")
-
-
-def _write_observability_record(
-    config: ChatbotConfig,
-    trace: dict[str, Any],
-    *,
-    write_trace: bool,
-    write_audit_log: bool,
-) -> None:
-    if write_trace:
-        _write_trace(config, trace)
-    if write_audit_log:
-        append_audit_record(
-            config,
-            {
-                "event_type": "chat_question",
-                "question": trace.get("question"),
-                "created_at": trace.get("created_at"),
-                "answer_status": trace.get("answer", {}).get("status"),
-                "answer": trace.get("answer"),
-                "steps": trace.get("steps", []),
-                "errors": [
-                    step
-                    for step in trace.get("steps", [])
-                    if step.get("name") in {"validation", "failure"}
-                    and step.get("payload", {}).get("errors")
-                ],
-                "correctness": {
-                    "status": "not_evaluated",
-                    "reason": "Ad hoc chat questions do not have ground-truth labels by default.",
-                },
-                "trace_path": trace.get("trace_path"),
-            },
-        )
 
 
 def _append_catalog_tool_trace(trace: dict[str, Any], context: RetrievedContext) -> None:
@@ -252,13 +204,20 @@ def run_chat(
                 "question": analysis_question,
                 "stage1_context": stage1_context,
                 "config": config,
+                "question_contract": context.question_contract,
             }
             if chart_plan is not None:
                 ranking_kwargs["chart_plan"] = chart_plan
-            selection = rank_sql_candidates(
-                candidate_plans,
-                **ranking_kwargs,
-            )
+            try:
+                selection = rank_sql_candidates(
+                    candidate_plans,
+                    **ranking_kwargs,
+                )
+            except TypeError as exc:
+                if "unexpected keyword argument" not in str(exc):
+                    raise
+                ranking_kwargs.pop("question_contract", None)
+                selection = rank_sql_candidates(candidate_plans, **ranking_kwargs)
             trace["steps"].append(
                 {"name": "sql_candidate_ranking", "payload": selection.model_dump()}
             )
@@ -294,6 +253,8 @@ def run_chat(
                     stage1_context,
                     question=analysis_question,
                     plan=plan,
+                    question_contract=context.question_contract,
+                    db_path=config.db_path,
                 )
                 validation, chart_validation_payload = _merge_chart_validation(
                     validation,
@@ -327,6 +288,8 @@ def run_chat(
                 stage1_context,
                 question=analysis_question,
                 plan=plan,
+                question_contract=context.question_contract,
+                db_path=config.db_path,
             )
             validation, chart_validation_payload = _merge_chart_validation(
                 validation,
@@ -341,7 +304,15 @@ def run_chat(
     except Exception as exc:
         answer = failed_answer(str(exc), show_debug=show_debug)
         trace["answer"] = answer.model_dump()
-        trace["steps"].append({"name": "failure", "payload": {"errors": [str(exc)]}})
+        trace["steps"].append(
+            {
+                "name": "failure",
+                "payload": {
+                    "errors": [str(exc)],
+                    "stop_reason": getattr(exc, "code", "generation_failure"),
+                },
+            }
+        )
         _write_observability_record(
             config, trace, write_trace=write_trace, write_audit_log=write_audit_log
         )
@@ -370,6 +341,8 @@ def run_chat(
                     stage1_context,
                     question=analysis_question,
                     plan=corrected_plan,
+                    question_contract=context.question_contract,
+                    db_path=config.db_path,
                 )
                 corrected_validation, chart_validation_payload = _merge_chart_validation(
                     corrected_validation,
@@ -433,6 +406,8 @@ def run_chat(
                 stage1_context,
                 question=analysis_question,
                 plan=corrected_plan,
+                question_contract=context.question_contract,
+                db_path=config.db_path,
             )
             corrected_validation, chart_validation_payload = _merge_chart_validation(
                 corrected_validation,
@@ -488,6 +463,8 @@ def run_chat(
                 stage1_context,
                 question=analysis_question,
                 plan=corrected_plan,
+                question_contract=context.question_contract,
+                db_path=config.db_path,
             )
             corrected_validation, chart_validation_payload = _merge_chart_validation(
                 corrected_validation,
@@ -525,10 +502,25 @@ def run_chat(
                 validation,
                 db_path=config.db_path,
                 max_rows=config.max_rows,
+                timeout_seconds=config.sql_timeout_seconds,
             )
             trace["steps"].append({"name": "execution", "payload": execution.model_dump()})
         except Exception as exc:
             execution_error = str(exc)
+
+    if execution is not None:
+        result_probe = probe_result_contract(
+            contract=context.question_contract,
+            columns=execution.columns,
+            rows=execution.rows,
+            truncated=execution.truncated,
+        )
+        trace["steps"].append(
+            {"name": "result_probe", "payload": result_probe.__dict__}
+        )
+        if result_probe.errors:
+            execution = None
+            execution_error = "; ".join(result_probe.errors)
 
     if (
         execution is None
@@ -554,6 +546,8 @@ def run_chat(
                     stage1_context,
                     question=analysis_question,
                     plan=corrected_plan,
+                    question_contract=context.question_contract,
+                    db_path=config.db_path,
                 )
                 corrected_validation, chart_validation_payload = _merge_chart_validation(
                     corrected_validation,
@@ -582,10 +576,24 @@ def run_chat(
                         validation,
                         db_path=config.db_path,
                         max_rows=config.max_rows,
+                        timeout_seconds=config.sql_timeout_seconds,
+                    )
+                    corrected_probe = probe_result_contract(
+                        contract=context.question_contract,
+                        columns=execution.columns,
+                        rows=execution.rows,
+                        truncated=execution.truncated,
                     )
                     trace["steps"].append(
                         {"name": "execution", "payload": execution.model_dump()}
                     )
+                    trace["steps"].append(
+                        {"name": "result_probe", "payload": corrected_probe.__dict__}
+                    )
+                    if corrected_probe.errors:
+                        execution = None
+                        execution_error = "; ".join(corrected_probe.errors)
+                        continue
                     execution_error = None
                     break
                 except Exception as corrected_exc:

@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 from .config import ChatbotConfig
 from .duckdb_executor import execute_validated_sql
-from .models import ExecutionResult, SqlPlan, Stage1Context, ValidationResult
+from .models import ExecutionResult, QuestionContract, SqlPlan, Stage1Context, ValidationResult
 from .sql_validator import validate_sql
 from .visualization.schema import ChartPlan
 from .visualization.sql_shape import validate_sql_against_chart_plan
@@ -68,12 +68,32 @@ def rank_sql_candidates(
     stage1_context: Stage1Context,
     config: ChatbotConfig,
     chart_plan: ChartPlan | None = None,
+    question_contract: QuestionContract | None = None,
 ) -> SqlCandidateSelection:
     ranked: list[RankedSqlCandidate] = []
 
     for index, plan in enumerate(candidates, start=1):
         candidate_id = f"candidate_{index}"
-        validation = validate_sql(plan.sql, stage1_context, question=question, plan=plan)
+        try:
+            validation = validate_sql(
+                plan.sql,
+                stage1_context,
+                question=question,
+                plan=plan,
+                question_contract=question_contract,
+                db_path=config.db_path,
+            )
+        except TypeError as exc:
+            # Compatibility for injected/legacy validators used by integrators
+            # and tests. Do not swallow TypeErrors raised inside validation.
+            if "unexpected keyword argument" not in str(exc):
+                raise
+            validation = validate_sql(
+                plan.sql,
+                stage1_context,
+                question=question,
+                plan=plan,
+            )
         execution: ExecutionResult | None = None
         errors = list(validation.errors)
         warnings = list(validation.warnings)
@@ -89,6 +109,7 @@ def rank_sql_candidates(
                     validation,
                     db_path=config.db_path,
                     max_rows=config.max_rows,
+                    timeout_seconds=config.sql_timeout_seconds,
                 )
             except Exception as exc:
                 errors.append(str(exc))

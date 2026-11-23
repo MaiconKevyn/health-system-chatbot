@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .config import ChatbotConfig
 from .models import RetrievedContext, Stage1Context, TableContext
+from .question_contract import mentions_care_location, mentions_cephalic_delivery
 from .schema_linking import DIMENSION_LINKS, question_matches_link
 from .text import normalize_text, tokenize
 
@@ -19,7 +20,7 @@ DOMAIN_TERMS: dict[str, set[str]] = {
         "internacoes staging",
         "registros staging",
     },
-    "internacoes": {
+    "internacao": {
         "internacao",
         "internacoes",
         "aih",
@@ -52,6 +53,12 @@ DOMAIN_TERMS: dict[str, set[str]] = {
         "ocorrencia",
         "ocorrencias",
         "proc_rea",
+        "parto",
+        "partos",
+        "cesariano",
+        "cesarianos",
+        "cesariana",
+        "cesarianas",
     },
     "procedimentos": {
         "procedimento",
@@ -65,7 +72,17 @@ DOMAIN_TERMS: dict[str, set[str]] = {
         "cesariana",
         "cesarianas",
     },
-    "hospital": {"hospital", "hospitais", "cnes", "estabelecimento", "atendimento"},
+    "hospital": {
+        "hospital",
+        "hospitais",
+        "cnes",
+        "estabelecimento",
+        "estabelecimentos",
+        "atendimento",
+        "natureza",
+        "gestao",
+    },
+    "especialidade": {"especialidade", "especialidades", "leito", "leitos"},
     "municipios": {
         "municipio",
         "municipios",
@@ -112,7 +129,17 @@ DOMAIN_TERMS: dict[str, set[str]] = {
     "vincprev": {"vinculo", "previdenciario", "vincprev"},
     "nacionalidade": {"nacionalidade", "nacionalidades"},
     "contraceptivos": {"contraceptivo", "contraceptivo 1", "contraceptivo 2"},
-    "socioeconomico": {"populacao", "habitante", "habitantes", "socioeconomico"},
+    "socioeconomico": {
+        "populacao",
+        "habitante",
+        "habitantes",
+        "socioeconomico",
+        "pib",
+        "medicos",
+        "enfermeiros",
+        "nascidos",
+        "transito",
+    },
     "tempo": {"ano", "mes", "data", "periodo", "temporal"},
 }
 
@@ -135,27 +162,70 @@ BUSINESS_TABLE_NOTES: dict[str, str] = {
         "Tabela de staging de internacoes. Use somente quando a pergunta mencionar "
         "staging ou a tabela _staging_internacoes; nao substitua por internacoes."
     ),
-    "internacoes": (
-        "Tabela principal de internacoes hospitalares/AIH. Use esta tabela para "
-        "perguntas de negocio sobre internacoes, idade do usuario, sexo, obito "
-        "hospitalar, morte, permanencia, diagnostico principal, municipio de "
-        "residencia e valores financeiros. Colunas importantes: SEXO, IDADE, "
-        "MORTE, DT_INTER, DT_SAIDA, MUNIC_RES, VAL_TOT, DIAG_PRINC."
+    "internacao": (
+        "Tabela principal de internacoes hospitalares/AIH (uma linha por N_AIH, "
+        "DT_INTER de 2008-01-01 a 2025-12-31). Use esta tabela para perguntas de "
+        "negocio sobre internacoes, idade do usuario, sexo, obito hospitalar, "
+        "morte, permanencia, diagnostico principal, municipio de residencia, "
+        "hospital (CNES) e valores financeiros. Colunas importantes: SEXO, IDADE, "
+        "MORTE, DT_INTER, DT_SAIDA, MUNIC_RES, CNES, VAL_TOT, DIAG_PRINC. IDADE ja "
+        "esta em anos completos; COD_IDADE so indica a unidade original. Nao ha "
+        "coluna de procedimento: use internacao_procedimento."
     ),
-    "sexo": "Dimensao para interpretar internacoes.SEXO como masculino/feminino.",
-    "municipios": "Dimensao territorial para municipio e UF.",
-    "hospital": "Dimensao de estabelecimentos/CNES e municipio do hospital.",
-    "cid": "Dimensao CID para diagnostico principal via internacoes.DIAG_PRINC.",
-    "internacao_procedimento": "Tabela de ocorrencias de procedimentos por AIH.",
-    "procedimentos": "Catalogo para interpretar internacoes.PROC_REA como procedimento principal.",
-    "car_int": "Dimensao para interpretar internacoes.CAR_INT como carater de internacao.",
-    "complexidade": "Dimensao para interpretar internacoes.COMPLEX como complexidade.",
-    "marca_uti": "Dimensao para interpretar internacoes.MARCA_UTI como marca/uso de UTI.",
-    "raca_cor": "Dimensao para interpretar internacoes.RACA_COR quando a relacao for aceitavel para a pergunta.",
-    "instrucao": "Dimensao para interpretar internacoes.INSTRU como instrucao/escolaridade.",
-    "vincprev": "Dimensao para interpretar internacoes.VINCPREV como vinculo previdenciario.",
-    "nacionalidade": "Dimensao para interpretar internacoes.NACIONAL como nacionalidade.",
-    "contraceptivos": "Dimensao para interpretar internacoes.CONTRACEP1 e CONTRACEP2.",
+    "sexo": "Dimensao para interpretar internacao.SEXO como masculino/feminino.",
+    "municipios": (
+        "Dimensao territorial para municipio, UF e regiao de saude. Chave "
+        "CO_MUNICIPIO_6D; serve tanto internacao.MUNIC_RES (residencia) quanto "
+        "hospital.MUNIC_MOV (municipio do hospital)."
+    ),
+    "hospital": (
+        "Cadastro de estabelecimentos por CNES (internacao.CNES -> hospital.CNES "
+        "cobre 100% das internacoes). Nome em NO_HOSPITAL; municipio do hospital em "
+        "MUNIC_MOV (join com municipios.CO_MUNICIPIO_6D)."
+    ),
+    "cid": (
+        "Dimensao CID para diagnostico principal via internacao.DIAG_PRINC. Alguns "
+        "codigos raros (ex.: U04, U09, U10, N182-N185) existem apenas em cid_manuais."
+    ),
+    "cid_manuais": (
+        "Complemento manual de cid com as mesmas colunas e sem sobreposicao de "
+        "codigos. Use cid UNION ALL cid_manuais quando precisar descrever todos os "
+        "codigos de DIAG_PRINC."
+    ),
+    "internacao_procedimento": (
+        "Procedimento realizado (PROC_REA) por AIH, ligado a internacao por N_AIH. "
+        "AIHs de longa permanencia repetem linhas: COUNT(*) conta ocorrencias; use "
+        "COUNT(DISTINCT N_AIH) ou EXISTS para contar internacoes."
+    ),
+    "procedimentos": (
+        "Catalogo para interpretar internacao_procedimento.PROC_REA (NOME_PROC). "
+        "Alguns codigos existem apenas em procedimentos_manuais."
+    ),
+    "procedimentos_manuais": (
+        "Complemento manual de procedimentos com as mesmas colunas e sem "
+        "sobreposicao de codigos."
+    ),
+    "especialidade": "Dimensao para interpretar internacao.ESPEC como especialidade do leito.",
+    "socioeconomico": (
+        "Indicadores municipais anuais (CO_MUNICIPIO_6D, NU_ANO). Cobre 2008-2024 "
+        "sem os anos 2010, 2022 e 2023; declare o ano usado como denominador."
+    ),
+    "car_int": "Dimensao para interpretar internacao.CAR_INT como carater de internacao.",
+    "complexidade": "Dimensao para interpretar internacao.COMPLEX como complexidade.",
+    "marca_uti": "Dimensao para interpretar internacao.MARCA_UTI como marca/uso de UTI.",
+    "raca_cor": "Dimensao para interpretar internacao.RACA_COR quando a relacao for aceitavel para a pergunta.",
+    "instrucao": "Dimensao para interpretar internacao.INSTRU como instrucao/escolaridade.",
+    "vincprev": "Dimensao para interpretar internacao.VINCPREV como vinculo previdenciario.",
+    "nacionalidade": "Dimensao para interpretar internacao.NACIONAL como nacionalidade.",
+    "contraceptivos": (
+        "Dimensao para interpretar internacao.CONTRACEP1 e CONTRACEP2. O codigo 0 "
+        "(nao informado) nao existe na dimensao: use LEFT JOIN para distribuicoes."
+    ),
+    "tempo": (
+        "Calendario (data, ano, mes, trimestre, dia_semana 1=segunda..7=domingo) "
+        "que cobre apenas 2008-01-01 a 2024-12-31. Join com DT_INTER descarta as "
+        "internacoes de 2025; prefira isodow(DT_INTER), month(DT_INTER) etc."
+    ),
 }
 
 
@@ -275,15 +345,16 @@ def _ensure_geography_tables(
     selected_tables: list[TableContext],
     config: ChatbotConfig | None,
 ) -> None:
-    if not _mentions_known_municipality(question, config):
+    care_location = mentions_care_location(question)
+    if not care_location and not _mentions_known_municipality(question, config):
         return
-    if "internacoes" not in selected_table_names and "hospital" not in selected_table_names:
-        _add_table_if_available(selected_table_names, selected_tables, ctx, "internacoes")
+    if "internacao" not in selected_table_names and "hospital" not in selected_table_names:
+        _add_table_if_available(selected_table_names, selected_tables, ctx, "internacao")
 
     _add_table_if_available(selected_table_names, selected_tables, ctx, "municipios")
 
     question_tokens = tokenize(question)
-    if "internacoes" in selected_table_names and not question_tokens & RESIDENCE_TERMS:
+    if "internacao" in selected_table_names and (care_location or not question_tokens & RESIDENCE_TERMS):
         _add_table_if_available(selected_table_names, selected_tables, ctx, "hospital")
 
 
@@ -304,19 +375,24 @@ def _ensure_schema_link_tables(
         _add_table_if_available(selected_table_names, selected_tables, ctx, link.fact_table)
         _add_table_if_available(selected_table_names, selected_tables, ctx, link.dimension_table)
 
-    if "procedimento principal" in text or "procedimentos principais" in text:
-        _add_table_if_available(selected_table_names, selected_tables, ctx, "internacoes")
-        _add_table_if_available(selected_table_names, selected_tables, ctx, "procedimentos")
-
-    if any(term in text for term in ("parto", "partos", "cesariano", "cesarianos", "cesariana")):
-        _add_table_if_available(selected_table_names, selected_tables, ctx, "internacoes")
-        _add_table_if_available(selected_table_names, selected_tables, ctx, "procedimentos")
+    if mentions_cephalic_delivery(text):
+        for table_name in ("internacao", "cid"):
+            _add_table_if_available(selected_table_names, selected_tables, ctx, table_name)
+    elif (
+        "procedimento principal" in text
+        or "procedimentos principais" in text
+        or any(term in text for term in ("parto", "partos", "cesariano", "cesarianos", "cesariana"))
+    ):
+        for table_name in ("internacao", "internacao_procedimento", "procedimentos"):
+            _add_table_if_available(selected_table_names, selected_tables, ctx, table_name)
 
 
 def _build_columns(selected_tables: list[TableContext]) -> list[str]:
     columns: list[str] = []
     for table in selected_tables:
-        columns.extend(f"{table.table_name}.{col}" for col in table.columns[:40])
+        # The fact table has 47 columns; a 40-column cap silently dropped
+        # MUNIC_RES/CBOR/CONTRACEP* from the prompt's column list.
+        columns.extend(f"{table.table_name}.{col}" for col in table.columns[:80])
     return columns
 
 
@@ -367,7 +443,11 @@ def retrieve_context(
     top_k_tables: int = 6,
     config: ChatbotConfig | None = None,
     use_vector: bool = True,
+    include_query_examples: bool = True,
 ) -> RetrievedContext:
+    effective_query_examples = include_query_examples and (
+        config is None or config.query_examples_enabled
+    )
     if config is not None and use_vector and config.has_openai_key and _should_use_vector(config):
         vector_context = retrieve_context_with_index(
             question,
@@ -385,6 +465,7 @@ def retrieve_context(
                 ctx=ctx,
                 retrieved=vector_context,
                 config=config,
+                include_query_examples=effective_query_examples,
             )
 
     question_tokens = tokenize(question)
@@ -435,6 +516,7 @@ def retrieve_context(
         ctx=ctx,
         retrieved=retrieved,
         config=config,
+        include_query_examples=effective_query_examples,
     )
 
 

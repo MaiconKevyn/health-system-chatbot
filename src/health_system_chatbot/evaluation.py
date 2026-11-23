@@ -65,7 +65,11 @@ def evaluate_item(
 
     try:
         phase = "context_retrieval"
-        retrieved = retrieve_context(item.question_pt, ctx, config=config)
+        retrieved = retrieve_context(
+            item.question_pt,
+            ctx,
+            config=config,
+        )
         catalog_candidates_count = len(retrieved.catalog_candidates)
         phase = "sql_generation"
         execution = None
@@ -82,6 +86,7 @@ def evaluate_item(
                 question=item.question_pt,
                 stage1_context=ctx,
                 config=config,
+                question_contract=retrieved.question_contract,
             )
             selected = selection.selected_candidate()
             if selected is not None and selected.validation is not None:
@@ -105,7 +110,14 @@ def evaluate_item(
             validation = None
 
         phase = "sql_validation"
-        validation = validation or validate_sql(plan.sql, ctx, question=item.question_pt, plan=plan)
+        validation = validation or validate_sql(
+            plan.sql,
+            ctx,
+            question=item.question_pt,
+            plan=plan,
+            question_contract=retrieved.question_contract,
+            db_path=config.db_path,
+        )
         catalog_tool_calls_count = len(retrieved.catalog_tool_calls)
         catalog_decisions_count = len(plan.catalog_decisions)
         sql_valid = validation.is_valid
@@ -120,6 +132,7 @@ def evaluate_item(
                     validation,
                     db_path=config.db_path,
                     max_rows=config.max_rows,
+                    timeout_seconds=config.sql_timeout_seconds,
                 )
             executed = True
             evidence = _load_evidence(config.project_root, item)

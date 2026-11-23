@@ -1,0 +1,2265 @@
+{
+  "variant": "openai_raw_full_context",
+  "summary": {
+    "total": 13,
+    "answerable_rate": 1.0,
+    "intent_accuracy": 1.0,
+    "sql_generation_rate": 1.0,
+    "sql_validation_rate": 0.7692307692307693,
+    "sql_valid_rate": 0.7692307692307693,
+    "sql_execution_rate": 0.7692307692307693,
+    "result_value_match_rate": 0.8,
+    "comparable_result_match_rate": 0.8,
+    "result_match_rate": 0.6153846153846154,
+    "correction_success_rate": null,
+    "retrieval_miss_rate": 0.23076923076923078,
+    "candidate_selection_accuracy": null,
+    "catalog_candidates_rate": 0.6923076923076923,
+    "catalog_tool_call_rate": 0.0,
+    "catalog_decision_rate": 0.0,
+    "catalog_tool_call_count": 0,
+    "catalog_decision_count": 0,
+    "latency_p50": 3.4582095419900725,
+    "latency_p95": 5.082761083001969,
+    "token_cost_estimate": {
+      "usd": null,
+      "method": "provider_usage_not_tracked_yet"
+    },
+    "alias_only_difference_count": 0,
+    "type_only_difference_count": 0,
+    "order_only_mismatch_count": 0,
+    "contained_in_actual_count": 0,
+    "contained_in_expected_count": 0,
+    "semantic_label_equivalence_count": 0,
+    "shape_mismatch_count": 1,
+    "value_mismatch_count": 1,
+    "error_category_counts": {
+      "value_mismatch": 1,
+      "shape_mismatch": 1,
+      "retrieval_miss": 3
+    },
+    "failures_by_difficulty": {
+      "hard": 5
+    }
+  },
+  "records": [
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT078",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Quais s\u00e3o os 10 principais motivos de interna\u00e7\u00e3o para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT078",
+        "GT082",
+        "GT070",
+        "GT084"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH motivos AS (\n  SELECT\n    CASE\n      WHEN i.\"IDADE\" < 18 THEN 'Menor de 18'\n      WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64'\n      ELSE '65 ou mais'\n    END AS faixa_etaria,\n    i.\"DIAG_PRINC\" AS diag_princ,\n    COUNT(*) AS total_internacoes,\n    ROW_NUMBER() OVER (\n      PARTITION BY CASE\n        WHEN i.\"IDADE\" < 18 THEN 'Menor de 18'\n        WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64'\n        ELSE '65 ou mais'\n      END\n      ORDER BY COUNT(*) DESC\n    ) AS rn\n  FROM internacoes i\n  WHERE i.\"IDADE\" IS NOT NULL\n  GROUP BY faixa_etaria, diag_princ\n)\nSELECT\n  faixa_etaria,\n  diag_princ,\n  total_internacoes\nFROM motivos\nWHERE rn <= 10\nORDER BY faixa_etaria, rn;",
+      "ground_truth_sql": "SELECT faixa_etaria, \"DESCRICAO\", total_internacoes FROM (SELECT CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa_etaria, c.\"DESCRICAO\", COUNT(*) AS total_internacoes, ROW_NUMBER() OVER (PARTITION BY CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END ORDER BY COUNT(*) DESC) AS rn FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY faixa_etaria, c.\"DESCRICAO\") subquery WHERE rn <= 10 ORDER BY faixa_etaria, rn",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "faixa_etaria",
+        "DESCRICAO",
+        "total_internacoes"
+      ],
+      "actual_columns": [
+        "faixa_etaria",
+        "diag_princ",
+        "total_internacoes"
+      ],
+      "expected_preview_values": [
+        [
+          "18 a 64",
+          "Parto espontaneo cefalico",
+          8971027
+        ],
+        [
+          "18 a 64",
+          "Parto unico espontaneo NE",
+          2143909
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana de emergencia",
+          1287229
+        ],
+        [
+          "18 a 64",
+          "Parto p/cesariana NE",
+          1143419
+        ],
+        [
+          "18 a 64",
+          "Incompleto s/complic",
+          1135087
+        ],
+        [
+          "18 a 64",
+          "Esterilizacao",
+          1041259
+        ],
+        [
+          "18 a 64",
+          "Infecc do trato urinario de localiz NE",
+          960634
+        ],
+        [
+          "18 a 64",
+          "Outr tipos de parto unico espontaneo",
+          895981
+        ],
+        [
+          "18 a 64",
+          "Pneumonia NE",
+          884061
+        ],
+        [
+          "18 a 64",
+          "Infecc p/coronavirus NE",
+          841437
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "18 a 64",
+          "O800",
+          8971027
+        ],
+        [
+          "18 a 64",
+          "O809",
+          2143909
+        ],
+        [
+          "18 a 64",
+          "O821",
+          1287229
+        ],
+        [
+          "18 a 64",
+          "O829",
+          1143419
+        ],
+        [
+          "18 a 64",
+          "Z302",
+          1041259
+        ],
+        [
+          "18 a 64",
+          "N390",
+          960634
+        ],
+        [
+          "18 a 64",
+          "O034",
+          910255
+        ],
+        [
+          "18 a 64",
+          "O808",
+          895981
+        ],
+        [
+          "18 a 64",
+          "J189",
+          884061
+        ],
+        [
+          "18 a 64",
+          "B342",
+          841437
+        ]
+      ],
+      "expected_row_count": 30,
+      "actual_row_count": 30,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "value_mismatch",
+      "error_message": "Result values differ.",
+      "latency_seconds": 5.082761083001969,
+      "token_usage": {
+        "input_tokens": 2130,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 220,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2350
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "WITH motivos AS (\n  SELECT\n    CASE\n      WHEN i.\"IDADE\" < 18 THEN 'Menor de 18'\n      WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64'\n      ELSE '65 ou mais'\n    END AS faixa_etaria,\n    i.\"DIAG_PRINC\" AS diag_princ,\n    COUNT(*) AS total_internacoes,\n    ROW_NUMBER() OVER (\n      PARTITION BY CASE\n        WHEN i.\"IDADE\" < 18 THEN 'Menor de 18'\n        WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64'\n        ELSE '65 ou mais'\n      END\n      ORDER BY COUNT(*) DESC\n    ) AS rn\n  FROM internacoes i\n  WHERE i.\"IDADE\" IS NOT NULL\n  GROUP BY faixa_etaria, diag_princ\n)\nSELECT\n  faixa_etaria,\n  diag_princ,\n  total_internacoes\nFROM motivos\nWHERE rn <= 10\nORDER BY faixa_etaria, rn;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT086",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 3 CNES com maior custo m\u00e9dio de UTI entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "valor_total_aprovado",
+        "geografia_residencia"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XXI. Fatores que influenciam o estado de sa\u00fade",
+        "Transt dissociativos",
+        "F443 Estados de transe e de possessao",
+        "Sint e sinais relativos ao estado emocional",
+        "R457 Estado de choque emocional e tensao NE"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT086",
+        "GT132",
+        "GT207",
+        "GT221"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT estado, \"CNES\", ROUND(custo_medio_uti, 2) AS custo_medio_uti\nFROM (\n  SELECT mu.\"SG_UF\" AS estado,\n         i.\"CNES\",\n         AVG(i.\"VAL_UTI\") AS custo_medio_uti,\n         ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_UTI\") DESC) AS rn\n  FROM internacoes i\n  JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n  WHERE i.\"VAL_UTI\" > 0\n    AND mu.\"SG_UF\" IN ('MA', 'RS')\n  GROUP BY mu.\"SG_UF\", i.\"CNES\"\n  HAVING COUNT(*) > 100\n) sub\nWHERE rn <= 3\nORDER BY estado, rn;",
+      "ground_truth_sql": "SELECT estado, \"CNES\", ROUND(custo_medio_uti, 2) AS custo_medio_uti FROM (SELECT mu.\"SG_UF\" AS estado, i.\"CNES\", AVG(i.\"VAL_UTI\") AS custo_medio_uti, ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_UTI\") DESC) AS rn FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"VAL_UTI\" > 0 AND mu.\"SG_UF\" IN ('MA', 'RS') GROUP BY mu.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 100) sub WHERE rn <= 3 ORDER BY estado, rn",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Join requires LEFT JOIN or explicit mapped scope: internacoes.MUNIC_RES -> municipios.CO_MUNICIPIO_6D",
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "estado",
+        "CNES",
+        "custo_medio_uti"
+      ],
+      "actual_columns": [
+        "estado",
+        "CNES",
+        "custo_medio_uti"
+      ],
+      "expected_preview_values": [
+        [
+          "MA",
+          180637,
+          12198.02
+        ],
+        [
+          "MA",
+          9161449,
+          10736.2
+        ],
+        [
+          "MA",
+          2309475,
+          9118.08
+        ],
+        [
+          "RS",
+          9563873,
+          18586.21
+        ],
+        [
+          "RS",
+          9528792,
+          18261.05
+        ],
+        [
+          "RS",
+          2257815,
+          17386.72
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "MA",
+          180637,
+          12198.02
+        ],
+        [
+          "MA",
+          9161449,
+          10736.2
+        ],
+        [
+          "MA",
+          2309475,
+          9118.08
+        ],
+        [
+          "RS",
+          9563873,
+          18586.21
+        ],
+        [
+          "RS",
+          9528792,
+          18261.05
+        ],
+        [
+          "RS",
+          2257815,
+          17386.72
+        ]
+      ],
+      "expected_row_count": 6,
+      "actual_row_count": 6,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.7091859159991145,
+      "token_usage": {
+        "input_tokens": 2865,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 189,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3054
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "SELECT estado, \"CNES\", ROUND(custo_medio_uti, 2) AS custo_medio_uti\nFROM (\n  SELECT mu.\"SG_UF\" AS estado,\n         i.\"CNES\",\n         AVG(i.\"VAL_UTI\") AS custo_medio_uti,\n         ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_UTI\") DESC) AS rn\n  FROM internacoes i\n  JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n  WHERE i.\"VAL_UTI\" > 0\n    AND mu.\"SG_UF\" IN ('MA', 'RS')\n  GROUP BY mu.\"SG_UF\", i.\"CNES\"\n  HAVING COUNT(*) > 100\n) sub\nWHERE rn <= 3\nORDER BY estado, rn;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT115",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Qual o hospital com maior receita total por especialidade m\u00e9dica, considerando apenas hospitais com mais de 500 interna\u00e7\u00f5es na especialidade?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "especialidade",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XXII. C\u00f3digos para prop\u00f3sitos especiais",
+        "F99-F99 Transtorno mental n\u00e3o especificado",
+        "P35-P39 Infec\u00e7\u00f5es espec\u00edficas do per\u00edodo perinatal",
+        "T08-T14 Traumatismos de localiza\u00e7\u00e3o n\u00e3o especificada",
+        "Y40-Y84 Complica\u00e7\u00f5es de assist\u00eancia m\u00e9dica e cir\u00fargica"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT115",
+        "GT119",
+        "GT221",
+        "GT083"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT\n  e.\"DESCRICAO\" AS especialidade,\n  i.\"CNES\",\n  ROUND(SUM(i.\"VAL_TOT\"), 2) AS receita_total\nFROM internacoes i\nJOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\"\nGROUP BY e.\"DESCRICAO\", i.\"CNES\"\nHAVING COUNT(*) > 500\nORDER BY receita_total DESC\nLIMIT 1",
+      "ground_truth_sql": "SELECT especialidade, \"CNES\", receita_total FROM (SELECT e.\"DESCRICAO\" AS especialidade, i.\"CNES\", ROUND(SUM(i.\"VAL_TOT\"), 2) AS receita_total, ROW_NUMBER() OVER (PARTITION BY e.\"DESCRICAO\" ORDER BY SUM(i.\"VAL_TOT\") DESC) AS rn FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" GROUP BY e.\"DESCRICAO\", i.\"CNES\" HAVING COUNT(*) > 500) sub WHERE rn = 1 ORDER BY receita_total DESC",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "especialidade",
+        "CNES",
+        "receita_total"
+      ],
+      "actual_columns": [
+        "especialidade",
+        "CNES",
+        "receita_total"
+      ],
+      "expected_preview_values": [
+        [
+          "Cir\u00fargico",
+          13633,
+          1525557676.38
+        ],
+        [
+          "Cl\u00ednico",
+          13846,
+          823861560.01
+        ],
+        [
+          "Pedi\u00e1trico",
+          434,
+          384189426.81
+        ],
+        [
+          "Cr\u00f4nicos",
+          2802104,
+          147550656.71
+        ],
+        [
+          "Obst\u00e9trico",
+          2323397,
+          142564195.13
+        ],
+        [
+          "Psiquiatria",
+          18384,
+          97562484.75
+        ],
+        [
+          "Reabilita\u00e7\u00e3o",
+          2673916,
+          32378095.06
+        ],
+        [
+          "Pneumologia Sanit\u00e1ria",
+          426,
+          21936706.73
+        ],
+        [
+          "Leito Dia / Sa\u00fade Mental",
+          16292,
+          21375967.16
+        ],
+        [
+          "Leito Dia / Cir\u00fargico",
+          2237601,
+          20575226.03
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Cir\u00fargico",
+          13633,
+          1525557676.38
+        ]
+      ],
+      "expected_row_count": 13,
+      "actual_row_count": 1,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "shape_mismatch",
+      "error_message": "Result shape differs: expected 13x3, actual 1x3.",
+      "latency_seconds": 3.504517000008491,
+      "token_usage": {
+        "input_tokens": 2913,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 93,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3006
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "SELECT\n  e.\"DESCRICAO\" AS especialidade,\n  i.\"CNES\",\n  ROUND(SUM(i.\"VAL_TOT\"), 2) AS receita_total\nFROM internacoes i\nJOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\"\nGROUP BY e.\"DESCRICAO\", i.\"CNES\"\nHAVING COUNT(*) > 500\nORDER BY receita_total DESC\nLIMIT 1",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT120",
+      "difficulty": "hard",
+      "expected_result_type": "time_series",
+      "question_pt": "Qual o total e o percentual de interna\u00e7\u00f5es por doen\u00e7as respirat\u00f3rias (CID J%) em cada trimestre do ano no estado do RS?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "tempo"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "J80-J84 Outras doen\u00e7as respirat\u00f3rias do interst\u00edcio",
+        "X. Doen\u00e7as do aparelho respirat\u00f3rio",
+        "J95-J99 Outras doen\u00e7as do aparelho respirat\u00f3rio",
+        "XII. Doen\u00e7as da pele e do tecido subcut\u00e2neo",
+        "XIII. Doen\u00e7as do sistema osteomuscular e do tecido conjuntivo"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT120",
+        "GT211",
+        "GT220",
+        "GT181"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT EXTRACT(QUARTER FROM i.\"DT_INTER\") AS trimestre,\n       COUNT(*) AS total_respiratorio,\n       ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_anual\nFROM internacoes i\nJOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\nJOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE i.\"DIAG_PRINC\" LIKE 'J%'\n  AND mu.\"SG_UF\" = 'RS'\n  AND i.\"DT_INTER\" IS NOT NULL\nGROUP BY trimestre\nORDER BY trimestre",
+      "ground_truth_sql": "SELECT EXTRACT(QUARTER FROM i.\"DT_INTER\") AS trimestre, COUNT(*) AS total_respiratorio, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_anual FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"DIAG_PRINC\" LIKE 'J%' AND mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL GROUP BY trimestre ORDER BY trimestre",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'diagnostico principal'. Join cid.CID and return cid.DESCRICAO; do not group only by raw code internacoes.DIAG_PRINC.",
+        "Join requires LEFT JOIN or explicit mapped scope: internacoes.MUNIC_RES -> municipios.CO_MUNICIPIO_6D",
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "trimestre",
+        "total_respiratorio",
+        "pct_anual"
+      ],
+      "actual_columns": [
+        "trimestre",
+        "total_respiratorio",
+        "pct_anual"
+      ],
+      "expected_preview_values": [
+        [
+          1,
+          282441,
+          18.11
+        ],
+        [
+          2,
+          436141,
+          27.96
+        ],
+        [
+          3,
+          488759,
+          31.33
+        ],
+        [
+          4,
+          352537,
+          22.6
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          1,
+          282441,
+          18.11
+        ],
+        [
+          2,
+          436141,
+          27.96
+        ],
+        [
+          3,
+          488759,
+          31.33
+        ],
+        [
+          4,
+          352537,
+          22.6
+        ]
+      ],
+      "expected_row_count": 4,
+      "actual_row_count": 4,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.1288405829982366,
+      "token_usage": {
+        "input_tokens": 2468,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 140,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2608
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "SELECT EXTRACT(QUARTER FROM i.\"DT_INTER\") AS trimestre,\n       COUNT(*) AS total_respiratorio,\n       ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_anual\nFROM internacoes i\nJOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\nJOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE i.\"DIAG_PRINC\" LIKE 'J%'\n  AND mu.\"SG_UF\" = 'RS'\n  AND i.\"DT_INTER\" IS NOT NULL\nGROUP BY trimestre\nORDER BY trimestre",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT125",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Qual a distribui\u00e7\u00e3o e percentual de interna\u00e7\u00f5es em UTI por dia da semana?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "marca_uti"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "A70-A74 Outras doen\u00e7as causadas por clam\u00eddias",
+        "E10-E14 Diabetes mellitus",
+        "I26-I28 Doen\u00e7a card\u00edaca pulmonar",
+        "L55-L59 Transtornos relacionados com a radia\u00e7\u00e3o",
+        "Diarreia e gastroenterite orig infecc presum"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT125",
+        "GT168",
+        "GT178",
+        "GT200"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT t.dia_semana, COUNT(*) AS total_internacoes_uti, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_total\nFROM internacoes i\nJOIN tempo t ON i.\"DT_INTER\" = t.data\nWHERE i.\"VAL_UTI\" > 0\nGROUP BY t.dia_semana\nORDER BY t.dia_semana",
+      "ground_truth_sql": "SELECT t.dia_semana, COUNT(*) AS total_internacoes_uti, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_total FROM internacoes i JOIN tempo t ON i.\"DT_INTER\" = t.data WHERE i.\"VAL_UTI\" > 0 GROUP BY t.dia_semana ORDER BY t.dia_semana",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'marca de UTI'. Join marca_uti.MARCA_UTI and return marca_uti.DESCRICAO; do not group only by raw code internacoes.MARCA_UTI."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "dia_semana",
+        "total_internacoes_uti",
+        "pct_total"
+      ],
+      "actual_columns": [
+        "dia_semana",
+        "total_internacoes_uti",
+        "pct_total"
+      ],
+      "expected_preview_values": [
+        [
+          1,
+          1494221,
+          16.3
+        ],
+        [
+          2,
+          1457460,
+          15.9
+        ],
+        [
+          3,
+          1446340,
+          15.78
+        ],
+        [
+          4,
+          1402069,
+          15.3
+        ],
+        [
+          5,
+          1326608,
+          14.47
+        ],
+        [
+          6,
+          1018510,
+          11.11
+        ],
+        [
+          7,
+          1019958,
+          11.13
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          1,
+          1494221,
+          16.3
+        ],
+        [
+          2,
+          1457460,
+          15.9
+        ],
+        [
+          3,
+          1446340,
+          15.78
+        ],
+        [
+          4,
+          1402069,
+          15.3
+        ],
+        [
+          5,
+          1326608,
+          14.47
+        ],
+        [
+          6,
+          1018510,
+          11.11
+        ],
+        [
+          7,
+          1019958,
+          11.13
+        ]
+      ],
+      "expected_row_count": 7,
+      "actual_row_count": 7,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.6470644579967484,
+      "token_usage": {
+        "input_tokens": 2404,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 90,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2494
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "SELECT t.dia_semana, COUNT(*) AS total_internacoes_uti, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_total\nFROM internacoes i\nJOIN tempo t ON i.\"DT_INTER\" = t.data\nWHERE i.\"VAL_UTI\" > 0\nGROUP BY t.dia_semana\nORDER BY t.dia_semana",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT130",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 10 munic\u00edpios com maior taxa de mortalidade em interna\u00e7\u00f5es obst\u00e9tricas, entre aqueles com mais de 200 interna\u00e7\u00f5es obst\u00e9tricas e taxa acima da m\u00e9dia nacional obst\u00e9trica?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "internacoes",
+        "municipios",
+        "nacionalidade"
+      ],
+      "retrieved_columns_count": 60,
+      "business_metrics": [
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar",
+        "permanencia_media"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "O94-O99 Outras afec\u00e7\u00f5es obst\u00e9tricas NCOP",
+        "XX. Causas externas de morbidade e de mortalidade",
+        "Outr infecc puerperais",
+        "O860 Infecc da incisao cirurgica orig obstetrica",
+        "Complic do puerperio NCOP"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT130",
+        "GT113",
+        "GT128",
+        "GT089"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH media_obs AS (\n    SELECT\n        SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS taxa_media_obstetrica\n    FROM internacoes i\n    WHERE i.\"ESPEC\" = 2\n)\nSELECT\n    mu.\"NO_MUNICIPIO\" AS nome,\n    mu.\"SG_UF\" AS estado,\n    COUNT(*) AS total_obstetrico,\n    SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) AS total_mortes,\n    ROUND(SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 4) AS taxa_mort_obstetrica,\n    ROUND(mo.taxa_media_obstetrica, 4) AS media_nacional\nFROM internacoes i\nJOIN municipios mu\n    ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\nCROSS JOIN media_obs mo\nWHERE i.\"ESPEC\" = 2\nGROUP BY\n    mu.\"NO_MUNICIPIO\",\n    mu.\"SG_UF\",\n    mo.taxa_media_obstetrica\nHAVING\n    COUNT(*) > 200\n    AND SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) * 100.0 / COUNT(*) > mo.taxa_media_obstetrica\nORDER BY taxa_mort_obstetrica DESC\nLIMIT 10",
+      "ground_truth_sql": "WITH media_obs AS (\n    SELECT SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS taxa_media_obstetrica\n    FROM internacoes i\n    WHERE i.\"ESPEC\" = 2\n)\nSELECT mu.\"NO_MUNICIPIO\" AS nome,\n       mu.\"SG_UF\" AS estado,\n       COUNT(*) AS total_obstetrico,\n       SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes,\n       ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 4) AS taxa_mort_obstetrica,\n       ROUND(mo.taxa_media_obstetrica, 4) AS media_nacional\nFROM internacoes i\nJOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\", media_obs mo\nWHERE i.\"ESPEC\" = 2\nGROUP BY mu.\"NO_MUNICIPIO\", mu.\"SG_UF\", mo.taxa_media_obstetrica\nHAVING COUNT(*) > 200\n   AND SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*) > mo.taxa_media_obstetrica\nORDER BY taxa_mort_obstetrica DESC\nLIMIT 10",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Join requires LEFT JOIN or explicit mapped scope: internacoes.MUNIC_RES -> municipios.CO_MUNICIPIO_6D",
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "nome",
+        "estado",
+        "total_obstetrico",
+        "total_mortes",
+        "taxa_mort_obstetrica",
+        "media_nacional"
+      ],
+      "actual_columns": [
+        "nome",
+        "estado",
+        "total_obstetrico",
+        "total_mortes",
+        "taxa_mort_obstetrica",
+        "media_nacional"
+      ],
+      "expected_preview_values": [
+        [
+          "Canutama",
+          "AM",
+          2160,
+          19,
+          0.8796,
+          0.03
+        ],
+        [
+          "Lavras do Sul",
+          "RS",
+          827,
+          7,
+          0.8464,
+          0.03
+        ],
+        [
+          "Italva",
+          "RJ",
+          241,
+          2,
+          0.8299,
+          0.03
+        ],
+        [
+          "C\u00f3rrego Danta",
+          "MG",
+          251,
+          2,
+          0.7968,
+          0.03
+        ],
+        [
+          "Ibituruna",
+          "MG",
+          327,
+          2,
+          0.6116,
+          0.03
+        ],
+        [
+          "Acegu\u00e1",
+          "RS",
+          659,
+          4,
+          0.607,
+          0.03
+        ],
+        [
+          "Casca",
+          "RS",
+          718,
+          4,
+          0.5571,
+          0.03
+        ],
+        [
+          "S\u00e3o Pedro dos Crentes",
+          "MA",
+          374,
+          2,
+          0.5348,
+          0.03
+        ],
+        [
+          "Vila Nova do Sul",
+          "RS",
+          387,
+          2,
+          0.5168,
+          0.03
+        ],
+        [
+          "Coronel Bicaco",
+          "RS",
+          973,
+          5,
+          0.5139,
+          0.03
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Canutama",
+          "AM",
+          2160,
+          19,
+          0.8796,
+          0.03
+        ],
+        [
+          "Lavras do Sul",
+          "RS",
+          827,
+          7,
+          0.8464,
+          0.03
+        ],
+        [
+          "Italva",
+          "RJ",
+          241,
+          2,
+          0.8299,
+          0.03
+        ],
+        [
+          "C\u00f3rrego Danta",
+          "MG",
+          251,
+          2,
+          0.7968,
+          0.03
+        ],
+        [
+          "Ibituruna",
+          "MG",
+          327,
+          2,
+          0.6116,
+          0.03
+        ],
+        [
+          "Acegu\u00e1",
+          "RS",
+          659,
+          4,
+          0.607,
+          0.03
+        ],
+        [
+          "Casca",
+          "RS",
+          718,
+          4,
+          0.5571,
+          0.03
+        ],
+        [
+          "S\u00e3o Pedro dos Crentes",
+          "MA",
+          374,
+          2,
+          0.5348,
+          0.03
+        ],
+        [
+          "Vila Nova do Sul",
+          "RS",
+          387,
+          2,
+          0.5168,
+          0.03
+        ],
+        [
+          "Coronel Bicaco",
+          "RS",
+          973,
+          5,
+          0.5139,
+          0.03
+        ]
+      ],
+      "expected_row_count": 10,
+      "actual_row_count": 10,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 4.384298250006395,
+      "token_usage": {
+        "input_tokens": 3290,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 318,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3608
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "WITH media_obs AS (\n    SELECT\n        SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS taxa_media_obstetrica\n    FROM internacoes i\n    WHERE i.\"ESPEC\" = 2\n)\nSELECT\n    mu.\"NO_MUNICIPIO\" AS nome,\n    mu.\"SG_UF\" AS estado,\n    COUNT(*) AS total_obstetrico,\n    SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) AS total_mortes,\n    ROUND(SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 4) AS taxa_mort_obstetrica,\n    ROUND(mo.taxa_media_obstetrica, 4) AS media_nacional\nFROM internacoes i\nJOIN municipios mu\n    ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\nCROSS JOIN media_obs mo\nWHERE i.\"ESPEC\" = 2\nGROUP BY\n    mu.\"NO_MUNICIPIO\",\n    mu.\"SG_UF\",\n    mo.taxa_media_obstetrica\nHAVING\n    COUNT(*) > 200\n    AND SUM(CASE WHEN i.\"MORTE\" THEN 1 ELSE 0 END) * 100.0 / COUNT(*) > mo.taxa_media_obstetrica\nORDER BY taxa_mort_obstetrica DESC\nLIMIT 10",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT131",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados em interna\u00e7\u00f5es de pacientes ind\u00edgenas?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "etnia",
+        "internacoes",
+        "procedimentos"
+      ],
+      "retrieved_columns_count": 57,
+      "business_metrics": [
+        "total_internacoes",
+        "procedimentos_ocorrencias"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 10,
+      "catalog_candidate_labels": [
+        "Z40-Z54 Pessoas em contato com servi\u00e7os de sa\u00fade \u2014 procedimentos",
+        "Outr cuidados medicos",
+        "Z513 Transfusao de sangue s/diagn registrado",
+        "Transt endocrinos e metab pos-proced NCOP",
+        "Transt pos-proced do sist nervoso NCOP",
+        "Procedimentos correspondentes a 'Quais s\u00e3o os 5 procedimentos principais mais registrados em interna\u00e7\u00f5es de pacientes ind\u00edgenas?'",
+        "APLICACAO TOPICA DE FLUOR (INDIVIDUAL POR SESSAO)",
+        "SESSAO DE ARTETERAPIA",
+        "SESSAO DE MEDITACAO",
+        "SESSAO DE MUSICOTERAPIA"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT131",
+        "GT021",
+        "GT081",
+        "GT227"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total_procedimentos\nFROM internacoes i\nJOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\"\nWHERE i.\"RACA_COR\" = 5\nGROUP BY p.\"PROC_REA\", p.\"NOME_PROC\"\nORDER BY total_procedimentos DESC\nLIMIT 5",
+      "ground_truth_sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"RACA_COR\" = 5 GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total_procedimentos DESC LIMIT 5",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Question asks for business-readable dimension 'etnia'. Join etnia.ETNIA and return etnia.DESCRICAO; do not group only by raw code internacoes.ETNIA."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "total_procedimentos"
+      ],
+      "actual_columns": [
+        "PROC_REA",
+        "NOME_PROC",
+        "total_procedimentos"
+      ],
+      "expected_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          92078
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          66713
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          34642
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          26500
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          12321
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "0310010039",
+          "PARTO NORMAL",
+          92078
+        ],
+        [
+          "0303140151",
+          "TRATAMENTO DE PNEUMONIAS OU INFLUENZA (GRIPE)",
+          66713
+        ],
+        [
+          "0303010061",
+          "TRATAMENTO DE DOENCAS INFECCIOSAS INTESTINAIS",
+          34642
+        ],
+        [
+          "0411010034",
+          "PARTO CESARIANO",
+          26500
+        ],
+        [
+          "0303140046",
+          "TRATAMENTO DAS DOENCAS CRONICAS DAS VIAS AEREAS INFERIORES",
+          12321
+        ]
+      ],
+      "expected_row_count": 5,
+      "actual_row_count": 5,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 2.8591830829973333,
+      "token_usage": {
+        "input_tokens": 2887,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 83,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2970
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total_procedimentos\nFROM internacoes i\nJOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\"\nWHERE i.\"RACA_COR\" = 5\nGROUP BY p.\"PROC_REA\", p.\"NOME_PROC\"\nORDER BY total_procedimentos DESC\nLIMIT 5",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT132",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais os 3 CNES com maior valor m\u00e9dio de servi\u00e7o hospitalar (VAL_SH) entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "valor_total_aprovado",
+        "geografia_residencia"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "XXI. Fatores que influenciam o estado de sa\u00fade",
+        "Z00-Z13 Pessoas em contato com servi\u00e7os de sa\u00fade para exame",
+        "Z30-Z39 Pessoas em contato com servi\u00e7os de sa\u00fade \u2014 reprodu\u00e7\u00e3o",
+        "Z40-Z54 Pessoas em contato com servi\u00e7os de sa\u00fade \u2014 procedimentos",
+        "Z70-Z76 Pessoas em contato com servi\u00e7os de sa\u00fade \u2014 outras"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT132",
+        "GT086",
+        "GT062",
+        "GT219"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "SELECT estado, \"CNES\", avg_val_sh\nFROM (\n  SELECT\n    mu.\"SG_UF\" AS estado,\n    i.\"CNES\",\n    ROUND(AVG(i.\"VAL_SH\"), 2) AS avg_val_sh,\n    ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_SH\") DESC) AS rn\n  FROM internacoes i\n  JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n  WHERE mu.\"SG_UF\" IN ('MA', 'RS')\n    AND i.\"VAL_SH\" IS NOT NULL\n    AND i.\"CNES\" IS NOT NULL\n  GROUP BY mu.\"SG_UF\", i.\"CNES\"\n  HAVING COUNT(*) > 500\n) sub\nWHERE rn <= 3\nORDER BY estado, rn;",
+      "ground_truth_sql": "SELECT estado, \"CNES\", avg_val_sh FROM (SELECT mu.\"SG_UF\" AS estado, i.\"CNES\", ROUND(AVG(i.\"VAL_SH\"), 2) AS avg_val_sh, ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_SH\") DESC) AS rn FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"VAL_SH\" IS NOT NULL AND i.\"CNES\" IS NOT NULL GROUP BY mu.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 500) sub WHERE rn <= 3 ORDER BY estado, rn",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [
+        "Join requires LEFT JOIN or explicit mapped scope: internacoes.MUNIC_RES -> municipios.CO_MUNICIPIO_6D",
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "estado",
+        "CNES",
+        "avg_val_sh"
+      ],
+      "actual_columns": [
+        "estado",
+        "CNES",
+        "avg_val_sh"
+      ],
+      "expected_preview_values": [
+        [
+          "MA",
+          2561492,
+          14752.36
+        ],
+        [
+          "MA",
+          2727005,
+          5713.11
+        ],
+        [
+          "MA",
+          145602,
+          5118.02
+        ],
+        [
+          "RS",
+          2237849,
+          5038.76
+        ],
+        [
+          "RS",
+          2237121,
+          4175.01
+        ],
+        [
+          "RS",
+          9575936,
+          3941.86
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "MA",
+          2561492,
+          14752.36
+        ],
+        [
+          "MA",
+          2727005,
+          5713.11
+        ],
+        [
+          "MA",
+          145602,
+          5118.02
+        ],
+        [
+          "RS",
+          2237849,
+          5038.76
+        ],
+        [
+          "RS",
+          2237121,
+          4175.01
+        ],
+        [
+          "RS",
+          9575936,
+          3941.86
+        ]
+      ],
+      "expected_row_count": 6,
+      "actual_row_count": 6,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.309897541999817,
+      "token_usage": {
+        "input_tokens": 2830,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 185,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3015
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "SELECT estado, \"CNES\", avg_val_sh\nFROM (\n  SELECT\n    mu.\"SG_UF\" AS estado,\n    i.\"CNES\",\n    ROUND(AVG(i.\"VAL_SH\"), 2) AS avg_val_sh,\n    ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_SH\") DESC) AS rn\n  FROM internacoes i\n  JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n  WHERE mu.\"SG_UF\" IN ('MA', 'RS')\n    AND i.\"VAL_SH\" IS NOT NULL\n    AND i.\"CNES\" IS NOT NULL\n  GROUP BY mu.\"SG_UF\", i.\"CNES\"\n  HAVING COUNT(*) > 500\n) sub\nWHERE rn <= 3\nORDER BY estado, rn;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT208",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais diagnosticos apresentam maior diferenca de permanencia media entre criancas e adultos, considerando diagnosticos com pelo menos 1000 internacoes em cada grupo?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "especialidade",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 55,
+      "business_metrics": [
+        "total_internacoes",
+        "permanencia_media"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "F60-F69 Transtornos da personalidade e do comportamento do adulto",
+        "Outr probl relac c/a educacao da crianca",
+        "Pessoas cont serv saude em outr circunst",
+        "Z761 Superv cuid saude de criancas assistidas",
+        "Outr transt comp emoc c/inicio inf adolesc"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT208",
+        "GT116",
+        "GT127",
+        "GT204"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH agg AS (\n  SELECT\n    c.\"DESCRICAO\" AS diagnostico,\n    CASE WHEN i.\"IDADE\" < 18 THEN 'criancas' ELSE 'adultos' END AS grupo_idade,\n    COUNT(*) AS total_internacoes,\n    AVG(i.\"DIAS_PERM\") AS media_dias\n  FROM internacoes i\n  JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\n  WHERE i.\"IDADE\" IS NOT NULL\n    AND i.\"DIAS_PERM\" IS NOT NULL\n    AND i.\"DIAG_PRINC\" IS NOT NULL\n  GROUP BY c.\"DESCRICAO\", grupo_idade\n),\npiv AS (\n  SELECT\n    diagnostico,\n    MAX(CASE WHEN grupo_idade = 'criancas' THEN total_internacoes END) AS n_criancas,\n    MAX(CASE WHEN grupo_idade = 'adultos' THEN total_internacoes END) AS n_adultos,\n    MAX(CASE WHEN grupo_idade = 'criancas' THEN media_dias END) AS media_criancas,\n    MAX(CASE WHEN grupo_idade = 'adultos' THEN media_dias END) AS media_adultos\n  FROM agg\n  GROUP BY diagnostico\n)\nSELECT\n  diagnostico,\n  n_criancas,\n  n_adultos,\n  ROUND(media_criancas, 2) AS media_criancas,\n  ROUND(media_adultos, 2) AS media_adultos,\n  ROUND(ABS(media_adultos - media_criancas), 2) AS diferenca_absoluta\nFROM piv\nWHERE n_criancas >= 1000 AND n_adultos >= 1000\nORDER BY diferenca_absoluta DESC\nLIMIT 10",
+      "ground_truth_sql": "WITH agg AS (SELECT c.\"DESCRICAO\" AS diagnostico, CASE WHEN i.\"IDADE\" < 18 THEN 'criancas' ELSE 'adultos' END AS grupo_idade, COUNT(*) AS total_internacoes, AVG(i.\"DIAS_PERM\") AS media_dias FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"IDADE\" IS NOT NULL AND i.\"DIAS_PERM\" IS NOT NULL GROUP BY c.\"DESCRICAO\", grupo_idade), piv AS (SELECT diagnostico, MAX(CASE WHEN grupo_idade = 'criancas' THEN total_internacoes END) AS n_criancas, MAX(CASE WHEN grupo_idade = 'adultos' THEN total_internacoes END) AS n_adultos, MAX(CASE WHEN grupo_idade = 'criancas' THEN media_dias END) AS media_criancas, MAX(CASE WHEN grupo_idade = 'adultos' THEN media_dias END) AS media_adultos FROM agg GROUP BY diagnostico) SELECT diagnostico, n_criancas, n_adultos, ROUND(media_criancas, 2) AS media_criancas, ROUND(media_adultos, 2) AS media_adultos, ROUND(ABS(media_adultos - media_criancas), 2) AS diferenca_absoluta FROM piv WHERE n_criancas >= 1000 AND n_adultos >= 1000 ORDER BY diferenca_absoluta DESC LIMIT 10",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "diagnostico",
+        "n_criancas",
+        "n_adultos",
+        "media_criancas",
+        "media_adultos",
+        "diferenca_absoluta"
+      ],
+      "actual_columns": [
+        "diagnostico",
+        "n_criancas",
+        "n_adultos",
+        "media_criancas",
+        "media_adultos",
+        "diferenca_absoluta"
+      ],
+      "expected_preview_values": [
+        [
+          "Compr signif comport req vigilancia ou trat",
+          2540,
+          22390,
+          13.71,
+          43.69,
+          29.97
+        ],
+        [
+          "Mencao ausencia de ou compr minimo comport",
+          1494,
+          14043,
+          11.11,
+          38.23,
+          27.12
+        ],
+        [
+          "Outr comprometimentos do comport",
+          1270,
+          5505,
+          3.79,
+          21.96,
+          18.17
+        ],
+        [
+          "Outr esquizofrenias",
+          1159,
+          41985,
+          11.4,
+          25.83,
+          14.43
+        ],
+        [
+          "Esquizofrenia paranoide",
+          4398,
+          368903,
+          17.23,
+          30.2,
+          12.97
+        ],
+        [
+          "Outr transt retinianos em doenc COP",
+          1559,
+          1088,
+          10.35,
+          0.21,
+          10.14
+        ],
+        [
+          "Distrofia muscular",
+          2682,
+          4328,
+          18.66,
+          8.78,
+          9.88
+        ],
+        [
+          "Psicose nao-organica NE",
+          6160,
+          235231,
+          12.24,
+          21.63,
+          9.39
+        ],
+        [
+          "Transt psicotico",
+          2123,
+          85079,
+          14.85,
+          24.18,
+          9.34
+        ],
+        [
+          "Tetraplegia espastica",
+          1468,
+          9902,
+          18.96,
+          28.2,
+          9.24
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Compr signif comport req vigilancia ou trat",
+          2540,
+          22390,
+          13.71,
+          43.69,
+          29.97
+        ],
+        [
+          "Mencao ausencia de ou compr minimo comport",
+          1494,
+          14043,
+          11.11,
+          38.23,
+          27.12
+        ],
+        [
+          "Outr comprometimentos do comport",
+          1270,
+          5505,
+          3.79,
+          21.96,
+          18.17
+        ],
+        [
+          "Outr esquizofrenias",
+          1159,
+          41985,
+          11.4,
+          25.83,
+          14.43
+        ],
+        [
+          "Esquizofrenia paranoide",
+          4398,
+          368903,
+          17.23,
+          30.2,
+          12.97
+        ],
+        [
+          "Outr transt retinianos em doenc COP",
+          1559,
+          1088,
+          10.35,
+          0.21,
+          10.14
+        ],
+        [
+          "Distrofia muscular",
+          2682,
+          4328,
+          18.66,
+          8.78,
+          9.88
+        ],
+        [
+          "Psicose nao-organica NE",
+          6160,
+          235231,
+          12.24,
+          21.63,
+          9.39
+        ],
+        [
+          "Transt psicotico",
+          2123,
+          85079,
+          14.85,
+          24.18,
+          9.34
+        ],
+        [
+          "Tetraplegia espastica",
+          1468,
+          9902,
+          18.96,
+          28.2,
+          9.24
+        ]
+      ],
+      "expected_row_count": 10,
+      "actual_row_count": 10,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 9.936779875002685,
+      "token_usage": {
+        "input_tokens": 3182,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 378,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3560
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "WITH agg AS (\n  SELECT\n    c.\"DESCRICAO\" AS diagnostico,\n    CASE WHEN i.\"IDADE\" < 18 THEN 'criancas' ELSE 'adultos' END AS grupo_idade,\n    COUNT(*) AS total_internacoes,\n    AVG(i.\"DIAS_PERM\") AS media_dias\n  FROM internacoes i\n  JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\n  WHERE i.\"IDADE\" IS NOT NULL\n    AND i.\"DIAS_PERM\" IS NOT NULL\n    AND i.\"DIAG_PRINC\" IS NOT NULL\n  GROUP BY c.\"DESCRICAO\", grupo_idade\n),\npiv AS (\n  SELECT\n    diagnostico,\n    MAX(CASE WHEN grupo_idade = 'criancas' THEN total_internacoes END) AS n_criancas,\n    MAX(CASE WHEN grupo_idade = 'adultos' THEN total_internacoes END) AS n_adultos,\n    MAX(CASE WHEN grupo_idade = 'criancas' THEN media_dias END) AS media_criancas,\n    MAX(CASE WHEN grupo_idade = 'adultos' THEN media_dias END) AS media_adultos\n  FROM agg\n  GROUP BY diagnostico\n)\nSELECT\n  diagnostico,\n  n_criancas,\n  n_adultos,\n  ROUND(media_criancas, 2) AS media_criancas,\n  ROUND(media_adultos, 2) AS media_adultos,\n  ROUND(ABS(media_adultos - media_criancas), 2) AS diferenca_absoluta\nFROM piv\nWHERE n_criancas >= 1000 AND n_adultos >= 1000\nORDER BY diferenca_absoluta DESC\nLIMIT 10",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT218",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quais diagnosticos tiveram maior crescimento percentual de internacoes do periodo 2015-2019 para 2020-2023?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "cbor",
+        "cid",
+        "complexidade",
+        "internacoes",
+        "tempo"
+      ],
+      "retrieved_columns_count": 58,
+      "business_metrics": [
+        "total_internacoes"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 5,
+      "catalog_candidate_labels": [
+        "Exame geral invest pess s/queix diagn relat",
+        "Z002 Exame periodo crescimento rapido na infancia",
+        "XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal",
+        "P05-P08 Transtornos da dura\u00e7\u00e3o da gesta\u00e7\u00e3o e crescimento fetal",
+        "P35-P39 Infec\u00e7\u00f5es espec\u00edficas do per\u00edodo perinatal"
+      ],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT218",
+        "GT116",
+        "GT127",
+        "GT215"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH p1 AS (\n  SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2015_2019\n  FROM internacoes\n  WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2015 AND 2019\n  GROUP BY \"DIAG_PRINC\"\n),\np2 AS (\n  SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2020_2023\n  FROM internacoes\n  WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2020 AND 2023\n  GROUP BY \"DIAG_PRINC\"\n)\nSELECT c.\"DESCRICAO\" AS diagnostico,\n       p1.total_2015_2019,\n       p2.total_2020_2023,\n       ROUND((p2.total_2020_2023 - p1.total_2015_2019) * 100.0 / NULLIF(p1.total_2015_2019, 0), 2) AS crescimento_percentual\nFROM p1\nJOIN p2 ON p1.cid = p2.cid\nJOIN cid c ON p1.cid = c.\"CID\"\nWHERE p1.total_2015_2019 >= 1000\nORDER BY crescimento_percentual DESC\nLIMIT 10",
+      "ground_truth_sql": "WITH p1 AS (SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2015_2019 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2015 AND 2019 GROUP BY \"DIAG_PRINC\"), p2 AS (SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2020_2023 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2020 AND 2023 GROUP BY \"DIAG_PRINC\") SELECT c.\"DESCRICAO\" AS diagnostico, p1.total_2015_2019, p2.total_2020_2023, ROUND((p2.total_2020_2023 - p1.total_2015_2019) * 100.0 / NULLIF(p1.total_2015_2019, 0), 2) AS crescimento_percentual FROM p1 JOIN p2 ON p1.cid = p2.cid JOIN cid c ON p1.cid = c.\"CID\" WHERE p1.total_2015_2019 >= 1000 ORDER BY crescimento_percentual DESC LIMIT 10",
+      "generated_sql_valid": true,
+      "generated_sql_validation_errors": [],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "passed",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": true,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": true,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "diagnostico",
+        "total_2015_2019",
+        "total_2020_2023",
+        "crescimento_percentual"
+      ],
+      "actual_columns": [
+        "diagnostico",
+        "total_2015_2019",
+        "total_2020_2023",
+        "crescimento_percentual"
+      ],
+      "expected_preview_values": [
+        [
+          "Colelitiase",
+          1647,
+          24049,
+          1360.17
+        ],
+        [
+          "Dor abdominal e pelvica",
+          1187,
+          15113,
+          1173.21
+        ],
+        [
+          "Esquizofrenia",
+          1088,
+          11547,
+          961.31
+        ],
+        [
+          "Transt respirat NE",
+          1211,
+          10543,
+          770.6
+        ],
+        [
+          "Pneumonia bacter NCOP",
+          1109,
+          9571,
+          763.03
+        ],
+        [
+          "Laceracao perineo 2. grau durante o parto",
+          5008,
+          24443,
+          388.08
+        ],
+        [
+          "Laceracao de perineo durante o parto NE",
+          3146,
+          11235,
+          257.12
+        ],
+        [
+          "Lesao encefalica anoxica NCOP",
+          1201,
+          4227,
+          251.96
+        ],
+        [
+          "Laceracao perineo 1. grau durante o parto",
+          4300,
+          14953,
+          247.74
+        ],
+        [
+          "Influenza c/out manif resp dev virus n ident",
+          1142,
+          3557,
+          211.47
+        ]
+      ],
+      "actual_preview_values": [
+        [
+          "Colelitiase",
+          1647,
+          24049,
+          1360.17
+        ],
+        [
+          "Dor abdominal e pelvica",
+          1187,
+          15113,
+          1173.21
+        ],
+        [
+          "Esquizofrenia",
+          1088,
+          11547,
+          961.31
+        ],
+        [
+          "Transt respirat NE",
+          1211,
+          10543,
+          770.6
+        ],
+        [
+          "Pneumonia bacter NCOP",
+          1109,
+          9571,
+          763.03
+        ],
+        [
+          "Laceracao perineo 2. grau durante o parto",
+          5008,
+          24443,
+          388.08
+        ],
+        [
+          "Laceracao de perineo durante o parto NE",
+          3146,
+          11235,
+          257.12
+        ],
+        [
+          "Lesao encefalica anoxica NCOP",
+          1201,
+          4227,
+          251.96
+        ],
+        [
+          "Laceracao perineo 1. grau durante o parto",
+          4300,
+          14953,
+          247.74
+        ],
+        [
+          "Influenza c/out manif resp dev virus n ident",
+          1142,
+          3557,
+          211.47
+        ]
+      ],
+      "expected_row_count": 10,
+      "actual_row_count": 10,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": null,
+      "error_message": null,
+      "latency_seconds": 3.4582095419900725,
+      "token_usage": {
+        "input_tokens": 3053,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 266,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3319
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "WITH p1 AS (\n  SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2015_2019\n  FROM internacoes\n  WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2015 AND 2019\n  GROUP BY \"DIAG_PRINC\"\n),\np2 AS (\n  SELECT \"DIAG_PRINC\" AS cid, COUNT(*) AS total_2020_2023\n  FROM internacoes\n  WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2020 AND 2023\n  GROUP BY \"DIAG_PRINC\"\n)\nSELECT c.\"DESCRICAO\" AS diagnostico,\n       p1.total_2015_2019,\n       p2.total_2020_2023,\n       ROUND((p2.total_2020_2023 - p1.total_2015_2019) * 100.0 / NULLIF(p1.total_2015_2019, 0), 2) AS crescimento_percentual\nFROM p1\nJOIN p2 ON p1.cid = p2.cid\nJOIN cid c ON p1.cid = c.\"CID\"\nWHERE p1.total_2015_2019 >= 1000\nORDER BY crescimento_percentual DESC\nLIMIT 10",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT222",
+      "difficulty": "hard",
+      "expected_result_type": "ranking",
+      "question_pt": "Quando houver dados socioecon\u00f4micos, quais munic\u00edpios tiveram maior taxa de interna\u00e7\u00e3o por mil habitantes em 2021?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "internacoes",
+        "municipios"
+      ],
+      "retrieved_columns_count": 49,
+      "business_metrics": [
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT222",
+        "GT223",
+        "GT190",
+        "GT224"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH internacoes_2021 AS (\n  SELECT\n    i.\"MUNIC_RES\" AS municipio_codigo,\n    COUNT(*) AS total_internacoes\n  FROM internacoes i\n  WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021\n  GROUP BY i.\"MUNIC_RES\"\n)\nSELECT\n  m.\"NO_MUNICIPIO\" AS municipio,\n  m.\"SG_UF\" AS uf,\n  a.total_internacoes,\n  s.\"QT_POPULACAO\" AS populacao,\n  ROUND(a.total_internacoes * 1000.0 / NULLIF(s.\"QT_POPULACAO\", 0), 2) AS internacoes_por_mil\nFROM internacoes_2021 a\nJOIN municipios m\n  ON a.municipio_codigo = m.\"CO_MUNICIPIO_6D\"\nJOIN socioeconomico s\n  ON a.municipio_codigo = s.\"CO_MUNICIPIO_6D\"\n AND s.\"NU_ANO\" = 2021\nWHERE s.\"QT_POPULACAO\" > 0\nORDER BY internacoes_por_mil DESC\nLIMIT 10;",
+      "ground_truth_sql": "WITH internacoes_2021 AS (SELECT i.\"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes FROM internacoes i WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021 GROUP BY i.\"MUNIC_RES\") SELECT m.\"NO_MUNICIPIO\" AS municipio, m.\"SG_UF\" AS uf, a.total_internacoes, s.\"QT_POPULACAO\", ROUND(a.total_internacoes * 1000.0 / NULLIF(s.\"QT_POPULACAO\", 0), 2) AS internacoes_por_mil FROM internacoes_2021 a JOIN socioeconomico s ON a.municipio_codigo = s.\"CO_MUNICIPIO_6D\" AND s.\"NU_ANO\" = 2021 JOIN municipios m ON s.\"CO_MUNICIPIO_6D\" = m.\"CO_MUNICIPIO_6D\" WHERE s.\"QT_POPULACAO\" > 0 ORDER BY internacoes_por_mil DESC LIMIT 10",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [
+        "Unknown or unsupported table(s): socioeconomico"
+      ],
+      "generated_sql_validation_warnings": [
+        "Join requires LEFT JOIN or explicit mapped scope: internacoes.MUNIC_RES -> municipios.CO_MUNICIPIO_6D",
+        "Query references SG_UF; ensure invalid numeric SG_UF codes are excluded when counting UFs."
+      ],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "ordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "municipio",
+        "uf",
+        "total_internacoes",
+        "QT_POPULACAO",
+        "internacoes_por_mil"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "retrieval_miss",
+      "error_message": "Unknown or unsupported table(s): socioeconomico",
+      "latency_seconds": 4.69222058399464,
+      "token_usage": {
+        "input_tokens": 2654,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 243,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2897
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "WITH internacoes_2021 AS (\n  SELECT\n    i.\"MUNIC_RES\" AS municipio_codigo,\n    COUNT(*) AS total_internacoes\n  FROM internacoes i\n  WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021\n  GROUP BY i.\"MUNIC_RES\"\n)\nSELECT\n  m.\"NO_MUNICIPIO\" AS municipio,\n  m.\"SG_UF\" AS uf,\n  a.total_internacoes,\n  s.\"QT_POPULACAO\" AS populacao,\n  ROUND(a.total_internacoes * 1000.0 / NULLIF(s.\"QT_POPULACAO\", 0), 2) AS internacoes_por_mil\nFROM internacoes_2021 a\nJOIN municipios m\n  ON a.municipio_codigo = m.\"CO_MUNICIPIO_6D\"\nJOIN socioeconomico s\n  ON a.municipio_codigo = s.\"CO_MUNICIPIO_6D\"\n AND s.\"NU_ANO\" = 2021\nWHERE s.\"QT_POPULACAO\" > 0\nORDER BY internacoes_por_mil DESC\nLIMIT 10;",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT223",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Quando houver dados socioecon\u00f4micos, como a taxa de interna\u00e7\u00e3o por mil habitantes em 2021 varia por quintil de PIB per capita?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "car_int",
+        "internacoes"
+      ],
+      "retrieved_columns_count": 42,
+      "business_metrics": [
+        "total_internacoes",
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT223",
+        "GT224",
+        "GT222",
+        "GT189"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH mun AS (\n  SELECT\n    s.\"CO_MUNICIPIO_6D\",\n    s.\"VL_PIB_PERCAPITA\",\n    s.\"QT_POPULACAO\",\n    NTILE(5) OVER (ORDER BY s.\"VL_PIB_PERCAPITA\") AS quintil_pib\n  FROM socioeconomico s\n  WHERE s.\"NU_ANO\" = 2021\n    AND s.\"VL_PIB_PERCAPITA\" IS NOT NULL\n    AND s.\"QT_POPULACAO\" > 0\n),\nadm AS (\n  SELECT\n    i.\"MUNIC_RES\" AS municipio_codigo,\n    COUNT(*) AS total_internacoes\n  FROM internacoes i\n  WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021\n  GROUP BY i.\"MUNIC_RES\"\n)\nSELECT\n  quintil_pib,\n  COUNT(*) AS municipios,\n  SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes,\n  SUM(mun.\"QT_POPULACAO\") AS populacao,\n  ROUND(\n    SUM(COALESCE(adm.total_internacoes, 0)) * 1000.0 / NULLIF(SUM(mun.\"QT_POPULACAO\"), 0),\n    2\n  ) AS internacoes_por_mil\nFROM mun\nLEFT JOIN adm\n  ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo\nGROUP BY quintil_pib\nORDER BY quintil_pib",
+      "ground_truth_sql": "WITH mun AS (SELECT s.\"CO_MUNICIPIO_6D\", s.\"VL_PIB_PERCAPITA\", s.\"QT_POPULACAO\", NTILE(5) OVER (ORDER BY s.\"VL_PIB_PERCAPITA\") AS quintil_pib FROM socioeconomico s WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_PIB_PERCAPITA\" IS NOT NULL AND s.\"QT_POPULACAO\" > 0), adm AS (SELECT \"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2021 GROUP BY \"MUNIC_RES\") SELECT quintil_pib, COUNT(*) AS municipios, SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes, SUM(mun.\"QT_POPULACAO\") AS populacao, ROUND(SUM(COALESCE(adm.total_internacoes, 0)) * 1000.0 / NULLIF(SUM(mun.\"QT_POPULACAO\"), 0), 2) AS internacoes_por_mil FROM mun LEFT JOIN adm ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo GROUP BY quintil_pib ORDER BY quintil_pib",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [
+        "Unknown or unsupported table(s): socioeconomico"
+      ],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "quintil_pib",
+        "municipios",
+        "total_internacoes",
+        "populacao",
+        "internacoes_por_mil"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "retrieval_miss",
+      "error_message": "Unknown or unsupported table(s): socioeconomico",
+      "latency_seconds": 2.680261125002289,
+      "token_usage": {
+        "input_tokens": 2458,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 325,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2783
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "WITH mun AS (\n  SELECT\n    s.\"CO_MUNICIPIO_6D\",\n    s.\"VL_PIB_PERCAPITA\",\n    s.\"QT_POPULACAO\",\n    NTILE(5) OVER (ORDER BY s.\"VL_PIB_PERCAPITA\") AS quintil_pib\n  FROM socioeconomico s\n  WHERE s.\"NU_ANO\" = 2021\n    AND s.\"VL_PIB_PERCAPITA\" IS NOT NULL\n    AND s.\"QT_POPULACAO\" > 0\n),\nadm AS (\n  SELECT\n    i.\"MUNIC_RES\" AS municipio_codigo,\n    COUNT(*) AS total_internacoes\n  FROM internacoes i\n  WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021\n  GROUP BY i.\"MUNIC_RES\"\n)\nSELECT\n  quintil_pib,\n  COUNT(*) AS municipios,\n  SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes,\n  SUM(mun.\"QT_POPULACAO\") AS populacao,\n  ROUND(\n    SUM(COALESCE(adm.total_internacoes, 0)) * 1000.0 / NULLIF(SUM(mun.\"QT_POPULACAO\"), 0),\n    2\n  ) AS internacoes_por_mil\nFROM mun\nLEFT JOIN adm\n  ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo\nGROUP BY quintil_pib\nORDER BY quintil_pib",
+      "openai_cache_hit": false
+    },
+    {
+      "variant": "openai_raw_full_context",
+      "strategy": "openai_direct",
+      "id": "GT224",
+      "difficulty": "hard",
+      "expected_result_type": "distribution",
+      "question_pt": "Quando houver dados socioecon\u00f4micos, como a taxa de mortalidade hospitalar em 2021 varia por quintil de leitos SUS por mil habitantes?",
+      "intent_status": "answerable",
+      "retrieval_mode": "schema_keyword",
+      "retrieved_tables": [
+        "internacoes"
+      ],
+      "retrieved_columns_count": 40,
+      "business_metrics": [
+        "taxa_mortalidade_hospitalar"
+      ],
+      "value_hints_count": 0,
+      "catalog_candidates_count": 0,
+      "catalog_candidate_labels": [],
+      "catalog_tool_calls_count": 0,
+      "catalog_tools": [],
+      "catalog_decisions_count": 0,
+      "catalog_decisions": [],
+      "query_examples": [
+        "GT224",
+        "GT223",
+        "GT222",
+        "GT189"
+      ],
+      "plan_source": "openai_direct",
+      "candidate_count": 1,
+      "selected_candidate_id": null,
+      "candidate_selection_reason": "",
+      "candidate_selection_correct": null,
+      "candidates": [],
+      "correction_attempts": [],
+      "correction_success": false,
+      "generated_sql": "WITH mun AS (\n  SELECT\n    s.\"CO_MUNICIPIO_6D\",\n    s.\"VL_LEITOS_SUS_1000\",\n    NTILE(5) OVER (ORDER BY s.\"VL_LEITOS_SUS_1000\") AS quintil_leitos\n  FROM socioeconomico s\n  WHERE s.\"NU_ANO\" = 2021\n    AND s.\"VL_LEITOS_SUS_1000\" IS NOT NULL\n),\nadm AS (\n  SELECT\n    i.\"MUNIC_RES\" AS municipio_codigo,\n    COUNT(*) AS total_internacoes,\n    COUNT(*) FILTER (WHERE i.\"MORTE\") AS total_mortes\n  FROM internacoes i\n  WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021\n  GROUP BY i.\"MUNIC_RES\"\n)\nSELECT\n  mun.quintil_leitos,\n  COUNT(*) AS municipios,\n  SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes,\n  SUM(COALESCE(adm.total_mortes, 0)) AS total_mortes,\n  ROUND(\n    SUM(COALESCE(adm.total_mortes, 0)) * 100.0\n    / NULLIF(SUM(COALESCE(adm.total_internacoes, 0)), 0),\n    2\n  ) AS taxa_mortalidade_hospitalar\nFROM mun\nLEFT JOIN adm\n  ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo\nGROUP BY mun.quintil_leitos\nORDER BY mun.quintil_leitos",
+      "ground_truth_sql": "WITH mun AS (SELECT s.\"CO_MUNICIPIO_6D\", s.\"VL_LEITOS_SUS_1000\", NTILE(5) OVER (ORDER BY s.\"VL_LEITOS_SUS_1000\") AS quintil_leitos FROM socioeconomico s WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_LEITOS_SUS_1000\" IS NOT NULL), adm AS (SELECT \"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2021 GROUP BY \"MUNIC_RES\") SELECT quintil_leitos, COUNT(*) AS municipios, SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes, SUM(COALESCE(adm.total_mortes, 0)) AS total_mortes, ROUND(SUM(COALESCE(adm.total_mortes, 0)) * 100.0 / NULLIF(SUM(COALESCE(adm.total_internacoes, 0)), 0), 2) AS taxa_mortalidade FROM mun LEFT JOIN adm ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo GROUP BY quintil_leitos ORDER BY quintil_leitos",
+      "generated_sql_valid": false,
+      "generated_sql_validation_errors": [
+        "Unknown or unsupported table(s): socioeconomico"
+      ],
+      "generated_sql_validation_warnings": [],
+      "generated_execution_status": "skipped",
+      "ground_truth_execution_status": "passed",
+      "comparison_mode": "unordered",
+      "result_match": false,
+      "alias_only_difference": false,
+      "type_only_difference": false,
+      "order_only_mismatch": false,
+      "shape_match": false,
+      "contained_in_actual": false,
+      "contained_in_expected": false,
+      "semantic_label_equivalence": false,
+      "expected_columns": [
+        "quintil_leitos",
+        "municipios",
+        "total_internacoes",
+        "total_mortes",
+        "taxa_mortalidade"
+      ],
+      "actual_columns": [],
+      "expected_preview_values": [],
+      "actual_preview_values": [],
+      "expected_row_count": 0,
+      "actual_row_count": 0,
+      "expected_truncated": false,
+      "actual_truncated": false,
+      "error_category": "retrieval_miss",
+      "error_message": "Unknown or unsupported table(s): socioeconomico",
+      "latency_seconds": 3.43141179200029,
+      "token_usage": {
+        "input_tokens": 2337,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 339,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2676
+      },
+      "estimated_cost_usd": null,
+      "variant_description": "Direct OpenAI SQL generation with enriched context and examples.",
+      "baseline_mode": "full_context",
+      "raw_model_response": "WITH mun AS (\n  SELECT\n    s.\"CO_MUNICIPIO_6D\",\n    s.\"VL_LEITOS_SUS_1000\",\n    NTILE(5) OVER (ORDER BY s.\"VL_LEITOS_SUS_1000\") AS quintil_leitos\n  FROM socioeconomico s\n  WHERE s.\"NU_ANO\" = 2021\n    AND s.\"VL_LEITOS_SUS_1000\" IS NOT NULL\n),\nadm AS (\n  SELECT\n    i.\"MUNIC_RES\" AS municipio_codigo,\n    COUNT(*) AS total_internacoes,\n    COUNT(*) FILTER (WHERE i.\"MORTE\") AS total_mortes\n  FROM internacoes i\n  WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021\n  GROUP BY i.\"MUNIC_RES\"\n)\nSELECT\n  mun.quintil_leitos,\n  COUNT(*) AS municipios,\n  SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes,\n  SUM(COALESCE(adm.total_mortes, 0)) AS total_mortes,\n  ROUND(\n    SUM(COALESCE(adm.total_mortes, 0)) * 100.0\n    / NULLIF(SUM(COALESCE(adm.total_internacoes, 0)), 0),\n    2\n  ) AS taxa_mortalidade_hospitalar\nFROM mun\nLEFT JOIN adm\n  ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo\nGROUP BY mun.quintil_leitos\nORDER BY mun.quintil_leitos",
+      "openai_cache_hit": false
+    }
+  ]
+}

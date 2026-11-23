@@ -24,7 +24,7 @@ def test_rank_sql_candidates_selects_valid_executed_candidate(monkeypatch, tmp_p
             safe_sql=sql,
         )
 
-    def fake_execute_validated_sql(validation, *, db_path, max_rows):
+    def fake_execute_validated_sql(validation, *, db_path, max_rows, timeout_seconds=None):
         executed_sql.append(validation.safe_sql)
         return ExecutionResult(
             sql=validation.safe_sql or "",

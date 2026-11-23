@@ -1,0 +1,2 @@
+variant,total,result_match_rate,comparable_result_match_rate,delta_vs_full_agent_pp,sql_valid_rate,sql_execution_rate,latency_p50,latency_p95,contained_in_actual_count,contained_in_expected_count,semantic_label_equivalence_count,error_category_counts
+full_agent,73,0.3424657534246575,0.3472222222222222,0.0,0.9863013698630136,0.9863013698630136,12.319662082998548,27.60346979199676,15,2,0,"{""shape_mismatch"": 37, ""value_mismatch"": 10, ""provider_error"": 1}"

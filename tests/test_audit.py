@@ -22,3 +22,19 @@ def test_append_audit_record_writes_jsonl(tmp_path):
     records = read_audit_records(path, limit=1)
     assert len(records) == 1
     assert records[0]["question"] == "q2"
+
+
+def test_read_audit_records_tail_reads_only_the_most_recent_records(tmp_path):
+    path = tmp_path / "chat_audit.jsonl"
+    padding = "x" * 300
+    path.write_text(
+        "".join(json.dumps({"question": f"q{i}", "pad": padding}) + "\n" for i in range(2000))
+        + '{"question": "partial',
+        encoding="utf-8",
+    )
+
+    records = read_audit_records(path, limit=3)
+
+    assert [record["question"] for record in records] == ["q1998", "q1999"]
+    assert len(read_audit_records(path, limit=10)) == 9
+    assert read_audit_records(path, limit=0) == []

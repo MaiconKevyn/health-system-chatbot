@@ -70,7 +70,8 @@ def test_models_and_health_endpoints_match_frontend_contract(tmp_path):
 
     assert health["agent_status"] == "online"
     assert models["current_model"]["model_name"] == "gpt-5.4-mini"
-    assert models["current_model"]["agent_framework"] == "pydantic_ai"
+    assert models["current_model"]["agent_framework"] == "text-to-sql-sus"
+    assert models["current_model"]["chat_engine"] == "sus"
 
 
 def test_database_explorer_endpoints_query_duckdb_read_only(tmp_path):

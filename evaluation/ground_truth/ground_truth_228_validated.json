@@ -2,7 +2,7 @@
   {
     "id": "GT001",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es foram registradas no total?",
+    "question_pt": "Quantas internações foram registradas no total?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes",
     "tables_used": [
@@ -71,7 +71,7 @@
   {
     "id": "GT004",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos c\u00f3digos CID-10 est\u00e3o dispon\u00edveis?",
+    "question_pt": "Quantos códigos CID-10 estão disponíveis?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_cids FROM cid",
     "tables_used": [
@@ -92,32 +92,9 @@
     "semantic_disposition": "accepted"
   },
   {
-    "id": "GT005",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos hospitais est\u00e3o cadastrados?",
-    "difficulty": "easy",
-    "sql": "SELECT COUNT(*) AS total_hospitais FROM hospital",
-    "tables_used": [
-      "hospital"
-    ],
-    "columns_used": [
-      "total_hospitais"
-    ],
-    "expected_result_type": "scalar",
-    "execution_status": "passed",
-    "row_count": 1,
-    "result_summary": "Resultado unico: total_hospitais=0.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT005.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "Hospital reference data | SQL executada com sucesso no DuckDB atual.",
-    "duration_seconds": 0.000137,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
     "id": "GT006",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos munic\u00edpios t\u00eam dados socioecon\u00f4micos registrados?",
+    "question_pt": "Quantos municípios têm dados socioeconômicos registrados?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(DISTINCT \"CO_MUNICIPIO_6D\") AS total_municipios FROM socioeconomico",
     "tables_used": [
@@ -140,7 +117,7 @@
   {
     "id": "GT007",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos registros de interna\u00e7\u00e3o em UTI existem?",
+    "question_pt": "Quantos registros de internação em UTI existem?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
     "tables_used": [
@@ -186,7 +163,7 @@
   {
     "id": "GT009",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas especialidades m\u00e9dicas est\u00e3o cadastradas?",
+    "question_pt": "Quantas especialidades médicas estão cadastradas?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_especialidades FROM especialidade",
     "tables_used": [
@@ -209,7 +186,7 @@
   {
     "id": "GT010",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos casos obst\u00e9tricos foram registrados?",
+    "question_pt": "Quantos casos obstétricos foram registrados?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_obstetricos FROM internacoes WHERE \"ESPEC\" = 2",
     "tables_used": [
@@ -232,7 +209,7 @@
   {
     "id": "GT011",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos pacientes t\u00eam v\u00ednculo previdenci\u00e1rio informado?",
+    "question_pt": "Quantos pacientes têm vínculo previdenciário informado?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS total_vincprev FROM internacoes WHERE \"VINCPREV\" IS NOT NULL AND \"VINCPREV\" != 0",
     "tables_used": [
@@ -255,7 +232,7 @@
   {
     "id": "GT012",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos pacientes t\u00eam n\u00edvel de instru\u00e7\u00e3o informado?",
+    "question_pt": "Quantos pacientes têm nível de instrução informado?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS total_instrucao FROM internacoes WHERE \"INSTRU\" IS NOT NULL AND \"INSTRU\" != 0",
     "tables_used": [
@@ -301,7 +278,7 @@
   {
     "id": "GT014",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es por meningite ocasionaram em morte?",
+    "question_pt": "Quantas internações por meningite ocasionaram em morte?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE c.\"DESCRICAO\" ILIKE '%meningite%' AND i.\"MORTE\" = true",
     "tables_used": [
@@ -325,7 +302,7 @@
   {
     "id": "GT015",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a descri\u00e7\u00e3o do c\u00f3digo CID A15?",
+    "question_pt": "Qual a descrição do código CID A15?",
     "difficulty": "easy",
     "sql": "SELECT \"DESCRICAO\" FROM cid WHERE \"CID\" = 'A15'",
     "tables_used": [
@@ -348,7 +325,7 @@
   {
     "id": "GT017",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o tempo m\u00e9dio de perman\u00eancia hospitalar?",
+    "question_pt": "Qual o tempo médio de permanência hospitalar?",
     "difficulty": "easy",
     "sql": "SELECT AVG(\"DIAS_PERM\") AS tempo_medio_permanencia FROM internacoes",
     "tables_used": [
@@ -371,7 +348,7 @@
   {
     "id": "GT018",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver dados socioecon\u00f4micos, quantos habitantes tem o munic\u00edpio com a maior popula\u00e7\u00e3o registrada?",
+    "question_pt": "Quando houver dados socioeconômicos, quantos habitantes tem o município com a maior população registrada?",
     "difficulty": "medium",
     "sql": "WITH latest_year AS (\n    SELECT MAX(\"NU_ANO\") AS ano FROM socioeconomico WHERE \"QT_POPULACAO\" IS NOT NULL\n)\nSELECT mu.\"NO_MUNICIPIO\" AS municipio_maior_populacao,\n       s.\"QT_POPULACAO\" AS total_habitantes\nFROM socioeconomico s\nJOIN latest_year ly ON s.\"NU_ANO\" = ly.ano\nJOIN municipios mu ON s.\"CO_MUNICIPIO_6D\" = mu.\"CO_MUNICIPIO_6D\"\nWHERE s.\"QT_POPULACAO\" IS NOT NULL\nORDER BY s.\"QT_POPULACAO\" DESC\nLIMIT 1",
     "tables_used": [
@@ -396,7 +373,7 @@
   {
     "id": "GT019",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais os cinco munic\u00edpios com mais interna\u00e7\u00f5es obst\u00e9tricas registradas?",
+    "question_pt": "Quais os cinco municípios com mais internações obstétricas registradas?",
     "difficulty": "medium",
     "sql": "SELECT mu.\"NO_MUNICIPIO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"ESPEC\" = 2 GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 5",
     "tables_used": [
@@ -413,7 +390,7 @@
     "result_summary": "Resultado com 5 linhas; primeira linha: {'NO_MUNICIPIO': 'Rio de Janeiro', 'total_internacoes': 834766}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT019.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "CRITICAL: obstetricos table absorbed. ESPEC = 2 identifies obstetric cases. Result: S\u00e3o Lu\u00eds, Porto Alegre, Imperatriz, Pelotas, Canoas | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "CRITICAL: obstetricos table absorbed. ESPEC = 2 identifies obstetric cases. Result: São Luís, Porto Alegre, Imperatriz, Pelotas, Canoas | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.099689,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -421,7 +398,7 @@
   {
     "id": "GT021",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados nas interna\u00e7\u00f5es?",
+    "question_pt": "Quais são os 5 procedimentos principais mais registrados nas internações?",
     "difficulty": "hard",
     "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total DESC LIMIT 5",
     "tables_used": [
@@ -470,7 +447,7 @@
   {
     "id": "GT023",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es de UTI resultaram em \u00f3bito?",
+    "question_pt": "Quantas internações de UTI resultaram em óbito?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS uti_com_obito FROM internacoes WHERE \"VAL_UTI\" > 0 AND \"MORTE\" = true",
     "tables_used": [
@@ -493,7 +470,7 @@
   {
     "id": "GT024",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais CNES t\u00eam mais de 1000 interna\u00e7\u00f5es registradas?",
+    "question_pt": "Quais CNES têm mais de 1000 internações registradas?",
     "difficulty": "medium",
     "sql": "SELECT i.\"CNES\", COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i WHERE i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\" HAVING COUNT(i.\"N_AIH\") > 1000 ORDER BY total_internacoes DESC",
     "tables_used": [
@@ -517,7 +494,7 @@
   {
     "id": "GT025",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es com VDRL positivo resultaram em morte?",
+    "question_pt": "Quantas internações com VDRL positivo resultaram em morte?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS vdrl_positivo_obito FROM internacoes WHERE \"IND_VDRL\" = true AND \"MORTE\" = true",
     "tables_used": [
@@ -540,7 +517,7 @@
   {
     "id": "GT026",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o valor m\u00e9dio das interna\u00e7\u00f5es que resultaram em \u00f3bito?",
+    "question_pt": "Qual o valor médio das internações que resultaram em óbito?",
     "difficulty": "medium",
     "sql": "SELECT AVG(\"VAL_TOT\") AS valor_medio_obitos FROM internacoes WHERE \"MORTE\" = true AND \"VAL_TOT\" IS NOT NULL",
     "tables_used": [
@@ -563,7 +540,7 @@
   {
     "id": "GT027",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es obst\u00e9tricas foram registradas em UTI?",
+    "question_pt": "Quantas internações obstétricas foram registradas em UTI?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS obstetricos_uti FROM internacoes WHERE \"ESPEC\" = 2 AND \"VAL_UTI\" > 0",
     "tables_used": [
@@ -586,7 +563,7 @@
   {
     "id": "GT028",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais sao os 10 munic\u00edpios com mais de 100 interna\u00e7\u00f5es com a maior taxa de mortalidade?",
+    "question_pt": "Quais sao os 10 municípios com mais de 100 internações com a maior taxa de mortalidade?",
     "difficulty": "hard",
     "sql": "SELECT mu.\"NO_MUNICIPIO\" AS municipio, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" GROUP BY mu.\"NO_MUNICIPIO\" HAVING COUNT(*) > 100 ORDER BY taxa_mortalidade DESC LIMIT 10",
     "tables_used": [
@@ -602,10 +579,10 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'municipio': 'Cap\u00e3o Bonito', 'total_internacoes': 135, 'total_mortes': 15, 'taxa_mortalidade': 11.11}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'municipio': 'Capão Bonito', 'total_internacoes': 135, 'total_mortes': 15, 'taxa_mortalidade': 11.11}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT028.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "CRITICAL: mortes table absorbed. Use MORTE boolean with CASE WHEN for mortality rate calculation. HAVING COUNT(*) > 100 excludes low-volume municipalities. Top: S\u00e3o Bernardo do Campo ~9.82% | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "CRITICAL: mortes table absorbed. Use MORTE boolean with CASE WHEN for mortality rate calculation. HAVING COUNT(*) > 100 excludes low-volume municipalities. Top: São Bernardo do Campo ~9.82% | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.162686,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -613,7 +590,7 @@
   {
     "id": "GT029",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual \u00e9 o valor m\u00e9dio de UTI para homens?",
+    "question_pt": "Qual é o valor médio de UTI para homens?",
     "difficulty": "medium",
     "sql": "SELECT AVG(\"VAL_UTI\") AS valor_medio_uti_homens FROM internacoes WHERE \"SEXO\" = 1 AND \"VAL_UTI\" > 0",
     "tables_used": [
@@ -683,7 +660,7 @@
   {
     "id": "GT032",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos munic\u00edpios est\u00e3o no estado do RS?",
+    "question_pt": "Quantos municípios estão no estado do RS?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS municipios_rs FROM municipios WHERE \"SG_UF\" = 'RS'",
     "tables_used": [
@@ -706,7 +683,7 @@
   {
     "id": "GT033",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a idade m\u00e9dia dos pacientes internados?",
+    "question_pt": "Qual a idade média dos pacientes internados?",
     "difficulty": "easy",
     "sql": "SELECT AVG(\"IDADE\") AS idade_media FROM internacoes WHERE \"IDADE\" IS NOT NULL",
     "tables_used": [
@@ -729,7 +706,7 @@
   {
     "id": "GT034",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es duraram mais de 30 dias?",
+    "question_pt": "Quantas internações duraram mais de 30 dias?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) FROM internacoes WHERE \"DIAS_PERM\" > 30",
     "tables_used": [
@@ -752,7 +729,7 @@
   {
     "id": "GT035",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o diagn\u00f3stico mais comum nas interna\u00e7\u00f5es?",
+    "question_pt": "Qual o diagnóstico mais comum nas internações?",
     "difficulty": "medium",
     "sql": "SELECT c.\"DESCRICAO\" AS diagnostico, COUNT(*) AS total FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"DIAG_PRINC\" IS NOT NULL GROUP BY c.\"DESCRICAO\" ORDER BY total DESC LIMIT 1",
     "tables_used": [
@@ -777,7 +754,7 @@
   {
     "id": "GT036",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es ocorreram em 2015?",
+    "question_pt": "Quantas internações ocorreram em 2015?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS internacoes_2015 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2015",
     "tables_used": [
@@ -823,7 +800,7 @@
   {
     "id": "GT038",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual munic\u00edpio teve o maior n\u00famero de interna\u00e7\u00f5es masculinas em 2020?",
+    "question_pt": "Qual município teve o maior número de internações masculinas em 2020?",
     "difficulty": "medium",
     "sql": "SELECT mu.\"NO_MUNICIPIO\", COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2020 AND i.\"SEXO\" = 1 GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 1",
     "tables_used": [
@@ -848,7 +825,7 @@
   {
     "id": "GT039",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o as tr\u00eas causas de morte mais frequentes entre mulheres?",
+    "question_pt": "Quais são as três causas de morte mais frequentes entre mulheres?",
     "difficulty": "medium",
     "sql": "SELECT c.\"DESCRICAO\", COUNT(*) AS total_mortes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"SEXO\" = 3 AND i.\"MORTE\" = true AND i.\"DIAG_PRINC\" IS NOT NULL GROUP BY c.\"DESCRICAO\" ORDER BY total_mortes DESC LIMIT 3",
     "tables_used": [
@@ -873,7 +850,7 @@
   {
     "id": "GT040",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver dados socioecon\u00f4micos, qual a taxa de mortalidade infantil m\u00e9dia registrada?",
+    "question_pt": "Quando houver dados socioeconômicos, qual a taxa de mortalidade infantil média registrada?",
     "difficulty": "easy",
     "sql": "SELECT AVG(\"VL_MORT_INFANTIL\") AS taxa_media_mortalidade_infantil FROM socioeconomico WHERE \"VL_MORT_INFANTIL\" IS NOT NULL",
     "tables_used": [
@@ -919,7 +896,7 @@
   {
     "id": "GT042",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es de pacientes com mais de 70 anos ocorreram no inverno (junho a agosto)?",
+    "question_pt": "Quantas internações de pacientes com mais de 70 anos ocorreram no inverno (junho a agosto)?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(i.\"N_AIH\") FROM internacoes i WHERE EXTRACT(MONTH FROM i.\"DT_INTER\") BETWEEN 6 AND 8 AND i.\"IDADE\" > 70",
     "tables_used": [
@@ -942,7 +919,7 @@
   {
     "id": "GT043",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es tiveram tanto diagn\u00f3stico principal quanto secund\u00e1rio?",
+    "question_pt": "Quantas internações tiveram tanto diagnóstico principal quanto secundário?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS com_ambos_diagnosticos FROM internacoes WHERE \"DIAG_PRINC\" IS NOT NULL AND \"DIAG_SECUN\" IS NOT NULL",
     "tables_used": [
@@ -965,7 +942,7 @@
   {
     "id": "GT044",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o custo m\u00e9dio de UTI por faixa et\u00e1ria dos pacientes?",
+    "question_pt": "Qual o custo médio de UTI por faixa etária dos pacientes?",
     "difficulty": "hard",
     "sql": "SELECT CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END AS faixa_etaria, AVG(\"VAL_UTI\") AS custo_medio_uti FROM internacoes WHERE \"VAL_UTI\" > 0 GROUP BY CASE WHEN \"IDADE\" < 18 THEN 'Menor' WHEN \"IDADE\" < 60 THEN 'Adulto' ELSE 'Idoso' END",
     "tables_used": [
@@ -989,7 +966,7 @@
   {
     "id": "GT046",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a evolu\u00e7\u00e3o de interna\u00e7\u00f5es para cada ano?",
+    "question_pt": "Qual a evolução de internações para cada ano?",
     "difficulty": "medium",
     "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes WHERE \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
     "tables_used": [
@@ -1013,7 +990,7 @@
   {
     "id": "GT047",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es por doen\u00e7a respirat\u00f3ria ocorrem no inverno (junho a agosto)?",
+    "question_pt": "Quantas internações por doença respiratória ocorrem no inverno (junho a agosto)?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS internacoes_respiratorias_inverno FROM internacoes WHERE \"DIAG_PRINC\" LIKE 'J%' AND EXTRACT(MONTH FROM \"DT_INTER\") IN (6, 7, 8)",
     "tables_used": [
@@ -1036,7 +1013,7 @@
   {
     "id": "GT048",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o as 10 principais causas de morte (com descri\u00e7\u00e3o)?",
+    "question_pt": "Quais são as 10 principais causas de morte (com descrição)?",
     "difficulty": "medium",
     "sql": "SELECT c.\"DESCRICAO\", COUNT(*) AS total_mortes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"MORTE\" = true GROUP BY c.\"DESCRICAO\" ORDER BY total_mortes DESC LIMIT 10",
     "tables_used": [
@@ -1087,7 +1064,7 @@
   {
     "id": "GT050",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a taxa de mortalidade para faixa et\u00e1ria 30-45?",
+    "question_pt": "Qual a taxa de mortalidade para faixa etária 30-45?",
     "difficulty": "medium",
     "sql": "SELECT '30-45 anos' AS faixa_etaria, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes WHERE \"IDADE\" BETWEEN 30 AND 45",
     "tables_used": [
@@ -1113,7 +1090,7 @@
   {
     "id": "GT051",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 munic\u00edpios com mais interna\u00e7\u00f5es?",
+    "question_pt": "Quais são os 10 municípios com mais internações?",
     "difficulty": "medium",
     "sql": "SELECT m.\"NO_MUNICIPIO\" AS municipio, COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" GROUP BY m.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 10",
     "tables_used": [
@@ -1138,7 +1115,7 @@
   {
     "id": "GT052",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos c\u00f3digos CID-10 distintos existem?",
+    "question_pt": "Quantos códigos CID-10 distintos existem?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(DISTINCT \"CID\") FROM cid",
     "tables_used": [
@@ -1161,7 +1138,7 @@
   {
     "id": "GT053",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o valor total gasto em interna\u00e7\u00f5es?",
+    "question_pt": "Qual o valor total gasto em internações?",
     "difficulty": "easy",
     "sql": "SELECT ROUND(SUM(\"VAL_TOT\"), 0) AS total_gasto FROM internacoes",
     "tables_used": [
@@ -1184,7 +1161,7 @@
   {
     "id": "GT054",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o maior valor de interna\u00e7\u00e3o registrado?",
+    "question_pt": "Qual o maior valor de internação registrado?",
     "difficulty": "easy",
     "sql": "SELECT MAX(\"VAL_TOT\") FROM internacoes",
     "tables_used": [
@@ -1207,7 +1184,7 @@
   {
     "id": "GT055",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es possuem ra\u00e7a/cor identificada, excluindo sem informa\u00e7\u00e3o?",
+    "question_pt": "Quantas internações possuem raça/cor identificada, excluindo sem informação?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) FROM internacoes WHERE \"RACA_COR\" IN (1, 2, 3, 4, 5)",
     "tables_used": [
@@ -1230,7 +1207,7 @@
   {
     "id": "GT056",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es ocorreram em 2020?",
+    "question_pt": "Quantas internações ocorreram em 2020?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2020",
     "tables_used": [
@@ -1253,7 +1230,7 @@
   {
     "id": "GT057",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a menor idade registrada nas interna\u00e7\u00f5es?",
+    "question_pt": "Qual a menor idade registrada nas internações?",
     "difficulty": "easy",
     "sql": "SELECT MIN(\"IDADE\") FROM internacoes",
     "tables_used": [
@@ -1276,7 +1253,7 @@
   {
     "id": "GT058",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o total de dias de interna\u00e7\u00e3o registrados?",
+    "question_pt": "Qual o total de dias de internação registrados?",
     "difficulty": "easy",
     "sql": "SELECT SUM(\"DIAS_PERM\") FROM internacoes",
     "tables_used": [
@@ -1299,7 +1276,7 @@
   {
     "id": "GT059",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a maior idade registrada nas interna\u00e7\u00f5es?",
+    "question_pt": "Qual a maior idade registrada nas internações?",
     "difficulty": "easy",
     "sql": "SELECT MAX(\"IDADE\") FROM internacoes",
     "tables_used": [
@@ -1322,7 +1299,7 @@
   {
     "id": "GT060",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a m\u00e9dia de valor gasto por interna\u00e7\u00e3o?",
+    "question_pt": "Qual a média de valor gasto por internação?",
     "difficulty": "easy",
     "sql": "SELECT AVG(\"VAL_TOT\") AS media_valor_internacao FROM internacoes",
     "tables_used": [
@@ -1345,7 +1322,7 @@
   {
     "id": "GT061",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a distribui\u00e7\u00e3o por idade nas interna\u00e7\u00f5es?",
+    "question_pt": "Qual a distribuição por idade nas internações?",
     "difficulty": "medium",
     "sql": "SELECT \"IDADE\", COUNT(*) AS total_internacoes FROM internacoes GROUP BY \"IDADE\" ORDER BY total_internacoes DESC",
     "tables_used": [
@@ -1361,7 +1338,7 @@
     "result_summary": "Resultado com 131 linhas; primeira linha: {'IDADE': 0, 'total_internacoes': 7370829}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT061.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "Distribution of admissions by age. No LIMIT \u2014 question asks for full distribution. Top result: age 0 with ~861k records | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "Distribution of admissions by age. No LIMIT — question asks for full distribution. Top result: age 0 with ~861k records | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.02465,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -1369,7 +1346,7 @@
   {
     "id": "GT062",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a m\u00e9dia de valor de servi\u00e7o hospitalar por paciente?",
+    "question_pt": "Qual a média de valor de serviço hospitalar por paciente?",
     "difficulty": "easy",
     "sql": "SELECT AVG(\"VAL_SH\") AS media_valor FROM internacoes WHERE \"VAL_SH\" IS NOT NULL",
     "tables_used": [
@@ -1392,7 +1369,7 @@
   {
     "id": "GT063",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a m\u00e9dia de dias internados por idade?",
+    "question_pt": "Qual a média de dias internados por idade?",
     "difficulty": "medium",
     "sql": "SELECT \"IDADE\", AVG(\"DIAS_PERM\") AS media_dias_internados FROM internacoes GROUP BY \"IDADE\" ORDER BY media_dias_internados DESC",
     "tables_used": [
@@ -1416,7 +1393,7 @@
   {
     "id": "GT064",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es com idade acima de 60 anos?",
+    "question_pt": "Quantas internações com idade acima de 60 anos?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_internacoes FROM internacoes WHERE \"IDADE\" > 60",
     "tables_used": [
@@ -1439,7 +1416,7 @@
   {
     "id": "GT065",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o n\u00edvel de instru\u00e7\u00e3o dos pacientes internados?",
+    "question_pt": "Qual o nível de instrução dos pacientes internados?",
     "difficulty": "medium",
     "sql": "SELECT ins.\"DESCRICAO\", COUNT(*) AS total FROM internacoes i JOIN instrucao ins ON i.\"INSTRU\" = ins.\"INSTRU\" WHERE i.\"INSTRU\" IS NOT NULL AND i.\"INSTRU\" != 0 GROUP BY ins.\"INSTRU\", ins.\"DESCRICAO\" ORDER BY total DESC",
     "tables_used": [
@@ -1452,7 +1429,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 5,
-    "result_summary": "Resultado com 5 linhas; primeira linha: {'DESCRICAO': '1\u00ba grau', 'total': 561908}.",
+    "result_summary": "Resultado com 5 linhas; primeira linha: {'DESCRICAO': '1º grau', 'total': 561908}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT065.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "CRITICAL: INSTRU is a numeric code in internacoes (not a JOIN to instrucao lookup). 0=Sem info (majority). For human-readable labels JOIN instrucao table. | SQL executada com sucesso no DuckDB atual.",
@@ -1463,7 +1440,7 @@
   {
     "id": "GT066",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o total de interna\u00e7\u00f5es por ano?",
+    "question_pt": "Qual o total de internações por ano?",
     "difficulty": "medium",
     "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes GROUP BY ano ORDER BY total_internacoes DESC",
     "tables_used": [
@@ -1487,7 +1464,7 @@
   {
     "id": "GT067",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a quantidade de interna\u00e7\u00f5es por especialidade?",
+    "question_pt": "Qual a quantidade de internações por especialidade?",
     "difficulty": "medium",
     "sql": "SELECT e.\"DESCRICAO\" AS especialidade, COUNT(*) AS total_consultas FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" GROUP BY e.\"DESCRICAO\" ORDER BY total_consultas DESC",
     "tables_used": [
@@ -1501,10 +1478,10 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 16,
-    "result_summary": "Resultado com 16 linhas; primeira linha: {'especialidade': 'Cl\u00ednico', 'total_consultas': 52713972}.",
+    "result_summary": "Resultado com 16 linhas; primeira linha: {'especialidade': 'Clínico', 'total_consultas': 52713972}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT067.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "JOIN with especialidade lookup. No LIMIT \u2014 question asks for all specialties. Top: CLINICOS ~7.4M, CIRURGICO ~5.6M, OBSTETRICOS ~2.9M | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "JOIN with especialidade lookup. No LIMIT — question asks for all specialties. Top: CLINICOS ~7.4M, CIRURGICO ~5.6M, OBSTETRICOS ~2.9M | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.045568,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -1512,7 +1489,7 @@
   {
     "id": "GT068",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 procedimentos principais mais comuns nas interna\u00e7\u00f5es?",
+    "question_pt": "Quais são os 10 procedimentos principais mais comuns nas internações?",
     "difficulty": "medium",
     "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total_procedimentos DESC LIMIT 10",
     "tables_used": [
@@ -1538,7 +1515,7 @@
   {
     "id": "GT069",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 principais CIDs de entrada nas interna\u00e7\u00f5es?",
+    "question_pt": "Quais são os 10 principais CIDs de entrada nas internações?",
     "difficulty": "medium",
     "sql": "SELECT c.\"DESCRICAO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY c.\"DESCRICAO\" ORDER BY total_internacoes DESC LIMIT 10",
     "tables_used": [
@@ -1563,7 +1540,7 @@
   {
     "id": "GT070",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais os 10 motivos mais comuns de interna\u00e7\u00e3o para pacientes ind\u00edgenas?",
+    "question_pt": "Quais os 10 motivos mais comuns de internação para pacientes indígenas?",
     "difficulty": "medium",
     "sql": "SELECT c.\"DESCRICAO\", COUNT(*) AS total_internacoes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"RACA_COR\" = 5 GROUP BY c.\"DESCRICAO\" ORDER BY total_internacoes DESC LIMIT 10",
     "tables_used": [
@@ -1588,7 +1565,7 @@
   {
     "id": "GT071",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual \u00e9 a ra\u00e7a que apresenta maior n\u00famero de mortes registradas?",
+    "question_pt": "Qual é a raça que apresenta maior número de mortes registradas?",
     "difficulty": "medium",
     "sql": "SELECT r.\"DESCRICAO\" AS descricao_raca_cor, COUNT(i.\"N_AIH\") AS total_mortes FROM internacoes i JOIN raca_cor r ON i.\"RACA_COR\" = r.\"RACA_COR\" WHERE i.\"MORTE\" = true GROUP BY r.\"DESCRICAO\" ORDER BY total_mortes DESC LIMIT 1",
     "tables_used": [
@@ -1605,7 +1582,7 @@
     "result_summary": "Resultado unico: descricao_raca_cor=Parda, total_mortes=1979782.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT071.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "MORTE boolean filter. Singular 'qual a ra\u00e7a' \u2192 LIMIT 1. Top: BRANCA ~457,750 mortes | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "MORTE boolean filter. Singular 'qual a raça' → LIMIT 1. Top: BRANCA ~457,750 mortes | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.060849,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -1613,7 +1590,7 @@
   {
     "id": "GT072",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o total de interna\u00e7\u00f5es para o estado do Maranh\u00e3o e para o estado do Rio Grande do Sul?",
+    "question_pt": "Qual o total de internações para o estado do Maranhão e para o estado do Rio Grande do Sul?",
     "difficulty": "medium",
     "sql": "SELECT m.\"SG_UF\", COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" IN ('MA', 'RS') GROUP BY m.\"SG_UF\"",
     "tables_used": [
@@ -1655,7 +1632,7 @@
     "result_summary": "Resultado com 2 linhas; primeira linha: {'SG_UF': 'RS', 'total_mortes': 611909}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT075.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "CRITICAL: 'nos estados X e Y' \u2192 GROUP BY estado to return per-state breakdown. Result: RS ~608,450 / MA ~152,427. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "CRITICAL: 'nos estados X e Y' → GROUP BY estado to return per-state breakdown. Result: RS ~608,450 / MA ~152,427. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.024034,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -1663,7 +1640,7 @@
   {
     "id": "GT076",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 munic\u00edpios de resid\u00eancia com mais interna\u00e7\u00f5es?",
+    "question_pt": "Quais são os 10 municípios de residência com mais internações?",
     "difficulty": "hard",
     "sql": "SELECT m.\"NO_MUNICIPIO\" AS municipio, COUNT(i.\"N_AIH\") AS total_internacoes FROM internacoes i JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" GROUP BY m.\"NO_MUNICIPIO\" ORDER BY total_internacoes DESC LIMIT 10",
     "tables_used": [
@@ -1688,7 +1665,7 @@
   {
     "id": "GT077",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a m\u00e9dia de dias de interna\u00e7\u00e3o por munic\u00edpio?",
+    "question_pt": "Qual a média de dias de internação por município?",
     "difficulty": "medium",
     "sql": "SELECT mu.\"NO_MUNICIPIO\" AS municipio, AVG(i.\"DIAS_PERM\") AS media_dias_internacao FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" GROUP BY mu.\"NO_MUNICIPIO\" ORDER BY media_dias_internacao DESC",
     "tables_used": [
@@ -1705,7 +1682,7 @@
     "result_summary": "Resultado com 5290 linhas; primeira linha: {'municipio': 'Altair', 'media_dias_internacao': 42.4}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT077.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "CRITICAL: use DIAS_PERM (renamed from QT_DIARIAS). Use MUNIC_RES (patient residence) for 'por munic\u00edpio' without explicit hospital context. Groups by patient's home municipality. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "CRITICAL: use DIAS_PERM (renamed from QT_DIARIAS). Use MUNIC_RES (patient residence) for 'por município' without explicit hospital context. Groups by patient's home municipality. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.144583,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -1713,7 +1690,7 @@
   {
     "id": "GT078",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 principais motivos de interna\u00e7\u00e3o para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?",
+    "question_pt": "Quais são os 10 principais motivos de internação para pacientes com menos de 18 anos, entre 18 e 64 anos, e acima de 64 anos?",
     "difficulty": "hard",
     "sql": "SELECT faixa_etaria, \"DESCRICAO\", total_internacoes FROM (SELECT CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa_etaria, c.\"DESCRICAO\", COUNT(*) AS total_internacoes, ROW_NUMBER() OVER (PARTITION BY CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END ORDER BY COUNT(*) DESC) AS rn FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY faixa_etaria, c.\"DESCRICAO\") subquery WHERE rn <= 10 ORDER BY faixa_etaria, rn",
     "tables_used": [
@@ -1731,7 +1708,7 @@
     "result_summary": "Resultado com 30 linhas; primeira linha: {'faixa_etaria': '18 a 64', 'DESCRICAO': 'Parto espontaneo cefalico', 'total_internacoes': 8971027}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT078.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: ROW_NUMBER() OVER (PARTITION BY faixa_etaria ORDER BY COUNT(*) DESC) rn<=10 \u2192 30 rows total (10 per group). Groups: 'Menor de 18' / '18 a 64' / '65 ou mais'. Top-1 per group: <18=J189 Pneumonia NE (155,932); 18-64=O800 Parto espontaneo cefalico (861,909); 65+=J189 Pneumonia NE (149,221). | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: ROW_NUMBER() OVER (PARTITION BY faixa_etaria ORDER BY COUNT(*) DESC) rn<=10 → 30 rows total (10 per group). Groups: 'Menor de 18' / '18 a 64' / '65 ou mais'. Top-1 per group: <18=J189 Pneumonia NE (155,932); 18-64=O800 Parto espontaneo cefalico (861,909); 65+=J189 Pneumonia NE (149,221). | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.544008,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -1739,7 +1716,7 @@
   {
     "id": "GT079",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 procedimentos principais mais comuns entre interna\u00e7\u00f5es de residentes no RS?",
+    "question_pt": "Quais são os 10 procedimentos principais mais comuns entre internações de residentes no RS?",
     "difficulty": "hard",
     "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" = 'RS' GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total_procedimentos DESC LIMIT 10",
     "tables_used": [
@@ -1790,7 +1767,7 @@
   {
     "id": "GT081",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados para cada sexo?",
+    "question_pt": "Quais são os 5 procedimentos principais mais registrados para cada sexo?",
     "difficulty": "hard",
     "sql": "SELECT sexo, \"PROC_REA\", \"NOME_PROC\", total FROM (SELECT s.\"DESCRICAO\" AS sexo, p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total, ROW_NUMBER() OVER (PARTITION BY s.\"DESCRICAO\" ORDER BY COUNT(*) DESC) AS rn FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY s.\"DESCRICAO\", p.\"PROC_REA\", p.\"NOME_PROC\") sub WHERE rn <= 5 ORDER BY sexo, rn",
     "tables_used": [
@@ -1818,7 +1795,7 @@
   {
     "id": "GT082",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 3 diagn\u00f3sticos principais mais comuns entre pacientes com mais de 60 anos no estado de MA e no estado do RS?",
+    "question_pt": "Quais são os 3 diagnósticos principais mais comuns entre pacientes com mais de 60 anos no estado de MA e no estado do RS?",
     "difficulty": "hard",
     "sql": "SELECT estado, \"DESCRICAO\", total\nFROM (\n    SELECT mu.\"SG_UF\" AS estado,\n           c.\"DESCRICAO\",\n           COUNT(*) AS total,\n           ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY COUNT(*) DESC) AS rn\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\"\n    WHERE i.\"IDADE\" > 60 AND mu.\"SG_UF\" IN ('MA', 'RS')\n    GROUP BY mu.\"SG_UF\", c.\"DESCRICAO\"\n) sub\nWHERE rn <= 3\nORDER BY estado, rn",
     "tables_used": [
@@ -1845,7 +1822,7 @@
   {
     "id": "GT083",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual \u00e9 a taxa de mortalidade por n\u00edvel de instru\u00e7\u00e3o no estado do RS, considerando apenas grupos com mais de 1000 interna\u00e7\u00f5es?",
+    "question_pt": "Qual é a taxa de mortalidade por nível de instrução no estado do RS, considerando apenas grupos com mais de 1000 internações?",
     "difficulty": "hard",
     "sql": "SELECT ins.\"DESCRICAO\", COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN instrucao ins ON i.\"INSTRU\" = ins.\"INSTRU\" JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND i.\"INSTRU\" IS NOT NULL AND i.\"INSTRU\" != 0 GROUP BY ins.\"DESCRICAO\" HAVING COUNT(*) > 1000 ORDER BY taxa_mortalidade DESC",
     "tables_used": [
@@ -1862,7 +1839,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 4,
-    "result_summary": "Resultado com 4 linhas; primeira linha: {'DESCRICAO': '1\u00ba grau', 'total_internacoes': 43471, 'total_mortes': 3, 'taxa_mortalidade': 0.01}.",
+    "result_summary": "Resultado com 4 linhas; primeira linha: {'DESCRICAO': '1º grau', 'total_internacoes': 43471, 'total_mortes': 3, 'taxa_mortalidade': 0.01}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT083.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: computed CASE WHEN mortality rate + 2 JOINs (instrucao + municipios) + HAVING threshold + estado filter. Returns 4 education groups with INSTRU data in RS. | SQL executada com sucesso no DuckDB atual.",
@@ -1873,7 +1850,7 @@
   {
     "id": "GT084",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 3 procedimentos principais mais comuns entre interna\u00e7\u00f5es que resultaram em \u00f3bito para cada faixa et\u00e1ria?",
+    "question_pt": "Quais são os 3 procedimentos principais mais comuns entre internações que resultaram em óbito para cada faixa etária?",
     "difficulty": "hard",
     "sql": "SELECT faixa_etaria, \"PROC_REA\", \"NOME_PROC\", total FROM (SELECT CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END AS faixa_etaria, p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total, ROW_NUMBER() OVER (PARTITION BY CASE WHEN i.\"IDADE\" < 18 THEN 'Menor de 18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18 a 64' ELSE '65 ou mais' END ORDER BY COUNT(*) DESC) AS rn FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"MORTE\" = true GROUP BY faixa_etaria, p.\"PROC_REA\", p.\"NOME_PROC\") sub WHERE rn <= 3 ORDER BY faixa_etaria, rn",
     "tables_used": [
@@ -1900,7 +1877,7 @@
   {
     "id": "GT085",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a taxa de mortalidade hospitalar por especialidade m\u00e9dica?",
+    "question_pt": "Qual a taxa de mortalidade hospitalar por especialidade médica?",
     "difficulty": "hard",
     "sql": "SELECT e.\"DESCRICAO\" AS especialidade, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" GROUP BY e.\"DESCRICAO\" ORDER BY taxa_mortalidade DESC",
     "tables_used": [
@@ -1916,7 +1893,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 16,
-    "result_summary": "Resultado com 16 linhas; primeira linha: {'especialidade': 'N\u00e3o Documentado', 'total_internacoes': 855, 'total_mortes': 503, 'taxa_mortalidade': 58.83}.",
+    "result_summary": "Resultado com 16 linhas; primeira linha: {'especialidade': 'Não Documentado', 'total_internacoes': 855, 'total_mortes': 503, 'taxa_mortalidade': 58.83}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT085.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: computed CASE WHEN mortality rate + JOIN especialidade. Returns 14 specialties. Highest rate: SEM INFORMACAO (small group). CLINICOS ~5.5%, CIRURGICO ~2.4%, OBSTETRICOS ~0.04%. | SQL executada com sucesso no DuckDB atual.",
@@ -1927,7 +1904,7 @@
   {
     "id": "GT086",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 3 CNES com maior custo m\u00e9dio de UTI entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+    "question_pt": "Quais são os 3 CNES com maior custo médio de UTI entre internações de residentes nos estados MA e RS?",
     "difficulty": "hard",
     "sql": "SELECT estado, \"CNES\", ROUND(custo_medio_uti, 2) AS custo_medio_uti FROM (SELECT mu.\"SG_UF\" AS estado, i.\"CNES\", AVG(i.\"VAL_UTI\") AS custo_medio_uti, ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_UTI\") DESC) AS rn FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"VAL_UTI\" > 0 AND mu.\"SG_UF\" IN ('MA', 'RS') GROUP BY mu.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 100) sub WHERE rn <= 3 ORDER BY estado, rn",
     "tables_used": [
@@ -1953,7 +1930,7 @@
   {
     "id": "GT087",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a evolu\u00e7\u00e3o anual da taxa de mortalidade por estado (MA e RS)?",
+    "question_pt": "Qual a evolução anual da taxa de mortalidade por estado (MA e RS)?",
     "difficulty": "hard",
     "sql": "SELECT mu.\"SG_UF\", EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"DT_INTER\" IS NOT NULL GROUP BY mu.\"SG_UF\", ano ORDER BY mu.\"SG_UF\", ano",
     "tables_used": [
@@ -1981,7 +1958,7 @@
   {
     "id": "GT088",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 5 munic\u00edpios com maior percentual de interna\u00e7\u00f5es em UTI (com mais de 5000 interna\u00e7\u00f5es)?",
+    "question_pt": "Quais são os 5 municípios com maior percentual de internações em UTI (com mais de 5000 internações)?",
     "difficulty": "hard",
     "sql": "SELECT mu.\"NO_MUNICIPIO\" AS municipio, ROUND(SUM(CASE WHEN i.\"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS pct_uti FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" GROUP BY mu.\"NO_MUNICIPIO\" HAVING COUNT(*) > 5000 ORDER BY pct_uti DESC LIMIT 5",
     "tables_used": [
@@ -1995,7 +1972,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 5,
-    "result_summary": "Resultado com 5 linhas; primeira linha: {'municipio': 'Lidian\u00f3polis', 'pct_uti': 23.06}.",
+    "result_summary": "Resultado com 5 linhas; primeira linha: {'municipio': 'Lidianópolis', 'pct_uti': 23.06}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT088.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: computed CASE WHEN UTI ratio + JOIN municipios + HAVING threshold. VAL_UTI > 0 identifies UTI admissions. Top 5 municipalities with highest UTI admission rate among those with >5000 admissions. | SQL executada com sucesso no DuckDB atual.",
@@ -2006,7 +1983,7 @@
   {
     "id": "GT089",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 CNES com maior taxa de mortalidade obst\u00e9trica (com mais de 500 interna\u00e7\u00f5es obst\u00e9tricas)?",
+    "question_pt": "Quais são os 10 CNES com maior taxa de mortalidade obstétrica (com mais de 500 internações obstétricas)?",
     "difficulty": "hard",
     "sql": "SELECT i.\"CNES\", COUNT(*) AS total_obstetricos, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS pct_mortalidade FROM internacoes i WHERE i.\"ESPEC\" = 2 AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\" HAVING COUNT(*) > 500 ORDER BY pct_mortalidade DESC LIMIT 10",
     "tables_used": [
@@ -2032,7 +2009,7 @@
   {
     "id": "GT090",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 diagn\u00f3sticos com maior m\u00e9dia de dias de interna\u00e7\u00e3o (com mais de 10000 casos)?",
+    "question_pt": "Quais são os 10 diagnósticos com maior média de dias de internação (com mais de 10000 casos)?",
     "difficulty": "hard",
     "sql": "SELECT c.\"DESCRICAO\" AS diagnostico, COUNT(*) AS total_internacoes, ROUND(AVG(i.\"DIAS_PERM\"), 2) AS media_dias FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" GROUP BY c.\"DESCRICAO\" HAVING COUNT(*) > 10000 ORDER BY AVG(i.\"DIAS_PERM\") DESC LIMIT 10",
     "tables_used": [
@@ -2058,7 +2035,7 @@
   {
     "id": "GT091",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 5 CNES mais eficientes em custo por dia de interna\u00e7\u00e3o (com mais de 1000 interna\u00e7\u00f5es)?",
+    "question_pt": "Quais são os 5 CNES mais eficientes em custo por dia de internação (com mais de 1000 internações)?",
     "difficulty": "hard",
     "sql": "SELECT i.\"CNES\", ROUND(SUM(i.\"VAL_TOT\") / NULLIF(SUM(i.\"DIAS_PERM\"), 0), 2) AS custo_por_dia FROM internacoes i WHERE i.\"VAL_TOT\" IS NOT NULL AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\" HAVING COUNT(*) > 1000 ORDER BY custo_por_dia ASC LIMIT 5",
     "tables_used": [
@@ -2082,7 +2059,7 @@
   {
     "id": "GT092",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o as 5 combina\u00e7\u00f5es mais frequentes de diagn\u00f3stico e especialidade entre homens com mais de 60 anos?",
+    "question_pt": "Quais são as 5 combinações mais frequentes de diagnóstico e especialidade entre homens com mais de 60 anos?",
     "difficulty": "hard",
     "sql": "SELECT c.\"DESCRICAO\" AS diagnostico, e.DESCRICAO AS especialidade, COUNT(*) AS total FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" WHERE i.\"SEXO\" = 1 AND i.\"IDADE\" > 60 GROUP BY c.\"DESCRICAO\", e.DESCRICAO ORDER BY total DESC LIMIT 5",
     "tables_used": [
@@ -2098,7 +2075,7 @@
     "expected_result_type": "time_series",
     "execution_status": "passed",
     "row_count": 5,
-    "result_summary": "Resultado com 5 linhas; primeira linha: {'diagnostico': 'Acid vasc cerebr NE como hemorrag isquemico', 'especialidade': 'Cl\u00ednico', 'total': 640315}.",
+    "result_summary": "Resultado com 5 linhas; primeira linha: {'diagnostico': 'Acid vasc cerebr NE como hemorrag isquemico', 'especialidade': 'Clínico', 'total': 640315}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT092.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: 2 JOINs (cid + especialidade) + 2 filters (SEXO=1, IDADE>60) + GROUP BY 2 dimensions. Cross-tabulation of diagnosis x specialty. Top: Pneumonia NE x CLINICOS ~79962. | SQL executada com sucesso no DuckDB atual.",
@@ -2109,7 +2086,7 @@
   {
     "id": "GT093",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Em qual ano ocorreu o maior n\u00famero de mortes em cada estado (MA e RS)?",
+    "question_pt": "Em qual ano ocorreu o maior número de mortes em cada estado (MA e RS)?",
     "difficulty": "hard",
     "sql": "SELECT estado, ano, total_mortes\nFROM (\n    SELECT mu.\"SG_UF\" AS estado,\n           EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano,\n           COUNT(*) AS total_mortes,\n           ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY COUNT(*) DESC) AS rn\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE i.\"MORTE\" = true AND mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"DT_INTER\" IS NOT NULL\n    GROUP BY mu.\"SG_UF\", ano\n) sub\nWHERE rn = 1\nORDER BY estado",
     "tables_used": [
@@ -2135,7 +2112,7 @@
   {
     "id": "GT094",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas nacionalidades est\u00e3o cadastradas?",
+    "question_pt": "Quantas nacionalidades estão cadastradas?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_nacionalidades FROM nacionalidade",
     "tables_used": [
@@ -2158,7 +2135,7 @@
   {
     "id": "GT095",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas categorias de ra\u00e7a/cor est\u00e3o cadastradas?",
+    "question_pt": "Quantas categorias de raça/cor estão cadastradas?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_categorias FROM raca_cor",
     "tables_used": [
@@ -2181,7 +2158,7 @@
   {
     "id": "GT096",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos tipos de v\u00ednculo previdenci\u00e1rio existem?",
+    "question_pt": "Quantos tipos de vínculo previdenciário existem?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_vinculos FROM vincprev",
     "tables_used": [
@@ -2204,7 +2181,7 @@
   {
     "id": "GT097",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos n\u00edveis de instru\u00e7\u00e3o est\u00e3o cadastrados?",
+    "question_pt": "Quantos níveis de instrução estão cadastrados?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_niveis FROM instrucao",
     "tables_used": [
@@ -2227,7 +2204,7 @@
   {
     "id": "GT098",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos munic\u00edpios est\u00e3o cadastrados no total?",
+    "question_pt": "Quantos municípios estão cadastrados no total?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_municipios FROM municipios",
     "tables_used": [
@@ -2250,7 +2227,7 @@
   {
     "id": "GT099",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o total gasto em interna\u00e7\u00f5es de UTI?",
+    "question_pt": "Qual o total gasto em internações de UTI?",
     "difficulty": "easy",
     "sql": "SELECT SUM(\"VAL_UTI\") AS total_gasto_uti FROM internacoes WHERE \"VAL_UTI\" > 0",
     "tables_used": [
@@ -2273,7 +2250,7 @@
   {
     "id": "GT100",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o maior valor de servi\u00e7o profissional registrado em uma interna\u00e7\u00e3o?",
+    "question_pt": "Qual o maior valor de serviço profissional registrado em uma internação?",
     "difficulty": "easy",
     "sql": "SELECT MAX(\"VAL_SP\") AS maior_val_sp FROM internacoes WHERE \"VAL_SP\" IS NOT NULL",
     "tables_used": [
@@ -2288,7 +2265,7 @@
     "result_summary": "Resultado unico: maior_val_sp=72642.67.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT100.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "Simple aggregation \u2014 maximum professional services value. Result: ~R$66,078.14. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "Simple aggregation — maximum professional services value. Result: ~R$66,078.14. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.009221,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2296,7 +2273,7 @@
   {
     "id": "GT101",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a maior perman\u00eancia hospitalar registrada?",
+    "question_pt": "Qual a maior permanência hospitalar registrada?",
     "difficulty": "easy",
     "sql": "SELECT MAX(\"DIAS_PERM\") AS max_dias FROM internacoes",
     "tables_used": [
@@ -2319,7 +2296,7 @@
   {
     "id": "GT102",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos munic\u00edpios est\u00e3o no estado do Maranh\u00e3o?",
+    "question_pt": "Quantos municípios estão no estado do Maranhão?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS municipios_ma FROM municipios WHERE \"SG_UF\" = 'MA'",
     "tables_used": [
@@ -2342,7 +2319,7 @@
   {
     "id": "GT103",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos estados distintos est\u00e3o cobertos pelo banco de dados?",
+    "question_pt": "Quantos estados distintos estão cobertos pelo banco de dados?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(DISTINCT \"SG_UF\") AS total_estados FROM municipios",
     "tables_used": [
@@ -2365,7 +2342,7 @@
   {
     "id": "GT104",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es tiveram cobran\u00e7a de servi\u00e7o hospitalar?",
+    "question_pt": "Quantas internações tiveram cobrança de serviço hospitalar?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_com_sh FROM internacoes WHERE \"VAL_SH\" > 0",
     "tables_used": [
@@ -2388,7 +2365,7 @@
   {
     "id": "GT105",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es ocorreram em fins de semana (s\u00e1bado e domingo)?",
+    "question_pt": "Quantas internações ocorreram em fins de semana (sábado e domingo)?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS internacoes_fds FROM internacoes WHERE EXTRACT(DOW FROM \"DT_INTER\") IN (0, 6) AND \"DT_INTER\" IS NOT NULL",
     "tables_used": [
@@ -2403,7 +2380,7 @@
     "result_summary": "Resultado unico: internacoes_fds=29070655.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT105.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "CRITICAL: DuckDB DOW \u2014 0=Sunday, 6=Saturday. Temporal EXTRACT on DT_INTER. Result: ~3,646,287 weekend admissions (~19.8% of total). | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "CRITICAL: DuckDB DOW — 0=Sunday, 6=Saturday. Temporal EXTRACT on DT_INTER. Result: ~3,646,287 weekend admissions (~19.8% of total). | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.103474,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2411,7 +2388,7 @@
   {
     "id": "GT106",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o custo m\u00e9dio de interna\u00e7\u00e3o por especialidade m\u00e9dica?",
+    "question_pt": "Qual o custo médio de internação por especialidade médica?",
     "difficulty": "medium",
     "sql": "SELECT e.\"DESCRICAO\" AS especialidade, ROUND(AVG(i.\"VAL_TOT\"), 2) AS custo_medio FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" WHERE i.\"VAL_TOT\" IS NOT NULL GROUP BY e.\"DESCRICAO\" ORDER BY custo_medio DESC",
     "tables_used": [
@@ -2425,10 +2402,10 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 16,
-    "result_summary": "Resultado com 16 linhas; primeira linha: {'especialidade': 'N\u00e3o Documentado', 'custo_medio': 27671.2}.",
+    "result_summary": "Resultado com 16 linhas; primeira linha: {'especialidade': 'Não Documentado', 'custo_medio': 27671.2}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT106.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "JOIN especialidade for descriptions + GROUP BY + AVG(VAL_TOT). Returns 14 specialty groups ordered by average cost. No LIMIT \u2014 question asks for all specialties. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "JOIN especialidade for descriptions + GROUP BY + AVG(VAL_TOT). Returns 14 specialty groups ordered by average cost. No LIMIT — question asks for all specialties. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.07546,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2436,7 +2413,7 @@
   {
     "id": "GT107",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es psiqui\u00e1tricas resultaram em \u00f3bito?",
+    "question_pt": "Quantas internações psiquiátricas resultaram em óbito?",
     "difficulty": "medium",
     "sql": "SELECT COUNT(*) AS psiquiatria_obitos FROM internacoes WHERE \"ESPEC\" = 5 AND \"MORTE\" = true",
     "tables_used": [
@@ -2459,7 +2436,7 @@
   {
     "id": "GT108",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a distribui\u00e7\u00e3o de interna\u00e7\u00f5es por ra\u00e7a/cor?",
+    "question_pt": "Qual a distribuição de internações por raça/cor?",
     "difficulty": "medium",
     "sql": "SELECT r.\"DESCRICAO\" AS raca_cor, COUNT(*) AS total_internacoes FROM internacoes i JOIN raca_cor r ON i.\"RACA_COR\" = r.\"RACA_COR\" GROUP BY r.\"DESCRICAO\" ORDER BY total_internacoes DESC",
     "tables_used": [
@@ -2476,7 +2453,7 @@
     "result_summary": "Resultado com 6 linhas; primeira linha: {'raca_cor': 'Parda', 'total_internacoes': 55944720}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT108.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "JOIN raca_cor for descriptions + GROUP BY. Returns 6 groups. No LIMIT \u2014 question asks for full distribution. Top: BRANCA 8,857,139; PARDA 3,783,817; PRETA 615,708. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "JOIN raca_cor for descriptions + GROUP BY. Returns 6 groups. No LIMIT — question asks for full distribution. Top: BRANCA 8,857,139; PARDA 3,783,817; PRETA 615,708. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.191978,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2484,7 +2461,7 @@
   {
     "id": "GT109",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es foram registradas para pacientes com menos de 1 ano de idade?",
+    "question_pt": "Quantas internações foram registradas para pacientes com menos de 1 ano de idade?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS total_neonatos FROM internacoes WHERE \"IDADE\" = 0",
     "tables_used": [
@@ -2499,7 +2476,7 @@
     "result_summary": "Resultado unico: total_neonatos=7370829.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT109.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "CRITICAL: IDADE is an integer column (0\u2013130). IDADE = 0 identifies neonates and infants under 1 year. Result: 861,065. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "CRITICAL: IDADE is an integer column (0–130). IDADE = 0 identifies neonates and infants under 1 year. Result: 861,065. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.014399,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2507,7 +2484,7 @@
   {
     "id": "GT110",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o total gasto em servi\u00e7os profissionais nas interna\u00e7\u00f5es?",
+    "question_pt": "Qual o total gasto em serviços profissionais nas internações?",
     "difficulty": "easy",
     "sql": "SELECT SUM(\"VAL_SP\") AS total_val_sp FROM internacoes WHERE \"VAL_SP\" IS NOT NULL",
     "tables_used": [
@@ -2530,7 +2507,7 @@
   {
     "id": "GT111",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos hospitais registraram interna\u00e7\u00f5es mas nunca tiveram nenhum \u00f3bito registrado?",
+    "question_pt": "Quantos hospitais registraram internações mas nunca tiveram nenhum óbito registrado?",
     "difficulty": "hard",
     "sql": "SELECT COUNT(*) AS hospitais_sem_obito FROM (SELECT DISTINCT i.\"CNES\" FROM internacoes i WHERE NOT EXISTS (SELECT 1 FROM internacoes d WHERE d.\"CNES\" = i.\"CNES\" AND d.\"MORTE\" = true)) sub",
     "tables_used": [
@@ -2553,7 +2530,7 @@
   {
     "id": "GT112",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o crescimento percentual anual de interna\u00e7\u00f5es no estado do RS entre 2008 e 2023, retornando apenas anos com ano anterior dispon\u00edvel?",
+    "question_pt": "Qual o crescimento percentual anual de internações no estado do RS entre 2008 e 2023, retornando apenas anos com ano anterior disponível?",
     "difficulty": "hard",
     "sql": "WITH internacoes_por_ano AS (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL AND EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2008 AND 2023 GROUP BY ano), crescimento_percentual AS (SELECT ano, total_internacoes, LAG(total_internacoes) OVER (ORDER BY ano) AS total_anterior FROM internacoes_por_ano) SELECT ano, total_internacoes, ROUND((total_internacoes - total_anterior) * 100.0 / NULLIF(total_anterior, 0), 2) AS crescimento_percentual FROM crescimento_percentual WHERE total_anterior IS NOT NULL ORDER BY ano",
     "tables_used": [
@@ -2579,7 +2556,7 @@
   {
     "id": "GT113",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 munic\u00edpios do RS com taxa de mortalidade acima da m\u00e9dia estadual (considerando apenas munic\u00edpios com mais de 500 interna\u00e7\u00f5es)?",
+    "question_pt": "Quais são os 10 municípios do RS com taxa de mortalidade acima da média estadual (considerando apenas municípios com mais de 500 internações)?",
     "difficulty": "hard",
     "sql": "WITH media_rs AS (\n    SELECT ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 4) AS taxa_media\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE mu.\"SG_UF\" = 'RS'\n), por_municipio AS (\n    SELECT mu.\"NO_MUNICIPIO\" AS nome,\n           COUNT(*) AS total_internacoes,\n           ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_mortalidade\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE mu.\"SG_UF\" = 'RS'\n    GROUP BY mu.\"NO_MUNICIPIO\"\n    HAVING COUNT(*) > 500\n)\nSELECT pm.nome, pm.total_internacoes, pm.taxa_mortalidade\nFROM por_municipio pm, media_rs mr\nWHERE pm.taxa_mortalidade > mr.taxa_media\nORDER BY pm.taxa_mortalidade DESC\nLIMIT 10",
     "tables_used": [
@@ -2594,10 +2571,10 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'nome': 'Santo Ant\u00f4nio das Miss\u00f5es', 'total_internacoes': 9232, 'taxa_mortalidade': 7.71}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'nome': 'Santo Antônio das Missões', 'total_internacoes': 9232, 'taxa_mortalidade': 7.71}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT113.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: two CTEs \u2014 one computes RS state-level average mortality (5.174%), second aggregates per municipality with HAVING > 500. Cross-join selects only municipalities above average. Output: 3 cols (nome, total_internacoes, taxa_mortalidade). Top: Santo Ant\u00f4nio das Miss\u00f5es 7.70%, Morro Redondo 7.43%, Ros\u00e1rio do Sul 7.41%. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: two CTEs — one computes RS state-level average mortality (5.174%), second aggregates per municipality with HAVING > 500. Cross-join selects only municipalities above average. Output: 3 cols (nome, total_internacoes, taxa_mortalidade). Top: Santo Antônio das Missões 7.70%, Morro Redondo 7.43%, Rosário do Sul 7.41%. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.071419,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2605,7 +2582,7 @@
   {
     "id": "GT114",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a distribui\u00e7\u00e3o dos m\u00e9todos contraceptivos utilizados por pacientes em interna\u00e7\u00f5es obst\u00e9tricas, incluindo os casos sem informa\u00e7\u00e3o?",
+    "question_pt": "Qual a distribuição dos métodos contraceptivos utilizados por pacientes em internações obstétricas, incluindo os casos sem informação?",
     "difficulty": "hard",
     "sql": "SELECT COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') AS metodo_contraceptivo, COUNT(*) AS total_internacoes FROM internacoes i LEFT JOIN contraceptivos c ON i.\"CONTRACEP1\" = c.\"CONTRACEPTIVO\" WHERE i.\"ESPEC\" = 2 GROUP BY COALESCE(c.\"DESCRICAO\", 'SEM INFORMACAO') ORDER BY total_internacoes DESC",
     "tables_used": [
@@ -2619,7 +2596,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 14,
-    "result_summary": "Resultado com 14 linhas; primeira linha: {'metodo_contraceptivo': 'N\u00e3o informado', 'total_internacoes': 27039929}.",
+    "result_summary": "Resultado com 14 linhas; primeira linha: {'metodo_contraceptivo': 'Não informado', 'total_internacoes': 27039929}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT114.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: LEFT JOIN with COALESCE to preserve NULL/unmatched rows as 'SEM INFORMACAO'. CRITICAL: contraceptivos PK is 'CONTRACEPTIVO' (not 'CONTRACEP1'). Filter ESPEC=2 for obstetric. Top: SEM INFORMACAO 2,858,216; PRESERVATIVO 12,433; HORMONIO ORAL 7,323. | SQL executada com sucesso no DuckDB atual.",
@@ -2630,7 +2607,7 @@
   {
     "id": "GT115",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o hospital com maior receita total por especialidade m\u00e9dica, considerando apenas hospitais com mais de 500 interna\u00e7\u00f5es na especialidade?",
+    "question_pt": "Qual o hospital com maior receita total por especialidade médica, considerando apenas hospitais com mais de 500 internações na especialidade?",
     "difficulty": "hard",
     "sql": "SELECT especialidade, \"CNES\", receita_total FROM (SELECT e.\"DESCRICAO\" AS especialidade, i.\"CNES\", ROUND(SUM(i.\"VAL_TOT\"), 2) AS receita_total, ROW_NUMBER() OVER (PARTITION BY e.\"DESCRICAO\" ORDER BY SUM(i.\"VAL_TOT\") DESC) AS rn FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" GROUP BY e.\"DESCRICAO\", i.\"CNES\" HAVING COUNT(*) > 500) sub WHERE rn = 1 ORDER BY receita_total DESC",
     "tables_used": [
@@ -2645,7 +2622,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 13,
-    "result_summary": "Resultado com 13 linhas; primeira linha: {'especialidade': 'Cir\u00fargico', 'CNES': 13633, 'receita_total': 1525557676.38}.",
+    "result_summary": "Resultado com 13 linhas; primeira linha: {'especialidade': 'Cirúrgico', 'CNES': 13633, 'receita_total': 1525557676.38}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT115.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: ROW_NUMBER() OVER (PARTITION BY especialidade ORDER BY SUM DESC) with HAVING filter inside subquery. Returns top-1 hospital per specialty (13 rows). Top CIRURGICO: CNES 2237253 R$2.12B; CLINICOS: CNES 2237601 R$990M. | SQL executada com sucesso no DuckDB atual.",
@@ -2656,7 +2633,7 @@
   {
     "id": "GT116",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 diagn\u00f3sticos com maior crescimento absoluto de interna\u00e7\u00f5es entre os per\u00edodos 2008-2012 e 2019-2023, considerando diagn\u00f3sticos com mais de 1000 interna\u00e7\u00f5es no primeiro per\u00edodo?",
+    "question_pt": "Quais são os 10 diagnósticos com maior crescimento absoluto de internações entre os períodos 2008-2012 e 2019-2023, considerando diagnósticos com mais de 1000 internações no primeiro período?",
     "difficulty": "hard",
     "sql": "WITH p1 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n1 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2008 AND 2012 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\"), p2 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n2 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2019 AND 2023 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\") SELECT c.\"DESCRICAO\", p1.n1 AS periodo_2008_2012, p2.n2 AS periodo_2019_2023, (p2.n2 - p1.n1) AS crescimento_absoluto FROM p1 JOIN p2 ON p1.\"DIAG_PRINC\" = p2.\"DIAG_PRINC\" JOIN cid c ON p1.\"DIAG_PRINC\" = c.\"CID\" WHERE p1.n1 > 1000 ORDER BY crescimento_absoluto DESC LIMIT 10",
     "tables_used": [
@@ -2675,7 +2652,7 @@
     "result_summary": "Resultado com 10 linhas; primeira linha: {'DESCRICAO': 'Parto p/cesariana eletiva', 'periodo_2008_2012': 138711, 'periodo_2019_2023': 467668, 'crescimento_absoluto': 328957}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT116.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: two CTEs aggregating two distinct 5-year periods, joined on DIAG_PRINC, then joined with cid for descriptions. Threshold p1.n1 > 1000 filters rare diagnoses. Top: Parto por cesariana eletiva +41,812; Infec\u00e7\u00e3o bacteriana NE +38,204; Infec\u00e7\u00e3o trato urin\u00e1rio +34,449. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: two CTEs aggregating two distinct 5-year periods, joined on DIAG_PRINC, then joined with cid for descriptions. Threshold p1.n1 > 1000 filters rare diagnoses. Top: Parto por cesariana eletiva +41,812; Infecção bacteriana NE +38,204; Infecção trato urinário +34,449. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.108694,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2683,7 +2660,7 @@
   {
     "id": "GT117",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a raz\u00e3o entre interna\u00e7\u00f5es masculinas e femininas em UTI por ano, considerando apenas interna\u00e7\u00f5es cir\u00fargicas (ESPEC = 1)?",
+    "question_pt": "Qual a razão entre internações masculinas e femininas em UTI por ano, considerando apenas internações cirúrgicas (ESPEC = 1)?",
     "difficulty": "hard",
     "sql": "SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, COUNT(CASE WHEN \"SEXO\" = 1 THEN 1 END) AS homens_uti, COUNT(CASE WHEN \"SEXO\" = 3 THEN 1 END) AS mulheres_uti, ROUND(COUNT(CASE WHEN \"SEXO\" = 1 THEN 1 END) * 100.0 / NULLIF(COUNT(CASE WHEN \"SEXO\" = 3 THEN 1 END), 0), 2) AS razao_h_m_pct FROM internacoes WHERE \"VAL_UTI\" > 0 AND \"ESPEC\" = 1 AND \"DT_INTER\" IS NOT NULL GROUP BY ano ORDER BY ano",
     "tables_used": [
@@ -2701,7 +2678,7 @@
     "result_summary": "Resultado com 17 linhas; primeira linha: {'ano': 2007, 'homens_uti': 7272, 'mulheres_uti': 4939, 'razao_h_m_pct': 147.24}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT117.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: dual conditional aggregation (COUNT CASE WHEN) + NULLIF to avoid division by zero + EXTRACT temporal. 3 simultaneous conditions (VAL_UTI > 0, ESPEC = 1, SEXO filter). Result: 16 rows. 2008: homens 11,689 / mulheres 8,181 \u2192 razao 142.88%; consistently ~145% across years. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: dual conditional aggregation (COUNT CASE WHEN) + NULLIF to avoid division by zero + EXTRACT temporal. 3 simultaneous conditions (VAL_UTI > 0, ESPEC = 1, SEXO filter). Result: 16 rows. 2008: homens 11,689 / mulheres 8,181 → razao 142.88%; consistently ~145% across years. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.0539,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2709,7 +2686,7 @@
   {
     "id": "GT118",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 hospitais com mais de 1000 interna\u00e7\u00f5es que nunca registraram nenhuma interna\u00e7\u00e3o em UTI?",
+    "question_pt": "Quais são os 10 hospitais com mais de 1000 internações que nunca registraram nenhuma internação em UTI?",
     "difficulty": "hard",
     "sql": "SELECT \"CNES\", COUNT(*) AS total_internacoes FROM internacoes GROUP BY \"CNES\" HAVING COUNT(*) > 1000 AND SUM(CASE WHEN \"VAL_UTI\" > 0 THEN 1 ELSE 0 END) = 0 ORDER BY total_internacoes DESC LIMIT 10",
     "tables_used": [
@@ -2725,7 +2702,7 @@
     "result_summary": "Resultado com 10 linhas; primeira linha: {'CNES': 10529, 'total_internacoes': 176099}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT118.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: HAVING clause with dual aggregate conditions \u2014 COUNT(*) > 1000 AND SUM(CASE WHEN) = 0 (anti-condition). Identifies hospitals that never had a UTI admission. 462 hospitals match total. Top: CNES 2772299 with 109,261 admissions. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: HAVING clause with dual aggregate conditions — COUNT(*) > 1000 AND SUM(CASE WHEN) = 0 (anti-condition). Identifies hospitals that never had a UTI admission. 462 hospitals match total. Top: CNES 2772299 with 109,261 admissions. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.133365,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2733,7 +2710,7 @@
   {
     "id": "GT119",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o custo m\u00e9dio de UTI por especialidade m\u00e9dica e sexo do paciente, considerando apenas interna\u00e7\u00f5es com custo de UTI registrado?",
+    "question_pt": "Qual o custo médio de UTI por especialidade médica e sexo do paciente, considerando apenas internações com custo de UTI registrado?",
     "difficulty": "hard",
     "sql": "SELECT e.\"DESCRICAO\" AS especialidade, CASE WHEN i.\"SEXO\" = 1 THEN 'Masculino' ELSE 'Feminino' END AS sexo, ROUND(AVG(i.\"VAL_UTI\"), 2) AS custo_medio_uti FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" WHERE i.\"VAL_UTI\" > 0 AND i.\"SEXO\" IN (1, 3) GROUP BY e.\"DESCRICAO\", i.\"SEXO\" ORDER BY custo_medio_uti DESC",
     "tables_used": [
@@ -2748,7 +2725,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 20,
-    "result_summary": "Resultado com 20 linhas; primeira linha: {'especialidade': 'N\u00e3o Documentado', 'sexo': 'Feminino', 'custo_medio_uti': 13277.87}.",
+    "result_summary": "Resultado com 20 linhas; primeira linha: {'especialidade': 'Não Documentado', 'sexo': 'Feminino', 'custo_medio_uti': 13277.87}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT119.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: JOIN especialidade + CASE WHEN for sex label + dual filter (VAL_UTI > 0, SEXO IN) + GROUP BY 2 dimensions. Returns 14 rows (3 cols: especialidade, sexo, custo_medio_uti). Top by custo_medio: PEDIATRICOS Feminino R$11,572; PEDIATRICOS Masculino R$11,001; CLINICOS Masculino R$9,540. | SQL executada com sucesso no DuckDB atual.",
@@ -2759,7 +2736,7 @@
   {
     "id": "GT120",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual o total e o percentual de interna\u00e7\u00f5es por doen\u00e7as respirat\u00f3rias (CID J%) em cada trimestre do ano no estado do RS?",
+    "question_pt": "Qual o total e o percentual de internações por doenças respiratórias (CID J%) em cada trimestre do ano no estado do RS?",
     "difficulty": "hard",
     "sql": "SELECT EXTRACT(QUARTER FROM i.\"DT_INTER\") AS trimestre, COUNT(*) AS total_respiratorio, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_anual FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE i.\"DIAG_PRINC\" LIKE 'J%' AND mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL GROUP BY trimestre ORDER BY trimestre",
     "tables_used": [
@@ -2785,7 +2762,7 @@
   {
     "id": "GT121",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais munic\u00edpios com mais de 500 interna\u00e7\u00f5es aparecem simultaneamente no top-20 de volume e no top-20 de taxa de mortalidade nos estados MA e RS?",
+    "question_pt": "Quais municípios com mais de 500 internações aparecem simultaneamente no top-20 de volume e no top-20 de taxa de mortalidade nos estados MA e RS?",
     "difficulty": "hard",
     "sql": "WITH top_volume AS (\n    SELECT mu.\"NO_MUNICIPIO\" AS nome\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE mu.\"SG_UF\" IN ('MA', 'RS')\n    GROUP BY mu.\"NO_MUNICIPIO\"\n    HAVING COUNT(*) > 500\n    ORDER BY COUNT(*) DESC\n    LIMIT 20\n), top_mortalidade AS (\n    SELECT mu.\"NO_MUNICIPIO\" AS nome\n    FROM internacoes i\n    JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\"\n    WHERE mu.\"SG_UF\" IN ('MA', 'RS')\n    GROUP BY mu.\"NO_MUNICIPIO\"\n    HAVING COUNT(*) > 500\n    ORDER BY SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 1.0 / COUNT(*) DESC\n    LIMIT 20\n)\nSELECT tv.nome\nFROM top_volume tv\nWHERE tv.nome IN (SELECT nome FROM top_mortalidade)\nORDER BY tv.nome",
     "tables_used": [
@@ -2799,10 +2776,10 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 2,
-    "result_summary": "Resultado com 2 linhas; primeira linha: {'nome': 'Bag\u00e9'}.",
+    "result_summary": "Resultado com 2 linhas; primeira linha: {'nome': 'Bagé'}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT121.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: two CTEs each computing a different top-20 ranking, combined with IN subquery (intersection). Result: 2 municipalities \u2014 Bag\u00e9 and S\u00e3o Leopoldo (RS cities that are both high-volume and high-mortality). | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: two CTEs each computing a different top-20 ranking, combined with IN subquery (intersection). Result: 2 municipalities — Bagé and São Leopoldo (RS cities that are both high-volume and high-mortality). | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.096642,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2810,7 +2787,7 @@
   {
     "id": "GT122",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais procedimentos principais, ordenados por volume decrescente, cobrem at\u00e9 80% das interna\u00e7\u00f5es?",
+    "question_pt": "Quais procedimentos principais, ordenados por volume decrescente, cobrem até 80% das internações?",
     "difficulty": "hard",
     "sql": "SELECT proc_rea, nome_proc FROM (SELECT p.\"PROC_REA\" AS proc_rea, p.\"NOME_PROC\" AS nome_proc, COUNT(*) AS total_procedimentos, ROUND(SUM(COUNT(*)) OVER (ORDER BY COUNT(*) DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_acumulado FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\") sub WHERE pct_acumulado <= 80 ORDER BY total_procedimentos DESC",
     "tables_used": [
@@ -2835,7 +2812,7 @@
   {
     "id": "GT124",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a m\u00e9dia m\u00f3vel de 3 anos de interna\u00e7\u00f5es no estado do RS por ano (2008-2023)?",
+    "question_pt": "Qual a média móvel de 3 anos de internações no estado do RS por ano (2008-2023)?",
     "difficulty": "hard",
     "sql": "SELECT ano, total_internacoes, ROUND(AVG(total_internacoes) OVER (ORDER BY ano ROWS BETWEEN 2 PRECEDING AND CURRENT ROW), 0) AS media_movel_3anos FROM (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, COUNT(*) AS total_internacoes FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" = 'RS' AND i.\"DT_INTER\" IS NOT NULL AND EXTRACT(YEAR FROM i.\"DT_INTER\") BETWEEN 2008 AND 2023 GROUP BY ano) sub ORDER BY ano",
     "tables_used": [
@@ -2861,7 +2838,7 @@
   {
     "id": "GT125",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a distribui\u00e7\u00e3o e percentual de interna\u00e7\u00f5es em UTI por dia da semana?",
+    "question_pt": "Qual a distribuição e percentual de internações em UTI por dia da semana?",
     "difficulty": "hard",
     "sql": "SELECT t.dia_semana, COUNT(*) AS total_internacoes_uti, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS pct_total FROM internacoes i JOIN tempo t ON i.\"DT_INTER\" = t.data WHERE i.\"VAL_UTI\" > 0 GROUP BY t.dia_semana ORDER BY t.dia_semana",
     "tables_used": [
@@ -2887,7 +2864,7 @@
   {
     "id": "GT126",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Como se distribuem os hospitais em quartis de volume de interna\u00e7\u00f5es? Mostre o n\u00famero de hospitais e o intervalo de interna\u00e7\u00f5es por quartil.",
+    "question_pt": "Como se distribuem os hospitais em quartis de volume de internações? Mostre o número de hospitais e o intervalo de internações por quartil.",
     "difficulty": "hard",
     "sql": "SELECT ntile_grupo, COUNT(*) AS total_hospitais, MIN(total_internacoes) AS min_internacoes, MAX(total_internacoes) AS max_internacoes, ROUND(AVG(total_internacoes), 0) AS media_internacoes FROM (SELECT \"CNES\", total_internacoes, NTILE(4) OVER (ORDER BY total_internacoes) AS ntile_grupo FROM (SELECT \"CNES\", COUNT(*) AS total_internacoes FROM internacoes GROUP BY \"CNES\") sub) ranked GROUP BY ntile_grupo ORDER BY ntile_grupo",
     "tables_used": [
@@ -2906,7 +2883,7 @@
     "result_summary": "Resultado com 4 linhas; primeira linha: {'ntile_grupo': 1, 'total_hospitais': 1481, 'min_internacoes': 1, 'max_internacoes': 1991, 'media_internacoes': 689.0}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT126.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: NTILE(4) window function over double-nested subquery. Result: 4 rows (quartiles). Q1 (lowest): 178 hospitals, 1\u20133,372 admissions, avg 1,172; Q4 (highest): 177 hospitals, 26,785\u2013584,036 admissions, avg 79,634. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: NTILE(4) window function over double-nested subquery. Result: 4 rows (quartiles). Q1 (lowest): 178 hospitals, 1–3,372 admissions, avg 1,172; Q4 (highest): 177 hospitals, 26,785–584,036 admissions, avg 79,634. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.065609,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2914,7 +2891,7 @@
   {
     "id": "GT127",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 diagn\u00f3sticos com maior queda absoluta de interna\u00e7\u00f5es entre os per\u00edodos 2008-2012 e 2019-2023, considerando diagn\u00f3sticos com mais de 1000 interna\u00e7\u00f5es no primeiro per\u00edodo?",
+    "question_pt": "Quais são os 10 diagnósticos com maior queda absoluta de internações entre os períodos 2008-2012 e 2019-2023, considerando diagnósticos com mais de 1000 internações no primeiro período?",
     "difficulty": "hard",
     "sql": "WITH p1 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n1 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2008 AND 2012 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\"), p2 AS (SELECT \"DIAG_PRINC\", COUNT(*) AS n2 FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2019 AND 2023 AND \"DIAG_PRINC\" IS NOT NULL GROUP BY \"DIAG_PRINC\") SELECT c.\"DESCRICAO\", p1.n1 AS periodo_2008_2012, p2.n2 AS periodo_2019_2023, (p1.n1 - p2.n2) AS queda_absoluta FROM p1 JOIN p2 ON p1.\"DIAG_PRINC\" = p2.\"DIAG_PRINC\" JOIN cid c ON p1.\"DIAG_PRINC\" = c.\"CID\" WHERE p1.n1 > 1000 ORDER BY queda_absoluta DESC LIMIT 10",
     "tables_used": [
@@ -2933,7 +2910,7 @@
     "result_summary": "Resultado com 10 linhas; primeira linha: {'DESCRICAO': 'Diarreia e gastroenterite orig infecc presum', 'periodo_2008_2012': 936472, 'periodo_2019_2023': 380118, 'queda_absoluta': 556354}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT127.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: two CTEs comparing two 5-year periods, ORDER BY queda_absoluta DESC (opposite of GT116 which ordered by crescimento). Top: Parto \u00fanico espont\u00e2neo NE -97,759; Asma NE -51,552; DPOC NE -42,374. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: two CTEs comparing two 5-year periods, ORDER BY queda_absoluta DESC (opposite of GT116 which ordered by crescimento). Top: Parto único espontâneo NE -97,759; Asma NE -51,552; DPOC NE -42,374. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.104043,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2941,7 +2918,7 @@
   {
     "id": "GT128",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 munic\u00edpios com mais de 1000 interna\u00e7\u00f5es que t\u00eam taxa de interna\u00e7\u00e3o em UTI mais de duas vezes acima da m\u00e9dia nacional?",
+    "question_pt": "Quais são os 10 municípios com mais de 1000 internações que têm taxa de internação em UTI mais de duas vezes acima da média nacional?",
     "difficulty": "hard",
     "sql": "WITH media_nacional AS (\n    SELECT SUM(CASE WHEN \"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS taxa_uti_nacional\n    FROM internacoes\n)\nSELECT mu.\"NO_MUNICIPIO\" AS nome,\n       mu.\"SG_UF\" AS estado,\n       COUNT(*) AS total_internacoes,\n       ROUND(SUM(CASE WHEN i.\"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS taxa_uti_local,\n       ROUND(mn.taxa_uti_nacional, 2) AS taxa_uti_nacional\nFROM internacoes i\nJOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\", media_nacional mn\nGROUP BY mu.\"NO_MUNICIPIO\", mu.\"SG_UF\", mn.taxa_uti_nacional\nHAVING COUNT(*) > 1000\n   AND SUM(CASE WHEN i.\"VAL_UTI\" > 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) > 2 * mn.taxa_uti_nacional\nORDER BY taxa_uti_local DESC\nLIMIT 10",
     "tables_used": [
@@ -2958,10 +2935,10 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'nome': 'Lidian\u00f3polis', 'estado': 'PR', 'total_internacoes': 6831, 'taxa_uti_local': 23.06, 'taxa_uti_nacional': 6.37}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'nome': 'Lidianópolis', 'estado': 'PR', 'total_internacoes': 6831, 'taxa_uti_local': 23.06, 'taxa_uti_nacional': 6.37}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT128.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: CTE for national avg + cross-join + HAVING with ratio condition comparing local vs 2x national. National avg: ~6.01%. Result: 6 municipalities; top: Bag\u00e9 13.49%, Cidreira 12.34%, Barra do Ribeiro 12.22%. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: CTE for national avg + cross-join + HAVING with ratio condition comparing local vs 2x national. National avg: ~6.01%. Result: 6 municipalities; top: Bagé 13.49%, Cidreira 12.34%, Barra do Ribeiro 12.22%. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.376791,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -2969,7 +2946,7 @@
   {
     "id": "GT129",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais c\u00f3digos CID aparecem como diagn\u00f3stico principal em \u00f3bitos registrados?",
+    "question_pt": "Quais códigos CID aparecem como diagnóstico principal em óbitos registrados?",
     "difficulty": "hard",
     "sql": "SELECT c.\"CID\", c.\"DESCRICAO\", COUNT(*) AS total_mortes FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" WHERE i.\"MORTE\" = true AND i.\"DIAG_PRINC\" IS NOT NULL GROUP BY c.\"CID\", c.\"DESCRICAO\" ORDER BY total_mortes DESC LIMIT 10",
     "tables_used": [
@@ -2995,7 +2972,7 @@
   {
     "id": "GT130",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 munic\u00edpios com maior taxa de mortalidade em interna\u00e7\u00f5es obst\u00e9tricas, entre aqueles com mais de 200 interna\u00e7\u00f5es obst\u00e9tricas e taxa acima da m\u00e9dia nacional obst\u00e9trica?",
+    "question_pt": "Quais são os 10 municípios com maior taxa de mortalidade em internações obstétricas, entre aqueles com mais de 200 internações obstétricas e taxa acima da média nacional obstétrica?",
     "difficulty": "hard",
     "sql": "WITH media_obs AS (\n    SELECT SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS taxa_media_obstetrica\n    FROM internacoes i\n    WHERE i.\"ESPEC\" = 2\n)\nSELECT mu.\"NO_MUNICIPIO\" AS nome,\n       mu.\"SG_UF\" AS estado,\n       COUNT(*) AS total_obstetrico,\n       SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes,\n       ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 4) AS taxa_mort_obstetrica,\n       ROUND(mo.taxa_media_obstetrica, 4) AS media_nacional\nFROM internacoes i\nJOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\", media_obs mo\nWHERE i.\"ESPEC\" = 2\nGROUP BY mu.\"NO_MUNICIPIO\", mu.\"SG_UF\", mo.taxa_media_obstetrica\nHAVING COUNT(*) > 200\n   AND SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / COUNT(*) > mo.taxa_media_obstetrica\nORDER BY taxa_mort_obstetrica DESC\nLIMIT 10",
     "tables_used": [
@@ -3016,7 +2993,7 @@
     "result_summary": "Resultado com 10 linhas; primeira linha: {'nome': 'Canutama', 'estado': 'AM', 'total_obstetrico': 2160, 'total_mortes': 19, 'taxa_mort_obstetrica': 0.8796, 'media_nacional': 0.03}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT130.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: CTE for national obstetric avg + cross-join + 2 HAVING conditions (volume + rate threshold) + ESPEC=2 filter. National obstetric mortality avg: ~0.0274%. Top: Lavras do Sul RS 0.8464%, Acegu\u00e1 RS 0.6079%. Returns municipalities with 2\u20137 obstetric deaths but high rate due to small volume. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: CTE for national obstetric avg + cross-join + 2 HAVING conditions (volume + rate threshold) + ESPEC=2 filter. National obstetric mortality avg: ~0.0274%. Top: Lavras do Sul RS 0.8464%, Aceguá RS 0.6079%. Returns municipalities with 2–7 obstetric deaths but high rate due to small volume. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.133782,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -3024,7 +3001,7 @@
   {
     "id": "GT131",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 5 procedimentos principais mais registrados em interna\u00e7\u00f5es de pacientes ind\u00edgenas?",
+    "question_pt": "Quais são os 5 procedimentos principais mais registrados em internações de pacientes indígenas?",
     "difficulty": "hard",
     "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\", COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"RACA_COR\" = 5 GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total_procedimentos DESC LIMIT 5",
     "tables_used": [
@@ -3050,7 +3027,7 @@
   {
     "id": "GT132",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais os 3 CNES com maior valor m\u00e9dio de servi\u00e7o hospitalar (VAL_SH) entre interna\u00e7\u00f5es de residentes nos estados MA e RS?",
+    "question_pt": "Quais os 3 CNES com maior valor médio de serviço hospitalar (VAL_SH) entre internações de residentes nos estados MA e RS?",
     "difficulty": "hard",
     "sql": "SELECT estado, \"CNES\", avg_val_sh FROM (SELECT mu.\"SG_UF\" AS estado, i.\"CNES\", ROUND(AVG(i.\"VAL_SH\"), 2) AS avg_val_sh, ROW_NUMBER() OVER (PARTITION BY mu.\"SG_UF\" ORDER BY AVG(i.\"VAL_SH\") DESC) AS rn FROM internacoes i JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') AND i.\"VAL_SH\" IS NOT NULL AND i.\"CNES\" IS NOT NULL GROUP BY mu.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 500) sub WHERE rn <= 3 ORDER BY estado, rn",
     "tables_used": [
@@ -3076,7 +3053,7 @@
   {
     "id": "GT133",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Em qual m\u00eas de cada ano (2008-2023) ocorreu o maior n\u00famero de interna\u00e7\u00f5es em UTI?",
+    "question_pt": "Em qual mês de cada ano (2008-2023) ocorreu o maior número de internações em UTI?",
     "difficulty": "hard",
     "sql": "SELECT ano, mes, total_uti FROM (SELECT EXTRACT(YEAR FROM \"DT_INTER\") AS ano, EXTRACT(MONTH FROM \"DT_INTER\") AS mes, COUNT(*) AS total_uti, ROW_NUMBER() OVER (PARTITION BY EXTRACT(YEAR FROM \"DT_INTER\") ORDER BY COUNT(*) DESC) AS rn FROM internacoes WHERE \"VAL_UTI\" > 0 AND \"DT_INTER\" IS NOT NULL AND EXTRACT(YEAR FROM \"DT_INTER\") BETWEEN 2008 AND 2023 GROUP BY ano, mes) sub WHERE rn = 1 ORDER BY ano",
     "tables_used": [
@@ -3093,7 +3070,7 @@
     "result_summary": "Resultado com 16 linhas; primeira linha: {'ano': 2008, 'mes': 10, 'total_uti': 30156}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT133.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "HARD: ROW_NUMBER() OVER (PARTITION BY year ORDER BY COUNT DESC) with double EXTRACT. Returns 1 row per year (16 rows total). Results vary: 2008 peak in August (month 8), 2009 in September, 2010 in March \u2014 showing seasonal UTI variation. | SQL executada com sucesso no DuckDB atual.",
+    "data_quality_notes": "HARD: ROW_NUMBER() OVER (PARTITION BY year ORDER BY COUNT DESC) with double EXTRACT. Returns 1 row per year (16 rows total). Results vary: 2008 peak in August (month 8), 2009 in September, 2010 in March — showing seasonal UTI variation. | SQL executada com sucesso no DuckDB atual.",
     "duration_seconds": 0.09609,
     "created_at": "2026-07-09",
     "semantic_disposition": "accepted"
@@ -3101,7 +3078,7 @@
   {
     "id": "GT134",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual a m\u00e9dia de dias de interna\u00e7\u00e3o por especialidade m\u00e9dica, comparando lado a lado os estados MA e RS?",
+    "question_pt": "Qual a média de dias de internação por especialidade médica, comparando lado a lado os estados MA e RS?",
     "difficulty": "hard",
     "sql": "SELECT e.\"DESCRICAO\" AS especialidade, ROUND(AVG(CASE WHEN mu.\"SG_UF\" = 'MA' THEN i.\"DIAS_PERM\" END), 2) AS media_dias_MA, ROUND(AVG(CASE WHEN mu.\"SG_UF\" = 'RS' THEN i.\"DIAS_PERM\" END), 2) AS media_dias_RS FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" JOIN municipios mu ON i.\"MUNIC_RES\" = mu.\"CO_MUNICIPIO_6D\" WHERE mu.\"SG_UF\" IN ('MA', 'RS') GROUP BY e.\"DESCRICAO\" HAVING COUNT(CASE WHEN mu.\"SG_UF\" = 'MA' THEN 1 END) > 0 AND COUNT(CASE WHEN mu.\"SG_UF\" = 'RS' THEN 1 END) > 0 ORDER BY especialidade",
     "tables_used": [
@@ -3117,7 +3094,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 13,
-    "result_summary": "Resultado com 13 linhas; primeira linha: {'especialidade': 'Cir\u00fargico', 'media_dias_MA': 4.2, 'media_dias_RS': 4.24}.",
+    "result_summary": "Resultado com 13 linhas; primeira linha: {'especialidade': 'Cirúrgico', 'media_dias_MA': 4.2, 'media_dias_RS': 4.24}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT134.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "HARD: 3-table JOIN + CASE WHEN pivot (AVG per state in separate columns) + HAVING dual presence condition. No hidden support threshold is applied because the question asks only for side-by-side averages. Result: 13 specialties. CLINICOS: MA 4.50 days vs RS 7.06 days; CIRURGICO: MA 4.16 vs RS 4.22; OBSTETRICOS: MA 2.18 vs RS 2.65. | SQL executada com sucesso no DuckDB atual.",
@@ -3724,31 +3701,6 @@
     "semantic_disposition": "accepted"
   },
   {
-    "id": "GT161",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantos hospitais cadastrados existem no MA e no RS?",
-    "difficulty": "medium",
-    "sql": "SELECT m.\"SG_UF\" AS uf, COUNT(*) AS total_hospitais\nFROM hospital h\nJOIN municipios m ON h.\"MUNIC_MOV\" = m.\"CO_MUNICIPIO_6D\"\nWHERE m.\"SG_UF\" IN ('MA', 'RS')\nGROUP BY m.\"SG_UF\"\nORDER BY m.\"SG_UF\"",
-    "tables_used": [
-      "hospital",
-      "municipios"
-    ],
-    "columns_used": [
-      "uf",
-      "total_hospitais"
-    ],
-    "expected_result_type": "distribution",
-    "execution_status": "passed",
-    "row_count": 0,
-    "result_summary": "Sem linhas retornadas.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT161.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "Compara o volume de hospitais cadastrados por UF de movimentacao hospitalar para MA e RS. | SQL executada com sucesso no DuckDB atual.",
-    "duration_seconds": 0.000613,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
     "id": "GT162",
     "persona": "Analista DATASUS/SIH",
     "question_pt": "Quantos municipios possuem latitude e longitude cadastradas?",
@@ -3843,7 +3795,7 @@
   {
     "id": "GT166",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quantas interna\u00e7\u00f5es est\u00e3o sem c\u00f3digo de procedimento principal realizado?",
+    "question_pt": "Quantas internações estão sem código de procedimento principal realizado?",
     "difficulty": "easy",
     "sql": "SELECT COUNT(*) AS internacoes_sem_codigo_procedimento FROM internacoes WHERE \"PROC_REA\" IS NULL",
     "tables_used": [
@@ -3929,7 +3881,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 6,
-    "result_summary": "Resultado com 6 linhas; primeira linha: {'carater_atendimento': 'Urg\u00eancia', 'total_internacoes': 116553247}.",
+    "result_summary": "Resultado com 6 linhas; primeira linha: {'carater_atendimento': 'Urgência', 'total_internacoes': 116553247}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT169.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: carga assistencial. Metrica: distribution. Denominador/escopo: internacoes por carater. Agrupa internacoes pela dimensao car_int. | SQL executada com sucesso no DuckDB atual.",
@@ -3954,7 +3906,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 3,
-    "result_summary": "Resultado com 3 linhas; primeira linha: {'complexidade': 'M\u00e9dia complexidade', 'total_internacoes': 135358002}.",
+    "result_summary": "Resultado com 3 linhas; primeira linha: {'complexidade': 'Média complexidade', 'total_internacoes': 135358002}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT170.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: carga assistencial. Metrica: distribution. Denominador/escopo: internacoes por complexidade. Agrupa internacoes pela dimensao complexidade. | SQL executada com sucesso no DuckDB atual.",
@@ -3981,7 +3933,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 3,
-    "result_summary": "Resultado com 3 linhas; primeira linha: {'complexidade': 'M\u00e9dia complexidade', 'total_internacoes': 135358002, 'total_mortes': 5528305, 'taxa_mortalidade': 4.08}.",
+    "result_summary": "Resultado com 3 linhas; primeira linha: {'complexidade': 'Média complexidade', 'total_internacoes': 135358002, 'total_mortes': 5528305, 'taxa_mortalidade': 4.08}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT171.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: mortalidade hospitalar. Metrica: mortality_rate. Denominador/escopo: internacoes por complexidade. Numerador MORTE=true; denominador total da complexidade. | SQL executada com sucesso no DuckDB atual.",
@@ -4058,7 +4010,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'capitulo_cid': 'XV. Gravidez, parto e puerp\u00e9rio', 'total_internacoes': 30334251}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'capitulo_cid': 'XV. Gravidez, parto e puerpério', 'total_internacoes': 30334251}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT174.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: doencas especificas. Metrica: top_n. Denominador/escopo: internacoes por capitulo CID. Agrupa por cid.DS_CAPITULO para reduzir granularidade clinica. | SQL executada com sucesso no DuckDB atual.",
@@ -4318,58 +4270,6 @@
     "semantic_disposition": "accepted"
   },
   {
-    "id": "GT185",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 CNES com maior volume de interna\u00e7\u00f5es em UTI?",
-    "difficulty": "medium",
-    "sql": "SELECT i.\"CNES\", COALESCE(h.\"NO_HOSPITAL\", 'Sem nome cadastrado') AS hospital, COUNT(*) AS internacoes_uti FROM internacoes i LEFT JOIN hospital h ON i.\"CNES\" = h.\"CNES\" WHERE i.\"MARCA_UTI\" <> 0 AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\", h.\"NO_HOSPITAL\" ORDER BY internacoes_uti DESC LIMIT 10",
-    "tables_used": [
-      "internacoes",
-      "hospital"
-    ],
-    "columns_used": [
-      "CNES",
-      "hospital",
-      "internacoes_uti"
-    ],
-    "expected_result_type": "ranking",
-    "execution_status": "passed",
-    "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'CNES': 13846, 'hospital': 'Sem nome cadastrado', 'internacoes_uti': 124759}.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT185.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia.",
-    "duration_seconds": 0.043488,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
-    "id": "GT186",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 10 CNES com maior n\u00famero absoluto de mortes?",
-    "difficulty": "medium",
-    "sql": "SELECT i.\"CNES\", COALESCE(h.\"NO_HOSPITAL\", 'Sem nome cadastrado') AS hospital, COUNT(*) AS total_mortes FROM internacoes i LEFT JOIN hospital h ON i.\"CNES\" = h.\"CNES\" WHERE i.\"MORTE\" = true AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\", h.\"NO_HOSPITAL\" ORDER BY total_mortes DESC LIMIT 10",
-    "tables_used": [
-      "internacoes",
-      "hospital"
-    ],
-    "columns_used": [
-      "CNES",
-      "hospital",
-      "total_mortes"
-    ],
-    "expected_result_type": "ranking",
-    "execution_status": "passed",
-    "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'CNES': 655, 'hospital': 'Sem nome cadastrado', 'total_mortes': 53715}.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT186.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia.",
-    "duration_seconds": 0.033107,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
     "id": "GT187",
     "persona": "Analista DATASUS/SIH",
     "question_pt": "Qual o valor total de internacoes por estado de residencia MA e RS?",
@@ -4411,7 +4311,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'regiao_saude': 'Regi\u00e3o 10 - Capital e Vale do Gravata\u00ed', 'total_internacoes': 2406638}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'regiao_saude': 'Região 10 - Capital e Vale do Gravataí', 'total_internacoes': 2406638}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT188.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: territorio. Metrica: top_n. Denominador/escopo: internacoes por regiao de saude. Agrupa residentes do RS por NO_REGIAO_SAUDE. | SQL executada com sucesso no DuckDB atual.",
@@ -4422,7 +4322,7 @@
   {
     "id": "GT189",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver dados socioecon\u00f4micos, qual a m\u00e9dia de m\u00e9dicos por mil habitantes por UF em 2021?",
+    "question_pt": "Quando houver dados socioeconômicos, qual a média de médicos por mil habitantes por UF em 2021?",
     "difficulty": "medium",
     "sql": "SELECT m.\"SG_UF\" AS uf, ROUND(AVG(s.\"VL_MEDICOS_1000\"), 2) AS media_medicos_1000 FROM socioeconomico s JOIN municipios m ON s.\"CO_MUNICIPIO_6D\" = m.\"CO_MUNICIPIO_6D\" WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_MEDICOS_1000\" IS NOT NULL AND regexp_full_match(m.\"SG_UF\", '^[A-Z]{2}$') GROUP BY m.\"SG_UF\" ORDER BY media_medicos_1000 DESC",
     "tables_used": [
@@ -4447,7 +4347,7 @@
   {
     "id": "GT190",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver dados socioecon\u00f4micos, quais munic\u00edpios tiveram maior taxa de mortalidade infantil em 2021?",
+    "question_pt": "Quando houver dados socioeconômicos, quais municípios tiveram maior taxa de mortalidade infantil em 2021?",
     "difficulty": "medium",
     "sql": "SELECT m.\"NO_MUNICIPIO\" AS municipio, m.\"SG_UF\" AS uf, s.\"VL_MORT_INFANTIL\" AS mortalidade_infantil FROM socioeconomico s JOIN municipios m ON s.\"CO_MUNICIPIO_6D\" = m.\"CO_MUNICIPIO_6D\" WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_MORT_INFANTIL\" IS NOT NULL ORDER BY s.\"VL_MORT_INFANTIL\" DESC LIMIT 10",
     "tables_used": [
@@ -4512,7 +4412,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 7,
-    "result_summary": "Resultado com 7 linhas; primeira linha: {'vinculo_previdenciario': 'N\u00e3o informado', 'total_internacoes': 144369239}.",
+    "result_summary": "Resultado com 7 linhas; primeira linha: {'vinculo_previdenciario': 'Não informado', 'total_internacoes': 144369239}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT192.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: perfil previdenciario. Metrica: distribution. Denominador/escopo: internacoes com vinculo mapeado. Agrupa internacoes pela dimensao vincprev. | SQL executada com sucesso no DuckDB atual.",
@@ -4539,7 +4439,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 6,
-    "result_summary": "Resultado com 6 linhas; primeira linha: {'nivel_instrucao': 'N\u00e3o informado', 'total_internacoes': 143181169, 'total_mortes': 5877388, 'taxa_mortalidade': 4.1}.",
+    "result_summary": "Resultado com 6 linhas; primeira linha: {'nivel_instrucao': 'Não informado', 'total_internacoes': 143181169, 'total_mortes': 5877388, 'taxa_mortalidade': 4.1}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT193.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: mortalidade hospitalar. Metrica: mortality_rate. Denominador/escopo: internacoes por instrucao. Calcula taxa de mortalidade por nivel de instrucao. | SQL executada com sucesso no DuckDB atual.",
@@ -4660,7 +4560,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'capitulo_cid': 'IX. Doen\u00e7as do aparelho circulat\u00f3rio', 'custo_total': 39191076108.4}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'capitulo_cid': 'IX. Doenças do aparelho circulatório', 'custo_total': 39191076108.4}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT198.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: custos. Metrica: sum_cost. Denominador/escopo: custo por capitulo CID. Soma VAL_TOT por capitulo CID. | SQL executada com sucesso no DuckDB atual.",
@@ -4671,7 +4571,7 @@
   {
     "id": "GT199",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais procedimentos principais foram mais registrados em interna\u00e7\u00f5es com UTI?",
+    "question_pt": "Quais procedimentos principais foram mais registrados em internações com UTI?",
     "difficulty": "medium",
     "sql": "SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"MARCA_UTI\" <> 0 GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\" ORDER BY total_procedimentos DESC LIMIT 10",
     "tables_used": [
@@ -4846,7 +4746,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'municipio': 'Bag\u00e9', 'total_internacoes': 120196, 'internacoes_uti': 16230, 'taxa_uti': 13.5}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'municipio': 'Bagé', 'total_internacoes': 120196, 'internacoes_uti': 16230, 'taxa_uti': 13.5}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT205.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: UTI. Metrica: above_average_rate. Denominador/escopo: municipios RS com mais de 1000 internacoes. Calcula taxa municipal de UTI e compara com media ponderada do RS. | SQL executada com sucesso no DuckDB atual.",
@@ -4934,39 +4834,9 @@
     "semantic_disposition": "accepted"
   },
   {
-    "id": "GT209",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual CNES tem maior taxa de mortalidade por especialidade, considerando apenas combina\u00e7\u00f5es com mais de 1000 interna\u00e7\u00f5es?",
-    "difficulty": "hard",
-    "sql": "WITH agg AS (SELECT e.\"DESCRICAO\" AS especialidade, i.\"CNES\", COALESCE(h.\"NO_HOSPITAL\", 'Sem nome cadastrado') AS hospital, COUNT(*) AS total_internacoes, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade FROM internacoes i JOIN especialidade e ON i.\"ESPEC\" = e.\"ESPEC\" LEFT JOIN hospital h ON i.\"CNES\" = h.\"CNES\" WHERE i.\"CNES\" IS NOT NULL GROUP BY e.\"DESCRICAO\", i.\"CNES\", h.\"NO_HOSPITAL\" HAVING COUNT(*) > 1000) SELECT * FROM agg ORDER BY taxa_mortalidade DESC LIMIT 1",
-    "tables_used": [
-      "internacoes",
-      "especialidade",
-      "hospital"
-    ],
-    "columns_used": [
-      "especialidade",
-      "CNES",
-      "hospital",
-      "total_internacoes",
-      "total_mortes",
-      "taxa_mortalidade"
-    ],
-    "expected_result_type": "scalar",
-    "execution_status": "passed",
-    "row_count": 1,
-    "result_summary": "Resultado unico: especialidade=Cr\u00f4nicos, CNES=7002017, hospital=Sem nome cadastrado, total_internacoes=1544, total_mortes=1053, taxa_mortalidade=68.2.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT209.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia.",
-    "duration_seconds": 0.239412,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
     "id": "GT210",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Qual procedimento principal mais frequente em cada cap\u00edtulo CID?",
+    "question_pt": "Qual procedimento principal mais frequente em cada capítulo CID?",
     "difficulty": "hard",
     "sql": "WITH agg AS (SELECT c.\"DS_CAPITULO\" AS capitulo_cid, p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN cid c ON i.\"DIAG_PRINC\" = c.\"CID\" JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" GROUP BY c.\"DS_CAPITULO\", p.\"PROC_REA\", p.\"NOME_PROC\"), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY capitulo_cid ORDER BY total_procedimentos DESC) AS rn FROM agg) SELECT capitulo_cid, \"PROC_REA\", procedimento, total_procedimentos FROM ranked WHERE rn = 1 ORDER BY total_procedimentos DESC LIMIT 20",
     "tables_used": [
@@ -4983,7 +4853,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 20,
-    "result_summary": "Resultado com 20 linhas; primeira linha: {'capitulo_cid': 'XV. Gravidez, parto e puerp\u00e9rio', 'PROC_REA': '0310010039', 'procedimento': 'PARTO NORMAL', 'total_procedimentos': 13349747}.",
+    "result_summary": "Resultado com 20 linhas; primeira linha: {'capitulo_cid': 'XV. Gravidez, parto e puerpério', 'PROC_REA': '0310010039', 'procedimento': 'PARTO NORMAL', 'total_procedimentos': 13349747}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT210.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "usar procedimento principal em internacoes.PROC_REA.",
@@ -5010,7 +4880,7 @@
     "expected_result_type": "time_series",
     "execution_status": "passed",
     "row_count": 105,
-    "result_summary": "Resultado com 105 linhas; primeira linha: {'ano': 2019, 'capitulo_cid': 'XV. Gravidez, parto e puerp\u00e9rio', 'total_internacoes': 1977117, 'percentual_no_ano': 20.65}.",
+    "result_summary": "Resultado com 105 linhas; primeira linha: {'ano': 2019, 'capitulo_cid': 'XV. Gravidez, parto e puerpério', 'total_internacoes': 1977117, 'percentual_no_ano': 20.65}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT211.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: doencas especificas. Metrica: yearly_share. Denominador/escopo: internacoes 2019-2023 por ano. Usa janela para percentual dentro de cada ano. | SQL executada com sucesso no DuckDB atual.",
@@ -5074,34 +4944,6 @@
     "semantic_disposition": "accepted"
   },
   {
-    "id": "GT214",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais CNES com mais de 5000 interna\u00e7\u00f5es t\u00eam custo m\u00e9dio e taxa de mortalidade acima da m\u00e9dia geral?",
-    "difficulty": "hard",
-    "sql": "WITH por_hospital AS (SELECT i.\"CNES\", COALESCE(h.\"NO_HOSPITAL\", 'Sem nome cadastrado') AS hospital, COUNT(*) AS total_internacoes, AVG(i.\"VAL_TOT\") AS custo_medio, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0) AS taxa_mortalidade FROM internacoes i LEFT JOIN hospital h ON i.\"CNES\" = h.\"CNES\" WHERE i.\"VAL_TOT\" IS NOT NULL AND i.\"CNES\" IS NOT NULL GROUP BY i.\"CNES\", h.\"NO_HOSPITAL\" HAVING COUNT(*) > 5000), medias AS (SELECT AVG(\"VAL_TOT\") AS custo_medio_geral, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0) AS taxa_mortalidade_geral FROM internacoes WHERE \"VAL_TOT\" IS NOT NULL) SELECT p.* FROM por_hospital p, medias m WHERE p.custo_medio > m.custo_medio_geral AND p.taxa_mortalidade > m.taxa_mortalidade_geral ORDER BY p.taxa_mortalidade DESC, p.custo_medio DESC",
-    "tables_used": [
-      "internacoes",
-      "hospital"
-    ],
-    "columns_used": [
-      "CNES",
-      "hospital",
-      "total_internacoes",
-      "custo_medio",
-      "taxa_mortalidade"
-    ],
-    "expected_result_type": "ranking",
-    "execution_status": "passed",
-    "row_count": 471,
-    "result_summary": "Resultado com 471 linhas; primeira linha: {'CNES': 5707234, 'hospital': 'Sem nome cadastrado', 'total_internacoes': 10947, 'custo_medio': 10875.023514204808, 'taxa_mortalidade': 47.83959075545812}.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT214.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "usar LEFT JOIN para nao perder internacoes porque hospital esta vazia.",
-    "duration_seconds": 0.196786,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
     "id": "GT215",
     "persona": "Analista DATASUS/SIH",
     "question_pt": "Quais municipios tiveram crescimento de internacoes em todos os anos de 2019 a 2021?",
@@ -5121,7 +4963,7 @@
     "expected_result_type": "time_series",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'municipio': 'Aparecida de Goi\u00e2nia', 'uf': 'GO', 'total_2019': 25863, 'total_2020': 26428, 'total_2021': 27953}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'municipio': 'Aparecida de Goiânia', 'uf': 'GO', 'total_2019': 25863, 'total_2020': 26428, 'total_2021': 27953}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT215.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: temporal. Metrica: monotonic_growth. Denominador/escopo: municipios 2019-2021. Usa pivot por ano para selecionar municipios com crescimento em 2020 e 2021. | SQL executada com sucesso no DuckDB atual.",
@@ -5172,7 +5014,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 9,
-    "result_summary": "Resultado com 9 linhas; primeira linha: {'capitulo_cid': 'XVI. Algumas afec\u00e7\u00f5es originadas no per\u00edodo perinatal', 'total_internacoes': 3226095, 'custo_medio': 4391.81}.",
+    "result_summary": "Resultado com 9 linhas; primeira linha: {'capitulo_cid': 'XVI. Algumas afecções originadas no período perinatal', 'total_internacoes': 3226095, 'custo_medio': 4391.81}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT217.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: custos. Metrica: above_average_cost. Denominador/escopo: capitulos com >100000 internacoes. Usa CTE geral e filtro de volume minimo. | SQL executada com sucesso no DuckDB atual.",
@@ -5265,7 +5107,7 @@
   {
     "id": "GT221",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 5 CNES por UF de resid\u00eancia MA e RS com maior taxa de mortalidade em interna\u00e7\u00f5es com UTI, considerando mais de 500 interna\u00e7\u00f5es em UTI?",
+    "question_pt": "Quais são os 5 CNES por UF de residência MA e RS com maior taxa de mortalidade em internações com UTI, considerando mais de 500 internações em UTI?",
     "difficulty": "hard",
     "sql": "WITH agg AS (SELECT m.\"SG_UF\" AS uf_residencia, i.\"CNES\", COUNT(*) AS total_uti, SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) AS mortes_uti, ROUND(SUM(CASE WHEN i.\"MORTE\" = true THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0), 2) AS taxa_mortalidade_uti FROM internacoes i JOIN municipios m ON i.\"MUNIC_RES\" = m.\"CO_MUNICIPIO_6D\" WHERE m.\"SG_UF\" IN ('MA', 'RS') AND i.\"MARCA_UTI\" <> 0 AND i.\"CNES\" IS NOT NULL GROUP BY m.\"SG_UF\", i.\"CNES\" HAVING COUNT(*) > 500), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY uf_residencia ORDER BY taxa_mortalidade_uti DESC, total_uti DESC) AS rn FROM agg) SELECT uf_residencia, \"CNES\", total_uti, mortes_uti, taxa_mortalidade_uti FROM ranked WHERE rn <= 5 ORDER BY uf_residencia, rn",
     "tables_used": [
@@ -5293,7 +5135,7 @@
   {
     "id": "GT222",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver dados socioecon\u00f4micos, quais munic\u00edpios tiveram maior taxa de interna\u00e7\u00e3o por mil habitantes em 2021?",
+    "question_pt": "Quando houver dados socioeconômicos, quais municípios tiveram maior taxa de internação por mil habitantes em 2021?",
     "difficulty": "hard",
     "sql": "WITH internacoes_2021 AS (SELECT i.\"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes FROM internacoes i WHERE EXTRACT(YEAR FROM i.\"DT_INTER\") = 2021 GROUP BY i.\"MUNIC_RES\") SELECT m.\"NO_MUNICIPIO\" AS municipio, m.\"SG_UF\" AS uf, a.total_internacoes, s.\"QT_POPULACAO\", ROUND(a.total_internacoes * 1000.0 / NULLIF(s.\"QT_POPULACAO\", 0), 2) AS internacoes_por_mil FROM internacoes_2021 a JOIN socioeconomico s ON a.municipio_codigo = s.\"CO_MUNICIPIO_6D\" AND s.\"NU_ANO\" = 2021 JOIN municipios m ON s.\"CO_MUNICIPIO_6D\" = m.\"CO_MUNICIPIO_6D\" WHERE s.\"QT_POPULACAO\" > 0 ORDER BY internacoes_por_mil DESC LIMIT 10",
     "tables_used": [
@@ -5322,7 +5164,7 @@
   {
     "id": "GT223",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver dados socioecon\u00f4micos, como a taxa de interna\u00e7\u00e3o por mil habitantes em 2021 varia por quintil de PIB per capita?",
+    "question_pt": "Quando houver dados socioeconômicos, como a taxa de internação por mil habitantes em 2021 varia por quintil de PIB per capita?",
     "difficulty": "hard",
     "sql": "WITH mun AS (SELECT s.\"CO_MUNICIPIO_6D\", s.\"VL_PIB_PERCAPITA\", s.\"QT_POPULACAO\", NTILE(5) OVER (ORDER BY s.\"VL_PIB_PERCAPITA\") AS quintil_pib FROM socioeconomico s WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_PIB_PERCAPITA\" IS NOT NULL AND s.\"QT_POPULACAO\" > 0), adm AS (SELECT \"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2021 GROUP BY \"MUNIC_RES\") SELECT quintil_pib, COUNT(*) AS municipios, SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes, SUM(mun.\"QT_POPULACAO\") AS populacao, ROUND(SUM(COALESCE(adm.total_internacoes, 0)) * 1000.0 / NULLIF(SUM(mun.\"QT_POPULACAO\"), 0), 2) AS internacoes_por_mil FROM mun LEFT JOIN adm ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo GROUP BY quintil_pib ORDER BY quintil_pib",
     "tables_used": [
@@ -5350,7 +5192,7 @@
   {
     "id": "GT224",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver dados socioecon\u00f4micos, como a taxa de mortalidade hospitalar em 2021 varia por quintil de leitos SUS por mil habitantes?",
+    "question_pt": "Quando houver dados socioeconômicos, como a taxa de mortalidade hospitalar em 2021 varia por quintil de leitos SUS por mil habitantes?",
     "difficulty": "hard",
     "sql": "WITH mun AS (SELECT s.\"CO_MUNICIPIO_6D\", s.\"VL_LEITOS_SUS_1000\", NTILE(5) OVER (ORDER BY s.\"VL_LEITOS_SUS_1000\") AS quintil_leitos FROM socioeconomico s WHERE s.\"NU_ANO\" = 2021 AND s.\"VL_LEITOS_SUS_1000\" IS NOT NULL), adm AS (SELECT \"MUNIC_RES\" AS municipio_codigo, COUNT(*) AS total_internacoes, SUM(CASE WHEN \"MORTE\" = true THEN 1 ELSE 0 END) AS total_mortes FROM internacoes WHERE EXTRACT(YEAR FROM \"DT_INTER\") = 2021 GROUP BY \"MUNIC_RES\") SELECT quintil_leitos, COUNT(*) AS municipios, SUM(COALESCE(adm.total_internacoes, 0)) AS total_internacoes, SUM(COALESCE(adm.total_mortes, 0)) AS total_mortes, ROUND(SUM(COALESCE(adm.total_mortes, 0)) * 100.0 / NULLIF(SUM(COALESCE(adm.total_internacoes, 0)), 0), 2) AS taxa_mortalidade FROM mun LEFT JOIN adm ON mun.\"CO_MUNICIPIO_6D\" = adm.municipio_codigo GROUP BY quintil_leitos ORDER BY quintil_leitos",
     "tables_used": [
@@ -5406,7 +5248,7 @@
   {
     "id": "GT226",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais procedimentos principais cobrem 80% dos procedimentos principais em interna\u00e7\u00f5es com UTI?",
+    "question_pt": "Quais procedimentos principais cobrem 80% dos procedimentos principais em internações com UTI?",
     "difficulty": "hard",
     "sql": "WITH proc_counts AS (SELECT p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"MARCA_UTI\" <> 0 GROUP BY p.\"PROC_REA\", p.\"NOME_PROC\"), ranked AS (SELECT \"PROC_REA\", procedimento, total_procedimentos, SUM(total_procedimentos) OVER (ORDER BY total_procedimentos DESC, procedimento) AS acumulado, SUM(total_procedimentos) OVER () AS total_geral FROM proc_counts) SELECT \"PROC_REA\", procedimento, total_procedimentos, ROUND(acumulado * 100.0 / NULLIF(total_geral, 0), 2) AS percentual_acumulado FROM ranked WHERE acumulado <= total_geral * 0.8 OR acumulado - total_procedimentos < total_geral * 0.8 ORDER BY total_procedimentos DESC",
     "tables_used": [
@@ -5433,7 +5275,7 @@
   {
     "id": "GT227",
     "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quais s\u00e3o os 3 procedimentos principais mais registrados por sexo e faixa et\u00e1ria?",
+    "question_pt": "Quais são os 3 procedimentos principais mais registrados por sexo e faixa etária?",
     "difficulty": "hard",
     "sql": "WITH base AS (SELECT s.\"DESCRICAO\" AS sexo, CASE WHEN i.\"IDADE\" < 18 THEN '<18' WHEN i.\"IDADE\" BETWEEN 18 AND 64 THEN '18-64' ELSE '65+' END AS faixa_etaria, p.\"PROC_REA\", p.\"NOME_PROC\" AS procedimento, COUNT(*) AS total_procedimentos FROM internacoes i JOIN sexo s ON i.\"SEXO\" = s.\"SEXO\" JOIN procedimentos p ON i.\"PROC_REA\" = p.\"PROC_REA\" WHERE i.\"IDADE\" IS NOT NULL GROUP BY s.\"DESCRICAO\", faixa_etaria, p.\"PROC_REA\", p.\"NOME_PROC\"), ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY sexo, faixa_etaria ORDER BY total_procedimentos DESC) AS rn FROM base) SELECT sexo, faixa_etaria, \"PROC_REA\", procedimento, total_procedimentos FROM ranked WHERE rn <= 3 ORDER BY sexo, faixa_etaria, rn",
     "tables_used": [
@@ -5460,59 +5302,6 @@
     "semantic_disposition": "accepted"
   },
   {
-    "id": "GT228",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver cadastro de munic\u00edpio do hospital, quantas interna\u00e7\u00f5es ocorreram com estado de resid\u00eancia diferente do estado do hospital por ano?",
-    "difficulty": "hard",
-    "sql": "WITH base AS (SELECT EXTRACT(YEAR FROM i.\"DT_INTER\") AS ano, mr.\"SG_UF\" AS uf_residencia, mh.\"SG_UF\" AS uf_hospital FROM internacoes i LEFT JOIN municipios mr ON i.\"MUNIC_RES\" = mr.\"CO_MUNICIPIO_6D\" JOIN hospital h ON i.\"CNES\" = h.\"CNES\" JOIN municipios mh ON h.\"MUNIC_MOV\" = mh.\"CO_MUNICIPIO_6D\" WHERE i.\"DT_INTER\" IS NOT NULL AND regexp_full_match(mr.\"SG_UF\", '^[A-Z]{2}$') AND regexp_full_match(mh.\"SG_UF\", '^[A-Z]{2}$')) SELECT ano, COUNT(*) AS internacoes_estado_diferente FROM base WHERE uf_residencia <> uf_hospital GROUP BY ano ORDER BY ano",
-    "tables_used": [
-      "internacoes",
-      "municipios",
-      "hospital"
-    ],
-    "columns_used": [
-      "ano",
-      "internacoes_estado_diferente"
-    ],
-    "expected_result_type": "time_series",
-    "execution_status": "passed",
-    "row_count": 0,
-    "result_summary": "Sem linhas retornadas.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT228.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual.",
-    "duration_seconds": 0.001362,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
-    "id": "GT229",
-    "persona": "Analista DATASUS/SIH",
-    "question_pt": "Quando houver cadastro de munic\u00edpio do hospital, quais pares de estado de resid\u00eancia e estado do hospital tiveram maior volume de interna\u00e7\u00f5es interestaduais?",
-    "difficulty": "hard",
-    "sql": "WITH base AS (SELECT mr.\"SG_UF\" AS uf_residencia, mh.\"SG_UF\" AS uf_hospital FROM internacoes i LEFT JOIN municipios mr ON i.\"MUNIC_RES\" = mr.\"CO_MUNICIPIO_6D\" JOIN hospital h ON i.\"CNES\" = h.\"CNES\" JOIN municipios mh ON h.\"MUNIC_MOV\" = mh.\"CO_MUNICIPIO_6D\" WHERE regexp_full_match(mr.\"SG_UF\", '^[A-Z]{2}$') AND regexp_full_match(mh.\"SG_UF\", '^[A-Z]{2}$')) SELECT uf_residencia, uf_hospital, COUNT(*) AS total_internacoes FROM base WHERE uf_residencia <> uf_hospital GROUP BY uf_residencia, uf_hospital ORDER BY total_internacoes DESC LIMIT 10",
-    "tables_used": [
-      "internacoes",
-      "municipios",
-      "hospital"
-    ],
-    "columns_used": [
-      "uf_residencia",
-      "uf_hospital",
-      "total_internacoes"
-    ],
-    "expected_result_type": "ranking",
-    "execution_status": "passed",
-    "row_count": 0,
-    "result_summary": "Sem linhas retornadas.",
-    "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT229.json",
-    "assumptions": "Validado contra o DuckDB atual do projeto.",
-    "data_quality_notes": "Pergunta ajustada para explicitar limitacao/cobertura do banco atual.",
-    "duration_seconds": 0.001033,
-    "created_at": "2026-07-09",
-    "semantic_disposition": "accepted"
-  },
-  {
     "id": "GT230",
     "persona": "Analista DATASUS/SIH",
     "question_pt": "Qual o custo medio por dia calendario de internacao por especialidade e desfecho de morte?",
@@ -5531,7 +5320,7 @@
     "expected_result_type": "distribution",
     "execution_status": "passed",
     "row_count": 20,
-    "result_summary": "Resultado com 20 linhas; primeira linha: {'especialidade': 'Cir\u00fargico', 'desfecho': 'obito', 'total_internacoes': 918886, 'custo_medio_por_dia_calendario': 1282.11}.",
+    "result_summary": "Resultado com 20 linhas; primeira linha: {'especialidade': 'Cirúrgico', 'desfecho': 'obito', 'total_internacoes': 918886, 'custo_medio_por_dia_calendario': 1282.11}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT230.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Usa dias calendario calculados por DT_INTER/DT_SAIDA + 1 porque DIAS_PERM tem caveat de qualidade documentado. | SQL executada com sucesso no DuckDB atual.",
@@ -5633,7 +5422,7 @@
     "expected_result_type": "ranking",
     "execution_status": "passed",
     "row_count": 10,
-    "result_summary": "Resultado com 10 linhas; primeira linha: {'capitulo_cid': 'I. Algumas doen\u00e7as infecciosas e parasit\u00e1rias', 'internacoes_alto_custo': 382289, 'custo_total_alto_custo': 15581829759.82}.",
+    "result_summary": "Resultado com 10 linhas; primeira linha: {'capitulo_cid': 'I. Algumas doenças infecciosas e parasitárias', 'internacoes_alto_custo': 382289, 'custo_total_alto_custo': 15581829759.82}.",
     "validation_evidence": "/Users/maiconkevyn/PycharmProjects/health-system-chatbot/evaluation/ground_truth/query_results_228/GT234.json",
     "assumptions": "Validado contra o DuckDB atual do projeto.",
     "data_quality_notes": "Tema: custos. Metrica: high_cost_outliers. Denominador/escopo: internacoes acima do P99 de VAL_TOT. Calcula P99 de VAL_TOT e agrega internacoes de alto custo por capitulo CID. | SQL executada com sucesso no DuckDB atual.",

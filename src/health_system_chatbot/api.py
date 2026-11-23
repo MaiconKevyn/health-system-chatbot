@@ -14,10 +14,10 @@ from pydantic import BaseModel, Field, field_validator
 
 from .artifacts import load_stage1_context
 from .config import ChatbotConfig, load_config
-from .duckdb_executor import execute_validated_sql
+from .duckdb_executor import SqlTimeoutError, execute_validated_sql
 from .models import ChatbotAnswer, Stage1Context, TableContext
 from .sql_validator import validate_sql
-from .workflow import run_chat
+from .chat import run_chat
 
 
 STATIC_DIR = Path(__file__).with_name("static")
@@ -296,11 +296,12 @@ def create_app(*, chat_service: ChatService | None = None) -> FastAPI:
     @app.get("/api/models", response_model=ModelsResponse)
     def models(service: ChatService = Depends(resolve_chat_service)) -> ModelsResponse:
         return ModelsResponse(
-            available_models={"openai": [service.config.llm_model]},
+            available_models={service.config.llm_provider: [service.config.llm_model]},
             current_model={
                 "provider": service.config.llm_provider,
                 "model_name": service.config.llm_model,
-                "agent_framework": service.config.agent_framework,
+                "agent_framework": ("text-to-sql-sus" if service.config.active_chat_engine == "sus" else service.config.agent_framework),
+                "chat_engine": service.config.active_chat_engine,
             },
             timestamp=_utc_now(),
         )
@@ -366,14 +367,19 @@ def create_app(*, chat_service: ChatService | None = None) -> FastAPI:
             request.sql,
             service.stage1_context,
             question="direct database explorer query",
+            db_path=service.config.db_path,
         )
         if not validation.is_valid:
             raise HTTPException(status_code=400, detail="; ".join(validation.errors))
-        execution = execute_validated_sql(
-            validation,
-            db_path=service.config.db_path,
-            max_rows=request.limit,
-        )
+        try:
+            execution = execute_validated_sql(
+                validation,
+                db_path=service.config.db_path,
+                max_rows=request.limit,
+                timeout_seconds=service.config.sql_timeout_seconds,
+            )
+        except SqlTimeoutError as exc:
+            raise HTTPException(status_code=504, detail=str(exc)) from exc
         return DatabaseQueryResponse(
             columns=execution.columns,
             rows=execution.rows,

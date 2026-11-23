@@ -1,0 +1,210 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "Por que o agente degradou oito queries difíceis",
+    "description": "Diagnóstico técnico do full_agent versus a chamada direta com contexto completo em gpt-5.4-nano.",
+    "generatedAt": "2026-07-11T17:51:35Z",
+    "tables": [
+      {
+        "id": "case_diagnostics",
+        "title": "Diagnóstico por query",
+        "subtitle": "Oito casos em que o agente falhou e o baseline direto produziu o resultado esperado.",
+        "dataset": "cases",
+        "sourceId": "diagnostic_evidence",
+        "defaultSort": {"field": "id", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "id", "label": "Query", "type": "text"},
+          {"field": "agent_error", "label": "Erro exato do agente", "type": "text"},
+          {"field": "primary_cause", "label": "Causa primária", "type": "text"},
+          {"field": "effect", "label": "Efeito observado", "type": "text"},
+          {"field": "confidence", "label": "Confiança", "type": "text"}
+        ]
+      },
+      {
+        "id": "system_findings",
+        "title": "Falhas sistêmicas",
+        "subtitle": "Priorizadas pelo impacto sobre a interpretação do benchmark e a qualidade das SQLs.",
+        "dataset": "system_findings",
+        "sourceId": "diagnostic_evidence",
+        "defaultSort": {"field": "priority", "direction": "asc"},
+        "density": "spacious",
+        "layout": "full",
+        "columns": [
+          {"field": "priority", "label": "Prioridade", "format": "number"},
+          {"field": "finding", "label": "Falha sistêmica", "type": "text"},
+          {"field": "severity", "label": "Severidade", "type": "text"},
+          {"field": "evidence", "label": "Evidência", "type": "text"},
+          {"field": "impact", "label": "Impacto", "type": "text"}
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "diagnostic_evidence",
+        "label": "Evidências consolidadas do diagnóstico",
+        "path": "evaluation/chatbot/results/hard8_agent_root_cause_report_20260711/diagnostic_evidence.json"
+      },
+      {
+        "id": "agent_results",
+        "label": "Resultados do full_agent nas 73 queries difíceis",
+        "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_20260711/variants/full_agent/results.json"
+      },
+      {
+        "id": "api_results",
+        "label": "Resultados da API direta nas 13 falhas",
+        "path": "evaluation/chatbot/results/hard13_openai_raw_full_context_gpt54nano_20260711/variants/openai_raw_full_context/results.json"
+      },
+      {
+        "id": "retrieval_code",
+        "label": "Código de recuperação e exemplos",
+        "path": "src/health_system_chatbot/context_retrieval.py"
+      },
+      {
+        "id": "schema_linking_code",
+        "label": "Código de schema linking",
+        "path": "src/health_system_chatbot/schema_linking.py"
+      },
+      {
+        "id": "validator_code",
+        "label": "Código do validador SQL",
+        "path": "src/health_system_chatbot/sql_validator.py"
+      },
+      {
+        "id": "evaluation_code",
+        "label": "Código de validação e autocorreção da avaliação",
+        "path": "evaluation/chatbot/evaluate_extraction_accuracy.py"
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# Por que o agente degradou oito queries difíceis"
+      },
+      {
+        "id": "technical_summary",
+        "type": "markdown",
+        "sourceId": "diagnostic_evidence",
+        "body": "## Resumo técnico\n\n**O agente degradou as oito queries por erros semânticos que o validador atual não detecta.** Houve quatro famílias confirmadas: perda de filtros/limites amostrais, joins ou grãos incorretos, mapeamento semântico errado e seleção da dimensão de saída errada. Todas as SQLs continuaram válidas e executáveis; por isso, nenhuma acionou a autocorreção.\n\n**A comparação com a API direta está contaminada por vazamento de ground truth.** Nas 73 queries, o recuperador colocou a própria pergunta como primeiro exemplo e incluiu sua SQL correta no prompt. Nos oito casos analisados, quatro respostas diretas são estruturalmente idênticas ao ground truth e quatro são quase idênticas. Portanto, os oito acertos não provam que uma API sem ajuda resolveria esses casos.\n\n**Há problemas reais no contexto.** GT125 não recebeu a tabela `tempo`; GT131 recebeu `ETNIA` para “indígena”, embora o benchmark defina a população por `RACA_COR = 5`; e a heurística para “maior” pode afirmar incorretamente que o usuário pediu código cru."
+      },
+      {
+        "id": "case_intro",
+        "type": "markdown",
+        "body": "## O erro exato em cada query\n\nA tabela separa o erro produzido pelo modelo da falha de sistema que permitiu que ele chegasse ao resultado final. Os efeitos foram confirmados comparando as três SQLs e executando verificações read-only no DuckDB."
+      },
+      {
+        "id": "case_table",
+        "type": "table",
+        "tableId": "case_diagnostics"
+      },
+      {
+        "id": "mechanisms_intro",
+        "type": "markdown",
+        "sourceId": "diagnostic_evidence",
+        "body": "## O problema principal não é a sintaxe; é a ausência de validação semântica\n\nO validador confirma segurança, existência global de tabelas/colunas e algumas regras pontuais. Ele não verifica se um `HAVING` do exemplo foi preservado, se duas CTEs usam a mesma coorte, se um join multiplica linhas, se o agrupamento respeita a dimensão pedida ou se o campo escolhido representa o conceito clínico. Como as oito SQLs executaram, o refiner terminou com zero tentativas de correção."
+      },
+      {
+        "id": "system_table",
+        "type": "table",
+        "tableId": "system_findings"
+      },
+      {
+        "id": "quantified_failures",
+        "type": "markdown",
+        "sourceId": "diagnostic_evidence",
+        "body": "## Os maiores efeitos foram mensuráveis no banco\n\n- **GT120:** o join de internações com `tempo` por ano e mês encontrou entre 28 e 31 linhas de calendário por internação. A população passou de 1.559.878 para 47.427.429 linhas, uma inflação de **30,4×**.\n- **GT125:** `EXTRACT(DOW)` usa domingo = 0, enquanto `tempo.dia_semana` usa domingo = 7. Além disso, o join canônico exclui 28.767 internações cujas datas não têm correspondência na dimensão.\n- **GT131:** `LIKE '%indig%'` sobre `ETNIA` encontrou zero linhas; `RACA_COR = 5` identifica 459.272 internações.\n- **GT086 e GT132:** sem os mínimos de 100 e 500 registros, os CNES vencedores tinham apenas 1–2 e 1–36 observações, respectivamente.\n- **GT208:** as descrições mais afetadas são compartilhadas por seis códigos CID; agrupar também pelo código fragmentou numeradores e médias."
+      },
+      {
+        "id": "scope_definitions",
+        "type": "markdown",
+        "body": "## Escopo e definições\n\n**População analisada:** os oito IDs em que `full_agent` não correspondeu ao ground truth e `openai_raw_full_context` correspondeu.\n\n**Erro do agente:** diferença entre a SQL do agente e a SQL validada do benchmark que altera filtro, coorte, join, grão, rótulo ou shape do resultado.\n\n**Causa confirmada:** mecanismo observável no código, no trace e/ou em uma verificação DuckDB que explica diretamente a diferença. **Contribuição provável:** comportamento compatível com a falha, mas que exige nova ablação para isolar causalidade.\n\n**Base de comparação:** mesmo modelo `gpt-5.4-nano`, mesmo DuckDB e mesmo arquivo hard-73."
+      },
+      {
+        "id": "methodology",
+        "type": "markdown",
+        "body": "## Método de diagnóstico\n\n1. Comparamos pergunta, SQL de ground truth, SQL do agente e SQL da API por ID.\n2. Auditamos tabelas recuperadas, exemplos few-shot, ferramentas de catálogo, warnings, tentativas de correção e status de execução.\n3. Inspecionamos os caminhos de retrieval, schema linking, prompt, validação e refiner.\n4. Recalculamos cardinalidade de joins, cobertura de datas, codificação de categorias, suporte amostral e duplicidade de descrições diretamente no DuckDB.\n\nNão foi usado gráfico: com oito casos heterogêneos e causas textuais/estruturais, tabelas de auditoria preservam melhor a evidência exata."
+      },
+      {
+        "id": "limitations",
+        "type": "markdown",
+        "sourceId": "diagnostic_evidence",
+        "body": "## Limitações e robustez\n\n**Avaliação: compartilhar com ressalvas.** O diagnóstico dos oito erros do agente está pronto para uso técnico, mas a superioridade da API direta não está demonstrada. O vazamento de SQL do próprio caso é um bloqueador metodológico.\n\nAs 34 chamadas de catálogo nos oito casos produziram zero decisões usadas. Isso mostra ruído e custo, mas não prova que as ferramentas causaram os erros; uma execução `no_catalog_tools` com prompts idênticos é necessária. Também não há log do raciocínio interno do modelo, então atribuímos a causa à transformação observada e ao guardrail ausente, não a uma intenção interna especulativa."
+      },
+      {
+        "id": "recommendations",
+        "type": "markdown",
+        "body": "## Correções recomendadas, em ordem\n\n1. **Eliminar vazamento:** excluir o item atual do retrieval de exemplos e usar leave-one-out por ID/pergunta normalizada.\n2. **Alinhar escopo:** validar SQL apenas contra as tabelas/colunas recuperadas, ou declarar explicitamente uma expansão auditável do contexto.\n3. **Corrigir o mapa semântico:** definir “indígena” conforme a regra de negócio (`RACA_COR = 5`) e não por texto em `ETNIA`.\n4. **Corrigir a heurística de descrição:** reconhecer `maior` e separar “descrição não obrigatória” de “usuário pediu código”.\n5. **Adicionar guardrails de grão:** detectar joins de fatos com calendário por ano/mês, filtros inconsistentes entre CTEs e mudanças em `HAVING`/coortes presentes em exemplos exatos.\n6. **Corrigir recuperação temporal:** adicionar `dia`, `semana` e `dia da semana` aos gatilhos de `tempo`.\n7. **Ampliar autocorreção:** não limitar o refiner a erro sintático/de execução; usar checks semânticos determinísticos antes de aceitar a SQL."
+      },
+      {
+        "id": "further_questions",
+        "type": "markdown",
+        "body": "## Próximas perguntas experimentais\n\n- Qual é a taxa real da API direta quando nenhum exemplo contém o próprio item?\n- Quantos dos oito erros desaparecem com `no_catalog_tools` mantendo todo o restante fixo?\n- Os novos guardrails rejeitam SQLs erradas sem aumentar falsos positivos nas 60 queries já corretas?\n- A recuperação restrita ao contexto precisa ser rígida ou deve permitir expansão controlada de tabelas com nova validação?"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-07-11T17:51:35Z",
+    "status": "ready",
+    "datasets": {
+      "cases": [
+        {"id": "GT086", "agent_error": "Removeu HAVING COUNT(*) > 100.", "primary_cause": "Desvio semântico do modelo + ausência de validação de suporte mínimo.", "effect": "CNES vencedores com apenas 1–2 internações.", "confidence": "Alta"},
+        {"id": "GT120", "agent_error": "Juntou tempo por ano/mês em vez de extrair trimestre.", "primary_cause": "Grão de join incorreto + ausência de validação de cardinalidade.", "effect": "Contagem inflada 30,4×.", "confidence": "Alta"},
+        {"id": "GT125", "agent_error": "Usou EXTRACT(DOW) em vez de tempo.dia_semana.", "primary_cause": "Falha de retrieval de tempo + ausência de semântica de calendário.", "effect": "Domingo 0 vs 7 e 28.767 linhas extras.", "confidence": "Alta"},
+        {"id": "GT130", "agent_error": "Omitiu ESPEC=2 na CTE municipal.", "primary_cause": "Perda de filtro entre CTEs + ausência de validação de coorte.", "effect": "Taxa municipal de todas as internações comparada à média obstétrica.", "confidence": "Alta"},
+        {"id": "GT131", "agent_error": "Filtrou ETNIA por texto em vez de RACA_COR=5.", "primary_cause": "Mapeamento semântico incorreto para indígena.", "effect": "Zero linhas em vez de universo com 459.272 internações.", "confidence": "Alta"},
+        {"id": "GT132", "agent_error": "Trocou HAVING COUNT(*) > 500 por > 0.", "primary_cause": "Desvio semântico do modelo + ausência de validação de suporte mínimo.", "effect": "CNES vencedores com apenas 1–36 internações.", "confidence": "Alta"},
+        {"id": "GT208", "agent_error": "Agrupou por código CID + descrição e adicionou código ao output.", "primary_cause": "Guidance de código cru incorreto + ausência de validação de grão/shape.", "effect": "Descrições compartilhadas por seis CIDs foram fragmentadas.", "confidence": "Alta"},
+        {"id": "GT218", "agent_error": "Retornou DS_CAPITULO em vez de DESCRICAO.", "primary_cause": "Guidance ambíguo/incorreto + ausência de validação da dimensão pedida.", "effect": "Rótulos de diagnóstico viraram capítulos repetidos.", "confidence": "Alta"}
+      ],
+      "system_findings": [
+        {"priority": 1, "finding": "Ground truth vazou no prompt", "severity": "Crítica", "evidence": "73/73 casos receberam o próprio ID e SQL como primeiro exemplo.", "impact": "Baseline direto não mede capacidade independente."},
+        {"priority": 2, "finding": "Validação semântica insuficiente", "severity": "Crítica", "evidence": "8/8 SQLs erradas validaram e executaram; 0 correções foram acionadas.", "impact": "SQL plausível, mas errada, vira resultado final."},
+        {"priority": 3, "finding": "Mapeamento e guidance incorretos", "severity": "Alta", "evidence": "Indígena → ETNIA; `maior` não exige descrição; ausência vira alegação de código.", "impact": "Campo e grão de saída errados."},
+        {"priority": 4, "finding": "Retrieval e validação usam escopos diferentes", "severity": "Alta", "evidence": "Exemplos usam tabelas não recuperadas e o validador aceita o schema global.", "impact": "Prompt contraditório e comparação contaminada."},
+        {"priority": 5, "finding": "Ferramentas de catálogo geram ruído", "severity": "Média", "evidence": "34 chamadas e 0 decisões usadas nos oito casos.", "impact": "Custo/ruído confirmados; impacto causal em acurácia ainda não isolado."}
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "diagnostic_evidence",
+      "label": "Evidências consolidadas do diagnóstico",
+      "path": "evaluation/chatbot/results/hard8_agent_root_cause_report_20260711/diagnostic_evidence.json"
+    },
+    {
+      "id": "agent_results",
+      "label": "Resultados do full_agent",
+      "path": "evaluation/chatbot/results/hard73_full_agent_gpt54nano_20260711/variants/full_agent/results.json"
+    },
+    {
+      "id": "api_results",
+      "label": "Resultados da API direta",
+      "path": "evaluation/chatbot/results/hard13_openai_raw_full_context_gpt54nano_20260711/variants/openai_raw_full_context/results.json"
+    },
+    {
+      "id": "retrieval_code",
+      "label": "Código de recuperação e exemplos",
+      "path": "src/health_system_chatbot/context_retrieval.py"
+    },
+    {
+      "id": "schema_linking_code",
+      "label": "Código de schema linking",
+      "path": "src/health_system_chatbot/schema_linking.py"
+    },
+    {
+      "id": "validator_code",
+      "label": "Código do validador SQL",
+      "path": "src/health_system_chatbot/sql_validator.py"
+    },
+    {
+      "id": "evaluation_code",
+      "label": "Código da avaliação e autocorreção",
+      "path": "evaluation/chatbot/evaluate_extraction_accuracy.py"
+    }
+  ]
+}

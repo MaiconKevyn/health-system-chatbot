@@ -76,6 +76,7 @@ class OpenAIDirectStrategy(EvaluationStrategy):
             item.question_pt,
             context.stage1_context,
             config=baseline_config,
+            include_query_examples=False,
         )
         prompt = build_baseline_prompt(
             question=item.question_pt,

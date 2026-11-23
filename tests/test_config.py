@@ -16,11 +16,15 @@ def test_load_config_exposes_pydantic_ai_defaults(monkeypatch, tmp_path):
     monkeypatch.delenv("CHATBOT_LLM_PROVIDER", raising=False)
     monkeypatch.delenv("CHATBOT_ENABLE_MULTI_CANDIDATE", raising=False)
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("CHATBOT_LLM_MODEL", raising=False)
+    monkeypatch.delenv("CHATBOT_LLM_REASONING_EFFORT", raising=False)
 
     config = load_config(root)
 
     assert config.agent_framework == "pydantic_ai"
     assert config.llm_provider == "openai"
+    assert config.llm_model == "gpt-6-luna"
+    assert config.llm_reasoning_effort == "low"
     assert config.schema_retrieval_mode == "auto"
     assert config.sql_correction_attempts == 2
     assert config.sql_candidates == 1
@@ -33,6 +37,65 @@ def test_load_config_exposes_pydantic_ai_defaults(monkeypatch, tmp_path):
     assert config.safe_summary()["context_enrichment_enabled"] is True
     assert config.safe_summary()["catalog_tools_enabled"] is True
     assert config.safe_summary()["openai_api_key_set"] is False
+    assert config.safe_summary()["anthropic_api_key_set"] is False
+    assert config.llm_provider_ready is False
+
+
+def test_load_config_defaults_db_path_to_sibling_sihrd9(monkeypatch, tmp_path):
+    project_dir = tmp_path / "health-system-chatbot"
+    project_dir.mkdir()
+    root = _project_root(project_dir)
+    monkeypatch.delenv("CHATBOT_DB_PATH", raising=False)
+
+    config = load_config(root)
+
+    assert config.db_path == (tmp_path / "databases" / "sihrd9.duckdb").resolve()
+
+
+def test_load_config_accepts_anthropic_provider(monkeypatch, tmp_path):
+    root = _project_root(tmp_path)
+    monkeypatch.setenv("CHATBOT_LLM_PROVIDER", "anthropic")
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-anthropic-key")
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    config = load_config(root)
+
+    assert config.llm_provider == "anthropic"
+    assert config.has_anthropic_key is True
+    assert config.llm_provider_ready is True
+    assert config.safe_summary()["anthropic_api_key_set"] is True
+
+
+def test_load_config_accepts_ollama_provider_with_default_base_url(monkeypatch, tmp_path):
+    root = _project_root(tmp_path)
+    monkeypatch.setenv("CHATBOT_LLM_PROVIDER", "ollama")
+    monkeypatch.delenv("CHATBOT_OLLAMA_BASE_URL", raising=False)
+    monkeypatch.delenv("OLLAMA_BASE_URL", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+
+    config = load_config(root)
+
+    assert config.llm_provider == "ollama"
+    assert config.ollama_base_url == "http://localhost:11434/v1"
+    assert config.llm_provider_ready is True
+
+
+def test_load_config_accepts_ollama_base_url_override(monkeypatch, tmp_path):
+    root = _project_root(tmp_path)
+    monkeypatch.setenv("CHATBOT_LLM_PROVIDER", "ollama")
+    monkeypatch.setenv("CHATBOT_OLLAMA_BASE_URL", "http://remote-host:11434/v1")
+
+    config = load_config(root)
+
+    assert config.ollama_base_url == "http://remote-host:11434/v1"
+
+
+def test_load_config_rejects_unknown_llm_provider(monkeypatch, tmp_path):
+    root = _project_root(tmp_path)
+    monkeypatch.setenv("CHATBOT_LLM_PROVIDER", "unknown")
+
+    with pytest.raises(ValueError, match="CHATBOT_LLM_PROVIDER"):
+        load_config(root)
 
 
 def test_load_config_accepts_llamaindex_fallback(monkeypatch, tmp_path):
